@@ -1,0 +1,19 @@
+{
+  "name": "dtnext",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pnpm": "pnpm install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "pnpm": "^6.16.0"
+  },
+  "dependencies": {
+    "r": "^0.0.5"
+  }
+}
