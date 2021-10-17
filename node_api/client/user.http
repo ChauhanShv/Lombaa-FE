@@ -1,0 +1,16 @@
+POST http://localhost:3001/api/user HTTP/1.1
+content-type: application/json
+
+{
+    "email": "u221er312122@abc.com",
+    "password": "As342d@#$123",
+    "name": "user",
+    "phoneNumber": "8366855585",
+    "accountType": "standard",
+    "lattitude": "",
+    "longitude": "",
+    "location_city":"",
+    "location_country":"",
+    "tinNumber":"12313331",
+    "businessName": "Lombaa"
+}
