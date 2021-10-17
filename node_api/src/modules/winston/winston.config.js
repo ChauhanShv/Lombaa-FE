@@ -27,7 +27,7 @@ module.exports.options = {
             format.splat(),
             format.simple(),
             colorize(),
-            label({ label: 'Future India Pro' }),
+            label({ label: 'Lomba API' }),
             timestamp({ format: 'ddd MMM DD YYYY hh:mm:ss ZZ' }),
             logFormat,
         )
