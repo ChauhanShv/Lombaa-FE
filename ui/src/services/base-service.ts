@@ -1,6 +1,5 @@
-import axios, { Method } from 'axios';
+import axios from 'axios';
 import { makeUseAxios } from 'axios-hooks';
-import { METHODS } from 'http';
 import { BACKEND_HOST, BACKEND_PORT, REFRESH_TOKEN_RETRY } from '../config';
 
 let refreshTokenRetry = REFRESH_TOKEN_RETRY; 
