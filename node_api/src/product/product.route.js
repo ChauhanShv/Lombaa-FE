@@ -4,6 +4,7 @@ const { productSchema } = require("../InputSchema");
 const { checkSchema } = require("express-validator");
 
 module.exports = () => {
-  router.post("/", checkSchema(productSchema), productController.post);
+  router.post("/", checkSchema(productSchema), productController.add);
+  router.post("/list", productController.listing);
   return router;
 };
