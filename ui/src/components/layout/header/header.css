@@ -1,0 +1,2 @@
+.icon-list li > a{box-shadow:0 0 5px rgba(0,0,0,30%);}
+.icon-list li.icon-item a{width:32px;height:32px; display:block; text-align:center;background: #fff; border-radius: 100px; display: inline-block; font-size: 16px; padding: 0; line-height: 32px;}
