@@ -7,6 +7,7 @@ import { Header } from './components/layout';
 import { LoginPage  } from './pages/login-page';
 import { SignupPage } from './pages/signup-page';
 import { ProfilePage } from './pages/profile-page';
+import { SettingsPage } from './pages/settings-page';
 
 const App: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const App: React.FC = () => {
           <PublicRoute restricted={true} component={LoginPage} path="/login" exact />
           <PublicRoute restricted={true} component={SignupPage} path="/signup" exact />
           <PrivateRoute component={ProfilePage} path="/" exact />
+          <PublicRoute component={SettingsPage} path="/settings" exact />
         </Switch>
       </BrowserRouter>
     </AppContextProvider>
