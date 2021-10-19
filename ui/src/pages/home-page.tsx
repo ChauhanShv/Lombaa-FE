@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 
-import { CategoryList, HomeBanner, ImageCarousel } from '../components/layout';
+import { CategoryList, HomeBanner, ImageCarousel, ProductTile } from '../components/layout';
 
 export const HomePage: React.FC = ():React.ReactElement => {
     return (
@@ -13,6 +13,11 @@ export const HomePage: React.FC = ():React.ReactElement => {
                 </Col>
                 <Col lg={9} sm={12}>
                     <ImageCarousel />
+                </Col>
+                <Col lg={3}>
+                </Col>
+                <Col lg={9} sm={12}>
+                    <ProductTile />
                 </Col>
             </Row>
         </>
