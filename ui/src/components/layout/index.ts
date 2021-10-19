@@ -1,4 +1,5 @@
 export * from './header';
 export * from './homebanner';
 export * from './categorylist';
-export * from './ImageCarousel';
+export * from './image-carousel';
+export * from './product-tile';
