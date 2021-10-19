@@ -1,11 +1,8 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import InputGroup from 'react-bootstrap/InputGroup';
-import FormControl from 'react-bootstrap/FormControl';
+import { Row, Col, InputGroup, FormControl } from 'react-bootstrap';
 
-import './styles.css';
+import './home-banner.css';
 
 export const HomeBanner:React.FC = (): React.ReactElement => {
     return (

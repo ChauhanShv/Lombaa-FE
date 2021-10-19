@@ -1,7 +1,5 @@
 import React from 'react';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
+import { Row, Col } from 'react-bootstrap';
 
 import FirstSlide from '../../../../../html/images/slide.png';
 import SecondSlide from '../../../../../html/images/slide2.png';
@@ -11,7 +9,6 @@ export const ImageCarousel:React.FC = ():React.ReactElement => {
       <Row>
         <Col className="mx-auto mt-5">
             <div id="carousel-thumb" className="carousel slide carousel-fade carousel-thumbnails mb-5" data-ride="carousel">
-            {/* Slides */}
             <div className="carousel-inner" role="listbox">
               <div className="carousel-item active">
                 <img className="d-block w-100" src={FirstSlide} alt="First slide" />

@@ -3,7 +3,7 @@ import { BrowserRouter, Switch } from 'react-router-dom';
 import './app.css';
 import { PrivateRoute, PublicRoute } from './components/routes';
 import { AppContextProvider } from './contexts';
-import { Header } from './components/layout';
+import { Header } from './components/layout/';
 import { LoginPage  } from './pages/login-page';
 import { SignupPage } from './pages/signup-page';
 import { ProfilePage } from './pages/profile-page';

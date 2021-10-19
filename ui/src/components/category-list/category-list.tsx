@@ -1,6 +1,5 @@
 import React from 'react';
-
-import './styles.css';
+import './category-list.css';
 
 export const CategoryList: React.FC = (): React.ReactElement => {
     return (
