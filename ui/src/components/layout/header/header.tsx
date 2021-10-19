@@ -1,12 +1,13 @@
 import React from 'react';
 import './header.css';
+import { FaBookmark, FaCommentDots, FaBell, FaList } from 'react-icons/fa';
 
 export const Header: React.FC = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-dark border border-success bg-success">
             <div className="container">
                 <a className="navbar-brand  d-none d-lg-flex" href="index.html">
-                    <img src="images/logo.svg" />
+                    <img src="/images/logo.svg" alt="Lomba" />
                 </a>
 
                 <div className="input-group d-md-flex d-lg-none">
@@ -19,21 +20,21 @@ export const Header: React.FC = () => {
                 </div>
         
                 <div className="d-flex align-items-center">
-                    <ul className="navbar-nav ms-auto me-sm-2 mt-2 mt-lg-0 icon-list d-none d-lg-flex">
+                    <ul className="navbar-nav ms-auto me-sm-2 mt-2 mt-lg-0 icon-list d-none d-lg-flex align-items-center">
                         <li className="nav-item icon-item active me-3">
                             <a className="nav-link text-success" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Saved">
-                                <i className="fas fa-bookmark"></i>
-                                <span className="sr-only">(current)</span>
+                            <FaBookmark />
                             </a>
                         </li>
                         <li className="nav-item icon-item me-3">
-                            <a className="nav-link text-success" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Messages"><i className="fas fa-comment-dots"></i></a>
+                            <a className="nav-link text-success" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Messages"><FaCommentDots /></a>
                         </li>
                         <li className="nav-item icon-item me-3">
-                            <a className="nav-link text-success" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications"><i className="fas fa-bell"></i></a>
+                            <a className="nav-link text-success" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications"><FaBell /> </a>
                         </li>
                         <li className="nav-item icon-item me-3">
-                            <a className="nav-link text-success" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Ads"><i className="fas fa-th-list"></i></a>
+                            <a className="nav-link text-success" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Ads">
+                            <FaList /></a>
                         </li>
                     </ul>
             
