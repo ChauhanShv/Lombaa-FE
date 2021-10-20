@@ -14,3 +14,13 @@ content-type: application/json
     "tinNumber":"12313331",
     "businessName": "Lombaa"
 }
+
+###
+
+POST http://localhost:3001/api/auth HTTP/1.1
+content-type: application/json
+
+{
+    "email": "1u221er312122@abc.com",
+    "password": "As342d@#$123"
+}

@@ -4,13 +4,13 @@ const util = require('./user.util');
 const { validationResult } = require('express-validator');
 const validationErrorFormatter = require('../modules/formatter').validationErrorFormatter;
 const responseFormatter = require('../modules/formatter').response;
-const AuthService = require('../auth').service;
+const jwtService = require('../modules/jwt').service;
+
 
 class UserController extends BaseController {
 
     constructor() {
         super()
-        this.authService = new AuthService();
     }
 
     get(req, res, next) {
@@ -39,7 +39,7 @@ class UserController extends BaseController {
 
         try {
             const newUser = await model.create(userData);
-            const token = this.authService.generateToken(newUser);
+            const token = jwtService.encode({ id: user.id });
             const data = {
                 success: true,
                 message: "User created successfully.",
