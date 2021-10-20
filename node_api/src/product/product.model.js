@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize").service;
+const user = require("../user").model;
 
 class Product extends Model {}
 
@@ -31,22 +32,22 @@ Product.init(
       field: "price",
     },
     isNegotiable: {
-      type: DataTypes.INTEGER(1),
+      type: DataTypes.TINYINT(1),
       allowNull: false,
       field: "is_Negotiable",
     },
     isFree: {
-      type: DataTypes.INTEGER(1),
+      type: DataTypes.TINYINT(1),
       allowNull: false,
       field: "is_Free",
     },
     buyerDoDelivery: {
-      type: DataTypes.INTEGER(1),
+      type: DataTypes.TINYINT(1),
       allowNull: false,
       field: "buyer_Do_Delivery",
     },
     stock: {
-      type: DataTypes.INTEGER(1),
+      type: DataTypes.TINYINT(1),
       allowNull: false,
       field: "stock",
     },
@@ -74,11 +75,6 @@ Product.init(
       allowNull: true,
       field: "promote_Type",
     },
-    userId: {
-      type: DataTypes.INTEGER(10),
-      allowNull: false,
-      field: "user_Id",
-    },
     dealMethod: {
       type: DataTypes.ENUM({
         values: ["yes", "no"],
@@ -87,18 +83,17 @@ Product.init(
       field: "deal_Method",
     },
     isApproved: {
-      type: DataTypes.ENUM({
-        values: ["approved", "not approved"],
-      }),
+      type: DataTypes.TINYINT(1),
       allowNull: false,
       field: "is_Approved",
     },
     postedAt: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATE(),
+      defaultValue: Sequelize.NOW(),
       allowNull: true,
     },
     isSold: {
-      type: DataTypes.INTEGER(1),
+      type: DataTypes.TINYINT(1),
       allowNull: true,
       defaultValue: 0,
       field: "is_Sold",
@@ -106,4 +101,5 @@ Product.init(
   },
   { modelName: "Product", tableName: "products", timestamps: true, sequelize }
 );
+Product.belongsTo(user, { as: "user" });
 module.exports = Product;
