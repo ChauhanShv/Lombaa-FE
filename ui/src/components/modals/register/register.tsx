@@ -1,6 +1,12 @@
 import React from 'react';
-import { Modal } from 'react-bootstrap';
+import { Modal, Alert } from 'react-bootstrap';
+
 import './register.css';
+import { FaUser, FaEnvelope, FaPhone, FaLock, FaEyeSlash, FaGoogle, FaFacebook } from 'react-icons/fa';
+import Form from 'react-bootstrap/Form'
+import FormCheck from 'react-bootstrap/FormCheck'
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Button from 'react-bootstrap/Button';
 
 interface RegisterProps {
     show: boolean;
@@ -10,49 +16,70 @@ export const Register: React.FC<RegisterProps> = ({
     show,
     onClose,
 }: RegisterProps): React.ReactElement => {
-    return (        
-        <Modal show={show} onHide={onClose}>            
-            <div className="modal-dialog modal-login">
-                <div className="modal-content pt-3">
-                    
+    return (
+        <Modal show={show} onHide={onClose}>
+            <div className="log-reg-pop">
+                <div className="pt-3 modal-login">
+
                     <div className="modal-body">
                         <p className="ml-3"><strong>Create your account!</strong></p>
+                        <Alert variant="danger">
+                            This is a alert—check it out!
+                        </Alert>
                         <form action="" method="">
-                            <div className="form-group">
-                                <input type="text" className="form-control" name="name" placeholder="Enter your name" value="" />
-                                <i className="fa fa-user"></i>
+                          
+                            <FloatingLabel controlId="floatingInput" label="Email address" className="mb-3" >
+                                <Form.Control type="email" placeholder="name@example.com" />
+                            </FloatingLabel>
+                            <FloatingLabel controlId="floatingInput" label="Password" className="mb-3" >
+                                <Form.Control type="password" placeholder="Password" />
+                            </FloatingLabel>
+                            <FloatingLabel controlId="floatingInput" label="Confirm Password" className="mb-3" >
+                                <Form.Control type="password" placeholder="Confirm Password" />
+                            </FloatingLabel>
+
+
+                            <div className="form-group mb-3">
+                                <Form.Check name="usertype" label="Individual" inline type="radio" aria-label="radio 1" />
+                                <Form.Check name="usertype" label="Business" inline type="radio" aria-label="radio 1" />
                             </div>
-                            <div className="form-group">
-                                <input type="email" className="form-control" name="email" placeholder="Enter email address" value="" />
-                                <i className="fa fa-envelope"></i>
-                            </div>
-                            <div className="form-group">
-                            <input type="text" className="form-control" name="name" placeholder="Phone Number" value="" />
-                            <i className="fa fa-phone"></i>
-                        </div>
-                            <div className="form-group">
-                                <input type="password" name="password" className="form-control" placeholder="Enter password" value="" />
-                                <i className="fa fa-lock"></i>
-                            </div>
-                            <div className="form-group">
-                                <input type="password" className="form-control" name="password_confirmation" placeholder="Confirm Password" />
-                                <i className="fa fa-eye-slash"></i>
-                            </div>
+
+                            <FloatingLabel controlId="floatingInput" label="Enter your name" className="mb-3" >
+                                <Form.Control type="text" placeholder="John Smith" />
+                            </FloatingLabel>
+                            
+                            <FloatingLabel controlId="floatingInput" label="Your Phone Number" className="mb-3" >
+                                <Form.Control type="tel" placeholder="Your Phone Number" />
+                            </FloatingLabel>
+                            
+                            <FloatingLabel controlId="floatingInput" label="TIN Number" className="mb-3" >
+                                <Form.Control type="number" placeholder="TIN Number" />
+                            </FloatingLabel>
+                            <FloatingLabel controlId="floatingInput" label="Legal Business Name" className="mb-3" >
+                                <Form.Control type="text" placeholder="Legal Business Name" />
+                            </FloatingLabel>
+                            <FloatingLabel controlId="floatingInput" label="Business Phone Number" className="mb-3" >
+                                <Form.Control type="tel" placeholder="Business Phone Number" />
+                            </FloatingLabel>
+
+
                             <div className="form-group text-center mt-3">
                                 <button id="signup-button" type="submit" className="btn btn-primary w-100">Register</button>
-                                
+
                             </div>
                         </form>
-                        <div className="text-center mb-3">Already have an account? <a className="login" href="#loginModal3" data-dismiss="modal" data-toggle="modal">Login</a></div>
+                        <div className="text-center mt-3 mb-3">Already have an account?                         
+                        <Button variant="link">Login</Button>
+                        </div>
                     </div>
-            <div className="row justify-content-center mb-4">
-            <div className="col-5">
-                <a href="#" className="btn btn-outline-success w-100"><i className="fab fa-google"></i> Via Google</a>
-            </div> 
-            <div className="col-5">
-                <a href="#" className="btn btn-outline-success w-100"><i className="fab fa-facebook"></i> Via Facebook</a>
-                </div>
-            </div>
+                    <div className="row justify-content-center mb-5">
+                        <div className="col-5">
+                            <Button className="w-100" variant="outline-success"><FaGoogle /> Via Google</Button>                            
+                        </div>
+                        <div className="col-5">
+                            <Button className="w-100" variant="outline-success"><FaFacebook /> Via Facebook</Button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </Modal>

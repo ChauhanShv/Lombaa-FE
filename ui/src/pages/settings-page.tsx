@@ -4,7 +4,8 @@ import { Container, Grid, Row, Col } from 'react-bootstrap';
 import { ListGroup, Card } from 'react-bootstrap';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
-import { FaChevronLeft, FaChevronRight, FaPlusCircle, FaHeart } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight, FaGoogle, FaFacebook } from 'react-icons/fa';
+
 
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
@@ -19,18 +20,18 @@ export const SettingsPage: React.FC = () => {
             <Container className="p-5">
                 <Row>
                     <Col md={4}>
-                        <Card className="sidenav">
+                        <Card className="sidenav bg-light">
                             <Card.Header className="d-flex align-items-center"> <button className="btn btn-white"><FaChevronLeft /></button> Settings</Card.Header>
                             <ListGroup className="mb-3">
-                                <ListGroup.Item className="active" action href="">Personal details
+                                <ListGroup.Item className="active py-3" action href="">Personal details
                                     <FaChevronRight /></ListGroup.Item>
-                                <ListGroup.Item action href="">Business information <FaChevronRight /></ListGroup.Item>
+                                <ListGroup.Item action href="" className="py-3">Business information <FaChevronRight /></ListGroup.Item>
                             </ListGroup>
 
                             <ListGroup>
-                                <ListGroup.Item className="" action href="">Personal details
+                                <ListGroup.Item className="py-3" action href="">Personal details
                                     <FaChevronRight /></ListGroup.Item>
-                                <ListGroup.Item action href="">Business information <FaChevronRight /></ListGroup.Item>
+                                <ListGroup.Item className=" py-3" action href="">Business information <FaChevronRight /></ListGroup.Item>
                             </ListGroup>
                         </Card>
 
@@ -85,10 +86,10 @@ export const SettingsPage: React.FC = () => {
 
                                     <ListGroup as="ul" className="connectsocial mb-3">
                                         <ListGroup.Item as="li">
-                                            Google <span>Toogle switch</span>
+                                            <span><FaGoogle/>  Google</span> <span>Toogle switch</span>
                                         </ListGroup.Item>
                                         <ListGroup.Item as="li">
-                                            Facebook <span>Toogle switch</span>
+                                        <span><FaFacebook/> Facebook</span> <span>Toogle switch</span>
                                         </ListGroup.Item>
                                     </ListGroup>
 
