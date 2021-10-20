@@ -62,3 +62,6 @@
     width: 350px;
 }
 
+.mt-auto {
+    margin-top: auto !important;
+}

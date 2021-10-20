@@ -13,7 +13,7 @@ export const PublicRoute: React.FC<PublicRouteProps> = ({
     ...rest
 }: PublicRouteProps) => {
     const { state } = useAppContext();
-    const isLogin = (): boolean => !!state.user;
+    const isLogin = (): boolean => !!state.isLoggedIn;
     return (
         <Route {...rest} render={(props: any) => (
             isLogin() && restricted ?
