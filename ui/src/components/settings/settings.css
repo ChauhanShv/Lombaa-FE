@@ -1,12 +1,8 @@
 :root {
     --primary: #00af3c;
 }
-
 .sidenav{width:100%; }
 .sidenav button{display: flex; border:0 !important; border-bottom: 1px solid #ccc !important;  border-radius:0 !important;align-items: center; justify-content: space-between;font-size:18px;}
 .sidenav button:last-child{border-bottom: 0 !important;}
 .sidenav button.active{background-color: #fff !important; color:var(--primary);}
-
 .connectsocial li{display: flex; justify-content: space-between; align-items: center;}
-
-

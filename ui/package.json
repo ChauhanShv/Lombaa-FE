@@ -8,15 +8,18 @@
     "lint": "eslint --fix src/* && echo 'Lint complete.'"
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.8.2",
     "axios": "^0.23.0",
     "axios-hooks": "^2.7.0",
     "bootstrap": "^5.1.1",
     "react": "^17.0.0",
     "react-bootstrap": "^2.0.0-rc.1",
     "react-dom": "^17.0.0",
+    "react-hook-form": "^7.17.5",
     "react-icons": "^4.3.1",
     "react-router": "^5.2.1",
-    "react-router-dom": "^5.3.0"
+    "react-router-dom": "^5.3.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/node": "^16.11.0",
