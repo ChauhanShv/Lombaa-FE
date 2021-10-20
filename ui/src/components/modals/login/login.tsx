@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
 import './login.css';
-
+import { FaEnvelope, FaLock, FaGoogle, FaFacebook } from 'react-icons/fa';
 interface LoginProps {
     show: boolean;
     onClose: Function;
@@ -11,20 +11,20 @@ export const Login: React.FC<LoginProps> = ({
     onClose,
 }): React.ReactElement => {
     return (
-        <Modal show={show} onHide={onClose}>
-            <div className="modal-dialog modal-login">
-                <div className="modal-content pt-3">
+        <Modal show={show} onHide={onClose} className="">
+            <div className="log-reg-pop">
+                <div className="pt-3 modal-login">
                     
                     <div className="modal-body">
                         <p className="ml-3"><strong>Welcome back!</strong></p>	
                         <form action="" method="">
-                            <div className="form-group">
+                            <div className="form-group mb-3">
                                 <input type="email" className="form-control" placeholder="Enter email address" value="" name="email" />
-                                <i className="fa fa-envelope"></i>
+                                <FaEnvelope/>
                             </div>
-                            <div className="form-group">
+                            <div className="form-group mb-3">
                                 <input type="password" name="password" className="form-control" placeholder="Enter password" value="" />
-                                <i className="fa fa-lock"></i>
+                                <FaLock/>
                             </div>
                             <div className="row">
                                 <div className="col text-left">
@@ -33,7 +33,7 @@ export const Login: React.FC<LoginProps> = ({
                                         <span className="custom-control-label">&nbsp;Remember Me</span>
                                     </label>
                                 </div>
-                                <div className="col text-right">
+                                <div className="col text-end">
                                     <a href="" className="text-danger">Forgot Password ?</a>
                                 </div>
                             </div>
@@ -43,13 +43,13 @@ export const Login: React.FC<LoginProps> = ({
                             </div>
                         </form>
                     </div>
-                    <div className="text-center mb-3">Don't have an account? <a className="register" href="#registerModal3" data-dismiss="modal" data-toggle="modal">Register</a></div>
-                    <div className="row justify-content-center mb-4">
+                    <div className="text-center mb-4">Don't have an account? <a className="register" href="#registerModal3" data-dismiss="modal" data-toggle="modal">Register</a></div>
+                    <div className="row justify-content-center mb-5">
                     <div className="col-5">
-                        <a href="#" className="btn btn-outline-success w-100"><i className="fab fa-google"></i> Via Google</a>
+                        <a href="#" className="btn btn-outline-success w-100"><FaGoogle/> Via Google</a>
                     </div> 
                     <div className="col-5">
-                        <a href="#" className="btn btn-outline-success w-100"><i className="fab fa-facebook"></i> Via Facebook</a>
+                        <a href="#" className="btn btn-outline-success w-100"><FaFacebook/> Via Facebook</a>
                         </div>
                     </div>
                 </div>
