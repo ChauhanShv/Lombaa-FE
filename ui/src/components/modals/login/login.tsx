@@ -1,7 +1,11 @@
 import React from 'react';
-import { Modal } from 'react-bootstrap';
+import { Modal, Alert } from 'react-bootstrap';
 import './login.css';
 import { FaEnvelope, FaLock, FaGoogle, FaFacebook } from 'react-icons/fa';
+import Form from 'react-bootstrap/Form'
+import FormCheck from 'react-bootstrap/FormCheck'
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Button from 'react-bootstrap/Button';
 interface LoginProps {
     show: boolean;
     onClose: Function;
@@ -17,39 +21,37 @@ export const Login: React.FC<LoginProps> = ({
                     
                     <div className="modal-body">
                         <p className="ml-3"><strong>Welcome back!</strong></p>	
+                        <Alert variant="danger">
+                            This is a alert—check it out!
+                        </Alert>
                         <form action="" method="">
-                            <div className="form-group mb-3">
-                                <input type="email" className="form-control" placeholder="Enter email address" value="" name="email" />
-                                <FaEnvelope/>
+                          
+                            <FloatingLabel controlId="floatingInput" label="Your Email address" className="mb-3" >
+                                <Form.Control type="email" placeholder="name@example.com" />
+                            </FloatingLabel>
+
+                            <FloatingLabel controlId="floatingInput" label="Password" className="mb-3" >
+                                <Form.Control type="password" placeholder="Password" />
+                            </FloatingLabel>
+
+                            <div className="form-group mb-3 d-flex justify-content-between align-items-center">
+                                <Form.Check name="usertype" label="Remember Me" inline type="checkbox" aria-label="radio 1" />
+                                <Button variant="link">Forgot Password?</Button>
                             </div>
-                            <div className="form-group mb-3">
-                                <input type="password" name="password" className="form-control" placeholder="Enter password" value="" />
-                                <FaLock/>
-                            </div>
-                            <div className="row">
-                                <div className="col text-left">
-                                    <label className="custom-control custom-checkbox">
-                                        <input type="checkbox" className="custom-control-input" id="item_checkbox" name="item_checkbox" value="option1" />
-                                        <span className="custom-control-label">&nbsp;Remember Me</span>
-                                    </label>
-                                </div>
-                                <div className="col text-end">
-                                    <a href="" className="text-danger">Forgot Password ?</a>
-                                </div>
-                            </div>
+                         
                             <div className="form-group text-center mt-3">
                                 <button id="signup-button" type="submit" className="btn btn-primary w-100">Login</button>
                                 
                             </div>
                         </form>
                     </div>
-                    <div className="text-center mb-4">Don't have an account? <a className="register" href="#registerModal3" data-dismiss="modal" data-toggle="modal">Register</a></div>
+                    <div className="text-center mb-4">Don't have an account? <Button className="px-0" variant="link">Register</Button></div>
                     <div className="row justify-content-center mb-5">
                     <div className="col-5">
-                        <a href="#" className="btn btn-outline-success w-100"><FaGoogle/> Via Google</a>
-                    </div> 
-                    <div className="col-5">
-                        <a href="#" className="btn btn-outline-success w-100"><FaFacebook/> Via Facebook</a>
+                            <Button className="w-100" variant="outline-success"><FaGoogle /> Via Google</Button>                            
+                        </div>
+                        <div className="col-5">
+                            <Button className="w-100" variant="outline-success"><FaFacebook /> Via Facebook</Button>
                         </div>
                     </div>
                 </div>

@@ -86,10 +86,10 @@ export const SettingsPage: React.FC = () => {
 
                                     <ListGroup as="ul" className="connectsocial mb-3">
                                         <ListGroup.Item as="li">
-                                        <FaGoogle/>  Google <span>Toogle switch</span>
+                                            <span><FaGoogle/>  Google</span> <span>Toogle switch</span>
                                         </ListGroup.Item>
                                         <ListGroup.Item as="li">
-                                        <FaFacebook/> Facebook <span>Toogle switch</span>
+                                        <span><FaFacebook/> Facebook</span> <span>Toogle switch</span>
                                         </ListGroup.Item>
                                     </ListGroup>
 
