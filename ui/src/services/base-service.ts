@@ -36,7 +36,10 @@ axios.interceptors.response.use(
 );
 
 export const useAxios = makeUseAxios({
-    axios: axios.create({ baseURL: `${BACKEND_HOST}:${BACKEND_PORT}` }),
+    axios: axios.create({ baseURL: `${BACKEND_HOST}:${BACKEND_PORT}/api` }),
+    defaultOptions: {
+        manual: true,
+    }
 });
 
 export type { Method } from 'axios';

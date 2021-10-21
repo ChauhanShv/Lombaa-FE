@@ -9,9 +9,9 @@ import logo from './logo.svg';
 export const Header: React.FC = (): React.ReactElement => {
     const { state } = useAppContext();
     const { isLoggedIn } = state;
-
     const [loginModal, setLoginModal] = useState<boolean>(false);
     const [registerModal, setRegisterModal] = useState<boolean>(false);
+
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-dark border border-success bg-success">
@@ -73,8 +73,20 @@ export const Header: React.FC = (): React.ReactElement => {
                 </div>
             </div>
             </nav>
-            {loginModal && (<Login show={loginModal} onClose={() => setLoginModal(false)} />)}
-            {registerModal && (<Register show={registerModal} onClose={() => setRegisterModal(false)} />)}
+            {loginModal && (
+                <Login
+                    show={loginModal}
+                    openRegister={setRegisterModal}
+                    onClose={() => setLoginModal(false)}
+                />
+            )}
+            {registerModal && (
+                <Register
+                    show={registerModal}
+                    openLogin={setLoginModal}
+                    onClose={() => setRegisterModal(false)}
+                />
+            )}
         </>
     );
 };

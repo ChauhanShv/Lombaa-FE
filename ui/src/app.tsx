@@ -21,10 +21,8 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Header />
         <Switch>
-          <PublicRoute restricted={true} component={LoginPage} path="/login" exact />
-          <PublicRoute restricted={true} component={SignupPage} path="/signup" exact />
-          <PublicRoute component={HomePage} path="/" exact />
-          <PrivateRoute component={ProfilePage} path="/" exact />
+          <PrivateRoute component={HomePage} path="/" exact />
+          {/* Html Routes - for nilesh */}
           <PublicRoute component={SettingsPage} path="/settings" exact />
         </Switch>
         <Footer />
