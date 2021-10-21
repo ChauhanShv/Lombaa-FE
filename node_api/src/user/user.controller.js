@@ -122,6 +122,40 @@ class UserController extends BaseController {
       });
     }
   };
+  updateProfile = async (req, res, next) => {
+    try {
+      const values = req.body.data;
+      const userId = "453";
+      if (values.email) {
+        const updateEmail = await model.update(
+          {
+            email: values.email,
+          },
+          { where: { id: userId } }
+        );
+      }
+      if (values.phoneNumber) {
+        const updatePhone = await model.update(
+          {
+            phoneNumber: values.phoneNumber,
+          },
+          { where: { id: userId } }
+        );
+      }
+      return super.jsonRes({
+        res,
+        code: 200,
+        data: { success: true, message: "update successfull" },
+      });
+    } catch (error) {
+      console.log(error);
+      return super.jsonRes({
+        res,
+        code: 401,
+        data: { message: "invalid  details" },
+      });
+    }
+  };
 }
 
 module.exports = UserController;

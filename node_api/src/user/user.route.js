@@ -13,6 +13,7 @@ module.exports = () => {
   router.post("/deactivate", controller.userDeactivate);
   router.post("/fb/disconnect", controller.fbDisconnect);
   router.post("/google/disconnect", controller.googleDisconnect);
+  router.post("/updateprofile", controller.updateProfile);
 
   return router;
 };

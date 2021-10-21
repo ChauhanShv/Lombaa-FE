@@ -9,6 +9,7 @@ class cityController extends BaseController {
   getAll = async (req, res, next) => {
     try {
       const allCity = await cityModel.findAll({
+        where: { regionId: req.params.id },
         include: [{ model: region, as: "region" }],
       });
       return super.jsonRes({
