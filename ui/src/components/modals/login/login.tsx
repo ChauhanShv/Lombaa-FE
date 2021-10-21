@@ -61,7 +61,7 @@ export const Login: React.FC<LoginProps> = ({
         };
         if (errorMessages[field]) {
             return (
-                <Form.Text className="text-muted">
+                <Form.Text className="text-danger">
                     {errorMessages[field]?.message}
                 </Form.Text>
             );
@@ -86,6 +86,7 @@ export const Login: React.FC<LoginProps> = ({
                                     {...register("email")}
                                     type="email"
                                     placeholder="Your Email address"
+                                    className="is-invalid"
                                 />
                                 {getErrorText('email')}
                             </FloatingLabel>

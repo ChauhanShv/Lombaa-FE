@@ -1,4 +1,5 @@
-import React from 'react';;
+import React from 'react';
+import './settings.css';
 import {
     ListGroup,
     Card,
@@ -20,7 +21,7 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                 <button className="btn btn-success">Save</button>
             </Card.Header>
             <div className="card-content col-md-8 mx-auto">
-                <div className="details-form p-5">
+                <div className="details-form p-3">
                     <p className="text-center">
                         <Image src="https://dummyimage.com/100/007bff/efefef" roundedCircle />
                     </p>
@@ -56,10 +57,10 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                     <p className="mb-3"><strong>Connect your social media accounts for smoother experience!</strong></p>
                     <ListGroup as="ul" className="connectsocial mb-3">
                         <ListGroup.Item as="li">
-                            <span><FaGoogle/>  Google</span> <span>Toogle switch</span>
+                            <span><FaGoogle />  Google</span> <span>Toogle switch</span>
                         </ListGroup.Item>
                         <ListGroup.Item as="li">
-                        <span><FaFacebook/> Facebook</span> <span>Toogle switch</span>
+                            <span><FaFacebook /> Facebook</span> <span>Toogle switch</span>
                         </ListGroup.Item>
                     </ListGroup>
                     <button className="btn btn-success w-100">Save</button>

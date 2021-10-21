@@ -13,8 +13,7 @@ export const SideBar: React.FC = (): React.ReactElement => {
             </ListGroup>
 
             <ListGroup>
-                <ListGroup.Item className="py-3" action href="">Personal details
-                    <FaChevronRight /></ListGroup.Item>
+                <ListGroup.Item className="py-3" action href="">Change Password<FaChevronRight /></ListGroup.Item>
                 <ListGroup.Item className=" py-3" action href="">Business information <FaChevronRight /></ListGroup.Item>
             </ListGroup>
         </Card>

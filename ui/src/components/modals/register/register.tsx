@@ -187,7 +187,7 @@ export const Register: React.FC<RegisterProps> = ({
 
         if (errorMessages[field]) {
             return (
-                <Form.Text className="text-muted">
+                <Form.Text className="text-danger">
                     {errorMessages[field]?.message}
                 </Form.Text>
             );
@@ -213,6 +213,7 @@ export const Register: React.FC<RegisterProps> = ({
                                     type="email"
                                     placeholder="Your Email"
                                     isValid={!!errors.email}
+                                    className="is-invalid"
                                 />
                                 {getErrorText('email')}
                             </FloatingLabel>
