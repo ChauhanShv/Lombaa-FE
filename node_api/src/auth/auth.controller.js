@@ -3,6 +3,7 @@ const AuthService = require('./auth.service');
 const jwtService = require('../modules/jwt').service;
 const userModel = require('../user/user.model');
 
+
 const { OAuth2Client } = require('google-auth-library');
 const config = require('./auth.config');
 
@@ -60,12 +61,15 @@ class AuthController extends BaseController {
         }
 
         try {
-            let token = req.body;
+            let token = req.body.token;
+            let idToken = req.body.idToken;
 
-            const account = await client.verifyIdToken({
-                idToken: token,
+            const options = {
+                idToken: idToken,
                 audience: config.googleClientId
-            });
+            };
+
+            const account = await client.verifyIdToken(options);
 
             if (!account) {
                 const data = {
@@ -109,7 +113,7 @@ class AuthController extends BaseController {
         }
 
         try {
-            let accessToken = req.body;
+            let accessToken = req.body.token;
 
             const account = await axios.get(`https://graph.facebook.com/me?access_token=${accessToken}`);
 
@@ -118,8 +122,8 @@ class AuthController extends BaseController {
                     success: false,
                     error: {
                         code: 400401,
-                        message: "Invalid google token",
-                        messageDetail: "Google token verification failed",
+                        message: "Invalid facebook token",
+                        messageDetail: "Facebook token verification failed",
                     }
                 }
                 return super.jsonRes({ res, code: 400, data });
