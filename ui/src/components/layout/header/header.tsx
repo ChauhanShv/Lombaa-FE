@@ -1,34 +1,30 @@
 import React, { useState } from 'react';
-import {
-    FaBookmark,
-    FaCommentDots,
-    FaBell,
-    FaList
-} from 'react-icons/fa';
+import {FaBookmark, FaCommentDots, FaBell, FaList, FaSearch } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../../../contexts';
 import { Login, Register } from '../../modals';
 import './header.css';
+import logo from './logo.svg';
 
 export const Header: React.FC = (): React.ReactElement => {
     const { state } = useAppContext();
     const { isLoggedIn } = state;
-
     const [loginModal, setLoginModal] = useState<boolean>(false);
     const [registerModal, setRegisterModal] = useState<boolean>(false);
+
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-dark border border-success bg-success">
                 <div className="container">
                     <Link className="navbar-brand  d-none d-lg-flex" to="/">
-                        <img src="/images/logo.svg" alt="Lomba" />
+                        <img src={logo} alt="Logo" />
                     </Link>
 
                     <div className="input-group d-md-flex d-lg-none">
                         <input type="text" className="form-control" placeholder="Search this blog" />
                         <div className="input-group-append">
                             <button className="btn btn-primary" type="button">
-                                <i className="fa fa-search"></i>
+                                <FaSearch />
                             </button>
                         </div>
                     </div>
@@ -54,8 +50,8 @@ export const Header: React.FC = (): React.ReactElement => {
                 
                         {!isLoggedIn && (
                             <>
-                                <button className="text-white mx-2 d-none d-lg-block" onClick={() => setLoginModal(true)}>Login</button>
-                                <button className="text-white mx-2 d-none d-lg-block" onClick={() => setRegisterModal(true)}>Register</button>
+                                <button className="btn text-white mx-2 px-0 d-none d-lg-block" onClick={() => setLoginModal(true)}>Login</button>
+                                <button className="btn text-white mx-2 px-0 d-none d-lg-block" onClick={() => setRegisterModal(true)}>Register</button>
                             </>
                         )}
                         <div className="nav-item dropdown">
@@ -77,8 +73,20 @@ export const Header: React.FC = (): React.ReactElement => {
                 </div>
             </div>
             </nav>
-            {loginModal && (<Login show={loginModal} onClose={() => setLoginModal(false)} />)}
-            {registerModal && (<Register show={registerModal} onClose={() => setRegisterModal(false)} />)}
+            {loginModal && (
+                <Login
+                    show={loginModal}
+                    openRegister={setRegisterModal}
+                    onClose={() => setLoginModal(false)}
+                />
+            )}
+            {registerModal && (
+                <Register
+                    show={registerModal}
+                    openLogin={setLoginModal}
+                    onClose={() => setRegisterModal(false)}
+                />
+            )}
         </>
     );
 };

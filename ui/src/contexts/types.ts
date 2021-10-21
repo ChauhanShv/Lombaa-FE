@@ -12,3 +12,11 @@ export enum ActionTypes {
     LOGOUT = 'LOGOUT',
 };
 
+export type State = {
+    isLoggedIn: boolean;
+}
+  
+export type AppContextProviderProps = {
+    children: React.ReactNode
+}
+

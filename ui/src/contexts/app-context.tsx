@@ -1,13 +1,11 @@
 import * as React from 'react';
-import { Action, Dispatch, ActionTypes } from './types';
-
-type State = {
-  isLoggedIn: boolean;
-}
-
-type AppContextProviderProps = {
-  children: React.ReactNode
-}
+import {
+  Action,
+  Dispatch,
+  ActionTypes,
+  AppContextProviderProps,
+  State
+} from './types';
 
 const AppContext = React.createContext<
   {state: State; dispatch: Dispatch} | undefined
@@ -34,7 +32,8 @@ function appReducer(state: State, action: Action) {
 }
 
 const AppContextProvider = ({ children }: AppContextProviderProps) => {
-  const [state, dispatch] = React.useReducer(appReducer, { isLoggedIn: false })
+  const isLoggedIn: boolean = !!localStorage.getItem('token');
+  const [state, dispatch] = React.useReducer(appReducer, { isLoggedIn })
   const value = { state, dispatch };
   return (
     <AppContext.Provider value={value}>
