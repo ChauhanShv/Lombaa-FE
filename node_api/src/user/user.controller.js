@@ -5,12 +5,13 @@ const { validationResult } = require('express-validator');
 const validationErrorFormatter = require('../modules/formatter').validationErrorFormatter;
 const responseFormatter = require('../modules/formatter').response;
 const jwtService = require('../modules/jwt').service;
-
+const UserService = require('./user.service');
 
 class UserController extends BaseController {
 
     constructor() {
-        super()
+        super();
+        this.service = new UserService();
     }
 
     get(req, res, next) {
@@ -49,6 +50,32 @@ class UserController extends BaseController {
             super.jsonRes({ res, code: 200, data: responseFormatter.format(data) });
         } catch (err) {
             next(err);
+        }
+    }
+
+    async setPassword(req, res, next) {
+        try {
+            validationResult(req).formatWith(validationErrorFormatter).throw();
+        } catch (error) {
+            return res.status(422).json(error.array({ onlyFirstError: true }));
+        }
+
+        try {
+            const user = req.user;
+            const { password } = req.body;
+            const updateUser = await this.service.setPassword(user.id, password);
+            super.jsonRes({
+                res,
+                code: 201,
+                data: {
+                    success: true,
+                    message: "Password changed",
+                    metadata: { user: updateUser },
+                },
+            });
+        }
+        catch (error) {
+            next(error);
         }
     }
 }
