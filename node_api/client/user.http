@@ -1,4 +1,7 @@
-POST http://localhost:3001/api/user HTTP/1.1
+@baseUrl = http://localhost:3001/api
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMwYzAxMzY0LTcyNjUtNDY1ZC04NTJhLTIzNzlhMjk2YjZkZSIsImlhdCI6MTYzNDgwMDA1Mn0.VC-0H4ldQU1BFKzOVXvXd_x0fGW25mFWsiyIu7REZQM
+
+POST {{baseUrl}}/user HTTP/1.1
 content-type: application/json
 
 {
@@ -17,7 +20,7 @@ content-type: application/json
 
 ###
 
-POST http://localhost:3001/api/auth HTTP/1.1
+POST {{baseUrl}}/auth HTTP/1.1
 content-type: application/json
 
 {
@@ -27,7 +30,7 @@ content-type: application/json
 
 ###
 
-POST http://localhost:3001/api/auth/google HTTP/1.1
+POST {{baseUrl}}/auth/google HTTP/1.1
 content-type: application/json
 
 {
@@ -36,7 +39,7 @@ content-type: application/json
 
 ###
 
-POST http://localhost:3001/api/auth/facebook HTTP/1.1
+POST {{baseUrl}}/api/auth/facebook HTTP/1.1
 content-type: application/json
 
 {
@@ -45,9 +48,9 @@ content-type: application/json
 
 ###
 
-PUT http://localhost:3001/api/user/password HTTP/1.1
+PUT {{baseUrl}}/user/password HTTP/1.1
 content-type: application/json
-x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMwYzAxMzY0LTcyNjUtNDY1ZC04NTJhLTIzNzlhMjk2YjZkZSIsImlhdCI6MTYzNDgwMDA1Mn0.VC-0H4ldQU1BFKzOVXvXd_x0fGW25mFWsiyIu7REZQM
+x-access-token: {{token}}
 
 {
     "oldPassword": "123456",
