@@ -14,3 +14,51 @@ content-type: application/json
     "tinNumber":"12313331",
     "businessName": "Lombaa"
 }
+
+###
+
+POST http://localhost:3001/api/auth HTTP/1.1
+content-type: application/json
+
+{
+    "email": "u221er312122@abc.com",
+    "password": "As342d@#$123"
+}
+
+###
+
+POST http://localhost:3001/api/auth/google HTTP/1.1
+content-type: application/json
+
+{
+    "accessToken": "ya29.a0ARrdaM_48eSMw6gqhX9HwfLML83giqgh7ZgNtH3l_w32fpPR4xyoQdryNgViaDcVnFHnEe_rrW6lTcmwWnKxoFhfOlpv1yb5IMaY45emP8JxzdvTviTgHdoscdxt9loh7v8TnqWlW2P_hLo_KIOFeOOKbUm6"
+}
+
+###
+
+POST http://localhost:3001/api/auth/facebook HTTP/1.1
+content-type: application/json
+
+{
+    "accessToken": "EAAEHM3oWBboBAP9jUK9B7KuQZBndXr7pDrb83f8cs6pZBjBrexDiDlgeTYKwV0lv2KxMHY74P3P4t1M5VHRdQsuApx0iQqMYUOcnuQ25GZAAy30d9pibfAXlj55zAurI0gvLTjuNgTlMZBUCIGFpg2MGOh9wELcHmxcZBi9RGhynt3Jm6IaARJA7skaKA2ZA5yp19NOK86PdyS0wDMTYkuGYEbRbhYMpuD3SVz8ZA18zP6aEeHAEL46"
+}
+
+###
+
+PUT http://localhost:3001/api/user/password HTTP/1.1
+content-type: application/json
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMwYzAxMzY0LTcyNjUtNDY1ZC04NTJhLTIzNzlhMjk2YjZkZSIsImlhdCI6MTYzNDgwMDA1Mn0.VC-0H4ldQU1BFKzOVXvXd_x0fGW25mFWsiyIu7REZQM
+
+{
+    "oldPassword": "123456",
+    "password": "123456"
+}
+
+###
+
+GET https://www.googleapis.com/oauth2/v2/userinfo HTTP/1.1
+Authorization: Bearer ya29.a0ARrdaM8ljfSsUDSX3V6Kc3nTmLWVdnPglf_lFFRIeh8QI4TJXXStrzhniuEZ0hasJQocQDThTTZStEUhfCLtJP9FB929jiTusdoW_Cas1V643eHFFQgm-n-AhRCQM9djpsQBKZi6pb4gD06WbfXEvMS-Q9nf
+
+###
+
+GET https://graph.facebook.com/me?access_token=EAAEHM3oWBboBAP9jUK9B7KuQZBndXr7pDrb83f8cs6pZBjBrexDiDlgeTYKwV0lv2KxMHY74P3P4t1M5VHRdQsuApx0iQqMYUOcnuQ25GZAAy30d9pibfAXlj55zAurI0gvLTjuNgTlMZBUCIGFpg2MGOh9wELcHmxcZBi9RGhynt3Jm6IaARJA7skaKA2ZA5yp19NOK86PdyS0wDMTYkuGYEbRbhYMpuD3SVz8ZA18zP6aEeHAEL46 HTTP/1.1

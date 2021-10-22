@@ -1,9 +1,8 @@
 import React from 'react';
 import { useAppContext, ActionTypes } from '../contexts';
 import { useAxios } from '../services/base-service';
-import Method from 'axios';
 
-export const ProfilePage: React.FC = () => {
+export const ProfilePage: React.FC = (): React.ReactElement => {
     const { state, dispatch } = useAppContext();
     /**
      * Sample API call:

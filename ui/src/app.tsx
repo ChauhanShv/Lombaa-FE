@@ -3,10 +3,17 @@ import { BrowserRouter, Switch } from 'react-router-dom';
 import './app.css';
 import { PrivateRoute, PublicRoute } from './components/routes';
 import { AppContextProvider } from './contexts';
-import { Header } from './components/layout';
-import { LoginPage  } from './pages/login-page';
-import { SignupPage } from './pages/signup-page';
-import { ProfilePage } from './pages/profile-page';
+import {
+  Header,
+  Footer
+} from './components/layout/';
+import {
+  LoginPage,
+  SignupPage,
+  ProfilePage,
+  HomePage,
+  SettingsPage
+} from './pages';
 
 const App: React.FC = () => {
   return (
@@ -14,10 +21,11 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Header />
         <Switch>
-          <PublicRoute restricted={true} component={LoginPage} path="/login" exact />
-          <PublicRoute restricted={true} component={SignupPage} path="/signup" exact />
-          <PrivateRoute component={ProfilePage} path="/" exact />
+          <PrivateRoute component={HomePage} path="/" exact />
+          {/* Html Routes - for nilesh */}
+          <PublicRoute component={SettingsPage} path="/settings" exact />
         </Switch>
+        <Footer />
       </BrowserRouter>
     </AppContextProvider>
   );

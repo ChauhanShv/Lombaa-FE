@@ -1,13 +1,11 @@
 import * as React from 'react';
-import { Action, Dispatch, ActionTypes } from './types';
-
-type State = {
-  user: string;
-}
-
-type AppContextProviderProps = {
-  children: React.ReactNode
-}
+import {
+  Action,
+  Dispatch,
+  ActionTypes,
+  AppContextProviderProps,
+  State
+} from './types';
 
 const AppContext = React.createContext<
   {state: State; dispatch: Dispatch} | undefined
@@ -19,13 +17,13 @@ function appReducer(state: State, action: Action) {
     case ActionTypes.LOGIN:
       return {
         ...state,
-        user: payload?.user,
+        isLoggedIn: true,
       }
       
     case ActionTypes.LOGOUT:
       return {
         ...state,
-        user: '',
+        isLoggedIn: false,
       }
     default: {
       throw new Error(`Unhandled action type: ${type}`)
@@ -34,7 +32,8 @@ function appReducer(state: State, action: Action) {
 }
 
 const AppContextProvider = ({ children }: AppContextProviderProps) => {
-  const [state, dispatch] = React.useReducer(appReducer, { user: '' })
+  const isLoggedIn: boolean = !!localStorage.getItem('token');
+  const [state, dispatch] = React.useReducer(appReducer, { isLoggedIn })
   const value = { state, dispatch };
   return (
     <AppContext.Provider value={value}>

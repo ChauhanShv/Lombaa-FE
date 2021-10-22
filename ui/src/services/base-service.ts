@@ -1,6 +1,5 @@
-import axios, { Method } from 'axios';
+import axios from 'axios';
 import { makeUseAxios } from 'axios-hooks';
-import { METHODS } from 'http';
 import { BACKEND_HOST, BACKEND_PORT, REFRESH_TOKEN_RETRY } from '../config';
 
 let refreshTokenRetry = REFRESH_TOKEN_RETRY; 
@@ -37,7 +36,10 @@ axios.interceptors.response.use(
 );
 
 export const useAxios = makeUseAxios({
-    axios: axios.create({ baseURL: `${BACKEND_HOST}:${BACKEND_PORT}` }),
+    axios: axios.create({ baseURL: `${BACKEND_HOST}:${BACKEND_PORT}/api` }),
+    defaultOptions: {
+        manual: true,
+    }
 });
 
 export type { Method } from 'axios';
