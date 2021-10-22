@@ -99,7 +99,7 @@ class UserController extends BaseController {
     try {
       validationResult(req).formatWith(validationErrorFormatter).throw();
     } catch (error) {
-      return res.status(422).json(error.array({ onlyFirstError: true })).end();
+      return res.status(422).json(error.array({ onlyFirstError: true }));
     }
 
     try {
@@ -131,6 +131,60 @@ class UserController extends BaseController {
       return next(error);
     }
   };
+
+
+  forgetPassword = async (req, res, next) => {
+    try {
+      validationResult(req).formatWith(validationErrorFormatter).throw();
+    } catch (error) {
+      return res.status(422).json(error.array({ onlyFirstError: true }));
+    }
+
+    try {
+      const { email } = req.body;
+      await this.service.forgetPassword(email);
+      return super.jsonRes({ res, code: 200, data: { success: true, message: `We have sent you password reset link at ${email}` } })
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  verifyResetPasswordToken = async (req, res, next) => {
+    try {
+      validationResult(req).formatWith(validationErrorFormatter).throw();
+    } catch (error) {
+      return res.status(422).json(error.array({ onlyFirstError: true }));
+    }
+
+    try {
+      const { token } = req.body;
+
+      if (await this.service.verifyResetPasswordToken(token))
+        return super.jsonRes({ res, code: 200, data: { success: true, message: "Password token verified" } });
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Password token not verified" } });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  resetPassword = async (req, res, next) => {
+    try {
+      validationResult(req).formatWith(validationErrorFormatter).throw();
+    } catch (error) {
+      return res.status(422).json(error.array({ onlyFirstError: true }));
+    }
+
+    try {
+      const { token, newPassword } = req.body;
+
+      if (await this.service.resetPassword(token, newPassword))
+        return super.jsonRes({ res, code: 200, data: { success: true, message: "Password reset" } });
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to reset password" } });
+
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = UserController;

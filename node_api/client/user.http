@@ -86,3 +86,33 @@ x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExYzdkMjFmLTBmZjA
     "phone": "7083769223"
 }
 
+###
+
+post {{baseUrl}}/user/password/forget HTTP/1.1
+content-type: application/json
+
+{
+    "email": "mufaddal23@k.co"
+}
+
+###
+
+get {{baseUrl}}/user/password/reset/verify-token/ HTTP/1.1
+content-type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBlZTE2ZGU3LTk2NmYtNDc1Yy05YjQyLWQ5ZTU5YjVlYTQzMyIsImlhdCI6MTYzNDk0MDc4MCwiZXhwIjoxNjM0OTQ0MzgwfQ.yxnvs3ksqVpnyKqUBNPLWSVriejYjjuZ6q48pOtdiRA"
+}
+
+###
+
+put {{baseUrl}}/user/password/reset HTTP/1.1
+content-type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBlZTE2ZGU3LTk2NmYtNDc1Yy05YjQyLWQ5ZTU5YjVlYTQzMyIsImlhdCI6MTYzNDk0MDc4MCwiZXhwIjoxNjM0OTQ0MzgwfQ.yxnvs3ksqVpnyKqUBNPLWSVriejYjjuZ6q48pOtdiRA",
+    "newPassword": "123456"
+
+}
+
+

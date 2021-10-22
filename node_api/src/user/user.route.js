@@ -2,7 +2,7 @@ const router = require("../modules/express").instance.Router();
 const { checkSchema } = require("express-validator");
 const UserController = require("./user.controller");
 const schema = require("./user.data-schema");
-const { setPassword: setPasswordSchema, activeSchema, phoneSchema, emailSchema } = require("./schema");
+const { setPassword: setPasswordSchema, activeSchema, phoneSchema, emailSchema, forgetPasswordSchema } = require("./schema");
 const authMiddleware = require("../auth/auth.middleware");
 
 const controller = new UserController();
@@ -17,6 +17,10 @@ module.exports = () => {
 
     router.delete("/facebook", authMiddleware, controller.deleteFacebook);
     router.delete("/google", authMiddleware, controller.deleteGoogle);
+
+    router.post('/password/forget', checkSchema(forgetPasswordSchema), controller.forgetPassword);
+    router.get('/password/reset/verify-token', controller.verifyResetPasswordToken);
+    router.put('/password/reset', controller.resetPassword);
 
     return router;
 };
