@@ -68,23 +68,21 @@ GET https://graph.facebook.com/me?access_token=EAAEHM3oWBboBAP9jUK9B7KuQZBndXr7p
 
 ###
 
-post http://localhost:3001/api/user/updateEmail HTTP/1.1
+put {{baseUrl}}/user/email HTTP/1.1
 content-type: application/json
 x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExYzdkMjFmLTBmZjAtNDNhZi1hNGZlLWRhYjkyOGE5ZTE4NiIsImlhdCI6MTYzNDg5NDkxMX0.YSI27gNC8a46ebJM9RtzEScjBzcxPEbxE098Zf97QGQ
 
 {
     "email": "test123"
-    
 }
 
 ###
 
-post http://localhost:3001/api/user/updatePhoneNumber HTTP/1.1
+put {{baseUrl}}/user/phone HTTP/1.1
 content-type: application/json
 x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExYzdkMjFmLTBmZjAtNDNhZi1hNGZlLWRhYjkyOGE5ZTE4NiIsImlhdCI6MTYzNDg5NDkxMX0.YSI27gNC8a46ebJM9RtzEScjBzcxPEbxE098Zf97QGQ
 
 {
-    "phoneNumber": "7083769223"
-    
+    "phone": "7083769223"
 }
 
