@@ -1,9 +1,8 @@
-const user = require('./users');
-
 const createModel = (definition) => {
-    return definition(db, Sequelize);
-}
+  return definition(db, Sequelize);
+};
 
 module.exports = {
-    User = createModel(users)
-}
+  User: createModel(users),
+  productModel: createModel(product),
+};
