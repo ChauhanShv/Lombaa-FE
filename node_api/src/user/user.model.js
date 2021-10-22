@@ -17,7 +17,7 @@ User.init(
         },
         email: {
             type: DataTypes.STRING(255),
-            allowNull: false
+            allowNull: true
         },
         password: {
             type: DataTypes.STRING(255),
@@ -68,10 +68,18 @@ User.init(
             allowNull: false,
             defaultValue: 0
         },
+        facebookId: {
+            type: DataTypes.STRING(255),
+            allowNull: true
+        },
         isGoogleVerified: {
             type: DataTypes.INTEGER(1),
             allowNull: false,
             defaultValue: 0
+        },
+        googleId: {
+            type: DataTypes.STRING(255),
+            allowNull: true
         },
         isPhoneVerified: {
             type: DataTypes.INTEGER(1),

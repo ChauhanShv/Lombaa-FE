@@ -1,20 +1,17 @@
 const BaseController = require("../modules/controller").base;
 const AuthService = require('./auth.service');
 const jwtService = require('../modules/jwt').service;
-const userModel = require('../user/user.model');
-
-
-const { OAuth2Client } = require('google-auth-library');
+const UserService = require('../user/user.service');
 const config = require('./auth.config');
 
 const axios = require('axios');
 
-const client = new OAuth2Client(config.googleClientId);
 class AuthController extends BaseController {
 
     constructor() {
         super();
         this.service = new AuthService();
+        this.userService = new UserService();
     }
 
     async authenticate(req, res, next) {
@@ -61,41 +58,26 @@ class AuthController extends BaseController {
         }
 
         try {
-            let token = req.body.token;
-            let idToken = req.body.idToken;
+            const { accessToken } = req.body;
+            let user = req.user;
 
-            const options = {
-                idToken: idToken,
-                audience: config.googleClientId
-            };
-
-            const account = await client.verifyIdToken(options);
-
+            const account = await this.service.googleAuth(accessToken);
             if (!account) {
                 const data = {
                     success: false,
                     error: {
                         code: 400401,
-                        message: "Invalid google token",
+                        message: "Failed google login/connect",
                         messageDetail: "Google token verification failed",
                     }
                 }
                 return super.jsonRes({ res, code: 400, data });
             }
-
-            const { name, email } = account.getPayload();
-
-            const user = await userModel.upsert({
-                where: { email: email },
-                update: { name },
-                create: {
-                    name, email, isGoogleVerified: true,
-                }
-            });
+            user = await this.userService.upsertGoogleAcount(account, user?.id);
 
             const data = {
                 success: true,
-                message: "User logged in successfully.",
+                message: "Google connected",
                 response: { token: jwtService.encode({ id: user.id }) },
                 metadata: { user: user },
             }
@@ -113,33 +95,28 @@ class AuthController extends BaseController {
         }
 
         try {
-            let accessToken = req.body.token;
+            let { accessToken } = req.body;
+            let user = req.user;
 
-            const account = await axios.get(`https://graph.facebook.com/me?access_token=${accessToken}`);
+            const account = await this.service.facebookAuth(accessToken);
 
             if (!account) {
                 const data = {
                     success: false,
                     error: {
                         code: 400401,
-                        message: "Invalid facebook token",
+                        message: "Failed facebook login/connect",
                         messageDetail: "Facebook token verification failed",
                     }
                 }
                 return super.jsonRes({ res, code: 400, data });
             }
 
-            const { name, email } = account;
-
-            const user = await userModel.upsert({
-                where: { email: email },
-                update: { name },
-                create: { name, email, isFacebookVerified: true }
-            });
+            user = await this.userService.upsertFacebookAcount(account, user?.id);
 
             const data = {
                 success: true,
-                message: "User logged in successfully.",
+                message: "Facebook connected",
                 response: { token: jwtService.encode({ id: user.id }) },
                 metadata: { user: user },
             }

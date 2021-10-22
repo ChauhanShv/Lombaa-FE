@@ -5,7 +5,7 @@ module.exports = {
     oldPassword: {
         custom: {
             options: async (value, { req, location, path }) => {
-                const isUserPasswordSet = await userService.isPasswordSet(req?.user?.id);
+                const isUserPasswordSet = await userService.hasPassword(req?.user?.id);
 
                 if (isUserPasswordSet && !value)
                     return Promise.reject("Old password is required");

@@ -29,7 +29,7 @@ class UserController extends BaseController {
         const body = req.body;
 
         const userData = {
-            businessName: body.businessName,
+            businessName: body?.businessName,
             name: body?.name,
             email: body?.email,
             phoneNumber: body?.phoneNumber,
@@ -40,7 +40,7 @@ class UserController extends BaseController {
 
         try {
             const newUser = await model.create(userData);
-            const token = jwtService.encode({ id: user.id });
+            const token = jwtService.encode({ id: newUser.id });
             const data = {
                 success: true,
                 message: "User created successfully.",

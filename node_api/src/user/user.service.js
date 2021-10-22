@@ -1,5 +1,6 @@
 const util = require('./user.util');
 const userModel = require('./user.model');
+const User = require('./user.model');
 
 module.exports = class UserService {
     constructor() {
@@ -26,8 +27,43 @@ module.exports = class UserService {
         return await user.save();
     }
 
-    async isPasswordSet(userId) {
+    async hasPassword(userId) {
         let user = await userModel.findByPk(userId);
         return !!user.password;
+    }
+
+    async hasEmail(userId) {
+        let user = await userModel.findByPk(userId);
+        return !!user.password;
+    }
+
+    async upsertGoogleAcount(account, userId) {
+        let user = !!userId ? await userModel.findByPk(userId) : null;
+        if (!user) {
+            user = await User.create({
+                name: account?.name ?? '',
+                email: account?.email ?? null,
+                isGoogleVerified: 1
+            });
+        }
+        user.email = user?.email ?? account?.email ?? null;
+        user.isGoogleVerified = 1;
+        user.googleId = account.sub;
+        return user.save();
+    }
+
+    async upsertFacebookAcount(account, userId) {
+        let user = !!userId ? await userModel.findByPk(userId) : null;
+        if (!user) {
+            user = await User.create({
+                name: account?.name ?? '',
+                email: account?.email ?? null,
+                isFacebookVerified: 1
+            });
+        }
+        user.email = user?.email ?? account?.email ?? null;
+        user.isFacebookVerified = 1;
+        user.facebookId = account?.id;
+        return user.save();
     }
 }
