@@ -148,26 +148,25 @@ class UserController extends BaseController {
       });
     }
   };
-  updateProfile = async (req, res, next) => {
+  updateEmail = async (req, res, next) => {
     try {
-      const values = req.body.data;
+      try {
+        validationResult(req).formatWith(validationErrorFormatter).throw();
+      } catch (error) {
+        return res
+          .status(422)
+          .json(error.array({ onlyFirstError: true }))
+          .end();
+      }
+      const values = req.body.email;
       const user = req.user;
-      if (values.email) {
-        const updateEmail = await model.update(
-          {
-            email: values.email,
-          },
-          { where: { id: user.id } }
-        );
-      }
-      if (values.phoneNumber) {
-        const updatePhone = await model.update(
-          {
-            phoneNumber: values.phoneNumber,
-          },
-          { where: { id: userId } }
-        );
-      }
+      const updateEmail = await model.update(
+        {
+          email: values,
+        },
+        { where: { id: user.id } }
+      );
+
       return super.jsonRes({
         res,
         code: 200,
@@ -175,6 +174,35 @@ class UserController extends BaseController {
       });
     } catch (error) {
       console.log(error);
+      return super.jsonRes({
+        res,
+        code: 401,
+        data: { message: "invalid  details" },
+      });
+    }
+  };
+  updatePhoneNumber = async (req, res, next) => {
+    try {
+      validationResult(req).formatWith(validationErrorFormatter).throw();
+    } catch (error) {
+      return res.status(422).json(error.array({ onlyFirstError: true }));
+    }
+    try {
+      const phoneNumber = req.body.phoneNumber;
+      const user = req.user;
+
+      const updatePhoneNumber = await model.update(
+        {
+          phoneNumber: phoneNumber,
+        },
+        { where: { id: user.id } }
+      );
+      return super.jsonRes({
+        res,
+        code: 200,
+        data: { success: true, message: "update successfull" },
+      });
+    } catch (error) {
       return super.jsonRes({
         res,
         code: 401,

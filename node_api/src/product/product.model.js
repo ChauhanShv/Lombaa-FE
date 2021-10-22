@@ -101,5 +101,5 @@ Product.init(
   },
   { modelName: "Product", tableName: "products", timestamps: true, sequelize }
 );
-Product.belongsTo(user, { as: "user" });
+
 module.exports = Product;

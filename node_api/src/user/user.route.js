@@ -3,7 +3,9 @@ const { checkSchema } = require("express-validator");
 const UserController = require("./user.controller");
 const schema = require("./user.data-schema");
 const { setPassword: setPasswordSchema } = require("./schema");
+const emailSchema = require("./schema").emailSchema;
 const authMiddleware = require("../auth/auth.middleware");
+const phoneSchema = require("./schema").phoneSchema;
 
 const controller = new UserController();
 
@@ -24,7 +26,18 @@ module.exports = () => {
     authMiddleware,
     controller.googleDisconnect
   );
-  router.post("/updateprofile", authMiddleware, controller.updateProfile);
+  router.post(
+    "/updateEmail",
+    authMiddleware,
+    checkSchema(emailSchema),
+    controller.updateEmail
+  );
+  router.post(
+    "/updatePhoneNumber",
+    authMiddleware,
+    checkSchema(phoneSchema),
+    controller.updatePhoneNumber
+  );
 
   return router;
 };

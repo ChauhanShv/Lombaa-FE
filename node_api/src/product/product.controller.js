@@ -10,14 +10,11 @@ class productController extends BaseController {
 
   add = async (req, res, next) => {
     try {
-      try {
-        validationResult(req).formatWith(validationErrorFormatter).throw();
-      } catch (error) {
-        return res
-          .status(422)
-          .json(error.array({ onlyFirstError: true }))
-          .end();
-      }
+      validationResult(req).formatWith(validationErrorFormatter).throw();
+    } catch (error) {
+      return res.status(422).json(error.array({ onlyFirstError: true }));
+    }
+    try {
       const value = req.body.data;
       const newProduct = await productModel.create(value);
       const Product = await newProduct.save();
