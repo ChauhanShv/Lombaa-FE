@@ -35,16 +35,6 @@ class UserController extends BaseController {
       password: util?.hashPassword(body.password),
     };
 
-    const userData = {
-      businessName: body?.businessName,
-      name: body?.name,
-      email: body?.email,
-      phoneNumber: body?.phoneNumber,
-      accountType: body?.accountType,
-      tinNumber: body?.tinNumber,
-      password: util?.hashPassword(body.password),
-    };
-
     try {
       const newUser = await model.create(userData);
       const token = jwtService.encode({ id: newUser.id });
@@ -87,10 +77,10 @@ class UserController extends BaseController {
 
   userDeactivate = async (req, res, next) => {
     try {
-      const userId = "5555555";
+      const user = req.user;
       const userDeactivate = await model.update({
         isActive: 0,
-        where: { id: userId },
+        where: { id: user.id },
       });
       return super.jsonRes({
         res,
@@ -110,10 +100,10 @@ class UserController extends BaseController {
 
   fbDisconnect = async (req, res, next) => {
     try {
-      const userId = "44444";
+      const user = req.user;
       const fbDisconnect = await model.update({
         isFacebookVerified: 0,
-        where: { id: userId },
+        where: { id: user.id },
       });
       return super.jsonRes({
         res,
@@ -135,10 +125,10 @@ class UserController extends BaseController {
   };
   googleDisconnect = async (req, res, next) => {
     try {
-      const userId = "51515151";
+      const user = req.user;
       const googleDisconnect = await model.update({
         isGoogleVerified: 0,
-        where: { id: userId },
+        where: { id: user.id },
       });
       return super.jsonRes({
         res,
@@ -161,13 +151,13 @@ class UserController extends BaseController {
   updateProfile = async (req, res, next) => {
     try {
       const values = req.body.data;
-      const userId = "453";
+      const user = req.user;
       if (values.email) {
         const updateEmail = await model.update(
           {
             email: values.email,
           },
-          { where: { id: userId } }
+          { where: { id: user.id } }
         );
       }
       if (values.phoneNumber) {
