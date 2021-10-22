@@ -107,7 +107,7 @@ class UserController extends BaseController {
       const user = req.user;
 
       await model.update({ email }, { where: { id: user.id } });
-      return super.jsonRes({ res, code: 200, data: { success: true, message: "Email update request received." } });
+      return super.jsonRes({ res, code: 200, data: { success: true, message: `Verification mail is sent at ${email}` } });
     } catch (error) {
       return next(error);
     }
