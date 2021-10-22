@@ -2,10 +2,10 @@ POST http://localhost:3001/api/user HTTP/1.1
 content-type: application/json
 
 {
-    "email": "u221er312122@abc.com",
-    "password": "As342d@#$123",
-    "name": "user",
-    "phoneNumber": "8366855585",
+    "email": "test1@gmail.com",
+    "password": "test1",
+    "name": "test",
+    "phoneNumber": "8366855456",
     "accountType": "standard",
     "lattitude": "",
     "longitude": "",
@@ -21,7 +21,7 @@ POST http://localhost:3001/api/auth HTTP/1.1
 content-type: application/json
 
 {
-    "email": "u221er312122@abc.com",
+    "email": "u2s2er312122@abc.com",
     "password": "As342d@#$123"
 }
 
@@ -62,3 +62,26 @@ Authorization: Bearer ya29.a0ARrdaM8ljfSsUDSX3V6Kc3nTmLWVdnPglf_lFFRIeh8QI4TJXXS
 ###
 
 GET https://graph.facebook.com/me?access_token=EAAEHM3oWBboBAP9jUK9B7KuQZBndXr7pDrb83f8cs6pZBjBrexDiDlgeTYKwV0lv2KxMHY74P3P4t1M5VHRdQsuApx0iQqMYUOcnuQ25GZAAy30d9pibfAXlj55zAurI0gvLTjuNgTlMZBUCIGFpg2MGOh9wELcHmxcZBi9RGhynt3Jm6IaARJA7skaKA2ZA5yp19NOK86PdyS0wDMTYkuGYEbRbhYMpuD3SVz8ZA18zP6aEeHAEL46 HTTP/1.1
+
+###
+
+post http://localhost:3001/api/user/updateEmail HTTP/1.1
+content-type: application/json
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExYzdkMjFmLTBmZjAtNDNhZi1hNGZlLWRhYjkyOGE5ZTE4NiIsImlhdCI6MTYzNDg5NDkxMX0.YSI27gNC8a46ebJM9RtzEScjBzcxPEbxE098Zf97QGQ
+
+{
+    "email": "test123"
+    
+}
+
+###
+
+post http://localhost:3001/api/user/updatePhoneNumber HTTP/1.1
+content-type: application/json
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExYzdkMjFmLTBmZjAtNDNhZi1hNGZlLWRhYjkyOGE5ZTE4NiIsImlhdCI6MTYzNDg5NDkxMX0.YSI27gNC8a46ebJM9RtzEScjBzcxPEbxE098Zf97QGQ
+
+{
+    "phoneNumber": "7083769223"
+    
+}
+
