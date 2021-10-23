@@ -6,6 +6,9 @@ const appConfig = require('../app/app.config');
 const eventEmitter = require('./user.subscriber');
 const event = require('./user.event');
 const bcrypt = require('bcrypt');
+const { email } = require('../auth/data_schema/schema.auth');
+const { user } = require('../modules/sequelize/sequelize.config');
+const { findByPk } = require('./user.model');
 
 module.exports = class UserService {
     constructor() {
@@ -183,7 +186,7 @@ module.exports = class UserService {
 
             if (!user) return null;
             const resetPasswordToken = jwtService.encode({ id: user.id, email }, '1h');
-            eventEmitter.emit(event.forgetPassword, { user, resetPasswordUrl: `${appConfig.frontEndUrl}/password/reset/${resetPasswordToken}` });
+            eventEmitter.emit(event.forgetPassword, { user, resetPasswordLink: `${appConfig.frontEndUrl}/password/reset/${resetPasswordToken}` });
         }
         catch (error) {
             console.error({ error });
@@ -215,6 +218,48 @@ module.exports = class UserService {
         } catch (error) {
             console.error({ error });
             return null
+        }
+    }
+
+    async requestChangeEmail(email, user) {
+        try {
+            const dUser = await User.update({ email: email, isEmailVerified: 0 }, { where: { id: user?.id } })
+            if (!dUser) return null;
+
+            const verificationToken = jwtService.encode({ id: user?.id, email }, '1h');
+            eventEmitter.emit(event.changeEmail, { user, verificationLink: `${appConfig.frontEndUrl}/email/verify/${verificationToken}` });
+            return dUser;
+        } catch (error) {
+            console.error({ error });
+            return null
+        }
+    }
+
+    async verifyEmailVerificationToken(token) {
+        try {
+            const payload = jwtService.decode(token);
+
+            if (!payload?.id || !payload?.email) return null;
+            let user = await userModel.findOne({ where: { id: payload.id, email: payload.email } });
+            if (!user) return null;
+            return user;
+        }
+        catch (error) {
+            console.error({ error });
+            return null;
+        }
+    }
+
+    async markEmailVerified(user) {
+        try {
+            const dUser = await User.findByPk(user?.id);
+
+            dUser.isEmailVerified = 1
+            return dUser.save();
+        }
+        catch (error) {
+            console.error({ error });
+            return null;
         }
     }
 }
