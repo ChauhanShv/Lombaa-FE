@@ -1,4 +1,7 @@
-POST http://localhost:3001/api/user HTTP/1.1
+@baseUrl = http://localhost:3001/api
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMwYzAxMzY0LTcyNjUtNDY1ZC04NTJhLTIzNzlhMjk2YjZkZSIsImlhdCI6MTYzNDgwMDA1Mn0.VC-0H4ldQU1BFKzOVXvXd_x0fGW25mFWsiyIu7REZQM
+
+POST {{baseUrl}}/user HTTP/1.1
 content-type: application/json
 
 {
@@ -17,7 +20,7 @@ content-type: application/json
 
 ###
 
-POST http://localhost:3001/api/auth HTTP/1.1
+POST {{baseUrl}}/auth HTTP/1.1
 content-type: application/json
 
 {
@@ -27,7 +30,7 @@ content-type: application/json
 
 ###
 
-POST http://localhost:3001/api/auth/google HTTP/1.1
+POST {{baseUrl}}/auth/google HTTP/1.1
 content-type: application/json
 
 {
@@ -36,7 +39,7 @@ content-type: application/json
 
 ###
 
-POST http://localhost:3001/api/auth/facebook HTTP/1.1
+POST {{baseUrl}}/api/auth/facebook HTTP/1.1
 content-type: application/json
 
 {
@@ -45,9 +48,9 @@ content-type: application/json
 
 ###
 
-PUT http://localhost:3001/api/user/password HTTP/1.1
+PUT {{baseUrl}}/user/password HTTP/1.1
 content-type: application/json
-x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMwYzAxMzY0LTcyNjUtNDY1ZC04NTJhLTIzNzlhMjk2YjZkZSIsImlhdCI6MTYzNDgwMDA1Mn0.VC-0H4ldQU1BFKzOVXvXd_x0fGW25mFWsiyIu7REZQM
+x-access-token: {{token}}
 
 {
     "oldPassword": "123456",
@@ -65,24 +68,51 @@ GET https://graph.facebook.com/me?access_token=EAAEHM3oWBboBAP9jUK9B7KuQZBndXr7p
 
 ###
 
-post http://localhost:3001/api/user/updateEmail HTTP/1.1
+put {{baseUrl}}/user/email HTTP/1.1
 content-type: application/json
 x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExYzdkMjFmLTBmZjAtNDNhZi1hNGZlLWRhYjkyOGE5ZTE4NiIsImlhdCI6MTYzNDg5NDkxMX0.YSI27gNC8a46ebJM9RtzEScjBzcxPEbxE098Zf97QGQ
 
 {
     "email": "test123"
-    
 }
 
 ###
 
-post http://localhost:3001/api/user/updatePhoneNumber HTTP/1.1
+put {{baseUrl}}/user/phone HTTP/1.1
 content-type: application/json
 x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExYzdkMjFmLTBmZjAtNDNhZi1hNGZlLWRhYjkyOGE5ZTE4NiIsImlhdCI6MTYzNDg5NDkxMX0.YSI27gNC8a46ebJM9RtzEScjBzcxPEbxE098Zf97QGQ
 
 {
-    "phoneNumber": "7083769223"
-    
+    "phone": "7083769223"
+}
+
+###
+
+post {{baseUrl}}/user/password/forget HTTP/1.1
+content-type: application/json
+
+{
+    "email": "mufaddal23@k.co"
+}
+
+###
+
+get {{baseUrl}}/user/password/reset/verify-token/ HTTP/1.1
+content-type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBlZTE2ZGU3LTk2NmYtNDc1Yy05YjQyLWQ5ZTU5YjVlYTQzMyIsImlhdCI6MTYzNDk0MDc4MCwiZXhwIjoxNjM0OTQ0MzgwfQ.yxnvs3ksqVpnyKqUBNPLWSVriejYjjuZ6q48pOtdiRA"
+}
+
+###
+
+put {{baseUrl}}/user/password/reset HTTP/1.1
+content-type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBlZTE2ZGU3LTk2NmYtNDc1Yy05YjQyLWQ5ZTU5YjVlYTQzMyIsImlhdCI6MTYzNDk0MDc4MCwiZXhwIjoxNjM0OTQ0MzgwfQ.yxnvs3ksqVpnyKqUBNPLWSVriejYjjuZ6q48pOtdiRA",
+    "newPassword": "123456"
+
 }
 
 
