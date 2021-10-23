@@ -1,16 +1,34 @@
-const router = require('../modules/express').instance.Router();
-const UserController = require('./user.controller');
-const schema = require('./user.data-schema');
-const { setPassword: setPasswordSchema } = require('./schema');
-const authMiddleware = require('../auth/auth.middleware');
-
-const { checkSchema } = require('express-validator');
+const router = require("../modules/express").instance.Router();
+const { checkSchema } = require("express-validator");
+const UserController = require("./user.controller");
+const schema = require("./user.data-schema");
+const {
+    setPassword: setPasswordSchema, activeSchema,
+    phoneSchema, emailSchema,
+    forgetPasswordSchema, connectGoogleSchema,
+    connectFacebookSchema
+} = require("./schema");
+const authMiddleware = require("../auth/auth.middleware");
 
 const controller = new UserController();
 
-
 module.exports = () => {
-    router.post('/', checkSchema(schema), (req, res, next) => controller.create(req, res, next));
-    router.put('/password', authMiddleware, checkSchema(setPasswordSchema), (req, res, next) => controller.setPassword(req, res, next));
+    router.post("/", checkSchema(schema), (req, res, next) => controller.create(req, res, next));
+
+    router.put("/password", authMiddleware, checkSchema(setPasswordSchema), (req, res, next) => controller.setPassword(req, res, next));
+    router.put("/active", authMiddleware, checkSchema(activeSchema), controller.updateActive);
+    router.put("/email", authMiddleware, checkSchema(emailSchema), controller.updateEmail);
+    router.put("/phone", authMiddleware, checkSchema(phoneSchema), controller.updatePhone);
+
+    router.delete("/facebook", authMiddleware, controller.deleteFacebook);
+    router.delete("/google", authMiddleware, controller.deleteGoogle);
+
+    router.post('/password/forget', checkSchema(forgetPasswordSchema), controller.forgetPassword);
+    router.get('/password/reset/verify-token', controller.verifyResetPasswordToken);
+    router.put('/password/reset', controller.resetPassword);
+
+    router.put("/facebook", checkSchema(connectFacebookSchema), authMiddleware, controller.connectFacebook);
+    router.put("/google", checkSchema(connectGoogleSchema), authMiddleware, controller.connectGoogle);
+
     return router;
-}
+};
