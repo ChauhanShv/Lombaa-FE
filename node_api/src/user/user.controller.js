@@ -68,8 +68,8 @@ class UserController extends BaseController {
       const user = req.user;
       const { status } = req.body;
 
-      await model.update({ isActive: status, where: { id: user.id } });
-      return super.jsonRes({ res, code: 200, data: { success: true, message: "Account deactivated" } });
+      await model.update({ isActive: status}, {where: { id: user.id } });
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Account status updated" } });
     } catch (error) {
       next(error)
     }
@@ -78,7 +78,7 @@ class UserController extends BaseController {
   deleteFacebook = async (req, res, next) => {
     try {
       const user = req.user;
-      await model.update({ isFacebookVerified: 0, where: { id: user.id } });
+      await model.update({ isFacebookVerified: 0}, {where: { id: user.id } });
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Facebook disconnected" } });
     } catch (error) {
       next(error);
@@ -88,7 +88,7 @@ class UserController extends BaseController {
   deleteGoogle = async (req, res, next) => {
     try {
       const user = req.user;
-      await model.update({ isGoogleVerified: 0, where: { id: user.id } });
+      await model.update({ isGoogleVerified: 0}, {where: { id: user.id } });
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Google disconnected" } });
     } catch {
       next(error);
