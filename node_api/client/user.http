@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3001/api
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkzNjliNDM1LTYwNGEtNDljYy1iODc5LTUzZDljZDU0MTc5MCIsImlhdCI6MTYzNTAwMjY1NSwiZXhwIjoxNjM1MDg5MDU1fQ.ehAIe3n0-Sni-ybGQOYoVhXw6Bz6P3ROP3wb2PYch84
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MzQxMjU4LWFhYjktNDlkZi1iM2JhLTZlZjY0YTg2YmQ0MiIsImlhdCI6MTYzNTAyNzUxMSwiZXhwIjoxNjM1MTEzOTExfQ.R1NvaVlcoaHckijIME3bTYsabdsowFNm0iDCDKEecSA
 
 POST {{baseUrl}}/user HTTP/1.1
 content-type: application/json
@@ -70,10 +70,20 @@ GET https://graph.facebook.com/me?access_token=EAAEHM3oWBboBAP9jUK9B7KuQZBndXr7p
 
 put {{baseUrl}}/user/email HTTP/1.1
 content-type: application/json
-x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExYzdkMjFmLTBmZjAtNDNhZi1hNGZlLWRhYjkyOGE5ZTE4NiIsImlhdCI6MTYzNDg5NDkxMX0.YSI27gNC8a46ebJM9RtzEScjBzcxPEbxE098Zf97QGQ
+x-access-token: {{token}}
 
 {
-    "email": "test12@gmail.com"
+    "email": "newtest1212@gmail.com"
+}
+
+###
+
+POST {{baseUrl}}/user/email HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MzQxMjU4LWFhYjktNDlkZi1iM2JhLTZlZjY0YTg2YmQ0MiIsImVtYWlsIjoibmV3dGVzdDEyMTJAZ21haWwuY29tIiwiaWF0IjoxNjM1MDI5ODg0LCJleHAiOjE2MzUwMzM0ODR9.93TdfoxW5fA_dOWffZHLRWCbuW0lKs14xAbmueO8pDk"
 }
 
 ###
@@ -92,12 +102,12 @@ post {{baseUrl}}/user/password/forget HTTP/1.1
 content-type: application/json
 
 {
-    "email": "mufaddal23@k.co"
+    "email": "newtest@gmail.com"
 }
 
 ###
 
-get {{baseUrl}}/user/password/reset/verify-token/ HTTP/1.1
+get {{baseUrl}}/user/password/reset/verify-token HTTP/1.1
 content-type: application/json
 
 {
@@ -112,7 +122,6 @@ content-type: application/json
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBlZTE2ZGU3LTk2NmYtNDc1Yy05YjQyLWQ5ZTU5YjVlYTQzMyIsImlhdCI6MTYzNDk0MDc4MCwiZXhwIjoxNjM0OTQ0MzgwfQ.yxnvs3ksqVpnyKqUBNPLWSVriejYjjuZ6q48pOtdiRA",
     "newPassword": "123456"
-
 }
 
 ###
