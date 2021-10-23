@@ -5,6 +5,7 @@ const jwtService = require('../modules/jwt/jwt.service');
 const appConfig = require('../app/app.config');
 const eventEmitter = require('./user.subscriber');
 const event = require('./user.event');
+const bcrypt = require('bcrypt');
 
 module.exports = class UserService {
     constructor() {
@@ -12,10 +13,7 @@ module.exports = class UserService {
 
     async verifyPassword(userId, password) {
         let user = await userModel.findByPk(userId);
-        const passwordMatch = await bcrypt.compare(password, dbUser.password);
-        if (!passwordMatch)
-            return false;
-        return await user.save();
+        return await bcrypt.compare(password, user.password);
     }
 
     async setPassword(userId, newPassword) {

@@ -13,7 +13,7 @@ module.exports = {
 
         if (user) return Promise.reject("Email address is not available");
         return Promise.resolve();
-      },
-    },
-  },
+      }
+    }
+  }
 };

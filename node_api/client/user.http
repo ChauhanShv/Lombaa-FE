@@ -1,14 +1,14 @@
 @baseUrl = http://localhost:3001/api
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMwYzAxMzY0LTcyNjUtNDY1ZC04NTJhLTIzNzlhMjk2YjZkZSIsImlhdCI6MTYzNDgwMDA1Mn0.VC-0H4ldQU1BFKzOVXvXd_x0fGW25mFWsiyIu7REZQM
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIxOGQ2MGRiLTVhZDItNGRmOC1iMDc5LTUwMGI1ZjQ3YWNjMSIsImlhdCI6MTYzNDk5MTY4MywiZXhwIjoxNjM1MDc4MDgzfQ.stxSJDxVJbi9saIUysRa0ELEYCI5k1fCjmjOvBA4xKk
 
 POST {{baseUrl}}/user HTTP/1.1
 content-type: application/json
 
 {
-    "email": "test1@gmail.com",
-    "password": "test1",
+    "email": "test12@gmail.com",
+    "password": "123456",
     "name": "test",
-    "phoneNumber": "8366855456",
+    "phoneNumber": "6655443322",
     "accountType": "standard",
     "lattitude": "",
     "longitude": "",
@@ -24,8 +24,8 @@ POST {{baseUrl}}/auth HTTP/1.1
 content-type: application/json
 
 {
-    "email": "u2s2er312122@abc.com",
-    "password": "As342d@#$123"
+    "email": "test12@gmail.com",
+    "password": "123456"
 }
 
 ###
@@ -54,7 +54,7 @@ x-access-token: {{token}}
 
 {
     "oldPassword": "123456",
-    "password": "123456"
+    "password": "12345678"
 }
 
 ###
