@@ -12,61 +12,169 @@ module.exports = class UserService {
     }
 
     async verifyPassword(userId, password) {
-        let user = await userModel.findByPk(userId);
-        return await bcrypt.compare(password, user.password);
+        try {
+            let user = await userModel.findByPk(userId);
+            return await bcrypt.compare(password, user.password);
+        }
+        catch (error) {
+            console.error({ error });
+            return null
+        }
     }
 
     async setPassword(userId, newPassword) {
-        let user = await userModel.findByPk(userId);
-        user.password = util?.hashPassword(newPassword);
-        return await user.save();
+        try {
+            let user = await userModel.findByPk(userId);
+            user.password = util?.hashPassword(newPassword);
+            return await user.save();
+        }
+        catch (error) {
+            console.error({ error });
+            return null
+        }
     }
 
     async updatePassword(userId, newPassword) {
-        let user = await userModel.findByPk(userId);
+        try {
+            let user = await userModel.findByPk(userId);
 
-        user.password = util?.hashPassword(newPassword);
-        return await user.save();
+            user.password = util?.hashPassword(newPassword);
+            return await user.save();
+        }
+        catch (error) {
+            console.error({ error });
+            return null
+        }
     }
 
     async hasPassword(userId) {
-        let user = await userModel.findByPk(userId);
-        return !!user.password;
+        try {
+            let user = await userModel.findByPk(userId);
+            return !!user.password;
+        }
+        catch (error) {
+            console.error({ error });
+            return null
+        }
     }
 
     async hasEmail(userId) {
-        let user = await userModel.findByPk(userId);
-        return !!user.password;
+        try {
+            let user = await userModel.findByPk(userId);
+            return !!user.password;
+        }
+        catch (error) {
+            console.error({ error });
+            return null
+        }
     }
 
-    async upsertGoogleAcount(account, userId) {
-        let user = !!userId ? await userModel.findByPk(userId) : null;
-        if (!user) {
-            user = await User.create({
-                name: account?.name ?? '',
-                email: account?.email ?? null,
-                isGoogleVerified: 1
-            });
+    async isGoogleAccountAvailable(account, user) {
+        try {
+            let dUser = await userModel.findOne({ where: { googleId: account?.id } });
+
+            if (!!dUser && user?.id !== dUser?.id)
+                return false;
+            return true;
         }
-        user.email = user?.email ?? account?.email ?? null;
-        user.isGoogleVerified = 1;
-        user.googleId = account.sub;
-        return user.save();
+        catch (error) {
+            console.error({ error });
+            return null
+        }
     }
 
-    async upsertFacebookAcount(account, userId) {
-        let user = !!userId ? await userModel.findByPk(userId) : null;
-        if (!user) {
-            user = await User.create({
-                name: account?.name ?? '',
-                email: account?.email ?? null,
-                isFacebookVerified: 1
-            });
+    async isFacebookAccountAvailable(account, user) {
+        try {
+            let dUser = await userModel.findOne({ where: { facebookId: account?.id } });
+
+            if (!!dUser && user?.id !== dUser?.id)
+                return false;
+            return true;
         }
-        user.email = user?.email ?? account?.email ?? null;
-        user.isFacebookVerified = 1;
-        user.facebookId = account?.id;
-        return user.save();
+        catch (error) {
+            console.error({ error });
+            return null
+        }
+    }
+
+    async upsertGoogleAcount(account) {
+        try {
+            let user = await userModel.findOne({ where: { googleId: account?.id } });
+            if (!user) {
+                user = await User.create({
+                    name: account?.name ?? '',
+                    email: account?.email ?? null,
+                    googleId: account?.id ?? null,
+                    isEmailVerified: !!account?.email ? 1 : 0,
+                    isGoogleVerified: 1
+                });
+            }
+            user.email = user?.email ?? account?.email ?? null;
+            user.isGoogleVerified = 1;
+            user.googleId = account.id;
+            return user.save();
+        }
+        catch (error) {
+            console.error({ error });
+            return null
+        }
+    }
+
+    async upsertFacebookAcount(account) {
+        try {
+            let user = await userModel.findOne({ where: { facebookId: account?.id } });
+            if (!user) {
+                user = await User.create({
+                    name: account?.name ?? '',
+                    email: account?.email ?? null,
+                    facebookId: account?.id ?? null,
+                    isEmailVerified: !!account?.email ? 1 : 0,
+                    isFacebookVerified: 1
+                });
+            }
+            user.email = user?.email ?? account?.email ?? null;
+            user.isFacebookVerified = 1;
+            user.facebookId = account?.id;
+            return user.save();
+        }
+        catch (error) {
+            console.error({ error });
+            return null
+        }
+    }
+
+    async connectFacebook(account, user) {
+        try {
+            const dUser = await userModel.findByPk(user?.id);
+            if (!dUser) return null;
+            dUser.facebookId = account?.id;
+            dUser.name = dUser?.name ?? account?.name ?? '';
+            dUser.email = dUser?.email ?? account?.email ?? null;
+            dUser.isEmailVerified = !!account?.email ? 1 : 0;
+            dUser.isFacebookVerified = 1;
+
+            return dUser.save();
+        } catch (error) {
+            console.error({ error });
+            return null;
+        }
+    }
+
+    async connectGoogle(account, user) {
+        try {
+            const dUser = await userModel.findByPk(user?.id);
+            if (!dUser) return null;
+            dUser.googleId = account?.id;
+            dUser.name = dUser?.name ?? account?.name ?? '';
+            dUser.email = dUser?.email ?? account?.email ?? null;
+            dUser.isEmailVerified = !!account?.email ? 1 : 0;
+            dUser.isGoogleVerified = 1;
+
+            return dUser.save();
+        } catch (error) {
+            console.error({ error });
+            return null;
+        }
     }
 
     async forgetPassword(email) {
@@ -78,7 +186,8 @@ module.exports = class UserService {
             eventEmitter.emit(event.forgetPassword, { user, resetPasswordUrl: `${appConfig.frontEndUrl}/password/reset/${resetPasswordToken}` });
         }
         catch (error) {
-            throw new Error(error);
+            console.error({ error });
+            return null
         }
     }
 
@@ -92,6 +201,7 @@ module.exports = class UserService {
             return user;
         }
         catch (error) {
+            console.error({ error });
             return null;
         }
     }
@@ -103,7 +213,8 @@ module.exports = class UserService {
             if (!user) return null;
             return await this.updatePassword(user.id, newPassword);
         } catch (error) {
-            throw new Error(error);
+            console.error({ error });
+            return null
         }
     }
 }

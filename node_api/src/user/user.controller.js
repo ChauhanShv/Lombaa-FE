@@ -57,7 +57,7 @@ class UserController extends BaseController {
       const { password } = req.body;
       const updatedUser = await this.service.setPassword(user.id, password);
 
-      super.jsonRes({ res, code: 201, data: { success: true, message: "Password changed", metadata: { user: updatedUser } } });
+      super.jsonRes({ res, code: 200, data: { success: true, message: "Password changed", metadata: { user: updatedUser } } });
     } catch (error) {
       next(error);
     }
@@ -185,6 +185,134 @@ class UserController extends BaseController {
       next(error);
     }
   }
+
+  connectGoogle = async (req, res, next) => {
+    try {
+      validationResult(req).formatWith(validationErrorFormatter).throw();
+    } catch (error) {
+      return res.status(422).json(error.array({ onlyFirstError: true }));
+    }
+
+    try {
+      let { accessToken } = req.body;
+      let user = req.user;
+
+      const account = await this.authService.googleAuth(accessToken);
+
+      if (!account) {
+        const data = {
+          success: false,
+          error: {
+            code: 400401,
+            message: "Failed to connect to google",
+            messageDetail: "Google access token verification failed",
+          }
+        }
+        return super.jsonRes({ res, code: 400, data });
+      }
+
+      if (!await this.service.isGoogleAccountAvailable(account, user)) {
+        const data = {
+          success: false,
+          error: {
+            code: 400401,
+            message: "Google account is already in use",
+            messageDetail: "Google acount is resgistered to another account",
+          }
+        }
+        return super.jsonRes({ res, code: 400, data });
+      }
+
+      user = await this.service.connectGoogle(account, user);
+
+      if (!user) {
+        const data = {
+          success: false,
+          error: {
+            code: 400401,
+            message: "Failed to connect facebook",
+            messageDetail: "User not found",
+          }
+        }
+        return super.jsonRes({ res, code: 400, data });
+      }
+
+      const data = {
+        success: true,
+        message: "Google connected",
+        response: { token: jwtService.encode({ id: user.id }) },
+        metadata: { user: user },
+      }
+      return super.jsonRes({ res, code: 200, data });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+
+  connectFacebook = async (req, res, next) => {
+    try {
+      validationResult(req).formatWith(validationErrorFormatter).throw();
+    } catch (error) {
+      return res.status(422).json(error.array({ onlyFirstError: true }));
+    }
+
+    try {
+      let { accessToken } = req.body;
+      let user = req.user;
+
+      const account = await this.authService.facebookAuth(accessToken);
+
+      if (!account) {
+        const data = {
+          success: false,
+          error: {
+            code: 400401,
+            message: "Failed facebook login/connect",
+            messageDetail: "Facebook token verification failed",
+          }
+        }
+        return super.jsonRes({ res, code: 400, data });
+      }
+
+      if (!await this.service.isFacebookAccountAvailable(account, user)) {
+        const data = {
+          success: false,
+          error: {
+            code: 400401,
+            message: "Facebook account is already in use",
+            messageDetail: "Facebook acount is resgistered to another account",
+          }
+        }
+        return super.jsonRes({ res, code: 400, data });
+      }
+
+      user = await this.service.connectFacebook(account, user);
+
+      if (!user) {
+        const data = {
+          success: false,
+          error: {
+            code: 400401,
+            message: "Failed to connect facebook",
+            messageDetail: "User not found",
+          }
+        }
+        return super.jsonRes({ res, code: 400, data });
+      }
+
+      const data = {
+        success: true,
+        message: "Facebook connected",
+        response: { token: jwtService.encode({ id: user.id }) },
+        metadata: { user: user },
+      }
+      return super.jsonRes({ res, code: 200, data });
+    } catch (error) {
+      next(error);
+    }
+  }
+
 }
 
 module.exports = UserController;

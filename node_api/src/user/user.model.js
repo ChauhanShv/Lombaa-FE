@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize").service;
 
-class User extends Model {}
+class User extends Model { }
 
 User.init(
   {
@@ -91,6 +91,11 @@ User.init(
       defaultValue: 0,
     },
     isIdVerified: {
+      type: DataTypes.INTEGER(1),
+      allowNull: false,
+      defaultValue: 0,
+    },
+    isEmailVerified: {
       type: DataTypes.INTEGER(1),
       allowNull: false,
       defaultValue: 0,
