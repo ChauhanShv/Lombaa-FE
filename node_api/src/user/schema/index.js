@@ -1,7 +1,9 @@
-const setPassword = require("./set-password");
-const emailSchema = require("./email.schema");
-const phoneSchema = require("./phonenumber.schema");
-const activeSchema = require("./active.schema");
-const forgetPasswordSchema = require('./forgetPassword.schema')
+const setPassword = require("./schema.setPassword");
+const emailSchema = require("./schema.email");
+const phoneSchema = require("./schema.phonenumber");
+const activeSchema = require("./schema.active");
+const forgetPasswordSchema = require('./schema.forgetPassword');
+const connectGoogleSchema = require('./schema.connectGoogle');
+const connectFacebookSchema = require('./schema.connectFacebook');
 
-module.exports = { setPassword, emailSchema, phoneSchema, activeSchema, forgetPasswordSchema };
+module.exports = { setPassword, emailSchema, phoneSchema, activeSchema, forgetPasswordSchema, connectGoogleSchema, connectFacebookSchema };

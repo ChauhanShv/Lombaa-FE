@@ -55,7 +55,6 @@ class productController extends BaseController {
         };
       }
       if (filters.slug) {
-        console.log(filters.slug);
         where.slug = {
           [Op.like]: `%${filters.slug}%`,
         };

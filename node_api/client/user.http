@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3001/api
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIxOGQ2MGRiLTVhZDItNGRmOC1iMDc5LTUwMGI1ZjQ3YWNjMSIsImlhdCI6MTYzNDk5MTY4MywiZXhwIjoxNjM1MDc4MDgzfQ.stxSJDxVJbi9saIUysRa0ELEYCI5k1fCjmjOvBA4xKk
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkzNjliNDM1LTYwNGEtNDljYy1iODc5LTUzZDljZDU0MTc5MCIsImlhdCI6MTYzNTAwMjY1NSwiZXhwIjoxNjM1MDg5MDU1fQ.ehAIe3n0-Sni-ybGQOYoVhXw6Bz6P3ROP3wb2PYch84
 
 POST {{baseUrl}}/user HTTP/1.1
 content-type: application/json
@@ -25,7 +25,7 @@ content-type: application/json
 
 {
     "email": "test12@gmail.com",
-    "password": "123456"
+    "password": "12345678"
 }
 
 ###
@@ -34,12 +34,12 @@ POST {{baseUrl}}/auth/google HTTP/1.1
 content-type: application/json
 
 {
-    "accessToken": "ya29.a0ARrdaM_48eSMw6gqhX9HwfLML83giqgh7ZgNtH3l_w32fpPR4xyoQdryNgViaDcVnFHnEe_rrW6lTcmwWnKxoFhfOlpv1yb5IMaY45emP8JxzdvTviTgHdoscdxt9loh7v8TnqWlW2P_hLo_KIOFeOOKbUm6"
+    "accessToken": "ya29.a0ARrdaM-Md74xd2KoLUn3hWFbDroKzd0pFAFgNhy_oKmKDyLbA_MLngdrV4aai6cjxECB2wjw4pGMohLZ5B9OPgb36JYjCSdr76gaCnaWbQ5I7NplSiw5EmGcBDcgJ5BxpzlB4aK79h8DU4thlRKu96h9-KUi"
 }
 
 ###
 
-POST {{baseUrl}}/api/auth/facebook HTTP/1.1
+POST {{baseUrl}}/auth/facebook HTTP/1.1
 content-type: application/json
 
 {
@@ -54,7 +54,7 @@ x-access-token: {{token}}
 
 {
     "oldPassword": "123456",
-    "password": "12345678"
+    "password": "123456"
 }
 
 ###
@@ -73,7 +73,7 @@ content-type: application/json
 x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExYzdkMjFmLTBmZjAtNDNhZi1hNGZlLWRhYjkyOGE5ZTE4NiIsImlhdCI6MTYzNDg5NDkxMX0.YSI27gNC8a46ebJM9RtzEScjBzcxPEbxE098Zf97QGQ
 
 {
-    "email": "test123"
+    "email": "test12@gmail.com"
 }
 
 ###
@@ -115,4 +115,22 @@ content-type: application/json
 
 }
 
+###
 
+put {{baseUrl}}/user/facebook HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+
+{
+    "accessToken": "EAAEHM3oWBboBAC3EK278fKkiPFN7HD9OFAGyB3z6ZAyCioPtLm1vo86ZBTyKOvfZBiRyXlJRvlOUZAMWHPycixYlJtoceaJaedZCQiYGfDN6JZCntmLdBZB33UOU84fZCaeYzQMvZBcGwvZC0ZBoP2PqNreWfgBhLy5fNJIJIdIrWkOZBWJnKB8BuSRW7UVCHePzwYzjdbjZC7c1WZB1b0qeuNZCHgJgdgLrdQIhG0hzrnwk7VLqVuijEvdB2Wi"
+}
+
+###
+
+put {{baseUrl}}/user/google HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+
+{
+    "accessToken": "ya29.a0ARrdaM-Md74xd2KoLUn3hWFbDroKzd0pFAFgNhy_oKmKDyLbA_MLngdrV4aai6cjxECB2wjw4pGMohLZ5B9OPgb36JYjCSdr76gaCnaWbQ5I7NplSiw5EmGcBDcgJ5BxpzlB4aK79h8DU4thlRKu96h9-KUi"
+}

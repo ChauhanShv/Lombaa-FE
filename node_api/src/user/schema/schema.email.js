@@ -1,4 +1,5 @@
 const User = require("../user.model");
+
 module.exports = {
   email: {
     notEmpty: {

@@ -8,13 +8,14 @@ const axios = require("axios");
 
 const appRoot = require("app-root-path");
 class AuthService {
+
   async doAuth({ email, password }) {
     const dbUser = await User.findOne({ where: { email: email } });
 
     if (!dbUser) return false;
     const passwordMatch = await bcrypt.compare(password, dbUser.password);
-    if (passwordMatch) return dbUser;
-    else return false;
+    if (!passwordMatch) return false;
+    return dbUser;
   }
 
   async googleAuth(accessToken) {
