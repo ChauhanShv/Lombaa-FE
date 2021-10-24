@@ -5,10 +5,10 @@ POST {{baseUrl}}/user HTTP/1.1
 content-type: application/json
 
 {
-    "email": "viveko@gmail.com",
-    "password": "test1",
-    "name": "vivek",
-    "phoneNumber": "7085769556",
+    "email": "test12@gmail.com",
+    "password": "123456",
+    "name": "test",
+    "phoneNumber": "6655443322",
     "accountType": "standard",
     "lattitude": "",
     "longitude": "",
@@ -24,8 +24,8 @@ POST {{baseUrl}}/auth HTTP/1.1
 content-type: application/json
 
 {
-    "email": "test1@gmail.com",
-    "password": "test1"
+    "email": "test12@gmail.com",
+    "password": "12345678"
 }
 
 ###
@@ -34,12 +34,12 @@ POST {{baseUrl}}/auth/google HTTP/1.1
 content-type: application/json
 
 {
-    "accessToken": "ya29.a0ARrdaM_48eSMw6gqhX9HwfLML83giqgh7ZgNtH3l_w32fpPR4xyoQdryNgViaDcVnFHnEe_rrW6lTcmwWnKxoFhfOlpv1yb5IMaY45emP8JxzdvTviTgHdoscdxt9loh7v8TnqWlW2P_hLo_KIOFeOOKbUm6"
+    "accessToken": "ya29.a0ARrdaM-Md74xd2KoLUn3hWFbDroKzd0pFAFgNhy_oKmKDyLbA_MLngdrV4aai6cjxECB2wjw4pGMohLZ5B9OPgb36JYjCSdr76gaCnaWbQ5I7NplSiw5EmGcBDcgJ5BxpzlB4aK79h8DU4thlRKu96h9-KUi"
 }
 
 ###
 
-POST {{baseUrl}}/api/auth/facebook HTTP/1.1
+POST {{baseUrl}}/auth/facebook HTTP/1.1
 content-type: application/json
 
 {
@@ -70,10 +70,20 @@ GET https://graph.facebook.com/me?access_token=EAAEHM3oWBboBAP9jUK9B7KuQZBndXr7p
 
 put {{baseUrl}}/user/email HTTP/1.1
 content-type: application/json
-x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExYzdkMjFmLTBmZjAtNDNhZi1hNGZlLWRhYjkyOGE5ZTE4NiIsImlhdCI6MTYzNDg5NDkxMX0.YSI27gNC8a46ebJM9RtzEScjBzcxPEbxE098Zf97QGQ
+x-access-token: {{token}}
 
 {
-    "email": "test123"
+    "email": "newtest1212@gmail.com"
+}
+
+###
+
+POST {{baseUrl}}/user/email HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MzQxMjU4LWFhYjktNDlkZi1iM2JhLTZlZjY0YTg2YmQ0MiIsImVtYWlsIjoibmV3dGVzdDEyMTJAZ21haWwuY29tIiwiaWF0IjoxNjM1MDI5ODg0LCJleHAiOjE2MzUwMzM0ODR9.93TdfoxW5fA_dOWffZHLRWCbuW0lKs14xAbmueO8pDk"
 }
 
 ###
@@ -92,12 +102,12 @@ post {{baseUrl}}/user/password/forget HTTP/1.1
 content-type: application/json
 
 {
-    "email": "mufaddal23@k.co"
+    "email": "newtest@gmail.com"
 }
 
 ###
 
-get {{baseUrl}}/user/password/reset/verify-token/ HTTP/1.1
+get {{baseUrl}}/user/password/reset/verify-token HTTP/1.1
 content-type: application/json
 
 {
@@ -112,7 +122,16 @@ content-type: application/json
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBlZTE2ZGU3LTk2NmYtNDc1Yy05YjQyLWQ5ZTU5YjVlYTQzMyIsImlhdCI6MTYzNDk0MDc4MCwiZXhwIjoxNjM0OTQ0MzgwfQ.yxnvs3ksqVpnyKqUBNPLWSVriejYjjuZ6q48pOtdiRA",
     "newPassword": "123456"
+}
 
+###
+
+put {{baseUrl}}/user/facebook HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+
+{
+    "accessToken": "EAAEHM3oWBboBAC3EK278fKkiPFN7HD9OFAGyB3z6ZAyCioPtLm1vo86ZBTyKOvfZBiRyXlJRvlOUZAMWHPycixYlJtoceaJaedZCQiYGfDN6JZCntmLdBZB33UOU84fZCaeYzQMvZBcGwvZC0ZBoP2PqNreWfgBhLy5fNJIJIdIrWkOZBWJnKB8BuSRW7UVCHePzwYzjdbjZC7c1WZB1b0qeuNZCHgJgdgLrdQIhG0hzrnwk7VLqVuijEvdB2Wi"
 }
 
 ###
@@ -141,3 +160,10 @@ x-access-token : {{token}}
 
 
 
+put {{baseUrl}}/user/google HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+
+{
+    "accessToken": "ya29.a0ARrdaM-Md74xd2KoLUn3hWFbDroKzd0pFAFgNhy_oKmKDyLbA_MLngdrV4aai6cjxECB2wjw4pGMohLZ5B9OPgb36JYjCSdr76gaCnaWbQ5I7NplSiw5EmGcBDcgJ5BxpzlB4aK79h8DU4thlRKu96h9-KUi"
+}

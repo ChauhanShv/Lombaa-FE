@@ -1,6 +1,6 @@
 import React from 'react';
 import {Row, Col, Container, InputGroup, FormControl,} from 'react-bootstrap';
-import { FaBookmark, FaCommentDots, FaBell, FaList, FaSearch } from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa';
 import './home-page.css';
 
 export const HomePage: React.FC = (): React.ReactElement => {
