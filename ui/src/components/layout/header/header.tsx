@@ -1,16 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {FaBookmark, FaCommentDots, FaBell, FaList, FaSearch } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { useAppContext } from '../../../contexts';
+import { useAxios } from '../../../services/base-service';
+import { useAppContext, ActionTypes } from '../../../contexts';
 import { Login, Register } from '../../modals';
 import './header.css';
 import logo from './logo.svg';
 
 export const Header: React.FC = (): React.ReactElement => {
-    const { state } = useAppContext();
+    const { state, dispatch } = useAppContext();
     const { isLoggedIn } = state;
     const [loginModal, setLoginModal] = useState<boolean>(false);
     const [registerModal, setRegisterModal] = useState<boolean>(false);
+    const [{ data: response }, refetch] = useAxios({
+        url: '/user/isActive',
+        method: 'GET',
+    });
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            refetch();
+        }
+    }, []);
+    useEffect(() => {
+        if (response?.success) {
+            dispatch({
+                type: ActionTypes.IS_ACTIVE,
+                payload: {
+                    user: response?.response?.user,
+                }
+            });
+        }
+    }, [response]);
 
     return (
         <>
@@ -66,10 +87,7 @@ export const Header: React.FC = (): React.ReactElement => {
                     <a className="dropdown-item" href="#">Sign Out</a>
                     </div>
                 </div>
-                
                     <a className="nav-link px-4 bg-primary rounded ms-3 text-white d-none d-lg-flex" href="#">+ Sell</a>
-                
-
                 </div>
             </div>
             </nav>

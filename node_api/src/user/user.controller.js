@@ -330,6 +330,24 @@ class UserController extends BaseController {
     }
   }
 
+  isActive = async (req, res, next) => {
+    try {
+      const user = req.user;
+      const data = {
+        success: true,
+        message: "User is active",
+        response: { user },
+      }
+      super.jsonRes({ res, code: 200, data });
+    } catch (error) {
+      return super.jsonRes({
+        res,
+        code: 401,
+        data: { message: "Invalid user" },
+      });
+    }
+  };
+
 }
 
 module.exports = UserController;

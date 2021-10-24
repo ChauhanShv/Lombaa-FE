@@ -14,7 +14,7 @@ axios.interceptors.request.use(
         const token = localStorage.getItem("token");
         if (token) {
             config.headers = {
-                authorization: `Bearer ${token}`
+                'x-access-token': `Bearer ${token}`
             };
         }
         return config;
@@ -35,8 +35,14 @@ axios.interceptors.response.use(
     }
 );
 
+const token = localStorage.getItem("token");
 export const useAxios = makeUseAxios({
-    axios: axios.create({ baseURL: `${BACKEND_HOST}:${BACKEND_PORT}/api` }),
+    axios: axios.create({
+        baseURL: `${BACKEND_HOST}:${BACKEND_PORT}/api`,
+        headers: {
+            'x-access-token': `${token}`,
+        }
+    }),
     defaultOptions: {
         manual: true,
     }
