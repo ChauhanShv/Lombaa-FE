@@ -31,5 +31,6 @@ module.exports = () => {
     router.put("/facebook", checkSchema(connectFacebookSchema), authMiddleware, controller.connectFacebook);
     router.put("/google", checkSchema(connectGoogleSchema), authMiddleware, controller.connectGoogle);
 
+    router.get("/isActive", authMiddleware, controller.isActive);
     return router;
 };

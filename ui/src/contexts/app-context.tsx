@@ -9,7 +9,7 @@ import {
 
 const AppContext = React.createContext<
   {state: State; dispatch: Dispatch} | undefined
->(undefined)
+>(undefined);
 
 function appReducer(state: State, action: Action) {
   const { type, payload } = action;
@@ -17,9 +17,15 @@ function appReducer(state: State, action: Action) {
     case ActionTypes.LOGIN:
       return {
         ...state,
+        user: payload?.user,
+        token: payload?.token,
         isLoggedIn: true,
       }
-      
+    case ActionTypes.IS_ACTIVE:
+      return {
+        ...state,
+        user: { ...payload?.user },
+      }      
     case ActionTypes.LOGOUT:
       return {
         ...state,
@@ -33,7 +39,7 @@ function appReducer(state: State, action: Action) {
 
 const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const isLoggedIn: boolean = !!localStorage.getItem('token');
-  const [state, dispatch] = React.useReducer(appReducer, { isLoggedIn })
+  const [state, dispatch] = React.useReducer(appReducer, { isLoggedIn });
   const value = { state, dispatch };
   return (
     <AppContext.Provider value={value}>

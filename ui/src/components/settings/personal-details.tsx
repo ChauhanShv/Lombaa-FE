@@ -11,8 +11,11 @@ import {
     FaGoogle,
     FaFacebook
 } from 'react-icons/fa';
+import { useAppContext } from '../../contexts';
 
 export const PersonalPetails: React.FC = (): React.ReactElement => {
+    const { state } = useAppContext();
+    console.log('abhi', state);
     return (
         <Card>
             <Card.Header className="d-flex align-items-center justify-content-between bg-white">
@@ -20,7 +23,7 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                 <button className="btn btn-success">Save</button>
             </Card.Header>
             <div className="card-content col-md-8 mx-auto">
-                <div className="details-form p-5">
+                <div className="details-form p-3">
                     <p className="text-center">
                         <Image src="https://dummyimage.com/100/007bff/efefef" roundedCircle />
                     </p>
