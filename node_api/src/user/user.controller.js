@@ -39,7 +39,7 @@ class UserController extends BaseController {
       const token = jwtService.encode({ id: newUser.id });
 
       const data = { success: true, message: "User created successfully.", response: { token }, metadata: { user: newUser } };
-      super.jsonRes({ res, code: 200, data: responseFormatter.format(data) });
+      return super.jsonRes({ res, code: 200, data: responseFormatter.format(data) });
     } catch (err) {
       next(err);
     }
@@ -57,7 +57,7 @@ class UserController extends BaseController {
       const { password } = req.body;
       const updatedUser = await this.service.setPassword(user.id, password);
 
-      super.jsonRes({ res, code: 200, data: { success: true, message: "Password changed", metadata: { user: updatedUser } } });
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Password changed", metadata: { user: updatedUser } } });
     } catch (error) {
       next(error);
     }
@@ -95,7 +95,7 @@ class UserController extends BaseController {
     }
   };
 
-  updateEmail = async (req, res, next) => {
+  changeEmail = async (req, res, next) => {
     try {
       validationResult(req).formatWith(validationErrorFormatter).throw();
     } catch (error) {
@@ -103,15 +103,32 @@ class UserController extends BaseController {
     }
 
     try {
-      const { email } = req.body;
-      const user = req.user;
 
-      await model.update({ email }, { where: { id: user.id } });
-      return super.jsonRes({ res, code: 200, data: { success: true, message: `Verification mail is sent at ${email}` } });
+      const { email } = req.body;
+      const user = req.user
+
+      if (!await this.service.requestChangeEmail(email, user))
+        return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to request change email address" } });
+
+      return super.jsonRes({ res, code: 200, data: { success: true, message: `Email Verification is sent at ${email}` } });
     } catch (error) {
       return next(error);
     }
   };
+
+  verifyEmail = async (req, res, next) => {
+    const { token } = req.body;
+
+    let user = await this.service.verifyEmailVerificationToken(token);
+    if (!user)
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Email verification failed", messageDetail: "Token verification failed" } });
+
+    user = await this.service.markEmailVerified(user);
+    if (!user)
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Email verification failed", messageDetail: "Failed to update verified status" } });
+
+    return super.jsonRes({ res, code: 200, data: { success: true, message: "Email verified" } });
+  }
 
   updatePhone = async (req, res, next) => {
     try {
@@ -312,6 +329,24 @@ class UserController extends BaseController {
       next(error);
     }
   }
+
+  isActive = async (req, res, next) => {
+    try {
+      const user = req.user;
+      const data = {
+        success: true,
+        message: "User is active",
+        response: { user },
+      }
+      super.jsonRes({ res, code: 200, data });
+    } catch (error) {
+      return super.jsonRes({
+        res,
+        code: 401,
+        data: { message: "Invalid user" },
+      });
+    }
+  };
 
 }
 

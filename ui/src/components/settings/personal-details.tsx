@@ -12,8 +12,11 @@ import {
     FaGoogle,
     FaFacebook
 } from 'react-icons/fa';
+import { useAppContext } from '../../contexts';
 
 export const PersonalPetails: React.FC = (): React.ReactElement => {
+    const { state } = useAppContext();
+    console.log('abhi', state);
     return (
         <Card>
             <Card.Header className="d-flex align-items-center justify-content-between bg-white">

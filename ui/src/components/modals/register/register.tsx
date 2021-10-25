@@ -5,6 +5,8 @@ import { Form, FloatingLabel, Button } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import { isEmpty } from 'lodash';
+import { COMMON_ERROR_MESSAGE} from '../../../constants';
 import { RegisterProps, FormFields, AccountType } from './types';
 import { PASSWORD_REGEX, NAME_MIN_LENGTH } from '../../../constants';
 import { useAxios } from '../../../services/base-service';
@@ -25,19 +27,19 @@ export const Register: React.FC<RegisterProps> = ({
     openLogin,
     onClose,
 }: RegisterProps): React.ReactElement => {
-    const { register, handleSubmit, getValues, formState: { isValid, errors } } = useForm<FormFields>({
+    const { register, handleSubmit, getValues, formState: { errors } } = useForm<FormFields>({
         resolver: yupResolver(schema),
     });
     const [selectedAccountType, setSelectedAccountType] = useState<AccountType>();
     const { dispatch } = useAppContext();
     const [{ data: response, loading, error: apiError }, execute] = useAxios({
-        url: '/auth1',
+        url: '/user',
         method: 'POST',
     });
 
     useEffect(() => {
-        if (response?.token) {
-            localStorage.setItem("token", response.token);
+        if (response?.success) {
+            localStorage.setItem("token", response.response.token);
             dispatch({
                 type: ActionTypes.LOGIN,
             });
@@ -79,6 +81,7 @@ export const Register: React.FC<RegisterProps> = ({
                             {...register("tin")}
                             placeholder="TIN number"
                             isValid={!!errors.tin}
+                            className={getErrorClassName('tin')}
                         />
                         {getErrorText('tin')}
                     </FloatingLabel>
@@ -89,6 +92,7 @@ export const Register: React.FC<RegisterProps> = ({
                             {...register("businessName")}
                             placeholder="Legal business name"
                             isValid={!!errors.businessName}
+                            className={getErrorClassName('businessName')}
                         />
                         {getErrorText('businessName')}
                     </FloatingLabel>
@@ -99,6 +103,7 @@ export const Register: React.FC<RegisterProps> = ({
                             {...register("phoneNumber")}
                             placeholder="Business phone number"
                             isValid={!!errors.phoneNumber}
+                            className={getErrorClassName('phoneNumber')}
                         />
                         {getErrorText('phoneNumber')}
                     </FloatingLabel>
@@ -114,8 +119,8 @@ export const Register: React.FC<RegisterProps> = ({
         return null;
     };
     const isFormValid = (formValues: any): boolean => {
-        if (!isValid) {
-            return isValid;
+        if (!isEmpty(errors)) {
+            return false;
         }
         if (formValues.accountType === AccountType.INDIVIDUAL) {
             if (!formValues.name || formValues.name.length < NAME_MIN_LENGTH) {
@@ -163,9 +168,7 @@ export const Register: React.FC<RegisterProps> = ({
                 errorMessages.name = {
                     message: 'Name is required',
                 };
-            }
-
-            if (formValues.name?.length < NAME_MIN_LENGTH) {
+            } else if (formValues.name?.length < NAME_MIN_LENGTH) {
                 errorMessages.name = {
                     message: 'Name is invalid',
                 };
@@ -176,9 +179,7 @@ export const Register: React.FC<RegisterProps> = ({
                 errorMessages.businessName = {
                     message: 'Busines name is required',
                 };
-            }
-
-            if (formValues.businessName?.length < NAME_MIN_LENGTH) {
+            } else if (formValues.businessName?.length < NAME_MIN_LENGTH) {
                 errorMessages.businessName = {
                     message: 'Busines name is invalid',
                 };
@@ -195,6 +196,13 @@ export const Register: React.FC<RegisterProps> = ({
         return null;
     };
 
+    const getErrorClassName = (field: string): string => {
+        const errorMessages: any = {
+            ...errors
+        };
+        return errorMessages[field] ? 'is-invalid' : '';
+    };
+
     return (
         <Modal show={show} onHide={onClose}>
             <div className="log-reg-pop">
@@ -203,7 +211,7 @@ export const Register: React.FC<RegisterProps> = ({
                         <p className="ml-3"><strong>Create your account!</strong></p>
                         {apiError && (
                             <Alert variant="danger">
-                                Something went wrong.
+                                {COMMON_ERROR_MESSAGE}
                             </Alert>
                         )}
                         <Form onSubmit={handleFormSubmit} noValidate>                   
@@ -213,7 +221,7 @@ export const Register: React.FC<RegisterProps> = ({
                                     type="email"
                                     placeholder="Your Email"
                                     isValid={!!errors.email}
-                                    className="is-invalid"
+                                    className={getErrorClassName('email')}
                                 />
                                 {getErrorText('email')}
                             </FloatingLabel>
@@ -223,6 +231,7 @@ export const Register: React.FC<RegisterProps> = ({
                                     type="password"
                                     placeholder="Password"
                                     isValid={!!errors.password}
+                                    className={getErrorClassName('password')}
                                 />
                                 {getErrorText('Password')}
                             </FloatingLabel>
@@ -237,16 +246,18 @@ export const Register: React.FC<RegisterProps> = ({
                                     {...register("accountType")}
                                     onChange={() => setSelectedAccountType(AccountType.INDIVIDUAL)}
                                     isValid={!!errors.accountType}
+                                    className={getErrorClassName('accountType')}
                                 />
                                 <Form.Check
                                     label="Business"
                                     inline
                                     type="radio"
-                                    value={AccountType.INDIVIDUAL}
-                                    checked={selectedAccountType === AccountType.INDIVIDUAL}
+                                    value={AccountType.BUSINESS}
+                                    checked={selectedAccountType === AccountType.BUSINESS}
                                     {...register("accountType")}
-                                    onChange={() => setSelectedAccountType(AccountType.INDIVIDUAL)}
+                                    onChange={() => setSelectedAccountType(AccountType.BUSINESS)}
                                     isValid={!!errors.accountType}
+                                    className={getErrorClassName('accountType')}
                                 />
                                 {getErrorText('accountType')}
                             </div>

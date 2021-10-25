@@ -14,10 +14,10 @@ export const Footer: React.FC = () => {
                         <p className="lead  text-light mb-5">Buy and sell quickly, safely and locally! find just about anything using the app on your mobile.</p>
                         <div className="row col-md-9 mx-auto">
                         <div className="col-6">
-                        <a href="#"><img className="mw-100" src="images/appstore.png"/></a>
+                        <a href="#"><img className="mw-100" src="/images/appstore.png"/></a>
                         </div>
                         <div className="col-6">
-                            <a href="#"><img className="mw-100" src="images/googleplay.png"/></a>
+                            <a href="#"><img className="mw-100" src="/images/googleplay.png"/></a>
                         </div>
                         </div>
                     
