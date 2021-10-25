@@ -347,6 +347,29 @@ class UserController extends BaseController {
       });
     }
   };
+  updateUser = async(req,res,next)=>{
+    try {
+      validationResult(req).formatWith(validationErrorFormatter).throw();
+    } catch (error) {
+      return res.status(422).json(error.array({ onlyFirstError: true }));
+    }
+    try{
+    const body = req.body
+    const user = req.user
+    const updateUser = await model.update({
+      name : body.name,
+      location : body.location,birthday : body.birthday,sex : body.sex},{where : {id : user.id }})
+      const data = {
+        success : true,
+        message : "user updated successfully"
+      }
+      super.jsonRes({res, code : 200, data})
+  } catch(error){
+    next(error)
+
+  }
+}
+
 
 }
 

@@ -5,5 +5,5 @@ const activeSchema = require("./schema.active");
 const forgetPasswordSchema = require('./schema.forgetPassword');
 const connectGoogleSchema = require('./schema.connectGoogle');
 const connectFacebookSchema = require('./schema.connectFacebook');
-
-module.exports = { setPassword, emailSchema, phoneSchema, activeSchema, forgetPasswordSchema, connectGoogleSchema, connectFacebookSchema };
+const updateUser = require('./schema.updateUser')
+module.exports = { setPassword, emailSchema, phoneSchema, activeSchema, forgetPasswordSchema, connectGoogleSchema, connectFacebookSchema,updateUser };
