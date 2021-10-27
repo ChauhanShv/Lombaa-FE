@@ -1,3 +1,13 @@
+export interface PersonalDetailsProps {
+    show: boolean,
+    onClose: Function,
+};
+
+export interface ImageModalProps {
+    image: any,
+    show: boolean,
+    onClose: Function,
+};
 export interface ChangePhoneFormFeilds {
     phoneNumber: string,
 };
