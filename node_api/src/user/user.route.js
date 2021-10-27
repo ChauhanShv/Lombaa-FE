@@ -6,7 +6,8 @@ const {
     setPassword: setPasswordSchema, activeSchema,
     phoneSchema, emailSchema,
     forgetPasswordSchema, connectGoogleSchema,
-    connectFacebookSchema,updateUser
+    connectFacebookSchema,
+    updateSchema
 } = require("./schema");
 const authMiddleware = require("../auth/auth.middleware");
 
@@ -33,6 +34,6 @@ module.exports = () => {
 
     router.get("/isActive", authMiddleware, controller.isActive);
 
-    router.post("/update",authMiddleware, checkSchema(updateUser) ,controller.updateUser)
+    router.post("/update", authMiddleware, checkSchema(updateSchema), controller.updateUser)
     return router;
 };
