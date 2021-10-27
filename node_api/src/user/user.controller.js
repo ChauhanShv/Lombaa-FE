@@ -68,8 +68,8 @@ class UserController extends BaseController {
       const user = req.user;
       const { status } = req.body;
 
-      await model.update({ isActive: status, where: { id: user.id } });
-      return super.jsonRes({ res, code: 200, data: { success: true, message: "Account deactivated" } });
+      await model.update({ isActive: status }, { where: { id: user.id } });
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Account status updated" } });
     } catch (error) {
       next(error)
     }
@@ -78,7 +78,9 @@ class UserController extends BaseController {
   deleteFacebook = async (req, res, next) => {
     try {
       const user = req.user;
-      await model.update({ isFacebookVerified: 0, where: { id: user.id } });
+
+      await model.update({ isFacebookVerified: 0, facebookId: null }, { where: { id: user.id } });
+
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Facebook disconnected" } });
     } catch (error) {
       next(error);
@@ -88,7 +90,7 @@ class UserController extends BaseController {
   deleteGoogle = async (req, res, next) => {
     try {
       const user = req.user;
-      await model.update({ isGoogleVerified: 0, where: { id: user.id } });
+      await model.update({ isGoogleVerified: 0, googleId: null }, { where: { id: user.id } });
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Google disconnected" } });
     } catch {
       next(error);
@@ -103,7 +105,6 @@ class UserController extends BaseController {
     }
 
     try {
-
       const { email } = req.body;
       const user = req.user
 
@@ -348,6 +349,34 @@ class UserController extends BaseController {
     }
   };
 
+  updateUser = async (req, res, next) => {
+    try {
+      validationResult(req).formatWith(validationErrorFormatter).throw();
+    } catch (error) {
+      return res.status(422).json(error.array({ onlyFirstError: true }));
+    }
+
+    try {
+      const { name, location, birthday, sex } = req.body;
+      const user = req.user;
+
+      user.name = name;
+      user.location = location;
+      user.birthday = birthday;
+      user.sex = sex;
+
+      const dUser = await user.save();
+
+      const data = {
+        success: true,
+        message: "User updated",
+        metadata: { user: dUser }
+      }
+      super.jsonRes({ res, code: 200, data })
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = UserController;

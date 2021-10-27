@@ -24,7 +24,7 @@ class AuthController extends BaseController {
         try {
             let user = req.body;
 
-            const authUser = await this.service.doAuth({ email: user.email, password: user.password });
+            const authUser = await this.service.doAuth({ email: user.email, password: user.password });   
             if (authUser) {
                 const data = {
                     success: true,
