@@ -365,8 +365,11 @@ class UserController extends BaseController {
       }
       super.jsonRes({res, code : 200, data})
   } catch(error){
-    next(error)
-
+    const data = {
+      success : false,
+      message : "something went wrong"
+    }
+    super.jsonRes({res,code : 401,data})
   }
 }
 
