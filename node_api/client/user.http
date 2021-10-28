@@ -1,14 +1,17 @@
 @baseUrl = http://localhost:3001/api
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjkzNjliNDM1LTYwNGEtNDljYy1iODc5LTUzZDljZDU0MTc5MCIsImlhdCI6MTYzNTAwMjY1NSwiZXhwIjoxNjM1MDg5MDU1fQ.ehAIe3n0-Sni-ybGQOYoVhXw6Bz6P3ROP3wb2PYch84
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBjM2YzYzcxLTA0ZTAtNDNkOC1hMDg4LWE3MjExODRkNmVkMSIsImlhdCI6MTYzNTM1NTM1NiwiZXhwIjoxNjM1NDQxNzU2fQ.l1qQFDDwog9KyNRIL9xqastCtB_UVcSCM9JCxsddnXY
+
+
+### Crete new User
 
 POST {{baseUrl}}/user HTTP/1.1
 content-type: application/json
 
 {
-    "email": "test12@gmail.com",
+    "email": "vivek@datortech.com",
     "password": "123456",
     "name": "test",
-    "phoneNumber": "6655443322",
+    "phoneNumber": "8975847324",
     "accountType": "standard",
     "lattitude": "",
     "longitude": "",
@@ -24,8 +27,8 @@ POST {{baseUrl}}/auth HTTP/1.1
 content-type: application/json
 
 {
-    "email": "test12@gmail.com",
-    "password": "12345678"
+    "email": "vivek@datortech.com",
+    "password": "123456"
 }
 
 ###
@@ -68,7 +71,7 @@ GET https://graph.facebook.com/me?access_token=EAAEHM3oWBboBAP9jUK9B7KuQZBndXr7p
 
 ###
 
-put {{baseUrl}}/user/email HTTP/1.1
+PUT {{baseUrl}}/user/email HTTP/1.1
 content-type: application/json
 x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExYzdkMjFmLTBmZjAtNDNhZi1hNGZlLWRhYjkyOGE5ZTE4NiIsImlhdCI6MTYzNDg5NDkxMX0.YSI27gNC8a46ebJM9RtzEScjBzcxPEbxE098Zf97QGQ
 
@@ -78,9 +81,9 @@ x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExYzdkMjFmLTBmZjA
 
 ###
 
-put {{baseUrl}}/user/phone HTTP/1.1
+PUT {{baseUrl}}/user/phone HTTP/1.1
 content-type: application/json
-x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExYzdkMjFmLTBmZjAtNDNhZi1hNGZlLWRhYjkyOGE5ZTE4NiIsImlhdCI6MTYzNDg5NDkxMX0.YSI27gNC8a46ebJM9RtzEScjBzcxPEbxE098Zf97QGQ
+x-access-token: {{token}}
 
 {
     "phone": "7083769223"
@@ -88,7 +91,7 @@ x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjExYzdkMjFmLTBmZjA
 
 ###
 
-post {{baseUrl}}/user/password/forget HTTP/1.1
+POST {{baseUrl}}/user/password/forget HTTP/1.1
 content-type: application/json
 
 {
@@ -97,7 +100,7 @@ content-type: application/json
 
 ###
 
-get {{baseUrl}}/user/password/reset/verify-token/ HTTP/1.1
+GET {{baseUrl}}/user/password/reset/verify-token HTTP/1.1
 content-type: application/json
 
 {
@@ -106,7 +109,7 @@ content-type: application/json
 
 ###
 
-put {{baseUrl}}/user/password/reset HTTP/1.1
+PUT {{baseUrl}}/user/password/reset HTTP/1.1
 content-type: application/json
 
 {
@@ -117,7 +120,7 @@ content-type: application/json
 
 ###
 
-put {{baseUrl}}/user/facebook HTTP/1.1
+PUT {{baseUrl}}/user/facebook HTTP/1.1
 content-type: application/json
 x-access-token: {{token}}
 
@@ -127,10 +130,46 @@ x-access-token: {{token}}
 
 ###
 
-put {{baseUrl}}/user/google HTTP/1.1
+PUT {{baseUrl}}/user/active HTTP/1.1
+content-type: application/json
+x-access-token : {{token}}
+
+
+{
+    "status": 1
+}
+
+###
+
+DELETE {{baseUrl}}/user/facebook HTTP/1.1
+content-type: application/json
+x-access-token : {{token}}
+
+###
+
+DELETE {{baseUrl}}/user/google HTTP/1.1
+content-type: application/json
+x-access-token : {{token}}
+
+###
+
+PUT {{baseUrl}}/user/google HTTP/1.1
 content-type: application/json
 x-access-token: {{token}}
 
 {
     "accessToken": "ya29.a0ARrdaM-Md74xd2KoLUn3hWFbDroKzd0pFAFgNhy_oKmKDyLbA_MLngdrV4aai6cjxECB2wjw4pGMohLZ5B9OPgb36JYjCSdr76gaCnaWbQ5I7NplSiw5EmGcBDcgJ5BxpzlB4aK79h8DU4thlRKu96h9-KUi"
+}
+
+###
+
+POST {{baseUrl}}/user/update HTTP/1.1
+Content-Type: application/json
+x-access-token : {{token}}
+
+{
+    "name" : "Vivek Yadav",
+    "location" : 5346,
+    "birthday" : null,
+    "sex" : "male"
 }
