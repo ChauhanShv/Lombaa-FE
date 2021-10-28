@@ -25,6 +25,8 @@ Route::post('/', [LoginController::class, 'login']);
 
 Route::get('/user', [UserController::class, 'user'])->name('user');
 
+Route::get('/user/{id}', [userController::class, 'info'])->name('info');
+
 
 
 

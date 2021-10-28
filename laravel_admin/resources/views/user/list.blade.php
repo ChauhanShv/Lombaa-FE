@@ -6,6 +6,7 @@
 
 @if (session('response')) 
 @if (session('response.status') == 'success')
+
 <div class="alert alert-success">
     @else
     <div class="alert alert-error">
@@ -14,6 +15,9 @@
         {{ session('response.message') }}
     </div>
     @endif
+    <div>
+        {{$userlist->links('pagination::bootstrap-4')}}
+    </div>
   <div class="widget-box">
             <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
               <h5>Users List</h5>
@@ -33,7 +37,7 @@
                     <th>ID Verified</th>
                     <th>Email Verified</th>
                     <th>Premium</th>
-                    <th>Action</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
             <tbody>
@@ -43,23 +47,52 @@
                     <td style="text-align: center;">{{ $data->email }}</td>
                     <td style="text-align: center;">{{ $data->phoneNumber }}</td>
                     <td style="text-align: center;">{{ $data->accountType }}</td>
-                    <td style="text-align: center;">{{ $data->isFacebookVerified }}</td>
-                    <td style="text-align: center;">{{ $data->isGoogleVerified }}</td>
-                    <td style="text-align: center;">{{ $data->isPhoneVerified }}</td>
-                    <td style="text-align: center;">{{ $data->isSelfieVerified }}</td>
-                    <td style="text-align: center;">{{ $data->isIdVerified }}</td>
-                    <td style="text-align: center;">{{ $data->isEmailVerified }}</td>
+                    @if(($data->isFacebookVerified)==0)
+                    <td style="text-align: center;">Verified</td>
+                    @else
+                    <td style="text-align: center;">unverified</td>
+                    @endif
+                    @if(($data->isGoogleVerified)==0)
+                    <td style="text-align: center;">Verified</td>
+                    @else
+                    <td style="text-align: center;">unverified</td>
+                    @endif
+                    @if(($data->isPhoneVerified)==0)
+                    <td style="text-align: center;">Verified</td>
+                    @else
+                    <td style="text-align: center;">unverified</td>
+                    @endif
+                    @if(($data->isSelfieVerified)==0)
+                    <td style="text-align: center;">Verified</td>
+                    @else
+                    <td style="text-align: center;">unverified</td>
+                    @endif
+                    @if(($data->isIdVerified)==0)
+                    <td style="text-align: center;">Verified</td>
+                    @else
+                    <td style="text-align: center;">unverified</td>
+                    @endif
+                    @if(($data->isEmailVerified)==0)
+                    <td style="text-align: center;">Verified</td>
+                    @else
+                    <td style="text-align: center;">unverified</td>
+                    @endif
                     <td style="text-align: center;">{{ $data->isPremium }}</td>
+                    <td>
                     @if(($data->isSuspended)==0)
-                    <td> <a href="" onclick="return confirm('Do you want to suspend this user?');">
+                    <a href="" onclick="return confirm('Do you want to suspend this user?');">
                         <button class="btn btn-success" style="border-radius:6px; width:100px">Suspend</button>
-                    </a></td>
+                    </a>
                     @endif
                     @if(($data->isSuspended)==1)
-                    <td><a href="" onclick="return confirm('Do you want to unblock this user?');">
+                    <a href="" onclick="return confirm('Do you want to unblock this user?');">
                         <button class="btn btn-warning" style="border-radius:6px; width:100px">Suspended</button>
-                    </a></td>
-                    @endif
+                    </a>
+                    @endif  &nbsp&nbsp
+                        <a href="{{ url('user', $data->id) }}">
+                            <i class="icon icon-user" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                        </a>
+                    </td>
                 </tr>
                 @endforeach
                 @if ($errors->any())
@@ -72,13 +105,11 @@
                     </div>
                 @endif
             </tbody>
-            
-           
         </table>
     </div>
 
 </div>
-<div style="background-color: red">
+<div>
     {{$userlist->links('pagination::bootstrap-4')}}
 </div>
 
