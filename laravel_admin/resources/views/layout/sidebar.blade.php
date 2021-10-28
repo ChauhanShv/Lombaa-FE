@@ -104,6 +104,19 @@
         </li>
         <li class="submenu">
             <a href="">
+                <i class="icon icon-user"></i> <span>User</span>
+            </a>
+            <ul>
+                <li class="">
+                    <a href="#">Add</a>
+                </li>
+                <li class="">
+                    <a href="{{ route('user') }}">List</a>
+                </li>
+            </ul>
+        </li>
+        <li class="submenu">
+            <a href="">
                 <i class="icon icon-phone"></i> <span>Support</span>
             </a>
             <ul>
