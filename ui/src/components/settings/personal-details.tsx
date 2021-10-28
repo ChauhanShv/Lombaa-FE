@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './settings.css';
 import {
     Button,
@@ -11,12 +11,13 @@ import {
     Modal,
     Spinner,
 } from 'react-bootstrap';
+import ToggleButton from 'react-bootstrap/ToggleButton';
 import {
     FaChevronLeft,
     FaGoogle,
     FaFacebook
 } from 'react-icons/fa';
-import ReactCrop from 'react-image-crop';
+import ReactCrop, { Crop } from 'react-image-crop';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -26,13 +27,15 @@ import { useAxios } from '../../services/base-service';
 import 'react-image-crop/dist/ReactCrop.css';
 import { getAPIErrorMessage } from '../../utils';
 import { PersonalDetailsProps, ImageModalProps } from './types';
+import { AiOutlineEdit } from 'react-icons/ai';
+import './settings.css';
 
 const schema = yup.object().shape({
     name: yup.string(),
     location: yup.string(),
     birthday: yup.string(),
     sex: yup.string(),
-});
+}).required();
 
 export interface AlertType {
     variant?: string;
@@ -40,11 +43,49 @@ export interface AlertType {
 };
 
 export const ImageCropModal: React.FC<ImageModalProps> = ({onClose, show, image}: ImageModalProps): React.ReactElement => {
-    const [crop, setCrop] = useState<Object>({aspect: 16/9});
+    const [crop, setCrop] = useState<Crop>({x: 0, y: 0, width: 0, height: 0, unit: 'px', aspect: 16/9});
+    const [completedCrop, setCompletedCrop] = useState<Crop>({x: 0, y: 0, width: 0, height: 0, unit: 'px'});
+    const imgRef = useRef<any>(image);
+    const previewCanvasRef = useRef<any>(null);
     const handleOnCrop = (crop: any) => {
-        console.log(crop);
+        // console.log(crop);
         setCrop({crop});
     };
+    useEffect(() => {
+        if (!completedCrop || !previewCanvasRef.current || !imgRef.current) {
+          return;
+        }
+
+        console.log('completed crop', completedCrop, previewCanvasRef.current, imgRef.current);
+    
+        const image = imgRef.current;
+        const canvas = previewCanvasRef.current;
+        const crop = completedCrop;
+    
+        const scaleX: any = image.naturalWidth / image.width;
+        const scaleY: any = image.naturalHeight / image.height;
+        const ctx = canvas.getContext('2d');
+        const pixelRatio = window.devicePixelRatio;
+    
+        canvas.width = crop.width * pixelRatio * scaleX;
+        canvas.height = crop.height * pixelRatio * scaleY;
+    
+        ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+        ctx.imageSmoothingQuality = 'high';
+    
+        // ctx.drawImage(
+        //   image,
+        //   crop.x * scaleX,
+        //   crop.y * scaleY,
+        //   crop.width * scaleX,
+        //   crop.height * scaleY,
+        //   0,
+        //   0,
+        //   crop.width * scaleX,
+        //   crop.height * scaleY
+        // );
+      }, [completedCrop]);
+    
     return(
         <Modal md={12} show={show} onHide={onClose}>
             <Modal.Dialog>
@@ -53,10 +94,21 @@ export const ImageCropModal: React.FC<ImageModalProps> = ({onClose, show, image}
                 </Modal.Header>
                 <Modal.Body>
                     <ReactCrop
+                        ruleOfThirds
                         className='ReactCrop'
                         crop={crop} 
-                        src={ image }
-                        onChange={handleOnCrop} />
+                        src={image}
+                        onChange={handleOnCrop}
+                        onComplete={(c) => setCompletedCrop(c)}
+                    />
+                    <canvas
+                        ref={previewCanvasRef}
+                        // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
+                        style={{
+                            width: Math.round(completedCrop?.width ?? 0),
+                            height: Math.round(completedCrop?.height ?? 0)
+                        }}
+                    />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={() => onClose()}>Save Changes</Button>
@@ -71,7 +123,7 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
     const [alert, setAlert] = useState<AlertType>({});
     const [imageSrc, setImageSrc] = useState<string>('');
     const [openCropModal,setOpenCropModal] = useState<boolean>(false);
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
             name: state.user?.name,
@@ -84,9 +136,18 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
 
     //API Call Remaining
     const [{ data: response, loading, error: apiError }, execute] = useAxios({
-        url: '',
-        method: 'PUT',
+        url: '/user/update',
+        method: 'POST',
     });
+
+    useEffect(() => {
+        if(response?.success) {
+            setAlert({
+                variant: 'success',
+                message: response?.message || 'User Updated Successfully',
+            });
+        }
+    }, [response]);
 
     const onSubmit = (values: any) => {
         if (isEmpty(errors)) {
@@ -145,15 +206,17 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                 <Form onSubmit={handleFormSubmit} className="details-form p-3">
                     <p className="text-center">
                         <Image style={{width: '150px', height: '150px'}} src={imageSrc || "https://dummyimage.com/100/007bff/efefef"} roundedCircle />
+                        <Form.Group controlId="formFile" className="mb-3">
+                            <Form.Label className='profile-image-label'>
+                                <AiOutlineEdit className="upload-image" />
+                            </Form.Label>
+                            <Form.Control style={{display: 'none'}} type="file" onChange={handleImageUpload} />
+                        </Form.Group>
                     </p>
                     {openCropModal && <ImageCropModal show={openCropModal} image={imageSrc} onClose={() => {setOpenCropModal(false)}} />}
-                    <Form.Group controlId="formFile" className="mb-3">
-                        <Form.Label>Upload your Profile Photo Here</Form.Label>
-                        <Form.Control type="file" onChange={handleImageUpload} />
-                    </Form.Group>
                     {(apiError || alert.message) && (
                             <Alert variant={alert.message ? 'success' : 'danger'} onClose={() => setAlert({})} dismissible>
-                                {/* {alert.message || getAPIErrorMessage(apiError)} */}
+                                {alert.message || getAPIErrorMessage(apiError)}
                             </Alert>
                     )}
                     <FloatingLabel
@@ -185,18 +248,33 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                     </FloatingLabel>
                     <FloatingLabel controlId="floatingSelect" label="Sex" className="mb-3">
                         <Form.Select {...register('sex')} aria-label="Floating label select example">
-                            <option value="1">Do Not Specify</option>
-                            <option value="2">Female</option>
-                            <option value="3">Male</option>
+                            <option>Do Not Specify</option>
+                            <option value="female">Female</option>
+                            <option value="male">Male</option>
                         </Form.Select>
                     </FloatingLabel>
                     <p className="mb-3"><strong>Connect your social media accounts for smoother experience!</strong></p>
                     <ListGroup as="ul" className="connectsocial mb-3">
                         <ListGroup.Item as="li">
-                            <span><FaGoogle />  Google</span> <span>Toogle switch</span>
+                            <span><FaGoogle />  Google</span>
+                            <span>
+                                <Form.Check
+                                    id='connect-google'
+                                    type="switch"
+                                    checked={state?.user?.isGoogleVerified ? true : false}
+                                    onChange={(e) => {e.preventDefault}}
+                                /> 
+                            </span>
                         </ListGroup.Item>
                         <ListGroup.Item as="li">
-                            <span><FaFacebook /> Facebook</span> <span>Toogle switch</span>
+                            <span><FaFacebook /> Facebook</span>
+                            <span>
+                                <Form.Check
+                                    id='connect-facebook'
+                                    type="switch"
+                                    checked={state?.user?.isFacebookVerified ? true : false}
+                                />
+                            </span>
                         </ListGroup.Item>
                     </ListGroup>
                     <Button type="submit" className="btn btn-success w-100">

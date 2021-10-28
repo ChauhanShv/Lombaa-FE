@@ -2,6 +2,7 @@ import React from 'react';;
 import { ListGroup, Card } from 'react-bootstrap';
 import { FaChevronLeft, FaChevronRight, } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import './settings.css';
 
 export const SideBar: React.FC = (): React.ReactElement => {
     return (
@@ -13,13 +14,13 @@ export const SideBar: React.FC = (): React.ReactElement => {
                 Settings
             </Card.Header>
             <ListGroup className="mb-3">
-                <Link to="/settings/personal-details">
+                <Link className="sidenav-link" to="/settings/personal-details">
                     <ListGroup.Item className="active py-3">
                         Personal details
                         <FaChevronRight />
                     </ListGroup.Item>
                 </Link>
-                <Link to="/settings/business-information">
+                <Link className="sidenav-link" to="/settings/business-information">
                     <ListGroup.Item className="py-3">
                         Business information
                         <FaChevronRight />
@@ -28,37 +29,37 @@ export const SideBar: React.FC = (): React.ReactElement => {
             </ListGroup>
 
             <ListGroup>
-                <Link to="/settings/personal-details">
+                <Link className="sidenav-link" to="/settings/personal-details">
                     <ListGroup.Item className="py-3">
                         Personal details
                         <FaChevronRight />
                     </ListGroup.Item>
                 </Link>
-                <Link to="/settings/business-information">
+                <Link className="sidenav-link" to="/settings/business-information">
                     <ListGroup.Item className=" py-3">
                         Business information
                         <FaChevronRight />
                     </ListGroup.Item>
                 </Link>
-                <Link to="/settings/change-password">
+                <Link className="sidenav-link" to="/settings/change-password">
                     <ListGroup.Item className="py-3" >
                         Change password
                         <FaChevronRight />
                     </ListGroup.Item>
                 </Link>
-                <Link to="/settings/change-email">
+                <Link className="sidenav-link" to="/settings/change-email">
                     <ListGroup.Item className=" py-3">
                         Change email
                         <FaChevronRight />
                     </ListGroup.Item>
                 </Link>
-                <Link to="/settings/change-phone">
+                <Link className="sidenav-link" to="/settings/change-phone">
                     <ListGroup.Item className=" py-3">
                         Change phone number
                         <FaChevronRight />
                     </ListGroup.Item>
                 </Link>
-                <Link to="/settings/deactivate-account">
+                <Link className="sidenav-link" to="/settings/deactivate-account">
                     <ListGroup.Item className=" py-3">
                         Deactivate account
                         <FaChevronRight />

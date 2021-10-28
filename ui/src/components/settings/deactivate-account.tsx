@@ -9,18 +9,12 @@ import {
 import {
     FaChevronLeft,
 } from 'react-icons/fa';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { useAxios } from '../../services/base-service';
 
 const schema = yup.object().shape({
 }).required();
 
 export const DeactivateAccount: React.FC = (): React.ReactElement => {
-    const { handleSubmit, formState: { isValid, errors } } = useForm({
-        resolver: yupResolver(schema),
-    });
     const [successAlert, setSuccessAlert] = useState<boolean>(false);
     const [failureAlert, setFailureAlert] = useState<boolean>(false);
     const [{data: response, loading, error: apiError}, execute] = useAxios({
@@ -29,9 +23,6 @@ export const DeactivateAccount: React.FC = (): React.ReactElement => {
     });
     const handleFormSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        handleSubmit(onSubmit)();
-    };
-    const onSubmit = () => {
         execute({
             data: {
             }
@@ -60,11 +51,11 @@ export const DeactivateAccount: React.FC = (): React.ReactElement => {
                 <span className="d-flex align-items-center "><button className="btn btn-white d-md-block d-lg-none"><FaChevronLeft /></button>Deactivate Account</span>
             </Card.Header>
             <Col className="card-content mx-auto">
-                <Form onSubmit={handleFormSubmit} className="details-form p-5">
+                <Form className="details-form p-5">
                     { successAlert && <DeactivateSuccessAlert /> }
                     { failureAlert && <DeactivateFailureAlert /> }
                     Click on the below button in order to Deactivate your account.
-                    <Button type="submit" className="btn btn-success w-100">Deactivate</Button>
+                    <Button onClick={handleFormSubmit} className="btn btn-success w-100">Deactivate</Button>
                 </Form>
             </Col>
         </Card>

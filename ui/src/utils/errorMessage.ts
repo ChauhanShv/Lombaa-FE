@@ -3,5 +3,7 @@ import { AxiosError } from 'axios';
 import { COMMON_ERROR_MESSAGE } from '../constants';
 
 export const getAPIErrorMessage = (error: AxiosError): string => {
-    return error?.response?.data.error?.messageDetail || COMMON_ERROR_MESSAGE;
+    //console.log(error?.response?.data[0].message, 'AxiosError');
+    // error?.response?.data.error?.messageDetail
+    return error?.response?.data[0].message || COMMON_ERROR_MESSAGE;
 };

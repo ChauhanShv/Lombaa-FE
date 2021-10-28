@@ -16,7 +16,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { isEmpty } from 'lodash';
 import { useAxios } from '../../services/base-service';
-import { COMMON_ERROR_MESSAGE } from '../../constants';
+import { getAPIErrorMessage } from '../../utils';
 
 export interface FormFields {
     email: string;
@@ -93,7 +93,7 @@ export const EnterEmail: React.FC = () => {
                     <Card>
                         {(apiError || alert.message) && (
                             <Alert variant={alert.message ? 'success' : 'danger'} onClose={() => setAlert({})} dismissible>
-                                {alert.message || COMMON_ERROR_MESSAGE}
+                                {alert.message || getAPIErrorMessage(apiError)}
                             </Alert>
                         )}
                         <Card.Header className="d-flex align-items-center justify-content-between bg-white">
