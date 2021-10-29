@@ -76,17 +76,30 @@
                         <td style="text-align: center;">{{ $data->isPremium }}</td>
                         <td>
                         @if(($data->isSuspended)==0)
-                        <a href="" onclick="return confirm('Do you want to suspend this user?');">
-                            <button class="btn btn-success" style="border-radius:6px; width:100px">Suspend</button>
+                        <a href="{{ route('user', $data->id) }}" onclick="return confirm('Do you want to suspend this user?');">
+                            <button class="btn btn-success" style="border-radius:6px; width:100px">Unsuspend</button>
                         </a>
                         @endif
                         @if(($data->isSuspended)==1)
-                        <a href="" onclick="return confirm('Do you want to unblock this user?');">
+                        <a href="{{ route('user', $data->id) }}" onclick="return confirm('Do you want to unblock this user?');">
                             <button class="btn btn-warning" style="border-radius:6px; width:100px">Suspended</button>
                         </a>
                         @endif  &nbsp&nbsp
+                        @if(($data->isActive)==0)
+                        <a href="" onclick="return confirm('Do you want to Deactive this user?');">
+                            <button class="btn btn-success" style="border-radius:6px; width:100px">Deactive</button>
+                        </a>
+                        @endif
+                        @if(($data->isActive)==1)
+                        <a href="" onclick="return confirm('Do you want to Active this user?');">
+                            <button class="btn btn-warning" style="border-radius:6px; width:100px">Active</button>
+                        </a>
+                        @endif 
                             <a href="{{ url('user', $data->id) }}">
                                 <i class="icon icon-user" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                            </a>
+                            <a href="">
+                                <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                             </a>
                         </td>
                     </tr>

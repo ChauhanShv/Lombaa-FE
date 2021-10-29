@@ -25,4 +25,10 @@ Route::post('/', [LoginController::class, 'login']);
 
 Route::get('/user', [UserController::class, 'user'])->name('user');
 
-Route::get('/user/{id}', [userController::class, 'info'])->name('info');
+Route::get('/user/{id}', [UserController::class, 'info'])->name('info');
+
+Route::get('/user/{id}', [UserController::class, 'suspend'])->name('suspend');
+
+Route::get('/user/{id}', [UserController::class, 'unsuspend'])->name('unsuspend');
+
+// Route::get('/user/{id}', [userController::class, 'delete'])->name('delete');
