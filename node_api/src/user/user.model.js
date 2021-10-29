@@ -161,6 +161,16 @@ User.init(
       allowNull: false,
       defaultValue: 0,
     },
+    yearOfEstablishment: {
+      type: DataTypes.INTEGER(4),
+      allowNull: true,
+      defaultValue: null
+    },
+    aboutBussiness: {
+      type: DataTypes.STRING(250),
+      allowNull: true,
+      defaultValue: null
+    }
   },
   {
     modelName: "User",

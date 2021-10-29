@@ -24,7 +24,14 @@ class AuthController extends BaseController {
         try {
             let user = req.body;
 
-            const authUser = await this.service.doAuth({ email: user.email, password: user.password });   
+            const authUser = await this.service.doAuth({ email: user.email, password: user.password });
+            if (authUser.isSuspended === 1) {
+                const data = {
+                    success: false,
+                    message: "You are not allowed to login. pls contact to us or mail for further details",
+                }
+                return super.jsonRes({ res, code: 401, data })
+            }
             if (authUser) {
                 const data = {
                     success: true,

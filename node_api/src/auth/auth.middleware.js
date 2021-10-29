@@ -3,7 +3,7 @@ const jwt = require('../modules/jwt/jwt.service');
 
 module.exports = async (req, res, next) => {
     let headerAccessToken = req.header('x-access-token');
-
+    console.log(headerAccessToken)
     if (!headerAccessToken) {
         return res.status(401).json({
             code: 401,

@@ -45,4 +45,24 @@ module.exports = {
         },
 
     },
+    bio: {
+        notEmpty: { errorMessage: "Name cannot be empty" }
+    },
+    yearOfEstablishment: {
+        optional: {
+            options: { nullable: true },
+        },
+        custom: {
+            options: async (value, { req, location, path }) => {
+                if (!isDate(value, config?.yearFormat))
+                    return Promise.reject("Date of birth is invalid");
+                return Promise.resolve();
+            }
+        }
+    },
+    aboutBussiness: {
+        optional: {
+            options: { nullable: true }
+        }
+    }
 };

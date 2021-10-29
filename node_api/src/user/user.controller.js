@@ -357,13 +357,16 @@ class UserController extends BaseController {
     }
 
     try {
-      const { name, location, birthday, sex } = req.body;
+      const { name, location, birthday, sex, bio, yearOfEstablishment, aboutBussiness } = req.body;
       const user = req.user;
 
       user.name = name;
       user.location = location;
       user.birthday = birthday;
       user.sex = sex;
+      user.bio = bio
+      user.yearOfEstablishment = yearOfEstablishment
+      user.aboutBussiness = aboutBussiness
 
       const dUser = await user.save();
 
@@ -377,6 +380,48 @@ class UserController extends BaseController {
       next(error);
     }
   }
+  uploadProfilePic = async (req, res, next) => {
+    try {
+      validationResult(req).formatWith(validationErrorFormatter).throw();
+    } catch (error) {
+      return res.status(422).json(error.array({ onlyFirstError: true }));
+
+    }
+    try {
+      const user = req.user
+      const value = await this.service.uploadProfilePic(user, req.files)
+      if (!value) {
+        return super.jsonRes({ res, code: 401, data: "Failed to add profile picture" })
+      }
+
+      super.jsonRes({ res, code: 200, data: "Profile picture has been added" })
+    }
+    catch {
+      super.jsonRes({ res, code: 401, data: "Failed to add profile picture" })
+    }
+  }
+  uploadCoverPicture = async (req, res, next) => {
+    try {
+      validationResult(req).formatWith(validationErrorFormatter).throw();
+    } catch (error) {
+      return res.status(422).json(error.array({ onlyFirstError: true }));
+
+    }
+    try {
+      const user = req.user
+      const value = await this.service.uploadCoverPic(user, req.files)
+      if (!value) {
+        return super.jsonRes({ res, code: 401, data: "Failed to add cover picture" })
+      }
+
+      super.jsonRes({ res, code: 200, data: "Cover picture has been added" })
+    }
+    catch {
+      super.jsonRes({ res, code: 401, data: "Failed to add cover picture" })
+    }
+  }
 }
+
+
 
 module.exports = UserController;

@@ -7,9 +7,17 @@ const {
     phoneSchema, emailSchema,
     forgetPasswordSchema, connectGoogleSchema,
     connectFacebookSchema,
-    updateSchema
+    updateSchema,
+    pictureUploadSchema,
+    coverPictureSchema
+
 } = require("./schema");
 const authMiddleware = require("../auth/auth.middleware");
+const multer = require("multer")
+
+
+
+const storage = multer.memoryStorage()
 
 const controller = new UserController();
 
@@ -35,5 +43,8 @@ module.exports = () => {
     router.get("/isActive", authMiddleware, controller.isActive);
 
     router.post("/update", authMiddleware, checkSchema(updateSchema), controller.updateUser)
+
+    router.put("/picture", multer({ storage: storage }).any(), checkSchema(pictureUploadSchema), authMiddleware, controller.uploadProfilePic)
+    router.put("/picture/cover", multer({ storage: storage }).any(), checkSchema(coverPictureSchema), authMiddleware, controller.uploadCoverPicture)
     return router;
 };

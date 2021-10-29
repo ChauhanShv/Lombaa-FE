@@ -9,7 +9,8 @@ const bcrypt = require('bcrypt');
 const { email } = require('../auth/data_schema/schema.auth');
 const { user } = require('../modules/sequelize/sequelize.config');
 const { findByPk } = require('./user.model');
-
+const filesModel = require("./model.files");
+const FileType = require("file-type")
 module.exports = class UserService {
     constructor() {
     }
@@ -261,5 +262,57 @@ module.exports = class UserService {
             console.error({ error });
             return null;
         }
+    }
+    async uploadProfilePic(user, docs) {
+        try {
+
+            const data = docs
+            const file = data[0].originalname
+            const filename = file.split('.').slice(0, -1).join('.');
+            const files = await FileType.fromBuffer(data[0].buffer)
+            const upload = await filesModel.create({
+                key_name: filename,
+                extension: files.ext,
+                name: data[0].fieldname,
+                mime: files.ext,
+                relative_path: 'dhdh',
+                absolute_path: 'gdg'
+            })
+            if (!upload) { return null }
+
+            return upload.save()
+        }
+        catch (error) {
+            console.log(error)
+            return null
+        }
+
+
+    }
+    async uploadCoverPic(user, docs) {
+        try {
+
+            const data = docs
+            const file = data[0].originalname
+            const filename = file.split('.').slice(0, -1).join('.');
+            const files = await FileType.fromBuffer(data[0].buffer)
+            const upload = await filesModel.create({
+                key_name: filename,
+                extension: files.ext,
+                name: data[0].fieldname,
+                mime: files.ext,
+                relative_path: 'dhdh',
+                absolute_path: 'gdg'
+            })
+            if (!upload) { return null }
+
+            return upload.save()
+        }
+        catch (error) {
+            console.log(error)
+            return null
+        }
+
+
     }
 }
