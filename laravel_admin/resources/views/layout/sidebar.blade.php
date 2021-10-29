@@ -2,7 +2,6 @@
     <ul>
         <li class="{{\Request::route()->getName() === 'home_get'? 'active': ''}}"><a href="#"><i
                     class="icon icon-home"></i> <span>Home</span></a></li>
-        
        {{--  <li class="submenu {{\Request::route()->getPrefix() === 'admin/user' ? 'open active': ''}}">
             <a href="#">
                 <i class="icon icon-group"></i><span>Users</span>
@@ -13,7 +12,6 @@
                 </li>
             </ul>
         </li>
-
         <li class="submenu {{\Request::route()->getPrefix() === 'admin/kyc' ? 'open active': ''}}">
             <a href="#">
                 <i class="icon icon-folder-close"></i><span>KYC</span>
@@ -141,6 +139,5 @@
                 </li>
             </ul>
         </li>
-        
     </ul>
 </div>
