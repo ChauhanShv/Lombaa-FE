@@ -11,6 +11,7 @@ export enum ActionTypes {
     LOGIN = 'LOGIN',
     LOGOUT = 'LOGOUT',
     IS_ACTIVE = 'IS_ACTIVE',
+    UPDATE_PROFILE = 'UPDATE_PROFILE',
 };
 
 export type State = {

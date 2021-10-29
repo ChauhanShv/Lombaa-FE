@@ -21,7 +21,7 @@ import ReactCrop, { Crop } from 'react-image-crop';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { useAppContext } from '../../contexts';
+import { useAppContext, ActionTypes } from '../../contexts';
 import { isEmpty } from 'lodash';
 import { useAxios } from '../../services/base-service';
 import 'react-image-crop/dist/ReactCrop.css';
@@ -119,7 +119,7 @@ export const ImageCropModal: React.FC<ImageModalProps> = ({onClose, show, image}
 };
 
 export const PersonalPetails: React.FC = (): React.ReactElement => {
-    const { state } = useAppContext();
+    const { state, dispatch } = useAppContext();
     const [alert, setAlert] = useState<AlertType>({});
     const [imageSrc, setImageSrc] = useState<string>('');
     const [openCropModal,setOpenCropModal] = useState<boolean>(false);
@@ -147,6 +147,13 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                 message: response?.message || 'User Updated Successfully',
             });
         }
+        dispatch({
+            type: ActionTypes.UPDATE_PROFILE,
+            payload: {
+                token: response?.response?.token,
+                user: response?.metadata,
+            }
+        });
     }, [response]);
 
     const onSubmit = (values: any) => {

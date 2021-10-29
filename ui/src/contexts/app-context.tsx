@@ -29,7 +29,13 @@ function appReducer(state: State, action: Action) {
     case ActionTypes.LOGOUT:
       return {
         ...state,
+        user: payload?.user,
         isLoggedIn: false,
+      }
+    case ActionTypes.UPDATE_PROFILE:
+      return {
+        ...state,
+        isLoggedIn: true,
       }
     default: {
       throw new Error(`Unhandled action type: ${type}`)
