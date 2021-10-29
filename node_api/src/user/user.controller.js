@@ -7,12 +7,14 @@ const validationErrorFormatter = require("../modules/formatter").validationError
 const responseFormatter = require("../modules/formatter").response;
 const jwtService = require("../modules/jwt").service;
 const UserService = require("./user.service");
+const s3Service = require('../modules/s3/s3.service')
 
 class UserController extends BaseController {
   constructor() {
     super();
     this.service = new UserService();
     this.authService = new AuthService();
+    this.s3Service = new s3Service()
   }
 
   async create(req, res, next) {
@@ -389,15 +391,22 @@ class UserController extends BaseController {
     }
     try {
       const user = req.user
-      const value = await this.service.uploadProfilePic(user, req.files)
+      const data = req.files
+      const key = data[0].originalname
+      const body = data[0].buffer
+      const s3Data = await this.s3Service.upload({ key, body })
+      if (!s3Data) {
+        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update profile picture" } })
+      }
+      const value = await this.service.uploadProfilePic(req.files, s3Data)
       if (!value) {
-        return super.jsonRes({ res, code: 401, data: "Failed to add profile picture" })
+        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update profile picture" } })
       }
 
-      super.jsonRes({ res, code: 200, data: "Profile picture has been added" })
+      super.jsonRes({ res, code: 200, data: { success: true, message: "Profile picture updated ", metadata: { user: user } } })
     }
     catch {
-      super.jsonRes({ res, code: 401, data: "Failed to add profile picture" })
+      super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update profile picture" } })
     }
   }
   uploadCoverPicture = async (req, res, next) => {
@@ -409,15 +418,22 @@ class UserController extends BaseController {
     }
     try {
       const user = req.user
-      const value = await this.service.uploadCoverPic(user, req.files)
-      if (!value) {
-        return super.jsonRes({ res, code: 401, data: "Failed to add cover picture" })
+      const data = req.files
+      const key = data[0].originalname
+      const body = data[0].buffer
+      const s3Data = await this.s3Service.upload({ key, body })
+      console.log(s3Data)
+      if (!s3Data) {
+        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update cover picture" } })
       }
-
-      super.jsonRes({ res, code: 200, data: "Cover picture has been added" })
+      const value = await this.service.uploadCoverPic(req.files, s3Data)
+      if (!value) {
+        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update cover picture" } })
+      }
+      super.jsonRes({ res, code: 200, data: { success: true, message: "cover picture updated ", metadata: { user: user } } })
     }
     catch {
-      super.jsonRes({ res, code: 401, data: "Failed to add cover picture" })
+      super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update cover picture" } })
     }
   }
 }

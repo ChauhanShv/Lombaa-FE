@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:3001/api
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBjM2YzYzcxLTA0ZTAtNDNkOC1hMDg4LWE3MjExODRkNmVkMSIsImlhdCI6MTYzNTM1NTM1NiwiZXhwIjoxNjM1NDQxNzU2fQ.l1qQFDDwog9KyNRIL9xqastCtB_UVcSCM9JCxsddnXY
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJhNjAzYTJmLWQ4NzYtNGY2My1hMDY0LTBkOTNkZWM1ZDA2ZSIsImlhdCI6MTYzNTQ4NzAyOCwiZXhwIjoxNjM1NTczNDI4fQ.0hHUjy_NMWN_SU2nME6w2EOO3BhZDAJ8h3FrD0kjgLc
 
 
 ### Crete new User
@@ -8,7 +8,7 @@ POST {{baseUrl}}/user HTTP/1.1
 content-type: application/json
 
 {
-    "email": "vivek@datortech.com",
+    "email": "jadu@gmail.com",
     "password": "123456",
     "name": "test",
     "phoneNumber": "8975847324",
@@ -27,7 +27,7 @@ POST {{baseUrl}}/auth HTTP/1.1
 content-type: application/json
 
 {
-    "email": "vivek@datortech.com",
+    "email": "jadu@gmail.com",
     "password": "123456"
 }
 
@@ -180,5 +180,42 @@ x-access-token : {{token}}
     "name" : "Vivek Yadav",
     "location" : 5346,
     "birthday" : null,
-    "sex" : "male"
+    "sex" : "male",
+    "bio" : "i am very good hffhhfhfhbf hbfjbdfj hbfhjbfhb fbhjdbfjbfh bfhbfhb bhfbfhb hbfhdbfh hbhbfhdb ",
+    "yearOfEstablishment" : 2004,
+    "aboutBussiness" : "i am very glaf "
+    
 }
+
+###
+
+PUT  {{baseUrl}}/user/picture HTTP/1.1
+x-access-token : {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+
+
+title
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="lombatest.png"
+Content-Type: image/png
+
+< C:\lombatest.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+PUT  {{baseUrl}}/user/picture/cover HTTP/1.1
+x-access-token : {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+
+
+title
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="lombatest.png"
+Content-Type: image/png
+
+< C:\lombatest.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+

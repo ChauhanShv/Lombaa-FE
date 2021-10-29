@@ -33,7 +33,8 @@ files.init(
         },
         absolute_path: {
             type: DataTypes.STRING(255),
-            allowNull: false
+            allowNull: true,
+            defaultValue: null
         },
         location: {
             type: DataTypes.ENUM('s3', 'local'),

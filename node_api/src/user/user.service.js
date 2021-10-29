@@ -263,7 +263,13 @@ module.exports = class UserService {
             return null;
         }
     }
-    async uploadProfilePic(user, docs) {
+    async uploadProfilePic(docs, s3Data) {
+        if (!s3Data) {
+            return false
+        }
+        if (!docs) {
+            return false
+        }
         try {
 
             const data = docs
@@ -276,20 +282,19 @@ module.exports = class UserService {
                 name: data[0].fieldname,
                 mime: files.ext,
                 relative_path: 'dhdh',
-                absolute_path: 'gdg'
+                absolute_path: s3Data.Location
             })
             if (!upload) { return null }
 
             return upload.save()
         }
         catch (error) {
-            console.log(error)
             return null
         }
 
 
     }
-    async uploadCoverPic(user, docs) {
+    async uploadCoverPic(docs, s3Data) {
         try {
 
             const data = docs
@@ -301,15 +306,14 @@ module.exports = class UserService {
                 extension: files.ext,
                 name: data[0].fieldname,
                 mime: files.ext,
-                relative_path: 'dhdh',
-                absolute_path: 'gdg'
+                relative_path: 'viviivivv',
+                absolute_path: s3Data.Location
             })
             if (!upload) { return null }
 
             return upload.save()
         }
         catch (error) {
-            console.log(error)
             return null
         }
 
