@@ -11,14 +11,11 @@ import {
 } from 'react-icons/fa';
 import { useAxios } from '../../services/base-service';
 
-const schema = yup.object().shape({
-}).required();
-
 export const DeactivateAccount: React.FC = (): React.ReactElement => {
     const [successAlert, setSuccessAlert] = useState<boolean>(false);
     const [failureAlert, setFailureAlert] = useState<boolean>(false);
     const [{data: response, loading, error: apiError}, execute] = useAxios({
-        url: '/user/deactivate',
+        url: '/user/active',
         method: 'POST'
     });
     const handleFormSubmit = (event: React.FormEvent) => {

@@ -30,11 +30,19 @@ import { PersonalDetailsProps, ImageModalProps } from './types';
 import { AiOutlineEdit } from 'react-icons/ai';
 import './settings.css';
 
-const schema = yup.object().shape({
+const standardSchema = yup.object().shape({
     name: yup.string(),
     location: yup.string(),
     birthday: yup.string(),
     sex: yup.string(),
+    memberSince: yup.string(),
+    bio: yup.string(),
+    lastActiveAt: yup.string(),
+}).required();
+
+const buisnessSchema = yup.object().shape({
+    yearOfEstablishment: yup.string(),
+    aboutBuisness: yup.string(),
 }).required();
 
 export interface AlertType {
@@ -48,7 +56,6 @@ export const ImageCropModal: React.FC<ImageModalProps> = ({onClose, show, image}
     const imgRef = useRef<any>(image);
     const previewCanvasRef = useRef<any>(null);
     const handleOnCrop = (crop: any) => {
-        // console.log(crop);
         setCrop({crop});
     };
     useEffect(() => {
@@ -124,15 +131,24 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
     const [imageSrc, setImageSrc] = useState<string>('');
     const [openCropModal,setOpenCropModal] = useState<boolean>(false);
     const { register, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(schema),
+        resolver: yupResolver(standardSchema),
         defaultValues: {
             name: state.user?.name,
             location: state.user?.location,
             birthday: state.user?.birthday,
             sex: state.user?.sex,
+            bio: state.user?.bio,
+            memberSince: state.user?.memberSince,
+            lastActiveAt: state.user?.lastActiveAt,
         }, 
     });
-    console.log('abhi', state);
+    const { register: registerBuissness, handleSubmit: handleSubmitBuisness, formState: { errors: buisnessErrors} } = useForm({
+        resolver: yupResolver(buisnessSchema),
+        defaultValues: {
+
+        },
+    })
+    console.log('abhi', state, buisnessErrors);
 
     //API Call Remaining
     const [{ data: response, loading, error: apiError }, execute] = useAxios({
@@ -160,10 +176,11 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
         if (isEmpty(errors)) {
             execute({
                 data: {
-                    name: values.name ? values.name : state.user.name,
-                    location: values.location ? values.location : state.user.location,
-                    birthday: values.birthday ? values.birthday : state.user.birthday,
-                    sex: values.sex ? values.sex : state.user.sex,
+                    name: values.name ? values.name : state.user?.name,
+                    location: values.location ? values.location : state.user?.location,
+                    birthday: values.birthday ? values.birthday : state.user?.birthday,
+                    sex: values.sex ? values.sex : state.user?.sex,
+                    bio: values.bio ? values.bio : state.user?.bio,
                 }
             });
         }
@@ -197,7 +214,6 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
 
     const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         if(event.target.files && event.target.files[0]) {
-            console.log(event.target.files, event.target.files[0], 'Event Target Files');
             setImageSrc(URL.createObjectURL(event.target.files[0]));
         }
         setOpenCropModal(true);
@@ -226,40 +242,79 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                                 {alert.message || getAPIErrorMessage(apiError)}
                             </Alert>
                     )}
-                    <FloatingLabel
-                        controlId="floatingInput"
-                        label="Full Name"
-                        className="mb-3"
-                    >
-                        <Form.Control 
-                            {...register('name')}
-                            type="text"
-                            placeholder="Full Name"
-                        />
-                        {getErrorText('name')}
-                    </FloatingLabel>
-                    <FloatingLabel controlId="floatingSelect" label="Select Location" className="mb-3">
-                        <Form.Select {...register('location')} aria-label="Floating label select example">
-                            <option>Select Location</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </Form.Select>
-                    </FloatingLabel>
-                    <FloatingLabel
-                        controlId="floatingInput"
-                        label="Birthday"
-                        className="mb-3"
-                    >
-                        <Form.Control {...register('birthday')} type="date" placeholder="Select Birthday" />
-                    </FloatingLabel>
-                    <FloatingLabel controlId="floatingSelect" label="Sex" className="mb-3">
-                        <Form.Select {...register('sex')} aria-label="Floating label select example">
-                            <option>Do Not Specify</option>
-                            <option value="female">Female</option>
-                            <option value="male">Male</option>
-                        </Form.Select>
-                    </FloatingLabel>
+                    {state?.user?.accountType==="standard" ? ( <>
+                        <FloatingLabel
+                            controlId="floatingInput"
+                            label="Full Name"
+                            className="mb-3"
+                        >
+                            <Form.Control 
+                                {...register('name')}
+                                type="text"
+                                placeholder="Full Name"
+                            />
+                            {getErrorText('name')}
+                        </FloatingLabel>
+                        <FloatingLabel controlId="floatingSelect" label="Select Location" className="mb-3">
+                            <Form.Select {...register('location')} aria-label="Floating label select example">
+                                <option>Select Location</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </Form.Select>
+                        </FloatingLabel>
+                        <FloatingLabel
+                            controlId="floatingInput"
+                            label="Birthday"
+                            className="mb-3"
+                        >
+                            <Form.Control {...register('birthday')} type="date" placeholder="Select Birthday" />
+                        </FloatingLabel>
+                        <FloatingLabel controlId="floatingSelect" label="Sex" className="mb-3">
+                            <Form.Select {...register('sex')} aria-label="Floating label select example">
+                                <option>Do Not Specify</option>
+                                <option value="female">Female</option>
+                                <option value="male">Male</option>
+                            </Form.Select>
+                        </FloatingLabel>
+                        <FloatingLabel controlId="bioText" label="Bio" className="mb-3">
+                            <Form.Control
+                                style={{height: '120px'}}
+                                as="textarea"
+                                type="text"
+                                placeholder="Bio" 
+                                {...register('bio')}
+                            />
+                            {getErrorText('bio')}
+                        </FloatingLabel>
+                        <FloatingLabel controlId="memberSinceText" label="Member Since" className="mb-3">
+                            <Form.Control
+                                type="text"
+                                placeholder="Member Since" 
+                                {...register('memberSince')}
+                            />
+                        </FloatingLabel>
+                        <FloatingLabel controlId="lastActiveText" label="Last Active" className="mb-3">
+                            <Form.Control
+                                type="text"
+                                placeholder="Last Active" 
+                                {...register('lastActiveAt')}
+                            />
+                        </FloatingLabel> </>)
+                        :  (
+                            <>
+                                <FloatingLabel controlId="year-of-establish" label="Year Of Establishment" className="mb-3">
+                                    <Form.Control
+                                        placeholder="Establishment Year" />
+                                </FloatingLabel>
+                                <FloatingLabel controlId="aboutBuisness" label="About Buisness" className="mb-3">
+                                    <Form.Control
+                                        as="textarea"
+                                        placeholder="About Buisness" />
+                                </FloatingLabel>
+                            </>
+                        )
+                    }
                     <p className="mb-3"><strong>Connect your social media accounts for smoother experience!</strong></p>
                     <ListGroup as="ul" className="connectsocial mb-3">
                         <ListGroup.Item as="li">
