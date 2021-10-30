@@ -45,4 +45,38 @@ module.exports = {
         },
 
     },
+
+    bio: {
+        notEmpty: { errorMessage: "Bio cannot be empty" },
+        isLength: {
+            errorMessage: "Required minimum 100 characters and maximum 5000 characters",
+            options: { min: 100, max: 5000 },
+        }
+    },
+
+    yearOfEstablishment: {
+        optional: {
+            options: { nullable: true },
+        },
+        custom: {
+            options: async (value, { req, location, path }) => {
+                if (!isDate(value, config?.yearFormat))
+                    return Promise.reject("Invalid year");
+                return Promise.resolve();
+            }
+        },
+        customSanitizer: {
+            options: (value, { req, location, path }) => {
+                if (!isDate(value, config?.yearFormat))
+                    return null;
+                return moment(value, config?.yearFormat);
+            }
+        }
+    },
+
+    aboutBussiness: {
+        optional: {
+            options: { nullable: true }
+        }
+    }
 };
