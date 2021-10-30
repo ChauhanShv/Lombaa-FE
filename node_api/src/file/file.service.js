@@ -15,6 +15,7 @@ module.exports = class FileService {
                 extension: files.ext,
                 name: data[0].fieldname,
                 mime: files.ext,
+                location: "s3",
                 relative_path: 'dhdh',
                 absolute_path: s3Data.Location
             })

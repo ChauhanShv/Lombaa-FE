@@ -279,7 +279,7 @@ module.exports = class UserService extends FileService {
                 return null
             }
             const dUser = await User.findByPk(user?.id);
-            dUser.userProfilePictureId = uploadedFile.id
+            dUser.profilePictureId = uploadedFile.id
             return await dUser.save()
         }
         catch (error) {
@@ -299,7 +299,7 @@ module.exports = class UserService extends FileService {
                 return null
             }
             const dUser = await User.findByPk(user?.id);
-            dUser.userCoverPictureId = uploadedFile.id
+            dUser.coverPictureId = uploadedFile.id
             return await dUser.save()
         }
         catch (error) {

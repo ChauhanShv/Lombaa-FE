@@ -25,7 +25,7 @@ class AuthController extends BaseController {
             let user = req.body;
 
             const authUser = await this.service.doAuth({ email: user.email, password: user.password });
-            if (authUser.isSuspended === 1) {
+            if (authUser?.isSuspended === 1) {
                 const data = {
                     success: false,
                     message: "You are not allowed to login. pls contact to us or mail for further details",

@@ -1,6 +1,7 @@
+
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize").service;
-const files = require('../file/file.model')
+const File = require('../file/file.model')
 
 class User extends Model { }
 
@@ -120,10 +121,6 @@ User.init(
       allowNull: false,
       defaultValue: 0,
     },
-    profilePicture: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true,
-    },
     isAdminMessage: {
       type: DataTypes.INTEGER(1),
       allowNull: false,
@@ -180,8 +177,7 @@ User.init(
     sequelize,
   }
 );
-
-User.belongsTo(files, { as: "userProfilePicture" });
-User.belongsTo(files, { as: "userCoverPicture" })
+User.belongsTo(File, { as: "profilePicture" })
+User.belongsTo(File, { as: "coverPicture" })
 
 module.exports = User;

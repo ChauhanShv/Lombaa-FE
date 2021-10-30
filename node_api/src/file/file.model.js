@@ -47,6 +47,6 @@ Files.init(
         timestamps: true,
         sequelize,
     }
-)
+);
 
 module.exports = Files
