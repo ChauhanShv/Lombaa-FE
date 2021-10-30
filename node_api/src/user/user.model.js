@@ -1,4 +1,3 @@
-
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize").service;
 const File = require('../file/file.model')
@@ -177,6 +176,7 @@ User.init(
     sequelize,
   }
 );
+
 User.belongsTo(File, { as: "profilePicture" })
 User.belongsTo(File, { as: "coverPicture" })
 

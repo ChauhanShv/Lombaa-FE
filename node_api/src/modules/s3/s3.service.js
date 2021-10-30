@@ -8,8 +8,6 @@ module.exports = class S3Service {
             accessKeyId: awsConfig.accessKeyId,
             secretAccessKey: awsConfig.secretAccessKey
         });
-
-
     }
 
     async upload({ key, body }) {
@@ -18,8 +16,6 @@ module.exports = class S3Service {
         params.Key = key;
         params.Body = body;
         params.Bucket = awsConfig.awsBucket;
-
-
         try {
             let data = await this.s3.upload(params).promise();
             return data;

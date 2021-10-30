@@ -382,7 +382,7 @@ class UserController extends BaseController {
       next(error);
     }
   }
-  uploadProfilePic = async (req, res, next) => {
+  uploadProfilePicture = async (req, res, next) => {
     try {
       validationResult(req).formatWith(validationErrorFormatter).throw();
     } catch (error) {

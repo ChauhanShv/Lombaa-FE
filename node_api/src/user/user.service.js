@@ -294,7 +294,9 @@ module.exports = class UserService extends FileService {
             return false
         }
         try {
-            const uploadedFile = await this.FileService.create(docs, s3Data, user)
+            const location = 's3'
+            const uploadedFile = await this.FileService.create(docs, s3Data, location)
+
             if (!uploadedFile) {
                 return null
             }

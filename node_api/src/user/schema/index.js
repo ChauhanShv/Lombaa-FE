@@ -7,7 +7,7 @@ const connectGoogleSchema = require('./schema.connectGoogle');
 const connectFacebookSchema = require('./schema.connectFacebook');
 const updateSchema = require('./schema.update');
 const pictureUploadSchema = require('./schema.upload')
-const coverPictureSchema = require('./schema.coverPicture')
+const coverUploadSchema = require('./schema.coverPicture')
 
 
-module.exports = { setPassword, emailSchema, phoneSchema, activeSchema, forgetPasswordSchema, connectGoogleSchema, connectFacebookSchema, updateSchema, pictureUploadSchema, coverPictureSchema };
+module.exports = { setPassword, emailSchema, phoneSchema, activeSchema, forgetPasswordSchema, connectGoogleSchema, connectFacebookSchema, updateSchema, pictureUploadSchema, coverUploadSchema };
