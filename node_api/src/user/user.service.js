@@ -267,14 +267,9 @@ module.exports = class UserService extends FileService {
         }
     }
     async uploadProfilePic(docs, s3Data, user) {
-        if (!s3Data) {
-            return false
-        }
-        if (!docs) {
-            return false
-        }
         try {
-            const uploadedFile = await this.FileService.create(docs, s3Data, user)
+            const location = 's3'
+            const uploadedFile = await this.FileService.create(docs, s3Data, location)
             if (!uploadedFile) {
                 return null
             }
@@ -283,6 +278,7 @@ module.exports = class UserService extends FileService {
             return await dUser.save()
         }
         catch (error) {
+            console.log(error)
             return null
         }
     }

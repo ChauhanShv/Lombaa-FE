@@ -47,7 +47,11 @@ module.exports = {
     },
 
     bio: {
-        notEmpty: { errorMessage: "Name cannot be empty" }
+        notEmpty: { errorMessage: "Bio cannot be empty" },
+        isLength: {
+            errorMessage: "bio should be  atleast 100 char long",
+            options: { min: 100, max: 5000 },
+        }
     },
 
     yearOfEstablishment: {

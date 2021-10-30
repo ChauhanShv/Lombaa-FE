@@ -396,16 +396,16 @@ class UserController extends BaseController {
       const body = data[0].buffer
       const s3Data = await this.s3Service.upload({ key, body })
       if (!s3Data) {
-        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update bf profile picture" } })
+        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update fgfg profile picture" } })
       }
       const dUser = await this.service.uploadProfilePic(req.files, s3Data, user)
       if (!dUser) {
-        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update gf profile picture" } })
+        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update hfg profile picture" } })
       }
       super.jsonRes({ res, code: 200, data: { success: true, message: "Profile picture updated ", metadata: { user: dUser } } })
     }
     catch (error) {
-      super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update mf profile picture" } })
+      super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update gfggfgfg profile picture" } })
     }
   }
   uploadCoverPicture = async (req, res, next) => {
@@ -422,11 +422,11 @@ class UserController extends BaseController {
       const body = data[0].buffer
       const s3Data = await this.s3Service.upload({ key, body })
       if (!s3Data) {
-        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update  cover picture" } })
+        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update cover picture" } })
       }
       const dUser = await this.service.uploadCoverPic(req.files, s3Data, user)
       if (!dUser) {
-        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update  cover picture" } })
+        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update cover picture" } })
       }
       super.jsonRes({ res, code: 200, data: { success: true, message: "Cover picture updated ", metadata: { user: dUser } } })
     }

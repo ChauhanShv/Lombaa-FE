@@ -5,7 +5,6 @@ module.exports = class FileService {
     constructor() {
     }
     async create(docs, s3Data, location) {
-        console.log(s3Data)
         try {
             const data = docs
             const file = data[0].originalname
