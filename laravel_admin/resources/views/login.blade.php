@@ -28,8 +28,8 @@
                         <div class="control-group">
                         <div class="controls">
                             <div class="main_input_box">
-                                <span class="add-on bg_lg"><i class="icon-user"> </i></span><input type="text" name="username" placeholder="Username"/>
-                                 @error('username')
+                                <span class="add-on bg_lg"><i class="icon-user"> </i></span><input type="text" name="email" placeholder="Email"/>
+                                 @error('email')
                                  <div class="alert alert-danger ">{{ $message }}</div>
                                  @enderror
                             </div>

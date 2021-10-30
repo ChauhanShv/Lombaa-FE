@@ -1,38 +1,52 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use DB;
+use App\Models\Users;
 
 class UserController extends Controller
 {
     public function user(Request $request) {
-        $user_list = DB::table('users')->paginate(30);
+        $user_list = Users::paginate(30);
           return view('user.list', ['user_list' => $user_list]);
     }
     public function info($id){
-        $info = DB::table('users')->where('id', $id)->first();
+        $info = Users::where('id', $id)->first();
         return view('user.show', ['info' => $info]);
     }
-    public function suspend($id){
-        $getUserSuspendStatus = DB::table('users')->where('id', $id)->where('isSuspended', 0)->get()->toArray();
-        if(count($getUserSuspendStatus)==1){
-            $suspendUser = DB::table('users')->where('id', $id)->update(['isSuspended' => 1]);
-            return redirect()->back()->with('response', ['status' => 'success', 'message' => 'User Suspend successfully']);
+    public function suspend(Request $request, $id){
+        $suspend_User = Users::where([['id', '=', $id], ['isSuspended', '=', 0]])->update(['isSuspended' => 1]);
+        if($suspend_User){
+            return redirect()->back()->with('response', ['status' => 'success', 'message' => 'User Suspend Successfully']);
         }else{
             return redirect()->back();
         }
     }
     public function unsuspend($id){
-        $getUserUnSuspendStatus = DB::table('users')->where('id', $id)->where('isSuspended', 1)->get()->toArray();
-        if(count($getUserUnSuspendStatus)==1){
-            $UnsuspendUser = DB::table('users')->where('id', $id)->update(['isSuspended' => 0]);
-            return redirect()->back()->with('response', ['status' => 'success', 'message' => 'User UnSuspend successfully']);
+        $unsuspend_User = Users::where([['id', '=', $id], ['isSuspended', '=', 1]])->update(['isSuspended' => 0]);
+        if($unsuspend_User){
+            return redirect()->back()->with('response', ['status' => 'success', 'message' => 'User UnSuspend Successfully']);
         }else{
             return redirect()->back();
         }
     }
-    // public function delete($id){
-    //     $user_delete = DB::table('users')->where('id', $id)->delete();
-    //     return view('user.list', ['user_delete' => $user_delete]);
-    // }
+    public function active($id){
+            $active_User = Users::where([['id', '=', $id], ['isActive', '=', 0]])->update(['isActive' => 1]);
+            if($active_User){
+            return redirect()->back()->with('response', ['status' => 'success', 'message' => 'User Active Successfully']);
+        }else{
+            return redirect()->back();
+        }
+    }
+    public function deactive($id){
+            $deactive_User = Users::where([['id', '=', $id], ['isActive', '=', 1]])->update(['isActive' => 0]);
+            if($deactive_User){
+            return redirect()->back()->with('response', ['status' => 'success', 'message' => 'User Deactive Successfully']);
+        }else{
+            return redirect()->back();
+        }
+    }
+    public function delete($id){
+        $user_list = Users::find($id)->delete();
+        return redirect()->back()->with('response', ['status' => 'success', 'message' => 'User Deleted Successfully']);
+    }
 }
