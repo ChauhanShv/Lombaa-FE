@@ -11,10 +11,10 @@ module.exports = class FileService {
             const filename = file.split('.').slice(0, -1).join('.');
             const files = await FileType.fromBuffer(data[0].buffer)
             const savedFile = await model.create({
-                key_name: filename,
+                key_name: s3Data.key,
                 extension: files.ext,
-                name: data[0].fieldname,
-                mime: files.ext,
+                name: s3Data.key,
+                mime: files.mime,
                 location: location,
                 relative_path: relativePath,
                 absolute_path: s3Data.Location
