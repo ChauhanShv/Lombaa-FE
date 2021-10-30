@@ -396,17 +396,16 @@ class UserController extends BaseController {
       const body = data[0].buffer
       const s3Data = await this.s3Service.upload({ key, body })
       if (!s3Data) {
-        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update profile picture" } })
+        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update bf profile picture" } })
       }
-      const value = await this.service.uploadProfilePic(req.files, s3Data)
-      if (!value) {
-        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update profile picture" } })
+      const dUser = await this.service.uploadProfilePic(req.files, s3Data, user)
+      if (!dUser) {
+        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update gf profile picture" } })
       }
-
-      super.jsonRes({ res, code: 200, data: { success: true, message: "Profile picture updated ", metadata: { user: user } } })
+      super.jsonRes({ res, code: 200, data: { success: true, message: "Profile picture updated ", metadata: { user: dUser } } })
     }
-    catch {
-      super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update profile picture" } })
+    catch (error) {
+      super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update mf profile picture" } })
     }
   }
   uploadCoverPicture = async (req, res, next) => {
@@ -422,17 +421,16 @@ class UserController extends BaseController {
       const key = data[0].originalname
       const body = data[0].buffer
       const s3Data = await this.s3Service.upload({ key, body })
-      console.log(s3Data)
       if (!s3Data) {
-        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update cover picture" } })
+        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update  cover picture" } })
       }
-      const value = await this.service.uploadCoverPic(req.files, s3Data)
-      if (!value) {
-        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update cover picture" } })
+      const dUser = await this.service.uploadCoverPic(req.files, s3Data, user)
+      if (!dUser) {
+        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update  cover picture" } })
       }
-      super.jsonRes({ res, code: 200, data: { success: true, message: "cover picture updated ", metadata: { user: user } } })
+      super.jsonRes({ res, code: 200, data: { success: true, message: "Cover picture updated ", metadata: { user: dUser } } })
     }
-    catch {
+    catch (error) {
       super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update cover picture" } })
     }
   }

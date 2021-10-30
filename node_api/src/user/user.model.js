@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize").service;
+const files = require('../file/file.model')
 
 class User extends Model { }
 
@@ -179,5 +180,8 @@ User.init(
     sequelize,
   }
 );
+
+User.belongsTo(files, { as: "userProfilePicture" });
+User.belongsTo(files, { as: "userCoverPicture" })
 
 module.exports = User;

@@ -45,9 +45,11 @@ module.exports = {
         },
 
     },
+
     bio: {
         notEmpty: { errorMessage: "Name cannot be empty" }
     },
+
     yearOfEstablishment: {
         optional: {
             options: { nullable: true },
@@ -60,6 +62,7 @@ module.exports = {
             }
         }
     },
+
     aboutBussiness: {
         optional: {
             options: { nullable: true }

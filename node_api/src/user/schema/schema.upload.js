@@ -6,7 +6,6 @@ module.exports = {
             options: async (value, { req, location, path }) => {
 
                 let file = req.files.find(x => x.fieldname === path);
-
                 const filters = await FileType.fromBuffer(file.buffer);
 
                 if (!file.size > config.pictureSizeLimit)
@@ -16,9 +15,6 @@ module.exports = {
                     return Promise.reject("Invalid image type");
 
                 return Promise.resolve();
-
-
-
             }
         }
     }

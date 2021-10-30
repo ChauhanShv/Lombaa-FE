@@ -9,10 +9,13 @@ const bcrypt = require('bcrypt');
 const { email } = require('../auth/data_schema/schema.auth');
 const { user } = require('../modules/sequelize/sequelize.config');
 const { findByPk } = require('./user.model');
-const filesModel = require("./model.files");
+const FileService = require("../file/file.service");
 const FileType = require("file-type")
-module.exports = class UserService {
+module.exports = class UserService extends FileService {
     constructor() {
+
+        super();
+        this.FileService = new FileService();
     }
 
     async verifyPassword(userId, password) {
@@ -263,7 +266,7 @@ module.exports = class UserService {
             return null;
         }
     }
-    async uploadProfilePic(docs, s3Data) {
+    async uploadProfilePic(docs, s3Data, user) {
         if (!s3Data) {
             return false
         }
@@ -271,47 +274,33 @@ module.exports = class UserService {
             return false
         }
         try {
-
-            const data = docs
-            const file = data[0].originalname
-            const filename = file.split('.').slice(0, -1).join('.');
-            const files = await FileType.fromBuffer(data[0].buffer)
-            const upload = await filesModel.create({
-                key_name: filename,
-                extension: files.ext,
-                name: data[0].fieldname,
-                mime: files.ext,
-                relative_path: 'dhdh',
-                absolute_path: s3Data.Location
-            })
-            if (!upload) { return null }
-
-            return upload.save()
+            const uploadedFile = await this.FileService.create(docs, s3Data, user)
+            if (!uploadedFile) {
+                return null
+            }
+            const dUser = await User.findByPk(user?.id);
+            dUser.userProfilePictureId = uploadedFile.id
+            return await dUser.save()
         }
         catch (error) {
             return null
         }
-
-
     }
-    async uploadCoverPic(docs, s3Data) {
+    async uploadCoverPic(docs, s3Data, user) {
+        if (!s3Data) {
+            return false
+        }
+        if (!docs) {
+            return false
+        }
         try {
-
-            const data = docs
-            const file = data[0].originalname
-            const filename = file.split('.').slice(0, -1).join('.');
-            const files = await FileType.fromBuffer(data[0].buffer)
-            const upload = await filesModel.create({
-                key_name: filename,
-                extension: files.ext,
-                name: data[0].fieldname,
-                mime: files.ext,
-                relative_path: 'viviivivv',
-                absolute_path: s3Data.Location
-            })
-            if (!upload) { return null }
-
-            return upload.save()
+            const uploadedFile = await this.FileService.create(docs, s3Data, user)
+            if (!uploadedFile) {
+                return null
+            }
+            const dUser = await User.findByPk(user?.id);
+            dUser.userCoverPictureId = uploadedFile.id
+            return await dUser.save()
         }
         catch (error) {
             return null

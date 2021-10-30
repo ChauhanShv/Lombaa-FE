@@ -1,10 +1,9 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize").service;
 
+class Files extends Model { }
 
-class files extends Model { }
-
-files.init(
+Files.init(
     {
         id: {
             type: DataTypes.UUID,
@@ -41,9 +40,6 @@ files.init(
             allowNull: true,
             defaultValue: 'local'
         }
-
-
-
     },
     {
         modelName: "files",
@@ -53,4 +49,4 @@ files.init(
     }
 )
 
-module.exports = files
+module.exports = Files

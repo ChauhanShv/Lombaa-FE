@@ -1,7 +1,5 @@
 const awsConfig = require('../aws/aws.config');
-
 const AWS = require('aws-sdk');
-const logger = require('../winston/winston.service');
 
 module.exports = class S3Service {
     constructor() {
@@ -26,7 +24,6 @@ module.exports = class S3Service {
             let data = await this.s3.upload(params).promise();
             return data;
         } catch (error) {
-            // logger.error(`${error}: ${error.stack}`);
             return null;
         }
     }
