@@ -13,8 +13,10 @@ class AuthService {
     const dbUser = await User.findOne({ where: { email: email } });
 
     if (!dbUser) return false;
-    const passwordMatch = await bcrypt.compare(password, dbUser.password);
+    if (!dbUser.password) return false;
+    const passwordMatch = await bcrypt.compare(password, dbUser?.password);
     if (!passwordMatch) return false;
+    dbUser.password = undefined;
     return dbUser;
   }
 

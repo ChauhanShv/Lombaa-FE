@@ -7,12 +7,14 @@ const validationErrorFormatter = require("../modules/formatter").validationError
 const responseFormatter = require("../modules/formatter").response;
 const jwtService = require("../modules/jwt").service;
 const UserService = require("./user.service");
+const S3Service = require('../modules/s3/s3.service')
 
 class UserController extends BaseController {
   constructor() {
     super();
     this.service = new UserService();
     this.authService = new AuthService();
+    this.s3Service = new S3Service()
   }
 
   async create(req, res, next) {
@@ -68,8 +70,8 @@ class UserController extends BaseController {
       const user = req.user;
       const { status } = req.body;
 
-      await model.update({ isActive: status, where: { id: user.id } });
-      return super.jsonRes({ res, code: 200, data: { success: true, message: "Account deactivated" } });
+      await model.update({ isActive: status }, { where: { id: user.id } });
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Account status updated" } });
     } catch (error) {
       next(error)
     }
@@ -78,7 +80,9 @@ class UserController extends BaseController {
   deleteFacebook = async (req, res, next) => {
     try {
       const user = req.user;
-      await model.update({ isFacebookVerified: 0, where: { id: user.id } });
+
+      await model.update({ isFacebookVerified: 0, facebookId: null }, { where: { id: user.id } });
+
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Facebook disconnected" } });
     } catch (error) {
       next(error);
@@ -88,7 +92,7 @@ class UserController extends BaseController {
   deleteGoogle = async (req, res, next) => {
     try {
       const user = req.user;
-      await model.update({ isGoogleVerified: 0, where: { id: user.id } });
+      await model.update({ isGoogleVerified: 0, googleId: null }, { where: { id: user.id } });
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Google disconnected" } });
     } catch {
       next(error);
@@ -103,7 +107,6 @@ class UserController extends BaseController {
     }
 
     try {
-
       const { email } = req.body;
       const user = req.user
 
@@ -348,6 +351,93 @@ class UserController extends BaseController {
     }
   };
 
+  updateUser = async (req, res, next) => {
+    try {
+      validationResult(req).formatWith(validationErrorFormatter).throw();
+    } catch (error) {
+      return res.status(422).json(error.array({ onlyFirstError: true }));
+    }
+
+    try {
+      const { name, location, birthday, sex, bio, yearOfEstablishment, aboutBussiness } = req.body;
+      const user = req.user;
+
+      user.name = name;
+      user.location = location;
+      user.birthday = birthday;
+      user.sex = sex;
+      user.bio = bio
+      user.yearOfEstablishment = yearOfEstablishment
+      user.aboutBussiness = aboutBussiness
+
+      const dUser = await user.save();
+
+      const data = {
+        success: true,
+        message: "User updated",
+        metadata: { user: dUser }
+      }
+      super.jsonRes({ res, code: 200, data })
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  uploadProfilePicture = async (req, res, next) => {
+    try {
+      validationResult(req).formatWith(validationErrorFormatter).throw();
+    } catch (error) {
+      return res.status(422).json(error.array({ onlyFirstError: true }));
+
+    }
+    try {
+      const user = req.user
+      const data = req.files
+      const key = data[0].originalname
+      const body = data[0].buffer
+      const s3Data = await this.s3Service.upload({ key, body })
+      if (!s3Data) {
+        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update profile picture" } })
+      }
+      const dUser = await this.service.uploadProfilePic(req.files, s3Data, user)
+      if (!dUser) {
+        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update profile picture" } })
+      }
+      super.jsonRes({ res, code: 200, data: { success: true, message: "Profile picture updated ", metadata: { user: dUser } } })
+    }
+    catch (error) {
+      super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update profile picture" } })
+    }
+  }
+
+  uploadCoverPicture = async (req, res, next) => {
+    try {
+      validationResult(req).formatWith(validationErrorFormatter).throw();
+    } catch (error) {
+      return res.status(422).json(error.array({ onlyFirstError: true }));
+
+    }
+    try {
+      const user = req.user
+      const data = req.files
+      const key = data[0].originalname
+      const body = data[0].buffer
+      const s3Data = await this.s3Service.upload({ key, body })
+      if (!s3Data) {
+        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update cover picture" } })
+      }
+      const dUser = await this.service.uploadCoverPic(req.files, s3Data, user)
+      if (!dUser) {
+        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update cover picture" } })
+      }
+      super.jsonRes({ res, code: 200, data: { success: true, message: "Cover picture updated ", metadata: { user: dUser } } })
+    }
+    catch (error) {
+      super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update cover picture" } })
+    }
+  }
 }
+
+
 
 module.exports = UserController;
