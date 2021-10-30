@@ -10,12 +10,13 @@ const { email } = require('../auth/data_schema/schema.auth');
 const { user } = require('../modules/sequelize/sequelize.config');
 const { findByPk } = require('./user.model');
 const FileService = require("../file/file.service");
-const FileType = require("file-type")
-module.exports = class UserService extends FileService {
+const FileType = require("file-type");
+const BaseController = require('../modules/controller/controller.base');
+module.exports = class UserService extends BaseController {
     constructor() {
 
         super();
-        this.FileService = new FileService();
+        this.fileService = new FileService();
     }
 
     async verifyPassword(userId, password) {
@@ -266,15 +267,19 @@ module.exports = class UserService extends FileService {
             return null;
         }
     }
+
     async uploadProfilePic(docs, s3Data, user) {
+        if (!s3Data || !docs)
+            return false
         try {
             const location = 's3'
-            const uploadedFile = await this.FileService.create(docs, s3Data, location)
+            const relativePath = 'hardCoded'
+            const uploadedFile = await this.fileService.create(docs, s3Data, location, relativePath)
             if (!uploadedFile) {
                 return null
             }
             const dUser = await User.findByPk(user?.id);
-            dUser.profilePictureId = uploadedFile.id
+            dUser.profilePictureId = uploadedFile?.id
             return await dUser.save()
         }
         catch (error) {
@@ -282,28 +287,25 @@ module.exports = class UserService extends FileService {
             return null
         }
     }
+
     async uploadCoverPic(docs, s3Data, user) {
-        if (!s3Data) {
+        if (!s3Data || !docs)
             return false
-        }
-        if (!docs) {
-            return false
-        }
+
         try {
             const location = 's3'
-            const uploadedFile = await this.FileService.create(docs, s3Data, location)
+            const relativePath = "hardCoded"
+            const uploadedFile = await this.fileService.create(docs, s3Data, location, relativePath)
 
-            if (!uploadedFile) {
+            if (!uploadedFile)
                 return null
-            }
+
             const dUser = await User.findByPk(user?.id);
-            dUser.coverPictureId = uploadedFile.id
+            dUser.coverPictureId = uploadedFile?.id
             return await dUser.save()
         }
         catch (error) {
             return null
         }
-
-
     }
 }

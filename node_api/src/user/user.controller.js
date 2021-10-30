@@ -7,14 +7,14 @@ const validationErrorFormatter = require("../modules/formatter").validationError
 const responseFormatter = require("../modules/formatter").response;
 const jwtService = require("../modules/jwt").service;
 const UserService = require("./user.service");
-const s3Service = require('../modules/s3/s3.service')
+const S3Service = require('../modules/s3/s3.service')
 
 class UserController extends BaseController {
   constructor() {
     super();
     this.service = new UserService();
     this.authService = new AuthService();
-    this.s3Service = new s3Service()
+    this.s3Service = new S3Service()
   }
 
   async create(req, res, next) {
@@ -396,16 +396,16 @@ class UserController extends BaseController {
       const body = data[0].buffer
       const s3Data = await this.s3Service.upload({ key, body })
       if (!s3Data) {
-        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update fgfg profile picture" } })
+        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update profile picture" } })
       }
       const dUser = await this.service.uploadProfilePic(req.files, s3Data, user)
       if (!dUser) {
-        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update hfg profile picture" } })
+        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update profile picture" } })
       }
       super.jsonRes({ res, code: 200, data: { success: true, message: "Profile picture updated ", metadata: { user: dUser } } })
     }
     catch (error) {
-      super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update gfggfgfg profile picture" } })
+      super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update profile picture" } })
     }
   }
   uploadCoverPicture = async (req, res, next) => {

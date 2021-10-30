@@ -159,7 +159,7 @@ User.init(
       defaultValue: 0,
     },
     yearOfEstablishment: {
-      type: DataTypes.INTEGER(4),
+      type: DataTypes.DATEONLY,
       allowNull: true,
       defaultValue: null
     },

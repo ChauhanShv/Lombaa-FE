@@ -14,7 +14,7 @@ class AuthService {
 
     if (!dbUser) return false;
     if (!dbUser.password) return false;
-    const passwordMatch = await bcrypt.compare(password, dbUser.password);
+    const passwordMatch = await bcrypt.compare(password, dbUser?.password);
     if (!passwordMatch) return false;
     dbUser.password = undefined;
     return dbUser;

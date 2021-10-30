@@ -4,7 +4,7 @@ const model = require('./file.model')
 module.exports = class FileService {
     constructor() {
     }
-    async create(docs, s3Data, location) {
+    async create(docs, s3Data, location, relativePath) {
         try {
             const data = docs
             const file = data[0].originalname
@@ -16,7 +16,7 @@ module.exports = class FileService {
                 name: data[0].fieldname,
                 mime: files.ext,
                 location: location,
-                relative_path: 'dhdh',
+                relative_path: relativePath,
                 absolute_path: s3Data.Location
             })
             return savedFile;

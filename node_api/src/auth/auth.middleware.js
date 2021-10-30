@@ -4,7 +4,6 @@ const fileModel = require('../file/file.model')
 
 module.exports = async (req, res, next) => {
     let headerAccessToken = req.header('x-access-token');
-    console.log(headerAccessToken)
     if (!headerAccessToken) {
         return res.status(401).json({
             code: 401,
@@ -21,7 +20,7 @@ module.exports = async (req, res, next) => {
             { model: fileModel, as: "coverPicture" }]
         })
         if (!user)
-            throw new Error('user not found');
+            throw new Error('User not found');
         req.user = user;
         next();
     }
