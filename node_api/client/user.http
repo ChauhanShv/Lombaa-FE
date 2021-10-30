@@ -181,7 +181,7 @@ x-access-token : {{token}}
     "location" : 5346,
     "birthday" : null,
     "sex" : "male",
-    "bio" : "i am very good hffhhfhfhbf hbfjbdfj hbfhjbfhb fbhjdbfjbfh bfhbfhb bhfbfhb hbfhdbfh hbhbfhdb ",
+    "bio" : "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
     "yearOfEstablishment" : 2004,
     "aboutBussiness" : "i am very glaf "
     
@@ -194,7 +194,6 @@ x-access-token : {{token}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 
-
 title
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="image"; filename="lombatest.png"
@@ -205,7 +204,7 @@ Content-Type: image/png
 
 ###
 
-PUT  {{baseUrl}}/user/picture/cover HTTP/1.1
+PUT  {{baseUrl}}/user/cover HTTP/1.1
 x-access-token : {{token}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
