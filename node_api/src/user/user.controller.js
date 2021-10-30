@@ -382,6 +382,7 @@ class UserController extends BaseController {
       next(error);
     }
   }
+
   uploadProfilePicture = async (req, res, next) => {
     try {
       validationResult(req).formatWith(validationErrorFormatter).throw();
@@ -408,6 +409,7 @@ class UserController extends BaseController {
       super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update profile picture" } })
     }
   }
+
   uploadCoverPicture = async (req, res, next) => {
     try {
       validationResult(req).formatWith(validationErrorFormatter).throw();
