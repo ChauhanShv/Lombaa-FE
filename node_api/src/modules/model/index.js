@@ -1,3 +1,7 @@
-const BasicAttr = require('./model.attr');
 
-module.exports = { BasicAttr };
+const createModel = (definition) => {
+  return definition(db, Sequelize);
+};
+
+module.exports = {
+};
