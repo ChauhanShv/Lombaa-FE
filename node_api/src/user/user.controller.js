@@ -439,7 +439,7 @@ class UserController extends BaseController {
       if (!dUser) {
         return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update cover picture" } })
       }
-      super.jsonRes({ res, code: 200, data: { success: true, message: "cover picture updated ", metadata: { user: dUser } } })
+      super.jsonRes({ res, code: 200, data: { success: true, message: "Cover picture updated ", metadata: { user: dUser } } })
     }
     catch (error) {
       super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update cover picture" } })

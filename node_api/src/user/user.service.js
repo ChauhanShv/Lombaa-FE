@@ -233,6 +233,7 @@ module.exports = class UserService extends BaseController {
             if (!dUser) return null;
 
             const verificationToken = jwtService.encode({ id: user?.id, email }, '1h');
+            console.log(verificationToken)
             eventEmitter.emit(event.changeEmail, { user, verificationLink: `${appConfig.frontEndUrl}/email/verify/${verificationToken}` });
             return dUser;
         } catch (error) {
@@ -274,8 +275,8 @@ module.exports = class UserService extends BaseController {
             return false
         try {
             const location = 's3'
-            const relativePath = 'hardCoded'
-            const uploadedFile = await this.fileService.create(docs, s3Data, location, relativePath)
+            const relativePath = 'empty'
+            const uploadedFile = await this.fileService.create(docs, s3Data, location, relativePath);
             if (!uploadedFile) {
                 return null
             }

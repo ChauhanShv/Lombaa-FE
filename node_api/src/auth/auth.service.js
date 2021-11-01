@@ -1,5 +1,6 @@
 const User = require("../user/user.model");
 const bcrypt = require("bcrypt");
+const fileModel = require('../file/file.model')
 
 const fs = require("fs");
 
@@ -10,7 +11,10 @@ const appRoot = require("app-root-path");
 class AuthService {
 
   async doAuth({ email, password }) {
-    const dbUser = await User.findOne({ where: { email: email } });
+    const dbUser = await User.findOne({
+      where: { email: email }, include: [{ model: fileModel, as: "profilePicture" },
+      { model: fileModel, as: "coverPicture" }]
+    });
 
     if (!dbUser) return false;
     if (!dbUser.password) return false;
