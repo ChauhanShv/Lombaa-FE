@@ -19,9 +19,11 @@ use App\Http\Controllers\UserController;
 //     return view('test');
 // });
 
-Route::get('/', [LoginController::class, 'login']);
+Route::get('/', [LoginController::class, 'login'])->name('login');
 
 Route::post('/', [LoginController::class, 'login']);
+
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/user', [UserController::class, 'user'])->name('user');
 

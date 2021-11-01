@@ -23,10 +23,17 @@ class LoginController extends Controller
             ];
             $validator = Validator::make($request->all(), $rules, $messages);
             if($validator->fails()){
-                return redirect()->route('login_get')->withErrors($validator);
+                return redirect()->route('login')->withErrors($validator);
             }
     		$username = $request->input('email');
     		$password = $request->input('password');
+            if($request->rememberme===null){
+                setcookie('login_email', $username,100 );
+                setcookie('login_password', $password,100 );
+            }else{
+                setcookie('login_email',$username, time()+60*60*24*100 );
+                setcookie('login_password', $password, time()+60*60*24*100 );
+            }
     		$data = login::where([['email', $username], ['password', $password]])
     				->select('*')
     				->first();
@@ -40,7 +47,9 @@ class LoginController extends Controller
     		return view('login');
     }
     public function logout(Request $request){
-        $request->session()->forget(['username', 'role']);
-          return redirect()->route('login_get');
+          Auth::logout();
+          $request->session()->invalidate();
+          $request->session()->regenerateToken();
+          return redirect('/');
     }
 }

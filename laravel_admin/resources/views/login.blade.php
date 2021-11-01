@@ -23,12 +23,23 @@
                                         {{ session('response.message') }}
                                     </div>
                                 @endif
+                                @php
+                                if(isset($_COOKIE['login_email']) && $_COOKIE['login_password']){
+                                    $login_email = $_COOKIE['login_email'];
+                                    $login_password = $_COOKIE['login_password'];
+                                    $is_remember = "checked='checked'";
+                                }else{
+                                    $login_email = '';
+                                    $login_password = '';
+                                    $is_remember = '';
+                                }
+                                @endphp
                 <form id="loginform" class="form-vertical" action=""  method="post">
                      <div class="control-group normal_text"> <h3>Login</h3></div>
                         <div class="control-group">
                         <div class="controls">
                             <div class="main_input_box">
-                                <span class="add-on bg_lg"><i class="icon-user"> </i></span><input type="text" name="email" placeholder="Email"/>
+                                <span class="add-on bg_lg"><i class="icon-user"> </i></span><input type="text" name="email" placeholder="Email" value="{{$login_email}}"/>
                                  @error('email')
                                  <div class="alert alert-danger ">{{ $message }}</div>
                                  @enderror
@@ -38,10 +49,19 @@
                     <div class="control-group">
                         <div class="controls">
                             <div class="main_input_box">
-                                <span class="add-on bg_ly"><i class="icon-lock"></i></span><input type="password" name="password" placeholder="Password" />
+                                <span class="add-on bg_ly"><i class="icon-lock"></i></span><input type="password" name="password" placeholder="Password" value="{{$login_password}}"/>
                                  @error('password')
                                  <div class="alert alert-danger ">{{ $message }}</div>
                                  @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div style="text-align:left">
+                            <div class="checkbox">
+                                <label style="color: white">
+                                    <input type="checkbox" name="rememberme" {{$is_remember}} />Remember me
+                                </label>
                             </div>
                         </div>
                     </div>
