@@ -12,6 +12,7 @@ const { findByPk } = require('./user.model');
 const FileService = require("../file/file.service");
 const FileType = require("file-type");
 const BaseController = require('../modules/controller/controller.base');
+const fileModel = require('../file/file.model')
 module.exports = class UserService extends BaseController {
     constructor() {
 
@@ -280,7 +281,14 @@ module.exports = class UserService extends BaseController {
             }
             const dUser = await User.findByPk(user?.id);
             dUser.profilePictureId = uploadedFile?.id
-            return await dUser.save()
+            await dUser.save()
+
+            return await User.findOne({
+                attributes: { exclude: ['password'] },
+                where: { id: dUser?.id },
+                include: [{ model: fileModel, as: "profilePicture" },
+                { model: fileModel, as: "coverPicture" }]
+            })
         }
         catch (error) {
             console.log(error)
@@ -291,18 +299,23 @@ module.exports = class UserService extends BaseController {
     async uploadCoverPic(docs, s3Data, user) {
         if (!s3Data || !docs)
             return false
-
         try {
             const location = 's3'
-            const relativePath = "hardCoded"
+            const relativePath = 'hardCoded'
             const uploadedFile = await this.fileService.create(docs, s3Data, location, relativePath)
-
-            if (!uploadedFile)
+            if (!uploadedFile) {
                 return null
-
+            }
             const dUser = await User.findByPk(user?.id);
             dUser.coverPictureId = uploadedFile?.id
-            return await dUser.save()
+            await dUser.save()
+
+            return await User.findOne({
+                attributes: { exclude: ['password'] },
+                where: { id: dUser?.id },
+                include: [{ model: fileModel, as: "profilePicture" },
+                { model: fileModel, as: "coverPicture" }]
+            })
         }
         catch (error) {
             return null
