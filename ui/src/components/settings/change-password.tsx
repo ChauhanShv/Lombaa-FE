@@ -15,7 +15,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { isEmpty } from 'lodash';
-import { COMMON_ERROR_MESSAGE } from '../../constants';
+import { getAPIErrorMessage } from '../../utils';
 import { useAxios } from '../../services/base-service';
 import { PASSWORD_REGEX } from '../../constants';
 import { ChangePasswordFormFeilds, AlertType } from './types';
@@ -94,7 +94,7 @@ export const ChangePassword: React.FC = (): React.ReactElement => {
                 <Form onSubmit={handleFormSubmit} className="details-form p-5" noValidate>
                     {(apiError || alert.message) && (
                         <Alert variant={alert.message ? 'success' : 'danger'} onClose={() => setAlert({})} dismissible>
-                            {alert.message || COMMON_ERROR_MESSAGE}
+                            {alert.message || getAPIErrorMessage(apiError)}
                         </Alert>
                     )}
                     <FloatingLabel

@@ -1,4 +1,4 @@
-import React from 'react';;
+import React, { useState, useEffect } from 'react';;
 import {
     ListGroup,
     Card,
@@ -11,11 +11,48 @@ import {
     FaGoogle,
     FaFacebook
 } from 'react-icons/fa';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
+import { ProfileDetailsFormFeilds, AlertType } from './types';
 import { useAppContext } from '../../contexts';
+import { useAxios } from '../../services/base-service';
+
+const standardSchema = yup.object().shape({
+    name: yup.string().required('Name is required'),
+    location: yup.string(),
+    birthday: yup.string(),
+    sex: yup.string(),
+    bio: yup.string(),
+}).required();
 
 export const PersonalPetails: React.FC = (): React.ReactElement => {
     const { state } = useAppContext();
-    console.log('abhi', state);
+    const { user } = state.user.metaData || {};
+    const [alert, setAlert] = useState<AlertType>({});
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<ProfileDetailsFormFeilds>({
+        resolver: yupResolver(standardSchema),
+        defaultValues: {
+            name: user?.name,
+            location: user?.location,
+            birthday: user?.birthday,
+            sex: user?.sex,
+            bio: user?.bio,
+        }
+    });
+    const [{data: profileResponse, loading: profileLoading, error: apiError}, execute] = useAxios({
+        url: '/user/update',
+        method: 'POST',
+    });
+
+    useEffect(() => {
+        if (profileResponse?.success) {
+            setAlert({
+                variant: 'success',
+                message: 'Profile updated successfully',
+            });
+        }
+    }, [profileResponse]);
     return (
         <Card>
             <Card.Header className="d-flex align-items-center justify-content-between bg-white">
@@ -59,10 +96,10 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                     <p className="mb-3"><strong>Connect your social media accounts for smoother experience!</strong></p>
                     <ListGroup as="ul" className="connectsocial mb-3">
                         <ListGroup.Item as="li">
-                            <span><FaGoogle/>  Google</span> <span>Toogle switch</span>
+                            <span><FaGoogle className="me-3" />  Google</span> <span>Toogle switch</span>
                         </ListGroup.Item>
                         <ListGroup.Item as="li">
-                        <span><FaFacebook/> Facebook</span> <span>Toogle switch</span>
+                        <span><FaFacebook className="me-3" /> Facebook</span> <span>Toogle switch</span>
                         </ListGroup.Item>
                     </ListGroup>
                     <button className="btn btn-success w-100">Save</button>

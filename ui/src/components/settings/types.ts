@@ -9,6 +9,14 @@ export interface ChangeEmailFormFeilds {
     email: string,
 }
 
+export interface ProfileDetailsFormFeilds {
+    name: string;
+    location: string;
+    birthday: string;
+    sex: string;
+    bio: string;
+};
+
 export interface AlertType {
     variant?: string;
     message?: string;

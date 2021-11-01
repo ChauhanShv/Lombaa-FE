@@ -30,7 +30,7 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm<ChangeEmailFormFeilds>({
         resolver: yupResolver(schema),
         defaultValues: {
-            email: state.user?.email
+            email: state.user?.metaData?.email
         }
     });
     const [{data: response, loading, error: apiError}, execute] = useAxios({

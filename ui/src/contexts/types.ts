@@ -1,24 +1,34 @@
-export type Payload = {
+export type KeyValuePair = {
     [key: string]: any;
 }
 export type Action = {
     type: string;
-    payload?: Payload;
+    payload?: KeyValuePair;
 }
 export type Dispatch = (action: Action) => void;
 
 export enum ActionTypes {
     LOGIN = 'LOGIN',
     LOGOUT = 'LOGOUT',
-    IS_ACTIVE = 'IS_ACTIVE',
-};
-
-export type State = {
-    isLoggedIn: boolean;
-    user: any,
-}
-  
+    APP_READY = 'APP_READY',
+};  
 export type AppContextProviderProps = {
     children: React.ReactNode
 }
+
+export interface App {
+    appReady?: boolean;
+};
+export interface Session {
+    isLoggedIn?: boolean;
+    token?: string;
+};
+export interface User {
+    metaData?: KeyValuePair;
+};
+export type State = {
+    session: Session;
+    user: User;
+    app: App;
+};
 
