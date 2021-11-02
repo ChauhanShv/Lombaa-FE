@@ -36,7 +36,7 @@
                         <td style="text-align: center;">{{ $i }}</td>
                         <td style="text-align: center;">{{ $data->id }}</td>
                         <td style="text-align: center;">{{ $data->name }}</td>
-                        <td style="text-align: center;">{{ $data->memberSince }}</td>
+                        <td style="text-align: center;">{{ htmlspecialchars_decode(date('jS F Y', strtotime($data->memberSince))) }}</td>
                         <td style="text-align: center;">{{ $data->location }}</td>
                         <td>
                             @if(($data->isSuspended)==0)
@@ -66,6 +66,9 @@
                                     <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>&nbsp&nbsp
                                 <a href="{{ url('/user/delete', $data->id) }}">
+                                    <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                                </a>&nbsp&nbsp
+                                <a href="">
                                     <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
                         </td>

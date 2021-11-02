@@ -9,123 +9,123 @@
    <div class="widget-content nopadding">
       <form action="" method="" class="form-horizontal">
          <div class="control-group">
-            <label class="control-label">Email :</label>
+            <label class="control-label" style="font-weight: bold;">Email :</label>
             <div class="controls ">
-               <input type="text" name="username" class="span10" value="{{ $info->email }}" readonly/>
+               <lable class="span11" style="font-weight: bold">{{$info->email}}</lable>
             </div>
          </div>
          <div class="control-group">
-            <label class="control-label">Phone Number :</label>
+            <label class="control-label" style="font-weight: bold;">Phone Number :</label>
             <div class="controls ">
-               <input type="text" name="username" class="span10" value="{{ $info->phoneNumber }}" readonly/>
+               <lable class="span11" style="font-weight: bold">{{$info->phoneNumber}}</lable>
             </div>
          </div>
          <div class="control-group">
-            <label class="control-label">Account Type :</label>
+            <label class="control-label" style="font-weight: bold;">Account Type :</label>
             <div class="controls ">
-               <input type="text" name="username" class="span10" value="{{ $info->accountType }}" readonly/>
+               <lable class="span11" style="font-weight: bold">{{$info->accountType}}</lable>
             </div>
          </div>
          <div class="control-group">
-            <label class="control-label">Facebook Verified :</label>
+            <label class="control-label" style="font-weight: bold;">Facebook Verified :</label>
             <div class="controls ">
-               @if(($info->isFacebookVerified)==0)
-                  <input type="text" name="username" class="span10" value="Unverified" readonly/>
-               @else
-                  <input type="text" name="username" class="span10" value="Verified" readonly/>
-               @endif
+            @if(($info->isFacebookVerified)==0)
+               <lable class="span11" style="font-weight: bold">Unverified</lable>
+            @else
+               <lable class="span11" style="font-weight: bold">Verified</lable>
+            @endif
             </div>
          </div>
          <div class="control-group">
-            <label class="control-label">Google Verified :</label>
+            <label class="control-label" style="font-weight: bold;">Google Verified :</label>
             <div class="controls ">
-               @if(($info->isGoogleVerified)==0)
-                  <input type="text" name="username" class="span10" value="Unverified" readonly/>
-               @else
-                  <input type="text" name="username" class="span10" value="Verified" readonly/>
-               @endif
+            @if(($info->isGoogleVerified)==0)
+               <lable class="span11" style="font-weight: bold">Unverified</lable>
+            @else
+               <lable class="span11" style="font-weight: bold">Verified</lable>
+            @endif
             </div>
          </div>
          <div class="control-group">
-            <label class="control-label">Phone Verified :</label>
+            <label class="control-label" style="font-weight: bold;">Phone Verified :</label>
             <div class="controls ">
-               @if(($info->isPhoneVerified)==0)
-                  <input type="text" name="username" class="span10" value="Unverified" readonly/>
-               @else
-                  <input type="text" name="username" class="span10" value="Verified" readonly/>
-               @endif
+            @if(($info->isPhoneVerified)==0)
+               <lable class="span11" style="font-weight: bold">Unverified</lable>
+            @else
+               <lable class="span11" style="font-weight: bold">Verified</lable>
+            @endif
             </div>
          </div>
          <div class="control-group">
-            <label class="control-label">Selfie Verified :</label>
+            <label class="control-label" style="font-weight: bold;">Selfie Verified :</label>
             <div class="controls ">
-               @if(($info->isSelfieVerified)==0)
-                  <input type="text" name="username" class="span10" value="Unverified" readonly/>
-               @else
-                  <input type="text" name="username" class="span10" value="Verified" readonly/>
-               @endif
+            @if(($info->isSelfieVerified)==0)
+               <lable class="span11" style="font-weight: bold">Unverified</lable>
+            @else
+               <lable class="span11" style="font-weight: bold">Verified</lable>
+            @endif
             </div>
          </div>
          <div class="control-group">
-            <label class="control-label">ID Verified :</label>
+            <label class="control-label" style="font-weight: bold;">ID Verified :</label>
             <div class="controls ">
-               @if(($info->isIdVerified)==0)
-                  <input type="text" name="username" class="span10" value="Unverified" readonly/>
-               @else
-                  <input type="text" name="username" class="span10" value="Verified" readonly/>
-               @endif
+            @if(($info->isIdVerified)==0)
+               <lable class="span11" style="font-weight: bold">Unverified</lable>
+            @else
+               <lable class="span11" style="font-weight: bold">Verified</lable>
+            @endif
             </div>
          </div>
          <div class="control-group">
-            <label class="control-label">Email Verified :</label>
+            <label class="control-label" style="font-weight: bold;">Email Verified :</label>
             <div class="controls ">
-               @if(($info->isEmailVerified)==0)
-                  <input type="text" name="username" class="span10" value="Unverified" readonly/>
-               @else
-                  <input type="text" name="username" class="span10" value="Verified" readonly/>
-               @endif
+            @if(($info->isEmailVerified)==0)
+               <lable class="span11" style="font-weight: bold">Unverified</lable>
+            @else
+               <lable class="span11" style="font-weight: bold">Verified</lable>
+            @endif
             </div>
          </div>
          <div class="control-group">
-            <label class="control-label">Premium :</label>
+            <label class="control-label" style="font-weight: bold;">Premium :</label>
             <div class="controls ">
-               <input type="text" name="username" class="span10" value="{{ $info->isPremium }}" readonly/>
+               <lable class="span11" style="font-weight: bold">{{$info->isPremium}}</lable>
             </div>
          </div>
          <div class="control-group">
-            <label class="control-label">Products :</label>
+            <label class="control-label" style="font-weight: bold;">Products :</label>
             <div class="controls ">
-               <input type="text" name="username" class="span10" value="" readonly/>
+               <lable class="span11" style="font-weight: bold"></lable>
             </div>
          </div>
          <div class="control-group">
-            <label class="control-label">Reviews :</label>
+            <label class="control-label" style="font-weight: bold;">Reviews :</label>
             <div class="controls ">
-               <input type="text" name="username" class="span10" value="" readonly/>
+               <lable class="span11" style="font-weight: bold"></lable>
             </div>
          </div>
          <div class="control-group">
-            <label class="control-label">Payments :</label>
+            <label class="control-label" style="font-weight: bold;">Payments :</label>
             <div class="controls ">
-               <input type="text" name="username" class="span10" value="" readonly/>
+               <lable class="span11" style="font-weight: bold"></lable>
             </div>
          </div>
          <div class="control-group">
-            <label class="control-label">Reports :</label>
+            <label class="control-label" style="font-weight: bold;">Reports :</label>
             <div class="controls ">
-               <input type="text" name="username" class="span10" value="" readonly/>
+               <lable class="span11" style="font-weight: bold"></lable>
             </div>
          </div>
          <div class="control-group">
-            <label class="control-label">Made :</label>
+            <label class="control-label" style="font-weight: bold;">Made :</label>
             <div class="controls ">
-               <input type="text" name="username" class="span10" value="" readonly/>
+               <lable class="span11" style="font-weight: bold"></lable>
             </div>
          </div>
          <div class="control-group">
-            <label class="control-label">Received :</label>
+            <label class="control-label" style="font-weight: bold;">Received :</label>
             <div class="controls ">
-               <input type="text" name="username" class="span10" value="" readonly/>
+               <lable class="span11" style="font-weight: bold"></lable>
             </div>
          </div>
       </form>

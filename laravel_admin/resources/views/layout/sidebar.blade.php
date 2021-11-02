@@ -1,7 +1,7 @@
 <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
     <ul>
-        <li class="{{\Request::route()->getName() === 'home_get'? 'active': ''}}"><a href="#"><i
-                    class="icon icon-home"></i> <span>Home</span></a></li>
+        <li class="{{\Request::route()->getName() === 'home_get'? 'active': ''}}"><a href="#"><i style="color: white"
+                    class="icon icon-home"></i> <span style="color: white">Home</span></a></li>
        {{--  <li class="submenu {{\Request::route()->getPrefix() === 'admin/user' ? 'open active': ''}}">
             <a href="#">
                 <i class="icon icon-group"></i><span>Users</span>
@@ -92,7 +92,7 @@
         </li>
         <li class="submenu">
             <a href="">
-                <i class="icon icon-user"></i> <span>User</span>
+                <i style="color: white" class="icon icon-user"></i> <span style="color: white" >User</span>
             </a>
             <ul>
                 <li class="">
@@ -105,7 +105,7 @@
         </li>
         <li class="submenu">
             <a href="">
-                <i class="icon icon-phone"></i> <span>Support</span>
+                <i style="color: white" class="icon icon-phone"></i> <span style="color: white">Support</span>
             </a>
             <ul>
                 <li class="">
@@ -118,7 +118,7 @@
         </li>
         <li class="submenu">
             <a href="">
-                <i class="icon icon-certificate"></i> <span>Certificate</span>
+                <i style="color: white" class="icon icon-certificate"></i> <span style="color: white">Certificate</span>
             </a>
             <ul>
                 <li class="">
