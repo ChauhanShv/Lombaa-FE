@@ -36,7 +36,11 @@
                         <td style="text-align: center;">{{ $i }}</td>
                         <td style="text-align: center;">{{ $data->id }}</td>
                         <td style="text-align: center;">{{ $data->name }}</td>
+                        @if(($data->memberSince)==null)
+                        <td style="text-align: center;"></td>
+                        @else
                         <td style="text-align: center;">{{ htmlspecialchars_decode(date('jS F Y', strtotime($data->memberSince))) }}</td>
+                        @endif
                         <td style="text-align: center;">{{ $data->location }}</td>
                         <td>
                             @if(($data->isSuspended)==0)
