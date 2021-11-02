@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
-use App\Models\login;
+use App\Models\Login;
 use Validator;
 use Session;
 
@@ -34,7 +34,7 @@ class LoginController extends Controller
                 setcookie('login_email',$username, time()+60*60*24*100 );
                 setcookie('login_password', $password, time()+60*60*24*100 );
             }
-    		$data = login::where([['email', $username], ['password', $password]])
+    		$data = Login::where([['email', $username], ['password', $password]])
     				->select('*')
     				->first();
 			if($data){

@@ -11,7 +11,7 @@ class UserController extends Controller
     }
     public function info($id){
         $info = Users::where('id', $id)->first();
-        return view('user.show', ['info' => $info]);
+            return view('user.show', ['info' => $info]);
     }
     public function suspend(Request $request, $id){
         $suspend_User = Users::where([['id', '=', $id], ['isSuspended', '=', 0]])->update(['isSuspended' => 1]);
@@ -30,23 +30,35 @@ class UserController extends Controller
         }
     }
     public function active($id){
-            $active_User = Users::where([['id', '=', $id], ['isActive', '=', 0]])->update(['isActive' => 1]);
-            if($active_User){
+        $active_User = Users::where([['id', '=', $id], ['isActive', '=', 0]])->update(['isActive' => 1]);
+        if($active_User){
             return redirect()->back()->with('response', ['status' => 'success', 'message' => 'User Active Successfully']);
         }else{
             return redirect()->back();
         }
     }
     public function deactive($id){
-            $deactive_User = Users::where([['id', '=', $id], ['isActive', '=', 1]])->update(['isActive' => 0]);
-            if($deactive_User){
+        $deactive_User = Users::where([['id', '=', $id], ['isActive', '=', 1]])->update(['isActive' => 0]);
+        if($deactive_User){
             return redirect()->back()->with('response', ['status' => 'success', 'message' => 'User Deactive Successfully']);
         }else{
             return redirect()->back();
         }
     }
+    public function edit($id){
+        $data = Users::find($id);
+        return view('user.update', ['data' => $data]);
+    }
+    public function update(Request $request){
+       $data = Users::find($request->id);
+       $data->id = $request->id;
+       $data->name = $request->name;
+       $data->location = $request->location;
+       $data->save();
+       return redirect()->route('user')->with('response', ['status' => 'success', 'message' => 'User Updated successfully']);
+    }
     public function delete($id){
         $user_list = Users::find($id)->delete();
-        return redirect()->back()->with('response', ['status' => 'success', 'message' => 'User Deleted Successfully']);
+            return redirect()->back()->with('response', ['status' => 'success', 'message' => 'User Deleted Successfully']);
     }
 }

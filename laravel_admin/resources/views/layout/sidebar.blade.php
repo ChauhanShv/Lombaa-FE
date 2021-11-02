@@ -89,16 +89,6 @@
                 </li>
             </ul> --}}
         </li>
-        {{-- <li class="{{\Request::route()->getName() === 'view_maintenance'? 'active': ''}}">
-             <a href="{{ route('view_maintenance') }}"><i class="icon-cogs"></i> <span>Maintenance</span></a> --}}
-            {{-- <ul>
-                <li class="">
-                    <a href="#">Add</a>
-                </li>
-                <li class="">
-                    <a href="#">List</a>
-                </li>
-            </ul> --}}
         </li>
         <li class="submenu">
             <a href="">
