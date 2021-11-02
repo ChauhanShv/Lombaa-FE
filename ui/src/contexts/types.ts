@@ -11,6 +11,7 @@ export enum ActionTypes {
     LOGIN = 'LOGIN',
     LOGOUT = 'LOGOUT',
     APP_READY = 'APP_READY',
+    UPDATE_PROFILE = 'UPDATE_PROFILE',
 };  
 export type AppContextProviderProps = {
     children: React.ReactNode

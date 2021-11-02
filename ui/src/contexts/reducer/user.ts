@@ -17,6 +17,10 @@ export const userReducer = (state: User, action: Action) => {
                 ...state,
                 metaData: {},
             }
+        case ActionTypes.UPDATE_PROFILE:
+            return {
+                ...state,
+            }
         default: {
             return state;
         }

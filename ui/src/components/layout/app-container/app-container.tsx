@@ -21,6 +21,9 @@ export const AppContainer = ({ children }: AppContainerProps) => {
             dispatch({
                 type: ActionTypes.LOGOUT,
             });
+            dispatch({
+                type: ActionTypes.APP_READY,
+            });
         }
     }, []);
 
