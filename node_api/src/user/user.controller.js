@@ -112,8 +112,17 @@ class UserController extends BaseController {
       const { email } = req.body;
       const user = req.user
 
-      if (!await this.service.requestChangeEmail(email, user))
-        return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to request change email address" } });
+      if (!await this.service.requestChangeEmail(email, user)) {
+        const data = {
+          success: false,
+          error: {
+            code: 400,
+            message: "Failed to request change email address",
+            message_detail: "Something went wrong "
+          }
+        }
+        return super.jsonRes({ res, code: 400, data });
+      }
 
       return super.jsonRes({ res, code: 200, data: { success: true, message: `Email Verification is sent at ${email}` } });
     } catch (error) {
@@ -125,12 +134,30 @@ class UserController extends BaseController {
     const { token } = req.body;
 
     let user = await this.service.verifyEmailVerificationToken(token);
-    if (!user)
-      return super.jsonRes({ res, code: 400, data: { success: false, message: "Email verification failed", messageDetail: "Token verification failed" } });
+    if (!user) {
+      const data = {
+        success: false,
+        error: {
+          code: 400,
+          message: "Email verification failed",
+          messageDetail: "Token verification failed"
+        }
+      }
+      return super.jsonRes({ res, code: 400, data });
+    }
 
     user = await this.service.markEmailVerified(user);
-    if (!user)
-      return super.jsonRes({ res, code: 400, data: { success: false, message: "Email verification failed", messageDetail: "Failed to update verified status" } });
+    if (!user) {
+      const data = {
+        success: false,
+        error: {
+          code: 400,
+          message: "Email verification failed",
+          messageDetail: "Failed to update verified status"
+        }
+      }
+      return super.jsonRes({ res, code: 400, data });
+    }
 
     return super.jsonRes({ res, code: 200, data: { success: true, message: "Email verified" } });
   }
@@ -183,7 +210,14 @@ class UserController extends BaseController {
 
       if (await this.service.verifyResetPasswordToken(token))
         return super.jsonRes({ res, code: 200, data: { success: true, message: "Password token verified" } });
-      return super.jsonRes({ res, code: 400, data: { success: false, message: "Password token not verified" } });
+      const data = {
+        success: false, error: {
+          code: 401,
+          message: "Password token not verified",
+          message_detail: "Can't read your token"
+        }
+      }
+      return super.jsonRes({ res, code: 400, data });
     } catch (error) {
       next(error);
     }
@@ -201,7 +235,15 @@ class UserController extends BaseController {
 
       if (await this.service.resetPassword(token, newPassword))
         return super.jsonRes({ res, code: 200, data: { success: true, message: "Password reset" } });
-      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to reset password" } });
+      const data = {
+        success: false,
+        error: {
+          code: 400,
+          message: "Failed to reset password",
+          message_detail: "your password request failed"
+        }
+      }
+      return super.jsonRes({ res, code: 400, data });
 
     } catch (error) {
       next(error);
@@ -348,7 +390,11 @@ class UserController extends BaseController {
       return super.jsonRes({
         res,
         code: 401,
-        data: { message: "Invalid user" },
+        data: {
+          success: false,
+          message: "Invalid user",
+          message_detail: " Something went wrong"
+        },
       });
     }
   };
@@ -402,17 +448,40 @@ class UserController extends BaseController {
 
 
       if (!s3Data) {
-        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update profile picture" } })
+        const data = {
+          success: false,
+          error: {
+            code: 401,
+            message: "Failed to update profile picture",
+            message_detail: "s3 is enable to allow you space"
+          }
+        }
+        return super.jsonRes({ res, code: 401, data })
       }
       const dUser = await this.service.uploadProfilePic(req.files, s3Data, user)
       if (!dUser) {
-        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update profile picture" } })
+        const data = {
+          success: false,
+          error: {
+            code: 401,
+            message: "Failed to update profile picture",
+            message_detail: "enable to load user data"
+          }
+        }
+        return super.jsonRes({ res, code: 401, data })
       }
       super.jsonRes({ res, code: 200, data: { success: true, message: "Profile picture updated ", metadata: { user: dUser } } })
     }
     catch (error) {
-      console.log(error)
-      super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update profile picture" } })
+      const data = {
+        success: false,
+        error: {
+          code: 401,
+          message: "Failed to update profile picture",
+          message_detail: "something went wrong"
+        }
+      }
+      super.jsonRes({ res, code: 401, })
     }
   }
 
@@ -433,16 +502,40 @@ class UserController extends BaseController {
 
 
       if (!s3Data) {
-        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update cover picture" } })
+        const data = {
+          success: false,
+          error: {
+            code: 401,
+            message: "Failed to update cover picture",
+            message_detail: "s3 is enable to allow you space"
+          }
+        }
+        return super.jsonRes({ res, code: 401, data })
       }
       const dUser = await this.service.uploadCoverPic(req.files, s3Data, user)
       if (!dUser) {
-        return super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update cover picture" } })
+        const data = {
+          success: false,
+          error: {
+            code: 401,
+            message: "Failed to update cover picture",
+            message_detail: "enable to user data"
+          }
+        }
+        return super.jsonRes({ res, code: 401, data })
       }
       super.jsonRes({ res, code: 200, data: { success: true, message: "Cover picture updated ", metadata: { user: dUser } } })
     }
     catch (error) {
-      super.jsonRes({ res, code: 401, data: { success: false, message: "Failed to update cover picture" } })
+      const data = {
+        success: false,
+        error: {
+          code: 401,
+          message: "Failed to update cover picture",
+          message_detail: "Something went wrong"
+        }
+      }
+      super.jsonRes({ res, code: 401, data })
     }
   }
 }
