@@ -322,4 +322,36 @@ module.exports = class UserService extends BaseController {
             return null
         }
     }
+    async getUser(payload) {
+        let user = await User.findOne({
+            attributes: { exclude: ['password'] },
+            where: { id: payload.id },
+            include: [{ model: fileModel, as: "profilePicture" },
+            { model: fileModel, as: "coverPicture" }]
+        })
+        user.profileVerificationScore = await this.calculateProfileScore(user)
+
+
+        return user
+
+    }
+    async calculateProfileScore(user) {
+        let verificationScore = 0;
+        if (user.isFacebookVerified === 1) {
+            verificationScore = verificationScore + 20;
+        }
+        if (user.isGoogleVerified === 1) {
+            verificationScore = verificationScore + 20;
+        }
+        if (user.isPhoneVerified === 1) {
+            verificationScore = verificationScore + 20
+        }
+        if (user.isSelfieVerified === 1) {
+            verificationScore = verificationScore + 20
+        }
+        if (user.isIdVerified === 1) {
+            verificationScore = verificationScore + 20
+        }
+        return verificationScore;
+    }
 }

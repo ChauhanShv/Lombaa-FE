@@ -1,7 +1,6 @@
-const User = require('../user/user.model');
 const jwt = require('../modules/jwt/jwt.service');
-const fileModel = require('../file/file.model')
-
+const UserService = require('../user/user.service')
+const userService = new UserService
 module.exports = async (req, res, next) => {
     let headerAccessToken = req.header('x-access-token');
     if (!headerAccessToken) {
@@ -41,18 +40,15 @@ module.exports = async (req, res, next) => {
 
     try {
         const payload = jwt.decode(headerAccessToken);
-        let user = await User.findOne({
-            attributes: { exclude: ['password'] },
-            where: { id: payload?.id },
-            include: [{ model: fileModel, as: "profilePicture" },
-            { model: fileModel, as: "coverPicture" }]
-        })
+        let user = await userService.getUser(payload)
         if (!user)
+
             throw new Error('User not found');
         req.user = user;
         next();
     }
     catch (err) {
+        console.log(err)
         return res.status(401).json({
             success: false,
             error: {
