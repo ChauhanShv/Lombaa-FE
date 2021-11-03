@@ -15,7 +15,6 @@
                     <input type="{{$value['type']}}" name="{{$key}}" value="{{$value['value']}}" placeholder="{{$value['placeholder']}}" class="span3 m-wrap md">
                 @endif
             @endforeach
-            
             <input type="hidden" name="search" value="true" />
         </div>
         <div class="row" style="margin-top: 10px; margin-bottom: 10px; text-align:center;">
