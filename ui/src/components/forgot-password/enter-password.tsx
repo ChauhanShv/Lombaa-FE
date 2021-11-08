@@ -21,7 +21,6 @@ import { PASSWORD_REGEX } from '../../constants';
 import { getAPIErrorMessage } from '../../utils';
 
 const schema = yup.object().shape({
-    currentPassword: yup.string().required('Password is required'),
     newPassword: yup.string().matches(
         PASSWORD_REGEX,
         'Password should contain minimum 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character'
@@ -109,18 +108,6 @@ export const EnterPassword: React.FC = () => {
                         </Card.Header>
                         <Form onSubmit={handleFormSubmit} className="card-content text-center p-5 col-md-6 mx-auto" noValidate>
                            <h4 className="mb-4">Enter your email to get the forgot password link</h4>
-                           <FloatingLabel 
-                                label="Enter your current password"
-                                className="mb-3"
-                            >
-                                <Form.Control
-                                    {...register('currentPassword')}
-                                    type="password"
-                                    placeholder="Enter your current password"
-                                    className={getErrorClassName('currentPassword')}
-                                />
-                                {getErrorText('currentPassword')}
-                            </FloatingLabel>
                             <FloatingLabel 
                                 label="New password"
                                 className="mb-3"

@@ -11,7 +11,7 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({
     ...rest
 }: PrivateRouteProps) => {
     const { state } = useAppContext();
-    const isLogin = (): boolean => !! state.isLoggedIn;
+    const isLogin = (): boolean => !! state.session?.isLoggedIn;
     return (
         <Route {...rest} render={(props: any) => (
             isLogin() ?

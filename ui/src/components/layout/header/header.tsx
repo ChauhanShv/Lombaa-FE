@@ -1,41 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {FaBookmark, FaCommentDots, FaBell, FaList, FaSearch } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { useAxios } from '../../../services/base-service';
-import { useAppContext, ActionTypes } from '../../../contexts';
+import { Navbar, Dropdown } from 'react-bootstrap';
 import { Login, Register } from '../../modals';
+import { useAppContext } from '../../../contexts';
 import './header.css';
 import logo from './logo.svg';
 
-export const Header: React.FC = (): React.ReactElement => {
-    const { state, dispatch } = useAppContext();
-    const { isLoggedIn } = state;
+const HeaderComponent: React.FC = (): React.ReactElement => {
     const [loginModal, setLoginModal] = useState<boolean>(false);
     const [registerModal, setRegisterModal] = useState<boolean>(false);
-    const [{ data: response }, refetch] = useAxios({
-        url: '/user/isActive',
-        method: 'GET',
-    });
-
-    useEffect(() => {
-        if (isLoggedIn) {
-            refetch();
-        }
-    }, []);
-    useEffect(() => {
-        if (response?.success) {
-            dispatch({
-                type: ActionTypes.IS_ACTIVE,
-                payload: {
-                    user: response?.response?.user,
-                }
-            });
-        }
-    }, [response]);
-
+    const { state } = useAppContext();
+    const { session } = state;
     return (
         <>
-            <nav className="navbar navbar-expand-lg navbar-dark border border-success bg-success">
+            <Navbar className="navbar navbar-expand-lg navbar-dark border border-success bg-success" sticky="top">
                 <div className="container">
                     <Link className="navbar-brand  d-none d-lg-flex" to="/">
                         <img src={logo} alt="Logo" />
@@ -69,28 +48,27 @@ export const Header: React.FC = (): React.ReactElement => {
                             </li>
                         </ul>
                 
-                        {!isLoggedIn && (
+                        {!session.isLoggedIn && (
                             <>
                                 <button className="btn text-white mx-2 px-0 d-none d-lg-block" onClick={() => setLoginModal(true)}>Login</button>
                                 <button className="btn text-white mx-2 px-0 d-none d-lg-block" onClick={() => setRegisterModal(true)}>Register</button>
                             </>
                         )}
-                        <div className="nav-item dropdown">
-                            <a className="nav-link  p-0 rounded-circle border " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img className="rounded-circle" width="32" height="32" src=" https://dummyimage.com/100/007bff/efefef" alt="Htmlstream" />
-                    </a>
-                    <div className="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    <a className="dropdown-item" href="#">Profile</a>
-                    <a className="dropdown-item" href="#">Account Settings</a>
-                    <a className="dropdown-item" href="#">Newsletter</a>
-                    <div className="dropdown-divider"></div>
-                    <a className="dropdown-item" href="#">Sign Out</a>
-                    </div>
-                </div>
+                        <Dropdown align="end">
+                            <Dropdown.Toggle variant="link" id="dropdown-basic" className="p-0">
+                                <img className="rounded-circle" width="40" height="40" src=" https://dummyimage.com/100/007bff/efefef" alt="Htmlstream" />
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
+                                <Dropdown.Item href="#/action-2">Account Settings</Dropdown.Item>
+                                <Dropdown.Divider />
+                                <Dropdown.Item href="#/action-3">Sign out</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
                     <a className="nav-link px-4 bg-primary rounded ms-3 text-white d-none d-lg-flex" href="#">+ Sell</a>
                 </div>
             </div>
-            </nav>
+            </Navbar>
             {loginModal && (
                 <Login
                     show={loginModal}
@@ -108,3 +86,5 @@ export const Header: React.FC = (): React.ReactElement => {
         </>
     );
 };
+
+export const Header = React.memo(HeaderComponent);
