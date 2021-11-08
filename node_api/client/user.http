@@ -1,17 +1,16 @@
 @baseUrl = http://localhost:3001/api
-@token =eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJhNjAzYTJmLWQ4NzYtNGY2My1hMDY0LTBkOTNkZWM1ZDA2ZSIsImlhdCI6MTYzNTU4NjE0MiwiZXhwIjoxNjM1NjcyNTQyfQ.3bU57HtHlVWORXs_Xz-tmyc5Wb3IFnp-3kAjxGa7-Qg
 
-
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVmYjJhMDE1LWU5YTQtNGI1Ny1hNDM2LTM5ZmNkY2FiNTQ2MCIsImlhdCI6MTYzNjM0NjM3MCwiZXhwIjoxNjM2NDMyNzcwfQ.i303xIEHUggP-SdYuS4bBhid_kd5HtELESd4P6YVhR8
 ### Crete new User
 
 POST {{baseUrl}}/user HTTP/1.1
 content-type: application/json
 
 {
-    "email": "jadu@gmail.com",
+    "email": "ajay@gmail.com",
     "password": "123456",
     "name": "test",
-    "phoneNumber": "8975847324",
+    "phoneNumber": "9894561230",
     "accountType": "standard",
     "lattitude": "",
     "longitude": "",
@@ -84,7 +83,6 @@ x-access-token: {{token}}
 POST {{baseUrl}}/user/email HTTP/1.1
 content-type: application/json
 x-access-token: {{token}}
-
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MzQxMjU4LWFhYjktNDlkZi1iM2JhLTZlZjY0YTg2YmQ0MiIsImVtYWlsIjoibmV3dGVzdDEyMTJAZ21haWwuY29tIiwiaWF0IjoxNjM1MDI5ODg0LCJleHAiOjE2MzUwMzM0ODR9.93TdfoxW5fA_dOWffZHLRWCbuW0lKs14xAbmueO8pDk"
 }
@@ -175,9 +173,11 @@ x-access-token: {{token}}
 POST {{baseUrl}}/user/update HTTP/1.1
 Content-Type: application/json
 x-access-token : {{token}}
+x-app-version : 1.0.0
+x-client-platform : android
 
 {
-    "name" : "Vivek Yadav",
+    "name" : "Vivek",
     "location" : 5346,
     "birthday" : null,
     "sex" : "male",

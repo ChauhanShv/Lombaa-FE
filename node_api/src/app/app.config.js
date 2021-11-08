@@ -5,4 +5,5 @@ module.exports = {
     timeZone: process.env.APP_TIMEZONE || 'Asia/Kolkata',
     utcOffset: process.env.APP_UTC_OFFSET || 330,
     frontEndUrl: process.env.APP_FRONTEND_URL || 'http://localhost:3000',
+    appVersion: process.env.APP_VERSION || '1.0.0',
 };

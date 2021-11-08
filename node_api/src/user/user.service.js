@@ -274,8 +274,8 @@ module.exports = class UserService extends BaseController {
         if (!s3Data || !docs)
             return false
         try {
-            const location = 's3'
-            const relativePath = 'empty'
+            const location = 'S3'
+            const relativePath = ''
             const uploadedFile = await this.fileService.create(docs, s3Data, location, relativePath);
             if (!uploadedFile) {
                 return null
@@ -301,8 +301,8 @@ module.exports = class UserService extends BaseController {
         if (!s3Data || !docs)
             return false
         try {
-            const location = 's3'
-            const relativePath = 'hardCoded'
+            const location = 'S3'
+            const relativePath = ' '
             const uploadedFile = await this.fileService.create(docs, s3Data, location, relativePath)
             if (!uploadedFile) {
                 return null
@@ -338,19 +338,19 @@ module.exports = class UserService extends BaseController {
     async calculateProfileScore(user) {
         let verificationScore = 0;
         if (user.isFacebookVerified === 1) {
-            verificationScore = verificationScore + 20;
+            verificationScore += 20;
         }
         if (user.isGoogleVerified === 1) {
-            verificationScore = verificationScore + 20;
+            verificationScore += 20;
         }
         if (user.isPhoneVerified === 1) {
-            verificationScore = verificationScore + 20
+            verificationScore += 20
         }
         if (user.isSelfieVerified === 1) {
-            verificationScore = verificationScore + 20
+            verificationScore += 20
         }
         if (user.isIdVerified === 1) {
-            verificationScore = verificationScore + 20
+            verificationScore += 20
         }
         return verificationScore;
     }

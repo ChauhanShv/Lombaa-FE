@@ -465,7 +465,7 @@ class UserController extends BaseController {
           error: {
             code: 401,
             message: "Failed to update profile picture",
-            message_detail: "enable to load user data"
+            message_detail: "Unable to load user data"
           }
         }
         return super.jsonRes({ res, code: 401, data })
@@ -507,7 +507,7 @@ class UserController extends BaseController {
           error: {
             code: 401,
             message: "Failed to update cover picture",
-            message_detail: "s3 is enable to allow you space"
+            message_detail: "Unable to load user data"
           }
         }
         return super.jsonRes({ res, code: 401, data })
