@@ -33,7 +33,7 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
     const { register, handleSubmit, formState: { errors } } = useForm<ChangePhoneFormFeilds>({
         resolver: yupResolver(schema),
         defaultValues: {
-            phoneNumber: state.user?.phoneNumber,
+            phoneNumber: state.user?.metaData?.phoneNumber,
         }
     });
     const [{data: response, loading, error: apiError}, execute] = useAxios({
@@ -45,7 +45,7 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
         if (response?.success) {
             setAlert({
                 variant: 'success',
-                message: 'Email changed successfully',
+                message: 'Phone changed successfully',
             });
         }
     }, [response]);
@@ -58,7 +58,7 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
         if (isEmpty(errors)) {
             execute({
                 data: {
-                    ...values,
+                    phone: values.phoneNumber,
                 }
             });
         }
