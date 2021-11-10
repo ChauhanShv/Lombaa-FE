@@ -11,7 +11,6 @@ import {
     Modal,
     Spinner,
 } from 'react-bootstrap';
-import ToggleButton from 'react-bootstrap/ToggleButton';
 import {
     FaChevronLeft,
     FaGoogle,
@@ -21,29 +20,36 @@ import ReactCrop, { Crop } from 'react-image-crop';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
+import { AiOutlineEdit } from 'react-icons/ai';
+import { GoogleLogin } from 'react-google-login';
+import FacebookLogin from 'react-facebook-login';
 import { useAppContext, ActionTypes } from '../../contexts';
 import { isEmpty } from 'lodash';
 import { useAxios } from '../../services/base-service';
 import 'react-image-crop/dist/ReactCrop.css';
 import { getAPIErrorMessage } from '../../utils';
-import { PersonalDetailsProps, ImageModalProps } from './types';
-import { AiOutlineEdit } from 'react-icons/ai';
+import { ImageModalProps } from './types';
+import { GOOGLE_CLIENTID, FB_APPID } from '../../config';
 import './settings.css';
 
 const standardSchema = yup.object().shape({
-    name: yup.string(),
-    location: yup.string(),
-    birthday: yup.string(),
+    name: yup.string().required('Name is Required'),
+    location: yup.string().required('Location is Required'),
+    birthday: yup.string().required('Date of Birth is Required'),
     sex: yup.string(),
     memberSince: yup.string(),
-    bio: yup.string(),
+    bio: yup.string().required()
+    .min(100, 'Please Enter at least 100 letters bio')
+    .max(5000, 'Bio should not exceed more than 5000 characters'),
     lastActiveAt: yup.string(),
 }).required();
 
-const buisnessSchema = yup.object().shape({
-    yearOfEstablishment: yup.string(),
-    aboutBuisness: yup.string(),
-}).required();
+const businessSchema = yup.object().shape({
+    yearOfEstablishment: yup.string().required('Please Enter Year of Establishment'),
+    aboutBusiness: yup.string().required('This Field is Required')
+    .min(100, 'Please Enter at least 100 characters')
+    .max(5000, 'About Business should not exceed more than 5000 characters'),
+});
 
 export interface AlertType {
     variant?: string;
@@ -76,7 +82,7 @@ export const ImageCropModal: React.FC<ImageModalProps> = ({onClose, show, image}
     
         ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
         ctx.imageSmoothingQuality = 'high';
-      }, [completedCrop]);
+    }, [completedCrop]);
     
     return(
         <Modal md={12} show={show} onHide={onClose}>
@@ -127,13 +133,13 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
             lastActiveAt: state.user?.metaData?.lastActiveAt,
         }, 
     });
-    const { register: registerBuissness, handleSubmit: handleSubmitBuisness, formState: { errors: buisnessErrors} } = useForm({
-        resolver: yupResolver(buisnessSchema),
+    const { register: registerBusiness, handleSubmit: handleSubmitBusiness, formState: { errors: businessErrors} } = useForm({
+        resolver: yupResolver(businessSchema),
         defaultValues: {
-
+            yearOfEstablishment: state.user?.metaData?.yearOfEstablishment,
+            aboutBusiness: state.user?.metaData?.aboutBusiness,
         },
-    })
-    //API Call Remaining
+    });
     const [{ data: response, loading, error: apiError }, execute] = useAxios({
         url: '/user/update',
         method: 'POST',
@@ -155,6 +161,35 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
         });
     }, [response]);
 
+    const [{data: googleResponse, loading: googleLoading, error: googleError}, googleExecute] = useAxios({
+        url: '/user/google',
+        method: 'PUT',
+    });
+
+    const [{data: facebookResponse, loading: facebookLoading, error: facebookError}, facebookExecute] = useAxios({
+        url: '/user/facebook',
+        method: 'PUT'
+    });
+
+    const responseGoogle = (response: any) => {
+        if (response.accessToken) {
+            googleExecute({
+                data: {
+                    accessToken: response.accessToken
+                }
+            });
+        }
+    };
+    const responseFacebook = (response: any) => {
+        if (response.accessToken) {
+            facebookExecute({
+                data: {
+                    accessToken: response.accessToken
+                }
+            });
+        }
+    }
+
     const onSubmit = (values: any) => {
         if (isEmpty(errors)) {
             execute({
@@ -171,7 +206,11 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
 
     const handleFormSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        handleSubmit(onSubmit)();
+        if(state?.user?.metaData?.accountType === "standard") {
+            handleSubmit(onSubmit)();
+        } else {
+            handleSubmitBusiness(onSubmit)();
+        }
     };
 
     const getErrorText = (field: string): React.ReactElement | null => {
@@ -190,7 +229,8 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
 
     const getErrorClassName = (field: string): string => {
         const errorMessages: any = {
-            ...errors
+            ...errors,
+            ...businessErrors,
         };
         return errorMessages[field] ? 'is-invalid' : '';
     };
@@ -212,7 +252,7 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                 <Form onSubmit={handleFormSubmit} className="details-form p-3">
                     <p className="text-center">
                         <Image style={{width: '150px', height: '150px'}} src={imageSrc || "https://dummyimage.com/100/007bff/efefef"} roundedCircle />
-                        <Form.Group controlId="formFile" className="mb-3">
+                        <Form.Group className="mb-3">
                             <Form.Label className='profile-image-label'>
                                 <AiOutlineEdit className="upload-image" />
                             </Form.Label>
@@ -225,9 +265,9 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                                 {alert.message || getAPIErrorMessage(apiError)}
                             </Alert>
                     )}
-                    {state.user?.metaData?.accountType==="standard" ? ( <>
+                    {state.user?.metaData?.accountType === "standard" ? (
+                    <>
                         <FloatingLabel
-                            controlId="floatingInput"
                             label="Full Name"
                             className="mb-3"
                         >
@@ -235,11 +275,16 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                                 {...register('name')}
                                 type="text"
                                 placeholder="Full Name"
+                                className={getErrorClassName('name')}
                             />
                             {getErrorText('name')}
                         </FloatingLabel>
-                        <FloatingLabel controlId="floatingSelect" label="Select Location" className="mb-3">
-                            <Form.Select {...register('location')} aria-label="Floating label select example">
+                        <FloatingLabel label="Select Location" className="mb-3">
+                            <Form.Select 
+                                {...register('location')} 
+                                aria-label="Floating label select example"
+                                className={getErrorClassName('location')}
+                            >
                                 <option>Select Location</option>
                                 <option value="1">One</option>
                                 <option value="2">Two</option>
@@ -247,75 +292,91 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                             </Form.Select>
                         </FloatingLabel>
                         <FloatingLabel
-                            controlId="floatingInput"
                             label="Birthday"
                             className="mb-3"
                         >
-                            <Form.Control {...register('birthday')} type="date" placeholder="Select Birthday" />
+                            <Form.Control 
+                                {...register('birthday')} 
+                                type="date" 
+                                placeholder="Select Birthday"
+                                className={getErrorClassName('birthday')} 
+                            />
                         </FloatingLabel>
-                        <FloatingLabel controlId="floatingSelect" label="Sex" className="mb-3">
+                        <FloatingLabel label="Sex" className="mb-3">
                             <Form.Select {...register('sex')} aria-label="Floating label select example">
                                 <option>Do Not Specify</option>
                                 <option value="female">Female</option>
                                 <option value="male">Male</option>
                             </Form.Select>
                         </FloatingLabel>
-                        <FloatingLabel controlId="bioText" label="Bio" className="mb-3">
+                        <FloatingLabel label="Bio" className="mb-3">
                             <Form.Control
                                 style={{height: '120px'}}
                                 as="textarea"
                                 type="text"
                                 placeholder="Bio" 
                                 {...register('bio')}
+                                className={getErrorClassName('bio')}
                             />
                             {getErrorText('bio')}
                         </FloatingLabel>
-                        <FloatingLabel controlId="memberSinceText" label="Member Since" className="mb-3">
-                            <Form.Control
-                                type="text"
-                                placeholder="Member Since" 
-                                {...register('memberSince')}
-                            />
-                        </FloatingLabel>
-                        <FloatingLabel controlId="lastActiveText" label="Last Active" className="mb-3">
-                            <Form.Control
-                                type="text"
-                                placeholder="Last Active" 
-                                {...register('lastActiveAt')}
-                            />
-                        </FloatingLabel> </>)
-                        :  (
+                    </>) : (
                             <>
-                                <FloatingLabel controlId="year-of-establish" label="Year Of Establishment" className="mb-3">
+                                <FloatingLabel label="Year Of Establishment" className="mb-3">
                                     <Form.Control
-                                        placeholder="Establishment Year" />
+                                        placeholder="Establishment Year" 
+                                        className={getErrorClassName('yearOfEstablishment')}
+                                    />
                                 </FloatingLabel>
-                                <FloatingLabel controlId="aboutBuisness" label="About Buisness" className="mb-3">
+                                <FloatingLabel label="About Business" className="mb-3">
                                     <Form.Control
                                         as="textarea"
-                                        placeholder="About Buisness" />
+                                        placeholder="About Business"
+                                        className={getErrorClassName('aboutBusiness')}
+                                    />
                                 </FloatingLabel>
-                            </>
-                        )
-                    }
+                        </>
+                    )}
+                    <FloatingLabel controlId="memberSinceText" label="Member Since" className="mb-3">
+                        <Form.Control
+                            type="text"
+                            placeholder="Member Since" 
+                            {...register('memberSince')}
+                        />
+                    </FloatingLabel>
+                    <FloatingLabel controlId="lastActiveText" label="Last Active" className="mb-3">
+                        <Form.Control
+                            type="text"
+                            placeholder="Last Active" 
+                            {...register('lastActiveAt')}
+                        />
+                    </FloatingLabel>
                     <p className="mb-3"><strong>Connect your social media accounts for smoother experience!</strong></p>
                     <ListGroup as="ul" className="connectsocial mb-3">
                         <ListGroup.Item as="li">
-                            <span><FaGoogle />  Google</span>
-                            <span>
-                                <Form.Check
-                                    id='connect-google'
-                                    type="switch"
-                                    checked={state.user?.metaData?.isGoogleVerified ? true : false}
-                                    onChange={(e) => {e.preventDefault}}
-                                /> 
-                            </span>
+                        <span><FaGoogle />  Google</span>
+                        <span>
+                            <GoogleLogin
+                                clientId={GOOGLE_CLIENTID}
+                                render={renderProps => (
+                                    <Form.Check
+                                        id='connect-google'
+                                        type="switch"
+                                        checked={state?.user?.metaData?.isGoogleVerified}
+                                        onChange={renderProps.onClick}
+                                    />
+                                )}
+                                buttonText="Login"
+                                onSuccess={responseGoogle}
+                                onFailure={responseGoogle}
+                                cookiePolicy={'single_host_origin'}
+                            />
+                        </span>
                         </ListGroup.Item>
                         <ListGroup.Item as="li">
                             <span><FaFacebook /> Facebook</span>
                             <span>
                                 <Form.Check
-                                    id='connect-facebook'
                                     type="switch"
                                     checked={state.user?.metaData?.isFacebookVerified ? true : false}
                                 />

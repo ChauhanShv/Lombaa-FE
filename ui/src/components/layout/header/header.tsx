@@ -59,10 +59,12 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                                 <img className="rounded-circle" width="40" height="40" src=" https://dummyimage.com/100/007bff/efefef" alt="Htmlstream" />
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
-                                <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">Account Settings</Dropdown.Item>
-                                <Dropdown.Divider />
-                                <Dropdown.Item href="#/action-3">Sign out</Dropdown.Item>
+                                <Link to="/profile" className="profile-dropdown-link">
+                                    <Dropdown.Item>Profile</Dropdown.Item>
+                                </Link>
+                                <Link to="/settings" className="profile-dropdown-link">
+                                    <Dropdown.Item>Account Settings</Dropdown.Item>
+                                </Link>
                             </Dropdown.Menu>
                         </Dropdown>
                     <a className="nav-link px-4 bg-primary rounded ms-3 text-white d-none d-lg-flex" href="#">+ Sell</a>

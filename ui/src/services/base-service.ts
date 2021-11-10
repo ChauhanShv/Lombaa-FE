@@ -41,6 +41,7 @@ export const useAxios = makeUseAxios({
         baseURL: `${BACKEND_HOST}:${BACKEND_PORT}/api`,
         headers: {
             'x-access-token': `${token}`,
+            'x-client-platform': 'Web'
         }
     }),
     defaultOptions: {

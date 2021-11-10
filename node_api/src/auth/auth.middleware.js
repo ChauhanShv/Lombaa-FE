@@ -14,18 +14,6 @@ module.exports = async (req, res, next) => {
             }
         });
     }
-    let appVersion = req.header('x-app-version');
-    let currentAppVersion = config.appVersion
-    if (appVersion !== currentAppVersion) {
-        return res.status(401).json({
-            success: false,
-            error: {
-                code: 401,
-                message: "App version not supported",
-                message_detail: `App version is incompatible. Current supported version is ${config.appVersion}`
-            }
-        })
-    }
     let clientPlatform = req.header('x-client-platform')
     let platforms = ['Android', 'Ios', 'Web']
     if (!platforms.includes(clientPlatform)) {
@@ -33,10 +21,24 @@ module.exports = async (req, res, next) => {
             success: false,
             error: {
                 code: 401,
-                message: ' Platform is not supported',
+                message: 'Platform is not supported',
                 message_detail: "Platform is not available"
             }
         })
+    }
+    if (clientPlatform !== 'Web') {
+        let appVersion = req.header('x-app-version');
+        let currentAppVersion = config.appVersion
+        if (appVersion !== currentAppVersion) {
+            return res.status(401).json({
+                success: false,
+                error: {
+                    code: 401,
+                    message: "App version not supported",
+                    message_detail: `App version is incompatible. Current supported version is ${config.appVersion}`
+                }
+            })
+        }
     }
     try {
         const payload = jwt.decode(headerAccessToken);

@@ -28,18 +28,6 @@ export const SideBar: React.FC = (): React.ReactElement => {
                 </Link>
             </ListGroup>
             <ListGroup className="mb-2">
-                <Link className="side-cta" to="/settings/personal-details">
-                    <ListGroup.Item className="py-3">
-                        Personal details
-                        <FaChevronRight />
-                    </ListGroup.Item>
-                </Link>
-                <Link className="side-cta" to="/settings/business-information">
-                    <ListGroup.Item className="py-3">
-                        Business information
-                        <FaChevronRight />
-                    </ListGroup.Item>
-                </Link>
                 <Link className="side-cta" to="/settings/change-password">
                     <ListGroup.Item className="py-3" >
                         Change password
