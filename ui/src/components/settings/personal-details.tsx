@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './settings.css';
 import {
+    Row,
+    Col,
     Button,
     ListGroup,
     Card,
@@ -16,13 +18,14 @@ import {
     FaGoogle,
     FaFacebook
 } from 'react-icons/fa';
+import moment from 'moment';
 import ReactCrop, { Crop } from 'react-image-crop';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { AiOutlineEdit } from 'react-icons/ai';
 import { GoogleLogin } from 'react-google-login';
-import FacebookLogin from 'react-facebook-login';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { useAppContext, ActionTypes } from '../../contexts';
 import { isEmpty } from 'lodash';
 import { useAxios } from '../../services/base-service';
@@ -38,7 +41,7 @@ const standardSchema = yup.object().shape({
     birthday: yup.string().required('Date of Birth is Required'),
     sex: yup.string(),
     memberSince: yup.string(),
-    bio: yup.string().required()
+    bio: yup.string().required('Bio is Required')
     .min(100, 'Please Enter at least 100 letters bio')
     .max(5000, 'Bio should not exceed more than 5000 characters'),
     lastActiveAt: yup.string(),
@@ -129,7 +132,7 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
             birthday: state.user?.metaData?.birthday,
             sex: state.user?.metaData?.sex,
             bio: state.user?.metaData?.bio,
-            memberSince: state.user?.metaData?.memberSince,
+            memberSince: moment(state?.user?.metaData?.memberSince).format('DD-MM-YYYY'),
             lastActiveAt: state.user?.metaData?.lastActiveAt,
         }, 
     });
@@ -143,6 +146,22 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
     const [{ data: response, loading, error: apiError }, execute] = useAxios({
         url: '/user/update',
         method: 'POST',
+    });
+    const [{data: googleResponse, loading: googleLoading, error: googleError}, googleExecute] = useAxios({
+        url: '/user/google',
+        method: 'PUT',
+    });
+    const [{data: facebookResponse, loading: facebookLoading, error: facebookError}, facebookExecute] = useAxios({
+        url: '/user/facebook',
+        method: 'PUT'
+    });
+    const [{data: googleDeleteResponse, loading: googleDeleteLoading, error: googleDeleteError}, googleDeleteExecute] = useAxios({
+        url: '/user/google',
+        method: 'DELETE',
+    });
+    const [{data: fbDeleteResponse, loading: fbDeleteLoading, error: fbDeleteError}, fbDeleteExecute] = useAxios({
+        url: '/user/facebook',
+        method: 'DELETE',
     });
 
     useEffect(() => {
@@ -159,17 +178,14 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                 user: response?.metadata,
             }
         });
-    }, [response]);
+    }, [response, googleResponse, facebookResponse, googleDeleteResponse, fbDeleteResponse]);
 
-    const [{data: googleResponse, loading: googleLoading, error: googleError}, googleExecute] = useAxios({
-        url: '/user/google',
-        method: 'PUT',
-    });
-
-    const [{data: facebookResponse, loading: facebookLoading, error: facebookError}, facebookExecute] = useAxios({
-        url: '/user/facebook',
-        method: 'PUT'
-    });
+    const handleGoogleDisconnect = () => {
+        googleDeleteExecute({});
+    };
+    const handleFacebookDisconnect = () => {
+        fbDeleteExecute({});
+    }
 
     const responseGoogle = (response: any) => {
         if (response.accessToken) {
@@ -192,15 +208,25 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
 
     const onSubmit = (values: any) => {
         if (isEmpty(errors)) {
-            execute({
-                data: {
-                    name: values.name ? values.name : state.user?.metaData?.name,
-                    location: values.location ? values.location : state.user?.metaData?.location,
-                    birthday: values.birthday ? values.birthday : state.user?.metaData?.birthday,
-                    sex: values.sex ? values.sex : state.user?.metaData?.sex,
-                    bio: values.bio ? values.bio : state.user?.metaData?.bio,
-                }
-            });
+            if(state.user?.metaData?.accountType === "standard") {
+                execute({
+                    data: {
+                        name: values.name,
+                        location: values.location,
+                        birthday: values.birthday,
+                        sex: values.sex,
+                        bio: values.bio,
+                        memberSince: values.memberSince,
+                    }
+                });
+            } else {
+                execute({
+                    data: {
+                        yearOfEstablishment: values.yearOfEstablishment,
+                        aboutBusiness: values.aboutBusiness,
+                    }
+                })
+            }
         }
     };
 
@@ -326,6 +352,7 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                                     <Form.Control
                                         placeholder="Establishment Year" 
                                         className={getErrorClassName('yearOfEstablishment')}
+                                        {...registerBusiness('yearOfEstablishment')}
                                     />
                                 </FloatingLabel>
                                 <FloatingLabel label="About Business" className="mb-3">
@@ -333,53 +360,89 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                                         as="textarea"
                                         placeholder="About Business"
                                         className={getErrorClassName('aboutBusiness')}
+                                        {...registerBusiness('aboutBusiness')}
                                     />
                                 </FloatingLabel>
                         </>
                     )}
-                    <FloatingLabel controlId="memberSinceText" label="Member Since" className="mb-3">
-                        <Form.Control
-                            type="text"
-                            placeholder="Member Since" 
-                            {...register('memberSince')}
-                        />
-                    </FloatingLabel>
-                    <FloatingLabel controlId="lastActiveText" label="Last Active" className="mb-3">
-                        <Form.Control
-                            type="text"
-                            placeholder="Last Active" 
-                            {...register('lastActiveAt')}
-                        />
-                    </FloatingLabel>
+                    <Form.Group as={Row} controlId="memberSinceText">
+                        <Form.Label column sm="4">
+                            Member Since
+                        </Form.Label>
+                        <Col sm="8">
+                            <Form.Control plaintext readOnly {...register('memberSince')} />
+                        </Col>
+                    </Form.Group>
+                    <Form.Group as={Row} className="mb-3" controlId="lastActiveAtText">
+                        <Form.Label column sm="4">
+                            Last Active At
+                        </Form.Label>
+                        <Col sm="8">
+                            <Form.Control plaintext readOnly {...register('lastActiveAt')} />
+                        </Col>
+                    </Form.Group>
                     <p className="mb-3"><strong>Connect your social media accounts for smoother experience!</strong></p>
                     <ListGroup as="ul" className="connectsocial mb-3">
                         <ListGroup.Item as="li">
                         <span><FaGoogle />  Google</span>
                         <span>
-                            <GoogleLogin
-                                clientId={GOOGLE_CLIENTID}
-                                render={renderProps => (
+                            {!state?.user?.metaData?.isGoogleVerified ? 
+                                (
+                                    <GoogleLogin
+                                        clientId={GOOGLE_CLIENTID}
+                                        render={renderProps => (
+                                            <Form.Check
+                                                id='connect-google'
+                                                type="switch"
+                                                checked={state?.user?.metaData?.isGoogleVerified}
+                                                onChange={renderProps.onClick}
+                                            />
+                                        )} 
+                                        buttonText="Login"
+                                        onSuccess={responseGoogle}
+                                        onFailure={responseGoogle}
+                                        cookiePolicy={'single_host_origin'}
+                                    />
+                                ) : (
                                     <Form.Check
                                         id='connect-google'
                                         type="switch"
                                         checked={state?.user?.metaData?.isGoogleVerified}
-                                        onChange={renderProps.onClick}
+                                        onChange={handleGoogleDisconnect}
                                     />
-                                )}
-                                buttonText="Login"
-                                onSuccess={responseGoogle}
-                                onFailure={responseGoogle}
-                                cookiePolicy={'single_host_origin'}
-                            />
+                                )
+                            }
                         </span>
                         </ListGroup.Item>
                         <ListGroup.Item as="li">
                             <span><FaFacebook /> Facebook</span>
                             <span>
-                                <Form.Check
-                                    type="switch"
-                                    checked={state.user?.metaData?.isFacebookVerified ? true : false}
-                                />
+                                {!state?.user?.metaData?.isFacebookVerified ? 
+                                    (
+                                        <FacebookLogin
+                                            appId={FB_APPID}
+                                            autoLoad={false}
+                                            fields='name,email,picture'
+                                            render={renderProps => (
+                                                <Form.Check
+                                                    id='connect-facebook'
+                                                    type="switch"
+                                                    checked={state?.user?.metaData?.isFacebookVerified}
+                                                    onChange={state?.user?.metaData?.isFacebookVerified ? null :renderProps.onClick}
+                                                />
+                                            )}
+                                            callback={responseFacebook}
+                                            onFailure={responseFacebook}
+                                        />
+                                    ) : (
+                                        <Form.Check
+                                            id='connect-facebook'
+                                            type="switch"
+                                            checked={state?.user?.metaData?.isFacebookVerified}
+                                            onChange={handleFacebookDisconnect}
+                                        />
+                                    )
+                                }
                             </span>
                         </ListGroup.Item>
                     </ListGroup>

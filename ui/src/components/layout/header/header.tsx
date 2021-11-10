@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {FaBookmark, FaCommentDots, FaBell, FaList, FaSearch } from 'react-icons/fa';
+import { FaBookmark, FaCommentDots, FaBell, FaList, FaSearch, FaHome, FaCamera, FaBars } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { Navbar, Dropdown } from 'react-bootstrap';
 import { Login, Register } from '../../modals';
@@ -14,6 +14,28 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
     const { session } = state;
     return (
         <>
+            <Navbar className="mobile-fnav navbar navbar-dark bg-white d-flex justify-content-betweeen d-lg-none" fixed="bottom">
+                <Link className="w-100 text-center" to="/">
+                    <FaHome /><br />
+                    Home
+                </Link>
+                <Link className="w-100 text-center" to="/">
+                    <FaList /><br />
+                    My Listing
+                </Link>
+                <Link className="w-100 text-center" to="/">
+                    <FaCamera /><br />
+                    Sell
+                </Link>
+                <Link className="w-100 text-center" to="/">
+                    <FaCommentDots /><br />
+                    Inbox
+                </Link>
+                <Link className="w-100 text-center" to="/">
+                    <FaBars /><br />
+                    Menu
+                </Link>
+            </Navbar>
             <Navbar className="navbar navbar-expand-lg navbar-dark border border-success bg-success" sticky="top">
                 <div className="container">
                     <Link className="navbar-brand  d-none d-lg-flex" to="/">
@@ -28,12 +50,12 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                             </button>
                         </div>
                     </div>
-            
+
                     <div className="d-flex align-items-center">
                         <ul className="navbar-nav ms-auto me-sm-2 mt-2 mt-lg-0 icon-list d-none d-lg-flex align-items-center">
                             <li className="nav-item icon-item active me-3">
                                 <a className="nav-link text-success" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Saved">
-                                <FaBookmark />
+                                    <FaBookmark />
                                 </a>
                             </li>
                             <li className="nav-item icon-item me-3">
@@ -44,10 +66,11 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                             </li>
                             <li className="nav-item icon-item me-3">
                                 <a className="nav-link text-success" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Ads">
-                                <FaList /></a>
+                                    <FaList />
+                                </a>
                             </li>
                         </ul>
-                
+
                         {!session.isLoggedIn && (
                             <>
                                 <button className="btn text-white mx-2 px-0 d-none d-lg-block" onClick={() => setLoginModal(true)}>Login</button>
@@ -59,17 +82,21 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                                 <img className="rounded-circle" width="40" height="40" src=" https://dummyimage.com/100/007bff/efefef" alt="Htmlstream" />
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
-                                <Link to="/profile" className="profile-dropdown-link">
-                                    <Dropdown.Item>Profile</Dropdown.Item>
-                                </Link>
-                                <Link to="/settings" className="profile-dropdown-link">
-                                    <Dropdown.Item>Account Settings</Dropdown.Item>
-                                </Link>
+                                <Dropdown.Item>
+                                    <Link to="/profile" className="profile-dropdown-link">
+                                        Profile
+                                    </Link>
+                                </Dropdown.Item>
+                                <Dropdown.Item>
+                                    <Link to="/settings" className="profile-dropdown-link">
+                                        Account Settings
+                                    </Link>
+                                </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
-                    <a className="nav-link px-4 bg-primary rounded ms-3 text-white d-none d-lg-flex" href="#">+ Sell</a>
+                        <a className="nav-link px-4 bg-primary rounded ms-3 text-white d-none d-lg-flex" href="#">+ Sell</a>
+                    </div>
                 </div>
-            </div>
             </Navbar>
             {loginModal && (
                 <Login
