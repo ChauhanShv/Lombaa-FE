@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import './settings.css';
 import {
     Row,
-    Col,
     Button,
     ListGroup,
     Card,
@@ -10,7 +9,6 @@ import {
     FloatingLabel,
     Image,
     Alert,
-    Modal,
     Spinner,
 } from 'react-bootstrap';
 import {
@@ -19,7 +17,6 @@ import {
     FaFacebook
 } from 'react-icons/fa';
 import moment from 'moment';
-import ReactCrop, { Crop } from 'react-image-crop';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -29,10 +26,9 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 import { useAppContext, ActionTypes } from '../../contexts';
 import { isEmpty } from 'lodash';
 import { useAxios } from '../../services/base-service';
-import 'react-image-crop/dist/ReactCrop.css';
 import { getAPIErrorMessage } from '../../utils';
-import { ImageModalProps } from './types';
 import { GOOGLE_CLIENTID, FB_APPID } from '../../config';
+import { ImageCropModal } from '.';
 import './settings.css';
 
 const standardSchema = yup.object().shape({
@@ -50,7 +46,7 @@ const standardSchema = yup.object().shape({
 const businessSchema = yup.object().shape({
     yearOfEstablishment: yup.string().required('Please Enter Year of Establishment'),
     aboutBusiness: yup.string().required('This Field is Required')
-    .min(100, 'Please Enter at least 100 characters')
+    .min(20, 'Please Enter at least 100 characters')
     .max(5000, 'About Business should not exceed more than 5000 characters'),
 });
 
@@ -59,71 +55,12 @@ export interface AlertType {
     message?: string;
 };
 
-export const ImageCropModal: React.FC<ImageModalProps> = ({onClose, show, image}: ImageModalProps): React.ReactElement => {
-    const [crop, setCrop] = useState<Crop>({x: 0, y: 0, width: 0, height: 0, unit: 'px', aspect: 16/9});
-    const [completedCrop, setCompletedCrop] = useState<Crop>({x: 0, y: 0, width: 0, height: 0, unit: 'px'});
-    const imgRef = useRef<any>(image);
-    const previewCanvasRef = useRef<any>(null);
-    const handleOnCrop = (crop: any) => {
-        setCrop({crop});
-    };
-    useEffect(() => {
-        if (!completedCrop || !previewCanvasRef.current || !imgRef.current) {
-          return;
-        }    
-        const image = imgRef.current;
-        const canvas = previewCanvasRef.current;
-        const crop = completedCrop;
-    
-        const scaleX: any = image.naturalWidth / image.width;
-        const scaleY: any = image.naturalHeight / image.height;
-        const ctx = canvas.getContext('2d');
-        const pixelRatio = window.devicePixelRatio;
-    
-        canvas.width = crop.width * pixelRatio * scaleX;
-        canvas.height = crop.height * pixelRatio * scaleY;
-    
-        ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-        ctx.imageSmoothingQuality = 'high';
-    }, [completedCrop]);
-    
-    return(
-        <Modal md={12} show={show} onHide={onClose}>
-            <Modal.Dialog>
-                <Modal.Header>
-                    <Modal.Title>Crop Your Image</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <ReactCrop
-                        ruleOfThirds
-                        className='ReactCrop'
-                        crop={crop} 
-                        src={image}
-                        onChange={handleOnCrop}
-                        onComplete={(c) => setCompletedCrop(c)}
-                    />
-                    <canvas
-                        ref={previewCanvasRef}
-                        // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
-                        style={{
-                            width: Math.round(completedCrop?.width ?? 0),
-                            height: Math.round(completedCrop?.height ?? 0)
-                        }}
-                    />
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={() => onClose()}>Save Changes</Button>
-                </Modal.Footer>
-            </Modal.Dialog>
-        </Modal>
-    );
-};
-
 export const PersonalPetails: React.FC = (): React.ReactElement => {
     const { state, dispatch } = useAppContext();
     const [alert, setAlert] = useState<AlertType>({});
     const [imageSrc, setImageSrc] = useState<string>('');
     const [openCropModal,setOpenCropModal] = useState<boolean>(false);
+    const [croppedImage, setCroppedImage] = useState<any>(null);
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(standardSchema),
         defaultValues: {
@@ -146,6 +83,10 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
     const [{ data: response, loading, error: apiError }, execute] = useAxios({
         url: '/user/update',
         method: 'POST',
+    });
+    const [{ data: profileImageRes, loading: profileImageLoading, error: profileImageError }, profileImageExecute] = useAxios({
+        url: '/user/picture',
+        method: 'PUT',
     });
     const [{data: googleResponse, loading: googleLoading, error: googleError}, googleExecute] = useAxios({
         url: '/user/google',
@@ -181,10 +122,18 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
     }, [response, googleResponse, facebookResponse, googleDeleteResponse, fbDeleteResponse]);
 
     const handleGoogleDisconnect = () => {
-        googleDeleteExecute({});
+        const confirmDisconnect = confirm('Are you sure you want to disconnect from your google account');
+        if(confirmDisconnect) {
+            googleDeleteExecute({});
+        }
+        else return;
     };
     const handleFacebookDisconnect = () => {
-        fbDeleteExecute({});
+        const confirmDisconnect = confirm('Are you sure you want to disconnect from your facebook account');
+        if(confirmDisconnect) {
+            fbDeleteExecute({});
+        }
+        else return;
     }
 
     const responseGoogle = (response: any) => {
@@ -268,24 +217,44 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
         setOpenCropModal(true);
     };
 
+    const onImageCropComplete = (croppedImageURL: any) => {
+        setCroppedImage(croppedImageURL);
+        console.log(croppedImage, 'Total Cropped Image');
+        profileImageExecute({
+            data: {
+                croppedImage: croppedImage,
+            },
+        });
+    }
+
     return (
         <Card>
             <Card.Header className="d-flex align-items-center justify-content-between bg-white">
-                <span className="d-flex align-items-center "><button className="btn btn-white d-md-block d-lg-none"><FaChevronLeft /></button> Personal details</span>
-                <button className="btn btn-success">Save</button>
+                <span className="d-flex align-items-center ">
+                    <button className="btn btn-white d-md-block d-lg-none">
+                        <FaChevronLeft />
+                    </button> Personal details
+                </span>
             </Card.Header>
             <div className="card-content col-md-8 mx-auto">
                 <Form onSubmit={handleFormSubmit} className="details-form p-3">
-                    <p className="text-center">
-                        <Image style={{width: '150px', height: '150px'}} src={imageSrc || "https://dummyimage.com/100/007bff/efefef"} roundedCircle />
+                    <div className="text-center">
+                        <Image style={{width: '150px', height: '150px'}} src={croppedImage || "https://dummyimage.com/100/007bff/efefef"} roundedCircle />
                         <Form.Group className="mb-3">
                             <Form.Label className='profile-image-label'>
                                 <AiOutlineEdit className="upload-image" />
+                                <Form.Control style={{display: 'none'}} type="file" onChange={handleImageUpload} />
                             </Form.Label>
-                            <Form.Control style={{display: 'none'}} type="file" onChange={handleImageUpload} />
                         </Form.Group>
-                    </p>
-                    {openCropModal && <ImageCropModal show={openCropModal} image={imageSrc} onClose={() => {setOpenCropModal(false)}} />}
+                    </div>
+                    {openCropModal && 
+                        <ImageCropModal 
+                            show={openCropModal} 
+                            image={imageSrc}
+                            onClose={() => {setOpenCropModal(false)}}
+                            onImageCropComplete={onImageCropComplete} 
+                        />
+                    }
                     {(apiError || alert.message) && (
                             <Alert variant={alert.message ? 'success' : 'danger'} onClose={() => setAlert({})} dismissible>
                                 {alert.message || getAPIErrorMessage(apiError)}
@@ -369,17 +338,17 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                         <Form.Label column sm="4">
                             Member Since
                         </Form.Label>
-                        <Col sm="8">
-                            <Form.Control plaintext readOnly {...register('memberSince')} />
-                        </Col>
+                        <Form.Label column sm="8">
+                            {moment(state?.user?.metaData?.memberSince).format('DD-MM-YYYY')}
+                        </Form.Label>
                     </Form.Group>
                     <Form.Group as={Row} className="mb-3" controlId="lastActiveAtText">
                         <Form.Label column sm="4">
                             Last Active At
                         </Form.Label>
-                        <Col sm="8">
-                            <Form.Control plaintext readOnly {...register('lastActiveAt')} />
-                        </Col>
+                        <Form.Label column sm="8">
+                            {moment(state?.user?.metaData?.lastActiveAt).format('DD-MM-YYYY')}
+                        </Form.Label>
                     </Form.Group>
                     <p className="mb-3"><strong>Connect your social media accounts for smoother experience!</strong></p>
                     <ListGroup as="ul" className="connectsocial mb-3">

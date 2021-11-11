@@ -4,3 +4,4 @@ export * from './change-phone';
 export * from './change-email';
 export * from './change-password';
 export * from './deactivate-account';
+export * from './image-crop-modal';
