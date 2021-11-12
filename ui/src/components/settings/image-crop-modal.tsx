@@ -5,10 +5,10 @@ import 'react-image-crop/dist/ReactCrop.css';
 import { ImageModalProps } from './types';
 
 export const ImageCropModal: React.FC<ImageModalProps> = ({onClose, show, image, onImageCropComplete}: ImageModalProps): React.ReactElement => {
-    const [crop, setCrop] = useState<Crop>({x: 0, y: 0, width: 0, height: 0, unit: 'px', aspect: 16/9});
+    const [crop, setCrop] = useState<Crop>({x: 0, y: 0, width: 0, height: 0, unit: 'px', aspect: 1/1});
     const [completedCrop, setCompletedCrop] = useState<Crop>({x: 0, y: 0, width: 0, height: 0, unit: 'px'});
     const [completedCropImage, setCompletedCropImage] = useState<any>();
-    const imgRef = useRef<any>(image);
+    const imgRef = useRef<any>();
     const previewCanvasRef = useRef<any>(image);
 
     const onLoad = useCallback((img) => {
@@ -34,8 +34,6 @@ export const ImageCropModal: React.FC<ImageModalProps> = ({onClose, show, image,
         ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
         ctx.imageSmoothingQuality = 'high';
 
-        console.log(image);
-
         ctx.drawImage(
             image,
             crop.x * scaleX,
@@ -48,8 +46,7 @@ export const ImageCropModal: React.FC<ImageModalProps> = ({onClose, show, image,
             crop.height * scaleY
         );
         canvas.toBlob((blob: any) => {
-            setCompletedCropImage(window.URL.createObjectURL(blob));
-            //const anchor = document.createElement('a');
+            setCompletedCropImage(blob);
         }, 'image/png', 1);
     }, [completedCrop]);
     
@@ -69,17 +66,17 @@ export const ImageCropModal: React.FC<ImageModalProps> = ({onClose, show, image,
                         onChange={(c) => setCrop(c)}
                         onComplete={(c) => setCompletedCrop(c)}
                     />
-                    <div>
-                    <canvas
-                        ref={previewCanvasRef}
-                        // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
-                        style={{
-                            display: 'none',
-                            width: Math.round(completedCrop?.width ?? 0),
-                            height: Math.round(completedCrop?.height ?? 0)
-                        }}
-                    />
-                    <img src={completedCropImage} style={{ width: '150px', height: '150px' }} />
+                    <div className="d-none">
+                        <canvas
+                            ref={previewCanvasRef}
+                            className="d-none"
+                            // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
+                            style={{
+                                width: Math.round(completedCrop?.width ?? 0),
+                                height: Math.round(completedCrop?.height ?? 0)
+                            }}
+                        />
+                        <img className="d-none" src={completedCropImage} style={{ width: '150px', height: '150px' }} />
                     </div>
                 </Modal.Body>
                 <Modal.Footer>

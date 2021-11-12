@@ -10,6 +10,7 @@ import {
   HomePage,
   SettingsPage,
   ForgotPasswordPage,
+  ProfilePage,
 } from './pages';
 
 const App: React.FC = () => {
@@ -22,6 +23,7 @@ const App: React.FC = () => {
               <PublicRoute restricted  component={ForgotPasswordPage} path="/forgot-password/:token?" exact />
               {/* Html Routes - for nilesh */}
               <PrivateRoute component={SettingsPage} path="/settings/:page?" exact />
+              <PrivateRoute component={ProfilePage} path="/profile" exact />
             </Switch>
         </AppContainer>
       </BrowserRouter>

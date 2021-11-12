@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './settings.css';
 import {
     Row,
+    Col,
     Button,
     ListGroup,
     Card,
@@ -35,18 +36,16 @@ const standardSchema = yup.object().shape({
     name: yup.string().required('Name is Required'),
     location: yup.string().required('Location is Required'),
     birthday: yup.string().required('Date of Birth is Required'),
-    sex: yup.string(),
-    memberSince: yup.string(),
+    sex: yup.string().required('Please Enter your Gender'),
     bio: yup.string().required('Bio is Required')
-    .min(100, 'Please Enter at least 100 letters bio')
+    .min(20, 'Please Enter at least 20 letters bio')
     .max(5000, 'Bio should not exceed more than 5000 characters'),
-    lastActiveAt: yup.string(),
-}).required();
+});
 
 const businessSchema = yup.object().shape({
     yearOfEstablishment: yup.string().required('Please Enter Year of Establishment'),
     aboutBusiness: yup.string().required('This Field is Required')
-    .min(20, 'Please Enter at least 100 characters')
+    .min(20, 'Please Enter at least 20 characters')
     .max(5000, 'About Business should not exceed more than 5000 characters'),
 });
 
@@ -58,7 +57,7 @@ export interface AlertType {
 export const PersonalPetails: React.FC = (): React.ReactElement => {
     const { state, dispatch } = useAppContext();
     const [alert, setAlert] = useState<AlertType>({});
-    const [imageSrc, setImageSrc] = useState<string>('');
+    const [imageSrc, setImageSrc] = useState<any>();
     const [openCropModal,setOpenCropModal] = useState<boolean>(false);
     const [croppedImage, setCroppedImage] = useState<any>(null);
     const { register, handleSubmit, formState: { errors } } = useForm({
@@ -212,14 +211,20 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
 
     const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         if(event.target.files && event.target.files[0]) {
-            setImageSrc(URL.createObjectURL(event.target.files[0]));
+            const reader = new FileReader();
+            reader.addEventListener('load', () => setImageSrc(reader.result));
+            reader.readAsDataURL(event.target.files[0]);
         }
         setOpenCropModal(true);
     };
 
-    const onImageCropComplete = (croppedImageURL: any) => {
-        setCroppedImage(croppedImageURL);
-        console.log(croppedImage, 'Total Cropped Image');
+    const onImageCropComplete = (croppedImageBlob: any) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(croppedImageBlob);
+        reader.onloadend = function() {
+            const base64dataimage = reader.result;
+            setCroppedImage(base64dataimage);
+        }
         profileImageExecute({
             data: {
                 croppedImage: croppedImage,
@@ -236,10 +241,14 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                     </button> Personal details
                 </span>
             </Card.Header>
-            <div className="card-content col-md-8 mx-auto">
+            <Col md={8} className="card-content mx-auto">
                 <Form onSubmit={handleFormSubmit} className="details-form p-3">
                     <div className="text-center">
-                        <Image style={{width: '150px', height: '150px'}} src={croppedImage || "https://dummyimage.com/100/007bff/efefef"} roundedCircle />
+                        <Image 
+                            style={{width: '150px', height: '150px'}}
+                            src={croppedImage || "/images/avatar.svg"} 
+                            roundedCircle 
+                        />
                         <Form.Group className="mb-3">
                             <Form.Label className='profile-image-label'>
                                 <AiOutlineEdit className="upload-image" />
@@ -319,6 +328,7 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                             <>
                                 <FloatingLabel label="Year Of Establishment" className="mb-3">
                                     <Form.Control
+                                        type="date"
                                         placeholder="Establishment Year" 
                                         className={getErrorClassName('yearOfEstablishment')}
                                         {...registerBusiness('yearOfEstablishment')}
@@ -423,7 +433,7 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                         }
                     </Button>
                 </Form>
-            </div>
+            </Col>
         </Card>
     );
 };

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaBookmark, FaCommentDots, FaBell, FaList, FaSearch, FaHome, FaCamera, FaBars } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { Navbar, Dropdown } from 'react-bootstrap';
+import { Navbar, Dropdown, Image } from 'react-bootstrap';
 import { Login, Register } from '../../modals';
 import { useAppContext } from '../../../contexts';
 import './header.css';
@@ -79,7 +79,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                         )}
                         <Dropdown align="end">
                             <Dropdown.Toggle variant="link" id="dropdown-basic" className="p-0">
-                                <img className="rounded-circle" width="40" height="40" src=" https://dummyimage.com/100/007bff/efefef" alt="Htmlstream" />
+                                <Image className="rounded-circle" width="40" height="40" src="/images/avatar.svg" alt="Htmlstream" />
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                                 <Dropdown.Item>

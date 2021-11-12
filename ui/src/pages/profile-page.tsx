@@ -1,6 +1,9 @@
 import React from 'react';
 import { useAppContext, ActionTypes } from '../contexts';
 import { useAxios } from '../services/base-service';
+import { Container } from 'react-bootstrap';
+import './profile-page.css';
+import { ProfileHeaderCard, ProfileVerificationCard, ProfileTabs } from '../components';
 
 export const ProfilePage: React.FC = (): React.ReactElement => {
     const { state, dispatch } = useAppContext();
@@ -49,10 +52,10 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
         }
     });
     return (
-        <div>
-            <h1>Profile Page</h1>
-            <p>Welcome !! {state.user}</p>
-            <button onClick={doLogout}>Logout</button>
-        </div>
+        <Container fluid>
+            <ProfileHeaderCard />
+            <ProfileVerificationCard />
+            <ProfileTabs />
+        </Container>
     )
 };

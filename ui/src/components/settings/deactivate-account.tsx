@@ -5,6 +5,8 @@ import {
     Button,
     Alert,
     Col,
+    Row,
+    Container,
 } from 'react-bootstrap';
 import {
     FaChevronLeft,
@@ -40,17 +42,21 @@ export const DeactivateAccount: React.FC = (): React.ReactElement => {
             <Card.Header className="d-flex align-items-center justify-content-between bg-white">
                 <span className="d-flex align-items-center "><button className="btn btn-white d-md-block d-lg-none"><FaChevronLeft /></button>Deactivate Account</span>
             </Card.Header>
-            <Col className="card-content mx-auto">
-                <Form className="details-form p-5">
+            <Container className="card-content mx-auto">
+                <Form className="details-form p-5 d-flex">
                     {(apiError || alert.message) && (
                         <Alert variant={alert.message ? 'success' : 'danger'} onClose={() => setAlert({})} dismissible>
                             {alert.message || getAPIErrorMessage(apiError)}
                         </Alert>
                     )}
-                    Click on the below button in order to Deactivate your account.
-                    <Button onClick={handleFormSubmit} className="btn btn-success w-100">Deactivate</Button>
+                    <Col sm={8}>
+                        <p>You can deactivate your account here. Be careful, all your profile data will be lost after that.</p>
+                    </Col>
+                    <Col sm={4}>
+                        <Button onClick={handleFormSubmit} className="btn btn-success w-100">Deactivate</Button>
+                    </Col>
                 </Form>
-            </Col>
+            </Container>
         </Card>
     );
 }
