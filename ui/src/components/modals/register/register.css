@@ -8,9 +8,18 @@
 
 .log-reg-pop .modal-login form { } 
 
+.log-reg-pop .modal-login .form-group { position: relative;}
+
 .log-reg-pop .modal-login .form-control ~ svg { position: absolute; top: 12px; left: 15px; color: var(--style-3-color); } 
 
 .log-reg-pop .btn-signin { border-radius: 25px; width: 100%; text-transform: uppercase; letter-spacing: 1.5px; background-color: var(--style-3-color); border: 1px solid var(--style-3-color); } 
+
+.glog-btn, .fblog-btn{border:1px solid #ccc; transition: all ease-in-out 300ms;}
+.glog-btn:hover{background-color: #f1f1f1;}
+
+.fblog-btn svg{fill:rgb(59, 89, 152);transition: all ease-in-out 300ms;}
+.fblog-btn:hover{background-color: rgb(59, 89, 152); color:#fff;}
+.fblog-btn:hover svg{fill:#ffffff;}
 
 @media only screen and (max-width: 360px){
  .log-reg-pop .modal-login { width: 100%; margin:5px; } 
