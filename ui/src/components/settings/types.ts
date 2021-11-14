@@ -1,3 +1,13 @@
+export interface PersonalDetailsProps {
+    show: boolean,
+    onClose: Function,
+};
+
+export interface ImageModalProps {
+    image: any,
+    show: boolean,
+    onClose: Function,
+};
 export interface ChangePhoneFormFeilds {
     phoneNumber: string,
 };
@@ -8,6 +18,14 @@ export interface ChangePasswordFormFeilds {
 export interface ChangeEmailFormFeilds {
     email: string,
 }
+
+export interface ProfileDetailsFormFeilds {
+    name: string;
+    location: string;
+    birthday: string;
+    sex: string;
+    bio: string;
+};
 
 export interface AlertType {
     variant?: string;

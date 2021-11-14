@@ -19,6 +19,7 @@ import { isEmpty } from 'lodash';
 import { ChangeEmailFormFeilds, AlertType } from './types';
 import { useAppContext } from '../../contexts';
 import { COMMON_ERROR_MESSAGE } from '../../constants';
+import { getAPIErrorMessage } from '../../utils';
 
 const schema = yup.object().shape({
     email: yup.string().email('Email is invalid').required('Email is required'),
@@ -30,7 +31,7 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm<ChangeEmailFormFeilds>({
         resolver: yupResolver(schema),
         defaultValues: {
-            email: state.user?.email
+            email: state.user?.metaData?.email
         }
     });
     const [{data: response, loading, error: apiError}, execute] = useAxios({
@@ -92,7 +93,7 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
                 <Form onSubmit={handleFormSubmit} className="details-form p-5">
                     {(apiError || alert.message) && (
                         <Alert variant={alert.message ? 'success' : 'danger'} onClose={() => setAlert({})} dismissible>
-                            {alert.message || COMMON_ERROR_MESSAGE}
+                            {alert.message || getAPIErrorMessage(apiError)}
                         </Alert>
                     )}
                     <FloatingLabel

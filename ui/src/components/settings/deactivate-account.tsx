@@ -9,49 +9,30 @@ import {
 import {
     FaChevronLeft,
 } from 'react-icons/fa';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { getAPIErrorMessage } from '../../utils';
 import { useAxios } from '../../services/base-service';
-
-const schema = yup.object().shape({
-}).required();
+import { AlertType } from './types';
 
 export const DeactivateAccount: React.FC = (): React.ReactElement => {
-    const { handleSubmit, formState: { isValid, errors } } = useForm({
-        resolver: yupResolver(schema),
-    });
-    const [successAlert, setSuccessAlert] = useState<boolean>(false);
-    const [failureAlert, setFailureAlert] = useState<boolean>(false);
+    const [alert, setAlert] = useState<AlertType>({});
+
     const [{data: response, loading, error: apiError}, execute] = useAxios({
-        url: '/user/deactivate',
+        url: '/user/active',
         method: 'POST'
     });
+    useEffect(() => {
+        if (response?.success) {
+            setAlert({
+                variant: 'success',
+                message: 'Account deactivated successfully',
+            });
+        }
+    }, [response]);
     const handleFormSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        handleSubmit(onSubmit)();
-    };
-    const onSubmit = () => {
         execute({
-            data: {
-            }
+            data: {}
         });
-    };
-
-    const DeactivateSuccessAlert: React.FC = (): React.ReactElement => {
-        return (
-            <Alert variant="success" onClose={() => setSuccessAlert(false)} dismissible>
-                The Email of your Account has changed successfully.
-            </Alert>
-        );
-    };
-    
-    const DeactivateFailureAlert: React.FC = (): React.ReactElement => {
-        return (
-            <Alert variant="danger" onClose={() => setFailureAlert(false)} dismissible>
-                Something went wrong. Please try again later.
-            </Alert>
-        );
     };
 
     return (
@@ -60,11 +41,14 @@ export const DeactivateAccount: React.FC = (): React.ReactElement => {
                 <span className="d-flex align-items-center "><button className="btn btn-white d-md-block d-lg-none"><FaChevronLeft /></button>Deactivate Account</span>
             </Card.Header>
             <Col className="card-content mx-auto">
-                <Form onSubmit={handleFormSubmit} className="details-form p-5">
-                    { successAlert && <DeactivateSuccessAlert /> }
-                    { failureAlert && <DeactivateFailureAlert /> }
+                <Form className="details-form p-5">
+                    {(apiError || alert.message) && (
+                        <Alert variant={alert.message ? 'success' : 'danger'} onClose={() => setAlert({})} dismissible>
+                            {alert.message || getAPIErrorMessage(apiError)}
+                        </Alert>
+                    )}
                     Click on the below button in order to Deactivate your account.
-                    <Button type="submit" className="btn btn-success w-100">Deactivate</Button>
+                    <Button onClick={handleFormSubmit} className="btn btn-success w-100">Deactivate</Button>
                 </Form>
             </Col>
         </Card>

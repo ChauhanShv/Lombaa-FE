@@ -28,7 +28,11 @@ class AuthController extends BaseController {
             if (authUser?.isSuspended === 1) {
                 const data = {
                     success: false,
-                    message: "You are not allowed to login. pls contact to us or mail for further details",
+                    error: {
+                        code: 401,
+                        message: "Something went wrong",
+                        message_detail: "You are not allowed to login. contact to us for further details"
+                    }
                 }
                 return super.jsonRes({ res, code: 401, data })
             }

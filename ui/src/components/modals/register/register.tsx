@@ -6,9 +6,12 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { isEmpty } from 'lodash';
-import { COMMON_ERROR_MESSAGE} from '../../../constants';
+import FacebookLogin from 'react-facebook-login';
+import GoogleLogin from 'react-google-login';
+import { getAPIErrorMessage } from '../../../utils';
 import { RegisterProps, FormFields, AccountType } from './types';
 import { PASSWORD_REGEX, NAME_MIN_LENGTH } from '../../../constants';
+import { GOOGLE_CLIENTID, FB_APPID } from '../../../config';
 import { useAxios } from '../../../services/base-service';
 import { useAppContext, ActionTypes } from '../../../contexts';
 import './register.css';
@@ -27,25 +30,38 @@ export const Register: React.FC<RegisterProps> = ({
     openLogin,
     onClose,
 }: RegisterProps): React.ReactElement => {
+    const [openFBLogin, setOpenFBLogin] = useState<boolean>(false);
     const { register, handleSubmit, getValues, formState: { errors } } = useForm<FormFields>({
         resolver: yupResolver(schema),
     });
     const [selectedAccountType, setSelectedAccountType] = useState<AccountType>();
     const { dispatch } = useAppContext();
-    const [{ data: response, loading, error: apiError }, execute] = useAxios({
+    const [{ data: registerRes, loading, error: apiError }, execute] = useAxios({
         url: '/user',
         method: 'POST',
     });
-
+    const [{ data: googleRes, loading: googleLoading, error: googleApiError }, googleExecute] = useAxios({
+        url: '/auth/google',
+        method: 'POST',
+    });
+    const [{ data: fbRes, loading: fbLoading, error: fbApiError }, fbExecute] = useAxios({
+        url: '/auth/facebook',
+        method: 'POST',
+    });
     useEffect(() => {
-        if (response?.success) {
-            localStorage.setItem("token", response.response.token);
+        const { success, response, metadata } = registerRes || fbRes || googleRes || {};
+        if (success) {
+            localStorage.setItem("token", response?.token);
             dispatch({
                 type: ActionTypes.LOGIN,
+                payload: {
+                    token: response?.token,
+                    metaData: metadata?.user,
+                }
             });
             onClose();
         }
-    }, [response]);
+    }, [registerRes, googleRes, fbRes]);
 
     const getIndividualFields = (): React.ReactElement => {
         return (
@@ -195,6 +211,30 @@ export const Register: React.FC<RegisterProps> = ({
         }
         return null;
     };
+    const showAPIErrorMessage = () => {
+        if (!apiError && !fbApiError && !googleApiError) {
+            return null;
+        }
+        return (
+            <Alert variant="danger">
+                {getAPIErrorMessage(apiError || fbApiError || googleApiError)}
+            </Alert>
+        );
+    };
+    const googleSuccess = (gRes: any) => {
+        googleExecute({
+            data: {
+                accessToken: gRes.accessToken,
+            },
+        });
+    }
+    const facebookSuccess = (fbRes: any) => {
+        fbExecute({
+            data: {
+                accessToken: fbRes.accessToken
+            },
+        });
+    }
 
     const getErrorClassName = (field: string): string => {
         const errorMessages: any = {
@@ -209,11 +249,7 @@ export const Register: React.FC<RegisterProps> = ({
                 <div className="pt-3 modal-login">
                     <div className="modal-body">
                         <p className="ml-3"><strong>Create your account!</strong></p>
-                        {apiError && (
-                            <Alert variant="danger">
-                                {COMMON_ERROR_MESSAGE}
-                            </Alert>
-                        )}
+                        {showAPIErrorMessage()}
                         <Form onSubmit={handleFormSubmit} noValidate>                   
                             <FloatingLabel label="Email address" className="mb-3">
                                 <Form.Control
@@ -233,7 +269,7 @@ export const Register: React.FC<RegisterProps> = ({
                                     isValid={!!errors.password}
                                     className={getErrorClassName('password')}
                                 />
-                                {getErrorText('Password')}
+                                {getErrorText('password')}
                             </FloatingLabel>
 
                             <div className="form-group mb-3">
@@ -278,10 +314,42 @@ export const Register: React.FC<RegisterProps> = ({
                     </div>
                     <div className="row justify-content-center mb-5">
                         <div className="col-5">
-                            <Button className="w-100" variant="outline-success"><FaGoogle /> Via Google</Button>                            
+                            <GoogleLogin
+                                clientId={GOOGLE_CLIENTID}
+                                render={renderProps => (
+                                    <Button
+                                        className="w-100"
+                                        variant="outline-success"
+                                        onClick={renderProps.onClick}
+                                        disabled={googleLoading || renderProps.disabled}
+                                    >
+                                        <FaGoogle /> Via Google
+                                    </Button>
+                                )}
+                                buttonText="Login"
+                                onSuccess={googleSuccess}
+                                cookiePolicy={'single_host_origin'}
+                            />
                         </div>
                         <div className="col-5">
-                            <Button className="w-100" variant="outline-success"><FaFacebook /> Via Facebook</Button>
+                            <Button
+                                className="w-100"
+                                variant="outline-success"
+                                disabled={fbLoading}
+                                onClick={() => setOpenFBLogin(true)}
+                            >
+                                <FaFacebook /> Via Facebook
+                            </Button>
+                            {openFBLogin && (
+                                <FacebookLogin
+                                    appId={FB_APPID}
+                                    autoLoad
+                                    fields="name,email,picture"
+                                    onClick={() => {}}
+                                    callback={facebookSuccess}
+                                    buttonStyle={{display: 'none'}}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>
