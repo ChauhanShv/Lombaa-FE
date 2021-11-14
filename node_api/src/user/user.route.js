@@ -24,7 +24,7 @@ module.exports = () => {
     router.put("/password", authMiddleware, checkSchema(setPasswordSchema), (req, res, next) => controller.setPassword(req, res, next));
     router.put("/active", authMiddleware, checkSchema(activeSchema), controller.updateActive);
     router.put("/email", authMiddleware, checkSchema(emailSchema), controller.changeEmail);
-    router.post("/email", authMiddleware, controller.verifyEmail);
+    router.post("/email", controller.verifyEmail);
     router.put("/phone", authMiddleware, checkSchema(phoneSchema), controller.updatePhone);
 
     router.delete("/facebook", authMiddleware, controller.deleteFacebook);

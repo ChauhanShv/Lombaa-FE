@@ -76,6 +76,7 @@ User.init(
     profileVerificationScore: {
       type: DataTypes.INTEGER(11),
       allowNull: true,
+      defaultValue: 0
     },
 
     isFacebookVerified: {
