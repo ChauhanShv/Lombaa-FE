@@ -14,3 +14,19 @@
 .category-sidebar .dropdown-menu { width: 350px; } 
 
 .mt-auto { margin-top: auto !important; } 
+
+.homespot-slider .slick-prev, .homespot-slider .slick-next{z-index: 2;}
+.slick-prev:before, .slick-next:before{font-size:30px;}
+.homespot-slider .slick-prev{left:25px;}
+.homespot-slider .slick-next{right:25px;}
+.homespot-slider .slick-dots{bottom:10px;}
+
+.homespot-slider .slick-dots li button:before{color: #fff; opacity: 1; font-size:10px; box-shadow: 0 0 5px rgba(0,0,0,.25%);}
+.homespot-slider .slick-dots li.slick-active button:before{color:#00AF3C;}
+
+.cat-slider .cat-item{width:94%;margin:0 auto 10px auto;text-align:center;padding:10px; display:flex; flex-wrap: wrap; align-items:center; justify-content: center; background:#fff; border:1px solid #ccc; box-shadow: 0 0 10px rgba(0,0,0,15%); color:#333; text-decoration: none; border-radius: 10px;}
+.cat-slider .cat-item p{margin:0; font-size:12px;}
+.cat-slider .cat-item img{margin:0 auto 10px auto;}
+
+.cat-slider .slick-prev:before, .cat-slider .slick-next:before{color:#333;}
+.cat-slider .slick-prev{left:-35px;}
