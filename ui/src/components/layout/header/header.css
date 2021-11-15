@@ -1,28 +1,22 @@
-html body .navbar.sticky-top{box-shadow: 0 2px 10px rgba(0,0,0,25%) !important;}
+html body .navbar.sticky-top{box-shadow: 0 2px 10px rgba(0,0,0,10%) !important;}
+{fill:green;}
+.navbar-brand svg .white{fill:#fff;}
+.navbar-brand svg .green{fill:#219653;}
+.navbar-brand svg .gray{fill:#333;}
 
 .icon-list li > a{box-shadow:0 0 5px rgba(0,0,0,30%);}
-.icon-list li.icon-item a{width:32px;height:32px; display:block; text-align:center;background: #fff; border-radius: 100px; display: inline-block; font-size: 16px; padding: 0; line-height: 32px;}
+.icon-list li.icon-item a{width:25px;height:25px; display:block; text-align:center;background:none; border-radius: 100px; display: inline-block; font-size: 16px; padding: 0; line-height: 25px; padding: 0 !important;}
+.icon-list li.icon-item svg{fill:#fff;}
 
-.ad-post{text-decoration: none !important;}
-.ad-post svg{width:50px; height:55px;}
-.saved-wrap{position:absolute; top:0; left:0; width:100%;}
-.saved{background: #fff; border-radius: 100px; text-align: center; width:32px; height:32px; display: flex; align-items: center; justify-content: center; text-decoration: none !important; box-shadow: 0 0 5px rgba(0,0,0,30%); transition: all ease-in-out 100ms; border:0;} 
-.saved:hover{transform: scale(1.1);}
-
-.post-list .card{transition: all ease-in-out 300ms;}
-.post-list .card *{text-decoration: none !important;}
-.post-list .card:hover, .ad-post:hover{box-shadow: 0 0 15px rgba(0,0,0,30%);}
-.post-list .card-title{font-size:18px;}
-.post-list .card-body{font-size:14px; color:#444;}
-.post-list .card button svg{width:14px;}
-
-.ad-post{transition: all ease-in-out 300ms; height:100%; flex-direction: column; text-decoration: none !important;}
-.ad-post i{font-size:45px;}
 #dropdown-basic {box-shadow: 0 0 5px rgb(0 0 0 / 15%); border-radius: 100px;}
 #dropdown-basic::after{display: none; padding:0; }
 
 .navbar-nav .dropdown-item{font-size:14px;}
 
+.header-cat{font-size:14px; font-weight: 600;}
+.header-cat button{font-size:14px;}
+
+.navbar .form-noborder{margin:0 auto 0 75px;}
 .mobile-fnav{font-size:12px; box-shadow: 0 -4px 10px rgba(0,0,0,15%);}
 .mobile-fnav svg{font-size:18px; margin-bottom: 5px;}
 
