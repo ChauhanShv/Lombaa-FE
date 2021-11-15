@@ -18,7 +18,6 @@ import { useAxios } from '../../services/base-service';
 import { isEmpty } from 'lodash';
 import { ChangeEmailFormFeilds, AlertType } from './types';
 import { useAppContext } from '../../contexts';
-import { COMMON_ERROR_MESSAGE } from '../../constants';
 import { getAPIErrorMessage } from '../../utils';
 
 const schema = yup.object().shape({

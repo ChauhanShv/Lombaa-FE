@@ -7,6 +7,7 @@ export interface ImageModalProps {
     image: any,
     show: boolean,
     onClose: Function,
+    onImageCropComplete: any,
 };
 export interface ChangePhoneFormFeilds {
     phoneNumber: string,
