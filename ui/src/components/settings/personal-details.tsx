@@ -38,15 +38,15 @@ const standardSchema = yup.object().shape({
     birthday: yup.string().required('Date of Birth is Required'),
     sex: yup.string().required('Please Enter your Gender'),
     bio: yup.string().required('Bio is Required')
-    .min(20, 'Please Enter at least 20 letters bio')
-    .max(5000, 'Bio should not exceed more than 5000 characters'),
+        .min(20, 'Please Enter at least 20 letters bio')
+        .max(5000, 'Bio should not exceed more than 5000 characters'),
 });
 
 const businessSchema = yup.object().shape({
     yearOfEstablishment: yup.string().required('Please Enter Year of Establishment'),
     aboutBusiness: yup.string().required('This Field is Required')
-    .min(20, 'Please Enter at least 20 characters')
-    .max(5000, 'About Business should not exceed more than 5000 characters'),
+        .min(20, 'Please Enter at least 20 characters')
+        .max(5000, 'About Business should not exceed more than 5000 characters'),
 });
 
 export interface AlertType {
@@ -58,7 +58,7 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
     const { state, dispatch } = useAppContext();
     const [alert, setAlert] = useState<AlertType>({});
     const [imageSrc, setImageSrc] = useState<any>();
-    const [openCropModal,setOpenCropModal] = useState<boolean>(false);
+    const [openCropModal, setOpenCropModal] = useState<boolean>(false);
     const [croppedImage, setCroppedImage] = useState<any>(null);
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(standardSchema),
@@ -70,9 +70,9 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
             bio: state.user?.metaData?.bio,
             memberSince: moment(state?.user?.metaData?.memberSince).format('DD-MM-YYYY'),
             lastActiveAt: state.user?.metaData?.lastActiveAt,
-        }, 
+        },
     });
-    const { register: registerBusiness, handleSubmit: handleSubmitBusiness, formState: { errors: businessErrors} } = useForm({
+    const { register: registerBusiness, handleSubmit: handleSubmitBusiness, formState: { errors: businessErrors } } = useForm({
         resolver: yupResolver(businessSchema),
         defaultValues: {
             yearOfEstablishment: state.user?.metaData?.yearOfEstablishment,
@@ -87,25 +87,25 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
         url: '/user/picture',
         method: 'PUT',
     });
-    const [{data: googleResponse, loading: googleLoading, error: googleError}, googleExecute] = useAxios({
+    const [{ data: googleResponse, loading: googleLoading, error: googleError }, googleExecute] = useAxios({
         url: '/user/google',
         method: 'PUT',
     });
-    const [{data: facebookResponse, loading: facebookLoading, error: facebookError}, facebookExecute] = useAxios({
+    const [{ data: facebookResponse, loading: facebookLoading, error: facebookError }, facebookExecute] = useAxios({
         url: '/user/facebook',
         method: 'PUT'
     });
-    const [{data: googleDeleteResponse, loading: googleDeleteLoading, error: googleDeleteError}, googleDeleteExecute] = useAxios({
+    const [{ data: googleDeleteResponse, loading: googleDeleteLoading, error: googleDeleteError }, googleDeleteExecute] = useAxios({
         url: '/user/google',
         method: 'DELETE',
     });
-    const [{data: fbDeleteResponse, loading: fbDeleteLoading, error: fbDeleteError}, fbDeleteExecute] = useAxios({
+    const [{ data: fbDeleteResponse, loading: fbDeleteLoading, error: fbDeleteError }, fbDeleteExecute] = useAxios({
         url: '/user/facebook',
         method: 'DELETE',
     });
 
     useEffect(() => {
-        if(response?.success) {
+        if (response?.success) {
             setAlert({
                 variant: 'success',
                 message: response?.message || 'User Updated Successfully',
@@ -122,14 +122,14 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
 
     const handleGoogleDisconnect = () => {
         const confirmDisconnect = confirm('Are you sure you want to disconnect from your google account');
-        if(confirmDisconnect) {
+        if (confirmDisconnect) {
             googleDeleteExecute({});
         }
         else return;
     };
     const handleFacebookDisconnect = () => {
         const confirmDisconnect = confirm('Are you sure you want to disconnect from your facebook account');
-        if(confirmDisconnect) {
+        if (confirmDisconnect) {
             fbDeleteExecute({});
         }
         else return;
@@ -156,7 +156,7 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
 
     const onSubmit = (values: any) => {
         if (isEmpty(errors)) {
-            if(state.user?.metaData?.accountType === "standard") {
+            if (state.user?.metaData?.accountType === "standard") {
                 execute({
                     data: {
                         name: values.name,
@@ -180,7 +180,7 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
 
     const handleFormSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        if(state?.user?.metaData?.accountType === "standard") {
+        if (state?.user?.metaData?.accountType === "standard") {
             handleSubmit(onSubmit)();
         } else {
             handleSubmitBusiness(onSubmit)();
@@ -210,7 +210,7 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
     };
 
     const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if(event.target.files && event.target.files[0]) {
+        if (event.target.files && event.target.files[0]) {
             const reader = new FileReader();
             reader.addEventListener('load', () => setImageSrc(reader.result));
             reader.readAsDataURL(event.target.files[0]);
@@ -218,18 +218,29 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
         setOpenCropModal(true);
     };
 
+    function DataURIToBlob(dataURI: string) {
+        const splitDataURI = dataURI.split(',')
+        const byteString = splitDataURI[0].indexOf('base64') >= 0 ? atob(splitDataURI[1]) : decodeURI(splitDataURI[1])
+        const mimeString = splitDataURI[0].split(':')[1].split(';')[0]
+
+        const ia = new Uint8Array(byteString.length)
+        for (let i = 0; i < byteString.length; i++)
+            ia[i] = byteString.charCodeAt(i)
+
+        return new Blob([ia], { type: mimeString })
+    }
+
     const onImageCropComplete = (croppedImageBlob: any) => {
         const reader = new FileReader();
         reader.readAsDataURL(croppedImageBlob);
-        reader.onloadend = function() {
+        reader.onloadend = function () {
             const base64dataimage = reader.result;
             setCroppedImage(base64dataimage);
         }
-        profileImageExecute({
-            data: {
-                croppedImage: croppedImage,
-            },
-        });
+        const file = DataURIToBlob(croppedImage);
+        const formData = new FormData();
+        formData.append('image', file);
+        profileImageExecute({ data: formData });
     }
 
     return (
@@ -244,104 +255,104 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
             <Col md={8} className="card-content mx-auto">
                 <Form onSubmit={handleFormSubmit} className="details-form p-3">
                     <div className="text-center">
-                        <Image 
-                            style={{width: '150px', height: '150px'}}
-                            src={croppedImage || "/images/avatar.svg"} 
-                            roundedCircle 
+                        <Image
+                            style={{ width: '150px', height: '150px' }}
+                            src={croppedImage || "/images/avatar.svg"}
+                            roundedCircle
                         />
                         <Form.Group className="mb-3">
                             <Form.Label className='profile-image-label'>
                                 <AiOutlineEdit className="upload-image" />
-                                <Form.Control style={{display: 'none'}} type="file" onChange={handleImageUpload} />
+                                <Form.Control style={{ display: 'none' }} type="file" onChange={handleImageUpload} />
                             </Form.Label>
                         </Form.Group>
                     </div>
-                    {openCropModal && 
-                        <ImageCropModal 
-                            show={openCropModal} 
+                    {openCropModal &&
+                        <ImageCropModal
+                            show={openCropModal}
                             image={imageSrc}
-                            onClose={() => {setOpenCropModal(false)}}
-                            onImageCropComplete={onImageCropComplete} 
+                            onClose={() => { setOpenCropModal(false) }}
+                            onImageCropComplete={onImageCropComplete}
                         />
                     }
                     {(apiError || alert.message) && (
-                            <Alert variant={alert.message ? 'success' : 'danger'} onClose={() => setAlert({})} dismissible>
-                                {alert.message || getAPIErrorMessage(apiError)}
-                            </Alert>
+                        <Alert variant={alert.message ? 'success' : 'danger'} onClose={() => setAlert({})} dismissible>
+                            {alert.message || getAPIErrorMessage(apiError)}
+                        </Alert>
                     )}
                     {state.user?.metaData?.accountType === "standard" ? (
-                    <>
-                        <FloatingLabel
-                            label="Full Name"
-                            className="mb-3"
-                        >
-                            <Form.Control 
-                                {...register('name')}
-                                type="text"
-                                placeholder="Full Name"
-                                className={getErrorClassName('name')}
-                            />
-                            {getErrorText('name')}
-                        </FloatingLabel>
-                        <FloatingLabel label="Select Location" className="mb-3">
-                            <Form.Select 
-                                {...register('location')} 
-                                aria-label="Floating label select example"
-                                className={getErrorClassName('location')}
+                        <>
+                            <FloatingLabel
+                                label="Full Name"
+                                className="mb-3"
                             >
-                                <option>Select Location</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </Form.Select>
-                        </FloatingLabel>
-                        <FloatingLabel
-                            label="Birthday"
-                            className="mb-3"
-                        >
-                            <Form.Control 
-                                {...register('birthday')} 
-                                type="date" 
-                                placeholder="Select Birthday"
-                                className={getErrorClassName('birthday')} 
-                            />
-                        </FloatingLabel>
-                        <FloatingLabel label="Sex" className="mb-3">
-                            <Form.Select {...register('sex')} aria-label="Floating label select example">
-                                <option>Do Not Specify</option>
-                                <option value="female">Female</option>
-                                <option value="male">Male</option>
-                            </Form.Select>
-                        </FloatingLabel>
-                        <FloatingLabel label="Bio" className="mb-3">
-                            <Form.Control
-                                style={{height: '120px'}}
-                                as="textarea"
-                                type="text"
-                                placeholder="Bio" 
-                                {...register('bio')}
-                                className={getErrorClassName('bio')}
-                            />
-                            {getErrorText('bio')}
-                        </FloatingLabel>
-                    </>) : (
-                            <>
-                                <FloatingLabel label="Year Of Establishment" className="mb-3">
-                                    <Form.Control
-                                        type="date"
-                                        placeholder="Establishment Year" 
-                                        className={getErrorClassName('yearOfEstablishment')}
-                                        {...registerBusiness('yearOfEstablishment')}
-                                    />
-                                </FloatingLabel>
-                                <FloatingLabel label="About Business" className="mb-3">
-                                    <Form.Control
-                                        as="textarea"
-                                        placeholder="About Business"
-                                        className={getErrorClassName('aboutBusiness')}
-                                        {...registerBusiness('aboutBusiness')}
-                                    />
-                                </FloatingLabel>
+                                <Form.Control
+                                    {...register('name')}
+                                    type="text"
+                                    placeholder="Full Name"
+                                    className={getErrorClassName('name')}
+                                />
+                                {getErrorText('name')}
+                            </FloatingLabel>
+                            <FloatingLabel label="Select Location" className="mb-3">
+                                <Form.Select
+                                    {...register('location')}
+                                    aria-label="Floating label select example"
+                                    className={getErrorClassName('location')}
+                                >
+                                    <option>Select Location</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </Form.Select>
+                            </FloatingLabel>
+                            <FloatingLabel
+                                label="Birthday"
+                                className="mb-3"
+                            >
+                                <Form.Control
+                                    {...register('birthday')}
+                                    type="date"
+                                    placeholder="Select Birthday"
+                                    className={getErrorClassName('birthday')}
+                                />
+                            </FloatingLabel>
+                            <FloatingLabel label="Sex" className="mb-3">
+                                <Form.Select {...register('sex')} aria-label="Floating label select example">
+                                    <option>Do Not Specify</option>
+                                    <option value="female">Female</option>
+                                    <option value="male">Male</option>
+                                </Form.Select>
+                            </FloatingLabel>
+                            <FloatingLabel label="Bio" className="mb-3">
+                                <Form.Control
+                                    style={{ height: '120px' }}
+                                    as="textarea"
+                                    type="text"
+                                    placeholder="Bio"
+                                    {...register('bio')}
+                                    className={getErrorClassName('bio')}
+                                />
+                                {getErrorText('bio')}
+                            </FloatingLabel>
+                        </>) : (
+                        <>
+                            <FloatingLabel label="Year Of Establishment" className="mb-3">
+                                <Form.Control
+                                    type="date"
+                                    placeholder="Establishment Year"
+                                    className={getErrorClassName('yearOfEstablishment')}
+                                    {...registerBusiness('yearOfEstablishment')}
+                                />
+                            </FloatingLabel>
+                            <FloatingLabel label="About Business" className="mb-3">
+                                <Form.Control
+                                    as="textarea"
+                                    placeholder="About Business"
+                                    className={getErrorClassName('aboutBusiness')}
+                                    {...registerBusiness('aboutBusiness')}
+                                />
+                            </FloatingLabel>
                         </>
                     )}
                     <Form.Group as={Row} controlId="memberSinceText">
@@ -363,40 +374,40 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                     <p className="mb-3"><strong>Connect your social media accounts for smoother experience!</strong></p>
                     <ListGroup as="ul" className="connectsocial mb-3">
                         <ListGroup.Item as="li">
-                        <span><FaGoogle />  Google</span>
-                        <span>
-                            {!state?.user?.metaData?.isGoogleVerified ? 
-                                (
-                                    <GoogleLogin
-                                        clientId={GOOGLE_CLIENTID}
-                                        render={renderProps => (
-                                            <Form.Check
-                                                id='connect-google'
-                                                type="switch"
-                                                checked={state?.user?.metaData?.isGoogleVerified}
-                                                onChange={renderProps.onClick}
-                                            />
-                                        )} 
-                                        buttonText="Login"
-                                        onSuccess={responseGoogle}
-                                        onFailure={responseGoogle}
-                                        cookiePolicy={'single_host_origin'}
-                                    />
-                                ) : (
-                                    <Form.Check
-                                        id='connect-google'
-                                        type="switch"
-                                        checked={state?.user?.metaData?.isGoogleVerified}
-                                        onChange={handleGoogleDisconnect}
-                                    />
-                                )
-                            }
-                        </span>
+                            <span><FaGoogle />  Google</span>
+                            <span>
+                                {!state?.user?.metaData?.isGoogleVerified ?
+                                    (
+                                        <GoogleLogin
+                                            clientId={GOOGLE_CLIENTID}
+                                            render={renderProps => (
+                                                <Form.Check
+                                                    id='connect-google'
+                                                    type="switch"
+                                                    checked={state?.user?.metaData?.isGoogleVerified}
+                                                    onChange={renderProps.onClick}
+                                                />
+                                            )}
+                                            buttonText="Login"
+                                            onSuccess={responseGoogle}
+                                            onFailure={responseGoogle}
+                                            cookiePolicy={'single_host_origin'}
+                                        />
+                                    ) : (
+                                        <Form.Check
+                                            id='connect-google'
+                                            type="switch"
+                                            checked={state?.user?.metaData?.isGoogleVerified}
+                                            onChange={handleGoogleDisconnect}
+                                        />
+                                    )
+                                }
+                            </span>
                         </ListGroup.Item>
                         <ListGroup.Item as="li">
                             <span><FaFacebook /> Facebook</span>
                             <span>
-                                {!state?.user?.metaData?.isFacebookVerified ? 
+                                {!state?.user?.metaData?.isFacebookVerified ?
                                     (
                                         <FacebookLogin
                                             appId={FB_APPID}
@@ -407,7 +418,7 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                                                     id='connect-facebook'
                                                     type="switch"
                                                     checked={state?.user?.metaData?.isFacebookVerified}
-                                                    onChange={state?.user?.metaData?.isFacebookVerified ? null :renderProps.onClick}
+                                                    onChange={state?.user?.metaData?.isFacebookVerified ? null : renderProps.onClick}
                                                 />
                                             )}
                                             callback={responseFacebook}

@@ -156,8 +156,16 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                         <img className="rounded-circle" width="36" height="36" src=" https://dummyimage.com/100/007bff/efefef" alt="Htmlstream" />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
-                        <Dropdown.Item href="#/action-2">Account Settings</Dropdown.Item>
+                        <Dropdown.Item href="#">
+                            <Link to="/profile">
+                                Profile
+                            </Link>
+                        </Dropdown.Item>
+                        <Dropdown.Item href="#">
+                            <Link to="/settings/personal-details">
+                                Account Settings
+                            </Link>
+                        </Dropdown.Item>
                         <Dropdown.Divider />
                         <Dropdown.Item href="#/action-3">Sign out</Dropdown.Item>
                     </Dropdown.Menu>
