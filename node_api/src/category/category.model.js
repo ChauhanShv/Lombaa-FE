@@ -1,6 +1,6 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize").service;
-const File = require('../file/file.model')
+const File = require('../file/file.model');
 
 class Category extends Model { }
 
@@ -21,17 +21,19 @@ Category.init(
         },
         isPopular: {
             type: DataTypes.TINYINT,
-            allowNull: false
+            allowNull: false,
         },
     },
     {
         modelName: "category",
-        tableName: "category",
+        tableName: "categories",
         timestamps: true,
         sequelize,
     }
 );
-Category.belongsTo(File, { as: "icon" });
-Category.belongsTo(Category, { as: "parent" });
 
-module.exports = Category
+Category.belongsTo(File, { as: "icon" });
+Category.belongsTo(Category, { foreignKey: 'parentId', as: "parent", targetKey: 'id' });
+Category.hasMany(Category, { as: 'subCategories', foreignKey: 'parentId', });
+
+module.exports = Category;
