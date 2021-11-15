@@ -2,7 +2,7 @@ const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize").service;
 const region = require("../region").model;
 
-class City extends Model {}
+class City extends Model { }
 
 City.init(
   {
