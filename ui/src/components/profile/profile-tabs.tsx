@@ -23,9 +23,9 @@ export const ProfileTabs = () => {
         <Container className="p-4">
             <Row className="py-4">
                 <Col md={12} className="p-0">
-                    <Tabs fill className="profile-tabs" defaultActiveKey="MyListing" id="uncontrolled-tab-example">
+                    <Tabs className="profile-tabs" defaultActiveKey="MyListing" id="uncontrolled-tab-example">
                         <Tab eventKey="MyListing" title="My Listing" mountOnEnter unmountOnExit={false} className="py-4 px-3 border">
-                            <Tabs fill defaultActiveKey="myads" id="uncontrolled-tab-example">
+                            <Tabs defaultActiveKey="myads" id="uncontrolled-tab-example">
                                 <Tab eventKey="Active" title="Active" mountOnEnter unmountOnExit={false} className="py-4 my-listing">
                                     <Row className="row">
                                         <ProfileProductTile />

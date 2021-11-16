@@ -30,3 +30,8 @@
 
 .cat-slider .slick-prev:before, .cat-slider .slick-next:before{color:#333;}
 .cat-slider .slick-prev{left:-35px;}
+
+@media all and (max-width:767px) {
+.homespot-slider .slick-prev{left:15px;}
+.slick-prev:before, .slick-next:before{font-size:20px;}
+}
