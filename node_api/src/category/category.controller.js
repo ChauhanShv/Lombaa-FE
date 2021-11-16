@@ -11,11 +11,17 @@ class CategoryController extends BaseController {
     async categories(req, res, next) {
         try {
             const data = await Category.findAll({
+                where: { parentId: null },
                 include: [
                     { model: File, as: "icon" },
                     {
                         model: Category,
                         as: 'subCategories',
+                        include: [{
+                            model: Field,
+                            as: 'fields',
+                            include: [{ model: FieldValue, as: 'values' }]
+                        }]
                     },
                     {
                         model: Field,
