@@ -8,7 +8,9 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { Login, Register } from '../../modals';
 import { useAppContext } from '../../../contexts';
 import './header.css';
-import logo from './logo.svg';
+
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
 
 const HeaderComponent: React.FC = (): React.ReactElement => {
     const [loginModal, setLoginModal] = useState<boolean>(false);
@@ -18,32 +20,86 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
     return (
         <>
 
-            <Navbar sticky="top" className="d-none d-lg-flex navbar navbar-expand-lg navbar-dark shadow bg-success flex-wrap justify-content-between p-0">
+            <Navbar sticky="top" className=" d-none d-lg-flex navbar navbar-expand-lg navbar-dark shadow bg-success flex-wrap justify-content-between p-0">
 
 
                 <Navbar className="w-100 navbar navbar-light bg-dark p-0 header-cat">
                     <Container>
-                        <Navbar className=" p-0">
-                            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                                <Container className="eventsNav pt-0 mt-0">
-                                    <Row>
-                                        <Col xs="12" md="6" className="text-left">
-                                            <Dropdown.Header>
-                                            </Dropdown.Header>
-                                        </Col>
-                                    </Row>
-                                </Container>
-
-                            </NavDropdown>
-                            <Nav.Link href="/">Others</Nav.Link>
-                            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                                <NavDropdown.Item href="/">Action</NavDropdown.Item>
-                                <NavDropdown.Item href="/">Another action</NavDropdown.Item>
-                                <NavDropdown.Item href="/">Something</NavDropdown.Item>
-                                <NavDropdown.Divider />
-                                <NavDropdown.Item href="/">Separated link</NavDropdown.Item>
-                            </NavDropdown>
-                        </Navbar>
+                        {['bottom'].map((placement) => (
+                            <OverlayTrigger
+                                trigger="click"
+                                key={placement}
+                                placement={placement}
+                                overlay={
+                                    <Popover className="head-cat" id={`popover-positioned-${placement}`}>
+                                        <Popover.Body className="px-5 shadow d-flex justify-content-between flex-wrap">
+                                            <div className="p-3">
+                                                <h4>Cars</h4>
+                                                <ul>
+                                                    <li><Link>Used Cars</Link></li>
+                                                    <li><Link>Parallel Imports</Link></li>
+                                                    <li><Link>New Cars</Link></li>
+                                                    <li><Link>Commercial Vehicles</Link></li>
+                                                    <li><Link>Car Rental</Link></li>
+                                                    <li><Link>Other Vehicles</Link></li>
+                                                    <li><Link>Specials</Link></li>
+                                                </ul>
+                                            </div>
+                                            <div className="p-3">
+                                                <h4>Cars</h4>
+                                                <ul>
+                                                    <li><Link>Used Cars</Link></li>
+                                                    <li><Link>Parallel Imports</Link></li>
+                                                    <li><Link>New Cars</Link></li>
+                                                    <li><Link>Commercial Vehicles</Link></li>
+                                                    <li><Link>Car Rental</Link></li>
+                                                    <li><Link>Other Vehicles</Link></li>
+                                                    <li><Link>Specials</Link></li>
+                                                </ul>
+                                            </div>
+                                            <div className="p-3">
+                                                <h4>Cars</h4>
+                                                <ul>
+                                                    <li><Link>Used Cars</Link></li>
+                                                    <li><Link>Parallel Imports</Link></li>
+                                                    <li><Link>New Cars</Link></li>
+                                                    <li><Link>Commercial Vehicles</Link></li>
+                                                    <li><Link>Car Rental</Link></li>
+                                                    <li><Link>Other Vehicles</Link></li>
+                                                    <li><Link>Specials</Link></li>
+                                                </ul>
+                                            </div>
+                                            <div className="p-3">
+                                                <h4>Cars</h4>
+                                                <ul>
+                                                    <li><Link>Used Cars</Link></li>
+                                                    <li><Link>Parallel Imports</Link></li>
+                                                    <li><Link>New Cars</Link></li>
+                                                    <li><Link>Commercial Vehicles</Link></li>
+                                                    <li><Link>Car Rental</Link></li>
+                                                    <li><Link>Other Vehicles</Link></li>
+                                                    <li><Link>Specials</Link></li>
+                                                </ul>
+                                            </div>
+                                            <div className="p-3">
+                                                <h4>Cars</h4>
+                                                <ul>
+                                                    <li><Link>Used Cars</Link></li>
+                                                    <li><Link>Parallel Imports</Link></li>
+                                                    <li><Link>New Cars</Link></li>
+                                                    <li><Link>Commercial Vehicles</Link></li>
+                                                    <li><Link>Car Rental</Link></li>
+                                                    <li><Link>Other Vehicles</Link></li>
+                                                    <li><Link>Specials</Link></li>
+                                                </ul>
+                                            </div>
+                                        </Popover.Body>
+                                    </Popover>
+                                }
+                            >
+                                <Link>Popover on {placement}</Link>
+                            </OverlayTrigger>
+                        ))}
                         <div className="d-flex align-items-center ms-auto me-0">
                             <ul className="navbar-nav ms-auto me-sm-2 mt-2 mt-lg-0 icon-list d-none d-lg-flex align-items-center">
                                 <li className="nav-item icon-item active me-3">
@@ -71,7 +127,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                             )}
                             <Dropdown align="end">
                                 <Dropdown.Toggle variant="link" id="dropdown-basic" className="p-0">
-                                    <img className="rounded-circle" width="30" height="30" src=" https://dummyimage.com/100/007bff/efefef" alt="Htmlstream" />
+                                    <img className="rounded-circle" width="30" height="30" src="/images/user-circle.svg" alt="Htmlstream" />
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                     <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
@@ -133,14 +189,14 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
 
                             </Row>
                         </form>
-                        <Link className="nav-link px-4 bg-success rounded ms-3 text-white d-none d-lg-flex" to="/">+ Sell</Link>
+                        <Button variant="fullround" className="nav-link px-4 bg-success rounded ms-3 text-white d-none d-lg-flex" to="/">+ Sell</Button>
 
                     </div>
 
                 </Navbar>
             </Navbar>
 
-            <Navbar className="d-lg-none navbar navbar-expand-lg mobile-nav shadow bg-white px-2">
+            <Navbar className="z1 d-lg-none navbar navbar-expand-lg mobile-nav shadow bg-white px-2">
                 <InputGroup placeholder="Type your search">
                     <FormControl
                         placeholder="Type your search"
@@ -153,7 +209,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
 
                 <Dropdown align="end" className="ps-3">
                     <Dropdown.Toggle variant="link" id="dropdown-basic" className="p-0">
-                        <img className="rounded-circle" width="36" height="36" src=" https://dummyimage.com/100/007bff/efefef" alt="Htmlstream" />
+                        <img className="rounded-circle" width="30" height="30" src="/images/user-circle.svg" alt="Htmlstream" />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
