@@ -11,7 +11,7 @@ import './profile.css';
 
 export const ProfileHeaderCard: React.FC = (): React.ReactElement => {
     const { state, dispatch } = useAppContext();
-    
+
     return (
         <Container className="p-4">
             <Row className="shadow border rounded py-4" >
@@ -19,10 +19,14 @@ export const ProfileHeaderCard: React.FC = (): React.ReactElement => {
                     <Row>
                         <Col md={12} className="d-flex">
                             <div className="ps-2">
-                                <Image src="/images/user-circle.svg" width="100" roundedCircle />
+                                <Image
+                                    src={state?.user?.metaData?.profilePicture?.absolute_path || "/images/avatar.svg"}
+                                    width="100"
+                                    roundedCircle
+                                />
                             </div>
                             <div className="px-2">
-                                <h3 className="user-title px-3 text-success m-0">{state?.user?.metaData?.name} <FaCheckCircle className="fs-5 text-info"/></h3>
+                                <h3 className="user-title px-3 text-success m-0">{state?.user?.metaData?.name} <FaCheckCircle className="fs-5 text-info" /></h3>
                                 <p className="px-3 text-muted mb-2"><strong>Business Account</strong></p>
                                 <p className="px-3"><Button variant="link" className="p-0">Edit Profile</Button>&nbsp;|&nbsp;
                                 <Button variant="link" className="p-0">Settings</Button>

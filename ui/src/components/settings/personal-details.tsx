@@ -118,7 +118,7 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                 user: response?.metadata,
             }
         });
-    }, [response, googleResponse, facebookResponse, googleDeleteResponse, fbDeleteResponse]);
+    }, [response, googleResponse, facebookResponse, googleDeleteResponse, fbDeleteResponse, profileImageRes]);
 
     const handleGoogleDisconnect = () => {
         const confirmDisconnect = confirm('Are you sure you want to disconnect from your google account');
@@ -218,28 +218,11 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
         setOpenCropModal(true);
     };
 
-    function DataURIToBlob(dataURI: string) {
-        const splitDataURI = dataURI.split(',')
-        const byteString = splitDataURI[0].indexOf('base64') >= 0 ? atob(splitDataURI[1]) : decodeURI(splitDataURI[1])
-        const mimeString = splitDataURI[0].split(':')[1].split(';')[0]
-
-        const ia = new Uint8Array(byteString.length)
-        for (let i = 0; i < byteString.length; i++)
-            ia[i] = byteString.charCodeAt(i)
-
-        return new Blob([ia], { type: mimeString })
-    }
-
     const onImageCropComplete = (croppedImageBlob: any) => {
         const reader = new FileReader();
         reader.readAsDataURL(croppedImageBlob);
-        reader.onloadend = function () {
-            const base64dataimage = reader.result;
-            setCroppedImage(base64dataimage);
-        }
-        const file = DataURIToBlob(croppedImage);
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('image', croppedImageBlob);
         profileImageExecute({ data: formData });
     }
 
@@ -257,7 +240,7 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                     <div className="text-center">
                         <Image
                             style={{ width: '150px', height: '150px' }}
-                            src={croppedImage || "/images/avatar.svg"}
+                            src={state?.user?.metaData?.profilePicture?.absolute_path || "/images/avatar.svg"}
                             roundedCircle
                         />
                         <Form.Group className="mb-3">
