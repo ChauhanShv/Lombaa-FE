@@ -1,0 +1,24 @@
+@baseUrl = http://localhost:3001/api
+
+GET {{baseUrl}}/locations HTTP/1.1
+content-type: application/json
+
+###
+
+GET {{baseUrl}}/locations/123 HTTP/1.1
+content-type: application/json
+
+###
+
+GET {{baseUrl}}/locations/countries HTTP/1.1
+content-type: application/json
+
+###
+
+GET {{baseUrl}}/locations/country/123/regions HTTP/1.1
+content-type: application/json
+
+###
+
+GET {{baseUrl}}/locations/region/123/cities HTTP/1.1
+content-type: application/json
