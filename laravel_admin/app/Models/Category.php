@@ -21,6 +21,16 @@ class Category extends Model
         'parentId'
     ];
 
+    // public function files()
+    // {
+    //     return $this->belongsTo(\App\Models\Files::class, 'id');
+    //     return $this->where('id', '=', $table->iconId)->select('absolute_path')->first();
+    // }
+
+    // public funtion absolutePath() {
+    //     $file = files();
+    //     return $table->wher
+    // }
     public $timestamps = true;
     protected $keyType ='string';
     // protected $keyType = 'uuids';

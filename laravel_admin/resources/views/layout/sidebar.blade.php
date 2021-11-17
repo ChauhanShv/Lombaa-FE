@@ -111,6 +111,9 @@
                 <li class="">
                     <a href="{{ route('categories') }}">Add</a>
                 </li>
+                <li class="">
+                    <a href="{{ route('categorylist') }}">Category List</a>
+                </li>
             </ul>
         </li>
         <li class="submenu">

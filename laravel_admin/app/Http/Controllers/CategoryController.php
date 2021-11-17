@@ -61,6 +61,7 @@ class CategoryController extends Controller
             // dd($fileData['id']);
 
             
+            if( $sendFileData){
             $data = [
                 'id' => Str::uuid(),
                 'name' => $request->name,
@@ -73,12 +74,20 @@ class CategoryController extends Controller
                 'updatedAt' => Carbon::now()
             ];
 
+            // dd($data);
             $sendData = Category::insert($data);
                 return redirect()->route('categories')->with('response', ['status' => 'success', 'message' => 'Categories added successfully']);
-
+            }   
             }else{
                 $categories = Category::get();
                 return view('category.add', ['categories'=> $categories]);
             }
+    }
+
+    public function categorylist() {
+
+        $category_list = Category::paginate(30);
+            return view('category.categorylist',  ['category_list' => $category_list]);
+
     }
 }
