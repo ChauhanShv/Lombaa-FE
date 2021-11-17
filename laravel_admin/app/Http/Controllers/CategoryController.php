@@ -55,20 +55,25 @@ class CategoryController extends Controller
             ];
 
             $sendFileData = Files::insert($fileData);
-            
-            // $data = [
-            //     'id' => Str::uuid(),
-            //     'name' => $request->name,
-            //     'description' => $request->description,
-            //     'iconId' => $imageName,
-            //     'isPopular' => isset($request->popular) ? 1 : 0,
-            //     'isActive' => isset($request->active) ? 1 : 0,
-            //     'parentId' => $request->product,
-            //     'createdAt' => Carbon::now(),
-            //     'updatedAt' => Carbon::now()
-            // ];
+            // dd($sendFileData);
 
-            // $sendData = Category::insert($data);
+
+            // dd($fileData['id']);
+
+            
+            $data = [
+                'id' => Str::uuid(),
+                'name' => $request->name,
+                'description' => $request->description,
+                'iconId' => $fileData['id'],
+                'isPopular' => isset($request->popular) ? 1 : 0,
+                'isActive' => isset($request->active) ? 1 : 0,
+                'parentId' => $request->product,
+                'createdAt' => Carbon::now(),
+                'updatedAt' => Carbon::now()
+            ];
+
+            $sendData = Category::insert($data);
                 return redirect()->route('categories')->with('response', ['status' => 'success', 'message' => 'Categories added successfully']);
 
             }else{
