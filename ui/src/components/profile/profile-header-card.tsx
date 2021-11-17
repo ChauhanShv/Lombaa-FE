@@ -26,7 +26,10 @@ export const ProfileHeaderCard: React.FC = (): React.ReactElement => {
                                 />
                             </div>
                             <div className="px-2">
-                                <h3 className="user-title px-3 text-success m-0">{state?.user?.metaData?.name} <FaCheckCircle className="fs-5 text-info" /></h3>
+                                <h3 className="user-title px-3 text-success m-0">
+                                    {state?.user?.metaData?.name} {'  '}
+                                    {state?.user?.metaData?.profileVerificationScore >= 60 ? <FaCheckCircle className="fs-5 text-info" /> : ''}
+                                </h3>
                                 <p className="px-3 text-muted mb-2"><strong>Business Account</strong></p>
                                 <p className="px-3"><Button variant="link" className="p-0">Edit Profile</Button>&nbsp;|&nbsp;
                                 <Button variant="link" className="p-0">Settings</Button>

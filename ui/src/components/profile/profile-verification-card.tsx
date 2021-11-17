@@ -13,7 +13,7 @@ export const ProfileVerificationCard: React.FC = (): React.ReactElement => {
                     <Col className="text-center p-3">
                         <ProfileVerificationStepper />
                     </Col>
-                    <Col className="text-center p-3">
+                    <Col className="text-center p-3 text-muted">
                         Users who are verified are twice as likely to sell. <br />
                         Verify your identity to make those sales!
                     </Col>

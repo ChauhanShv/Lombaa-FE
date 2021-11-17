@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { Link } from 'react-router-dom';
 import { isEmpty } from 'lodash';
-import FacebookLogin from 'react-facebook-login';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import GoogleLogin from 'react-google-login';
 import { getAPIErrorMessage } from '../../../utils';
 import { LoginProps, FormFields } from './types';
@@ -149,7 +149,7 @@ export const Login: React.FC<LoginProps> = ({
                             <div className="form-group mb-3 d-flex justify-content-between align-items-center">
                                 <Form.Check name="usertype" label="Remember Me" inline type="checkbox" aria-label="radio 1" />
                                 <Link to="/forgot-password" onClick={() => onClose()}>Forgot Password?</Link>
-                            </div>                         
+                            </div>
                             <div className="form-group text-center mt-3">
                                 <Button type="submit" className="btn btn-primary w-100">
                                     {
@@ -173,7 +173,7 @@ export const Login: React.FC<LoginProps> = ({
                                         onClick={renderProps.onClick}
                                         disabled={googleLoading || renderProps.disabled}
                                     >
-                                        <img src="images/google.svg"/> Continue with Google
+                                        <img src="images/google.svg" /> Continue with Google
                                     </Button>
                                 )}
                                 buttonText="Login"
@@ -182,24 +182,23 @@ export const Login: React.FC<LoginProps> = ({
                             />
                         </div>
                         <div className="col-12 mt-3">
-                            <Button
-                                className="fblog-btn w-100"
-                                variant="outline-link"
-                                onClick={() => setOpenFBLogin(true)}
-                                disabled={fbLoading}
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="26px" height="26px" viewBox="0 0 90 90"><g><path d="M90,15.001C90,7.119,82.884,0,75,0H15C7.116,0,0,7.119,0,15.001v59.998   C0,82.881,7.116,90,15.001,90H45V56H34V41h11v-5.844C45,25.077,52.568,16,61.875,16H74v15H61.875C60.548,31,59,32.611,59,35.024V41   h15v15H59v34h16c7.884,0,15-7.119,15-15.001V15.001z"></path></g></svg> Continue with Facebook
-                            </Button>
-                            {openFBLogin && (
-                                <FacebookLogin
-                                    appId={FB_APPID}
-                                    autoLoad
-                                    fields="name,email,picture"
-                                    onClick={() => {}}
-                                    callback={facebookSuccess}
-                                    buttonStyle={{display: 'none'}}
-                                />
-                            )}
+                            <FacebookLogin
+                                render={renderProps => (
+                                    <Button
+                                        className="fblog-btn w-100"
+                                        variant="outline-link"
+                                        onClick={renderProps.onClick}
+                                        disabled={fbLoading}
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="26px" height="26px" viewBox="0 0 90 90"><g><path d="M90,15.001C90,7.119,82.884,0,75,0H15C7.116,0,0,7.119,0,15.001v59.998   C0,82.881,7.116,90,15.001,90H45V56H34V41h11v-5.844C45,25.077,52.568,16,61.875,16H74v15H61.875C60.548,31,59,32.611,59,35.024V41   h15v15H59v34h16c7.884,0,15-7.119,15-15.001V15.001z"></path></g></svg> Continue with Facebook
+                                    </Button>
+                                )}
+                                appId={FB_APPID}
+                                autoLoad
+                                fields="name,email,picture"
+                                callback={facebookSuccess}
+                                onFailure={facebookSuccess}
+                            />
                         </div>
                     </div>
                 </div>

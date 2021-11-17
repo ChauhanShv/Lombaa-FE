@@ -37,3 +37,6 @@ body{padding-bottom: 80px;}
 
 .mobile-nav{z-index: 1;}
 .z1{z-index: 2;}
+
+.sign-out-button{background-color: #fff; border: 0px; color: #000;}
+.sign-out-button:hover{border: 0px; color: #000;}

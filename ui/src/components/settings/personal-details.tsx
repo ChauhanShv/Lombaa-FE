@@ -305,6 +305,8 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                                     <option>Do Not Specify</option>
                                     <option value="female">Female</option>
                                     <option value="male">Male</option>
+                                    <option value="transgender">Transgender</option>
+                                    <option value="other">Other</option>
                                 </Form.Select>
                             </FloatingLabel>
                             <FloatingLabel label="Bio" className="mb-3">

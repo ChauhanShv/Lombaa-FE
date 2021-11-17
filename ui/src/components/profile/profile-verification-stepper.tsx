@@ -1,8 +1,12 @@
 import React from 'react';
 import { Stepper, Step } from 'react-form-stepper';
+import { useAppContext, ActionTypes } from '../../contexts';
 import './profile-verification-stepper.css';
 
-export const ProfileVerificationStepper = () => {
+export const ProfileVerificationStepper: React.FC = (): React.ReactElement => {
+
+    const { state, dispatch } = useAppContext();
+    const userData = state?.user?.metaData;
 
     const ConnectorStyleProps = {
         disabledColor: '#DBDBDB',
@@ -29,17 +33,16 @@ export const ProfileVerificationStepper = () => {
     return (
         <>
             <Stepper
-                activeStep={2}
                 connectorStateColors={true}
                 className=""
                 stepClassName="step-connect"
                 connectorStyleConfig={ConnectorStyleProps}
                 styleConfig={StepStyleDTO}>
-                <Step label="Facebook" />
-                <Step label="Google" />
-                <Step label="Email" />
-                <Step label="Phone" />
-                <Step label="Photo" />
+                <Step label="Facebook" active={userData?.isFacebookVerified ? true : false} />
+                <Step label="Google" active={userData?.isGoogleVerified ? true : false} />
+                <Step label="Email" active={userData?.isEmailVerified ? true : false} />
+                <Step label="Phone" active={userData?.isPhoneVerified ? true : false} />
+                <Step label="Photo" active={userData?.profilePictureId ? true : false} />
             </Stepper>
         </>
     );
