@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs, Tab, Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { Tabs, Tab, Container, Row, Col, Image } from 'react-bootstrap';
 import { ProfileProductTile } from './profile-product-tile';
 import '../../pages/profile-page.css';
 
@@ -12,9 +12,10 @@ interface TabContentProps {
 
 const TabContent: React.FC<TabContentProps> = ({ tabTitle }: TabContentProps): React.ReactElement => {
     return (
-        <>
-            {`tab: ${tabTitle}`}
-        </>
+        <div style={{textAlign: 'center'}}>
+            <Image className="placeholder-image" src='images/placeholder-image.jpg' />
+            <p className="tab-placeholder-text">{`We could not fetch anything for ${tabTitle} tab. There is no data available.`}</p>
+        </div>
     );
 }
 

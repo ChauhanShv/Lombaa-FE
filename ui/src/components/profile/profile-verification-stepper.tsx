@@ -1,7 +1,7 @@
 import React from 'react';
 import { Stepper, Step } from 'react-form-stepper';
 import { useAppContext, ActionTypes } from '../../contexts';
-import './profile-verification-stepper.css';
+import './profile.css';
 
 export const ProfileVerificationStepper: React.FC = (): React.ReactElement => {
 
