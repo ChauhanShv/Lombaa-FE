@@ -22,6 +22,7 @@ class Category extends Model
     ];
 
     public $timestamps = true;
+    protected $keyType ='string';
     // protected $keyType = 'uuids';
     use HasFactory;
 }
