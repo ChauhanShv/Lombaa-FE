@@ -3,8 +3,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Middleware\Auth;
-
 
 
 Route::get('/', [LoginController::class, 'login'])->name('login');
@@ -32,5 +32,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/user/edit', [UserController::class, 'update']);
 
     Route::get('/user/delete/{id}', [UserController::class, 'delete'])->name('delete');
+
+    Route::get('/category/add', [CategoryController::class, 'categories'])->name('categories');
+
+    Route::post('/category/add', [CategoryController::class, 'categories']);
 
 });
