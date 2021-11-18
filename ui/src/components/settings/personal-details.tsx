@@ -117,6 +117,46 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                 }
             });
         }
+        if (googleResponse?.success) {
+            dispatch({
+                type: ActionTypes.UPDATE_PROFILE,
+                payload: {
+                    metaData: googleResponse?.metadata?.user,
+                }
+            })
+        }
+        if (facebookResponse?.success) {
+            dispatch({
+                type: ActionTypes.UPDATE_PROFILE,
+                payload: {
+                    metaData: facebookResponse?.metadata?.user,
+                }
+            })
+        }
+        if (googleDeleteResponse?.success) {
+            dispatch({
+                type: ActionTypes.UPDATE_PROFILE,
+                payload: {
+                    metaData: googleDeleteResponse?.metadata?.user,
+                }
+            })
+        }
+        if (fbDeleteResponse?.success) {
+            dispatch({
+                type: ActionTypes.UPDATE_PROFILE,
+                payload: {
+                    metaData: fbDeleteResponse?.metadata?.user,
+                }
+            })
+        }
+        if (profileImageRes?.success) {
+            dispatch({
+                type: ActionTypes.UPDATE_PROFILE,
+                payload: {
+                    metaData: profileImageRes?.metadata?.user,
+                }
+            })
+        }
     }, [response, googleResponse, facebookResponse, googleDeleteResponse, fbDeleteResponse, profileImageRes]);
 
     const handleGoogleDisconnect = () => {
