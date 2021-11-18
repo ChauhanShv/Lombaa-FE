@@ -18,13 +18,13 @@ const App: React.FC = () => {
     <AppContextProvider>
       <BrowserRouter>
         <AppContainer>
-            <Switch>
-              <PublicRoute component={HomePage} path="/" exact />
-              <PublicRoute restricted  component={ForgotPasswordPage} path="/forgot-password/:token?" exact />
-              {/* Html Routes - for nilesh */}
-              <PrivateRoute component={SettingsPage} path="/settings/:page?" exact />
-              <PrivateRoute component={ProfilePage} path="/profile" exact />
-            </Switch>
+          <Switch>
+            <PublicRoute component={HomePage} path="/" exact />
+            <PublicRoute restricted component={ForgotPasswordPage} path="/forgot-password/:token?" exact />
+            {/* Html Routes - for nilesh */}
+            <PrivateRoute component={SettingsPage} path="/settings/:page?" exact />
+            <PrivateRoute component={ProfilePage} path="/profile" exact />
+          </Switch>
         </AppContainer>
       </BrowserRouter>
     </AppContextProvider>

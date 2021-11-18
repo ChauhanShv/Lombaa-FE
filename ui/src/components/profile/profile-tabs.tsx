@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs, Tab, Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { Tabs, Tab, Container, Row, Col, Image } from 'react-bootstrap';
 import { ProfileProductTile } from './profile-product-tile';
 import '../../pages/profile-page.css';
 
@@ -10,22 +10,23 @@ interface TabContentProps {
     tabTitle: string,
 };
 
-const TabContent: React.FC<TabContentProps> = ({tabTitle} : TabContentProps): React.ReactElement => {
+const TabContent: React.FC<TabContentProps> = ({ tabTitle }: TabContentProps): React.ReactElement => {
     return (
-        <>
-            {`tab: ${tabTitle}`}
-        </>
+        <div style={{textAlign: 'center'}}>
+            <Image className="placeholder-image" src='images/placeholder-image.jpg' />
+            <p className="tab-placeholder-text">{`We could not fetch anything for ${tabTitle} tab. There is no data available.`}</p>
+        </div>
     );
 }
 
 export const ProfileTabs = () => {
-    return(
+    return (
         <Container className="p-4">
             <Row className="py-4">
                 <Col md={12} className="p-0">
-                    <Tabs fill className="profile-tabs" defaultActiveKey="MyListing" id="uncontrolled-tab-example">
+                    <Tabs className="profile-tabs" defaultActiveKey="MyListing" id="uncontrolled-tab-example">
                         <Tab eventKey="MyListing" title="My Listing" mountOnEnter unmountOnExit={false} className="py-4 px-3 border">
-                            <Tabs fill defaultActiveKey="myads" id="uncontrolled-tab-example">
+                            <Tabs defaultActiveKey="Active" id="uncontrolled-tab-example">
                                 <Tab eventKey="Active" title="Active" mountOnEnter unmountOnExit={false} className="py-4 my-listing">
                                     <Row className="row">
                                         <ProfileProductTile />
