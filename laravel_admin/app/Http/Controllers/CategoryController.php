@@ -14,21 +14,21 @@ class CategoryController extends Controller
     public function categories(Request $request){
         if($request->isMethod('post')){
             $rules = [
-
                 'name' => 'required|regex:/^[\s\w-]*$/',
                 'description' => 'required',
                 'image' => 'required',
                 'product' => 'required',
             ];
+
             $messages = [
                     'name.required' => 'Name is required',
                     'description.required' => 'Description is required',
                     'image.required' => 'Image is required',
                     'product.required'=> 'Product is required',
             ];
+
             $validator = Validator::make($request->all(), $rules, $messages);
-            
-            // $imageName = time().$request->image;
+
             $imageName = Str::uuid().'.'.$request->file('image')->getClientOriginalName();
             $path = Storage::disk('s3')->put('images', $request->image);
             $imagePath = Storage::disk('s3')->url($path);
@@ -40,7 +40,6 @@ class CategoryController extends Controller
             }
 
             $fileData = [
-                
                 'id' => Str::uuid(),
                 'key_name' => $imageName,
                 'extension' => $imageExt,
@@ -55,39 +54,33 @@ class CategoryController extends Controller
             ];
 
             $sendFileData = Files::insert($fileData);
-            // dd($sendFileData);
-
-
-            // dd($fileData['id']);
-
             
             if( $sendFileData){
-            $data = [
-                'id' => Str::uuid(),
-                'name' => $request->name,
-                'description' => $request->description,
-                'iconId' => $fileData['id'],
-                'isPopular' => isset($request->popular) ? 1 : 0,
-                'isActive' => isset($request->active) ? 1 : 0,
-                'parentId' => $request->product,
-                'createdAt' => Carbon::now(),
-                'updatedAt' => Carbon::now()
-            ];
+                $data = [
+                    'id' => Str::uuid(),
+                    'name' => $request->name,
+                    'description' => $request->description,
+                    'iconId' => $fileData['id'],
+                    'isPopular' => isset($request->popular) ? 1 : 0,
+                    'isActive' => isset($request->active) ? 1 : 0,
+                    'parentId' => $request->product,
+                    'createdAt' => Carbon::now(),
+                    'updatedAt' => Carbon::now()
+                ];
 
-            // dd($data);
-            $sendData = Category::insert($data);
+                $sendData = Category::insert($data);
                 return redirect()->route('categories')->with('response', ['status' => 'success', 'message' => 'Categories added successfully']);
             }   
-            }else{
+        }
+        else{
                 $categories = Category::get();
                 return view('category.add', ['categories'=> $categories]);
-            }
+        }
     }
 
     public function categorylist() {
+        $category_list = Category::with('icon')->paginate(30);
 
-        $category_list = Category::paginate(30);
-            return view('category.categorylist',  ['category_list' => $category_list]);
-
+        return view('category.categorylist',  ['category_list' => $category_list]);
     }
 }

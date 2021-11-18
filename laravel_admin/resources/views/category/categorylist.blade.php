@@ -54,7 +54,7 @@
                         <td style="text-align: center;">{{ $data->description }}</td>
                         <td style="text-align: center;">{{ $data->isPopular == 1? 'Yes' : 'No' }}</td>
                         <td style="text-align: center;">{{ $data->isActive == 1? 'Yes' : 'No' }}</td>
-                        <td style="text-align: center;">{{ $data->iconId }}</td>
+                        <td style="text-align: center;"><image style="width:50px" src="{{ $data->icon->absolute_path }}"></td>
                         <td style="text-align: center;">{{ $data->parentId }}</td>
                     </tr>
                     @endforeach
