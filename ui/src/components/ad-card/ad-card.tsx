@@ -19,7 +19,7 @@ export const AdCard: React.FC = (): React.ReactElement => {
                     </div>
                 </Link>
                 <Link to='/' className="p-0 ms-3 mb-3 usermeta">
-                    <img className="rounded-circle me-2" width="32" height="32" src=" https://dummyimage.com/100/007bff/efefef" alt="Htmlstream" />
+                    <img className="rounded-circle me-2" width="30" height="30" src="/images/user-circle.svg" alt="Htmlstream" />
                     John Smith
                 </Link>
             </div>
