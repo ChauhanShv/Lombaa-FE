@@ -14,7 +14,7 @@ class LoginController extends Controller
     public function login(Request $request) {
     	if ($request->isMethod('post')) {
     		$rules = [
-                'email' => 'required',
+                'email' => 'required|email',
                 'password' => 'required'
             ];
             $messages = [
@@ -38,7 +38,7 @@ class LoginController extends Controller
     				->select('*')
     				->first();
 			if($data){
-			    $request->session()->put(['email' => $username, 'role' => $data->role]);
+			    $request->session()->put(['email' => $username]);
     		    	return view('index');
     		}else 
     			    return redirect()->back()->with('response', ['status' => 'error', 'message' => 'Invalid login credientials']);

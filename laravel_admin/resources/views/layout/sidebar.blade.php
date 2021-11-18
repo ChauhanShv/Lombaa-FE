@@ -105,14 +105,14 @@
         </li>
         <li class="submenu">
             <a href="">
-                <i style="color: white" class="icon icon-phone"></i> <span style="color: white">Support</span>
+                <i style="color: white" class="icon icon-phone"></i> <span style="color: white">Categories</span>
             </a>
             <ul>
                 <li class="">
-                    <a href="#">Add</a>
+                    <a href="{{ route('categories') }}">Add</a>
                 </li>
                 <li class="">
-                    <a href="#">List</a>
+                    <a href="{{ route('categorylist') }}">Category List</a>
                 </li>
             </ul>
         </li>
