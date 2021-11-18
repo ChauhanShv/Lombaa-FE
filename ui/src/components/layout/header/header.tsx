@@ -123,30 +123,25 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                                     <button className="btn text-white mx-2 px-0 d-none d-lg-block" onClick={() => setRegisterModal(true)}>Register</button>
                                 </>
                             )}
-                            <Dropdown align="end">
-                                <Dropdown.Toggle variant="link" id="dropdown-basic" className="p-0">
-                                    <Image
-                                        className="rounded-circle"
-                                        width="30"
-                                        height="30"
-                                        src={state?.user?.metaData?.profilePicture?.absolute_path || "/images/user-circle.svg"}
-                                        alt="Htmlstream"
-                                    />
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu>
-                                    <Link to="/profile">
-                                        <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
-                                    </Link>
-                                    <Link to="/settings">
-                                        <Dropdown.Item href="#/action-2">Account Settings</Dropdown.Item>
-                                    </Link>
-                                    <Dropdown.Divider />
-                                    <Dropdown.Item href="#/action-3">
-                                        <a className="sign-out-button" onClick={handleSignOutClick}>Sign out</a>
-                                    </Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
-
+                            {session.isLoggedIn && (
+                                <Dropdown align="end" className="ps-3">
+                                    <Dropdown.Toggle variant="link" id="dropdown-basic" className="p-0">
+                                        <img className="rounded-circle" width="30" height="30" src={state?.user?.metaData?.profilePicture?.absolute_path || "/images/user-circle.svg"} alt="Htmlstream" />
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu>
+                                        <Link to="/profile">
+                                            <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
+                                        </Link>
+                                        <Link to="/settings">
+                                            <Dropdown.Item href="#/action-2">Account Settings</Dropdown.Item>
+                                        </Link>
+                                        <Dropdown.Divider />
+                                        <Dropdown.Item href="#/action-3">
+                                            <a className="sign-out-button" onClick={handleSignOutClick}>Sign out</a>
+                                        </Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                            )}
                         </div>
                     </Container>
                 </Navbar>
@@ -193,7 +188,6 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                             </Row>
                         </form>
                         <Button variant="fullround" className="nav-link px-4 bg-success rounded ms-3 text-white d-none d-lg-flex">+ Sell</Button>
-
                     </div>
                 </Navbar>
             </Navbar>
@@ -208,27 +202,26 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                         <FaSearch />
                     </button>
                 </InputGroup>
-                <Dropdown align="end" className="ps-3">
-                    <Dropdown.Toggle variant="link" id="dropdown-basic" className="p-0">
-                        <img className="rounded-circle" width="30" height="30" src={state?.user?.metaData?.profilePicture?.absolute_path || "/images/user-circle.svg"} alt="Htmlstream" />
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                        <Dropdown.Item href="#">
+
+                {session.isLoggedIn && (
+                    <Dropdown align="end" className="ps-3">
+                        <Dropdown.Toggle variant="link" id="dropdown-basic" className="p-0">
+                            <img className="rounded-circle" width="30" height="30" src={state?.user?.metaData?.profilePicture?.absolute_path || "/images/user-circle.svg"} alt="Htmlstream" />
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
                             <Link to="/profile">
-                                Profile
+                                <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
                             </Link>
-                        </Dropdown.Item>
-                        <Dropdown.Item href="#">
-                            <Link to="/settings/personal-details">
-                                Account Settings
+                            <Link to="/settings">
+                                <Dropdown.Item href="#/action-2">Account Settings</Dropdown.Item>
                             </Link>
-                        </Dropdown.Item>
-                        <Dropdown.Divider />
-                        <Dropdown.Item href="#/action-3">
-                            <Button onClick={handleSignOutClick}>Sign out</Button>
-                        </Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
+                            <Dropdown.Divider />
+                            <Dropdown.Item href="#/action-3">
+                                <a className="sign-out-button" onClick={handleSignOutClick}>Sign out</a>
+                            </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                )}
             </Navbar>
             <Navbar sticky="top" className="d-lg-none navbar navbar-expand-lg mobile-nav shadow bg-white px-2">
                 <InputGroup className="w-100 d-lg-none ">
