@@ -18,32 +18,32 @@ const Spotsettings = {
 }
 const CatCarSettings = {
     slidesToShow: 7,
-      slidesToScroll: 1,
-      responsive: [
+    slidesToScroll: 1,
+    responsive: [
         {
-          breakpoint: 1024,
-          settings: {
-            slidesToShow: 5,
-            slidesToScroll: 1
-          }
+            breakpoint: 1024,
+            settings: {
+                slidesToShow: 5,
+                slidesToScroll: 1
+            }
         },
         {
-          breakpoint: 980,
-          settings: {
-            slidesToShow: 5,
-            slidesToScroll: 1
-          }
+            breakpoint: 980,
+            settings: {
+                slidesToShow: 5,
+                slidesToScroll: 1
+            }
         },
         {
-          breakpoint: 767,
-          settings: {
-            rows: 2,
-            slidesPerRow: 2,
-            slidesToShow: 1,
-            slidesToScroll: 1
-          }
+            breakpoint: 767,
+            settings: {
+                rows: 2,
+                slidesPerRow: 2,
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
         }
-      ]
+    ]
 };
 export const HomePage: React.FC = (): React.ReactElement => {
     return (
@@ -99,95 +99,95 @@ export const HomePage: React.FC = (): React.ReactElement => {
                     <h2 className="text-secondary mb-3">Explore Lombaa</h2>
                     <Row>
                         <Col className="col-10 col-md-11 mx-auto">
-                    <Slider className="cat-slider" {...CatCarSettings}>
-                        <div>
-                            <Link className="cat-item">
-                             <p class="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
-                             <p class="w-100">Vehicles</p>
-                             </Link>
-                        </div>
-                        <div>
-                            <Link className="cat-item">
-                             <p class="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
-                             <p class="w-100">Vehicles</p>
-                             </Link>
-                        </div>
-                        <div>
-                            <Link className="cat-item">
-                             <p class="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
-                             <p class="w-100">Vehicles</p>
-                             </Link>
-                        </div>
-                        <div>
-                            <Link className="cat-item">
-                             <p class="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
-                             <p class="w-100">Vehicles</p>
-                             </Link>
-                        </div>
-                        <div>
-                            <Link className="cat-item">
-                             <p class="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
-                             <p class="w-100">Vehicles</p>
-                             </Link>
-                        </div>
-                        <div>
-                            <Link className="cat-item">
-                             <p class="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
-                             <p class="w-100">Vehicles</p>
-                             </Link>
-                        </div>
-                        <div>
-                            <Link className="cat-item">
-                             <p class="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
-                             <p class="w-100">Vehicles</p>
-                             </Link>
-                        </div>
-                        <div>
-                            <Link className="cat-item">
-                             <p class="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
-                             <p class="w-100">Vehicles</p>
-                             </Link>
-                        </div>
-                      
-                    </Slider>
-                    </Col>
+                            <Slider className="cat-slider" {...CatCarSettings}>
+                                <div>
+                                    <Link className="cat-item">
+                                        <p className="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
+                                        <p className="w-100">Vehicles</p>
+                                    </Link>
+                                </div>
+                                <div>
+                                    <Link className="cat-item">
+                                        <p className="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
+                                        <p className="w-100">Vehicles</p>
+                                    </Link>
+                                </div>
+                                <div>
+                                    <Link className="cat-item">
+                                        <p className="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
+                                        <p className="w-100">Vehicles</p>
+                                    </Link>
+                                </div>
+                                <div>
+                                    <Link className="cat-item">
+                                        <p className="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
+                                        <p className="w-100">Vehicles</p>
+                                    </Link>
+                                </div>
+                                <div>
+                                    <Link className="cat-item">
+                                        <p className="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
+                                        <p className="w-100">Vehicles</p>
+                                    </Link>
+                                </div>
+                                <div>
+                                    <Link className="cat-item">
+                                        <p className="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
+                                        <p className="w-100">Vehicles</p>
+                                    </Link>
+                                </div>
+                                <div>
+                                    <Link className="cat-item">
+                                        <p className="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
+                                        <p className="w-100">Vehicles</p>
+                                    </Link>
+                                </div>
+                                <div>
+                                    <Link className="cat-item">
+                                        <p className="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
+                                        <p className="w-100">Vehicles</p>
+                                    </Link>
+                                </div>
+
+                            </Slider>
+                        </Col>
                     </Row>
                 </Container>
             </section>
             <section className="pb-5">
-            <Container>
-            <h2 className="text-secondary mb-3">Hot Deals</h2>
-                <Row>
+                <Container>
+                    <h2 className="text-secondary mb-3">Hot Deals</h2>
+                    <Row>
 
 
-                    <Col sm={12}>
-                        <>
-                            <Row className="post-list">
-                                <Col md={3} className="col-12 mb-3">
-                                    <a href="#" className="ad-post bg-dark  p-4 rounded text-white d-flex align-items-center justify-content-center flex-wrap  text-center">
-                                        <p><i className="fas fa-plus-circle"></i></p>
-                                        <h6>Want to see your stuff here ?</h6>
-                                        <p>Sell things in your community. It's quick safe and local.</p>
-                                        <p>
-                                            <Button className="btn btn-success rounded px-3" variant="fullround">Post an Ad for free!</Button>
-                                        </p>
-                                        
-                                    </a>
-                                </Col>
-                                <Col md={3} className="col-6 mb-3">
-                                    <AdCard />
-                                </Col>
-                                <Col md={3} className="col-6 mb-3">
-                                    <AdCard />
-                                </Col>
-                                <Col md={3} className="col-6 mb-3">
-                                    <AdCard />
-                                </Col>
-                            </Row>
-                        </>
-                    </Col>
-                </Row>
-            </Container>
+                        <Col sm={12}>
+                            <>
+                                <Row className="post-list">
+                                    <Col md={3} className="col-12 mb-3">
+                                        <a href="#" className="ad-post bg-dark  p-4 rounded text-white d-flex align-items-center justify-content-center flex-wrap  text-center">
+                                            <p><i className="fas fa-plus-circle"></i></p>
+                                            <h6>Want to see your stuff here ?</h6>
+                                            <p>Sell things in your community. It's quick safe and local.</p>
+                                            <p>
+                                                <Button className="btn btn-success rounded px-3" variant="fullround">Post an Ad for free!</Button>
+                                            </p>
+
+                                        </a>
+                                    </Col>
+                                    <Col md={3} className="col-6 mb-3">
+                                        <AdCard />
+                                    </Col>
+                                    <Col md={3} className="col-6 mb-3">
+                                        <AdCard />
+                                    </Col>
+                                    <Col md={3} className="col-6 mb-3">
+                                        <AdCard />
+                                    </Col>
+                                </Row>
+                            </>
+                        </Col>
+                    </Row>
+                </Container>
             </section>
         </>
     );

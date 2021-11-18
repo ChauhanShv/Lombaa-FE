@@ -1,0 +1,3 @@
+.post-ad-box{ width: '60%'; flex-direction: column; margin-top: 1rem; margin-bottom: 2rem; border: 1px solid #BBB; border-radius: 5px; background-color: #fff; padding: 3rem; }
+
+.ad-post-text{ font-family: 'Poppins'; text-align: center; }

@@ -11,6 +11,7 @@ import {
   SettingsPage,
   ForgotPasswordPage,
   ProfilePage,
+  AdPostPage
 } from './pages';
 
 const App: React.FC = () => {
@@ -24,6 +25,7 @@ const App: React.FC = () => {
             {/* Html Routes - for nilesh */}
             <PrivateRoute component={SettingsPage} path="/settings/:page?" exact />
             <PrivateRoute component={ProfilePage} path="/profile" exact />
+            <PrivateRoute component={AdPostPage} path="/ad-post" exact />
           </Switch>
         </AppContainer>
       </BrowserRouter>
