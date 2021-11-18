@@ -240,7 +240,7 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                     <div className="text-center">
                         <Image
                             style={{ width: '150px', height: '150px' }}
-                            src={state?.user?.metaData?.profilePicture?.absolute_path || "/images/avatar.svg"}
+                            src={state?.user?.metaData?.profilePicture?.absolute_path || "/images/user-circle.svg"}
                             roundedCircle
                         />
                         <Form.Group className="mb-3">

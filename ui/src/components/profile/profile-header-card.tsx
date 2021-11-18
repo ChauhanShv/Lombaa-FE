@@ -20,7 +20,7 @@ export const ProfileHeaderCard: React.FC = (): React.ReactElement => {
                         <Col md={12} className="d-flex">
                             <div className="ps-2">
                                 <Image
-                                    src={state?.user?.metaData?.profilePicture?.absolute_path || "/images/avatar.svg"}
+                                    src={state?.user?.metaData?.profilePicture?.absolute_path || "/images/user-circle.svg"}
                                     width="100"
                                     roundedCircle
                                 />
