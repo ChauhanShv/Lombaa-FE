@@ -26,7 +26,6 @@ export const Login: React.FC<LoginProps> = ({
     onClose,
     openRegister,
 }: LoginProps): React.ReactElement => {
-    const [openFBLogin, setOpenFBLogin] = useState<boolean>(false);
     const { register, handleSubmit, formState: { errors } } = useForm<FormFields>({
         resolver: yupResolver(schema),
     });
@@ -194,7 +193,7 @@ export const Login: React.FC<LoginProps> = ({
                                     </Button>
                                 )}
                                 appId={FB_APPID}
-                                autoLoad
+                                autoLoad={false}
                                 fields="name,email,picture"
                                 callback={facebookSuccess}
                                 onFailure={facebookSuccess}
