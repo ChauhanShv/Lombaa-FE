@@ -11,12 +11,23 @@
         {{ session('response.message') }}
     </div>
     @endif
-    <div>
-        {{$user_list->links('pagination::bootstrap-4')}}
-    </div>
     <div class="widget-box">
-        <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
-            <h5>Users List</h5>
+    <select class="form-select" aria-label="Default select example">
+        <option selected>select menu</option>
+        <option value="1" name="suspend">Suspended</option>
+        <option value="0" name="unsuspend">Unsuspended</option>
+    </select>
+    <style>
+        .widget-title{display:flex; justify-content:space-between;}
+        .widget-title .pagination{margin:2px;}
+    </style>
+        <div class="widget-title"> 
+            <div><span class="icon"><i class="icon-th"></i></span>
+                <h5>Users List</h5> 
+            </div>
+            <div>
+                {{$user_list->links('pagination::bootstrap-4')}}
+            </div>
         </div>
         <div class="widget-content nopadding">
             <table class="table table-bordered data-table">
@@ -72,9 +83,6 @@
                                 <a href="{{ url('/user/delete', $data->id) }}">
                                     <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>&nbsp&nbsp
-                                <a href="">
-                                    <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
-                                </a>
                         </td>
                     </tr>
                     @endforeach
@@ -89,11 +97,11 @@
                     @endif
                 </tbody>
             </table>
+            <div class="" style="display: flex; justify-content: end;">
+                {{$user_list->links('pagination::bootstrap-4')}}
+            </div>
         </div>
     </div>
-</div>
-<div>
-    {{$user_list->links('pagination::bootstrap-4')}}
 </div>
 @endsection
 @section('javascript')
