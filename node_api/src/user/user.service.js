@@ -12,10 +12,11 @@ const { findByPk } = require('./user.model');
 const FileService = require("../file/file.service");
 const FileType = require("file-type");
 const BaseController = require('../modules/controller/controller.base');
-const fileModel = require('../file/file.model')
-module.exports = class UserService extends BaseController {
-    constructor() {
+const fileModel = require('../file/file.model');
+const moment = require("moment");
 
+class UserService extends BaseController {
+    constructor() {
         super();
         this.fileService = new FileService();
     }
@@ -354,4 +355,11 @@ module.exports = class UserService extends BaseController {
         }
         return verificationScore;
     }
+
+    updateLastActiveTime(user) {
+        user.lastActiveAt = moment().format('YYYY-MM-DD HH:mm:ss');
+        user.save();
+    }
 }
+
+module.exports = UserService;

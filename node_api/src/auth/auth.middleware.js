@@ -1,7 +1,11 @@
 const jwt = require('../modules/jwt/jwt.service');
 const UserService = require('../user/user.service')
 const config = require('../app/app.config')
-const userService = new UserService
+const eventEmitter = require('../user/user.subscriber');
+const event = require('../user/user.event');
+
+const userService = new UserService();
+
 module.exports = async (req, res, next) => {
     let headerAccessToken = req.header('x-access-token');
     if (!headerAccessToken) {
@@ -48,6 +52,7 @@ module.exports = async (req, res, next) => {
             throw new Error('User not found');
         req.user = user;
         next();
+        eventEmitter.emit(event.apiAccessed, (user) => { userService?.updateLastActiveTime(user) }, user);
     }
     catch (err) {
         return res.status(401).json({

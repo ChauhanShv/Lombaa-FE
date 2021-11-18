@@ -17,5 +17,9 @@ eventEmitter.on(event.emailChange, ({ user, verificationLink }) => {
     startEmailVerificationSequence({ user, verificationLink });
 });
 
+eventEmitter.on(event.apiAccessed, (execute, user) => {
+    execute(user);
+});
+
 
 module.exports = eventEmitter;
