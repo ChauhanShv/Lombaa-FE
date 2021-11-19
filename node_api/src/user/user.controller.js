@@ -173,9 +173,9 @@ class UserController extends BaseController {
       const phoneNumber = req.body.phoneNumber;
       const user = req.user;
 
-      await model.update({ phoneNumber: phoneNumber }, { where: { id: user.id } });
+      await model.update({ phoneNumber: phoneNumber, isPhoneVerified }, { where: { id: user.id } });
 
-      return super.jsonRes({ res, code: 200, data: { success: true, message: "Phone update request received" } });
+      return super.jsonRes({ res, req, code: 200, data: { success: true, message: "Phone update request received" } });
     } catch (error) {
       return next(error);
     }
