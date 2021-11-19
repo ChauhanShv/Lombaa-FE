@@ -283,6 +283,7 @@ class UserService extends BaseController {
             }
             const dUser = await User.findByPk(user?.id);
             dUser.profilePictureId = uploadedFile?.id
+            dUser.isSelfieVerified = 1;
             await dUser.save()
 
             return await User.findOne({
@@ -310,7 +311,6 @@ class UserService extends BaseController {
             }
             const dUser = await User.findByPk(user?.id);
             dUser.coverPictureId = uploadedFile?.id
-            dUser.isSelfieVerified = 1;
             await dUser.save();
 
             return await User.findOne({

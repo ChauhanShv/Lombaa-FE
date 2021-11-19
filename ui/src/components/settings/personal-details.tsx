@@ -11,6 +11,8 @@ import {
     Image,
     Alert,
     Spinner,
+    InputGroup,
+    FormControl,
 } from 'react-bootstrap';
 import {
     FaChevronLeft,
@@ -27,9 +29,10 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 import { useAppContext, ActionTypes } from '../../contexts';
 import { isEmpty } from 'lodash';
 import { useAxios } from '../../services/base-service';
-import { getAPIErrorMessage } from '../../utils';
+import { getAPIErrorMessage, getLocation } from '../../utils';
 import { GOOGLE_CLIENTID, FB_APPID } from '../../config';
 import { ImageCropModal } from '.';
+import { MdMyLocation } from 'react-icons/md';
 import './settings.css';
 
 const standardSchema = yup.object().shape({
@@ -194,9 +197,10 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
     }
 
     const handleLocationClick = (e: any) => {
-        navigator.geolocation.getCurrentPosition(function (position) {
+        navigator.geolocation.getCurrentPosition((position) => {
             console.log("Latitude is :", position.coords.latitude);
             console.log("Longitude is :", position.coords.longitude);
+            getLocation(position.coords.latitude, position.coords.longitude);
         });
     };
 
@@ -324,19 +328,21 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                                 />
                                 {getErrorText('name')}
                             </FloatingLabel>
-                            <FloatingLabel label="Select Location" className="mb-3">
-                                <Form.Select
+                            <InputGroup className="mb-3">
+                                <FormControl
                                     {...register('location')}
-                                    aria-label="Floating label select example"
-                                    className={getErrorClassName('location')}
+                                    className={`pt-3 pb-3 ${getErrorClassName('location')}`}
+                                    placeholder="Location"
+                                    aria-label="Location"
+                                />
+                                <Button 
+                                    onClick={handleLocationClick} 
+                                    variant="outline-secondary" 
+                                    id="button-addon2"
                                 >
-                                    <option>Select Location</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
-                                </Form.Select>
-                            </FloatingLabel>
-                            <Button onClick={handleLocationClick}>Select location</Button>
+                                    <MdMyLocation />
+                                </Button>
+                            </InputGroup>
                             <FloatingLabel
                                 label="Birthday"
                                 className="mb-3 mt-3"

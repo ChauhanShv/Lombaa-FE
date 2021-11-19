@@ -85,7 +85,7 @@ class UserController extends BaseController {
 
       await model.update({ isFacebookVerified: 0, facebookId: null }, { where: { id: user.id } });
 
-      return super.jsonRes({ res, code: 200, data: { success: true, message: "Facebook disconnected" } });
+      return super.jsonRes({ req, res, code: 200, data: { success: true, message: "Facebook disconnected" } });
     } catch (error) {
       next(error);
     }
@@ -95,7 +95,7 @@ class UserController extends BaseController {
     try {
       const user = req.user;
       await model.update({ isGoogleVerified: 0, googleId: null }, { where: { id: user.id } });
-      return super.jsonRes({ res, code: 200, data: { success: true, message: "Google disconnected" } });
+      return super.jsonRes({ req, res, code: 200, data: { success: true, message: "Google disconnected" } });
     } catch {
       next(error);
     }
@@ -173,7 +173,7 @@ class UserController extends BaseController {
       const phoneNumber = req.body.phoneNumber;
       const user = req.user;
 
-      await model.update({ phoneNumber: phoneNumber, isPhoneVerified }, { where: { id: user.id } });
+      await model.update({ phoneNumber: phoneNumber, isPhoneVerified:1 }, { where: { id: user.id } });
 
       return super.jsonRes({ res, req, code: 200, data: { success: true, message: "Phone update request received" } });
     } catch (error) {
@@ -307,7 +307,7 @@ class UserController extends BaseController {
         response: { token: jwtService.encode({ id: user.id }) },
         metadata: { user: user },
       }
-      return super.jsonRes({ res, code: 200, data });
+      return super.jsonRes({ req, res, code: 200, data });
     } catch (error) {
       next(error);
     }
@@ -371,7 +371,7 @@ class UserController extends BaseController {
         response: { token: jwtService.encode({ id: user.id }) },
         metadata: { user: user },
       }
-      return super.jsonRes({ res, code: 200, data });
+      return super.jsonRes({ req, res, code: 200, data });
     } catch (error) {
       next(error);
     }
