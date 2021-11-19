@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
-import { Container, Row, Col, Form, FloatingLabel } from 'react-bootstrap';
+import { Container, Row, Col, Form, FloatingLabel, Button } from 'react-bootstrap';
 import { useAxios } from '../../services/base-service';
 
 export const CategorySelector: React.FC = () => {
     const [responseData, setResponseData] = React.useState<any>();
+    const [formSubmit, setFormSubmit] = React.useState<boolean>(false);
     const [subCategoryData, setSubCategoryData] = React.useState<any>();
     const [subCategorySelector, setSubCategorySelector] = React.useState<boolean>();
+
     const [{ data: response, loading, error: apiError }, execute] = useAxios({
         url: '/category',
         method: 'GET',
@@ -22,14 +24,19 @@ export const CategorySelector: React.FC = () => {
     }, [response]);
 
     const handleCategoryChange = (e: any) => {
-        if(e.target.value) {
+        if (e.target.value) {
             setSubCategorySelector(true);
+            setSubCategoryData({});
             var index = responseData.findIndex((category: any) => category.name === e.target.value);
-            console.log(index,'index');
             setSubCategoryData(responseData[index]?.subCategories);
-            console.log('subCategory---', subCategoryData);
         }
     }
+
+    const handleSubCategoryChange = (e: any) => {
+        if (e.target.value) {
+            setFormSubmit(true);
+        }
+    };
 
     return (
         <Container>
@@ -56,18 +63,26 @@ export const CategorySelector: React.FC = () => {
                 <Col md>
                     {subCategorySelector && (
                         <FloatingLabel label="Sub-Category">
-                            <Form.Select onChange={() => {}}>
+                            <Form.Select onChange={handleSubCategoryChange}>
+                                <option>Select Sub Category</option>
                                 <>
-                                    {/* {subCategoryData?.map((category: any) => {
+                                    {subCategoryData?.map((category: any) => {
                                         return (
-                                            <option>
-
+                                            <option key={category?.name} value={category?.name}>
+                                                {category?.name}
                                             </option>
                                         );
-                                    })} */}
+                                    })}
                                 </>
                             </Form.Select>
                         </FloatingLabel>
+                    )}
+                </Col>
+            </Row>
+            <Row>
+                <Col md>
+                    {formSubmit && (
+                        <Button>Submit</Button>
                     )}
                 </Col>
             </Row>

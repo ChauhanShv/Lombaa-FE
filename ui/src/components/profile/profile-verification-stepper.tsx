@@ -8,22 +8,57 @@ export const ProfileVerificationStepper: React.FC = (): React.ReactElement => {
     const { state, dispatch } = useAppContext();
     const userData = state?.user?.metaData;
 
+    const stepContent = [
+        {
+            stepLabel: 'Facebook',
+            stepValue: userData?.isFacebookVerified,
+        },
+        {
+            stepLabel: 'Google',
+            stepValue: userData?.isGoogleVerified,
+        },
+        {
+            stepLabel: 'Email',
+            stepValue: userData?.isEmailVerified,
+        },
+        {
+            stepLabel: 'Phone',
+            stepValue: userData?.isPhoneVerified,
+        },
+        {
+            stepLabel: 'Photo',
+            stepValue: userData?.profilePictureId,
+        },
+    ];
+
+    const activeStepContent = stepContent.filter((step) => {
+        if (step.stepValue) {
+            return step;
+        }
+    });
+
+    const inActiveStepContent = stepContent.filter((step) => {
+        if (step.stepValue === 0 || step.stepValue === null) {
+            return step;
+        }
+    });
+
     const ConnectorStyleProps = {
-        disabledColor: '#DBDBDB',
-        activeColor: 'green',
+        disabledColor: '#B6C2C8',
+        activeColor: '#B6C2C8',
         completedColor: 'green',
         style: 'solid',
-        size: 5,
+        size: 6,
     };
 
     const StepStyleDTO = {
-        activeBgColor: 'green',
+        activeBgColor: '#B6C2C8',
         activeTextColor: '#fff',
         completedBgColor: 'green',
         completedTextColor: '#fff',
-        inactiveBgColor: '#DBDBDB',
+        inactiveBgColor: '#B6C2C8',
         inactiveTextColor: '#fff',
-        size: '2em',
+        size: '2.1em',
         circleFontSize: '1rem',
         labelFontSize: '0.875rem',
         borderRadius: '50%',
@@ -38,11 +73,16 @@ export const ProfileVerificationStepper: React.FC = (): React.ReactElement => {
                 stepClassName="step-connect"
                 connectorStyleConfig={ConnectorStyleProps}
                 styleConfig={StepStyleDTO}>
-                <Step label="Facebook" active={userData?.isFacebookVerified ? true : false} />
-                <Step label="Google" active={userData?.isGoogleVerified ? true : false} />
-                <Step label="Email" active={userData?.isEmailVerified ? true : false} />
-                <Step label="Phone" active={userData?.isPhoneVerified ? true : false} />
-                <Step label="Photo" active={userData?.profilePictureId ? true : false} />
+                {activeStepContent.map((step) => {
+                    return (
+                        <Step label={step.stepLabel} completed={true} />
+                    );
+                })}
+                {inActiveStepContent.map((step) => {
+                    return (
+                        <Step label={step.stepLabel} completed={false} />
+                    );
+                })}
             </Stepper>
         </>
     );
