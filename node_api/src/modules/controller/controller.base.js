@@ -10,7 +10,10 @@ class BaseController {
         this.validationErrorFormatter = validationErrorFormatter;
     }
 
-    jsonRes({ res, code, data }) {
+    jsonRes({ res, req, code, data }) {
+        if (req?.user && (code === 200 || code === 201)) {
+            data.metadata = { user: req.user }
+        }
         return res.status(code).json(data);
     }
 }
