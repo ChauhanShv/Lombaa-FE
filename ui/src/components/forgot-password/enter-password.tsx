@@ -27,7 +27,7 @@ const schema = yup.object().shape({
     ),
     confirmPassword: yup.string().oneOf([yup.ref('newPassword'), null], 'Passwords must match'),
 }).required();
-export interface AlertType {
+interface AlertType {
     variant?: string;
     message?: string;
 };
@@ -107,8 +107,8 @@ export const EnterPassword: React.FC = () => {
                             </span>
                         </Card.Header>
                         <Form onSubmit={handleFormSubmit} className="card-content text-center p-5 col-md-6 mx-auto" noValidate>
-                           <h4 className="mb-4">Enter your email to get the forgot password link</h4>
-                            <FloatingLabel 
+                            <h4 className="mb-4">Enter your email to get the forgot password link</h4>
+                            <FloatingLabel
                                 label="New password"
                                 className="mb-3"
                             >

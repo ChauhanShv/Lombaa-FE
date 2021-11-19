@@ -170,7 +170,7 @@ export const Login: React.FC<LoginProps> = ({
                                         className="glog-btn w-100"
                                         variant="outline-link"
                                         onClick={renderProps.onClick}
-                                        disabled={googleLoading || renderProps.disabled}
+                                        disabled={googleLoading}
                                     >
                                         <img src="images/google.svg" /> Continue with Google
                                     </Button>

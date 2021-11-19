@@ -101,49 +101,49 @@ export const HomePage: React.FC = (): React.ReactElement => {
                         <Col className="col-10 col-md-11 mx-auto">
                             <Slider className="cat-slider" {...CatCarSettings}>
                                 <div>
-                                    <Link className="cat-item">
+                                    <Link to="" className="cat-item">
                                         <p className="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
                                         <p className="w-100">Vehicles</p>
                                     </Link>
                                 </div>
                                 <div>
-                                    <Link className="cat-item">
+                                    <Link to="" className="cat-item">
                                         <p className="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
                                         <p className="w-100">Vehicles</p>
                                     </Link>
                                 </div>
                                 <div>
-                                    <Link className="cat-item">
+                                    <Link to="" className="cat-item">
                                         <p className="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
                                         <p className="w-100">Vehicles</p>
                                     </Link>
                                 </div>
                                 <div>
-                                    <Link className="cat-item">
+                                    <Link to="" className="cat-item">
                                         <p className="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
                                         <p className="w-100">Vehicles</p>
                                     </Link>
                                 </div>
                                 <div>
-                                    <Link className="cat-item">
+                                    <Link to="" className="cat-item">
                                         <p className="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
                                         <p className="w-100">Vehicles</p>
                                     </Link>
                                 </div>
                                 <div>
-                                    <Link className="cat-item">
+                                    <Link to="" className="cat-item">
                                         <p className="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
                                         <p className="w-100">Vehicles</p>
                                     </Link>
                                 </div>
                                 <div>
-                                    <Link className="cat-item">
+                                    <Link to="" className="cat-item">
                                         <p className="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
                                         <p className="w-100">Vehicles</p>
                                     </Link>
                                 </div>
                                 <div>
-                                    <Link className="cat-item">
+                                    <Link to="" className="cat-item">
                                         <p className="w-100"><img width="64" height="64" src=" https://dummyimage.com/100/007bff/efefef" /></p>
                                         <p className="w-100">Vehicles</p>
                                     </Link>
@@ -158,8 +158,6 @@ export const HomePage: React.FC = (): React.ReactElement => {
                 <Container>
                     <h2 className="text-secondary mb-3">Hot Deals</h2>
                     <Row>
-
-
                         <Col sm={12}>
                             <>
                                 <Row className="post-list">
@@ -169,7 +167,11 @@ export const HomePage: React.FC = (): React.ReactElement => {
                                             <h6>Want to see your stuff here ?</h6>
                                             <p>Sell things in your community. It's quick safe and local.</p>
                                             <p>
-                                                <Button className="btn btn-success rounded px-3" variant="fullround">Post an Ad for free!</Button>
+                                                <Button className="btn btn-success rounded px-3" variant="fullround">
+                                                    <Link to="/ad-post">
+                                                        Post an Ad for free!
+                                                    </Link>
+                                                </Button>
                                             </p>
 
                                         </a>

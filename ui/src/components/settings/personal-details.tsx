@@ -193,6 +193,13 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
         }
     }
 
+    const handleLocationClick = (e: any) => {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            console.log("Latitude is :", position.coords.latitude);
+            console.log("Longitude is :", position.coords.longitude);
+        });
+    };
+
     const onSubmit = (values: any) => {
         if (isEmpty(errors)) {
             if (state.user?.metaData?.accountType === "standard") {
@@ -329,9 +336,10 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                                     <option value="3">Three</option>
                                 </Form.Select>
                             </FloatingLabel>
+                            <Button onClick={handleLocationClick}>Select location</Button>
                             <FloatingLabel
                                 label="Birthday"
-                                className="mb-3"
+                                className="mb-3 mt-3"
                             >
                                 <Form.Control
                                     {...register('birthday')}
