@@ -310,7 +310,8 @@ class UserService extends BaseController {
             }
             const dUser = await User.findByPk(user?.id);
             dUser.coverPictureId = uploadedFile?.id
-            await dUser.save()
+            dUser.isSelfieVerified = 1;
+            await dUser.save();
 
             return await User.findOne({
                 attributes: { exclude: ['password'] },

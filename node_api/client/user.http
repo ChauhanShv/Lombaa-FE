@@ -1,16 +1,17 @@
 @baseUrl = http://localhost:3001/api
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImQ3YjM2NjUyLTE5NzUtNGM5Yi1iNzQ4LTA4OGRmMGI4MmJjYiIsImlhdCI6MTYzNzI1MzA1OSwiZXhwIjoxNjM3MzM5NDU5fQ.AOTkBrG33uzX14MHdwzhrV8hDIp6T7FLsw7CFiOlpn0
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MWVlMTg2LTNkNzYtNGJlMC1hY2I0LWMyM2E0ZjljZjc3MiIsImlhdCI6MTYzNzM0NDMyMiwiZXhwIjoxNjM3NDMwNzIyfQ.bBcbBTX2MPPIBEeg430YzF-p1oo57yNq8OmzwLsyIe0
 ### Crete new User
 
 POST {{baseUrl}}/user HTTP/1.1
 content-type: application/json
+x-client-platform : Android
 
 {
-    "email": "gates@mc.com",
+    "email": "morris@mc.com",
     "password": "123456",
     "name": "Gates",
-    "phoneNumber": "7685654323",
+    "phoneNumber": "7565654323",
     "accountType": "standard",
     "lattitude": "",
     "longitude": "",
@@ -92,6 +93,8 @@ x-access-token: {{token}}
 PUT {{baseUrl}}/user/phone HTTP/1.1
 content-type: application/json
 x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
 
 {
     "phone": "7083769223"
@@ -130,6 +133,8 @@ content-type: application/json
 PUT {{baseUrl}}/user/facebook HTTP/1.1
 content-type: application/json
 x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
 
 {
     "accessToken": "EAAEHM3oWBboBAC3EK278fKkiPFN7HD9OFAGyB3z6ZAyCioPtLm1vo86ZBTyKOvfZBiRyXlJRvlOUZAMWHPycixYlJtoceaJaedZCQiYGfDN6JZCntmLdBZB33UOU84fZCaeYzQMvZBcGwvZC0ZBoP2PqNreWfgBhLy5fNJIJIdIrWkOZBWJnKB8BuSRW7UVCHePzwYzjdbjZC7c1WZB1b0qeuNZCHgJgdgLrdQIhG0hzrnwk7VLqVuijEvdB2Wi"
