@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Alert, Spinner } from 'react-bootstrap';
-import { FaGoogle, FaFacebook } from 'react-icons/fa';
 import { Form, FloatingLabel, Button } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -30,7 +29,6 @@ export const Register: React.FC<RegisterProps> = ({
     openLogin,
     onClose,
 }: RegisterProps): React.ReactElement => {
-    const [openFBLogin, setOpenFBLogin] = useState<boolean>(false);
     const { register, handleSubmit, getValues, formState: { errors } } = useForm<FormFields>({
         resolver: yupResolver(schema),
     });
@@ -344,7 +342,7 @@ export const Register: React.FC<RegisterProps> = ({
                                     </Button>
                                 )}
                                 appId={FB_APPID}
-                                autoLoad
+                                autoLoad={false}
                                 fields="name,email,picture"
                                 callback={facebookSuccess}
                                 onFailure={facebookSuccess}

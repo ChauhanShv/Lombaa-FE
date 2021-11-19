@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useAxios } from '../../../services/base-service';
 import { useAppContext, ActionTypes } from '../../../contexts';
 import { Header, Footer } from '..';
@@ -13,6 +14,7 @@ export const AppContainer = ({ children }: AppContainerProps) => {
         method: 'GET',
     });
     const token = localStorage.getItem('token');
+    const location = useLocation();
 
     useEffect(() => {
         if (token) {
@@ -52,9 +54,18 @@ export const AppContainer = ({ children }: AppContainerProps) => {
     const renderChildren = () => {
         return (
             <>
-                <Header />
-                    {children}
-                <Footer />
+                {!(location.pathname === "/ad-post") ? (
+                    <>
+                        <Header />
+                        {children}
+                        <Footer />
+                    </>
+                ) : (
+                    <>
+                        <Header />
+                        {children}
+                    </>
+                )}
             </>
         );
     };

@@ -110,14 +110,53 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                 variant: 'success',
                 message: response?.message || 'User Updated Successfully',
             });
+            dispatch({
+                type: ActionTypes.UPDATE_PROFILE,
+                payload: {
+                    metaData: response?.metadata?.user,
+                }
+            });
         }
-        dispatch({
-            type: ActionTypes.UPDATE_PROFILE,
-            payload: {
-                token: response?.response?.token,
-                user: response?.metadata,
-            }
-        });
+        if (googleResponse?.success) {
+            dispatch({
+                type: ActionTypes.UPDATE_PROFILE,
+                payload: {
+                    metaData: googleResponse?.metadata?.user,
+                }
+            })
+        }
+        if (facebookResponse?.success) {
+            dispatch({
+                type: ActionTypes.UPDATE_PROFILE,
+                payload: {
+                    metaData: facebookResponse?.metadata?.user,
+                }
+            })
+        }
+        if (googleDeleteResponse?.success) {
+            dispatch({
+                type: ActionTypes.UPDATE_PROFILE,
+                payload: {
+                    metaData: googleDeleteResponse?.metadata?.user,
+                }
+            })
+        }
+        if (fbDeleteResponse?.success) {
+            dispatch({
+                type: ActionTypes.UPDATE_PROFILE,
+                payload: {
+                    metaData: fbDeleteResponse?.metadata?.user,
+                }
+            })
+        }
+        if (profileImageRes?.success) {
+            dispatch({
+                type: ActionTypes.UPDATE_PROFILE,
+                payload: {
+                    metaData: profileImageRes?.metadata?.user,
+                }
+            })
+        }
     }, [response, googleResponse, facebookResponse, googleDeleteResponse, fbDeleteResponse, profileImageRes]);
 
     const handleGoogleDisconnect = () => {
@@ -228,6 +267,7 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
 
     return (
         <Card>
+            {console.log({ data: state?.user?.metaData })}
             <Card.Header className="d-flex align-items-center justify-content-between bg-white">
                 <span className="d-flex align-items-center ">
                     <button className="btn btn-white d-md-block d-lg-none">
@@ -305,7 +345,6 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                                     <option>Do Not Specify</option>
                                     <option value="female">Female</option>
                                     <option value="male">Male</option>
-                                    <option value="transgender">Transgender</option>
                                     <option value="other">Other</option>
                                 </Form.Select>
                             </FloatingLabel>
