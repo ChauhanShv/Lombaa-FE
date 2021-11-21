@@ -105,7 +105,6 @@ class CategoryController extends Controller
     
         $data = Category::with('icon')->find($id);
 
-        // $category_field = Fields::find
         $categories = Category::get();
         $fields = Fields::get();
 
