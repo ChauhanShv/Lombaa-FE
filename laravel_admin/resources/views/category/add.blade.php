@@ -40,7 +40,7 @@
               </div>
             </div>
             <div class="control-group">
-              <label class="control-label">Icon Id:</label>
+              <label class="control-label">Icon :</label>
               <div class="controls">
                 <input type="file" name="image" style="width: 40%" class="span11" value="" />
                 @error('image')
@@ -67,25 +67,37 @@
               </div>
             </div>
             <div class="control-group">
-                  <label class="control-label">Parent Id</label>
-                  <div class="controls">
-                     <select id='' name="product">
-                        <option value="0">Parent Id</option>
+                <label class="control-label">Parent Category :</label>
+                <div class="controls">
+                    <select id='' name="product">
+                      <option value="0">Select Parent Category</option>
                     @foreach($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name}}</option>
+                      <option value="{{ $category->id }}">{{ $category->name}}</option>
                     @endforeach
-                  </select>
+                    </select>
                   @error('product')
-                           <div class="alert alert-danger ">{{ $message }}</div>
+                    <div class="alert alert-danger ">{{ $message }}</div>
                   @enderror
-                  </div>
-               </div>
+                </div>
+            </div>
+            <div class="control-group">
+             <label class="control-label">Select Fields :</label>
+              <div class="controls">
+                <select multiple name="fields[]" size="3">
+                @foreach($fields as $field)
+                    <option value="{{$field->id}}" >{{ $field->label}}</option>
+                    @endforeach
+                </select>
+                @error('product')
+                    <div class="alert alert-danger ">{{ $message }}</div>
+                @enderror 
+             </div>
+            </div>                             
             @csrf 
             <div class="form-actions">
               <button type="submit" class="btn btn-success">Save</button>
             </div>
           </form>
-
         </div>
       </div>
     </div>
