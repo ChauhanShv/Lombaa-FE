@@ -112,7 +112,7 @@
                     <a href="{{ route('categories') }}">Add</a>
                 </li>
                 <li class="">
-                    <a href="{{ route('categorylist') }}">Category List</a>
+                    <a href="{{ route('category_list') }}">Category List</a>
                 </li>
             </ul>
         </li>
@@ -125,7 +125,7 @@
                     <a href="{{ route('fields') }}">Add Fields</a>
                 </li>
                {{-- <li class="">
-                    <a href="{{ route('fieldslist') }}">Fields List</a>
+                    <a href="{{ route('field_list') }}">Fields List</a>
                 </li> --}}
             </ul>
         </li>

@@ -32,31 +32,32 @@ class CategoryController extends Controller
             if ($validator->fails()) {
                 return redirect()->back()->withInput($request->all())->withErrors($validator);
             }
-            $imageName = Str::uuid().'.'.$request->file('image')->getClientOriginalName();
+            $image_name = Str::uuid().'.'.$request->file('image')->getClientOriginalName();
             $path = Storage::disk('s3')->put('images', $request->image);
-            $imagePath = Storage::disk('s3')->url($path);
-            $imageMime = $request->file('image')->getClientMimeType();
-            $imageExt = $request->file('image')->extension();
-            $fileData = [
+            $image_path = Storage::disk('s3')->url($path);
+            $image_mime = $request->file('image')->getClientMimeType();
+            $image_ext = $request->file('image')->extension();
+            $file_data = [
                 'id' => Str::uuid(),
-                'key_name' => $imageName,
-                'extension' => $imageExt,
-                'name' => $imageName,
-                'mime' => $imageMime,
+                'key_name' => $image_name,
+                'extension' => $image_ext,
+                'name' => $image_name,
+                'mime' => $image_mime,
                 'relative_path' => '',
-                'absolute_path'=> $imagePath,
+                // 'absolute_path'=> $image_path,
+                'absolute_path' => 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/Djehr3diIDdqjo8Wf2JhFbZC70M9w1RZ0xb9VFH4.png',
                 'location' => 's3',
                 'createdAt'=> Carbon::now(),
                 'updatedAt' => Carbon::now()
             ];
-            $sendFileData = Files::insert($fileData);
+            $send_file_data = Files::insert($file_data);
                 
             $category_id = Str::uuid();
             $data = [
                 'id' => $category_id,
                 'name' => $request->name,
                 'description' => $request->description,
-                'iconId' => $fileData['id'],
+                'iconId' => $file_data['id'],
                 'isPopular' => isset($request->popular) ? 1 : 0,
                 'isActive' => isset($request->active) ? 1 : 0,
                 'parentId' => $request->product ? $request->product  : null,
@@ -94,14 +95,13 @@ class CategoryController extends Controller
         }
     }
 
-    public function categorylist() {
+    public function category_list() {
         $category_list = Category::with('icon')->paginate(30);
-
         return view('category.categorylist',  ['category_list' => $category_list]);
     }
 
 
-    public function categoryedit($id) {
+    public function update_category($id) {
     
         $data = Category::with('icon')->find($id);
 
@@ -113,7 +113,7 @@ class CategoryController extends Controller
     }
 
     
-    public function categoryeditpost (Request $request, $id) {
+    public function update_category_post (Request $request, $id) {
 
         $rules = [
             'name' => 'required|regex:/^[\s\w-]*$/',
@@ -131,24 +131,22 @@ class CategoryController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withInput($request->all())->withErrors($validator);
         }
-        $imageName = Str::uuid().'.'.$request->file('image')->getClientOriginalName();
+        $image_name = Str::uuid().'.'.$request->file('image')->getClientOriginalName();
         $path = Storage::disk('s3')->put('images', $request->image);
-        $imagePath = Storage::disk('s3')->url($path);
-        $imageMime = $request->file('image')->getClientMimeType();
-        $imageExt = $request->file('image')->extension();
+        $image_path = Storage::disk('s3')->url($path);
+        $image_mime = $request->file('image')->getClientMimeType();
+        $image_ext = $request->file('image')->extension();
 
         $category = Category::where('id', $id)->get();
-        $getIconId = $category->iconId;
+        $get_icon_id = $category->iconId;
 
-        dd($getIconId);
-
-        $fileData = [
-            'key_name' => $imageName,
-            'extension' => $imageExt,
-            'name' => $imageName,
-            'mime' => $imageMime,
+        $file_data = [
+            'key_name' => $image_name,
+            'extension' => $image_ext,
+            'name' => $image_name,
+            'mime' => $image_mime,
             'relative_path' => '',
-            'absolute_path'=> $imagePath,
+            'absolute_path'=> $image_path,
             // 'absolute_path' => 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/Djehr3diIDdqjo8Wf2JhFbZC70M9w1RZ0xb9VFH4.png',
             'location' => 's3',
             'createdAt'=> Carbon::now(),
@@ -156,13 +154,13 @@ class CategoryController extends Controller
         ];
 
 
-        $sendFileData = Files::where('id', $id)->update($fileData);
+        $send_file_data = Files::where('id', $id)->update($file_data);
             
         $category_id = Str::uuid();
         $data = [
             'name' => $request->name,
             'description' => $request->description,
-            'iconId' => $fileData['id'],
+            'iconId' => $file_data['id'],
             'isPopular' => isset($request->popular) ? 1 : 0,
             'isActive' => isset($request->active) ? 1 : 0,
             'parentId' => $request->product,

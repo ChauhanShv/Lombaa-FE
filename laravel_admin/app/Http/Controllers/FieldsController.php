@@ -114,7 +114,7 @@ class FieldsController extends Controller
         }
     }
 
-    public function fieldslist() {
+    public function field_list() {
 
 
     }

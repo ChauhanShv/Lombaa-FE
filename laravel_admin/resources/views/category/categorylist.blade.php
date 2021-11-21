@@ -55,11 +55,11 @@
                         <td style="text-align: center;">{{ $data->description }}</td>
                         <td style="text-align: center;">{{ $data->isPopular == 1? 'Yes' : 'No' }}</td>
                         <td style="text-align: center;">{{ $data->isActive == 1? 'Yes' : 'No' }}</td>
-                        <td style="text-align: center;"><image style="width:50px" src="{{ $data->icon->absolute_path }}"></td>
+                        <td style="text-align: center;"><image style="width:50px" src="{{ $data->icon }}"></td>
                         <td style="text-align: center;">{{ $data->parentId }}</td>
                         <td>
                             &nbsp
-                            <a href="{{ route('categoryedit', $data->id) }}">
+                            <a href="{{ route('update_category', $data->id) }}">
                                 <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                             </a>
                             &nbsp
