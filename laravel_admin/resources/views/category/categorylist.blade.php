@@ -43,6 +43,7 @@
                         <th>Is Active</th>
                         <th>Icon</th>
                         <th>Parent Category</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,6 +57,14 @@
                         <td style="text-align: center;">{{ $data->isActive == 1? 'Yes' : 'No' }}</td>
                         <td style="text-align: center;"><image style="width:50px" src="{{ $data->icon->absolute_path }}"></td>
                         <td style="text-align: center;">{{ $data->parentId }}</td>
+                        <td>
+                            &nbsp
+                            <a href="{{ route('categoryedit', $data->id) }}">
+                                <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                            </a>
+                            &nbsp
+                        </td>
+
                     </tr>
                     @endforeach
                     @if ($errors->any())

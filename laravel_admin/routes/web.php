@@ -4,6 +4,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FieldsController;
 use App\Http\Middleware\Auth;
 
 
@@ -28,5 +29,12 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/category/add', [CategoryController::class, 'categories'])->name('categories');
     Route::post('/category/add', [CategoryController::class, 'categories']);
     Route::get('/category/list', [CategoryController::class, 'categorylist'])->name('categorylist');
+    Route::get('/category/edit/{id}', [CategoryController::class, 'categoryedit'])->name('categoryedit');
+    Route::post('/category/{id}/edit', [CategoryController::class, 'categoryeditpost'])->name('categoryeditpost');
+
+    Route::get('/fields', [FieldsController::class, 'fields'])->name('fields');
+    Route::post('/fields', [FieldsController::class, 'fields'])->name('fields');
+    Route::get('/fieldslist', [FieldsController::class, 'fieldslist'])->name('fieldslist');
+
 
 });
