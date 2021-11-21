@@ -23,7 +23,7 @@ class UserService extends BaseController {
 
     async verifyPassword(userId, password) {
         try {
-            let user = await userModel.findByPk(userId);
+            let user = await userModel.scope(null).findByPk(userId);
             return await bcrypt.compare(password, user.password);
         }
         catch (error) {
@@ -59,7 +59,7 @@ class UserService extends BaseController {
 
     async hasPassword(userId) {
         try {
-            let user = await userModel.findByPk(userId);
+            let user = await userModel.scope(null).findByPk(userId);
             return !!user.password;
         }
         catch (error) {
@@ -70,7 +70,7 @@ class UserService extends BaseController {
 
     async hasEmail(userId) {
         try {
-            let user = await userModel.findByPk(userId);
+            let user = await userModel.scope(null).findByPk(userId);
             return !!user.password;
         }
         catch (error) {
@@ -351,7 +351,7 @@ class UserService extends BaseController {
         if (user.isSelfieVerified === 1) {
             verificationScore += 20
         }
-        if (user.isIdVerified === 1) {
+        if (user.isEmailVerified === 1) {
             verificationScore += 20
         }
         return verificationScore;

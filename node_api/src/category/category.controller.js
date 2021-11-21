@@ -10,26 +10,7 @@ class CategoryController extends BaseController {
     }
     async categories(req, res, next) {
         try {
-            const data = await Category.findAll({
-                where: { parentId: null },
-                include: [
-                    { model: File, as: "icon" },
-                    {
-                        model: Category,
-                        as: 'subCategories',
-                        include: [{
-                            model: Field,
-                            as: 'fields',
-                            include: [{ model: FieldValue, as: 'values' }]
-                        }]
-                    },
-                    {
-                        model: Field,
-                        as: 'fields',
-                        include: [{ model: FieldValue, as: 'values' }]
-                    }
-                ]
-            })
+            const data = await Category.scope('defaultScope', 'includeSubcategories').findAll({ where: { parentId: null } })
             const value = {
                 success: true,
                 code: 200,
@@ -43,8 +24,8 @@ class CategoryController extends BaseController {
             const value = { success: false, message: 'Failed to retrieve categories', messageDetail: error?.message }
             return super.jsonRes({ res, code: 400, data: value });
         }
-
     }
+
     async add(req, res, next) {
         try {
             const data = req.body

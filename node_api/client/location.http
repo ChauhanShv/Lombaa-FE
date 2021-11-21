@@ -5,7 +5,7 @@ content-type: application/json
 
 ###
 
-GET {{baseUrl}}/locations/123 HTTP/1.1
+GET {{baseUrl}}/locations/7dfd7447-4ab0-11ec-809d-021b0ebe8bee HTTP/1.1
 content-type: application/json
 
 ###
@@ -15,7 +15,7 @@ content-type: application/json
 
 ###
 
-GET {{baseUrl}}/locations/country/123/regions HTTP/1.1
+GET {{baseUrl}}/locations/country/c8912285-4a22-11ec-809d-021b0ebe8bee/regions HTTP/1.1
 content-type: application/json
 
 ###

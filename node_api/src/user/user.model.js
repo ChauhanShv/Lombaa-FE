@@ -66,6 +66,7 @@ User.init(
     memberSince: {
       type: DataTypes.DATE,
       allowNull: true,
+      defaultValue: Sequelize.NOW
     },
 
     ipCountry: {
@@ -211,6 +212,9 @@ User.init(
     tableName: "users",
     timestamps: true,
     sequelize,
+    defaultScope: {
+      attributes: { exclude: ['password'] }
+    }
   }
 );
 

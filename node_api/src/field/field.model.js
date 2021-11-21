@@ -3,7 +3,6 @@ const sequelize = require("../modules/sequelize").service;
 const File = require('../file/file.model');
 const FieldValue = require('../field_value/field_value.model');
 
-
 class Field extends Model { }
 
 Field.init(
@@ -47,6 +46,14 @@ Field.init(
         tableName: "fields",
         timestamps: true,
         sequelize,
+        defaultScope: {
+            attributes: {
+                exclude: ['createdAt', 'updatedAt', 'iconId', 'category_field']
+            },
+            include: [
+                { model: FieldValue, as: 'values' }
+            ]
+        }
     }
 );
 

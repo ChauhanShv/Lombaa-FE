@@ -1,8 +1,9 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize").service;
-const country = require("../country").model;
+const Country = require("../country/country.model");
+const City = require("../city/city.model");
 
-class Region extends Model {}
+class Region extends Model { }
 
 Region.init(
   {
@@ -20,7 +21,15 @@ Region.init(
       allowNull: false,
     },
   },
-  { modelName: "region", tableName: "regions", timestamps: true, sequelize }
+  {
+    modelName: "region",
+    tableName: "regions",
+    timestamps: true,
+    sequelize,
+    defaultScope: { attributes: { exclude: ['createdAt', 'updatedAt', 'countryId'] } }
+  }
 );
-Region.belongsTo(country, { as: "country" });
+Region.belongsTo(Country, { as: "country" });
+Region.hasMany(City, { as: 'cities' });
+
 module.exports = Region;

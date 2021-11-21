@@ -46,6 +46,12 @@ File.init(
         tableName: "files",
         timestamps: true,
         sequelize,
+        defaultScope: {
+            attributes: {
+                exclude: ['createdAt', 'updatedAt', 'extension', 'key_name', 'relative_path', 'location', 'name', 'mime', 'absolute_path'],
+                include: [['absolute_path', 'url']],
+            }
+        }
     }
 );
 

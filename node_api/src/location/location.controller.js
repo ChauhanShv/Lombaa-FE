@@ -12,14 +12,7 @@ class LocationController extends BaseController {
 
   getAll = async (req, res, next) => {
     try {
-      const locations = await Location.findAll({
-        include: [
-          { model: City, as: "city" },
-          { model: Region, as: "region" },
-          { model: Country, as: "country" }
-        ],
-
-      });
+      const locations = await Location.findAll();
       return super.jsonRes({
         res,
         code: 200,
@@ -33,7 +26,7 @@ class LocationController extends BaseController {
       console.log(error);
       return super.jsonRes({
         res,
-        code: 401,
+        code: 400,
         data: {
           message: "Failed to retrieve locations",
           messageDetail: error?.message
@@ -63,7 +56,7 @@ class LocationController extends BaseController {
       console.log(error);
       return super.jsonRes({
         res,
-        code: 401,
+        code: 400,
         data: {
           message: "Failed to retrieve location",
           messageDetail: error?.message
@@ -89,7 +82,7 @@ class LocationController extends BaseController {
       console.log(error);
       return super.jsonRes({
         res,
-        code: 401,
+        code: 400,
         data: {
           message: "Failed to retrieve cities",
           messageDetail: error?.message
@@ -115,7 +108,7 @@ class LocationController extends BaseController {
       console.log(error);
       return super.jsonRes({
         res,
-        code: 401,
+        code: 400,
         data: {
           message: "Failed to retrieve regions",
           messageDetail: error?.message
@@ -140,7 +133,40 @@ class LocationController extends BaseController {
       console.log(error);
       return super.jsonRes({
         res,
-        code: 401,
+        code: 400,
+        data: {
+          message: "Failed to retrieve countries",
+          messageDetail: error?.message
+        },
+      });
+    }
+  };
+
+  getRegionsWithCities = async (req, res, next) => {
+    try {
+      const { countryID } = req.params;
+
+      const regions = await Region.findAll({
+        where: { countryId: countryID },
+        include: [
+          { model: City, as: "cities" },
+        ],
+      });
+
+      return super.jsonRes({
+        res,
+        code: 200,
+        data: {
+          success: true,
+          message: "Retrieved all regions and cities",
+          response: regions,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      return super.jsonRes({
+        res,
+        code: 400,
         data: {
           message: "Failed to retrieve countries",
           messageDetail: error?.message

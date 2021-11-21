@@ -1,6 +1,5 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize").service;
-const region = require("../region").model;
 
 class City extends Model { }
 
@@ -20,7 +19,13 @@ City.init(
       allowNull: false,
     },
   },
-  { modelName: "city", tableName: "cities", timestamps: true, sequelize }
+  {
+    modelName: "city",
+    tableName: "cities",
+    timestamps: true,
+    sequelize,
+    defaultScope: { attributes: { exclude: ['createdAt', 'updatedAt', 'regionId'] } }
+  }
 );
-City.belongsTo(region, { as: "region" });
+
 module.exports = City;
