@@ -1,9 +1,9 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize").service;
 
-class country extends Model {}
+class Country extends Model { }
 
-country.init(
+Country.init(
   {
     id: {
       type: DataTypes.UUID,
@@ -19,6 +19,12 @@ country.init(
       allowNull: false,
     },
   },
-  { modelName: "country", tableName: "countries", timestamps: true, sequelize }
+  {
+    modelName: "country",
+    tableName: "countries",
+    timestamps: true,
+    sequelize,
+    defaultScope: { attributes: { exclude: ['createdAt', 'updatedAt'] } }
+  }
 );
-module.exports = country;
+module.exports = Country;

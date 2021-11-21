@@ -14,7 +14,20 @@ Location.init(
       defaultValue: Sequelize.UUIDV4,
     }
   },
-  { modelName: "location", tableName: "locations", timestamps: true, sequelize }
+  {
+    modelName: "location",
+    tableName: "locations",
+    timestamps: true,
+    sequelize,
+    defaultScope: {
+      attributes: { exclude: ['createdAt', 'updatedAt', 'cityId', 'regionId', 'countryId'] },
+      include: [
+        { model: City, as: "city" },
+        { model: Region, as: "region" },
+        { model: Country, as: "country" }
+      ]
+    }
+  }
 );
 
 Location.belongsTo(City, { as: "city" });

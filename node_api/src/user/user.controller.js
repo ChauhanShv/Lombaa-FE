@@ -40,6 +40,8 @@ class UserController extends BaseController {
 
     try {
       const newUser = await model.create(userData);
+      newUser.password = undefined;
+
       const token = jwtService.encode({ id: newUser.id });
 
       const data = { success: true, message: "User created successfully.", response: { token }, metadata: { user: newUser } };
@@ -173,7 +175,7 @@ class UserController extends BaseController {
       const phoneNumber = req.body.phoneNumber;
       const user = req.user;
 
-      await model.update({ phoneNumber: phoneNumber, isPhoneVerified:1 }, { where: { id: user.id } });
+      await model.update({ phoneNumber: phoneNumber, isPhoneVerified: 1 }, { where: { id: user.id } });
 
       return super.jsonRes({ res, req, code: 200, data: { success: true, message: "Phone update request received" } });
     } catch (error) {

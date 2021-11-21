@@ -21,6 +21,14 @@ FieldValue.init(
         tableName: "field_values",
         timestamps: true,
         sequelize,
+        defaultScope: {
+            attributes: {
+                exclude: ['createdAt', 'updatedAt', 'iconId', 'fieldId']
+            },
+            include: [
+                { model: File, as: 'icon' }
+            ]
+        }
     }
 );
 

@@ -1,6 +1,7 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
-const sequelize = require("../modules/sequelize").service;
+const sequelize = require("../modules/sequelize/sequelize.service");
 const File = require('../file/file.model');
+const Field = require('../field/field.model');
 
 class Category extends Model { }
 
@@ -29,6 +30,28 @@ Category.init(
         tableName: "categories",
         timestamps: true,
         sequelize,
+        defaultScope: {
+            attributes: {
+                exclude: ['createdAt', 'updatedAt', 'iconId', 'parentId']
+            },
+            include: [
+                {
+                    model: Field,
+                    as: 'fields',
+                    through: { attributes: [] },
+                }
+            ]
+        },
+        scopes: {
+            includeSubcategories: {
+                include: [
+                    {
+                        model: Category,
+                        as: 'subCategories',
+                    },
+                ]
+            },
+        }
     }
 );
 

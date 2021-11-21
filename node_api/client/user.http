@@ -8,10 +8,10 @@ content-type: application/json
 x-client-platform : Android
 
 {
-    "email": "morris@mc.com",
+    "email": "gary@mc.com",
     "password": "123456",
     "name": "Gates",
-    "phoneNumber": "7565654323",
+    "phoneNumber": "7512651533",
     "accountType": "standard",
     "lattitude": "",
     "longitude": "",
@@ -27,7 +27,7 @@ POST {{baseUrl}}/auth HTTP/1.1
 content-type: application/json
 
 {
-    "email": "jadu@gmail.com",
+    "email": "Harry@mc.com",
     "password": "123456"
 }
 

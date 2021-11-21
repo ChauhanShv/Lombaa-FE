@@ -11,7 +11,7 @@ const appRoot = require("app-root-path");
 class AuthService {
 
   async doAuth({ email, password }) {
-    const dbUser = await User.findOne({
+    const dbUser = await User.scope(null).findOne({
       where: { email: email }, include: [{ model: fileModel, as: "profilePicture" },
       { model: fileModel, as: "coverPicture" }]
     });
