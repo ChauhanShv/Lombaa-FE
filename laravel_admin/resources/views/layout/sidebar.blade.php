@@ -95,9 +95,9 @@
                 <i style="color: white" class="icon icon-user"></i> <span style="color: white" >User</span>
             </a>
             <ul>
-                <li class="">
+               {{-- <li class="">
                     <a href="#">Add</a>
-                </li>
+                </li> --}}
                 <li class="">
                     <a href="{{ route('user') }}">List</a>
                 </li>
@@ -112,8 +112,21 @@
                     <a href="{{ route('categories') }}">Add</a>
                 </li>
                 <li class="">
-                    <a href="{{ route('categorylist') }}">Category List</a>
+                    <a href="{{ route('category_list') }}">Category List</a>
                 </li>
+            </ul>
+        </li>
+        <li class="submenu">
+            <a href="">
+                <i style="color: white" class="icon icon-edit"></i> <span style="color: white">Fields</span>
+            </a>
+            <ul>
+                <li class="">
+                    <a href="{{ route('fields') }}">Add Fields</a>
+                </li>
+               {{-- <li class="">
+                    <a href="{{ route('field_list') }}">Fields List</a>
+                </li> --}}
             </ul>
         </li>
         <li class="submenu">

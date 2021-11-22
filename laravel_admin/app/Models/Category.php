@@ -4,15 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-// use App\Traits\Uuids;
+use App\Traits\Uuids;
 
 
 class Category extends Model
 {
+    use Uuids;
+    use HasFactory;
+
     protected $table = 'categories';
+    public $timestamps = true;
+    protected $keyType ='string';
+
 
     protected $fillable = [
-        'id',
         'name',
         'description',
         'isPopular',
@@ -25,9 +30,4 @@ class Category extends Model
     {
         return $this->belongsTo(Files::class, 'iconId', 'id');
     }
-
-    public $timestamps = true;
-    protected $keyType ='string';
-    // protected $keyType = 'uuids';
-    use HasFactory;
 }
