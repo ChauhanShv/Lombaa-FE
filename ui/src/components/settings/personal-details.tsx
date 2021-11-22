@@ -11,8 +11,6 @@ import {
     Image,
     Alert,
     Spinner,
-    InputGroup,
-    FormControl,
 } from 'react-bootstrap';
 import {
     FaChevronLeft,
@@ -33,6 +31,7 @@ import { getAPIErrorMessage, getLocation } from '../../utils';
 import { GOOGLE_CLIENTID, FB_APPID } from '../../config';
 import { ImageCropModal } from '.';
 import { MdMyLocation } from 'react-icons/md';
+import { AlertType } from './types';
 import './settings.css';
 
 const standardSchema = yup.object().shape({
@@ -52,17 +51,11 @@ const businessSchema = yup.object().shape({
         .max(5000, 'About Business should not exceed more than 5000 characters'),
 });
 
-export interface AlertType {
-    variant?: string;
-    message?: string;
-};
-
 export const PersonalPetails: React.FC = (): React.ReactElement => {
     const { state, dispatch } = useAppContext();
     const [alert, setAlert] = useState<AlertType>({});
     const [imageSrc, setImageSrc] = useState<any>();
     const [openCropModal, setOpenCropModal] = useState<boolean>(false);
-    const [croppedImage, setCroppedImage] = useState<any>(null);
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(standardSchema),
         defaultValues: {
@@ -196,14 +189,6 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
         }
     }
 
-    const handleLocationClick = (e: any) => {
-        navigator.geolocation.getCurrentPosition((position) => {
-            console.log("Latitude is :", position.coords.latitude);
-            console.log("Longitude is :", position.coords.longitude);
-            getLocation(position.coords.latitude, position.coords.longitude);
-        });
-    };
-
     const onSubmit = (values: any) => {
         if (isEmpty(errors)) {
             if (state.user?.metaData?.accountType === "standard") {
@@ -278,7 +263,6 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
 
     return (
         <Card>
-            {console.log({ data: state?.user?.metaData })}
             <Card.Header className="d-flex align-items-center justify-content-between bg-white">
                 <span className="d-flex align-items-center ">
                     <button className="btn btn-white d-md-block d-lg-none">
@@ -291,7 +275,7 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                     <div className="text-center">
                         <Image
                             style={{ width: '150px', height: '150px' }}
-                            src={state?.user?.metaData?.profilePicture?.absolute_path || "/images/user-circle.svg"}
+                            src={state?.user?.metaData?.profilePicture?.url || "/images/user-circle.svg"}
                             roundedCircle
                         />
                         <Form.Group className="mb-3">
@@ -328,21 +312,15 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                                 />
                                 {getErrorText('name')}
                             </FloatingLabel>
-                            <InputGroup className="mb-3">
-                                <FormControl
-                                    {...register('location')}
-                                    className={`pt-3 pb-3 ${getErrorClassName('location')}`}
-                                    placeholder="Location"
-                                    aria-label="Location"
-                                />
-                                <Button 
-                                    onClick={handleLocationClick} 
-                                    variant="outline-secondary" 
-                                    id="button-addon2"
-                                >
-                                    <MdMyLocation />
-                                </Button>
-                            </InputGroup>
+                            <FloatingLabel label="Location" className="mb-3">
+                                <Form.Select {...register('location')} className={getErrorClassName('location')}>
+                                    <option>--Select Location---</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                </Form.Select>
+                                {getErrorText('location')}
+                            </FloatingLabel>
                             <FloatingLabel
                                 label="Birthday"
                                 className="mb-3 mt-3"
