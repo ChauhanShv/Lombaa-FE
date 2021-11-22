@@ -58,7 +58,7 @@ export const ProfileVerificationStepper: React.FC = (): React.ReactElement => {
         completedTextColor: '#fff',
         inactiveBgColor: '#B6C2C8',
         inactiveTextColor: '#fff',
-        size: '2.1em',
+        size: '2.1rem',
         circleFontSize: '1rem',
         labelFontSize: '0.875rem',
         borderRadius: '50%',

@@ -24,7 +24,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
         <>
             <Navbar sticky="top" className=" d-none d-lg-flex navbar navbar-expand-lg navbar-dark shadow bg-success flex-wrap justify-content-between p-0">
                 <Navbar className="w-100 navbar navbar-light bg-dark p-0 header-cat">
-                    <Container>
+                    <Container className="align-items-end">
                         <OverlayTrigger
                             trigger="click"
                             key='bottom'
@@ -126,7 +126,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                             {session.isLoggedIn && (
                                 <Dropdown align="end" className="ps-3">
                                     <Dropdown.Toggle variant="link" id="dropdown-basic" className="p-0">
-                                        <img className="rounded-circle" width="30" height="30" src={state?.user?.metaData?.profilePicture?.absolute_path || "/images/user-circle.svg"} alt="Htmlstream" />
+                                        <img className="rounded-circle" width="36" height="36" src={state?.user?.metaData?.profilePicture?.url || "/images/user-circle.svg"} alt="Htmlstream" />
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu>
                                         <Link to="/profile">
@@ -145,7 +145,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                         </div>
                     </Container>
                 </Navbar>
-                <Navbar className="w-100 navbar navbar-expand-lg navbar-dark bg-white">
+                <Navbar className="w-100 navbar navbar-expand-lg navbar-dark bg-white brand-nav">
                     <div className="container">
                         <Link className="navbar-brand  d-none d-lg-flex" to="/">
                             <svg width="149" height="42" viewBox="0 0 149 42" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -206,7 +206,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                 {session.isLoggedIn && (
                     <Dropdown align="end" className="ps-3">
                         <Dropdown.Toggle variant="link" id="dropdown-basic" className="p-0">
-                            <img className="rounded-circle" width="30" height="30" src={state?.user?.metaData?.profilePicture?.absolute_path || "/images/user-circle.svg"} alt="Htmlstream" />
+                            <img className="rounded-circle" width="30" height="30" src={state?.user?.metaData?.profilePicture?.url || "/images/user-circle.svg"} alt="Htmlstream" />
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                             <Link to="/profile">
