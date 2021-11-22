@@ -1,10 +1,21 @@
-import React from 'react';
-import { Stepper, Step } from 'react-form-stepper';
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import { styled } from '@mui/material/styles';
+import Stack from '@mui/material/Stack';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
+import { StepIconProps } from '@mui/material/StepIcon';
 import { useAppContext, ActionTypes } from '../../contexts';
-import './profile.css';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles({
+
+});
 
 export const ProfileVerificationStepper: React.FC = (): React.ReactElement => {
-
+    const classes = useStyles();
     const { state, dispatch } = useAppContext();
     const userData = state?.user?.metaData;
 
@@ -12,78 +23,89 @@ export const ProfileVerificationStepper: React.FC = (): React.ReactElement => {
         {
             stepLabel: 'Facebook',
             stepValue: userData?.isFacebookVerified,
+            completed: !!userData?.isFacebookVerified
         },
         {
             stepLabel: 'Google',
             stepValue: userData?.isGoogleVerified,
+            completed: !!userData?.isGoogleVerified
         },
         {
             stepLabel: 'Email',
             stepValue: userData?.isEmailVerified,
+            completed: !!userData?.isEmailVerified
         },
         {
             stepLabel: 'Phone',
             stepValue: userData?.isPhoneVerified,
+            completed: !!userData?.isPhoneVerified,
         },
         {
             stepLabel: 'Photo',
             stepValue: userData?.profilePictureId,
+            completed: !!userData?.profilePictureId,
         },
-    ];
+    ].sort(function (x, y) {
+        return Number(y.completed) - Number(x.completed);
+    });;
 
-    const activeStepContent = stepContent.filter((step) => {
-        if (step.stepValue) {
-            return step;
-        }
-    });
+    const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
+        [`&.${stepConnectorClasses.alternativeLabel}`]: {
+            top: 13,
+            left: 'calc((-50% + 2em) - 16px) !important',
+            right: 'calc((50% + 2em) - 16px) !important',
+        },
+        [`&.${stepConnectorClasses.active}`]: {
+            [`& .${stepConnectorClasses.line}`]: {
+                backgroundColor: 'green',
+            },
+        },
+        [`&.${stepConnectorClasses.completed}`]: {
+            [`& .${stepConnectorClasses.line}`]: {
+                backgroundColor: 'green',
+            },
+        },
+        [`& .${stepConnectorClasses.line}`]: {
+            height: 5,
+            border: 0,
+            backgroundColor: '#B6C2C8',
+            borderRadius: 1,
+        },
+    }));
 
-    const inActiveStepContent = stepContent.filter((step) => {
-        if (step.stepValue === 0 || step.stepValue === null) {
-            return step;
-        }
-    });
-
-    const ConnectorStyleProps = {
-        disabledColor: '#B6C2C8',
-        activeColor: '#B6C2C8',
-        completedColor: 'green',
-        style: 'solid',
-        size: 6,
-    };
-
-    const StepStyleDTO = {
-        activeBgColor: '#B6C2C8',
-        activeTextColor: '#fff',
-        completedBgColor: 'green',
-        completedTextColor: '#fff',
-        inactiveBgColor: '#B6C2C8',
-        inactiveTextColor: '#fff',
-        size: '2.1rem',
-        circleFontSize: '1rem',
-        labelFontSize: '0.875rem',
+    const ColorlibStepIconRoot = styled('div')<{
+        ownerState: { completed?: boolean; active?: boolean };
+    }>(({ theme, ownerState }) => ({
+        backgroundColor: '#B6C2C8',
+        zIndex: 1,
+        color: '#fff',
+        width: '2.1rem',
+        height: '2.1rem',
+        display: 'flex',
         borderRadius: '50%',
-        fontWeight: '600',
-    };
+        justifyContent: 'center',
+        alignItems: 'center',
+        ...(ownerState.active && {
+            backgroundColor: 'green',
+            boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
+        }),
+        ...(ownerState.completed && {
+            backgroundColor: 'green',
+        }),
+    }));
 
     return (
-        <>
+        <Stack sx={{ width: '100%' }} spacing={4}>
             <Stepper
-                connectorStateColors={true}
-                className=""
-                stepClassName="step-connect"
-                connectorStyleConfig={ConnectorStyleProps}
-                styleConfig={StepStyleDTO}>
-                {activeStepContent.map((step) => {
-                    return (
-                        <Step label={step.stepLabel} completed={true} />
-                    );
-                })}
-                {inActiveStepContent.map((step) => {
-                    return (
-                        <Step label={step.stepLabel} completed={false} />
-                    );
-                })}
+                alternativeLabel
+                activeStep={(stepContent.findIndex(step => step.completed === false) ?? stepContent.length) - 1}
+                connector={<ColorlibConnector />}>
+                {stepContent.map((step, index) => (
+                    <Step completed={step?.completed} key={index}>
+                        <StepLabel>{step.stepLabel}</StepLabel>
+                    </Step>
+                ))}
             </Stepper>
-        </>
+        </Stack>
     );
-};
+}
