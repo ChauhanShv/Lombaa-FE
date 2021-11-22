@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
 import Stepper from '@mui/material/Stepper';
@@ -9,9 +8,9 @@ import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector
 import { StepIconProps } from '@mui/material/StepIcon';
 import { useAppContext, ActionTypes } from '../../contexts';
 import { makeStyles } from '@mui/styles';
+import { MdDone } from "react-icons/md";
 
 const useStyles = makeStyles({
-
 });
 
 export const ProfileVerificationStepper: React.FC = (): React.ReactElement => {
@@ -94,6 +93,24 @@ export const ProfileVerificationStepper: React.FC = (): React.ReactElement => {
         }),
     }));
 
+    function ColorlibStepIcon(props: any) {
+        const { active, completed, className } = props;
+      
+        const icons: { [index: string]: React.ReactElement } = {
+          1: completed ? <MdDone /> : '1',
+          2: completed ? <MdDone /> : '2',
+          3: completed ? <MdDone /> : '3',
+          4: completed ? <MdDone /> : '4',
+          5: completed ? <MdDone /> : '5',
+        };
+      
+        return (
+          <ColorlibStepIconRoot ownerState={{ completed, active }} className={className}>
+            {icons[String(props.icon)]}
+          </ColorlibStepIconRoot>
+        );
+      }
+
     return (
         <Stack sx={{ width: '100%' }} spacing={4}>
             <Stepper
@@ -102,7 +119,7 @@ export const ProfileVerificationStepper: React.FC = (): React.ReactElement => {
                 connector={<ColorlibConnector />}>
                 {stepContent.map((step, index) => (
                     <Step completed={step?.completed} key={index}>
-                        <StepLabel>{step.stepLabel}</StepLabel>
+                        <StepLabel className={classes.stepLabel} StepIconComponent={ColorlibStepIcon}>{step.stepLabel}</StepLabel>
                     </Step>
                 ))}
             </Stepper>
