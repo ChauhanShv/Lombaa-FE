@@ -11,6 +11,23 @@ import { makeStyles } from '@mui/styles';
 import { MdDone } from "react-icons/md";
 
 const useStyles = makeStyles({
+    stepLabel: {
+        fontWeight: 600,
+        fontFamily: 'Poppins !important',
+        '& .MuiStepLabel-label': {
+            fontWeight: 600,
+            fontFamily: 'Poppins !important',
+            color: '#B6C2C8',
+        },
+        '& .MuiStepLabel-label.Mui-completed': {
+            fontWeight: 600,
+            fontFamily: 'Poppins !important',
+            color: 'green',
+        },
+        '& .MuiStepLabel-label.MuiStepLabel-alternativeLabel': {
+            marginTop: '10px',
+        }
+    },
 });
 
 export const ProfileVerificationStepper: React.FC = (): React.ReactElement => {
@@ -21,27 +38,22 @@ export const ProfileVerificationStepper: React.FC = (): React.ReactElement => {
     const stepContent = [
         {
             stepLabel: 'Facebook',
-            stepValue: userData?.isFacebookVerified,
             completed: !!userData?.isFacebookVerified
         },
         {
             stepLabel: 'Google',
-            stepValue: userData?.isGoogleVerified,
             completed: !!userData?.isGoogleVerified
         },
         {
             stepLabel: 'Email',
-            stepValue: userData?.isEmailVerified,
             completed: !!userData?.isEmailVerified
         },
         {
             stepLabel: 'Phone',
-            stepValue: userData?.isPhoneVerified,
             completed: !!userData?.isPhoneVerified,
         },
         {
             stepLabel: 'Photo',
-            stepValue: userData?.profilePictureId,
             completed: !!userData?.profilePictureId,
         },
     ].sort(function (x, y) {
@@ -93,23 +105,23 @@ export const ProfileVerificationStepper: React.FC = (): React.ReactElement => {
         }),
     }));
 
-    function ColorlibStepIcon(props: any) {
+    function ColorlibStepIcon(props) {
         const { active, completed, className } = props;
-      
+
         const icons: { [index: string]: React.ReactElement } = {
-          1: completed ? <MdDone /> : '1',
-          2: completed ? <MdDone /> : '2',
-          3: completed ? <MdDone /> : '3',
-          4: completed ? <MdDone /> : '4',
-          5: completed ? <MdDone /> : '5',
+            1: completed ? <MdDone /> : '1',
+            2: completed ? <MdDone /> : '2',
+            3: completed ? <MdDone /> : '3',
+            4: completed ? <MdDone /> : '4',
+            5: completed ? <MdDone /> : '5',
         };
-      
+
         return (
-          <ColorlibStepIconRoot ownerState={{ completed, active }} className={className}>
-            {icons[String(props.icon)]}
-          </ColorlibStepIconRoot>
+            <ColorlibStepIconRoot ownerState={{ completed, active }} className={className}>
+                {icons[String(props.icon)]}
+            </ColorlibStepIconRoot>
         );
-      }
+    }
 
     return (
         <Stack sx={{ width: '100%' }} spacing={4}>
@@ -119,7 +131,9 @@ export const ProfileVerificationStepper: React.FC = (): React.ReactElement => {
                 connector={<ColorlibConnector />}>
                 {stepContent.map((step, index) => (
                     <Step completed={step?.completed} key={index}>
-                        <StepLabel className={classes.stepLabel} StepIconComponent={ColorlibStepIcon}>{step.stepLabel}</StepLabel>
+                        <StepLabel className={classes.stepLabel} StepIconComponent={ColorlibStepIcon}>
+                            {step.stepLabel}
+                        </StepLabel>
                     </Step>
                 ))}
             </Stepper>
