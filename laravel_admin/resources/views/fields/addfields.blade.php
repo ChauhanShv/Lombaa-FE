@@ -35,10 +35,10 @@
             
             <div class="control-group">
                   <label class="control-label">Field Type:</label>
-                  <div class="controls">
+                  <div class="controls">  
                      <select id='' name="fieldtype">
-                        @foreach($fieldtypes as $ft)
-                        <option value="{{ $ft }}">{{ $ft }}</option>
+                        @foreach($fieldtypes as $field_type)
+                        <option value="{{ $field_type }}">{{ $field_type }}</option>
                         @endforeach
                     </select>
                   @error('fieldtype')

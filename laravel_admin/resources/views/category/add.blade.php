@@ -67,9 +67,18 @@
               </div>
             </div>
             <div class="control-group">
+              <label class="control-label">IsParent :</label>
+              <div class="controls">
+                <input type="checkbox"  id="parentId" name="parent" value="0" data-toggle="toggle">
+                @error('active')
+                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                @enderror
+              </div>
+            </div>
+            <div class="control-group">
                 <label class="control-label">Parent Category :</label>
                 <div class="controls">
-                    <select id='' name="product">
+                    <select id='catId' name="product" disabled>
                       <option value="0">Select Parent Category</option>
                     @foreach($categories as $category)
                       <option value="{{ $category->id }}">{{ $category->name}}</option>
@@ -83,9 +92,9 @@
             <div class="control-group">
              <label class="control-label">Select Fields :</label>
               <div class="controls">
-                <select multiple name="fields[]" size="3">
+                <select multiple name="fields[]" size="3" >
                 @foreach($fields as $field)
-                    <option value="{{$field->id}}" >{{ $field->label}}</option>
+                    <option value="{{$field->id}}">{{ $field->label}}</option>
                     @endforeach
                 </select>
                 @error('product')
@@ -104,3 +113,6 @@
   </div>
 </div>
 @endsection
+
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+     <script type="text/javascript"  src="{{ asset('assets/js/admin/category.js')}}"></script>

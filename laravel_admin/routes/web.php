@@ -30,7 +30,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/category/add', [CategoryController::class, 'categories']);
     Route::get('/category/list', [CategoryController::class, 'category_list'])->name('category_list');
     Route::get('/category/edit/{id}', [CategoryController::class, 'update_category'])->name('update_category');
-    Route::post('/category/{id}/edit', [CategoryController::class, 'update_category_post'])->name('update_category_post');
+    Route::post('/category/{id}/edit', [CategoryController::class, 'update_category'])->name('update_category_post');
 
     Route::get('/fields', [FieldsController::class, 'fields'])->name('fields');
     Route::post('/fields', [FieldsController::class, 'fields'])->name('fields');

@@ -24,7 +24,7 @@
                     @if($data)
 
 
-                    <form action="{{ route('categoryeditpost',  $data['id'] ) }}" method="POST" class="form-horizontal">
+                    <form action=""class="form-horizontal">
                         @csrf
 
                         <div class="control-group">
@@ -58,7 +58,7 @@
                         <div class="control-group">
                             <label class="control-label">Icon :</label>
                             <div class="controls">
-                                @if( $data->icon->absolute_path )
+                                @if( $data->icon )
                                 <!-- <image style="width:50px" src="{{ $data->icon->absolute_path }}"> -->
                                 <input type="file" name="image" style="width: 40%" class="span11" value="" />
 
@@ -80,21 +80,35 @@
                             </div>
                             </div>
                             <div class="control-group">
-                            <label class="control-label">Active :</label>
-                            <div class="controls">
-                                <input type="checkbox" name="active" value="0" {{ ($data->isActive) ? 'checked' : '' }} data-toggle="toggle">
-                                @error('active')
-                                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
-                                @enderror
+                                <label class="control-label">Active :</label>
+                                <div class="controls">
+                                    <input type="checkbox" name="active" value="0" {{ ($data->isActive) ? 'checked' : '' }} data-toggle="toggle">
+                                    @error('active')
+                                    <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
+                            <div class="control-group">
+                                <label class="control-label">IsParent :</label>
+                                <div class="controls">
+                                    <input type="checkbox"  id="parentId" name="parent" value="0" data-toggle="toggle">
+                                    @error('active')
+                                    <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Parent Category :</label>
                                 <div class="controls">
-                                    <select id='' name="product">
-                                   
+                                    <select id='catId' class="selectpicker" name="product">
                                     @foreach($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name}}</option>
+                                    @if(old('product', $data->parentId))
+                                        <option value="{{ $data->parentId }}" >{{  $category->name  }}</option>
+                                    @elseif (old('product', $data->parentId) == null)
+                                        <option value="" selected>Select parent category</option>
+                                    @else
+                                        <option value="{{  $category->id }}">{{  $category->name }}</option>
+                                    @endif
                                     @endforeach
                                     </select>
                                 @error('product')
@@ -133,3 +147,5 @@
     </div>
 </div>
 @endsection
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+     <script type="text/javascript"  src="{{ asset('assets/js/admin/update_category.js')}}"></script>
