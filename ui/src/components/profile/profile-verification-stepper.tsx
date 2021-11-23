@@ -105,10 +105,10 @@ export const ProfileVerificationStepper: React.FC = (): React.ReactElement => {
         }),
     }));
 
-    function ColorlibStepIcon(props) {
+    function ColorlibStepIcon(props: any) {
         const { active, completed, className } = props;
 
-        const icons: { [index: string]: React.ReactElement } = {
+        const icons: { [index: string]: any } = {
             1: completed ? <MdDone /> : '1',
             2: completed ? <MdDone /> : '2',
             3: completed ? <MdDone /> : '3',
