@@ -46,7 +46,7 @@
 <script src="{{ asset('assets/js/jquery.uniform.js') }}"></script>
 <script src="{{ asset('assets/js/select2.min.js') }}"></script>
 <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.17/js/bootstrap-select.min.js"></script>
+
 <script type="text/javascript">
     var APP_URL = {!! json_encode(url('/')) !!}
 </script>

@@ -10,6 +10,9 @@ class Files extends Model
 
     protected $table = 'files';
 
+    const CREATED_AT = 'createdAt';
+    const UPDATED_AT = 'updatedAt';
+
     protected $fillable = [
         'id',
         'key_name',

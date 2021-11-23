@@ -13,8 +13,11 @@ class Category extends Model
     use HasFactory;
 
     protected $table = 'categories';
-    public $timestamps = true;
+    public $timestamps = false;
     protected $keyType ='string';
+    
+    const CREATED_AT = 'createdAt';
+    const UPDATED_AT = 'updatedAt';
 
 
     protected $fillable = [
@@ -24,10 +27,15 @@ class Category extends Model
         'isActive',
         'iconId',
         'parentId'
+       
     ];
 
     public function icon()
     {
         return $this->belongsTo(Files::class, 'iconId', 'id');
-    }
+    }   
+
+    // public function fields() {
+    //     return $this->belongsToMany(Fields::class, 'categoryId')->using(CategoryField::class);
+    // }
 }

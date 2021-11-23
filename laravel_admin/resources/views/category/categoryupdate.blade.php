@@ -24,7 +24,7 @@
                     @if($data)
 
 
-                    <form action=""class="form-horizontal">
+                    <form action="{{ route('update_category_post', $data['id']) }}" method="post" enctype="multipart/form-data" class="form-horizontal">
                         @csrf
 
                         <div class="control-group">
@@ -58,16 +58,27 @@
                         <div class="control-group">
                             <label class="control-label">Icon :</label>
                             <div class="controls">
-                                @if( $data->icon )
-                                <!-- <image style="width:50px" src="{{ $data->icon->absolute_path }}"> -->
-                                <input type="file" name="image" style="width: 40%" class="span11" value="" />
 
-                                @else
-                                <input type="file" name="image" style="width: 40%" class="span11" value="" />
-                                @endif
+                                <div id="imageDisplay">
+                                    
+                                    <image style="width:50px" src="{{ $data->icon->absolute_path }}">
+
+                                </div>
+                                    
+                                <div id="uploadField">
+                                
+                                    <input  type="file" name="image" style="width: 40%" class="span11" value="" />
+
+                                </div>
+                                
+                                <button type="button" id="imageButton">Change Icon</button>
+
+                                
+                                    
                                 @error('image')
                                 <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                                 @enderror
+
                             </div>
                         </div>
                         <div class="control-group">
@@ -88,40 +99,53 @@
                                     @enderror
                                 </div>
                             </div>
+                            
                             <div class="control-group">
                                 <label class="control-label">IsParent :</label>
                                 <div class="controls">
-                                    <input type="checkbox"  id="parentId" name="parent" value="0" data-toggle="toggle">
+                                    <input type="checkbox"  id="parenttId" name="parent" value="0" {{ ($data->parentId) ? '' : 'checked' }} data-toggle="toggle" >
                                     @error('active')
                                     <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
-                            <div class="control-group">
+
+                            
+                            <div class="control-group" id='cattId'>
                                 <label class="control-label">Parent Category :</label>
                                 <div class="controls">
-                                    <select id='catId' class="selectpicker" name="product">
-                                    @foreach($categories as $category)
-                                    @if(old('product', $data->parentId))
-                                        <option value="{{ $data->parentId }}" >{{  $category->name  }}</option>
-                                    @elseif (old('product', $data->parentId) == null)
-                                        <option value="" selected>Select parent category</option>
+                                    <select class="selectpicker" name="product">
+
+                                    @if ($data->parentId !== null )
+                                        <option value="{{ $data->parentId }}" selected>{{ $parent_category_name->name }}</option>
+
+                                        @foreach($categories as $category)
+                                            @if( $category->id !== $data->parentId)
+                                                <option value="{{  $category->id }}">{{ $category->name }}</option>
+                                            @endif
+                                        @endforeach
+
                                     @else
-                                        <option value="{{  $category->id }}">{{  $category->name }}</option>
+                                        <option value="Select parent category" selected>Select parent category</option>
+                                        @foreach($categories as $category)
+                                            
+                                            <option value="{{  $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
                                     @endif
-                                    @endforeach
+
                                     </select>
                                 @error('product')
                                     <div class="alert alert-danger ">{{ $message }}</div>
                                 @enderror
                                 </div>
                             </div>
+                            
                             <div class="control-group">
                                 <label class="control-label">Select Fields :</label>
                                 <div class="controls">
                                 <select multiple name="fields[]" size="3">
-                                @foreach($fields as $field)
-                                    <option value="{{$field->id}}" >{{ $field->label}}</option>
+                                    @foreach($fields as $field)
+                                        <option value="{{$field->id}}" >{{ $field->label}}</option>
                                     @endforeach
                                 </select>
                                 @error('product')
@@ -148,4 +172,4 @@
 </div>
 @endsection
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-     <script type="text/javascript"  src="{{ asset('assets/js/admin/update_category.js')}}"></script>
+<script type="text/javascript"  src="{{ asset('assets/js/admin/update_category.js')}}"></script>
