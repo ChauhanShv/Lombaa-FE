@@ -21,9 +21,13 @@ Category.init(
             allowNull: false
         },
         isPopular: {
-            type: DataTypes.TINYINT,
+            type: DataTypes.TINYINT(1),
             allowNull: false,
         },
+        isActive: {
+            type: DataTypes.TINYINT(1),
+            allowNull: false,
+        }
     },
     {
         modelName: "category",
