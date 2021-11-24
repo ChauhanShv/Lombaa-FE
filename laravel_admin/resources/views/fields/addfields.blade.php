@@ -47,24 +47,25 @@
                   </div>
             </div>
 
-            <div class="control-group">
+            <div class="control-group" id="field_wrapper">
               <label class="control-label">Field Values :</label>
               <div class="controls">
-                <input type="text" name="fieldvalue" value="{{ old('fieldvalue')}}" style="width: 40%" class="span11"  />
+                <input type="text" name="field_name[]" value="{{ old('fieldvalue')}}" style="width: 20%" class="span11"/><input type="file" name="valueIcon[]" style="width: 40%" class="span11" value="" />
+                <a href="javascript:void(0);" class="add_button" title="Add field">&nbsp;&nbsp;<button type="button">Add Field<button></a>
                 @error('label')
                 <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                 @enderror
-                <div class="alert alert-warning " style="width: 34.2%">Enter values comma "," seperated</div>
               </div>
             </div>
+
             
             <div class="control-group">
-                  <label class="control-label">Data Type:</label>
-                  <div class="controls">
-                     <select id='' name="datatype">
-                        <option value="string">String</option>
-                    </select>
-                  </div>
+                <label class="control-label">Data Type:</label>
+                <div class="controls">
+                    <select id='' name="datatype">
+                      <option value="string">String</option>
+                  </select>
+                </div>
             </div>
             <div class="control-group">
               <label class="control-label">Icon:</label>
@@ -105,3 +106,31 @@
   </div>
 </div>
 @endsection
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    var maxField = 10; //Input fields increment limitation
+    var addButton = $('.add_button'); //Add button selector
+    var wrapper = $('#field_wrapper'); //Input field wrapper
+    var fieldHTML = '<div class="controls"><input type="text" name="field_name[]" value="{{ old('fieldvalue')}}" style="width: 20%" class="span11"  /><input type="file" name="valueIcon[]" style="width: 40%" class="span11" value="" /><a href="javascript:void(0);" class="remove_button" title="Add field">&nbsp;&nbsp;<button type="button">Remove Field</button></a></div>'; //New input field html 
+    
+    var x = 1; //Initial field counter is 1
+    
+    //Once add button is clicked
+    $(addButton).click(function(){
+        //Check maximum number of input fields
+        if(x < maxField){ 
+            x++; //Increment field counter
+            $(wrapper).append(fieldHTML); //Add field html
+        }
+    });
+    
+    //Once remove button is clicked
+    $(wrapper).on('click', '.remove_button', function(e){
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+        x--; //Decrement field counter
+    });
+});
+</script>

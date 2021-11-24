@@ -26,6 +26,12 @@ class Fields extends Model
 
     ];
 
+    public function icon() {
+
+        return $this->belongsTo(Files::class, 'iconId', 'id');
+
+    }
+
     public $timestamps = true;
     protected $keyType ='string';
 

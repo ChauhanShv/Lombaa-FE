@@ -75,28 +75,72 @@ class FieldsController extends Controller
 
             }
 
-            $fieldValueString = $request->fieldvalue;
-            $fieldValueStringArray = explode(',', $fieldValueString);
-
-
+            $fieldIconsArray = $request->file('valueIcon');
+            $fieldValueStringArray = $request->field_name;
             $field_values = array();
+            // $fieldValueStringArray = explode(',', $fieldValueString);
 
-            foreach($fieldValueStringArray as $fieldvalues) {
+            foreach( array_combine($fieldValueStringArray, $fieldIconsArray) as $fieldvalues => $fieldIcon ){
+
+                $fieldIconName = Str::uuid().'.'.$fieldIcon->getClientOriginalName();
+                // $path = Storage::disk('s3')->put('images', $fieldIcon);
+                // $iconPath = Storage::disk('s3')->url($path);
+                $fieldiconMime = $fieldIcon->getClientMimeType();
+                $fieldiconExt = $fieldIcon->extension();
+                
+    
+                $fieldFileData = [
+                    'id' => Str::uuid(),
+                    'key_name' => $fieldIconName,
+                    'extension' => $fieldiconExt,
+                    'name' => $fieldIconName,
+                    'mime' =>  $fieldiconMime,
+                    'relative_path' => '',
+                    // 'absolute_path'=> $iconPath,
+                    'absolute_path'=> 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/L27xI2KWxQerlkrlwWnPvHl0BJDLnfRzpRaQjrQb.jpg',
+                    'location' => 's3',
+                    'createdAt'=> Carbon::now(),
+                    'updatedAt' => Carbon::now()
+    
+                ];
+    
+                $sendFieldFileData = Files::insert($fieldFileData);
+
                 $field_value = array();
 
                 $field_value['id'] = Str::uuid();
                 $field_value['value'] = $fieldvalues;
                 $field_value['fieldId'] = $data['id'];
-                $field_value['iconId'] = null;
+                $field_value['iconId'] = $fieldFileData['id'];
                 $field_value['createdAt'] =  Carbon::now();
                 $field_value['updatedAt'] = Carbon::now();
 
                 array_push($field_values, $field_value);
+
             }
 
             $sendFieldValues = FieldValues::insert($field_values);
+           
 
-            return redirect()->route('fields')->with('response', ['status' => 'success', 'message' => 'Fields added successfully']);
+
+            // $field_values = array();
+
+            // foreach($fieldValueStringArray as $fieldvalues && $fieldIconsArray as $fieldIcon) {
+            //     $field_value = array();
+
+            //     $field_value['id'] = Str::uuid();
+            //     $field_value['value'] = $fieldvalues;
+            //     $field_value['fieldId'] = $data['id'];
+            //     $field_value['iconId'] = null;
+            //     $field_value['createdAt'] =  Carbon::now();
+            //     $field_value['updatedAt'] = Carbon::now();
+
+            //     array_push($field_values, $field_value);
+            // }
+
+            // $sendFieldValues = FieldValues::insert($field_values);
+
+            return redirect()->route('fields')->with('response', ['status' => 'success', 'message' => 'Field added successfully']);
 
         }
 
@@ -116,6 +160,17 @@ class FieldsController extends Controller
 
     public function field_list() {
 
+        $fields_list = Fields::with('icon')->paginate(30);
+
+        // dd($fields_list);
+
+        return view('fields.fieldlist', ['fields_list' => $fields_list]);
+
+    }
+    
+    public function field_edit($id) {
+
+        
 
     }
 }

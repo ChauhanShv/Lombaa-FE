@@ -143,9 +143,19 @@
                             <div class="control-group">
                                 <label class="control-label">Select Fields :</label>
                                 <div class="controls">
-                                <select multiple name="fields[]" size="3">
+                                <select multiple name="fields[]">
                                     @foreach($fields as $field)
-                                        <option value="{{$field->id}}" >{{ $field->label}}</option>
+                                        @php $selected = 0 @endphp
+                                        @foreach ($existingFields as $existingField)
+                                            @if($field == $existingField)
+                                                <option value="{{ $field->id }}" selected>{{ $field->label}}</option>
+                                            @php $selected = 1 @endphp
+                                            @break;
+                                            @endif
+                                        @endforeach
+                                        @if($selected == 0)
+                                            <option value="{{$existingField->id}}">{{ $existingField->label}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                                 @error('product')

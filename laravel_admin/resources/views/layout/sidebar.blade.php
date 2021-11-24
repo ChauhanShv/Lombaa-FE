@@ -124,9 +124,9 @@
                 <li class="">
                     <a href="{{ route('fields') }}">Add Fields</a>
                 </li>
-               {{-- <li class="">
+               <li class="">
                     <a href="{{ route('field_list') }}">Fields List</a>
-                </li> --}}
+                </li>
             </ul>
         </li>
         <li class="submenu">

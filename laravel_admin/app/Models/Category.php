@@ -35,6 +35,19 @@ class Category extends Model
         return $this->belongsTo(Files::class, 'iconId', 'id');
     }   
 
+    public function fields()
+    {
+        return $this->belongsToMany(Fields::class, 'category_fields', 'categoryId', 'fieldId')->using(CategoryField::class);
+        // return $this->belongsToMany(Fields::class)
+        //             ->using(CategoryField::class)
+        //             ->withPivot([
+        //                 'categoryId',
+        //                 'fieldId'
+        //             ]);
+
+    }
+
+
     // public function fields() {
     //     return $this->belongsToMany(Fields::class, 'categoryId')->using(CategoryField::class);
     // }
