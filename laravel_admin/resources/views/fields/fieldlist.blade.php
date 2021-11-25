@@ -25,7 +25,7 @@
 
         <div class="widget-title"> 
             <div><span class="icon"><i class="icon-th"></i></span>
-                <h5>Categories List</h5> 
+                <h5>Fields List</h5> 
             </div>
             <div>
                {{ $fields_list->links('pagination::bootstrap-4') }}
@@ -36,13 +36,14 @@
                 <thead>
                     <tr>
                         <th># No.</th>
+                        <th>Icon</th>
                         <th>Field ID</th>
                         <th>Label</th>
                         <th>Is Required</th>
                         <th>Is Active</th>
                         <th>Data type</th>
                         <th>Field Type</th>
-                        <th>Icon</th>
+                        <th>Field Values</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -50,16 +51,28 @@
                     @php $i = 0 @endphp @foreach( $fields_list as $data ) @php $i++ @endphp
                     <tr class="gradeX" style="align-content: center;">
                         <td style="text-align: center;">{{ $i }}</td>
+                        <td style="text-align: center;"><image style="width:50px; height:50px; border-radius: 5%;" src="{{ $data->icon->absolute_path }}"/></td>
                         <td style="text-align: center;">{{ $data->id }}</td>
                         <td style="text-align: center;">{{ $data->label }}</td>
                         <td style="text-align: center;">{{ $data->isRequired == 1? 'Yes' : 'No' }}</td>
                         <td style="text-align: center;">{{ $data->isActive == 1? 'Yes' : 'No' }}</td>
                         <td style="text-align: center;">{{ $data->dataTypes }}</td>
                         <td style="text-align: center;">{{ $data->fieldType }}</td>
-                        <td style="text-align: center;"><image style="width:50px" src="{{ $data->icon->absolute_path }}"></td>
+                        <td style="text-align: center;">
+                        @php $v = 1 @endphp
+                        @foreach($field_values as $value)
+                                @if ( $data->id == $value->fieldId )
+                                   
+                                        <span class="label label-primary">{{ $value->value }}</span>
+                                        
+                                        @php $v++ @endphp
+                                @endif
+                            @endforeach
+                            
+                        </td>
                         <td>
                             &nbsp
-                            <a href=" {{ route('field_edit') }} ">
+                            <a href=" {{ route('field_edit', $data->id) }} ">
                                 <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                             </a>
                             &nbsp

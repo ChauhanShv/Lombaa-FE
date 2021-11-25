@@ -36,6 +36,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/fields', [FieldsController::class, 'fields'])->name('fields');
     Route::get('/fieldslist', [FieldsController::class, 'field_list'])->name('field_list');
     Route::get('/fieldedit/{id}', [FieldsController::class, 'field_edit'])->name('field_edit');
+    Route::post('/fieldedit/{id}', [FieldsController::class, 'field_edit'])->name('field_edit_post');
+
 
 
 

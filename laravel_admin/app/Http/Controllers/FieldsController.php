@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Fields;
 use App\Models\Files;
+use App\Models\Values;
 use App\Models\FieldValues;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
@@ -162,15 +163,80 @@ class FieldsController extends Controller
 
         $fields_list = Fields::with('icon')->paginate(30);
 
+        $field_values = Values::get();
+
+
         // dd($fields_list);
 
-        return view('fields.fieldlist', ['fields_list' => $fields_list]);
+        return view('fields.fieldlist', ['fields_list' => $fields_list, 'field_values' => $field_values]);
 
     }
     
     public function field_edit($id) {
 
+        $fieldtypes = array (
+            'Label' => 'Label',
+            'Dropdown' => 'Dropdown',
+            'Checkbox' => 'Checkbox',
+            'Switch' => 'Switch',
+            'Tag View' =>' Tag View'
+            );
+
+         $fields = Fields::with(['values', 'values.icon', 'icon'])->find($id);
+
+// dd($fields);
+
+        // $fields = Fields::where('id', $id)->first();
+
+        // $field_values = Values::where('fieldId', $id)->get();
+
+        //  $field_values = Values::with('icon')
+
+
+        // $value_icons = Files::get();
+
+
+        // $value_icons = array();
+
+
+        // $icons_of_values = Fields::with('value_icons')->find($id);
+
+
         
+        // foreach( $field_values as $value) {
+
+
+        //     foreach( $value_icons as $icons) {
+
+        //         if($value->iconId == $icons->id) {
+
+        //             $value_icon = array();
+    
+        //             $value_icon['value_id'] = $value->id;
+        //             $value_icon['value_name'] = $value->name;
+        //             $value_icon['icon_id'] = $icons->id;
+        //             $value_icon['icon_absolute_path'] = $icons->absolute_path;
+    
+        //             array_push($value_icons, $value_icon);
+        //         }
+
+        //     }
+            
+        // }
+
+
+        // foreach(array_combine($field_values, $value_icons) as $value => $icons) {}
+
+
+        // dd($fields);
+
+        return view('fields.fieldupdate', ['id' => $id, 'fieldtypes' => $fieldtypes, 'fields' => $fields]);
+
+    }
+
+    public function field_edit_post() {
+
+
 
     }
 }

@@ -27,10 +27,17 @@ class Fields extends Model
     ];
 
     public function icon() {
-
         return $this->belongsTo(Files::class, 'iconId', 'id');
-
     }
+
+    public function values() {
+        return $this->hasMany(Values::class, 'fieldId', 'id');
+    }
+
+    // public function value_icons() {
+    //     return $this->belongsToMany(Values::class, 'files', 'relative_path')->using(Files::class);
+    // }
+
 
     public $timestamps = true;
     protected $keyType ='string';

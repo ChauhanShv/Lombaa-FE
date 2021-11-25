@@ -226,14 +226,7 @@ class CategoryController extends Controller
 
             $category = Category::with('fields')->find($id);
             $existingFields = $category->fields;
-            // dd($existingFields);
-
-            // foreach($existingFields as $existingField){
-
-            //     dd($existingField->label);
-
-            // }
-
+            
             return view('category.categoryupdate', ['data' => $data, 'categories' => $categories, 'fields'=> $fields, 'parent_category_name' => $parent_category_name, 'existingFields' => $existingFields]);
 
         }
