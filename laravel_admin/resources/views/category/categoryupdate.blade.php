@@ -58,27 +58,16 @@
                         <div class="control-group">
                             <label class="control-label">Icon :</label>
                             <div class="controls">
-
                                 <div id="imageDisplay">
-                                    
                                     <image style="width:50px" src="{{ $data->icon->absolute_path }}">
-
                                 </div>
-                                    
                                 <div id="uploadField">
-                                
                                     <input  type="file" name="image" style="width: 40%" class="span11" value="" />
-
                                 </div>
-                                
                                 <button type="button" id="imageButton">Change Icon</button>
-
-                                
-                                    
                                 @error('image')
-                                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                                    <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                                 @enderror
-
                             </div>
                         </div>
                         <div class="control-group">

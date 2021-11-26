@@ -50,7 +50,8 @@
             <div class="control-group" id="field_wrapper">
               <label class="control-label">Field Values :</label>
               <div class="controls">
-                <input type="text" name="field_name[]" value="{{ old('fieldvalue')}}" style="width: 20%" class="span11"/><input type="file" name="valueIcon[]" style="width: 40%" class="span11" value="" />
+                <input type="text" name="field_name[]" value="{{ old('fieldvalue')}}" style="width: 20%" class="span11"/>
+                <input type="file" name="valueIcon[]" style="width: 40%" class="span11" value="" />
                 <a href="javascript:void(0);" class="add_button" title="Add field">&nbsp;&nbsp;<button type="button">Add Field<button></a>
                 @error('label')
                 <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>

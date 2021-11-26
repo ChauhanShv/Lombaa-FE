@@ -24,6 +24,16 @@
           <form action="{{ route('field_edit_post', $id) }}" method="post" enctype="multipart/form-data" class="form-horizontal">
 
             <div class="control-group">
+              <label class="control-label">Field Id :</label>
+              <div class="controls">
+                <input type="text" name="label" value="{{ old('label', $fields->id) }}" style="width: 40%" class="span11"  readonly/>
+                @error('label')
+                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                @enderror
+              </div>
+            </div>
+
+            <div class="control-group">
               <label class="control-label">Field Label :</label>
               <div class="controls">
                 <input type="text" name="label" value="{{ old('label', $fields->label) }}" style="width: 40%" class="span11"  />
@@ -34,62 +44,63 @@
             </div>
             
             <div class="control-group">
-                  <label class="control-label">Field Type:</label>
-                  <div class="controls">  
-                     <select id='' name="fieldtype">
-                       @if ($fields->fieldType !== null)
-                       <option value="{{ $fields->fieldType }}" selected>{{ $fields->fieldType }}</option>
+              <label class="control-label">Field Type:</label>
+              <div class="controls">  
+                <select id='' name="fieldtype">
+                  @if ($fields->fieldType !== null)
+                  <option value="{{ $fields->fieldType }}" selected>{{ $fields->fieldType }}</option>
 
-                       @foreach($fieldtypes as $field_type)
-                        <option value="{{ $field_type }}">{{ $field_type }}</option>
-                        @endforeach
+                  @foreach($fieldtypes as $field_type)
+                  <option value="{{ $field_type }}">{{ $field_type }}</option>
+                  @endforeach
 
-                       else
+                  else
 
-                        @foreach($fieldtypes as $field_type)
-                        <option value="{{ $field_type }}">{{ $field_type }}</option>
-                        @endforeach
+                  @foreach($fieldtypes as $field_type)
+                  <option value="{{ $field_type }}">{{ $field_type }}</option>
+                  @endforeach
 
-                       @endif
-                    </select>
-                  @error('fieldtype')
-                    <div class="alert alert-danger ">{{ $message }}</div>
-                  @enderror
+                  @endif
+                </select>
+              @error('fieldtype')
+                <div class="alert alert-danger ">{{ $message }}</div>
+              @enderror
+              </div>
+            </div>
+
+            
+            <div class="control-group" id="field_wrapper">
+              <label class="control-label">Field Values :</label>
+                @php $f = 1; $i = 1; @endphp
+                @foreach ($fields->values as $value)
+                  <div class="controls" >
+                    <input type="text" name="field_name[]" value="{{ $value->value }}" style="width: 20%" class="span11"/>&nbsp;&nbsp;
+                    <div id="imageDisplay-{{ $i }}">
+                      <img style="width:40px;height:40px" src="{{ $value->icon->absolute_path }}"/>
+                    </div>
+                    <div id="uploadField-{{ $f }}">
+                      <input type="file" name="valueIcon[]" style="width: 40%" class="span11" value="" />
+                    </div>
+                    <button type="button" id="imageButton">Change Icon</button>
+                    <a href="javascript:void(0);" class="remove_button" title="Remove field">&nbsp;&nbsp;<button type="button">Remove Field</button></a>
+                    
+                    @error('label')
+                      <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                    @enderror
                   </div>
+                  @php $f++; $i++; @endphp
+                @endforeach
+                
             </div>
 
             <div class="control-group" id="field_wrapper">
-              <label class="control-label">Field Values :</label>
-
-              @foreach ($fields->values as $value)
-              <div class="controls">
-
-                
-                  <input type="text" name="field_name[]" value="{{ $value->value }}" style="width: 20%" class="span11"/>&nbsp;&nbsp;<img style="width:40px;height:40px" src="{{ $value->icon->absolute_path }}"/><input type="file" name="valueIcon[]" style="width: 40%" class="span11" value="" />
-                  <a href="javascript:void(0);" class="remove_button" title="Remove field">&nbsp;&nbsp;<button type="button">Remove Field</button></a>
-
-
-                
-
-                @error('label')
-                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
-                @enderror
+              <div class="controls">       
+                <a href="javascript:void(0);" id="add_button">Add field for Values</a>
               </div>
-              @endforeach
-
-              <div class="controls">
-                <input type="text" name="field_name[]" value="{{ old('fieldvalue')}}" style="width: 20%" class="span11"/><input type="file" name="valueIcon[]" style="width: 40%" class="span11" value="" />
-                <a href="javascript:void(0);" class="add_button" title="Add field">&nbsp;&nbsp;<button type="button">Add Field<button></a>
-                @error('label')
-                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
-                @enderror
-              </div>
-              
             </div>
 
 
 
-            
             <div class="control-group">
                 <label class="control-label">Data Type:</label>
                 <div class="controls">
@@ -101,12 +112,14 @@
             <div class="control-group">
               <label class="control-label">Icon:</label>
               <div class="controls">
-                <img style="width:40px;height:40px" src="{{ $fields->icon->absolute_path }}"/><input type="file" name="icon" style="width: 40%" class="span11" value="" />
+                <img style="width:40px;height:40px" src="{{ $fields->icon->absolute_path }}" class="img-responsive"/>
+                <input type="file" name="icon" style="width: 40%" class="span11" value="" />
                   @error('icon')
                     <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                   @enderror
               </div>
             </div>
+            
             <div class="control-group">
               <label class="control-label">Is Required:</label>
               <div class="controls">
@@ -136,15 +149,18 @@
     </div>
   </div>
 </div>
+
+
+
 @endsection
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){
     var maxField = 10; //Input fields increment limitation
-    var addButton = $('.add_button'); //Add button selector
+    var addButton = $('#add_button'); //Add button selector
     var wrapper = $('#field_wrapper'); //Input field wrapper
-    var fieldHTML = '<div class="controls"><input type="text" name="field_name[]" value="{{ old('fieldvalue')}}" style="width: 20%" class="span11"  /><input type="file" name="valueIcon[]" style="width: 40%" class="span11" value="" /><a href="javascript:void(0);" class="remove_button" title="Add field">&nbsp;&nbsp;<button type="button">Remove Field</button></a></div>'; //New input field html 
+    var fieldHTML = '<div class="controls" ><input type="text" name="field_name[]" value="{{ old('fieldvalue')}}" style="width: 20%" class="span11"  /><input type="file" name="valueIcon[]" style="width: 40%" class="span11" value="" /><a href="javascript:void(0);" class="remove_button" title="Add field">&nbsp;&nbsp;<button type="button">Remove Field</button></a></div>'; //New input field html 
     
     var x = 1; //Initial field counter is 1
     
@@ -164,4 +180,25 @@ $(document).ready(function(){
         x--; //Decrement field counter
     });
 });
+</script>
+
+<script>
+  $(document).ready(function () {
+    var fields = $("div.controls").find("#" + uploadField-);
+      $("#imageButton").on('click', function(){
+          $("#uploadField").toggle();
+          $("#imageDisplay").toggle();
+          $(this).text(function(i, text){
+              return text === "Change Icon" ? "Cancel" : "Change Icon";
+          })
+      });
+    });
+  $(this).text($(this).text() == 'Order by Alphabet' ? 'Order by Category' : 'Order by Alphabet');
+
+  for (var i = 0; i < 10; i++) {
+      if(....hasClass("project"+i))
+      {
+  //do what you need
+      }
+  }
 </script>
