@@ -62,13 +62,10 @@
                         @php $v = 1 @endphp
                         @foreach($field_values as $value)
                                 @if ( $data->id == $value->fieldId )
-                                   
                                         <span class="label label-primary">{{ $value->value }}</span>
-                                        
                                         @php $v++ @endphp
                                 @endif
                             @endforeach
-                            
                         </td>
                         <td>
                             &nbsp

@@ -68,29 +68,20 @@
               </div>
             </div>
 
-            
             <div class="control-group" id="field_wrapper">
               <label class="control-label">Field Values :</label>
-                @php $f = 1; $i = 1; @endphp
                 @foreach ($fields->values as $value)
                   <div class="controls" >
                     <input type="text" name="field_name[]" value="{{ $value->value }}" style="width: 20%" class="span11"/>&nbsp;&nbsp;
-                    <div id="imageDisplay-{{ $i }}">
-                      <img style="width:40px;height:40px" src="{{ $value->icon->absolute_path }}"/>
-                    </div>
-                    <div id="uploadField-{{ $f }}">
-                      <input type="file" name="valueIcon[]" style="width: 40%" class="span11" value="" />
-                    </div>
-                    <button type="button" id="imageButton">Change Icon</button>
+                    <img style="width:40px;height:40px" src="{{ $value->icon->absolute_path }}"/>
                     <a href="javascript:void(0);" class="remove_button" title="Remove field">&nbsp;&nbsp;<button type="button">Remove Field</button></a>
                     
+                    <a href="{{ route('update_icon', [$fields->label, $value->value, $value->icon->id]) }}" class="update_button" title="Update field">&nbsp;&nbsp;<button type="button">Change Icon</button></a>
                     @error('label')
                       <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                     @enderror
                   </div>
-                  @php $f++; $i++; @endphp
                 @endforeach
-                
             </div>
 
             <div class="control-group" id="field_wrapper">
@@ -98,8 +89,6 @@
                 <a href="javascript:void(0);" id="add_button">Add field for Values</a>
               </div>
             </div>
-
-
 
             <div class="control-group">
                 <label class="control-label">Data Type:</label>
@@ -180,25 +169,4 @@ $(document).ready(function(){
         x--; //Decrement field counter
     });
 });
-</script>
-
-<script>
-  $(document).ready(function () {
-    var fields = $("div.controls").find("#" + uploadField-);
-      $("#imageButton").on('click', function(){
-          $("#uploadField").toggle();
-          $("#imageDisplay").toggle();
-          $(this).text(function(i, text){
-              return text === "Change Icon" ? "Cancel" : "Change Icon";
-          })
-      });
-    });
-  $(this).text($(this).text() == 'Order by Alphabet' ? 'Order by Category' : 'Order by Alphabet');
-
-  for (var i = 0; i < 10; i++) {
-      if(....hasClass("project"+i))
-      {
-  //do what you need
-      }
-  }
 </script>
