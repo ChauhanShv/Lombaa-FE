@@ -5,6 +5,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FieldsController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\RegionController;
 use App\Http\Middleware\Auth;
 
 
@@ -31,6 +33,13 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/category/list', [CategoryController::class, 'category_list'])->name('category_list');
     Route::get('/category/edit/{id}', [CategoryController::class, 'update_category'])->name('update_category');
     Route::post('/category/{id}/edit', [CategoryController::class, 'update_category_post'])->name('update_category_post');
+
+    Route::get('/country', [LocationController::class, 'country_list'])->name('country_list');
+    Route::get('/country/add', [LocationController::class, 'add_country'])->name('country');
+    Route::post('/country/add', [LocationController::class, 'add_country']);
+    Route::get( '/region', [RegionController::class, 'region_list'])->name('region_list');
+    Route::get('/region/add', [RegionController::class, 'add_region'])->name('region');
+    Route::post('/region/add', [RegionController::class, 'add_region']);
 
     Route::get('/fields', [FieldsController::class, 'fields'])->name('fields');
     Route::post('/fields', [FieldsController::class, 'fields'])->name('fields');
