@@ -34,6 +34,7 @@ Category.init(
         tableName: "categories",
         timestamps: true,
         sequelize,
+        paranoid: true,
         defaultScope: {
             attributes: {
                 exclude: ['createdAt', 'updatedAt', 'iconId', 'parentId']

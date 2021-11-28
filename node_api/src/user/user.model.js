@@ -212,6 +212,7 @@ User.init(
     tableName: "users",
     timestamps: true,
     sequelize,
+    paranoid: true,
     defaultScope: {
       attributes: { exclude: ['password'] }
     }
