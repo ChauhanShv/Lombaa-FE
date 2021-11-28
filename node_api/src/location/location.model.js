@@ -19,6 +19,7 @@ Location.init(
     tableName: "locations",
     timestamps: true,
     sequelize,
+    paranoid: true,
     defaultScope: {
       attributes: { exclude: ['createdAt', 'updatedAt', 'cityId', 'regionId', 'countryId'] },
       include: [

@@ -11,6 +11,7 @@ CategoryField.init({}, {
     timestamps: false,
     tableName: "category_fields",
     sequelize,
+    paranoid: true,
 });
 
 Category.belongsToMany(Field, { through: CategoryField });

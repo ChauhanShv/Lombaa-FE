@@ -2,7 +2,7 @@ const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize").service;
 const user = require("../user").model;
 
-class Product extends Model {}
+class Product extends Model { }
 
 Product.init(
   {
@@ -99,7 +99,13 @@ Product.init(
       field: "is_Sold",
     },
   },
-  { modelName: "Product", tableName: "products", timestamps: true, sequelize }
+  {
+    modelName: "Product",
+    tableName: "products",
+    timestamps: true,
+    sequelize,
+    paranoid: true,
+  }
 );
 
 module.exports = Product;

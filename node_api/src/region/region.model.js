@@ -26,6 +26,7 @@ Region.init(
     tableName: "regions",
     timestamps: true,
     sequelize,
+    paranoid: true,
     defaultScope: { attributes: { exclude: ['createdAt', 'updatedAt', 'countryId'] } }
   }
 );
