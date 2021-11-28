@@ -23,6 +23,7 @@ Country.init(
     modelName: "country",
     tableName: "countries",
     timestamps: true,
+    paranoid: true,
     sequelize,
     defaultScope: { attributes: { exclude: ['createdAt', 'updatedAt'] } }
   }
