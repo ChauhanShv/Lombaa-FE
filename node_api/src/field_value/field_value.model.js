@@ -21,6 +21,7 @@ FieldValue.init(
         tableName: "field_values",
         timestamps: true,
         sequelize,
+        paranoid: true,
         defaultScope: {
             attributes: {
                 exclude: ['createdAt', 'updatedAt', 'iconId', 'fieldId']

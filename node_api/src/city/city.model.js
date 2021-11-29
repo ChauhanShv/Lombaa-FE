@@ -23,6 +23,7 @@ City.init(
     modelName: "city",
     tableName: "cities",
     timestamps: true,
+    paranoid: true,
     sequelize,
     defaultScope: { attributes: { exclude: ['createdAt', 'updatedAt', 'regionId'] } }
   }
