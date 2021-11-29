@@ -39,6 +39,7 @@ export const CategorySelector: React.FC = (): React.ReactElement => {
         <>
             <FloatingLabel className="mb-3" controlId="floatingSelect" label="Select Category">
                 <Form.Select aria-label="Select Category" onChange={handleCategoryChange}>
+                    <option>Select Category</option>
                     {responseData && (
                         <>
                             {responseData?.map((category: any) => {
@@ -54,6 +55,7 @@ export const CategorySelector: React.FC = (): React.ReactElement => {
             </FloatingLabel>
             <FloatingLabel className="mb-3" controlId="floatingSelect" label="Select Sub Category">
                 <Form.Select aria-label="Select Sub Category" onChange={handleSubCategoryChange}>
+                    <option>Select Sub Category</option>
                     <>
                         {subCategoryData?.map((category: any) => {
                             return (

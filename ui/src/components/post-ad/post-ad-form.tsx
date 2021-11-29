@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Container, Row, Col, Button, InputGroup, FormControl, Form, FloatingLabel } from 'react-bootstrap';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import Dropzone from 'react-dropzone';
 import { CategorySelector } from '.';
+import { OptionalDetailsForm } from './optional-details-form';
 
 export const PostAdForm: React.FC = (): React.ReactElement => {
-    return ( 
+    const [isForSale, setIsForSale] = useState<Number>(1);
+
+    return (
         <Container className="p-4 pt-lg-5">
             <h1 className="mb-3 h2">What are you listing today?</h1>
             <Row className="">
@@ -51,23 +54,24 @@ export const PostAdForm: React.FC = (): React.ReactElement => {
 
                         <h6 className="text-muted">Price</h6>
                         <ToggleButtonGroup type="radio" name="price-options" defaultValue={1}>
-                            <ToggleButton id="price-radio-1" variant="outline-success fullround" className="rounded m-2 ms-0" value={5}>
+                            <ToggleButton id="price-radio-1" variant="outline-success fullround" className="rounded m-2 ms-0" value={1} onClick={() => setIsForSale(1)}>
                                 For Sale
                             </ToggleButton>
-                            <ToggleButton id="price-radio-2" variant="outline-success fullround" className="rounded m-2" value={6}>
+                            <ToggleButton id="price-radio-2" variant="outline-success fullround" className="rounded m-2" value={0} onClick={() => setIsForSale(0)}>
                                 For Free
                             </ToggleButton>
-
                         </ToggleButtonGroup>
 
-                        <InputGroup className="mt-2 mb-5">
-                            <InputGroup.Text id="basic-addon1">$</InputGroup.Text>
-                            <FormControl
-                                placeholder="Price of your listing"
-                                aria-label="Price of your listing"
-                                aria-describedby="basic-addon1"
-                            />
-                        </InputGroup>
+                        {isForSale === 1 && (
+                            <InputGroup className="mt-2 mb-5">
+                                <InputGroup.Text id="basic-addon1">$</InputGroup.Text>
+                                <FormControl
+                                    placeholder="Price of your listing"
+                                    aria-label="Price of your listing"
+                                    aria-describedby="basic-addon1"
+                                />
+                            </InputGroup>
+                        )}
 
                         <h6 className="text-muted">Description</h6>
 
@@ -84,30 +88,8 @@ export const PostAdForm: React.FC = (): React.ReactElement => {
                             </Form.Select>
                         </FloatingLabel>
 
-                        <h5 className="mb-3">Optional details</h5>
-                        <p className="text-muted">With these details, buyers can find your listing more easily and ask fewer questions.</p>
+                        <OptionalDetailsForm />
 
-                        <h6 className="text-muted">Features</h6>
-                        <FloatingLabel className="mb-5" controlId="floatingSelect" label="Features">
-                            <Form.Select aria-label="Floating label select example">
-                                <option>Select Features</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </Form.Select>
-                        </FloatingLabel>
-
-
-                        <h5 className="mb-3">Deal Method</h5>
-                        <div className="mb-5">
-                            <Form.Check label="Meet-up" />
-                            <Form.Check label="Delivery" />
-                        </div>
-
-                        <h5 className="mb-3">Payment methods</h5>
-                        <div className="mb-5">
-                            Coming Soon...
-                        </div>
                         <div className="d-flex justify-content-end">
                             <Button variant="fullround" className="btn-success rounded btn-lg">List Now</Button>
                         </div>
