@@ -26,14 +26,14 @@
               <div class="controls">
                 <input type="text" name="name" value="{{ old('name')}}" style="width: 40%" class="span11"  />
                 @error('name')
-                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                  <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                 @enderror
               </div>
             </div>
             <div class="control-group">
               <label class="control-label">Country Code:</label>
               <div class="controls">
-                <input type="text" name="country_code" style="width: 40%"  class="span11" />
+                <input type="text" name="code" style="width: 40%"  class="span11" />
                 @error('country_code')
                 <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                 @enderror

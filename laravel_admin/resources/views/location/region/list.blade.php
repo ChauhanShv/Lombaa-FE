@@ -18,12 +18,18 @@
         </style>
         <div class="widget-title"> 
             <div><span class="icon"><i class="icon-th"></i></span>
-                <h5>Country List</h5> 
+                <h5>Regions List</h5> 
             </div>
             
             <div>
-                <a href="{{ route('country')}}" ">
-                    <button class="btn btn-warning" style="border-radius:6px; width:100px">Add Country</button>
+                <a href="{{ route('country')}}">
+                    <button class="btn btn-success">Add Country</button>
+                 </a>
+                 <a href="{{ route('region')}}">
+                    <button class="btn btn-danger">Add Region</button>
+                 </a>
+                 <a href="{{ route('country')}}">
+                    <button class="btn btn-info">Add City</button>
                  </a>
             </div>
         </div>
@@ -35,19 +41,19 @@
                         <th>Region Name</th>
                         <th>Region Code</th>
                         <th>Country </th>
-                        <th>Actions<th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @php $i = 0 @endphp @foreach($countries as $data)  @php $i++ @endphp
+                    @php $i = 0 @endphp @foreach($regions as $data)  @php $i++ @endphp
                     <tr class="gradeX" style="align-content: center;">
                         <td style="text-align: center;">{{ $i }}</td>
-                        <td style="text-align: center;">{{ $region->name }}</td>
-                        <td style="text-align: center;">{{ $region->code}}</td>
-                        <td style="text-align: center;">{{ $data->name}}</td>
-                        <td>
-                            <a href="#" onclick="return confirm('Do you want to Active this user?');">
-                                    <button class="btn btn-warning" style="border-radius:6px; width:100px">Action</button>
+                        <td style="text-align: center;">{{ $data->name }}</td>
+                        <td style="text-align: center;">{{ $data->code}}</td>
+                        <td style="text-align: center;">{{ $data->country->name}}</td>
+                        <td style="text-align: center;">
+                            <a href="{{ route('update_region', $data->id) }}">
+                                <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                             </a>
                         </td>
                     </tr>

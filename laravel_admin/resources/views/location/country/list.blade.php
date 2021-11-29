@@ -18,12 +18,18 @@
         </style>
         <div class="widget-title"> 
             <div><span class="icon"><i class="icon-th"></i></span>
-                <h5>Country List</h5> 
+                <h5>Countries List</h5> 
             </div>
             
             <div>
-                <a href="{{ route('country')}}" ">
-                    <button class="btn btn-warning" style="border-radius:6px; width:100px">Add Country</button>
+                <a href="{{ route('country')}}">
+                    <button class="btn btn-success">Add Country</button>
+                 </a>
+                 <a href="{{ route('region')}}">
+                    <button class="btn btn-danger">Add Region</button>
+                 </a>
+                 <a href="{{ route('country')}}">
+                    <button class="btn btn-info">Add City</button>
                  </a>
             </div>
         </div>
@@ -34,7 +40,7 @@
                         <th># No.</th>
                         <th>Country Name</th>
                         <th>Country Code</th>
-                        <th>Actionsth>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,12 +49,16 @@
                         <td style="text-align: center;">{{ $i }}</td>
                         <td style="text-align: center;">{{ $data->name }}</td>
                         <td style="text-align: center;">{{ $data->code }}</td>
-                        <td>
-                            <a href="#" onclick="return confirm('Do you want to Active this user?');">
-                                    <button class="btn btn-warning" style="border-radius:6px; width:100px">Deactive</button>
+                        <td style="text-align: center;">
+                           
+                            <a href="{{ route('update_country', $data->id) }}">
+                                <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                             </a>
+                            
                         </td>
+                        
                     </tr>
+
                     @endforeach
                     @if ($errors->any())
                         <div class="alert alert-danger">

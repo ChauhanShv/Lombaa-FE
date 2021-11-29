@@ -5,30 +5,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Regions extends Model
-{       
+class Cities extends Model
+{
     use HasFactory;
 
     const CREATED_AT = 'createdAt';
     const UPDATED_AT = 'updatedAt';
 
-    protected $table = 'regions';
+    protected $table = 'cities';
 
     protected $fillable = [
+
         'id',
         'name',
         'code',
         'createdAt',
         'updatedAt',
         'deletedAt',
-        'countryId'
+        'regionId'
     ];
 
-    public function country() {
+    public function region() {
 
-        return $this->belongsTo(Countries::class, 'countryId', 'id');
+        return $this->belongsTo(Regions::class, 'regionId', 'id');
     }
 
     protected $keyType ='string';
-    use HasFactory;
 }

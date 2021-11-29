@@ -100,16 +100,18 @@
             </ul>
         </li>
         <li class="submenu">
-            <a href="#"><i>&#8377;</i> <span>Location  </span></a>
+            <a href="#">
+                <i style="color: white" class="icon icon-globe"></i> <span style="color: white">Location</span>
+            </a>
             <ul>
-            <li class="">
+                <li class="">
                     <a href="{{ route('country_list')}}">Country</a>
                 </li>
                 <li class="">
                     <a href="{{ route('region_list') }}">Region</a>
                 </li>
                 <li class="">
-                    <a href="#">City </a>
+                    <a href="{{ route('city_list') }}">City </a>
                 </li>
             </ul>
         </li>
