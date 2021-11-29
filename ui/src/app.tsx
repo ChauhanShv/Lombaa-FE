@@ -20,6 +20,7 @@ const App: React.FC = () => {
     <AppContextProvider>
       <BrowserRouter>
         <AppContainer>
+<<<<<<< HEAD
           <Switch>
             <PublicRoute component={HomePage} path="/" exact />
             <PublicRoute restricted component={ForgotPasswordPage} path="/forgot-password/:token?" exact />
@@ -29,6 +30,20 @@ const App: React.FC = () => {
             <PrivateRoute component={AdDetailPage} path="/ad-detail" exact />
             {/* Html Routes - for nilesh */}
           </Switch>
+=======
+            <Switch>
+              <PublicRoute component={HomePage} path="/" exact />
+              <PublicRoute component={CreateAdPage} path="/create-ad-page" exact />
+              <PublicRoute component={AdDetailPage} path="/ad-page" exact />
+              
+              
+              <PublicRoute restricted  component={ForgotPasswordPage} path="/forgot-password/:token?" exact />
+              {/* Html Routes - for nilesh */}
+              <PrivateRoute component={SettingsPage} path="/settings/:page?" exact />
+              <PrivateRoute component={ProfilePage} path="/profile" exact />
+              
+            </Switch>
+>>>>>>> 42fea1d... Added Ad post detail page html
         </AppContainer>
       </BrowserRouter>
     </AppContextProvider>
