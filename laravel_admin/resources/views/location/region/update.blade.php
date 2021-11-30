@@ -48,7 +48,7 @@
               <label class="control-label">Region Code:</label>
               <div class="controls">
                 <input type="text" name="code" value="{{ $region->code }}" style="width: 40%"  class="span11" />
-                @error('region_code')
+                @error('code')
                 <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                 @enderror
               </div>

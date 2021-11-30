@@ -36,7 +36,7 @@
               <label class="control-label">Country Code:</label>
               <div class="controls">
                 <input type="text" name="code" value="{{ old('name', $country->code) }}" style="width: 40%"  class="span11" />
-                @error('country_code')
+                @error('code')
                 <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                 @enderror
               </div>
