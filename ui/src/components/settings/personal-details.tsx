@@ -30,7 +30,6 @@ import { useAxios } from '../../services/base-service';
 import { getAPIErrorMessage } from '../../utils';
 import { GOOGLE_CLIENTID, FB_APPID } from '../../config';
 import { ImageCropModal } from '.';
-import { MdMyLocation } from 'react-icons/md';
 import { AlertType } from './types';
 import './settings.css';
 

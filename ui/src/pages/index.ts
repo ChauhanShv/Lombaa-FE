@@ -5,3 +5,4 @@ export * from './settings-page';
 export * from './signup-page';
 export * from './forgot-password-page';
 export * from './ad-post-page';
+export * from './ad-detail-page';
