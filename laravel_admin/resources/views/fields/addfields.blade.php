@@ -2,6 +2,19 @@
 @section('body') 
 @include('layout.breadcrumb')
 
+<style>
+add_button {
+  background-color: #e7e7e7; color: black; /* Green */
+  border: none;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+  cursor: pointer;
+}
+</style>
+
 
 <div class="row-fluid">
   <div class="span12">
@@ -28,38 +41,40 @@
               <div class="controls">
                 <input type="text" name="label" value="{{ old('label')}}" style="width: 40%" class="span11"  />
                 @error('label')
-                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                  <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                 @enderror
               </div>
             </div>
             
             <div class="control-group">
-                  <label class="control-label">Field Type:</label>
-                  <div class="controls">  
-                     <select id='' name="fieldtype">
-                        @foreach($fieldtypes as $field_type)
+                <label class="control-label">Field Type:</label>
+                <div class="controls">  
+                    <select id='' name="fieldtype">
+                      @foreach($fieldtypes as $field_type)
                         <option value="{{ $field_type }}">{{ $field_type }}</option>
-                        @endforeach
-                    </select>
-                  @error('fieldtype')
-                    <div class="alert alert-danger ">{{ $message }}</div>
-                  @enderror
-                  </div>
+                      @endforeach
+                  </select>
+                @error('fieldtype')
+                  <div class="alert alert-danger ">{{ $message }}</div>
+                @enderror
+                </div>
             </div>
 
             <div class="control-group" id="field_wrapper">
               <label class="control-label">Field Values :</label>
               <div class="controls">
-                <input type="text" name="field_name[]" value="{{ old('fieldvalue')}}" style="width: 20%" class="span11"/>
-                <input type="file" name="valueIcon[]" style="width: 40%" class="span11" value="" />
-                <a href="javascript:void(0);" class="add_button" title="Add field">&nbsp;&nbsp;<button type="button">Add Field<button></a>
-                @error('label')
-                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                <input type="text" name="field_name[]" value="" style="width: 20%" class="span11"/>
+                @error('field_name')
+                  <div class="alert alert-danger" style="width: 34.2%">{{ $message }}</div>
                 @enderror
+                  <input type="file" name="valueIcon[]" value=""{ style="width: 40%" class="span11" />
+                @error('valueIcon')
+                  <div class="alert alert-danger" style="width: 34.2%">{{ $message }}</div>
+                @enderror
+                <add_button id="add_button" title="Add field" href="javascript:void(0);" type="button">Add Field</add_button>
               </div>
             </div>
 
-            
             <div class="control-group">
                 <label class="control-label">Data Type:</label>
                 <div class="controls">
@@ -112,9 +127,9 @@
 <script type="text/javascript">
 $(document).ready(function(){
     var maxField = 10; //Input fields increment limitation
-    var addButton = $('.add_button'); //Add button selector
+    var addButton = $('#add_button'); //Add button selector
     var wrapper = $('#field_wrapper'); //Input field wrapper
-    var fieldHTML = '<div class="controls"><input type="text" name="field_name[]" value="{{ old('fieldvalue')}}" style="width: 20%" class="span11"  /><input type="file" name="valueIcon[]" style="width: 40%" class="span11" value="" /><a href="javascript:void(0);" class="remove_button" title="Add field">&nbsp;&nbsp;<button type="button">Remove Field</button></a></div>'; //New input field html 
+    var fieldHTML = '<div class="controls"><input type="text" name="field_name[]" value="" style="width: 20%" class="span11"></input>@error('field_name')<div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>@enderror<input type="file" name="valueIcon[]" style="width: 22%" class="span11" value=""></input> @error('valueIcon')<div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>@enderror<a href="javascript:void(0);" class="remove_button" title="Add field">&nbsp;&nbsp;<button type="button">Remove Field</button></a></div>'; //New input field html 
     
     var x = 1; //Initial field counter is 1
     

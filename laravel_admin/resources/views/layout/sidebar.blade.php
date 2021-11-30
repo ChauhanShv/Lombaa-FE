@@ -131,6 +131,21 @@
         </li>
         <li class="submenu">
             <a href="">
+                <i style="color: white" class="icon icon-edit"></i> <span style="color: white">Values</span>
+            </a>
+            <ul>
+                <li class="">
+                    <a href="{{ route('values') }}">Values List</a>
+                </li>
+            </ul>
+            <ul>
+                <li class="">
+                    <a href="{{ route('values_add') }}">Add Values</a>
+                </li>
+            </ul>
+        </li>
+        <li class="submenu">
+            <a href="">
                 <i style="color: white" class="icon icon-certificate"></i> <span style="color: white">Certificate</span>
             </a>
             <ul>

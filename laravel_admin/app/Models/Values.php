@@ -25,6 +25,10 @@ class Values extends Model
         return $this->belongsTo(Files::class, 'iconId', 'id');
     }
 
+    public function field() {
+        return $this->belongsTo(Fields::class, 'fieldId', 'id');
+    }
+
     public $timestamps = true;
     protected $keyType ='string';
 }

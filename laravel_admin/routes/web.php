@@ -5,6 +5,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FieldsController;
+use App\Http\Controllers\ValuesController;
+
 use App\Http\Middleware\Auth;
 
 
@@ -40,8 +42,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/fieldedit/{label}/{value}/{id}/updateicon', [FieldsController::class, 'update_icon'])->name('update_icon');
     Route::post('/fieldedit/{label}/{value}/{id}/updateicon', [FieldsController::class, 'update_icon_post'])->name('update_icon_post');
 
-
-
-
-
+    Route::get('/values', [ValuesController::class, 'values'])->name('values');
+    Route::get('/values/add', [ValuesController::class, 'values_add'])->name('values_add');
+    Route::post('/values/add', [ValuesController::class, 'values_add']);
+    Route::get('/values/update/{id}', [ValuesController::class, 'values_update'])->name('values_update');
+    Route::post('/values/update/{id}', [ValuesController::class, 'values_update']);
 });

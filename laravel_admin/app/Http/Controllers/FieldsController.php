@@ -19,25 +19,32 @@ class FieldsController extends Controller
             $rules = [
                 'label' => 'required|regex:/^[\s\w-]*$/',
                 'fieldtype' => 'required',
-                'icon' => 'required'
+                'icon' => 'required',
+                'valueIcon' => 'required|array',
+                'field_name' => 'required|array'
+
             ];
 
             $messages = [
                     'label.required' => 'Label is required',
                     'fieldtype.required' => 'Field Type is required',
-                    'icon.required' => 'Icon is required'
+                    'icon.required' => 'Icon is required',
+                    'valueIcon.required' => 'Value icon is required',
+                    'field_name.required' => 'Field value name is required'
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withInput($request->all())->withErrors($validator);
+            }
 
             $iconName = Str::uuid().'.'.$request->file('icon')->getClientOriginalName();
             // $path = Storage::disk('s3')->put('images', $request->icon);
             // $iconPath = Storage::disk('s3')->url($path);
             $iconMime = $request->file('icon')->getClientMimeType();
             $iconExt = $request->file('icon')->extension();
-            if ($validator->fails()) {
-                return redirect()->back()->withInput($request->all())->withErrors($validator);
-            }
+            
 
             $fileData = [
                 'id' => Str::uuid(),
