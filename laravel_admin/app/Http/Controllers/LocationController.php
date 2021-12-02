@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Countries;
 use Carbon\Carbon;
 use Str;
+use DB;
+use Bushwalk;
 
 class LocationController extends Controller
 {
@@ -26,10 +28,12 @@ class LocationController extends Controller
             }
             $counrtry_name = $request->input('name');
             $country_code = $request->input('code');
+
             $data = [
                 'id' => Str::uuid(),
                 'name' => $counrtry_name,
                 'code' => $country_code,
+                'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
                 'createdAt' => Carbon::now(),
                 'updatedAt' => Carbon::now()
             ];
@@ -46,8 +50,13 @@ class LocationController extends Controller
     }
 
     public function country_list() {
+
+        // $myData = \DB::table('bushwalks')->select((\DB::raw('AsText(coordinate)')))->where('id',$id)->get();
+
+        $myData = \DB::table('countries')->select('id','name', 'code',(\DB::raw('AsText(coordinate) AS coordinate')))->get();
+            // dd($myData);
         $countries = Countries::get();
-        return view ('location.country.list', ['countries' => $countries]);
+        return view ('location.country.list', ['countries' => $countries, 'myData' => $myData]);
     }
 
     public function update_country(Request $request, $id) {
