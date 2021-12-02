@@ -15,9 +15,7 @@ class ValuesController extends Controller
     public function values() {
 
         $values = Values::with('icon')->with('field')->paginate();
-
         return view('value.list', ['values' => $values]);
-
     }
 
     public function values_add(Request $request) {
@@ -67,7 +65,6 @@ class ValuesController extends Controller
                     'id' => Str::uuid(),
                     'value' => $request->name,
                     'iconId' => $fileData['id'],
-                    'fieldId' => $request->field_name,
                     'createdAt' => Carbon::now(),
                     'updatedAt' => Carbon::now()
 
@@ -93,26 +90,10 @@ class ValuesController extends Controller
 
         if($request->ismethod('post')){
 
-            $rules = [
-                'name' => 'required',
-                'icon' => 'required'
-            ];
-
-            $messages = [
-                'name.required' => 'Value name is required',
-                'icon' => 'Icon is required'
-            ];
-
-            $validator = Validator::make($request->all(), $rules, $messages);
-
-            if($validator->fails()) {
-                return redirect()->back()->withInput($request->all())->withErrors($validator);
-            }
-
             if ($request->hasFile('icon')) {
 
-                $iconId = Values::where('id', $id)->first();
-                $deleteOldIcon = Files::where('id', $iconId->iconId)->delete();
+                $getIconId = Values::where('id', $id)->first();
+                $deleteOldIcon = Files::where('id', $getIconId->iconId)->delete();
 
                 $iconName = Str::uuid().'.'.$request->file('icon')->getClientOriginalName();
                 // $path = Storage::disk('s3')->put('images', $request->icon);
@@ -135,7 +116,10 @@ class ValuesController extends Controller
     
                 ];
     
-                $iconId = Files::insertGetId($fileData);
+                Files::insert($fileData);
+
+                $iconId = $fileData['id'];
+                
 
             } else {
 
@@ -144,24 +128,20 @@ class ValuesController extends Controller
             }
             
             $data = [
-                'id' => Str::uuid(),
-                'value' => $request->value,
+                'value' => $request->name,
                 'iconId' => $iconId,
-                'fieldId' => $request->field_name,
                 'createdAt' => Carbon::now(),
                 'updatedAt' => Carbon::now()
             ];
 
-            $sendData = Values::update($data);
+            $sendData = Values::where('id', $id)->update($data);
 
             return redirect()->route('values')->with('response', ['status' => 'success', 'message' => 'Value updated successfully']);
-
         
         }else {
 
             $fields = Fields::get();
-            $value = Values::with('field')->where('id', $id);
-            dd($value);
+            $value = Values::with('field')->where('id', $id)->first();
             return view('value.update', ['fields' => $fields, 'value' => $value]);
         }
     }

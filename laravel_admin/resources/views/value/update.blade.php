@@ -21,17 +21,9 @@
         <div class="widget-content nopadding">
           <form action="{{ route('values_update', $value->id) }}" method="post" enctype="multipart/form-data" class="form-horizontal">
             <div class="control-group">
-                <label class="control-label">Select Field:</label>
+                <label class="control-label">Assigned to Field:</label>
                 <div class="controls">  
-                    <select id='' name="field_name">
-                        <option value="{{ $value->fieldId }}" selected>{{ $value->field->label }}</option>
-                      @foreach($fields as $field)
-                        <option value="{{ $field->id }}">{{ $field->label }}</option>
-                      @endforeach
-                  </select>
-                @error('field_name')
-                  <div class="alert alert-danger ">{{ $message }}</div>
-                @enderror
+                  <input type="text" name="name" value="{{ ($value->fieldId == null) ? 'Not yet assigned to ay Field' : $value->field->label }}" style="width: 40%" class="span11"  readonly/>
                 </div>
             </div>
             <div class="control-group">
@@ -54,7 +46,7 @@
             </div>
             @csrf 
             <div class="form-actions">
-              <button type="submit" class="btn btn-success">Save</button>
+              <button type="submit" class="btn btn-success">Update</button>
             </div>
           </form>
         </div>

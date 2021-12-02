@@ -37,7 +37,6 @@
                     <tr>
                         <th># No.</th>
                         <th>Icon</th>
-                        <th>Field ID</th>
                         <th>Label</th>
                         <th>Is Required</th>
                         <th>Is Active</th>
@@ -52,7 +51,6 @@
                     <tr class="gradeX" style="align-content: center;">
                         <td style="text-align: center;">{{ $i }}</td>
                         <td style="text-align: center;"><image style="width:50px; height:50px; border-radius: 5%;" src="{{ $data->icon->absolute_path }}"/></td>
-                        <td style="text-align: center;">{{ $data->id }}</td>
                         <td style="text-align: center;">{{ $data->label }}</td>
                         <td style="text-align: center;">{{ $data->isRequired == 1? 'Yes' : 'No' }}</td>
                         <td style="text-align: center;">{{ $data->isActive == 1? 'Yes' : 'No' }}</td>
@@ -67,7 +65,7 @@
                                 @endif
                             @endforeach
                         </td>
-                        <td>
+                        <td style="text-align: center;">
                             &nbsp
                             <a href=" {{ route('field_edit', $data->id) }} ">
                                 <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>

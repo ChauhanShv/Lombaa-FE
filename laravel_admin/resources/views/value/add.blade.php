@@ -21,20 +21,6 @@
         <div class="widget-content nopadding">
 
           <form action="{{ route('values_add') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
-
-            <div class="control-group">
-                <label class="control-label">Select Field:</label>
-                <div class="controls">  
-                    <select id='' name="field_name">
-                      @foreach($fields as $field)
-                        <option value="{{ $field->id }}">{{ $field->label }}</option>
-                      @endforeach
-                  </select>
-                @error('field_name')
-                  <div class="alert alert-danger ">{{ $message }}</div>
-                @enderror
-                </div>
-            </div>
             <div class="control-group">
               <label class="control-label">Value name :</label>
               <div class="controls">

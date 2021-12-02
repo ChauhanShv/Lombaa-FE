@@ -20,17 +20,12 @@ class FieldsController extends Controller
                 'label' => 'required|regex:/^[\s\w-]*$/',
                 'fieldtype' => 'required',
                 'icon' => 'required',
-                'valueIcon' => 'required|array',
-                'field_name' => 'required|array'
-
             ];
 
             $messages = [
                     'label.required' => 'Label is required',
                     'fieldtype.required' => 'Field Type is required',
                     'icon.required' => 'Icon is required',
-                    'valueIcon.required' => 'Value icon is required',
-                    'field_name.required' => 'Field value name is required'
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -76,59 +71,32 @@ class FieldsController extends Controller
                     'createdAt' => Carbon::now(),
                     'updatedAt' => Carbon::now()
                 ];
-                $sendData = Fields::insert($data);
+
+                $submitData = Fields::insert($data);
+
+
+                if($submitData){ 
+                    foreach($request->values as $value) {
+
+                        $fieldId = [
+                            'fieldId' => $data['id']
+                        ];
+    
+                        Values::where('id', $value)->update($fieldId);
+                    }
+
+
+                    return redirect()->route('field_list')->with('response', ['status' => 'success', 'message' => 'Field added successfully']);
+
+                }else{
+                    return redirect()->route('fields')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
+                }
+                
 
             }else{
-                return redirect()->route('fields')->with('response', ['status' => 'success', 'message' => 'Something went wrong']);
+                return redirect()->route('fields')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
 
             }
-
-            $fieldIconsArray = $request->file('valueIcon');
-            $fieldValueStringArray = $request->field_name;
-            $field_values = array();
-
-            foreach( array_combine($fieldValueStringArray, $fieldIconsArray) as $fieldvalues => $fieldIcon ){
-
-                $fieldIconName = Str::uuid().'.'.$fieldIcon->getClientOriginalName();
-                // $path = Storage::disk('s3')->put('images', $fieldIcon);
-                // $iconPath = Storage::disk('s3')->url($path);
-                $fieldiconMime = $fieldIcon->getClientMimeType();
-                $fieldiconExt = $fieldIcon->extension();
-                
-    
-                $fieldFileData = [
-                    'id' => Str::uuid(),
-                    'key_name' => $fieldIconName,
-                    'extension' => $fieldiconExt,
-                    'name' => $fieldIconName,
-                    'mime' =>  $fieldiconMime,
-                    'relative_path' => '',
-                    // 'absolute_path'=> $iconPath,
-                    'absolute_path'=> 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/L27xI2KWxQerlkrlwWnPvHl0BJDLnfRzpRaQjrQb.jpg',
-                    'location' => 's3',
-                    'createdAt'=> Carbon::now(),
-                    'updatedAt' => Carbon::now()
-    
-                ];
-    
-                $sendFieldFileData = Files::insert($fieldFileData);
-
-                $field_value = array();
-
-                $field_value['id'] = Str::uuid();
-                $field_value['value'] = $fieldvalues;
-                $field_value['fieldId'] = $data['id'];
-                $field_value['iconId'] = $fieldFileData['id'];
-                $field_value['createdAt'] =  Carbon::now();
-                $field_value['updatedAt'] = Carbon::now();
-
-                array_push($field_values, $field_value);
-
-            }
-
-            $sendFieldValues = FieldValues::insert($field_values);
-
-            return redirect()->route('fields')->with('response', ['status' => 'success', 'message' => 'Field added successfully']);
 
         }
 
@@ -142,7 +110,9 @@ class FieldsController extends Controller
                 'Tag View' =>' Tag View'
                 );
 
-                return view('fields.addfields', ['fieldtypes' => $fieldtypes]);
+            $values = Values::where('fieldId', '=', null)->get();
+
+            return view('fields.addfields', ['fieldtypes' => $fieldtypes, 'values' => $values]);
         }
     }
 

@@ -103,7 +103,7 @@
                 </li>
             </ul>
         </li>
-        <li class="submenu">
+        <li class="submenu {{\Request::route()->getName() === 'cat' ? 'open active': ''}}">
             <a href="">
                 <i style="color: white" class="icon icon-phone"></i> <span style="color: white">Categories</span>
             </a>
@@ -139,7 +139,7 @@
                 </li>
             </ul>
             <ul>
-                <li class="">
+                <li class="" >
                     <a href="{{ route('values_add') }}">Add Values</a>
                 </li>
             </ul>

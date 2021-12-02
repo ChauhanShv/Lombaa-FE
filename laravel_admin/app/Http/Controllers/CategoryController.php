@@ -20,21 +20,21 @@ class CategoryController extends Controller
                 'name' => 'required|regex:/^[\s\w-]*$/',
                 'description' => 'required',
                 'image' => 'required',
-                'product' => 'required',
+                'fields' => 'required'
             ];
             $messages = [
                     'name.required' => 'Name is required',
                     'description.required' => 'Description is required',
                     'image.required' => 'Image is required',
-                    'product.required'=> 'Product is required',
+                    'fields.required' => 'Fields are required'
             ];
             $validator = Validator::make($request->all(), $rules, $messages);
             if ($validator->fails()) {
                 return redirect()->back()->withInput($request->all())->withErrors($validator);
             }
             $image_name = Str::uuid().'.'.$request->file('image')->getClientOriginalName();
-            $path = Storage::disk('s3')->put('images', $request->image);
-            $image_path = Storage::disk('s3')->url($path);
+            // $path = Storage::disk('s3')->put('images', $request->image);
+            // $image_path = Storage::disk('s3')->url($path);
             $image_mime = $request->file('image')->getClientMimeType();
             $image_ext = $request->file('image')->extension();
             $file_data = [
@@ -80,10 +80,10 @@ class CategoryController extends Controller
                 }
 
                 $send_category_fields = CategoryField::insert($category_fields);
-                return redirect()->route('categories')->with('response', ['status' => 'success', 'message' => 'Categories added successfully']);
+                return redirect()->route('category_list')->with('response', ['status' => 'success', 'message' => 'Category added successfully']);
             }
             else{
-                return redirect()->route('categories')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
+                return redirect()->route('category_list')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
 
             }
 

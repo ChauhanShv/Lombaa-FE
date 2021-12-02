@@ -60,19 +60,18 @@ add_button {
                 </div>
             </div>
 
-            <div class="control-group" id="field_wrapper">
-              <label class="control-label">Field Values :</label>
+            <div class="control-group">
+             <label class="control-label">Select Values :</label>
               <div class="controls">
-                <input type="text" name="field_name[]" value="" style="width: 20%" class="span11"/>
-                @error('field_name')
-                  <div class="alert alert-danger" style="width: 34.2%">{{ $message }}</div>
-                @enderror
-                  <input type="file" name="valueIcon[]" value=""{ style="width: 40%" class="span11" />
-                @error('valueIcon')
-                  <div class="alert alert-danger" style="width: 34.2%">{{ $message }}</div>
-                @enderror
-                <add_button id="add_button" title="Add field" href="javascript:void(0);" type="button">Add Field</add_button>
-              </div>
+                <select multiple name="values[]" size="" >
+                    @foreach($values as $value)
+                      <option value="{{$value->id}}">{{ $value->value}}</option>
+                    @endforeach
+                </select>
+                @error('values')
+                    <div class="alert alert-danger ">{{ $message }}</div>
+                @enderror 
+             </div>
             </div>
 
             <div class="control-group">
@@ -84,7 +83,7 @@ add_button {
                 </div>
             </div>
             <div class="control-group">
-              <label class="control-label">Icon:</label>
+              <label class="control-label">Field icon:</label>
               <div class="controls">
                 <input type="file" name="icon" style="width: 40%" class="span11" value="" />
                 @error('icon')

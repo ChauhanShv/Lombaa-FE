@@ -56,8 +56,21 @@
                         <td style="text-align: center;">{{ $data->description }}</td>
                         <td style="text-align: center;">{{ $data->isPopular == 1? 'Yes' : 'No' }}</td>
                         <td style="text-align: center;">{{ $data->isActive == 1? 'Yes' : 'No' }}</td>
-                        <td style="text-align: center;">{{ $data->parentId }}</td>
-                        <td>
+
+                        
+                        <td style="text-align: center;">
+                            @if ($data->parentId == null)
+                                <p>Parent category</p>
+                            @else
+                                @foreach ($category_list as $category)
+                                    @if ($data->parentId == $category->id )
+                                        <p><strong>Sub category of :&nbsp;</strong>{{ $category->name }}</p>
+                                    @endif
+                                @endforeach
+                            @endif
+                        </td>
+
+                        <td style="text-align: center;">
                             &nbsp
                             <a href="{{ route('update_category', $data->id) }}">
                                 <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>

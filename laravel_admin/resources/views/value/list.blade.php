@@ -32,6 +32,8 @@
                     <button class="btn btn-success">Add Value</button>
                  </a>
             </div>
+        </div>
+        <div class="widget-title"> 
             <div>
                {{ $values->links('pagination::bootstrap-4') }}
             </div>
@@ -53,8 +55,8 @@
                         <td style="text-align: center;">{{ $i }}</td>
                         <td style="text-align: center;"><image style="width:50px; height:50px; border-radius: 5%;" src="{{ $data->icon->absolute_path }}"/></td>
                         <td style="text-align: center;">{{ $data->value }}</td>
-                        <td style="text-align: center;">{{ $data->field->label }}</td>
-                        <td>
+                        <td style="text-align: center;">{{ ($data->fieldId == null ) ? 'Not yet assigned to ay Field' : $data->field->label }}</td>
+                        <td style="text-align: center;">
                             &nbsp
                             <a href=" {{ route('values_update', $data->id) }} ">
                                 <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
