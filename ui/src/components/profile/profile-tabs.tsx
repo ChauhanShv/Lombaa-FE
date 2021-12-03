@@ -2,10 +2,6 @@ import React from 'react';
 import { Tabs, Tab, Container, Row, Col, Image, Button } from 'react-bootstrap';
 import { ProfileProductTile } from './profile-product-tile';
 import '../../pages/profile-page.css';
-
-
-/**Have declared the interface here itself since not sure whether this component will be used or not
-in future, these are temporary changes in order to render the basic design*/
 interface TabContentProps {
     tabTitle: string,
 };
@@ -29,15 +25,15 @@ export const ProfileTabs = () => {
                 <Col md={12} className="p-0">
                     <Tabs className="profile-tabs" defaultActiveKey="MyListing" id="uncontrolled-tab-example">
                         <Tab eventKey="MyListing" title="My Listing" mountOnEnter unmountOnExit={false} className="py-4 px-3 border">
-                            <Tabs defaultActiveKey="Active" id="uncontrolled-tab-example">
-                                <Tab eventKey="Active" title="Active" mountOnEnter unmountOnExit={false} className="py-4 my-listing">
+                            <Tabs defaultActiveKey="InReview" id="uncontrolled-tab-example">
+                                <Tab eventKey="InReview" title="InReview" mountOnEnter unmountOnExit={false} className="py-4 my-listing">
                                     <Row className="row">
                                         <ProfileProductTile />
                                         <ProfileProductTile />
                                         <ProfileProductTile />
                                     </Row>
                                 </Tab>
-                                <Tab eventKey="InReview" title="InReview" mountOnEnter unmountOnExit={false}>
+                                <Tab eventKey="Active" title="Active" mountOnEnter unmountOnExit={false}>
                                     <TabContent tabTitle="Reviewing" />
                                 </Tab>
                                 <Tab eventKey="Declined" title="Declined" mountOnEnter unmountOnExit={false}>
