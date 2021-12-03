@@ -10,6 +10,7 @@ interface CategoryProps {
 export const CategorySelector: React.FC<CategoryProps> = ({ }: CategoryProps): React.ReactElement => {
     const [responseData, setResponseData] = React.useState<any>([]);
     const [subCategoryData, setSubCategoryData] = React.useState<any>([]);
+    const [subCategoryFields, setSubCategoryFields] = React.useState<any>([]);
 
     const { register, formState: { errors } } = useFormContext();
 
@@ -49,14 +50,18 @@ export const CategorySelector: React.FC<CategoryProps> = ({ }: CategoryProps): R
     };
 
     const handleCategoryChange = (e: any) => {
+        e.preventDefault();
         if (e.target.value) {
-            var index = responseData.findIndex((category: any) => category.id === e.target.value);
-            setSubCategoryData(responseData[index]?.subCategories[0].fields[0].values);
+            const index = responseData.findIndex((category: any) => category.id === e.target.value);
+            setSubCategoryData(responseData[index]?.subCategories);
         }
     }
 
     const handleSubCategoryChange = (e: any) => {
+        e.preventDefault();
         if (e.target.value) {
+            const index = subCategoryData.findIndex((category: any) => category.id === e.target.value);
+            setSubCategoryFields(subCategoryData[index]);
         }
     };
 
@@ -85,8 +90,8 @@ export const CategorySelector: React.FC<CategoryProps> = ({ }: CategoryProps): R
                     <>
                         {subCategoryData?.map((category: any) => {
                             return (
-                                <option key={category?.name} value={category?.name}>
-                                    {category?.value}
+                                <option key={category?.id} value={category?.id}>
+                                    {category?.name}
                                 </option>
                             );
                         })}
@@ -94,6 +99,27 @@ export const CategorySelector: React.FC<CategoryProps> = ({ }: CategoryProps): R
                 </Form.Select>
                 {getErrorText('subCategory')}
             </FloatingLabel>
+            {subCategoryFields && (
+                <>
+                    {subCategoryFields?.fields?.map((category: any) => {
+                        return(
+                            <>
+                                <Form.Label>{category?.label}</Form.Label>
+                                <Form.Check className='mb-3' type={category?.fieldType}>
+                                    {category?.values?.map((subCategory: any) => {
+                                        return(
+                                            <>
+                                                <Form.Check.Input type={category?.fieldType} className="margin-right-3" />
+                                                <Form.Check.Label className="margin-right-3">{subCategory?.value}</Form.Check.Label>
+                                            </>
+                                        )
+                                    })}
+                                </Form.Check>
+                            </>
+                        );
+                    })}
+                </>
+            )}
         </>
     );
 }
