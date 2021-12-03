@@ -27,10 +27,9 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 import { useAppContext, ActionTypes } from '../../contexts';
 import { isEmpty } from 'lodash';
 import { useAxios } from '../../services/base-service';
-import { getAPIErrorMessage, getLocation } from '../../utils';
+import { getAPIErrorMessage } from '../../utils';
 import { GOOGLE_CLIENTID, FB_APPID } from '../../config';
 import { ImageCropModal } from '.';
-import { MdMyLocation } from 'react-icons/md';
 import { AlertType } from './types';
 import './settings.css';
 
@@ -434,7 +433,7 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                                                     id='connect-facebook'
                                                     type="switch"
                                                     checked={state?.user?.metaData?.isFacebookVerified}
-                                                    onChange={state?.user?.metaData?.isFacebookVerified ? null : renderProps.onClick}
+                                                    onChange={renderProps.onClick}
                                                 />
                                             )}
                                             callback={responseFacebook}
