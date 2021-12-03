@@ -46,20 +46,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @php $i = 0 @endphp @foreach($myData as  $data2)  @php $i++ @endphp
+                    @php $i = 0 @endphp @foreach($countries as  $data)  @php $i++ @endphp
                     <tr class="gradeX" style="align-content: center;">
                         <td style="text-align: center;">{{ $i }}</td>
-                        <td style="text-align: center;">{{ $data2->name }}</td>
-                        <td style="text-align: center;">{{ $data2->code }}</td>
-                        <td style="text-align: center;">{{ $data2->coordinate }}</td>
+                        <td style="text-align: center;">{{ $data->name }}</td>
+                        <td style="text-align: center;">{{ $data->code }}</td>
+                        <td style="text-align: center;"><p><strong>Lat :</strong>&nbsp;{{ $data->coordinate->getLat()}}&nbsp;;&nbsp;<strong>Long :</strong>&nbsp;{{ $data->coordinate->getLng()}}</p></td>
                         <td style="text-align: center;">
-                           
-                            <a href="{{ route('update_country', $data2->id) }}">
+                            <a href="{{ route('update_country', $data->id) }}">
                                 <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                             </a>
-                            
                         </td>
-                        
                     </tr>
 
                     @endforeach

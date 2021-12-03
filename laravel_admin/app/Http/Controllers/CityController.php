@@ -23,12 +23,16 @@ class CityController extends Controller
             $rules = [
                 'name' => 'required|regex:/^[\s\w-]*$/',
                 'code' => 'required',
-                'region' => 'required'
+                'region' => 'required',
+                'lat' => 'required|numeric|between:-90,90',
+                'long'=>'required|numeric|between:-180,180'
             ];
             $messages = [
-                    'name.required' => 'City name is required',
-                    'code.required' => 'City code is required',
-                    'region.required' => 'Region name is required'
+                'name.required' => 'City name is required',
+                'code.required' => 'City code is required',
+                'region.required' => 'Region name is required',
+                'lat' => 'required|numeric|between:-90,90',
+                'long'=>'required|numeric|between:-180,180'
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -46,6 +50,7 @@ class CityController extends Controller
                 'name' => $city_name,
                 'code' => $city_code,
                 'regionId' => $region,
+                'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
                 'createdAt' => Carbon::now(),
                 'updatedAt' => Carbon::now()
             ];
@@ -88,6 +93,7 @@ class CityController extends Controller
                 'name' => $city_name,
                 'code' =>  $city_code,
                 'regionId' => $region,
+                'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
                 'updatedAt' => Carbon::now()
             ];
             $insert_city = Cities::where('id', $id)->update($data);

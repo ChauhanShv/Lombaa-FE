@@ -49,7 +49,25 @@
                 <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                 @enderror
               </div>
-            </div>                             
+            </div>
+            <div class="control-group">
+              <label class="control-label">Latitude :</label>
+              <div class="controls">
+                <input type="text" name="lat" style="width: 40%"  class="span11" />
+                @error('lat')
+                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                @enderror
+              </div>
+            </div>  
+            <div class="control-group">
+              <label class="control-label">Longitude :</label>
+              <div class="controls">
+                <input type="text" name="long" style="width: 40%"  class="span11" />
+                @error('long')
+                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                @enderror
+              </div>
+            </div>                              
             @csrf 
             <div class="form-actions">
               <button type="submit" class="btn btn-success">Save</button>

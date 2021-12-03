@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Grimzy\LaravelMysqlSpatial\Eloquent\SpatialTrait;
+
 
 class Cities extends Model
 {
@@ -11,6 +13,8 @@ class Cities extends Model
 
     const CREATED_AT = 'createdAt';
     const UPDATED_AT = 'updatedAt';
+
+    use SpatialTrait;
 
     protected $table = 'cities';
 
@@ -23,6 +27,10 @@ class Cities extends Model
         'updatedAt',
         'deletedAt',
         'regionId'
+    ];
+
+    protected $spatialFields = [
+        'coordinate'
     ];
 
     public function region() {

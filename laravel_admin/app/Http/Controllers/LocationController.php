@@ -16,10 +16,16 @@ class LocationController extends Controller
             $rules = [
                 'name' => 'required|regex:/^[\s\w-]*$/',
                 'code' => 'required',
+                'lat' => 'required|numeric|between:-90,90',
+                'long'=>'required|numeric|between:-180,180',
             ];
             $messages = [
-                    'name.required' => 'Country name is required',
-                    'code.required' => 'Country code is required',
+                'name.required' => 'Country name is required',
+                'code.required' => 'Country code is required',
+                'lat.required' => 'Latitude is required',
+                'lat.numeric'=> 'Incorrect Latitude inserted',
+                'long.required' => 'Longitude is required',
+                'long.numeric'=> 'Incorrect Latitude inserted'
             ];
             $validator = Validator::make($request->all(), $rules, $messages);
 
@@ -51,12 +57,10 @@ class LocationController extends Controller
 
     public function country_list() {
 
-        // $myData = \DB::table('bushwalks')->select((\DB::raw('AsText(coordinate)')))->where('id',$id)->get();
-
-        $myData = \DB::table('countries')->select('id','name', 'code',(\DB::raw('AsText(coordinate) AS coordinate')))->get();
+        // $myData = \DB::table('countries')->select('id','name', 'code', (\DB::raw('AsText(coordinate) AS coordinate')))->get();
             // dd($myData);
         $countries = Countries::get();
-        return view ('location.country.list', ['countries' => $countries, 'myData' => $myData]);
+        return view ('location.country.list', ['countries' => $countries]);
     }
 
     public function update_country(Request $request, $id) {
@@ -79,9 +83,11 @@ class LocationController extends Controller
 
             $counrtry_name = $request->input('name');
             $country_code = $request->input('code');
+
             $data = [
                 'name' => $counrtry_name,
                 'code' => $country_code,
+                'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
                 'updatedAt' => Carbon::now()
             ];
             $insert_country = Countries::where('id', $id)->update($data);

@@ -41,6 +41,7 @@
                         <th>Region Name</th>
                         <th>Region Code</th>
                         <th>Country </th>
+                        <th>Latitude and Longitude</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -51,6 +52,7 @@
                         <td style="text-align: center;">{{ $data->name }}</td>
                         <td style="text-align: center;">{{ $data->code}}</td>
                         <td style="text-align: center;">{{ $data->country->name}}</td>
+                        <td style="text-align: center;"><p><strong>Lat :</strong>&nbsp;{{ $data->coordinate->getLat()}}&nbsp;;&nbsp;<strong>Long :</strong>&nbsp;{{ $data->coordinate->getLng()}}</p></td>
                         <td style="text-align: center;">
                             <a href="{{ route('update_region', $data->id) }}">
                                 <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>

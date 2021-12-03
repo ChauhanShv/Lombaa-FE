@@ -22,11 +22,15 @@ class RegionController extends Controller
                 'name' => 'required|regex:/^[\s\w-]*$/',
                 'code' => 'required',
                 'country' => 'required',
+                'lat' => 'required|numeric|between:-90,90',
+                'long'=>'required|numeric|between:-180,180'
             ];
             $messages = [
-                    'name.required' => 'Region name is required',
-                    'code.required' => 'Region code is required',
-                    'country.required' => 'Country name is required',
+                'name.required' => 'Region name is required',
+                'code.required' => 'Region code is required',
+                'country.required' => 'Country name is required',
+                'lat' => 'required|numeric|between:-90,90',
+                'long'=>'required|numeric|between:-180,180'
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -44,6 +48,7 @@ class RegionController extends Controller
                 'name' => $region_name,
                 'code' => $region_code,
                 'countryId' => $country,
+                'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
                 'createdAt' => Carbon::now(),
                 'updatedAt' => Carbon::now()
             ];
@@ -86,13 +91,14 @@ class RegionController extends Controller
                 'name' => $region_name,
                 'code' => $region_code,
                 'countryId' => $country,
+                'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
                 'updatedAt' => Carbon::now()
             ];
             $insert_country = Regions::where('id', $id)->update($data);
             try {
-                return redirect()->route('country_list')->with('response', ['status' => 'success', 'message' => 'Region updated successfully']);
+                return redirect()->route('region_list')->with('response', ['status' => 'success', 'message' => 'Region updated successfully']);
             }catch (Exception $e){
-                return redirect()->route('country_list')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
+                return redirect()->route('region_list')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
 
             }
 
