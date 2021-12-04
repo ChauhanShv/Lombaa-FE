@@ -9,7 +9,6 @@ use App\Models\Cities;
 use Carbon\Carbon;
 use Str;
 
-
 class CityController extends Controller
 {
     public function city_list() {
@@ -19,7 +18,6 @@ class CityController extends Controller
 
     public function add_city(Request $request) {
         if($request->isMethod('post')) {
-
             $rules = [
                 'name' => 'required|regex:/^[\s\w-]*$/',
                 'code' => 'required',
@@ -34,17 +32,13 @@ class CityController extends Controller
                 'lat' => 'required|numeric|between:-90,90',
                 'long'=>'required|numeric|between:-180,180'
             ];
-
             $validator = Validator::make($request->all(), $rules, $messages);
-
             if ($validator->fails()) {
                 return redirect()->back()->withInput($request->all())->withErrors($validator);
             }
-
             $city_name = $request->input('name');
             $city_code = $request->input('code');
             $region = $request->input('region');
-
             $data = [
                 'id' => Str::uuid(),
                 'name' => $city_name,
@@ -68,7 +62,6 @@ class CityController extends Controller
 
     public function update_city(Request $request, $id) {
         if($request->isMethod('post')){
-
             $rules = [
                 'name' => 'required|regex:/^[\s\w-]*$/',
                 'code' => 'required',
@@ -80,15 +73,12 @@ class CityController extends Controller
                     'region.required' => 'Region name is required',
             ];
             $validator = Validator::make($request->all(), $rules, $messages);
-
             if ($validator->fails()) {
                 return redirect()->back()->withInput($request->all())->withErrors($validator);
             }
-
             $city_name = $request->input('name');
             $city_code = $request->input('code');
             $region = $request->input('region');
-
             $data = [
                 'name' => $city_name,
                 'code' =>  $city_code,
@@ -103,12 +93,10 @@ class CityController extends Controller
                 return redirect()->route('city_list')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
 
             }
-
         }else {
             $regions = Regions::get();
             $city = Cities::with('region')->where('id', $id)->first();
             return view ('location.city.update', ['id' => $id, 'city' => $city, 'regions' => $regions]);
         }
-
     }
 }

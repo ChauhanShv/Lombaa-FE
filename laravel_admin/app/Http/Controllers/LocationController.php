@@ -28,13 +28,11 @@ class LocationController extends Controller
                 'long.numeric'=> 'Incorrect Latitude inserted'
             ];
             $validator = Validator::make($request->all(), $rules, $messages);
-
             if ($validator->fails()) {
                 return redirect()->back()->withInput($request->all())->withErrors($validator);
             }
             $counrtry_name = $request->input('name');
             $country_code = $request->input('code');
-
             $data = [
                 'id' => Str::uuid(),
                 'name' => $counrtry_name,
@@ -49,23 +47,18 @@ class LocationController extends Controller
             }catch (Exception $e){
                 return redirect()->route('country_list')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
             }
-
         }else{
             return view ('location.country.add');
         }
     }
 
     public function country_list() {
-
-        // $myData = \DB::table('countries')->select('id','name', 'code', (\DB::raw('AsText(coordinate) AS coordinate')))->get();
-            // dd($myData);
         $countries = Countries::get();
         return view ('location.country.list', ['countries' => $countries]);
     }
 
     public function update_country(Request $request, $id) {
         if($request->isMethod('post')){
-
             $rules = [
                 'name' => 'required|regex:/^[\s\w-]*$/',
                 'code' => 'required',
@@ -76,14 +69,11 @@ class LocationController extends Controller
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
-
             if ($validator->fails()) {
                 return redirect()->back()->withInput($request->all())->withErrors($validator);
             }
-
             $counrtry_name = $request->input('name');
             $country_code = $request->input('code');
-
             $data = [
                 'name' => $counrtry_name,
                 'code' => $country_code,
@@ -95,14 +85,10 @@ class LocationController extends Controller
                 return redirect()->route('country_list')->with('response', ['status' => 'success', 'message' => 'Country updated successfully']);
             }catch (Exception $e){
                 return redirect()->route('country_list')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
-
             }
-
         }else {
             $country = Countries::where('id', $id)->first();
             return view ('location.country.update', ['id' => $id, 'country' => $country]);
         }
-
     }
-
 }

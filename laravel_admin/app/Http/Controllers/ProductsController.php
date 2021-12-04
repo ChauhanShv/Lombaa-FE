@@ -13,8 +13,13 @@ class ProductsController extends Controller
 
     public function approve_reject($action, $id) {
         if($action == 'approve') {
-            $approve = [ 'is_Approved' => '1']
-            Products::update($id);
+            $approve = [ 'is_Approved' => '1'];
+            Products::where('id', $id)->update($approve);
+            return redirect()->route('products_list')->with('response', ['status' => 'success', 'message' => 'Approved'$id]);
+        }elseif ($action == 'reject') {
+            $reject = ['is_Approved' => '0'];
+            Products::where('id', $id)->update($reject);
+            return redirect()->route('products_list')->with('response', ['status' => 'success', 'message' => 'Rejected'$id]);
         }
     }
 }

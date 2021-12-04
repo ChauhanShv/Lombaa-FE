@@ -17,7 +17,6 @@ class RegionController extends Controller
 
     public function add_region(Request $request) {
         if($request->isMethod('post')) {
-
             $rules = [
                 'name' => 'required|regex:/^[\s\w-]*$/',
                 'code' => 'required',
@@ -32,17 +31,13 @@ class RegionController extends Controller
                 'lat' => 'required|numeric|between:-90,90',
                 'long'=>'required|numeric|between:-180,180'
             ];
-
             $validator = Validator::make($request->all(), $rules, $messages);
-
             if ($validator->fails()) {
                 return redirect()->back()->withInput($request->all())->withErrors($validator);
             }
-
             $region_name = $request->input('name');
             $region_code = $request->input('code');
             $country = $request->input('country');
-
             $data = [
                 'id' => Str::uuid(),
                 'name' => $region_name,
@@ -66,7 +61,6 @@ class RegionController extends Controller
 
     public function update_region(Request $request, $id) {
         if($request->isMethod('post')){
-
             $rules = [
                 'name' => 'required|regex:/^[\s\w-]*$/',
                 'code' => 'required',
@@ -78,15 +72,12 @@ class RegionController extends Controller
                     'country.required' => 'Country name is required',
             ];
             $validator = Validator::make($request->all(), $rules, $messages);
-
             if ($validator->fails()) {
                 return redirect()->back()->withInput($request->all())->withErrors($validator);
             }
-
             $region_name = $request->input('name');
             $region_code = $request->input('code');
             $country = $request->input('country');
-
             $data = [
                 'name' => $region_name,
                 'code' => $region_code,
@@ -99,14 +90,11 @@ class RegionController extends Controller
                 return redirect()->route('region_list')->with('response', ['status' => 'success', 'message' => 'Region updated successfully']);
             }catch (Exception $e){
                 return redirect()->route('region_list')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
-
             }
-
         }else {
             $countries = Countries::get();
             $region = Regions::with('country')->where('id', $id)->first();
             return view ('location.region.update', ['id' => $id, 'region' => $region, 'countries' => $countries]);
         }
-
     }
 }

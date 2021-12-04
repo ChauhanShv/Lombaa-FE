@@ -20,7 +20,6 @@
             <div><span class="icon"><i class="icon-th"></i></span>
                 <h5>Countries List</h5> 
             </div>
-            
             <div>
                 <a href="{{ route('country')}}">
                     <button class="btn btn-success">Add Country</button>
@@ -41,7 +40,6 @@
                         <th>Country Name</th>
                         <th>Country Code</th>
                         <th>Latitude and Longitude</th>
-                        
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -58,7 +56,6 @@
                             </a>
                         </td>
                     </tr>
-
                     @endforeach
                     @if ($errors->any())
                         <div class="alert alert-danger">

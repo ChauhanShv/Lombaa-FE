@@ -1,8 +1,6 @@
 @extends('layout.app') 
 @section('body') 
 @include('layout.breadcrumb')
-
-
 <div class="row-fluid">
   <div class="span12">
     <div class="widget-box">
