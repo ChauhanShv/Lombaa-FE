@@ -28,7 +28,7 @@
                 </li>
                 <li class="{{\Request::route()->getName() === 'get_reject_kyc'? 'active': ''}}">
                     <a href="{{ route('get_reject_kyc') }}">Rejected</a>
-                </li>               
+                </li>
             </ul>
         </li>
         @php
@@ -49,7 +49,7 @@
                 </li>
                 <li class="{{\Request::route()->getName() === 'get_approved_withdraw'? 'active': ''}}">
                     <a href="{{ route('get_approved_withdraw') }}">Approved</a>
-                </li>                
+                </li>
             </ul>
         </li>
         @endif
@@ -58,7 +58,7 @@
             <ul>
                 <li class="{{\Request::route()->getName() === 'transaction_list'? 'active': ''}}">
                     <a href="{{ route('transaction_list') }}">All</a>
-                </li>             
+                </li>
             </ul>
         </li>
         <li class="submenu">
@@ -121,9 +121,9 @@
             </a>
             <ul>
                 <li class="">
-                    <a href="{{ route('products_list') }}">List</a>
+                    <a href="{{ route('products_list', ['id' => 'all']) }}">List</a>
                 </li>
-               
+
             </ul>
         </li>
         <li class="submenu">
@@ -141,7 +141,7 @@
         </li>
         <li class="submenu">
             <a href="">
-                <i style="color: white" class="icon icon-edit"></i> <span style="color: white">Values</span>
+                <i style="color: white" class="icon icon-list"></i> <span style="color: white">Values</span>
             </a>
             <ul>
                 <li class="">
@@ -154,7 +154,7 @@
                 </li>
             </ul>
         </li>
-        
+
         <li class="submenu">
             <a href="">
                 <i style="color: white" class="icon icon-certificate"></i> <span style="color: white">Certificate</span>

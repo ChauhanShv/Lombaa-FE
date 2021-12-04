@@ -12,7 +12,6 @@ class Fields extends Model
     protected $table = 'fields';
 
     protected $fillable = [
-
         'id',
         'label',
         'isRequired',
@@ -22,24 +21,19 @@ class Fields extends Model
         'sortOrder',
         'iconId',
         'createdAt',
-        'updatedAt'
-
+        'updatedAt',
     ];
 
-    public function icon() {
+    public function icon()
+    {
         return $this->belongsTo(Files::class, 'iconId', 'id');
     }
 
-    public function values() {
+    public function values()
+    {
         return $this->hasMany(Values::class, 'fieldId', 'id');
     }
 
-    // public function value_icons() {
-    //     return $this->belongsToMany(Values::class, 'files', 'relative_path')->using(Files::class);
-    // }
-
-
     public $timestamps = true;
-    protected $keyType ='string';
-
+    protected $keyType = 'string';
 }

@@ -66,7 +66,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/values/update/{id}', [ValuesController::class, 'values_update'])->name('values_update');
     Route::post('/values/update/{id}', [ValuesController::class, 'values_update']);
 
-    Route::get('/products', [ProductsController::class, 'products_list'])->name('products_list');
+    Route::get('/products/{id}', [ProductsController::class, 'products_list'])->name('products_list');
+    Route::get('/products/status/{action}', [ProductsController::class, 'filter'])->name('filter');
     Route::get('/products/{action}/{id}', [ProductsController::class, 'approve_reject'])->name('approve_reject');
 
 });
