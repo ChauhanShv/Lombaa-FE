@@ -24,7 +24,7 @@ FieldValue.init(
         paranoid: true,
         defaultScope: {
             attributes: {
-                exclude: ['createdAt', 'updatedAt', 'iconId', 'fieldId']
+                exclude: ['createdAt', 'updatedAt', 'iconId', 'fieldId', 'deletedAt']
             },
             include: [
                 { model: File, as: 'icon' }

@@ -21,7 +21,7 @@ Location.init(
     sequelize,
     paranoid: true,
     defaultScope: {
-      attributes: { exclude: ['createdAt', 'updatedAt', 'cityId', 'regionId', 'countryId'] },
+      attributes: { exclude: ['createdAt', 'updatedAt', 'cityId', 'regionId', 'countryId', 'deletedAt'] },
       include: [
         { model: City, as: "city" },
         { model: Region, as: "region" },
