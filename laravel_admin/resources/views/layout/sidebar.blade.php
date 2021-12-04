@@ -35,23 +35,6 @@
         $role = session()->get('role');
         @endphp
         @if($role !==2)
-        <li class="submenu {{\Request::route()->getPrefix() === 'admin/deposit' ? 'open active': ''}}">
-            <a href="#"><i>&#8377;</i> <span>Deposit</span></a>
-            <ul>
-                <li class="{{\Request::route()->getName() === 'get_all_deposits'? 'active': ''}}">
-                    <a href="{{ route('get_all_deposits') }}">All</a>
-                </li>
-                <li class="{{\Request::route()->getName() === 'get_pending_deposits'? 'active': ''}}">
-                    <a href="{{ route('get_pending_deposits') }}">Pending</a>
-                </li>
-                <li class="{{\Request::route()->getName() === 'get_rejected_deposits'? 'active': ''}}">
-                    <a href="{{ route('get_rejected_deposits') }}">Rejected</a>
-                </li>
-                <li class="{{\Request::route()->getName() === 'get_approved_deposits'? 'active': ''}}">
-                    <a href="{{ route('get_approved_deposits') }}">Approved</a>
-                </li>                
-            </ul>
-        </li>
         <li class="submenu {{\Request::route()->getPrefix() === 'admin/withdraw' ? 'open active': ''}}">
             <a href="#"><i class="icon icon-money"></i> <span>Withdrawal</span></a>
             <ul>
@@ -112,8 +95,35 @@
                     <a href="{{ route('categories') }}">Add</a>
                 </li>
                 <li class="">
-                    <a href="{{ route('category_list') }}">Category List</a>
+                    <a href="{{ route('category_list') }}">List</a>
                 </li>
+            </ul>
+        </li>
+        <li class="submenu">
+            <a href="#">
+                <i style="color: white" class="icon icon-globe"></i> <span style="color: white">Location</span>
+            </a>
+            <ul>
+                <li class="">
+                    <a href="{{ route('country_list')}}">Country</a>
+                </li>
+                <li class="">
+                    <a href="{{ route('region_list') }}">Region</a>
+                </li>
+                <li class="">
+                    <a href="{{ route('city_list') }}">City </a>
+                </li>
+            </ul>
+        </li>
+        <li class="submenu">
+            <a href="">
+                <i style="color: white" class="icon icon-star"></i> <span style="color: white">Products</span>
+            </a>
+            <ul>
+                <li class="">
+                    <a href="{{ route('products_list') }}">List</a>
+                </li>
+               
             </ul>
         </li>
         <li class="submenu">
@@ -144,6 +154,7 @@
                 </li>
             </ul>
         </li>
+        
         <li class="submenu">
             <a href="">
                 <i style="color: white" class="icon icon-certificate"></i> <span style="color: white">Certificate</span>
