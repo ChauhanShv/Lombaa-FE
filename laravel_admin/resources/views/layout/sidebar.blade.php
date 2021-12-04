@@ -117,6 +117,17 @@
         </li>
         <li class="submenu">
             <a href="">
+                <i style="color: white" class="icon icon-star"></i> <span style="color: white">Products</span>
+            </a>
+            <ul>
+                <li class="">
+                    <a href="{{ route('products_list') }}">List</a>
+                </li>
+               
+            </ul>
+        </li>
+        <li class="submenu">
+            <a href="">
                 <i style="color: white" class="icon icon-edit"></i> <span style="color: white">Fields</span>
             </a>
             <ul>
@@ -128,6 +139,7 @@
                 </li> --}}
             </ul>
         </li>
+        
         <li class="submenu">
             <a href="">
                 <i style="color: white" class="icon icon-certificate"></i> <span style="color: white">Certificate</span>

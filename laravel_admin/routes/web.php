@@ -8,6 +8,8 @@ use App\Http\Controllers\FieldsController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\ProductsController;
+
 use App\Http\Middleware\Auth;
 
 
@@ -56,6 +58,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/fields', [FieldsController::class, 'fields'])->name('fields');
     Route::post('/fields', [FieldsController::class, 'fields'])->name('fields');
     Route::get('/fieldslist', [FieldsController::class, 'field_list'])->name('field_list');
+
+    Route::get('/products', [ProductsController::class, 'products_list'])->name('products_list');
+    Route::get('/products/{action}/{id}', [ProductsController::class, 'approve_reject'])->name('approve_reject');
 
 
 });
