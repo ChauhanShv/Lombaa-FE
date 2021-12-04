@@ -152,9 +152,9 @@ class CategoryController extends Controller
             }
 
             if ($request->parent == 0) {
-                $parentId = null;
+                $parent_id = null;
             } else {
-                $parentId = $request->product;
+                $parent_id = $request->product;
             }
 
             $data = [
@@ -162,7 +162,7 @@ class CategoryController extends Controller
                 'description' => $request->description,
                 'isPopular' => isset($request->popular) ? 1 : 0,
                 'isActive' => isset($request->active) ? 1 : 0,
-                'parentId' => $parentId,
+                'parentId' => $parent_id,
                 'createdAt' => Carbon::now(),
                 'updatedAt' => Carbon::now(),
             ];
@@ -172,7 +172,7 @@ class CategoryController extends Controller
             if ($data) {
                 if ($request->fields !== null) {
 
-                    $deleteOldRecords = CategoryField::where('categoryId', $id)->delete();
+                    $delete_old_records = CategoryField::where('categoryId', $id)->delete();
 
                     $category_fields = array();
 
@@ -200,14 +200,14 @@ class CategoryController extends Controller
             }
 
             $categories = Category::orderBy('name')->get();
-            $get_parentId = $data->parentId;
+            $get_parent_id = $data->parentId;
 
-            $parent_category_name = Category::where('id', $get_parentId)->first();
+            $parent_category_name = Category::where('id', $get_parent_id)->first();
 
             $fields = Fields::get();
             $parent_category = Category::where('id', $id)->get();
             $category = Category::with('fields')->find($id);
-            $existingFields = $category->fields;
+            $existing_fields = $category->fields;
 
             return view('category.update', ['data' => $data, 'categories' => $categories, 'fields' => $fields, 'parent_category_name' => $parent_category_name, 'existingFields' => $existingFields]);
         }

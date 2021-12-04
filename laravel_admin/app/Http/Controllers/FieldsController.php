@@ -33,18 +33,18 @@ class FieldsController extends Controller
                 return redirect()->back()->withInput($request->all())->withErrors($validator);
             }
 
-            $iconName = Str::uuid() . '.' . $request->file('icon')->getClientOriginalName();
+            $icon_name = Str::uuid() . '.' . $request->file('icon')->getClientOriginalName();
             // $path = Storage::disk('s3')->put('images', $request->icon);
             // $iconPath = Storage::disk('s3')->url($path);
-            $iconMime = $request->file('icon')->getClientMimeType();
-            $iconExt = $request->file('icon')->extension();
+            $icon_mime = $request->file('icon')->getClientMimeType();
+            $icon_ext = $request->file('icon')->extension();
 
-            $fileData = [
+            $file_data = [
                 'id' => Str::uuid(),
-                'key_name' => $iconName,
-                'extension' => $iconExt,
-                'name' => $iconName,
-                'mime' => $iconMime,
+                'key_name' => $icon_name,
+                'extension' => $icon_ext,
+                'name' => $icon_name,
+                'mime' => $icon_mime,
                 'relative_path' => '',
                 // 'absolute_path'=> $iconPath,
                 'absolute_path' => 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/L27xI2KWxQerlkrlwWnPvHl0BJDLnfRzpRaQjrQb.jpg',
@@ -53,9 +53,9 @@ class FieldsController extends Controller
                 'updatedAt' => Carbon::now(),
             ];
 
-            $sendFileData = Files::insert($fileData);
+            $send_file_data = Files::insert($file_data);
 
-            if ($sendFileData) {
+            if ($send_file_data) {
                 $data = [
                     'id' => Str::uuid(),
                     'label' => $request->label,
@@ -69,12 +69,12 @@ class FieldsController extends Controller
                     'updatedAt' => Carbon::now(),
                 ];
 
-                $submitData = Fields::insert($data);
+                $submit_data = Fields::insert($data);
 
-                if ($submitData) {
+                if ($submit_data) {
                     foreach ($request->values as $value) {
-                        $fieldId = ['fieldId' => $data['id']];
-                        Values::where('id', $value)->update($fieldId);
+                        $field_id = ['fieldId' => $data['id']];
+                        Values::where('id', $value)->update($field_id);
                     }
 
                     return redirect()->route('field_list')->with('response', ['status' => 'success', 'message' => 'Field added successfully']);
@@ -86,7 +86,7 @@ class FieldsController extends Controller
                 return redirect()->route('fields')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
             }
         } else {
-            $fieldtypes = array(
+            $field_types = array(
                 'Label' => 'Label',
                 'Dropdown' => 'Dropdown',
                 'Checkbox' => 'Checkbox',
@@ -96,7 +96,7 @@ class FieldsController extends Controller
 
             $values = Values::where('fieldId', '=', null)->get();
 
-            return view('fields.add', ['fieldtypes' => $fieldtypes, 'values' => $values]);
+            return view('fields.add', ['fieldtypes' => $field_types, 'values' => $values]);
         }
     }
 
@@ -110,7 +110,7 @@ class FieldsController extends Controller
 
     public function field_edit($id)
     {
-        $fieldtypes = array(
+        $field_types = array(
             'Label' => 'Label',
             'Dropdown' => 'Dropdown',
             'Checkbox' => 'Checkbox',
@@ -120,7 +120,7 @@ class FieldsController extends Controller
 
         $fields = Fields::with(['values', 'values.icon', 'icon'])->find($id);
 
-        return view('fields.update', ['id' => $id, 'fieldtypes' => $fieldtypes, 'fields' => $fields]);
+        return view('fields.update', ['id' => $id, 'fieldtypes' => $field_types, 'fields' => $fields]);
     }
 
     public function field_edit_post()
@@ -146,21 +146,21 @@ class FieldsController extends Controller
 
         $validator = Validator::make($request->all(), $rules, $messages);
 
-        $iconName = Str::uuid() . '.' . $request->file('icon')->getClientOriginalName();
+        $icon_name = Str::uuid() . '.' . $request->file('icon')->getClientOriginalName();
         // $path = Storage::disk('s3')->put('images', $request->icon);
         // $iconPath = Storage::disk('s3')->url($path);
-        $iconMime = $request->file('icon')->getClientMimeType();
-        $iconExt = $request->file('icon')->extension();
+        $icon_mime = $request->file('icon')->getClientMimeType();
+        $icon_ext = $request->file('icon')->extension();
 
         if ($validator->fails()) {
             return redirect()->back()->withInput($request->all())->withErrors($validator);
         }
 
-        $fileData = [
-            'key_name' => $iconName,
-            'extension' => $iconExt,
-            'name' => $iconName,
-            'mime' => $iconMime,
+        $file_data = [
+            'key_name' => $icon_name,
+            'extension' => $icon_ext,
+            'name' => $icon_name,
+            'mime' => $icon_mime,
             'relative_path' => '',
             // 'absolute_path'=> $iconPath,
             'absolute_path' => 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/L27xI2KWxQerlkrlwWnPvHl0BJDLnfRzpRaQjrQb.jpg',
@@ -169,7 +169,7 @@ class FieldsController extends Controller
             'updatedAt' => Carbon::now(),
         ];
 
-        $sendFileData = Files::where('id', $id)->update($fileData);
+        $send_file_data = Files::where('id', $id)->update($file_data);
 
         return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Icon updated successfully']);
     }
