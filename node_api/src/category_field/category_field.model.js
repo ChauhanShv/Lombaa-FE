@@ -17,12 +17,4 @@ CategoryField.init({}, {
 Category.belongsToMany(Field, { through: CategoryField });
 Field.belongsToMany(Category, { through: CategoryField });
 
-// Field.addScope('defaultScope', {
-//     ...(Field.options.defaultScope),
-//     include: [{ model: Category, through: { attributes: [] } }],
-// }, { override: true });
-
-// console.log({ defaultScope: Field.options.defaultScope });
-
-
 module.exports = CategoryField;

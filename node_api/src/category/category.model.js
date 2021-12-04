@@ -37,7 +37,7 @@ Category.init(
         paranoid: true,
         defaultScope: {
             attributes: {
-                exclude: ['createdAt', 'updatedAt', 'iconId', 'parentId']
+                exclude: ['createdAt', 'updatedAt', 'iconId', 'parentId', 'deletedAt']
             },
             include: [
                 {

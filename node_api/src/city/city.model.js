@@ -18,6 +18,10 @@ City.init(
       type: DataTypes.STRING(10),
       allowNull: false,
     },
+    coordinate: {
+      type: DataTypes.GEOMETRY('POINT'),
+      allowNull: true,
+    }
   },
   {
     modelName: "city",
@@ -25,7 +29,7 @@ City.init(
     timestamps: true,
     paranoid: true,
     sequelize,
-    defaultScope: { attributes: { exclude: ['createdAt', 'updatedAt', 'regionId'] } }
+    defaultScope: { attributes: { exclude: ['createdAt', 'updatedAt', 'regionId', 'deletedAt'] } }
   }
 );
 

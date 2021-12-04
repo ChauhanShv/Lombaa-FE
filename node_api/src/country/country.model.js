@@ -18,6 +18,10 @@ Country.init(
       type: DataTypes.STRING(10),
       allowNull: false,
     },
+    coordinate: {
+      type: DataTypes.GEOMETRY('POINT'),
+      allowNull: true,
+    }
   },
   {
     modelName: "country",
@@ -25,7 +29,7 @@ Country.init(
     timestamps: true,
     paranoid: true,
     sequelize,
-    defaultScope: { attributes: { exclude: ['createdAt', 'updatedAt'] } }
+    defaultScope: { attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] } }
   }
 );
 module.exports = Country;

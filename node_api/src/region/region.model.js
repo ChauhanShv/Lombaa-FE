@@ -20,6 +20,10 @@ Region.init(
       type: DataTypes.STRING(10),
       allowNull: false,
     },
+    coordinate: {
+      type: DataTypes.GEOMETRY('POINT'),
+      allowNull: true,
+    }
   },
   {
     modelName: "region",
@@ -27,7 +31,7 @@ Region.init(
     timestamps: true,
     sequelize,
     paranoid: true,
-    defaultScope: { attributes: { exclude: ['createdAt', 'updatedAt', 'countryId'] } }
+    defaultScope: { attributes: { exclude: ['createdAt', 'updatedAt', 'countryId', 'deletedAt'] } }
   }
 );
 Region.belongsTo(Country, { as: "country" });
