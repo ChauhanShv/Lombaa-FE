@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
+use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Traits\Uuids;
-
 
 class Category extends Model
 {
@@ -13,9 +12,11 @@ class Category extends Model
     use HasFactory;
 
     protected $table = 'categories';
-    public $timestamps = true;
-    protected $keyType ='string';
+    public $timestamps = false;
+    protected $keyType = 'string';
 
+    const CREATED_AT = 'createdAt';
+    const UPDATED_AT = 'updatedAt';
 
     protected $fillable = [
         'name',
@@ -23,11 +24,16 @@ class Category extends Model
         'isPopular',
         'isActive',
         'iconId',
-        'parentId'
+        'parentId',
     ];
 
     public function icon()
     {
         return $this->belongsTo(Files::class, 'iconId', 'id');
+    }
+
+    public function fields()
+    {
+        return $this->belongsToMany(Fields::class, 'category_fields', 'categoryId', 'fieldId')->using(CategoryField::class);
     }
 }

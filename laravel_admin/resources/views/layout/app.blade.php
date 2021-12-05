@@ -36,7 +36,6 @@
 <script src="{{ asset('assets/js/excanvas.min.js')}}"></script>
 <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
 <script src="{{ asset('assets/js/jquery.ui.custom.js') }}"></script>
-<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('assets/js/jquery.peity.min.js') }}"></script>
 <script src="{{ asset('assets/js/bootstrap-datepicker.js') }}"></script>
 <script src="{{ asset('assets/js/matrix.js') }}"></script>
@@ -46,6 +45,8 @@
 <script src="{{ asset('assets/js/jquery.wizard.js') }}"></script>
 <script src="{{ asset('assets/js/jquery.uniform.js') }}"></script>
 <script src="{{ asset('assets/js/select2.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+
 <script type="text/javascript">
     var APP_URL = {!! json_encode(url('/')) !!}
 </script>

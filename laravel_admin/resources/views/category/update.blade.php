@@ -24,7 +24,7 @@
                     @if($data)
 
 
-                    <form action="{{ route('categoryeditpost',  $data['id'] ) }}" method="POST" class="form-horizontal">
+                    <form action="{{ route('update_category_post', $data['id']) }}" method="post" enctype="multipart/form-data" class="form-horizontal">
                         @csrf
 
                         <div class="control-group">
@@ -58,15 +58,15 @@
                         <div class="control-group">
                             <label class="control-label">Icon :</label>
                             <div class="controls">
-                                @if( $data->icon->absolute_path )
-                                <!-- <image style="width:50px" src="{{ $data->icon->absolute_path }}"> -->
-                                <input type="file" name="image" style="width: 40%" class="span11" value="" />
-
-                                @else
-                                <input type="file" name="image" style="width: 40%" class="span11" value="" />
-                                @endif
+                                <div id="imageDisplay">
+                                    <image style="width:50px" src="{{ $data->icon->absolute_path }}">
+                                </div>
+                                <div id="uploadField">
+                                    <input  type="file" name="image" style="width: 40%" class="span11" value="" />
+                                </div>
+                                <button type="button" id="imageButton">Change Icon</button>
                                 @error('image')
-                                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                                    <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
@@ -80,34 +80,71 @@
                             </div>
                             </div>
                             <div class="control-group">
-                            <label class="control-label">Active :</label>
-                            <div class="controls">
-                                <input type="checkbox" name="active" value="0" {{ ($data->isActive) ? 'checked' : '' }} data-toggle="toggle">
-                                @error('active')
-                                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
-                                @enderror
+                                <label class="control-label">Active :</label>
+                                <div class="controls">
+                                    <input type="checkbox" name="active" value="0" {{ ($data->isActive) ? 'checked' : '' }} data-toggle="toggle">
+                                    @error('active')
+                                    <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
-                            </div>
+                            
                             <div class="control-group">
+                                <label class="control-label">IsParent :</label>
+                                <div class="controls">
+                                    <input type="checkbox"  id="parenttId" name="parent" value="0" {{ ($data->parentId) ? '' : 'checked' }} data-toggle="toggle" >
+                                    @error('active')
+                                    <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            
+                            <div class="control-group" id='cattId'>
                                 <label class="control-label">Parent Category :</label>
                                 <div class="controls">
-                                    <select id='' name="product">
-                                   
-                                    @foreach($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name}}</option>
-                                    @endforeach
+                                    <select class="selectpicker" name="product">
+
+                                    @if ($data->parentId !== null )
+                                        <option value="{{ $data->parentId }}" selected>{{ $parent_category_name->name }}</option>
+
+                                        @foreach($categories as $category)
+                                            @if( $category->id !== $data->parentId)
+                                                <option value="{{  $category->id }}">{{ $category->name }}</option>
+                                            @endif
+                                        @endforeach
+
+                                    @else
+                                        <option value="Select parent category" selected>Select parent category</option>
+                                        @foreach($categories as $category)
+                                            
+                                            <option value="{{  $category->id }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    @endif
+
                                     </select>
                                 @error('product')
                                     <div class="alert alert-danger ">{{ $message }}</div>
                                 @enderror
                                 </div>
                             </div>
+                            
                             <div class="control-group">
                                 <label class="control-label">Select Fields :</label>
                                 <div class="controls">
-                                <select multiple name="fields[]" size="3">
-                                @foreach($fields as $field)
-                                    <option value="{{$field->id}}" >{{ $field->label}}</option>
+                                <select multiple name="fields[]">
+                                    @foreach($fields as $field)
+                                        @php $selected = 0 @endphp
+                                        @foreach ($existingFields as $existingField)
+                                            @if($field == $existingField)
+                                                <option value="{{ $field->id }}" selected>{{ $field->label}}</option>
+                                            @php $selected = 1 @endphp
+                                            @break;
+                                            @endif
+                                        @endforeach
+                                        @if($selected == 0)
+                                            <option value="{{$existingField->id}}">{{ $existingField->label}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                                 @error('product')
@@ -133,3 +170,5 @@
     </div>
 </div>
 @endsection
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript"  src="{{ asset('assets/js/admin/update_category.js')}}"></script>
