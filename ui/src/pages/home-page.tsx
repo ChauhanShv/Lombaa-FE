@@ -48,12 +48,8 @@ const CatCarSettings = {
 export const HomePage: React.FC = (): React.ReactElement => {
     return (
         <>
-
-
-
             <section className="pt-4 pb-5 mt-0 align-items-center">
                 <Container>
-
                     <Row className="mt-auto">
                         <Col lg={8} sm={12} className="">
                             <Slider className="homespot-slider" {...Spotsettings}>
@@ -89,9 +85,7 @@ export const HomePage: React.FC = (): React.ReactElement => {
                                 </Button>
                             </div>
                         </Col>
-
                     </Row>
-
                 </Container>
             </section>
             <section className=" pb-5">
@@ -148,7 +142,6 @@ export const HomePage: React.FC = (): React.ReactElement => {
                                         <p className="w-100">Vehicles</p>
                                     </Link>
                                 </div>
-
                             </Slider>
                         </Col>
                     </Row>
@@ -159,34 +152,32 @@ export const HomePage: React.FC = (): React.ReactElement => {
                     <h2 className="text-secondary mb-3">Hot Deals</h2>
                     <Row>
                         <Col sm={12}>
-                            <>
-                                <Row className="post-list">
-                                    <Col md={3} className="col-12 mb-3">
-                                        <a href="#" className="ad-post bg-dark  p-4 rounded text-white d-flex align-items-center justify-content-center flex-wrap  text-center">
-                                            <p><i className="fas fa-plus-circle"></i></p>
-                                            <h6>Want to see your stuff here ?</h6>
-                                            <p>Sell things in your community. It's quick safe and local.</p>
-                                            <p>
+                            <Row className="post-list">
+                                <Col md={3} className="col-12 mb-3">
+                                    <a href="#" className="ad-post bg-dark  p-4 rounded text-white d-flex align-items-center justify-content-center flex-wrap  text-center">
+                                        <p><i className="fas fa-plus-circle"></i></p>
+                                        <h6>Want to see your stuff here ?</h6>
+                                        <p>Sell things in your community. It's quick safe and local.</p>
+                                        <p>
+                                            <Link to="/create-post">
                                                 <Button className="btn btn-success rounded px-3" variant="fullround">
-                                                    <Link to="/ad-post">
-                                                        Post an Ad for free!
-                                                    </Link>
+                                                    Post an Ad for free!
                                                 </Button>
-                                            </p>
+                                            </Link>
+                                        </p>
 
-                                        </a>
-                                    </Col>
-                                    <Col md={3} className="col-6 mb-3">
-                                        <AdCard />
-                                    </Col>
-                                    <Col md={3} className="col-6 mb-3">
-                                        <AdCard />
-                                    </Col>
-                                    <Col md={3} className="col-6 mb-3">
-                                        <AdCard />
-                                    </Col>
-                                </Row>
-                            </>
+                                    </a>
+                                </Col>
+                                <Col md={3} className="col-6 mb-3">
+                                    <AdCard />
+                                </Col>
+                                <Col md={3} className="col-6 mb-3">
+                                    <AdCard />
+                                </Col>
+                                <Col md={3} className="col-6 mb-3">
+                                    <AdCard />
+                                </Col>
+                            </Row>
                         </Col>
                     </Row>
                 </Container>

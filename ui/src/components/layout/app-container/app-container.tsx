@@ -54,18 +54,9 @@ export const AppContainer = ({ children }: AppContainerProps) => {
     const renderChildren = () => {
         return (
             <>
-                {!(location.pathname === "/ad-post") ? (
-                    <>
-                        <Header />
-                        {children}
-                        <Footer />
-                    </>
-                ) : (
-                    <>
-                        <Header />
-                        {children}
-                    </>
-                )}
+                <Header />
+                {children}
+                {!(location.pathname === "/create-post") && <Footer />}
             </>
         );
     };
