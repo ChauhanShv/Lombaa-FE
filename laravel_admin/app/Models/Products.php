@@ -18,25 +18,38 @@ class Products extends Model
     protected $fillable = [
         'id',
         'title',
-        'category_Id',
         'slug',
         'price',
-        'is_Negotiable',
-        'is_Free',
-        'buyer_Do_Delivery',
-        'stock',
+        'isNegotiable',
+        'isFree',
+        'buyerDoDelivery',
         'condition',
         'description',
-        'location',
-        'promote_Type',
-        'deal_Method',
-        'is_Approved',
-        'is_Sold',
+        'promoteType',
+        'dealMethod',
+        'approvedAt',
         'postedAt',
+        'rejectedAt',
+        'expiry',
+        'soldAt',
         'createdAt',
         'updatedAt',
-        'deletedAt'
+        'deletedAt',
+        'userId',
+        'categoryId',
+        'stock',
+        'locationId',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'categoryId', 'id');
+    }
+
+    public function location()
+    {
+        return $this->belongsTo(Locations::class, 'locationId', 'id');
+    }
 
     protected $keyType = 'string';
 }

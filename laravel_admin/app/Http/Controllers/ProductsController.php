@@ -3,16 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Products;
+use Carbon\Carbon;
 
 class ProductsController extends Controller
 {
     public function products_list($id)
     {
         if ($id == 'all') {
-            $products = Products::paginate(30);
+            $products = Products::with('category', 'location', 'location.city', 'location.region', 'location.country')->paginate(30);
+
             return view('products.list', ['products' => $products]);
         } else {
-            $products = Products::where('slug', $id)->paginate(30);
+            $products = Products::with('category')->where('userId', $id)->paginate(30);
+
             return view('products.list', ['products' => $products]);
         }
 
@@ -21,12 +24,19 @@ class ProductsController extends Controller
     public function approve_reject($action, $id)
     {
         if ($action == 'approve') {
-            $approve = ['is_Approved' => '1'];
+            $approve = [
+                'approvedAt' => Carbon::now(),
+                'expiry' => Carbon::now()->addHours(72),
+            ];
+
             Products::where('id', $id)->update($approve);
+
             return redirect()->route('products_list', ['id' => 'all'])->with('response', ['status' => 'success', 'message' => 'Approved']);
         } elseif ($action == 'reject') {
-            $reject = ['is_Approved' => '0'];
+            $reject = ['rejectedAt' => Carbon::now()];
+
             Products::where('id', $id)->update($reject);
+
             return redirect()->route('products_list', ['id' => 'all'])->with('response', ['status' => 'success', 'message' => 'Rejected']);
         }
     }
@@ -34,19 +44,26 @@ class ProductsController extends Controller
     public function filter($action)
     {
         if ($action == 'under_review') {
-            $products = Products::where('is_Approved', '=', '0')->paginate(30);
+            $products = Products::where('approvedAt', '=', null)
+                ->where('rejectedAt', '=', null)
+                ->paginate(30);
+
             return view('products.list', ['products' => $products]);
         } elseif ($action == 'active') {
-            $products = Products::where('is_Approved', '=', '1')->paginate(30);
+            $products = Products::where('approvedAt', '!=', null)->paginate(30);
+
             return view('products.list', ['products' => $products]);
         } elseif ($action == 'declined') {
-            $products = Products::paginate(30);
+            $products = Products::where('rejectedAt', '!=', null)->paginate(30);
+
             return view('products.list', ['products' => $products]);
         } elseif ($action == 'expired') {
-            $products = Products::paginate(30);
+            $products = Products::whereDate('expiry', '<=', Carbon::now())->paginate(30);
+
             return view('products.list', ['products' => $products]);
         } elseif ($action == 'sold') {
-            $products = Products::where('is_Sold', '=', '1')->paginate(30);
+            $products = Products::where('soldAt', '!=', null)->paginate(30);
+
             return view('products.list', ['products' => $products]);
         }
     }
