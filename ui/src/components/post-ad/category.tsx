@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Form, FloatingLabel } from 'react-bootstrap';
 import { useAxios } from '../../services/base-service';
 import { useFormContext } from 'react-hook-form';
+import { getPostSubCategoryComponent } from '.';
 
 interface CategoryProps {
     onCategorySelected: any,
@@ -11,7 +12,7 @@ interface CategoryProps {
 export const CategorySelector: React.FC<CategoryProps> = ({ onCategorySelected, onSubCategorySelected }: CategoryProps): React.ReactElement => {
     const [responseData, setResponseData] = React.useState<any>([]);
     const [subCategoryData, setSubCategoryData] = React.useState<any>(null);
-    const [subCategoryFields, setSubCategoryFields] = React.useState<any>([]);
+    const [subCategoryFields, setSubCategoryFields] = React.useState<any>(null);
 
     const { register, formState: { errors } } = useFormContext();
 
@@ -113,19 +114,9 @@ export const CategorySelector: React.FC<CategoryProps> = ({ onCategorySelected, 
                     {getErrorText('subCategory')}
                 </FloatingLabel>
             )}
-            {responseData && subCategoryData && subCategoryFields && subCategoryFields?.fields?.map((category: any) =>
+            {responseData && subCategoryData && subCategoryFields && (
                 <>
-                    <Form.Label>{category?.label}</Form.Label>
-                    <Form.Check className='mb-3' type={category?.fieldType}>
-                        {category?.values?.map((subCategory: any) =>
-                            <>
-                                <Form.Check.Input type={category?.fieldType} className="margin-right-3" />
-                                <Form.Check.Label className="margin-right-3">
-                                    {subCategory?.value}
-                                </Form.Check.Label>
-                            </>
-                        )}
-                    </Form.Check>
+                    {getPostSubCategoryComponent(subCategoryFields)}
                 </>
             )}
         </>

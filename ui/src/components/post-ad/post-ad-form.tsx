@@ -107,7 +107,7 @@ export const PostAdForm: React.FC = (): React.ReactElement => {
 
                                         <h5 className="mb-3">About the item</h5>
                                         <h6 className="text-muted">Condition</h6>
-                                        <ToggleButtonGroup className="mb-5" type="radio" name="condition-options" defaultValue={1}>
+                                        <ToggleButtonGroup className="mb-3" type="radio" name="condition-options" defaultValue={1}>
                                             <ToggleButton id="tbg-radio-1" variant="outline-success fullround" className="rounded m-2 ms-0" value={1}>
                                                 Brand New
                                             </ToggleButton>
