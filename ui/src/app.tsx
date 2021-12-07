@@ -26,7 +26,7 @@ const App: React.FC = () => {
             {/* Html Routes - for nilesh */}
             <PrivateRoute component={SettingsPage} path="/settings/:page?" exact />
             <PrivateRoute component={ProfilePage} path="/profile" exact />
-            <PrivateRoute component={AdPostPage} path="/ad-post" exact />
+            <PrivateRoute component={AdPostPage} path="/create-post" exact />
             <PrivateRoute component={AdDetailPage} path="/ad-detail" exact />
           </Switch>
         </AppContainer>

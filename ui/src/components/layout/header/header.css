@@ -38,7 +38,6 @@ body{padding-bottom: 80px;}
 .btn-fullround{border-radius:100px !important;}
 .shadow{box-shadow: 0 0.3rem .5rem rgba(0,0,0,.08)!important;}
 
-.mobile-nav{z-index: 1;}
 .z1{z-index: 2;}
 
 .sign-out-button{background-color: #fff; border: 0px; color: #000;}
