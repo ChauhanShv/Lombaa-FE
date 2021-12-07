@@ -53,8 +53,6 @@
                         <th>Category</th>
                         <th>Price</th>
                         <th>Negotiable</th>
-                        {{-- <th>Free</th> --}}
-                        {{-- <th>Buyer Delivery</th> --}}
                         <th>Condition</th>
                         <th>Location</th>
                         <th>Promote</th>
@@ -74,8 +72,6 @@
                         <td style="text-align: center;">{{ $product->category->name }}</td>
                         <td style="text-align: center;">{{ $product->price }}</td>
                         <td style="text-align: center;">{{ ($product->isNegotiable) ? 'Yes' : 'No' }}</td>
-                        {{-- <td style="text-align: center;">{{ ($product->isFree) ? 'Yes' : 'No' }}</td> --}}
-                        {{-- <td style="text-align: center;">{{ ($product->buyerDoDelivery) ? 'Yes' : 'No' }}</td> --}}
                         <td style="text-align: center;">{{ $product->condition }}</td>
                         <td style="text-align: center;">
                             <p>{{ $product->location->city->name }}</p>

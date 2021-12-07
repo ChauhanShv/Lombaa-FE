@@ -13,15 +13,6 @@ class Locations extends Model
 
     use HasFactory;
 
-    protected $table = 'locations';
-
-    protected $fillable = [
-        'id',
-        'cityId',
-        'regionId',
-        'countryId',
-    ];
-
     public function city()
     {
         return $this->belongsTo(Cities::class, 'cityId', 'id');
@@ -36,6 +27,15 @@ class Locations extends Model
     {
         return $this->belongsTo(Countries::class, 'countryId', 'id');
     }
+
+    protected $table = 'locations';
+
+    protected $fillable = [
+        'id',
+        'cityId',
+        'regionId',
+        'countryId',
+    ];
 
     protected $keyType = 'string';
 }

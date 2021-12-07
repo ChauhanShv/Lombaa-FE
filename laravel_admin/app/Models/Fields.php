@@ -9,6 +9,10 @@ class Fields extends Model
 {
     use HasFactory;
 
+    const CREATED_AT = 'createdAt';
+    const UPDATED_AT = 'updatedAt';
+    const DELETED_AT = 'deletedAt';
+
     protected $table = 'fields';
 
     protected $fillable = [
@@ -20,8 +24,6 @@ class Fields extends Model
         'fieldType',
         'sortOrder',
         'iconId',
-        'createdAt',
-        'updatedAt',
     ];
 
     public function icon()

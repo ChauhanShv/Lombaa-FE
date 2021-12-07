@@ -13,6 +13,16 @@ class Products extends Model
 
     use HasFactory;
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'categoryId', 'id');
+    }
+
+    public function location()
+    {
+        return $this->belongsTo(Locations::class, 'locationId', 'id');
+    }
+
     protected $table = 'products';
 
     protected $fillable = [
@@ -40,16 +50,6 @@ class Products extends Model
         'stock',
         'locationId',
     ];
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class, 'categoryId', 'id');
-    }
-
-    public function location()
-    {
-        return $this->belongsTo(Locations::class, 'locationId', 'id');
-    }
 
     protected $keyType = 'string';
 }
