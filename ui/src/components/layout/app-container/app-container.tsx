@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAxios } from '../../../services/base-service';
 import { useAppContext, ActionTypes } from '../../../contexts';
@@ -51,12 +51,19 @@ export const AppContainer = ({ children }: AppContainerProps) => {
         }
     }, [response, error]);
 
+    const showFooter = () => {
+        const footerHiddenRoutes: string[] = [
+            '/create-post',
+        ];
+        return !footerHiddenRoutes.includes(location.pathname);
+    };
+
     const renderChildren = () => {
         return (
             <>
                 <Header />
                 {children}
-                {!(location.pathname === "/create-post") && <Footer />}
+                {showFooter() && <Footer />}
             </>
         );
     };

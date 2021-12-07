@@ -8,9 +8,11 @@ export const SideBar: React.FC = (): React.ReactElement => {
     return (
         <Card className="sidenav bg-light position-sticky">
             <Card.Header className="d-flex align-items-center py-3">
-                <button className="btn btn-white">
+                <NavLink to="/settings" activeClassName="">
+                    <button className="btn btn-white">
                     <FaChevronLeft />
-                </button>
+                    </button>
+                </NavLink>
                 Settings
             </Card.Header>
             <ListGroup className="mb-2">
