@@ -64,7 +64,7 @@ class FieldsController extends Controller
                     'dataTypes' => $request->datatype,
                     'fieldType' => $request->fieldtype,
                     'sortOrder' => null,
-                    'iconId' => $fileData['id'],
+                    'iconId' => $file_data['id'],
                     'createdAt' => Carbon::now(),
                     'updatedAt' => Carbon::now(),
                 ];
