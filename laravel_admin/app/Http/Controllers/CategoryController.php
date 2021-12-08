@@ -59,6 +59,7 @@ class CategoryController extends Controller
             $send_file_data = Files::insert($file_data);
 
             $category_id = Str::uuid();
+
             $data = [
                 'id' => $category_id,
                 'name' => $request->name,
@@ -66,7 +67,7 @@ class CategoryController extends Controller
                 'iconId' => $file_data['id'],
                 'isPopular' => isset($request->popular) ? 1 : 0,
                 'isActive' => isset($request->active) ? 1 : 0,
-                'parentId' => $request->product ? $request->product : null,
+                'parentId' => isset($request->is_parent) ? null : $request->product,
                 'createdAt' => Carbon::now(),
                 'updatedAt' => Carbon::now(),
             ];

@@ -2,12 +2,12 @@
 @section('body')
 @include('layout.breadcrumb')
 
-@if (session('response')) 
+@if (session('response'))
 @if (session('response.status') == 'success')
 
 
 <div class="alert alert-success">
-    
+
     @else
     <div class="alert alert-error">
         @endif
@@ -17,15 +17,15 @@
     @endif
 
     <div class="widget-box">
-    
+
     <style>
         .widget-title{display:flex; justify-content:space-between;}
         .widget-title .pagination{margin:2px;}
     </style>
 
-        <div class="widget-title"> 
+        <div class="widget-title">
             <div><span class="icon"><i class="icon-th"></i></span>
-                <h5>Fields List</h5> 
+                <h5>Fields List</h5>
             </div>
             <div>
                {{ $fields_list->links('pagination::bootstrap-4') }}
@@ -50,7 +50,12 @@
                     @php $i = 0 @endphp @foreach( $fields_list as $data ) @php $i++ @endphp
                     <tr class="gradeX" style="align-content: center;">
                         <td style="text-align: center;">{{ $i }}</td>
-                        <td style="text-align: center;"><image style="width:50px; height:50px; border-radius: 5%;" src="{{ $data->icon->absolute_path }}"/></td>
+                        <td style="text-align: center;">
+                            @if ($data->iconId !== null)
+                                <image style="width:50px; height:50px; border-radius: 5%;" src="{{ $data->icon->absolute_path }}"/></td>
+                            @else
+                                <p>No&nbsp;Icon</p>
+                            @endif
                         <td style="text-align: center;">{{ $data->label }}</td>
                         <td style="text-align: center;">{{ $data->isRequired == 1? 'Yes' : 'No' }}</td>
                         <td style="text-align: center;">{{ $data->isActive == 1? 'Yes' : 'No' }}</td>
