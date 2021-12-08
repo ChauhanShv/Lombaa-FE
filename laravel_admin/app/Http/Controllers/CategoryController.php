@@ -209,7 +209,7 @@ class CategoryController extends Controller
             $category = Category::with('fields')->find($id);
             $existing_fields = $category->fields;
 
-            return view('category.update', ['data' => $data, 'categories' => $categories, 'fields' => $fields, 'parent_category_name' => $parent_category_name, 'existingFields' => $existingFields]);
+            return view('category.update', ['data' => $data, 'categories' => $categories, 'fields' => $fields, 'parent_category_name' => $parent_category_name, 'existing_fields' => $existing_fields]);
         }
     }
 }
