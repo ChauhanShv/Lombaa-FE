@@ -76,7 +76,7 @@ export const CategorySelector: React.FC<CategoryProps> = ({ onCategorySelected, 
 
     return (
         <>
-            <FloatingLabel className="mb-3" controlId="floatingSelect" label="Select Category">
+            <FloatingLabel className="mb-3" controlId="category-select" label="Select Category">
                 <Form.Select
                     className={getErrorClassName('category')}
                     aria-label="Select Category"
@@ -97,7 +97,7 @@ export const CategorySelector: React.FC<CategoryProps> = ({ onCategorySelected, 
                 {getErrorText('category')}
             </FloatingLabel>
             {subCategoryData && (
-                <FloatingLabel className="mb-3" controlId="floatingSelect" label="Select Sub Category">
+                <FloatingLabel className="mb-3" controlId="subcategory-select" label="Select Sub Category">
                     <Form.Select
                         className={getErrorClassName('subCategory')}
                         aria-label="Select Sub Category"
@@ -114,11 +114,7 @@ export const CategorySelector: React.FC<CategoryProps> = ({ onCategorySelected, 
                     {getErrorText('subCategory')}
                 </FloatingLabel>
             )}
-            {responseData && subCategoryData && subCategoryFields && (
-                <>
-                    {getPostSubCategoryComponent(subCategoryFields)}
-                </>
-            )}
+            {responseData && subCategoryData && subCategoryFields && (getPostSubCategoryComponent(subCategoryFields))}
         </>
     );
 }

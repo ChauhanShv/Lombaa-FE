@@ -64,15 +64,14 @@ const DropdownComponent = ({ data }: DynamicComponentProps): React.ReactElement 
 }
 
 const TagViewComponent = ({ data }: DynamicComponentProps): React.ReactElement => {
-    const [toggleValue, setToggleValue] = useState<any>('');
-
+    const [toggleValue, setToggleValue] = useState<any>(data?.values[0]?.id);
     return (
         <ToggleButtonGroup
             className="mb-3"
             type="radio"
             name="condition-options"
-            value={toggleValue}
-            onChange={(value) => { setToggleValue(value) }}
+            defaultValue={toggleValue}
+            onChange={(value) => setToggleValue(value)}
             key={data?.id}
         >
             {data?.values?.map((fieldData: any) =>

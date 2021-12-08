@@ -106,21 +106,6 @@ export const PostAdForm: React.FC = (): React.ReactElement => {
                                         </FloatingLabel>
 
                                         <h5 className="mb-3">About the item</h5>
-                                        <h6 className="text-muted">Condition</h6>
-                                        <ToggleButtonGroup className="mb-3" type="radio" name="condition-options" defaultValue={1}>
-                                            <ToggleButton id="tbg-radio-1" variant="outline-success fullround" className="rounded m-2 ms-0" value={1}>
-                                                Brand New
-                                            </ToggleButton>
-                                            <ToggleButton id="tbg-radio-2" variant="outline-success fullround" className="rounded m-2" value={2}>
-                                                Like New
-                                            </ToggleButton>
-                                            <ToggleButton id="tbg-radio-3" variant="outline-success fullround" className="rounded m-2" value={3}>
-                                                Well used
-                                            </ToggleButton>
-                                            <ToggleButton id="tbg-radio-4" variant="outline-success fullround" className="rounded m-2" value={4}>
-                                                Heavily used
-                                            </ToggleButton>
-                                        </ToggleButtonGroup>
 
                                         <h6 className="text-muted">Price</h6>
                                         <ToggleButtonGroup type="radio" name="price-options" defaultValue={1}>
@@ -170,8 +155,6 @@ export const PostAdForm: React.FC = (): React.ReactElement => {
                                             </Form.Select>
                                             {getErrorText('brand')}
                                         </FloatingLabel>
-
-                                        <OptionalDetailsForm />
                                     </>
                                 )}
                                 <div className="d-flex justify-content-end">

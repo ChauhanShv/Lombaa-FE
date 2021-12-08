@@ -26,6 +26,7 @@
   border: 1px dashed green;
   background-color: #e1ffe8;
   border-radius: 4px;
+  cursor: pointer;
 }
 
 .thumbs-container {
