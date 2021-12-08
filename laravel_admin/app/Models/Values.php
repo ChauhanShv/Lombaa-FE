@@ -11,6 +11,17 @@ class Values extends Model
 
     const CREATED_AT = 'createdAt';
     const UPDATED_AT = 'updatedAt';
+    const DELETED_AT = 'deletedAt';
+
+    public function icon()
+    {
+        return $this->belongsTo(Files::class, 'iconId', 'id');
+    }
+
+    public function field()
+    {
+        return $this->belongsTo(Fields::class, 'fieldId', 'id');
+    }
 
     protected $table = 'field_values';
 
@@ -18,17 +29,9 @@ class Values extends Model
         'id',
         'value',
         'iconId',
-        'fieldId'
+        'fieldId',
     ];
 
-    public function icon() {
-        return $this->belongsTo(Files::class, 'iconId', 'id');
-    }
-
-    public function field() {
-        return $this->belongsTo(Fields::class, 'fieldId', 'id');
-    }
-
     public $timestamps = true;
-    protected $keyType ='string';
+    protected $keyType = 'string';
 }

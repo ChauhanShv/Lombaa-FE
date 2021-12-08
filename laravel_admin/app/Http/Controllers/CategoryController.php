@@ -6,7 +6,6 @@ use App\Models\Category;
 use App\Models\CategoryField;
 use App\Models\Fields;
 use App\Models\Files;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Str;
@@ -52,13 +51,12 @@ class CategoryController extends Controller
                 // 'absolute_path'=> $image_path,
                 'absolute_path' => 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/Djehr3diIDdqjo8Wf2JhFbZC70M9w1RZ0xb9VFH4.png',
                 'location' => 's3',
-                'createdAt' => Carbon::now(),
-                'updatedAt' => Carbon::now(),
             ];
 
             $send_file_data = Files::insert($file_data);
 
             $category_id = Str::uuid();
+
             $data = [
                 'id' => $category_id,
                 'name' => $request->name,
@@ -67,8 +65,6 @@ class CategoryController extends Controller
                 'isPopular' => isset($request->popular) ? 1 : 0,
                 'isActive' => isset($request->active) ? 1 : 0,
                 'parentId' => $request->product ? $request->product : null,
-                'createdAt' => Carbon::now(),
-                'updatedAt' => Carbon::now(),
             ];
 
             Category::insertGetId($data);
@@ -81,6 +77,7 @@ class CategoryController extends Controller
 
                     $category_field['categoryId'] = $category_id;
                     $category_field['fieldId'] = $field;
+
                     array_push($category_fields, $category_field);
                 }
 
@@ -145,7 +142,6 @@ class CategoryController extends Controller
                     // 'absolute_path'=> $image_path,
                     'absolute_path' => 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/MONRfS7gQ3w0LOJOlijQ8j1Ned7TC7NhSeeCGpfj.png',
                     'location' => 's3',
-                    'updatedAt' => Carbon::now(),
                 ];
 
                 $send_file_data = Files::where('id', $get_icon_id)->update($file_data);
@@ -163,8 +159,6 @@ class CategoryController extends Controller
                 'isPopular' => isset($request->popular) ? 1 : 0,
                 'isActive' => isset($request->active) ? 1 : 0,
                 'parentId' => $parent_id,
-                'createdAt' => Carbon::now(),
-                'updatedAt' => Carbon::now(),
             ];
 
             Category::where('id', $id)->update($data);

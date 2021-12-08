@@ -17,15 +17,7 @@ class Category extends Model
 
     const CREATED_AT = 'createdAt';
     const UPDATED_AT = 'updatedAt';
-
-    protected $fillable = [
-        'name',
-        'description',
-        'isPopular',
-        'isActive',
-        'iconId',
-        'parentId',
-    ];
+    const DELETED_AT = 'deletedAt';
 
     public function icon()
     {
@@ -36,4 +28,13 @@ class Category extends Model
     {
         return $this->belongsToMany(Fields::class, 'category_fields', 'categoryId', 'fieldId')->using(CategoryField::class);
     }
+
+    protected $fillable = [
+        'name',
+        'description',
+        'isPopular',
+        'isActive',
+        'iconId',
+        'parentId',
+    ];
 }

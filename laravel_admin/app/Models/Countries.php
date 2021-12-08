@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
+use Grimzy\LaravelMysqlSpatial\Eloquent\SpatialTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Grimzy\LaravelMysqlSpatial\Eloquent\SpatialTrait;
 
 class Countries extends Model
-{   
+{
     const CREATED_AT = 'createdAt';
     const UPDATED_AT = 'updatedAt';
+    const DELETED_AT = 'deletedAt';
 
     use SpatialTrait;
 
@@ -20,13 +21,13 @@ class Countries extends Model
         'name',
         'code',
         'createdAt',
-        'updatedAt'
+        'updatedAt',
     ];
 
     protected $spatialFields = [
-        'coordinate'
+        'coordinate',
     ];
 
-    protected $keyType ='string';
+    protected $keyType = 'string';
     use HasFactory;
 }
