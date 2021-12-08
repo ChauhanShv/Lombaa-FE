@@ -23,11 +23,11 @@ const App: React.FC = () => {
           <Switch>
             <PublicRoute component={HomePage} path="/" exact />
             <PublicRoute restricted component={ForgotPasswordPage} path="/forgot-password/:token?" exact />
-            {/* Html Routes - for nilesh */}
             <PrivateRoute component={SettingsPage} path="/settings/:page?" exact />
             <PrivateRoute component={ProfilePage} path="/profile" exact />
-            <PrivateRoute component={AdPostPage} path="/ad-post" exact />
+            <PrivateRoute component={AdPostPage} path="/create-post" exact />
             <PrivateRoute component={AdDetailPage} path="/ad-detail" exact />
+            {/* Html Routes - for nilesh */}
           </Switch>
         </AppContainer>
       </BrowserRouter>

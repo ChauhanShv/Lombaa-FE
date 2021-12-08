@@ -187,12 +187,16 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                                 </Col>
                             </Row>
                         </form>
-                        <Button variant="fullround" className="nav-link px-4 bg-success rounded ms-3 text-white d-none d-lg-flex">+ Sell</Button>
+                        <Link to='create-post'>
+                            <Button variant="fullround" className="nav-link px-4 bg-success rounded ms-3 text-white d-none d-lg-flex">
+                                + Sell
+                            </Button>
+                        </Link>
                     </div>
                 </Navbar>
             </Navbar>
 
-            <Navbar className="z1 d-lg-none navbar navbar-expand-lg mobile-nav shadow bg-white px-2">
+            <Navbar className="z1 d-lg-none navbar navbar-expand-lg shadow bg-white px-2">
                 <InputGroup placeholder="Type your search">
                     <FormControl
                         placeholder="Type your search"
@@ -223,7 +227,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                     </Dropdown>
                 )}
             </Navbar>
-            <Navbar sticky="top" className="d-lg-none navbar navbar-expand-lg mobile-nav shadow bg-white px-2">
+            <Navbar sticky="top" className="d-lg-none navbar navbar-expand-lg shadow bg-white px-2">
                 <InputGroup className="w-100 d-lg-none ">
                     <InputGroup.Text id="basic-addon1" className="bg-white"><FaMapMarkerAlt className="text-success" /></InputGroup.Text>
                     <FormControl className="" placeholder="Location" aria-label="Location" />

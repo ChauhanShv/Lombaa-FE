@@ -49,7 +49,7 @@ Field.init(
         paranoid: true,
         defaultScope: {
             attributes: {
-                exclude: ['createdAt', 'updatedAt', 'iconId', 'category_field']
+                exclude: ['createdAt', 'updatedAt', 'iconId', 'category_field', 'deletedAt']
             },
             include: [
                 { model: FieldValue, as: 'values' }

@@ -24,6 +24,7 @@ export const PostAdForm: React.FC = (): React.ReactElement => {
     const [isForSale, setIsForSale] = useState<Number>(1);
     const [price, setPrice] = useState<Number>(0.00);
     const [categorySelected, setCategorySelected] = useState<any>(null);
+    const [subCategorySelected, setSubCategorySelected] = useState<any>(null);
 
     const formMethods = useForm({
         resolver: yupResolver(postAdFormSchema),
@@ -53,7 +54,12 @@ export const PostAdForm: React.FC = (): React.ReactElement => {
     const onCategorySelected = (category: any) => {
         if (category) {
             setCategorySelected(category);
-        }
+        } else setCategorySelected(null);
+    }
+    const onSubCategorySelected = (subCategory: any) => {
+        if (subCategory) {
+            setSubCategorySelected(subCategory);
+        } else setSubCategorySelected(null);
     }
 
     const handlePriceChange = (event: any) => {
@@ -82,9 +88,12 @@ export const PostAdForm: React.FC = (): React.ReactElement => {
                         </Col>
                         <Col lg={8}>
                             <div className="shadow p-3 p-lg-5 h-100">
-                                <CategorySelector onCategorySelected={onCategorySelected} />
+                                <CategorySelector
+                                    onCategorySelected={onCategorySelected}
+                                    onSubCategorySelected={onSubCategorySelected}
+                                />
 
-                                {categorySelected && (
+                                {categorySelected && subCategorySelected && (
                                     <>
                                         <FloatingLabel className="mb-5" controlId="floatingInputGrid" label="Listing Title">
                                             <Form.Control
