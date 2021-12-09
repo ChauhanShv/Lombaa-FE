@@ -11,6 +11,8 @@ class Products extends Model
     const UPDATED_AT = 'updatedAt';
     const DELETED_AT = 'deletedAt';
 
+    use SoftDeletes;
+
     use HasFactory;
 
     protected $table = 'products';
@@ -35,7 +37,7 @@ class Products extends Model
         'postedAt',
         'createdAt',
         'updatedAt',
-        'deletedAt'
+        'deletedAt',
     ];
 
     protected $keyType = 'string';

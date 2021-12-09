@@ -14,6 +14,8 @@ class Regions extends Model
     const UPDATED_AT = 'updatedAt';
     const DELETED_AT = 'deletedAt';
 
+    use SoftDeletes;
+
     use SpatialTrait;
 
     protected $table = 'regions';
