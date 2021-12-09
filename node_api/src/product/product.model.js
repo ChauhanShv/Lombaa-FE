@@ -1,6 +1,9 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize").service;
-const user = require("../user").model;
+const User = require("../user/user.model")
+const Location = require("../location/location.model");
+const Category = require("../category/category.model");
+const ProductField = require("./product_field.model");
 
 class Product extends Model { }
 
@@ -11,93 +14,82 @@ Product.init(
       primaryKey: true,
       defaultValue: Sequelize.UUIDV4,
     },
+
     title: {
       type: DataTypes.STRING(50),
       allowNull: false,
-      field: "title",
     },
-    categoryId: {
-      type: DataTypes.STRING(10),
-      allowNull: false,
-      field: "category_Id",
+
+    description: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
     },
+
     slug: {
       type: DataTypes.STRING(255),
       allowNull: false,
-      field: "slug",
     },
-    price: {
-      type: DataTypes.STRING(10),
-      allowNull: false,
-      field: "price",
-    },
+
     isNegotiable: {
-      type: DataTypes.TINYINT(1),
+      type: DataTypes.BOOLEAN,
       allowNull: false,
-      field: "is_Negotiable",
+      defaultValue: false
     },
+
     isFree: {
-      type: DataTypes.TINYINT(1),
+      type: DataTypes.BOOLEAN,
       allowNull: false,
-      field: "is_Free",
+      defaultValue: false
     },
+
     buyerDoDelivery: {
-      type: DataTypes.TINYINT(1),
+      type: DataTypes.BOOLEAN,
       allowNull: false,
-      field: "buyer_Do_Delivery",
+      defaultValue: false
     },
-    stock: {
-      type: DataTypes.TINYINT(1),
-      allowNull: false,
-      field: "stock",
-    },
+
     condition: {
       type: DataTypes.ENUM({
         values: ["new", "old"],
       }),
       allowNull: true,
-      field: "condition",
     },
-    description: {
-      type: DataTypes.STRING(255),
+
+    promoteType: {
+      type: DataTypes.ENUM({ values: ["yes", "no"] }),
       allowNull: true,
-      field: "description",
     },
-    location: {
-      type: DataTypes.STRING(50),
-      allowNull: false,
-      field: "location",
-    },
-    promote_type: {
-      type: DataTypes.ENUM({
-        values: ["yes", "no"],
-      }),
-      allowNull: true,
-      field: "promote_Type",
-    },
+
     dealMethod: {
-      type: DataTypes.ENUM({
-        values: ["yes", "no"],
-      }),
-      allowNull: false,
-      field: "deal_Method",
+      type: DataTypes.ENUM({ values: ["yes", "no"] }),
+      allowNull: true,
     },
-    isApproved: {
-      type: DataTypes.TINYINT(1),
-      allowNull: false,
-      field: "is_Approved",
+
+    approvedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
     },
+
     postedAt: {
-      type: DataTypes.DATE(),
+      type: DataTypes.DATE,
       defaultValue: Sequelize.NOW(),
       allowNull: true,
     },
-    isSold: {
-      type: DataTypes.TINYINT(1),
+
+    soldAt: {
+      type: DataTypes.DATE,
       allowNull: true,
-      defaultValue: 0,
-      field: "is_Sold",
     },
+
+    rejectedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+
+    expiry: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    }
   },
   {
     modelName: "Product",
@@ -107,5 +99,10 @@ Product.init(
     paranoid: true,
   }
 );
+
+Product.belongsTo(Category, { as: 'category' });
+Product.belongsTo(User, { as: 'user' });
+Product.belongsTo(Location, { as: 'location' });
+Product.hasMany(ProductField, { as: 'productField' })
 
 module.exports = Product;

@@ -11,13 +11,11 @@ const { user } = require('../modules/sequelize/sequelize.config');
 const { findByPk } = require('./user.model');
 const FileService = require("../file/file.service");
 const FileType = require("file-type");
-const BaseController = require('../modules/controller/controller.base');
 const fileModel = require('../file/file.model');
 const moment = require("moment");
 
-class UserService extends BaseController {
+class UserService {
     constructor() {
-        super();
         this.fileService = new FileService();
     }
 

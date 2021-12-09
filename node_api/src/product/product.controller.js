@@ -2,10 +2,12 @@ const BaseController = require("../modules/controller").base;
 const productModel = require("./product.model");
 const { validationResult } = require("express-validator");
 const { validationErrorFormatter } = require("../formater");
-
+const slugify = require('slugify');
+const ProductService = require('./product.service');
 class productController extends BaseController {
   constructor(...args) {
     super(...args);
+    this.service = new ProductService();
   }
 
   add = async (req, res, next) => {
@@ -14,28 +16,41 @@ class productController extends BaseController {
     } catch (error) {
       return res.status(422).json(error.array({ onlyFirstError: true }));
     }
+
     try {
-      const value = req.body.data;
-      const newProduct = await productModel.create(value);
-      const Product = await newProduct.save();
+      const data = (({ title, description, isNegotiable, isFree, buyerDoDelivery, condition, promoteType, dealMethod, location }) =>
+        ({ title, description, isNegotiable, isFree, buyerDoDelivery, condition, promoteType, dealMethod, location }))(req.body);
+
+      data.slug = await this.slugify(data.title)
+
+      const newProduct = await productModel.create(data);
+      const product = await newProduct.save();
       return super.jsonRes({
         res,
         code: 200,
         data: {
           Success: true,
           message: "Product added successfull",
-          Product: Product,
+          Product: product,
         },
       });
     } catch (error) {
       console.log(error);
       return super.jsonRes({
         res,
-        code: 401,
-        data: { msg: "invalid details" },
+        code: 400,
+        data: {
+          success: false,
+          error: {
+            code: 400,
+            message: "Failed to post Ad",
+            message_detail: error.message
+          }
+        }
       });
     }
   };
+
   listing = async (req, res, next) => {
     try {
       const filters = req.body.data;
@@ -141,6 +156,17 @@ class productController extends BaseController {
       });
     }
   };
+
+  async slugify(text) {
+    let counter = 0;
+    let slug = '';
+    do {
+      slug = `${slugify(text, { replacement: '-', lower: true, trim: true })}${counter ? `-${counter}` : ''}`;
+      counter++;
+    } while (!await this.service.isSlugAvailable(slug));
+
+    return slug;
+  }
 }
 
 module.exports = new productController();

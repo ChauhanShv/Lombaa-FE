@@ -26,7 +26,7 @@ Field.init(
         },
         dataTypes: {
             type: DataTypes.ENUM({
-                values: ["string"],
+                values: ["string", "boolean", "numberic"],
             }),
             allowNull: false,
         },

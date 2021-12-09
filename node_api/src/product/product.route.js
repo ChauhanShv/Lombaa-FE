@@ -1,6 +1,6 @@
 const router = require("../modules/express").instance.Router();
 const productController = require("./product.controller");
-const { productSchema } = require("../InputSchema");
+const productSchema = require("./product.schema");
 const { checkSchema } = require("express-validator");
 
 module.exports = () => {
