@@ -1,24 +1,47 @@
 import React, { useState } from 'react';
 import { FloatingLabel, Form, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
+import { useFormContext } from 'react-hook-form';
+import * as yup from 'yup';
 import './post-ad.css';
+import { Fields } from '.';
 
 interface DynamicComponentProps {
     data: any;
 }
 
-export const getPostSubCategoryComponent = (categoryData: any) => (
-    categoryData?.fields?.map((category: any) => {
-        switch (category?.fieldType) {
+const getErrorText = (field: string, errors: any): React.ReactElement | null => {
+    const errorMessages: any = {
+        ...errors
+    };
+    if (errorMessages[field]) {
+        return (
+            <Form.Text className="text-danger">
+                {errorMessages[field]?.message}
+            </Form.Text>
+        );
+    }
+    return null;
+};
+const getErrorClassName = (field: string, errors: any): string => {
+    const errorMessages: any = {
+        ...errors,
+    };
+    return errorMessages[field] ? 'is-invalid' : '';
+};
+
+export const getPostSubCategoryComponent = (fields: Fields[]) => (
+    fields.map((field: any) => {
+        switch (field?.fieldType) {
             case 'checkbox':
-                return <CheckboxComponent data={category} />
+                return <CheckboxComponent data={field} key={field.id} />
             case 'dropdown':
-                return <DropdownComponent data={category} />
+                return <DropdownComponent data={field} key={field.id} />
             case 'tagView':
-                return <TagViewComponent data={category} />
+                return <TagViewComponent data={field} key={field.id} />
             case 'switch':
-                return <SwitchComponent data={category} />
+                return <SwitchComponent data={field} key={field.id} />
             case 'label':
-                return <LabelComponent data={category} />
+                return <LabelComponent data={field} key={field.id} />
             default:
                 null;
         }
@@ -49,16 +72,19 @@ const CheckboxComponent: React.FC<DynamicComponentProps> = ({ data }: DynamicCom
 };
 
 const DropdownComponent = ({ data }: DynamicComponentProps): React.ReactElement => {
+    const { register, formState: { errors } } = useFormContext();
+
     return (
         <FloatingLabel className="mb-3" label={data?.label}>
-            <Form.Select>
-                <option value="">{data?.label}</option>
+            <Form.Select className={getErrorClassName('dynamicSelect', errors)} {...register('dynamicSelect')}>
+                <option value="">Select {data?.label}</option>
                 {data?.values?.map((fieldData: any) =>
                     <option value={fieldData?.id} key={fieldData?.id}>
                         {fieldData?.value}
                     </option>
                 )}
             </Form.Select>
+            {getErrorText('dynamicSelect', errors)}
         </FloatingLabel>
     );
 }
@@ -100,9 +126,17 @@ const SwitchComponent = ({ data }: DynamicComponentProps): React.ReactElement =>
 }
 
 const LabelComponent = ({ data }: DynamicComponentProps): React.ReactElement => {
+    const { register, formState: { errors } } = useFormContext();
+
     return (
         <FloatingLabel className="mb-3" label={data?.label}>
-            <Form.Control type="text" placeholder="Post sub-category Input" />
+            <Form.Control
+                className={getErrorClassName('dynamicInput', errors)}
+                type="text"
+                placeholder="Post sub-category Input"
+                {...register('dynamicInput')}
+            />
+            {getErrorText('dynamicInput', errors)}
         </FloatingLabel>
     );
 }

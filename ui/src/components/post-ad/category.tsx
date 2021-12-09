@@ -1,18 +1,17 @@
 import React, { useEffect } from 'react';
 import { Form, FloatingLabel } from 'react-bootstrap';
-import { useAxios } from '../../services/base-service';
 import { useFormContext } from 'react-hook-form';
-import { getPostSubCategoryComponent } from '.';
+import { useAxios } from '../../services/base-service';
+import { SubCategories, Fields } from '.';
 
 interface CategoryProps {
-    onCategorySelected: any,
-    onSubCategorySelected: any,
+    onSubCategorySelected: (subCat: SubCategories | null) => void,
 };
 
-export const CategorySelector: React.FC<CategoryProps> = ({ onCategorySelected, onSubCategorySelected }: CategoryProps): React.ReactElement => {
+export const CategorySelector: React.FC<CategoryProps> = ({ onSubCategorySelected }: CategoryProps): React.ReactElement => {
     const [responseData, setResponseData] = React.useState<any>([]);
-    const [subCategoryData, setSubCategoryData] = React.useState<any>(null);
-    const [subCategoryFields, setSubCategoryFields] = React.useState<any>(null);
+    const [subCategoryData, setSubCategoryData] = React.useState<SubCategories[]>([]);
+    const [subCategoryFields, setSubCategoryFields] = React.useState<Fields[]>([]);
 
     const { register, formState: { errors } } = useFormContext();
 
@@ -55,21 +54,20 @@ export const CategorySelector: React.FC<CategoryProps> = ({ onCategorySelected, 
         e.preventDefault();
         if (e.target.value) {
             const index = responseData.findIndex((category: any) => category.id === e.target.value);
-            setSubCategoryData(responseData[index]?.subCategories);
-            onCategorySelected(responseData);
+            setSubCategoryData(responseData[index]?.subCategories as SubCategories[]);
         } else {
-            setSubCategoryData(null);
-            onCategorySelected(null);
+            setSubCategoryData([]);
+            onSubCategorySelected(null);
         }
     }
     const handleSubCategoryChange = (e: any) => {
         e.preventDefault();
         if (e.target.value) {
-            const index = subCategoryData.findIndex((category: any) => category.id === e.target.value);
-            setSubCategoryFields(subCategoryData[index]);
-            onSubCategorySelected(subCategoryData);
+            const index = subCategoryData?.findIndex((category: any) => category.id === e.target.value);
+            setSubCategoryFields(subCategoryData[index].fields as Fields[]);
+            onSubCategorySelected(subCategoryData[index]);
         } else {
-            setSubCategoryFields(null);
+            setSubCategoryFields([]);
             onSubCategorySelected(null);
         }
     };
@@ -96,7 +94,7 @@ export const CategorySelector: React.FC<CategoryProps> = ({ onCategorySelected, 
                 </Form.Select>
                 {getErrorText('category')}
             </FloatingLabel>
-            {subCategoryData && (
+            {!!subCategoryData?.length && (
                 <FloatingLabel className="mb-3" controlId="subcategory-select" label="Select Sub Category">
                     <Form.Select
                         className={getErrorClassName('subCategory')}
@@ -114,7 +112,6 @@ export const CategorySelector: React.FC<CategoryProps> = ({ onCategorySelected, 
                     {getErrorText('subCategory')}
                 </FloatingLabel>
             )}
-            {responseData && subCategoryData && subCategoryFields && (getPostSubCategoryComponent(subCategoryFields))}
         </>
     );
 }
