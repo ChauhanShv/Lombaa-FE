@@ -16,10 +16,6 @@ class Fields extends Model
 
     protected $table = 'fields';
 
-    const CREATED_AT = 'createdAt';
-    const UPDATED_AT = 'updatedAt';
-    const DELETED_AT = 'deletedAt';
-
     use SoftDeletes;
 
     public function icon()
