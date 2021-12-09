@@ -174,7 +174,7 @@ class FieldsController extends Controller
             ];
 
             $send_file_data = Files::insert($file_data);
-            $icon_id = $fileData['id'];
+            $icon_id = $file_data['id'];
         } else {
             $get_icon_id = Fields::where('id', $id)->first();
             $icon_id = $get_icon_id->iconId;
