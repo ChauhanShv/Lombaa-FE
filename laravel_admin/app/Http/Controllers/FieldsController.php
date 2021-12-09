@@ -61,7 +61,7 @@ class FieldsController extends Controller
                     'dataTypes' => $request->datatype,
                     'fieldType' => $request->fieldtype,
                     'sortOrder' => null,
-                    'iconId' => $fileData['id'],
+                    'iconId' => $file_data['id'],
                 ];
 
                 $submit_data = Fields::insert($data);
