@@ -13,6 +13,8 @@ class Locations extends Model
 
     use HasFactory;
 
+    use SoftDeletes;
+
     public function city()
     {
         return $this->belongsTo(Cities::class, 'cityId', 'id');
