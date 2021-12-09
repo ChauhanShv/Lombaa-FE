@@ -6,7 +6,6 @@ use App\Models\Category;
 use App\Models\CategoryField;
 use App\Models\Fields;
 use App\Models\Files;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Str;
@@ -52,8 +51,6 @@ class CategoryController extends Controller
                 // 'absolute_path'=> $image_path,
                 'absolute_path' => 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/Djehr3diIDdqjo8Wf2JhFbZC70M9w1RZ0xb9VFH4.png',
                 'location' => 's3',
-                'createdAt' => Carbon::now(),
-                'updatedAt' => Carbon::now(),
             ];
 
             $send_file_data = Files::insert($file_data);
@@ -67,9 +64,7 @@ class CategoryController extends Controller
                 'iconId' => $file_data['id'],
                 'isPopular' => isset($request->popular) ? 1 : 0,
                 'isActive' => isset($request->active) ? 1 : 0,
-                'parentId' => isset($request->is_parent) ? null : $request->product,
-                'createdAt' => Carbon::now(),
-                'updatedAt' => Carbon::now(),
+                'parentId' => $request->product ? $request->product : null,
             ];
 
             Category::insertGetId($data);
@@ -82,6 +77,7 @@ class CategoryController extends Controller
 
                     $category_field['categoryId'] = $category_id;
                     $category_field['fieldId'] = $field;
+
                     array_push($category_fields, $category_field);
                 }
 
@@ -146,7 +142,6 @@ class CategoryController extends Controller
                     // 'absolute_path'=> $image_path,
                     'absolute_path' => 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/MONRfS7gQ3w0LOJOlijQ8j1Ned7TC7NhSeeCGpfj.png',
                     'location' => 's3',
-                    'updatedAt' => Carbon::now(),
                 ];
 
                 $send_file_data = Files::where('id', $get_icon_id)->update($file_data);
@@ -164,8 +159,6 @@ class CategoryController extends Controller
                 'isPopular' => isset($request->popular) ? 1 : 0,
                 'isActive' => isset($request->active) ? 1 : 0,
                 'parentId' => $parent_id,
-                'createdAt' => Carbon::now(),
-                'updatedAt' => Carbon::now(),
             ];
 
             Category::where('id', $id)->update($data);
@@ -211,6 +204,24 @@ class CategoryController extends Controller
             $existing_fields = $category->fields;
 
             return view('category.update', ['data' => $data, 'categories' => $categories, 'fields' => $fields, 'parent_category_name' => $parent_category_name, 'existingFields' => $existingFields]);
+        }
+    }
+
+    public function delete_category($id)
+    {
+        $delete = Category::where('id', $id)->delete();
+
+        return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Category deleted successfully']);
+    }
+
+    public function category_filter($action)
+    {
+        if ($action === 'parent_categories') {
+            $category_list = Category::whereNull('parentId')->paginate(30);
+            return view('category.list', ['category_list' => $category_list]);
+        } elseif ($action === 'sub_categories') {
+            $category_list = Category::whereNotNull('parentId')->paginate(30);
+            return view('category.list', ['category_list' => $category_list]);
         }
     }
 }

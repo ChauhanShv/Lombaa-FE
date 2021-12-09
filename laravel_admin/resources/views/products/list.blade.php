@@ -20,7 +20,6 @@
             <div><span class="icon"><i class="icon-th"></i></span>
                 <h5>Products List</h5>
             </div>
-
             <div>
                 {{$products->links('pagination::bootstrap-4')}}
             </div>
@@ -40,7 +39,6 @@
                     <li><a href="{{ route('filter', ['action' => 'sold']) }}"><i style="color: grey" class="icon icon-thumbs-up"></i>&nbsp;&nbsp;&nbsp;Sold</a></li>
                 </ul>
             </div>
-
         </div>
         <div class="widget-content nopadding">
             <table class="table table-bordered data-table">
@@ -81,7 +79,6 @@
                         <td style="text-align: center;">{{ ($product->is_Sold) ? 'Yes' : 'No' }}</td>
                         <td style="text-align: center;">{{ \Carbon\Carbon::parse($product->postedAt)->format('d/m/Y') }}</td>
                         <td>
-
                             @if(($product->is_Approved)==0)
                                 <p><strong>Under&nbsp;Review</strong></p>
                                 <a href="{{ route('approve_reject', ['action' => 'approve', 'id' => $product->id ]) }}" onclick="return confirm('Do you want to Approve this user?');">

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
@@ -17,15 +18,9 @@ class Category extends Model
 
     const CREATED_AT = 'createdAt';
     const UPDATED_AT = 'updatedAt';
+    const DELETED_AT = 'deletedAt';
 
-    protected $fillable = [
-        'name',
-        'description',
-        'isPopular',
-        'isActive',
-        'iconId',
-        'parentId',
-    ];
+    use SoftDeletes;
 
     public function icon()
     {
@@ -36,4 +31,13 @@ class Category extends Model
     {
         return $this->belongsToMany(Fields::class, 'category_fields', 'categoryId', 'fieldId')->using(CategoryField::class);
     }
+
+    protected $fillable = [
+        'name',
+        'description',
+        'isPopular',
+        'isActive',
+        'iconId',
+        'parentId',
+    ];
 }

@@ -15,7 +15,6 @@ class ProductsController extends Controller
             $products = Products::where('slug', $id)->paginate(30);
             return view('products.list', ['products' => $products]);
         }
-
     }
 
     public function approve_reject($action, $id)
