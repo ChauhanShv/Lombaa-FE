@@ -33,6 +33,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/category/list', [CategoryController::class, 'category_list'])->name('category_list');
     Route::get('/category/edit/{id}', [CategoryController::class, 'update_category'])->name('update_category');
     Route::post('/category/{id}/edit', [CategoryController::class, 'update_category'])->name('update_category_post');
+    Route::get('/category/delete/{id}', [CategoryController::class, 'delete_category'])->name('delete_category');
+    Route::get('/category/filter/{action}', [CategoryController::class, 'category_filter'])->name('category_filter');
 
     Route::get('/country', [LocationController::class, 'country_list'])->name('country_list');
     Route::get('/country/add', [LocationController::class, 'add_country'])->name('country');
@@ -59,6 +61,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/fieldedit/{id}', [FieldsController::class, 'field_edit'])->name('field_edit_post');
     Route::get('/fieldedit/{label}/{value}/{id}/updateicon', [FieldsController::class, 'update_icon'])->name('update_icon');
     Route::post('/fieldedit/{label}/{value}/{id}/updateicon', [FieldsController::class, 'update_icon_post'])->name('update_icon_post');
+    Route::get('/fieldedit/values/delete/{id}', [FieldsController::class, 'delete_value'])->name('delete_value');
 
     Route::get('/values', [ValuesController::class, 'values'])->name('values');
     Route::get('/values/add', [ValuesController::class, 'values_add'])->name('values_add');

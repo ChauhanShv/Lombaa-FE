@@ -1,5 +1,5 @@
-@extends('layout.app') 
-@section('body') 
+@extends('layout.app')
+@section('body')
 @include('layout.breadcrumb')
 
 
@@ -10,7 +10,7 @@
         <h5>Add-Category</h5>
       </div>
       <div>
-        @if (session('response')) 
+        @if (session('response'))
         @if (session('response.status') == 'success')
         <div class="alert alert-success">
           @else
@@ -51,7 +51,7 @@
             <div class="control-group">
               <label class="control-label">Popular :</label>
               <div class="controls">
-                <input type="checkbox" name="popular" value="0" data-toggle="toggle">
+                <input type="checkbox" name="popular" data-toggle="toggle">
                 @error('popular')
                 <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                 @enderror
@@ -60,7 +60,7 @@
             <div class="control-group">
               <label class="control-label">Active :</label>
               <div class="controls">
-                <input type="checkbox" name="active" value="0" data-toggle="toggle">
+                <input type="checkbox" name="active" data-toggle="toggle">
                 @error('active')
                 <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                 @enderror
@@ -70,7 +70,7 @@
             <div class="control-group">
               <label class="control-label">IsParent :</label>
               <div class="controls">
-                  <input type="checkbox"  id="parenttId" name="parent" value="0" data-toggle="toggle" >
+                  <input type="checkbox"  id="parenttId" name="is_parent" data-toggle="toggle" >
                   @error('parent')
                   <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                   @enderror
@@ -102,10 +102,10 @@
                 </select>
                 @error('fields')
                     <div class="alert alert-danger ">{{ $message }}</div>
-                @enderror 
+                @enderror
              </div>
-            </div>                             
-            @csrf 
+            </div>
+            @csrf
             <div class="form-actions">
               <button type="submit" class="btn btn-success">Save</button>
             </div>

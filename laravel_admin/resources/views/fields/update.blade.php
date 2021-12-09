@@ -1,5 +1,5 @@
-@extends('layout.app') 
-@section('body') 
+@extends('layout.app')
+@section('body')
 @include('layout.breadcrumb')
 
 
@@ -10,7 +10,7 @@
         <h5>Update Field: {{ ($fields->label) }}</h5>
       </div>
       <div>
-        @if (session('response')) 
+        @if (session('response'))
         @if (session('response.status') == 'success')
         <div class="alert alert-success">
           @else
@@ -42,24 +42,22 @@
                 @enderror
               </div>
             </div>
-            
+
             <div class="control-group">
               <label class="control-label">Field Type:</label>
-              <div class="controls">  
+              <div class="controls">
                 <select id='' name="fieldtype">
                   @if ($fields->fieldType !== null)
-                  <option value="{{ $fields->fieldType }}" selected>{{ $fields->fieldType }}</option>
-
-                  @foreach($fieldtypes as $field_type)
-                  <option value="{{ $field_type }}">{{ $field_type }}</option>
-                  @endforeach
-
-                  else
-
-                  @foreach($fieldtypes as $field_type)
-                  <option value="{{ $field_type }}">{{ $field_type }}</option>
-                  @endforeach
-
+                    <option value="{{ $fields->fieldType }}" selected>{{ $fields->fieldType }}</option>
+                    @foreach($field_types as $field_type)
+                      @if($field_type !== $fields->fieldType)
+                        <option value="{{ $field_type }}">{{ $field_type }}</option>
+                      @endif
+                    @endforeach
+                  @else
+                    @foreach($field_types as $field_type)
+                      <option value="{{ $field_type }}">{{ $field_type }}</option>
+                    @endforeach
                   @endif
                 </select>
               @error('fieldtype')
@@ -67,34 +65,53 @@
               @enderror
               </div>
             </div>
-
+            <div class="control-group">
+             <label class="control-label">Add new values :</label>
+              <div class="controls">
+                <select multiple name="values[]" size="" >
+                    @foreach($values as $value)
+                      <option value="{{$value->id}}">{{ $value->value}}</option>
+                    @endforeach
+                </select>
+                @error('values')
+                    <div class="alert alert-danger ">{{ $message }}</div>
+                @enderror
+             </div>
+            </div>
             <div class="control-group" id="field_wrapper">
-              <label class="control-label">Field Values :</label>
+              <div class="controls">
+                <a href="{{ route('values_add') }}" id="">Add value first</a>
+              </div>
+            </div>
+            <div class="control-group" id="field_wrapper">
                 @foreach ($fields->values as $value)
                   <div class="controls" >
-                    <input type="text" name="field_name[]" value="{{ $value->value }}" style="width: 20%" class="span11"/>&nbsp;&nbsp;
+                    <input type="text" name="" value="{{ $value->value }}" style="width: 20%" class="span11" readonly/>&nbsp;&nbsp;
                     <img style="width:40px;height:40px" src="{{ $value->icon->absolute_path }}"/>
-                    <a href="javascript:void(0);" class="remove_button" title="Remove field">&nbsp;&nbsp;<button type="button">Remove Field</button></a>
-                    
-                    <a href="{{ route('update_icon', [$fields->label, $value->value, $value->icon->id]) }}" class="update_button" title="Update field">&nbsp;&nbsp;<button type="button">Change Icon</button></a>
+                    <a href="{{ route('delete_value', [$value->id]) }}" onclick="return confirm('Do you want to delete {{ $value->value }} from {{ $fields->label }}?');" class="" title="Remove field">&nbsp;&nbsp;<button type="button">Remove</button></a>
+                    <a href="{{ route('values_update', [$value->id]) }}" class="" title="Update field">&nbsp;&nbsp;<button type="button">Update</button></a>
                     @error('label')
                       <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                     @enderror
                   </div>
                 @endforeach
             </div>
-
-            <div class="control-group" id="field_wrapper">
-              <div class="controls">       
-                <a href="javascript:void(0);" id="add_button">Add field for Values</a>
-              </div>
-            </div>
-
             <div class="control-group">
                 <label class="control-label">Data Type:</label>
                 <div class="controls">
-                    <select id='' name="datatype">
-                      <option value="string">String</option>
+                  <select id='' name="dataTypes">
+                    @if ($fields->dataTypes !== null)
+                      <option value="{{ $fields->dataTypes }}" selected>{{ $fields->dataTypes }}</option>
+                      @foreach($data_types as $data_type)
+                        @if($data_type !== $fields->dataTypes)
+                          <option value="{{ $data_type }}">{{ $data_type }}</option>
+                        @endif
+                      @endforeach
+                    @else
+                      @foreach($data_types as $data_type)
+                        <option value="{{ $data_type }}">{{ $data_type }}</option>
+                      @endforeach
+                    @endif
                   </select>
                 </div>
             </div>
@@ -108,7 +125,7 @@
                   @enderror
               </div>
             </div>
-            
+
             <div class="control-group">
               <label class="control-label">Is Required:</label>
               <div class="controls">
@@ -127,8 +144,8 @@
                 @enderror
               </div>
             </div>
-            
-            @csrf 
+
+            @csrf
             <div class="form-actions">
               <button type="submit" class="btn btn-success">Save</button>
             </div>
@@ -149,19 +166,19 @@ $(document).ready(function(){
     var maxField = 10; //Input fields increment limitation
     var addButton = $('#add_button'); //Add button selector
     var wrapper = $('#field_wrapper'); //Input field wrapper
-    var fieldHTML = '<div class="controls" ><input type="text" name="field_name[]" value="{{ old('fieldvalue')}}" style="width: 20%" class="span11"  /><input type="file" name="valueIcon[]" style="width: 40%" class="span11" value="" /><a href="javascript:void(0);" class="remove_button" title="Add field">&nbsp;&nbsp;<button type="button">Remove Field</button></a></div>'; //New input field html 
-    
+    var fieldHTML = '<div class="controls" ><input type="text" name="field_name[]" value="{{ old('fieldvalue')}}" style="width: 20%" class="span11"  /><input type="file" name="valueIcon[]" style="width: 40%" class="span11" value="" /><a href="javascript:void(0);" class="remove_button" title="Add field">&nbsp;&nbsp;<button type="button">Remove Field</button></a></div>'; //New input field html
+
     var x = 1; //Initial field counter is 1
-    
+
     //Once add button is clicked
     $(addButton).click(function(){
         //Check maximum number of input fields
-        if(x < maxField){ 
+        if(x < maxField){
             x++; //Increment field counter
             $(wrapper).append(fieldHTML); //Add field html
         }
     });
-    
+
     //Once remove button is clicked
     $(wrapper).on('click', '.remove_button', function(e){
         e.preventDefault();
