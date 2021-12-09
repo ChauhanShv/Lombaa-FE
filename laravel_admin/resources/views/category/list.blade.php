@@ -28,9 +28,11 @@
                     Filter categories <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu pull-right" style="text-align: left; "  role="menu">
-                    <li><a href=""><i style="color: grey" class="icon icon-th-list"></i>Parent&nbsp;Categories</a></li>
+                    <li><a href="{{ route('category_list') }}"><i style="color: grey" class="icon icon-list"></i>All</a></li>
                     <li class="divider"></li>
-                    <li><a href=""><i style="color: grey" class="icon icon-list-alt"></i>Sub&nbsp;Categories</a></li>
+                    <li><a href="{{ route('category_filter', ['action' => 'parent_categories']) }}"><i style="color: grey" class="icon icon-th-list"></i>Parent&nbsp;Categories</a></li>
+                    <li class="divider"></li>
+                    <li><a href="{{ route('category_filter', ['action' => 'sub_categories']) }}"><i style="color: grey" class="icon icon-list-alt"></i>Sub&nbsp;Categories</a></li>
                 </ul>
             </div>
         </div>
@@ -76,6 +78,9 @@
                                 <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                             </a>
                             &nbsp
+                            <a href="{{ route('delete_category', $data->id) }}" onclick="return confirm('Do you want to delete {{ $data->name }}')">
+                                <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                            </a>&nbsp&nbsp
                         </td>
                     </tr>
                     @endforeach

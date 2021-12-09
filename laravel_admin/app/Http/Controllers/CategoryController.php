@@ -206,4 +206,22 @@ class CategoryController extends Controller
             return view('category.update', ['data' => $data, 'categories' => $categories, 'fields' => $fields, 'parent_category_name' => $parent_category_name, 'existingFields' => $existingFields]);
         }
     }
+
+    public function delete_category($id)
+    {
+        $delete = Category::where('id', $id)->delete();
+
+        return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Category deleted successfully']);
+    }
+
+    public function category_filter($action)
+    {
+        if ($action === 'parent_categories') {
+            $category_list = Category::whereNull('parentId')->paginate(30);
+            return view('category.list', ['category_list' => $category_list]);
+        } elseif ($action === 'sub_categories') {
+            $category_list = Category::whereNotNull('parentId')->paginate(30);
+            return view('category.list', ['category_list' => $category_list]);
+        }
+    }
 }
