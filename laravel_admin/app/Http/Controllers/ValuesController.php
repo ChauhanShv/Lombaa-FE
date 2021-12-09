@@ -67,10 +67,10 @@ class ValuesController extends Controller
 
                 $sendData = Values::insert($data);
 
-                return redirect()->route('values')->with('response', ['status' => 'success', 'message' => 'Value added successfully']);
+                return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Value added successfully']);
 
             } else {
-                return redirect()->route('values')->with('response', ['status' => 'success', 'message' => 'Something went wrong']);
+                return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Something went wrong']);
             }
 
         } else {
@@ -126,7 +126,7 @@ class ValuesController extends Controller
 
             $sendData = Values::where('id', $id)->update($data);
 
-            return redirect()->route('values')->with('response', ['status' => 'success', 'message' => 'Value updated successfully']);
+            return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Value updated successfully']);
 
         } else {
 

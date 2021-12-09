@@ -61,6 +61,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/fieldedit/{id}', [FieldsController::class, 'field_edit'])->name('field_edit_post');
     Route::get('/fieldedit/{label}/{value}/{id}/updateicon', [FieldsController::class, 'update_icon'])->name('update_icon');
     Route::post('/fieldedit/{label}/{value}/{id}/updateicon', [FieldsController::class, 'update_icon_post'])->name('update_icon_post');
+    Route::get('/fieldedit/values/delete/{id}', [FieldsController::class, 'delete_value'])->name('delete_value');
 
     Route::get('/values', [ValuesController::class, 'values'])->name('values');
     Route::get('/values/add', [ValuesController::class, 'values_add'])->name('values_add');
