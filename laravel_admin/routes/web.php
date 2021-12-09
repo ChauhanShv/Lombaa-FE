@@ -33,6 +33,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/category/list', [CategoryController::class, 'category_list'])->name('category_list');
     Route::get('/category/edit/{id}', [CategoryController::class, 'update_category'])->name('update_category');
     Route::post('/category/{id}/edit', [CategoryController::class, 'update_category'])->name('update_category_post');
+    Route::get('/category/delete/{id}', [CategoryController::class, 'delete_category'])->name('delete_category');
+    Route::get('/category/filter/{action}', [CategoryController::class, 'category_filter'])->name('category_filter');
 
     Route::get('/country', [LocationController::class, 'country_list'])->name('country_list');
     Route::get('/country/add', [LocationController::class, 'add_country'])->name('country');

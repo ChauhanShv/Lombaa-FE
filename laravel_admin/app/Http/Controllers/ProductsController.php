@@ -18,7 +18,6 @@ class ProductsController extends Controller
 
             return view('products.list', ['products' => $products]);
         }
-
     }
 
     public function approve_reject($action, $id)

@@ -11,6 +11,8 @@ class Products extends Model
     const UPDATED_AT = 'updatedAt';
     const DELETED_AT = 'deletedAt';
 
+    use SoftDeletes;
+
     use HasFactory;
 
     public function category()
@@ -47,7 +49,6 @@ class Products extends Model
         'deletedAt',
         'userId',
         'categoryId',
-        'stock',
         'locationId',
     ];
 

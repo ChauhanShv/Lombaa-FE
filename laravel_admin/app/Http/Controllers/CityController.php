@@ -1,36 +1,37 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Request;
-use App\Models\Regions;
-use App\Models\Countries;
+
 use App\Models\Cities;
-use Carbon\Carbon;
+use App\Models\Regions;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Str;
 
 class CityController extends Controller
 {
-    public function city_list() {
+    public function city_list()
+    {
         $cities = Cities::with('region')->get();
-        return view ('location.city.list', ['cities' => $cities]);
+        return view('location.city.list', ['cities' => $cities]);
     }
 
-    public function add_city(Request $request) {
-        if($request->isMethod('post')) {
+    public function add_city(Request $request)
+    {
+        if ($request->isMethod('post')) {
             $rules = [
                 'name' => 'required|regex:/^[\s\w-]*$/',
                 'code' => 'required',
                 'region' => 'required',
                 'lat' => 'required|numeric|between:-90,90',
-                'long'=>'required|numeric|between:-180,180'
+                'long' => 'required|numeric|between:-180,180',
             ];
             $messages = [
                 'name.required' => 'City name is required',
                 'code.required' => 'City code is required',
                 'region.required' => 'Region name is required',
                 'lat' => 'required|numeric|between:-90,90',
-                'long'=>'required|numeric|between:-180,180'
+                'long' => 'required|numeric|between:-180,180',
             ];
             $validator = Validator::make($request->all(), $rules, $messages);
             if ($validator->fails()) {
@@ -45,32 +46,31 @@ class CityController extends Controller
                 'code' => $city_code,
                 'regionId' => $region,
                 'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
-                'createdAt' => Carbon::now(),
-                'updatedAt' => Carbon::now()
             ];
             $insert_city = Cities::insert($data);
             try {
                 return redirect()->route('city_list')->with('response', ['status' => 'success', 'message' => 'City added successfully']);
-            }catch (Exception $e){
+            } catch (Exception $e) {
                 return redirect()->route('city_list')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
             }
-        }else {
+        } else {
             $regions = Regions::get();
-            return view ('location.city.add', ['regions' => $regions]);
+            return view('location.city.add', ['regions' => $regions]);
         }
     }
 
-    public function update_city(Request $request, $id) {
-        if($request->isMethod('post')){
+    public function update_city(Request $request, $id)
+    {
+        if ($request->isMethod('post')) {
             $rules = [
                 'name' => 'required|regex:/^[\s\w-]*$/',
                 'code' => 'required',
                 'region' => 'required',
             ];
             $messages = [
-                    'name.required' => 'City name is required',
-                    'code.required' => 'City code is required',
-                    'region.required' => 'Region name is required',
+                'name.required' => 'City name is required',
+                'code.required' => 'City code is required',
+                'region.required' => 'Region name is required',
             ];
             $validator = Validator::make($request->all(), $rules, $messages);
             if ($validator->fails()) {
@@ -81,22 +81,21 @@ class CityController extends Controller
             $region = $request->input('region');
             $data = [
                 'name' => $city_name,
-                'code' =>  $city_code,
+                'code' => $city_code,
                 'regionId' => $region,
                 'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
-                'updatedAt' => Carbon::now()
             ];
             $insert_city = Cities::where('id', $id)->update($data);
             try {
                 return redirect()->route('city_list')->with('response', ['status' => 'success', 'message' => 'City updated successfully']);
-            }catch (Exception $e){
+            } catch (Exception $e) {
                 return redirect()->route('city_list')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
 
             }
-        }else {
+        } else {
             $regions = Regions::get();
             $city = Cities::with('region')->where('id', $id)->first();
-            return view ('location.city.update', ['id' => $id, 'city' => $city, 'regions' => $regions]);
+            return view('location.city.update', ['id' => $id, 'city' => $city, 'regions' => $regions]);
         }
     }
 }

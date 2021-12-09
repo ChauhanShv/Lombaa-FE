@@ -20,7 +20,6 @@
             <div><span class="icon"><i class="icon-th"></i></span>
                 <h5>Products List</h5>
             </div>
-
             <div>
                 {{$products->links('pagination::bootstrap-4')}}
             </div>
@@ -42,7 +41,6 @@
                     <li><a href="{{ route('filter', ['action' => 'sold']) }}"><i style="color: grey" class="icon icon-thumbs-up"></i>&nbsp;&nbsp;&nbsp;Sold</a></li>
                 </ul>
             </div>
-
         </div>
         <div class="widget-content nopadding" style="overflow: auto !important; scrollbar-base-color:#ffeaff ">
             <table class="table table-bordered data-table">

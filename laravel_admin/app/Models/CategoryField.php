@@ -3,26 +3,36 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CategoryField extends Pivot
 {
-        use HasFactory;
+    use HasFactory;
 
-        protected $table = 'category_fields';
+    const CREATED_AT = 'createdAt';
+    const UPDATED_AT = 'updatedAt';
+    const DELETED_AT = 'deletedAt';
 
-        protected $fillable = [
-            'categoryId',
-            'fieldId'
-        ];
-        function categories() {
-            return $this->belongsTo(Category::class, 'categoryId', 'id');
-        }
+    use SoftDeletes;
 
-        function fields() {
-            return $this->belongsTo(Fields::class, 'fieldId', 'id');
-        }
-        public $timestamps = true;
-        protected $keyType ='string';
+    public function categories()
+    {
+        return $this->belongsTo(Category::class, 'categoryId', 'id');
+    }
+
+    public function fields()
+    {
+        return $this->belongsTo(Fields::class, 'fieldId', 'id');
+    }
+
+    protected $table = 'category_fields';
+
+    protected $fillable = [
+        'categoryId',
+        'fieldId',
+    ];
+
+    public $timestamps = true;
+    protected $keyType = 'string';
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Fields;
 use App\Models\Files;
 use App\Models\Values;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Str;
@@ -55,9 +54,6 @@ class ValuesController extends Controller
                 // 'absolute_path'=> $iconPath,
                 'absolute_path' => 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/L27xI2KWxQerlkrlwWnPvHl0BJDLnfRzpRaQjrQb.jpg',
                 'location' => 's3',
-                'createdAt' => Carbon::now(),
-                'updatedAt' => Carbon::now(),
-
             ];
 
             $sendFileData = Files::insert($fileData);
@@ -67,8 +63,6 @@ class ValuesController extends Controller
                     'id' => Str::uuid(),
                     'value' => $request->name,
                     'iconId' => $fileData['id'],
-                    'createdAt' => Carbon::now(),
-                    'updatedAt' => Carbon::now(),
                 ];
 
                 $sendData = Values::insert($data);
@@ -113,9 +107,6 @@ class ValuesController extends Controller
                     // 'absolute_path'=> $iconPath,
                     'absolute_path' => 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/L27xI2KWxQerlkrlwWnPvHl0BJDLnfRzpRaQjrQb.jpg',
                     'location' => 's3',
-                    'createdAt' => Carbon::now(),
-                    'updatedAt' => Carbon::now(),
-
                 ];
 
                 Files::insert($fileData);
@@ -131,8 +122,6 @@ class ValuesController extends Controller
             $data = [
                 'value' => $request->name,
                 'iconId' => $iconId,
-                'createdAt' => Carbon::now(),
-                'updatedAt' => Carbon::now(),
             ];
 
             $sendData = Values::where('id', $id)->update($data);
