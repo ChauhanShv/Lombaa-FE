@@ -1,12 +1,12 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
-import { PostAdForm } from '../components/post-ad';
+import { CreatePostForm } from '../components/create-post';
 
-export const AdPostPage: React.FC = (): React.ReactElement => {
+export const CreatePostPage: React.FC = (): React.ReactElement => {
     return (
         <>
             <Container>
-                <PostAdForm />
+                <CreatePostForm />
             </Container>
         </>
     );

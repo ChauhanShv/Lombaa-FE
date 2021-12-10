@@ -1,0 +1,73 @@
+.post-ad-box {
+  width: '60%';
+  flex-direction: column;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  background-color: #fff;
+  padding: 3rem;
+}
+
+.ad-post-text {
+  font-family: 'Poppins';
+  text-align: center;
+}
+
+.margin-right-3 {
+  margin-right: 10px;
+}
+
+.drag-n-drop {
+  text-align: center;
+  color: green;
+  font-size: 16px;
+  padding: 24px;
+  border: 1px dashed green;
+  background-color: #e1ffe8;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.thumbs-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+
+.thumb {
+  display: inline-flex;
+  border-radius: 2px;
+  border: 1px solid #eaeaea;
+  margin-bottom: 8px;
+  margin-right: 8px;
+  width: 100px;
+  height: 100px;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.thumb-inner {
+  display: flex;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.img {
+  display: block;
+  width: auto;
+  height: 100%;
+}
+
+.upload-limit-text {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: grey;
+  font-size: 14px;
+}
+
+.form-check-input:checked {
+  background-color: green;
+  border-color: green;
+}

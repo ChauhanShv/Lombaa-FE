@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
 import { Form, FloatingLabel } from 'react-bootstrap';
-import { useAxios } from '../../services/base-service';
 import { useFormContext } from 'react-hook-form';
+import { useAxios } from '../../services/base-service';
+import { SubCategories, Fields } from '.';
 
 interface CategoryProps {
-    onCategorySelected: any,
-    onSubCategorySelected: any,
+    onSubCategorySelected: (subCat: SubCategories | null) => void,
 };
 
-export const CategorySelector: React.FC<CategoryProps> = ({ onCategorySelected, onSubCategorySelected }: CategoryProps): React.ReactElement => {
+export const CategorySelector: React.FC<CategoryProps> = ({ onSubCategorySelected }: CategoryProps): React.ReactElement => {
     const [responseData, setResponseData] = React.useState<any>([]);
-    const [subCategoryData, setSubCategoryData] = React.useState<any>(null);
-    const [subCategoryFields, setSubCategoryFields] = React.useState<any>([]);
+    const [subCategoryData, setSubCategoryData] = React.useState<SubCategories[]>([]);
+    const [subCategoryFields, setSubCategoryFields] = React.useState<Fields[]>([]);
 
     const { register, formState: { errors } } = useFormContext();
 
@@ -54,28 +54,27 @@ export const CategorySelector: React.FC<CategoryProps> = ({ onCategorySelected, 
         e.preventDefault();
         if (e.target.value) {
             const index = responseData.findIndex((category: any) => category.id === e.target.value);
-            setSubCategoryData(responseData[index]?.subCategories);
-            onCategorySelected(responseData);
+            setSubCategoryData(responseData[index]?.subCategories as SubCategories[]);
         } else {
-            setSubCategoryData(null);
-            onCategorySelected(null);
+            setSubCategoryData([]);
+            onSubCategorySelected(null);
         }
     }
     const handleSubCategoryChange = (e: any) => {
         e.preventDefault();
         if (e.target.value) {
-            const index = subCategoryData.findIndex((category: any) => category.id === e.target.value);
-            setSubCategoryFields(subCategoryData[index]);
-            onSubCategorySelected(subCategoryData);
+            const index = subCategoryData?.findIndex((category: any) => category.id === e.target.value);
+            setSubCategoryFields(subCategoryData[index].fields as Fields[]);
+            onSubCategorySelected(subCategoryData[index]);
         } else {
-            setSubCategoryFields(null);
+            setSubCategoryFields([]);
             onSubCategorySelected(null);
         }
     };
 
     return (
         <>
-            <FloatingLabel className="mb-3" controlId="floatingSelect" label="Select Category">
+            <FloatingLabel className="mb-3" controlId="category-select" label="Select Category">
                 <Form.Select
                     className={getErrorClassName('category')}
                     aria-label="Select Category"
@@ -95,8 +94,8 @@ export const CategorySelector: React.FC<CategoryProps> = ({ onCategorySelected, 
                 </Form.Select>
                 {getErrorText('category')}
             </FloatingLabel>
-            {subCategoryData && (
-                <FloatingLabel className="mb-3" controlId="floatingSelect" label="Select Sub Category">
+            {!!subCategoryData?.length && (
+                <FloatingLabel className="mb-3" controlId="subcategory-select" label="Select Sub Category">
                     <Form.Select
                         className={getErrorClassName('subCategory')}
                         aria-label="Select Sub Category"
@@ -112,21 +111,6 @@ export const CategorySelector: React.FC<CategoryProps> = ({ onCategorySelected, 
                     </Form.Select>
                     {getErrorText('subCategory')}
                 </FloatingLabel>
-            )}
-            {responseData && subCategoryData && subCategoryFields && subCategoryFields?.fields?.map((category: any) =>
-                <>
-                    <Form.Label>{category?.label}</Form.Label>
-                    <Form.Check className='mb-3' type={category?.fieldType}>
-                        {category?.values?.map((subCategory: any) =>
-                            <>
-                                <Form.Check.Input type={category?.fieldType} className="margin-right-3" />
-                                <Form.Check.Label className="margin-right-3">
-                                    {subCategory?.value}
-                                </Form.Check.Label>
-                            </>
-                        )}
-                    </Form.Check>
-                </>
             )}
         </>
     );
