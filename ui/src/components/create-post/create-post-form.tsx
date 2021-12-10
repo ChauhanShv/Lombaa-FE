@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Button, InputGroup, FormControl, Form, FloatingLabel } from 'react-bootstrap';
-import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
-import ToggleButton from 'react-bootstrap/ToggleButton';
+import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -21,7 +19,7 @@ const postAdFormSchema = yup.object().shape({
     dynamicInput: yup.string().required('This Field is Required'),
 });
 
-export const PostAdForm: React.FC = (): React.ReactElement => {
+export const CreatePostForm: React.FC = (): React.ReactElement => {
     const [isForSale, setIsForSale] = useState<Number>(1);
     const [price, setPrice] = useState<Number>(0.00);
     const [subCategorySelected, setSubCategorySelected] = useState<SubCategories | null>(null);
@@ -30,26 +28,6 @@ export const PostAdForm: React.FC = (): React.ReactElement => {
         resolver: yupResolver(postAdFormSchema),
     });
     const { register, handleSubmit, formState: { errors } } = formMethods;
-
-    const getErrorText = (field: string): React.ReactElement | null => {
-        const errorMessages: any = {
-            ...errors
-        };
-        if (errorMessages[field]) {
-            return (
-                <Form.Text className="text-danger">
-                    {errorMessages[field]?.message}
-                </Form.Text>
-            );
-        }
-        return null;
-    };
-    const getErrorClassName = (field: string): string => {
-        const errorMessages: any = {
-            ...errors,
-        };
-        return errorMessages[field] ? 'is-invalid' : '';
-    };
 
     const handlePriceChange = (event: any) => {
         setPrice(event.target.value);
