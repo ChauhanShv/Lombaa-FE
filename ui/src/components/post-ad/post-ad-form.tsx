@@ -17,13 +17,6 @@ import {
 const postAdFormSchema = yup.object().shape({
     category: yup.string().required(),
     subCategory: yup.string().required(),
-    listingTitle: yup.string().required('Listing Title is Required'),
-    price: yup.number()
-        .typeError('Please specify amount in Integer')
-        .min(0, 'Please enter a positive number as price'),
-    description: yup.string().required()
-        .min(50, 'Description must be atlest 50 characters')
-        .max(5000, 'Description must not exceed more than 5000 characters'),
     dynamicSelect: yup.string().required('This is a required field'),
     dynamicInput: yup.string().required('This Field is Required'),
 });
