@@ -58,7 +58,9 @@ class FieldsController extends Controller
                 'location' => 's3',
             ];
 
-            $send_file_data = Files::insert($file_data);
+            $send_file_data = Files::create($file_data);
+
+            $count = Fields::count();
 
             if ($send_file_data) {
                 $data = [
@@ -68,11 +70,11 @@ class FieldsController extends Controller
                     'isActive' => isset($request->active) ? 1 : 0,
                     'dataTypes' => $request->dataTypes,
                     'fieldType' => $request->fieldtype,
-                    'sortOrder' => null,
+                    'sortOrder' => $count + 1,
                     'iconId' => $file_data['id'],
                 ];
 
-                $submit_data = Fields::insert($data);
+                $submit_data = Fields::create($data);
 
                 if ($submit_data) {
                     foreach ($request->values as $value) {
@@ -173,7 +175,7 @@ class FieldsController extends Controller
                 'location' => 's3',
             ];
 
-            $send_file_data = Files::insert($file_data);
+            $send_file_data = Files::create($file_data);
             $icon_id = $file_data['id'];
         } else {
             $get_icon_id = Fields::where('id', $id)->first();
@@ -187,7 +189,6 @@ class FieldsController extends Controller
                 'isActive' => isset($request->active) ? 1 : 0,
                 'dataTypes' => $request->dataTypes,
                 'fieldType' => $request->fieldtype,
-                'sortOrder' => null,
                 'iconId' => $icon_id,
             ];
 

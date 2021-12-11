@@ -4,17 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CategoryField extends Pivot
 {
     use HasFactory;
-
-    const CREATED_AT = 'createdAt';
-    const UPDATED_AT = 'updatedAt';
-    const DELETED_AT = 'deletedAt';
-
-    use SoftDeletes;
 
     public function categories()
     {
@@ -29,10 +22,11 @@ class CategoryField extends Pivot
     protected $table = 'category_fields';
 
     protected $fillable = [
+        'sort',
         'categoryId',
         'fieldId',
     ];
 
-    public $timestamps = true;
+    public $timestamps = false;
     protected $keyType = 'string';
 }

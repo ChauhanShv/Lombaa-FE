@@ -15,6 +15,8 @@ class Countries extends Model
 
     use SoftDeletes;
 
+    public $timestamps = true;
+
     use SpatialTrait;
 
     protected $table = 'countries';
@@ -25,6 +27,7 @@ class Countries extends Model
         'code',
         'createdAt',
         'updatedAt',
+        'deletedAt',
     ];
 
     protected $spatialFields = [

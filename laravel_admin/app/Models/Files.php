@@ -11,6 +11,8 @@ class Files extends Pivot
 
     protected $table = 'files';
 
+    public $timestamps = true;
+
     const CREATED_AT = 'createdAt';
     const UPDATED_AT = 'updatedAt';
     const DELETED_AT = 'deletedAt';
@@ -26,11 +28,8 @@ class Files extends Pivot
         'relative_path',
         'absolute_path',
         'location',
-        'createdAt',
-        'updatedAt',
     ];
 
-    public $timestamps = true;
     protected $keyType = 'string';
     use HasFactory;
 }

@@ -53,12 +53,9 @@ class CategoryController extends Controller
                 'location' => 's3',
             ];
 
-            $send_file_data = Files::insert($file_data);
-
-            $category_id = Str::uuid();
+            $send_file_data = Files::create($file_data);
 
             $data = [
-                'id' => $category_id,
                 'name' => $request->name,
                 'description' => $request->description,
                 'iconId' => $file_data['id'],
@@ -67,21 +64,24 @@ class CategoryController extends Controller
                 'parentId' => $request->product ? $request->product : null,
             ];
 
-            Category::insertGetId($data);
+            $category_id = Category::create($data)->id;
 
             if ($data) {
                 $category_fields = array();
-
+                $i = 1;
                 foreach ($request->input('fields') as $field) {
                     $category_field = array();
 
+                    $category_field['sort'] = $i;
                     $category_field['categoryId'] = $category_id;
                     $category_field['fieldId'] = $field;
 
                     array_push($category_fields, $category_field);
+
+                    $i++;
                 }
 
-                $send_category_fields = CategoryField::insert($category_fields);
+                $send_category_fields = CategoryField::create($category_fields);
 
                 return redirect()->route('category_list')->with('response', ['status' => 'success', 'message' => 'Category added successfully']);
             } else {
@@ -119,9 +119,9 @@ class CategoryController extends Controller
 
             $validator = Validator::make($request->all(), $rules, $messages);
 
-            if ($validator->fails()) {
-                return redirect()->back()->withInput($request->all())->withErrors($validator);
-            }
+            // if ($validator->fails()) {
+            //     return redirect()->back()->withInput($request->all())->withErrors($validator);
+            // }
 
             if ($request->image !== null) {
                 $image_name = Str::uuid() . '.' . $request->file('image')->getClientOriginalName();
@@ -147,37 +147,46 @@ class CategoryController extends Controller
                 $send_file_data = Files::where('id', $get_icon_id)->update($file_data);
             }
 
-            if ($request->parent == 0) {
-                $parent_id = null;
-            } else {
-                $parent_id = $request->product;
-            }
+            // if ($request->parent == 0) {
+            //     $parent_id = null;
+            // } else {
+            //     $parent_id = $request->product;
+            // }
 
             $data = [
                 'name' => $request->name,
                 'description' => $request->description,
                 'isPopular' => isset($request->popular) ? 1 : 0,
                 'isActive' => isset($request->active) ? 1 : 0,
-                'parentId' => $parent_id,
+                'parentId' => isset($request->parent) ? null : $request->product,
             ];
 
-            Category::where('id', $id)->update($data);
+            $update_category = Category::where('id', $id)->update($data);
 
-            if ($data) {
-                if ($request->fields !== null) {
+            if ($update_category) {
+                if ($request->add_fields !== null) {
 
                     $delete_old_records = CategoryField::where('categoryId', $id)->delete();
 
+                    // echo 'record_deleted';die;
+
                     $category_fields = array();
 
-                    foreach ($request->input('fields') as $field) {
+                    $i = 1;
+                    foreach ($request->input('add_fields') as $field) {
                         $category_field = array();
+                        $category_field['sort'] = $i;
                         $category_field['categoryId'] = $id;
                         $category_field['fieldId'] = $field;
                         array_push($category_fields, $category_field);
+                        $i++;
                     }
 
+                    // dd($category_fields);
+                    // dd($category_fields);
+
                     $send_category_fields = CategoryField::insert($category_fields);
+
                 }
 
                 return redirect()->route('category_list')->with('response', ['status' => 'success', 'message' => 'Category updated successfully']);
@@ -188,22 +197,26 @@ class CategoryController extends Controller
 
         } else {
             $data = Category::with('icon')->find($id);
+            $categories = Category::orderBy('name')->get();
+            $fields = Fields::get();
+            $existing_fields = CategoryField::with('fields')->where('categoryId', $id)->get();
 
-            if (!$data) {
-                abort(404);
+            $non_existing_fields = array();
+
+            foreach ($fields as $field) {
+                $found = false;
+                foreach ($existing_fields as $ext) {
+                    if ($field->id === $ext->fields->id) {
+                        $found = true;
+                        break;
+                    }
+                }
+                if (!$found) {
+                    array_push($non_existing_fields, $field);
+                }
             }
 
-            $categories = Category::orderBy('name')->get();
-            $get_parent_id = $data->parentId;
-
-            $parent_category_name = Category::where('id', $get_parent_id)->first();
-
-            $fields = Fields::get();
-            $parent_category = Category::where('id', $id)->get();
-            $category = Category::with('fields')->find($id);
-            $existing_fields = $category->fields;
-
-            return view('category.update', ['data' => $data, 'categories' => $categories, 'fields' => $fields, 'parent_category_name' => $parent_category_name, 'existing_fields' => $existing_fields]);
+            return view('category.update', ['data' => $data, 'categories' => $categories, 'fields' => $fields, 'existing_fields' => $existing_fields, 'non_existing_fields' => $non_existing_fields]);
         }
     }
 

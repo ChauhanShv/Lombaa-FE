@@ -47,7 +47,7 @@ class RegionController extends Controller
                 'countryId' => $country,
                 'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
             ];
-            $insert_region = Regions::insert($data);
+            $insert_region = Regions::create($data);
             try {
                 return redirect()->route('region_list')->with('response', ['status' => 'success', 'message' => 'Region added successfully']);
             } catch (Exception $e) {

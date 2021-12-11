@@ -17,6 +17,8 @@ class Cities extends Model
 
     use SoftDeletes;
 
+    public $timestamps = true;
+
     use SpatialTrait;
 
     protected $table = 'cities';
