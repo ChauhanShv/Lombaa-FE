@@ -11,8 +11,14 @@ FieldValue.init(
             primaryKey: true,
             defaultValue: Sequelize.UUIDV4,
         },
+
         value: {
-            type: DataTypes.STRING(),
+            type: DataTypes.STRING,
+            allowNull: true
+        },
+
+        sort: {
+            type: DataTypes.INTEGER,
             allowNull: true
         }
     },

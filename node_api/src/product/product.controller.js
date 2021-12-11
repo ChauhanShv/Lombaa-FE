@@ -1,9 +1,11 @@
 const BaseController = require("../modules/controller").base;
-const productModel = require("./product.model");
+const Product = require("./product.model");
 const { validationResult } = require("express-validator");
 const { validationErrorFormatter } = require("../formater");
 const slugify = require('slugify');
 const ProductService = require('./product.service');
+const { v4: uuidv4 } = require('uuid');
+const ProductField = require('./product_field.model');
 class productController extends BaseController {
   constructor(...args) {
     super(...args);
@@ -18,19 +20,25 @@ class productController extends BaseController {
     }
 
     try {
-      const data = (({ title, description, isNegotiable, isFree, buyerDoDelivery, condition, promoteType, dealMethod, location }) =>
-        ({ title, description, isNegotiable, isFree, buyerDoDelivery, condition, promoteType, dealMethod, location }))(req.body);
+      const data = {};
+      data.slug = await this.slugify(req?.body?.categoryFields?.find(field => field.fieldType === 'title')?.value ?? req?.body?.categoryId ?? uuidv4());
 
-      data.slug = await this.slugify(data.title)
+      const product = await Product.create(data);
 
-      const newProduct = await productModel.create(data);
-      const product = await newProduct.save();
+      const productFieldData = req?.body?.fields?.map(field => ({
+        fieldId: field?.id,
+        value: field?.value?.value,
+        fieldValueId: field?.value?.id,
+        productId: product?.id
+      }));
+      await ProductField.bulkCreate(productFieldData);
+
       return super.jsonRes({
         res,
         code: 200,
         data: {
           Success: true,
-          message: "Product added successfull",
+          message: "Product added",
           Product: product,
         },
       });
@@ -94,7 +102,7 @@ class productController extends BaseController {
       }
       if (filters.isSold) [(where.isSold = filters.isSold)];
 
-      const products = await productModel.findAll({
+      const products = await Product.findAll({
         offset,
         limit,
         where,
@@ -134,7 +142,7 @@ class productController extends BaseController {
     try {
       const Op = require("sequelize");
       const givenId = req.params.id;
-      const singleProduct = await productModel.findOne({
+      const singleProduct = await Product.findOne({
         where: { id: givenId, isApproved: 0 },
       });
       return super.jsonRes({

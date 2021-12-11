@@ -15,54 +15,9 @@ Product.init(
       defaultValue: Sequelize.UUIDV4,
     },
 
-    title: {
-      type: DataTypes.STRING(50),
-      allowNull: false,
-    },
-
-    description: {
-      type: DataTypes.STRING(255),
-      allowNull: true,
-    },
-
     slug: {
       type: DataTypes.STRING(255),
       allowNull: false,
-    },
-
-    isNegotiable: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false
-    },
-
-    isFree: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false
-    },
-
-    buyerDoDelivery: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false
-    },
-
-    condition: {
-      type: DataTypes.ENUM({
-        values: ["new", "old"],
-      }),
-      allowNull: true,
-    },
-
-    promoteType: {
-      type: DataTypes.ENUM({ values: ["yes", "no"] }),
-      allowNull: true,
-    },
-
-    dealMethod: {
-      type: DataTypes.ENUM({ values: ["yes", "no"] }),
-      allowNull: true,
     },
 
     approvedAt: {
@@ -103,6 +58,6 @@ Product.init(
 Product.belongsTo(Category, { as: 'category' });
 Product.belongsTo(User, { as: 'user' });
 Product.belongsTo(Location, { as: 'location' });
-Product.hasMany(ProductField, { as: 'productField' })
+Product.hasMany(ProductField, { foreignKey: 'productId' })
 
 module.exports = Product;

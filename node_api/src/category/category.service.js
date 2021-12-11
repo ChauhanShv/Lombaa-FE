@@ -3,9 +3,13 @@ const Category = require("./category.model");
 class CategoryService {
 
     async getById(id) {
-        const data = await Category.scope(null).findAll({ where: { id: id } });
-        console.log({ data });
+        const data = await Category.findByPk(id);
         return data;
+    }
+
+    async exists(id) {
+        if (!id) return false;
+        return !! await Category.count({ where: { id: id } });
     }
 }
 

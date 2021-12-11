@@ -1,81 +1,75 @@
 const CategoryService = require("../category/category.service");
+const { isDate } = require('../modules/validator');
 
-const fieldsValidator = async (value, { req, location, path }) => {
-  if (!Array.isArray(value)) {
-    return Promise.resolve();
-  }
+const categoryService = new CategoryService();
 
-  const categoryService = new CategoryService();
-  const category = await categoryService.getById(req.body.categoryId);
+exports.generate = async (req) => {
 
-  console.log({ category });
+  const schema = {
+    categoryId: {
+      notEmpty: {
+        errorMessage: "Category is required"
+      },
+      custom: {
+        options: async (id, { req, location, path }) => {
+          if (!id && !categoryService.exists(id))
+            return Promise.reject(`Category does not exists`);
+          return Promise.resolve();
+        }
+      }
+    },
+  };
 
-  return Promise.reject('Testing');
+  if (!req?.body?.categoryId) return schema;
+
+  const category = await categoryService.getById(req?.body?.categoryId);
+
+  const categoryFields = category?.fields;
+
+
+  req.body.categoryFields = categoryFields;
+
+  categoryFields.forEach(field => {
+    const fieldValidation = {};
+
+    const fieldType = field?.fieldType?.toLowerCase();
+    const dataType = field?.dataTypes?.toLowerCase();
+    const fieldLabel = field?.label;
+
+    if (field?.isRequired) {
+      fieldValidation['notEmpty'] = {
+        errorMessage: `${fieldLabel} is required`
+      }
+    }
+
+    if (fieldType === 'email') {
+      fieldValidation['isEmail'] = {
+        errorMessage: "Email address is invalid",
+      }
+    }
+
+    if (fieldType === 'date') {
+      fieldValidation['custom'] = {
+        options: async (value, { req, location, path }) => {
+          if (!isDate(value, 'YYYY-MM-DD'))
+            return Promise.reject(`Date is invalid`);
+          return Promise.resolve();
+        }
+      }
+    }
+
+    if (dataType === 'numeric') {
+      fieldValidation['isInt'] = true;
+      fieldValidation['toInt'] = true;
+    }
+
+    if (dataType === 'boolean') {
+      fieldValidation['isBoolean'] = true;
+      fieldValidation['toBoolean'] = true;
+    }
+
+    schema[`${field?.id}.value`] = fieldValidation
+  });
+
+  return schema;
 }
-
-module.exports = {
-  "title": {
-    notEmpty: {
-      errorMessage: "Field 'Title' cannot be empty",
-    },
-  },
-
-  "description": {
-    optional: { options: { nullable: true } },
-  },
-
-  "isNegotiable": {
-    notEmpty: {
-      errorMessage: "Field 'Negotiable' cannot be empty",
-    },
-    isBoolean: true,
-    toBoolean: true
-  },
-
-  "isFree": {
-    notEmpty: { errorMessage: "Field 'Free' cannot be empty" },
-    isBoolean: true,
-    toBoolean: true
-  },
-
-  "buyerDoDelivery": {
-    optional: { options: { nullable: true } },
-    isBoolean: true,
-    toBoolean: true,
-  },
-
-  "condition": {
-    optional: { options: { nullable: true } },
-    isIn: {
-      options: [["yes", "no"]],
-      errorMessage: "Field 'Condition' has invalid value"
-    }
-  },
-
-  "location": {
-    notEmpty: { errorMessage: "Location cannnot be empty" }
-  },
-
-  "promoteType": {
-    optional: { options: { nullable: true } },
-    isIn: {
-      options: [["yes", "no"]],
-      errorMessage: "Field 'Promote Type' has invalid value"
-    }
-  },
-
-  "dealMethod": {
-    optional: { options: { nullable: true } },
-    isIn: {
-      options: [["yes", "no"]],
-      errorMessage: "Field 'Deal Method' has invalid value"
-    }
-  },
-
-  "fields": {
-    isArray: true,
-    custom: {
-      options: fieldsValidator
-    }
-  }
-};

@@ -8,26 +8,13 @@ x-client-platform : Android
 x-access-token: {{token}}
 
 {
-    "title": "House on Rent",
-    "isNegotiable": true,
-    "isFree": false,
-    "location": "234",
-    "categoryId": "8aaeab99-08e0-4739-b40d-f6c0a81b5285",
+    "categoryId": "34bac1ec-8d17-467e-936e-0545d222093b",
     "fields": [
         {
-            "id": "123455",
-            "title": "Brand",
+            "id": "2b335941-5b95-484a-b1b7-581887f75ab0",
             "value": {
-                "id": "123121",
-                "value": "Honda"
-            }
-        },
-        {
-            "id": "123455",
-            "title": "New",
-            "value": {
-                "id": "123121",
-                "value": false
+                "id": "07eca6df-1bef-4c92-9fcb-c6e81d58baf6",
+                "value": "2020-01-10"
             }
         }
     ]
