@@ -27,7 +27,7 @@
                     <form action="{{ route('update_category_post', $data['id']) }}" method="post" enctype="multipart/form-data" class="form-horizontal">
                         @csrf
 
-                        <div class="control-group">
+                        {{-- <div class="control-group">
                             <label class="control-label">Category ID :</label>
                             <div class="controls">
                                 <input type="text" name="id" class="span11" placeholder="Enter ID" value="{{ $data['id'] }}" readonly/>
@@ -35,7 +35,7 @@
                                 <div class="alert alert-danger ">{{ $message }}</div>
                                 @enderror
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="control-group">
                             <label class="control-label">Category Name :</label>
@@ -82,7 +82,7 @@
                             <div class="control-group">
                                 <label class="control-label">Active :</label>
                                 <div class="controls">
-                                    <input type="checkbox" name="active" value="0" {{ ($data->isActive) ? 'checked' : '' }} data-toggle="toggle">
+                                    <input type="checkbox" name="active" {{ ($data->isActive) ? 'checked' : '' }} data-toggle="toggle">
                                     @error('active')
                                     <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                                     @enderror
@@ -92,7 +92,7 @@
                             <div class="control-group">
                                 <label class="control-label">IsParent :</label>
                                 <div class="controls">
-                                    <input type="checkbox"  id="parenttId" name="parent" value="0" {{ ($data->parentId) ? '' : 'checked' }} data-toggle="toggle" >
+                                    <input type="checkbox"  id="parenttId" name="parent" {{ ($data->parentId) ? '' : 'checked' }} data-toggle="toggle" >
                                     @error('active')
                                     <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                                     @enderror
@@ -105,22 +105,19 @@
                                 <div class="controls">
                                     <select class="selectpicker" name="product">
 
-                                    @if ($data->parentId !== null )
-                                        <option value="{{ $data->parentId }}" selected>{{ $parent_category_name->name }}</option>
-
-                                        @foreach($categories as $category)
-                                            @if( $category->id !== $data->parentId)
+                                        @if ($data->parentId !== null )
+                                            @foreach($categories as $category)
+                                                @if($data->parentId == $category->id)
+                                                    <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                                                @endif
                                                 <option value="{{  $category->id }}">{{ $category->name }}</option>
-                                            @endif
-                                        @endforeach
-
-                                    @else
-                                        <option value="Select parent category" selected>Select parent category</option>
-                                        @foreach($categories as $category)
-
-                                            <option value="{{  $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    @endif
+                                            @endforeach
+                                        @else
+                                            <option value="" selected>Select parent category</option>
+                                            @foreach($categories as $category)
+                                                <option value="{{  $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        @endif
 
                                     </select>
                                 @error('product')
@@ -128,31 +125,22 @@
                                 @enderror
                                 </div>
                             </div>
-
                             <div class="control-group">
                                 <label class="control-label">Select Fields :</label>
                                 <div class="controls">
-                                <select multiple name="fields[]">
-                                    @foreach($fields as $field)
-                                        @php $selected = 0 @endphp
+                                    <select multiple name="add_fields[]">
                                         @foreach ($existing_fields as $existing_field)
-                                            @if($field == $existing_field)
-                                                <option value="{{ $field->id }}" selected>{{ $field->label}}</option>
-                                            @php $selected = 1 @endphp
-                                            @break;
-                                            @endif
+                                            <option value="{{ $existing_field->fields->id }}" selected>{{ $existing_field->fields->label }}</option>
                                         @endforeach
-                                        @if($selected == 0)
-                                            <option value="{{$existing_field->id}}">{{ $existing_field->label}}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                                @error('product')
+                                        @foreach($non_existing_fields as $field)
+                                            <option value="{{ $field->id }}">{{ $field->label }}</option>
+                                        @endforeach
+                                    </select>
+                                @error('fields')
                                     <div class="alert alert-danger ">{{ $message }}</div>
                                 @enderror
                                 </div>
                             </div>
-
                         @csrf
                         <div class="form-actions">
                             <button type="submit" class="btn btn-success">Update</button>

@@ -47,7 +47,7 @@ class CityController extends Controller
                 'regionId' => $region,
                 'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
             ];
-            $insert_city = Cities::insert($data);
+            $insert_city = Cities::create($data);
             try {
                 return redirect()->route('city_list')->with('response', ['status' => 'success', 'message' => 'City added successfully']);
             } catch (Exception $e) {

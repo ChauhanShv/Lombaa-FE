@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 
 trait Uuids
 {
-   /**
+    /**
      * Boot function from Laravel.
      */
     protected static function boot()
@@ -14,11 +14,11 @@ trait Uuids
         parent::boot();
 
         static::creating(function ($model) {
-            $model->setAttribute($model->getKeyName(), Uuid::uuid4());
+            $model->setAttribute($model->getKeyName(), Str::uuid()->toString());
         });
     }
 
-   /**
+    /**
      * Get the value indicating whether the IDs are incrementing.
      *
      * @return bool
@@ -28,7 +28,7 @@ trait Uuids
         return false;
     }
 
-   /**
+    /**
      * Get the auto-incrementing key type.
      *
      * @return string
