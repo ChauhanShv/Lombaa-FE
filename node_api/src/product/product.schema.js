@@ -23,13 +23,13 @@ exports.generate = async (req) => {
   if (!req?.body?.categoryId) return schema;
 
   const category = await categoryService.getById(req?.body?.categoryId);
+  if (!category) return schema;
 
   const categoryFields = category?.fields;
 
-
   req.body.categoryFields = categoryFields;
 
-  categoryFields.forEach(field => {
+  categoryFields?.forEach(field => {
     const fieldValidation = {};
 
     const fieldType = field?.fieldType?.toLowerCase();

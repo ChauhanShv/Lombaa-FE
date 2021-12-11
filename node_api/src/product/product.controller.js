@@ -20,8 +20,10 @@ class productController extends BaseController {
     }
 
     try {
-      const data = {};
-      data.slug = await this.slugify(req?.body?.categoryFields?.find(field => field.fieldType === 'title')?.value ?? req?.body?.categoryId ?? uuidv4());
+      const data = {
+        slug: await this.slugify(req?.body?.categoryFields?.find(field => field.fieldType === 'title')?.value ?? req?.body?.categoryId ?? uuidv4()),
+        userId: req?.user?.id ?? null
+      };
 
       const product = await Product.create(data);
 
