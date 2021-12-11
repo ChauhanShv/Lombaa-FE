@@ -119,9 +119,9 @@ class CategoryController extends Controller
 
             $validator = Validator::make($request->all(), $rules, $messages);
 
-            // if ($validator->fails()) {
-            //     return redirect()->back()->withInput($request->all())->withErrors($validator);
-            // }
+            if ($validator->fails()) {
+                return redirect()->back()->withInput($request->all())->withErrors($validator);
+            }
 
             if ($request->image !== null) {
                 $image_name = Str::uuid() . '.' . $request->file('image')->getClientOriginalName();
@@ -147,12 +147,6 @@ class CategoryController extends Controller
                 $send_file_data = Files::where('id', $get_icon_id)->update($file_data);
             }
 
-            // if ($request->parent == 0) {
-            //     $parent_id = null;
-            // } else {
-            //     $parent_id = $request->product;
-            // }
-
             $data = [
                 'name' => $request->name,
                 'description' => $request->description,
@@ -168,8 +162,6 @@ class CategoryController extends Controller
 
                     $delete_old_records = CategoryField::where('categoryId', $id)->delete();
 
-                    // echo 'record_deleted';die;
-
                     $category_fields = array();
 
                     $i = 1;
@@ -182,11 +174,7 @@ class CategoryController extends Controller
                         $i++;
                     }
 
-                    // dd($category_fields);
-                    // dd($category_fields);
-
                     $send_category_fields = CategoryField::insert($category_fields);
-
                 }
 
                 return redirect()->route('category_list')->with('response', ['status' => 'success', 'message' => 'Category updated successfully']);
