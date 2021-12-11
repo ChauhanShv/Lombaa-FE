@@ -88,7 +88,6 @@
                                     @enderror
                                 </div>
                             </div>
-
                             <div class="control-group">
                                 <label class="control-label">IsParent :</label>
                                 <div class="controls">
@@ -98,8 +97,6 @@
                                     @enderror
                                 </div>
                             </div>
-
-
                             <div class="control-group" id='cattId'>
                                 <label class="control-label">Parent Category :</label>
                                 <div class="controls">

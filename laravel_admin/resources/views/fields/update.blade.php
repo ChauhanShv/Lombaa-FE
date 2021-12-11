@@ -49,16 +49,12 @@
                 <select id='' name="fieldtype">
                   @if ($fields->fieldType !== null)
                     <option value="{{ $fields->fieldType }}" selected>{{ $fields->fieldType }}</option>
+                  @endif
                     @foreach($field_types as $field_type)
                       @if($field_type !== $fields->fieldType)
                         <option value="{{ $field_type }}">{{ $field_type }}</option>
                       @endif
                     @endforeach
-                  @else
-                    @foreach($field_types as $field_type)
-                      <option value="{{ $field_type }}">{{ $field_type }}</option>
-                    @endforeach
-                  @endif
                 </select>
               @error('fieldtype')
                 <div class="alert alert-danger ">{{ $message }}</div>
@@ -69,6 +65,9 @@
              <label class="control-label">Add new values :</label>
               <div class="controls">
                 <select multiple name="values[]" size="" >
+                    @foreach ($fields->values as $existing_value)
+                      <option value="{{$existing_value->id}}" selected>{{ $existing_value->value}}</option>
+                    @endforeach
                     @foreach($values as $value)
                       <option value="{{$value->id}}">{{ $value->value}}</option>
                     @endforeach
@@ -78,6 +77,8 @@
                 @enderror
              </div>
             </div>
+
+            {{--
             <div class="control-group" id="field_wrapper">
               <div class="controls">
                 <a href="{{ route('values_add') }}" id="">Add value first</a>
@@ -96,6 +97,7 @@
                   </div>
                 @endforeach
             </div>
+            --}}
             <div class="control-group">
                 <label class="control-label">Data Type:</label>
                 <div class="controls">
@@ -118,14 +120,18 @@
             <div class="control-group">
               <label class="control-label">Icon:</label>
               <div class="controls">
-                <img style="width:40px;height:40px" src="{{ $fields->icon->absolute_path }}" class="img-responsive"/>
-                <input type="file" name="icon" style="width: 40%" class="span11" value="" />
+                  <div id="imageDisplay">
+                      <image style="width:50px" src="{{ $fields->icon->absolute_path }}">
+                  </div>
+                  <div id="uploadField">
+                    <input type="file" name="icon" style="width: 40%" class="span11" value="" />
+                  </div>
+                  <button type="button" id="imageButton">Change Icon</button>
                   @error('icon')
                     <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                   @enderror
               </div>
             </div>
-
             <div class="control-group">
               <label class="control-label">Is Required:</label>
               <div class="controls">
@@ -160,30 +166,4 @@
 
 @endsection
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-<script type="text/javascript">
-$(document).ready(function(){
-    var maxField = 10; //Input fields increment limitation
-    var addButton = $('#add_button'); //Add button selector
-    var wrapper = $('#field_wrapper'); //Input field wrapper
-    var fieldHTML = '<div class="controls" ><input type="text" name="field_name[]" value="{{ old('fieldvalue')}}" style="width: 20%" class="span11"  /><input type="file" name="valueIcon[]" style="width: 40%" class="span11" value="" /><a href="javascript:void(0);" class="remove_button" title="Add field">&nbsp;&nbsp;<button type="button">Remove Field</button></a></div>'; //New input field html
-
-    var x = 1; //Initial field counter is 1
-
-    //Once add button is clicked
-    $(addButton).click(function(){
-        //Check maximum number of input fields
-        if(x < maxField){
-            x++; //Increment field counter
-            $(wrapper).append(fieldHTML); //Add field html
-        }
-    });
-
-    //Once remove button is clicked
-    $(wrapper).on('click', '.remove_button', function(e){
-        e.preventDefault();
-        $(this).parent('div').remove(); //Remove field html
-        x--; //Decrement field counter
-    });
-});
-</script>
+<script type="text/javascript"  src="{{ asset('assets/js/admin/update_category.js')}}"></script>
