@@ -26,18 +26,14 @@ Field.init(
         },
         dataTypes: {
             type: DataTypes.ENUM({
-                values: ["string"],
+                values: ["string", "boolean", "numeric"],
             }),
             allowNull: false,
         },
         fieldType: {
             type: DataTypes.ENUM({
-                values: ["label", "dropdown", "checkbox", "switch", 'tagView'],
+                values: ['text', "textArea", "dropdown", "checkbox", "switch", 'tagView', 'email', 'date', 'price', 'title'],
             }),
-            allowNull: true
-        },
-        sortOrder: {
-            type: DataTypes.TEXT,
             allowNull: true
         }
     },

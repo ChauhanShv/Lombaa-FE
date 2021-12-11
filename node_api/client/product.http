@@ -1,0 +1,21 @@
+@baseUrl = http://localhost:3001/api
+
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA5YmJlZTQ4LTU0M2YtNGJjMy1iOTIwLTIwYWMyZTdhZDVlYyIsImlhdCI6MTYzODg4MDkxNSwiZXhwIjoxNjM4OTY3MzE1fQ.n8Gx87G0y2BubweG4BiUmUMZZwK9qIXjWp9njC4-imQ
+
+POST {{baseUrl}}/product HTTP/1.1
+content-type: application/json
+x-client-platform : Android
+x-access-token: {{token}}
+
+{
+    "categoryId": "34bac1ec-8d17-467e-936e-0545d222093b",
+    "fields": [
+        {
+            "id": "2b335941-5b95-484a-b1b7-581887f75ab0",
+            "value": {
+                "id": "07eca6df-1bef-4c92-9fcb-c6e81d58baf6",
+                "value": "2020-01-10"
+            }
+        }
+    ]
+}

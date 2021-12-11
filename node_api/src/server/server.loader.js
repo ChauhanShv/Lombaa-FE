@@ -24,7 +24,7 @@ module.exports = ({ app }) => {
     app.use(express.json());
 
     morgan.token('reqbody', (req, res) => JSON.stringify(req.body));
-    morgan.token('resbody', (req, res) => JSON.stringify(res.__custombody__));
+    morgan.token('resbody', (req, res) => res.__custombody__);
     app.use(morgan('\n--------------------------------\nHTTP/:http-version :method :url :status :response-time ms\nContent-Length: :req[content-length] byte(s)\n\nReq body: :reqbody\n\nRes body: :resbody\n--------------------------------', { stream: log.stream }));
 
     app.use(requestMiddleware);

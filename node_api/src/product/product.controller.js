@@ -1,11 +1,15 @@
 const BaseController = require("../modules/controller").base;
-const productModel = require("./product.model");
+const Product = require("./product.model");
 const { validationResult } = require("express-validator");
 const { validationErrorFormatter } = require("../formater");
-
+const slugify = require('slugify');
+const ProductService = require('./product.service');
+const { v4: uuidv4 } = require('uuid');
+const ProductField = require('./product_field.model');
 class productController extends BaseController {
   constructor(...args) {
     super(...args);
+    this.service = new ProductService();
   }
 
   add = async (req, res, next) => {
@@ -14,28 +18,47 @@ class productController extends BaseController {
     } catch (error) {
       return res.status(422).json(error.array({ onlyFirstError: true }));
     }
+
     try {
-      const value = req.body.data;
-      const newProduct = await productModel.create(value);
-      const Product = await newProduct.save();
+      const data = {};
+      data.slug = await this.slugify(req?.body?.categoryFields?.find(field => field.fieldType === 'title')?.value ?? req?.body?.categoryId ?? uuidv4());
+
+      const product = await Product.create(data);
+
+      const productFieldData = req?.body?.fields?.map(field => ({
+        fieldId: field?.id,
+        value: field?.value?.value,
+        fieldValueId: field?.value?.id,
+        productId: product?.id
+      }));
+      await ProductField.bulkCreate(productFieldData);
+
       return super.jsonRes({
         res,
         code: 200,
         data: {
           Success: true,
-          message: "Product added successfull",
-          Product: Product,
+          message: "Product added",
+          Product: product,
         },
       });
     } catch (error) {
       console.log(error);
       return super.jsonRes({
         res,
-        code: 401,
-        data: { msg: "invalid details" },
+        code: 400,
+        data: {
+          success: false,
+          error: {
+            code: 400,
+            message: "Failed to post Ad",
+            message_detail: error.message
+          }
+        }
       });
     }
   };
+
   listing = async (req, res, next) => {
     try {
       const filters = req.body.data;
@@ -79,7 +102,7 @@ class productController extends BaseController {
       }
       if (filters.isSold) [(where.isSold = filters.isSold)];
 
-      const products = await productModel.findAll({
+      const products = await Product.findAll({
         offset,
         limit,
         where,
@@ -119,7 +142,7 @@ class productController extends BaseController {
     try {
       const Op = require("sequelize");
       const givenId = req.params.id;
-      const singleProduct = await productModel.findOne({
+      const singleProduct = await Product.findOne({
         where: { id: givenId, isApproved: 0 },
       });
       return super.jsonRes({
@@ -141,6 +164,17 @@ class productController extends BaseController {
       });
     }
   };
+
+  async slugify(text) {
+    let counter = 0;
+    let slug = '';
+    do {
+      slug = `${slugify(text, { replacement: '-', lower: true, trim: true })}${counter ? `-${counter}` : ''}`;
+      counter++;
+    } while (!await this.service.isSlugAvailable(slug));
+
+    return slug;
+  }
 }
 
 module.exports = new productController();
