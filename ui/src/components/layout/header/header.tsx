@@ -1,16 +1,33 @@
 import React, { useState } from 'react';
-import { FaCommentDots, FaBell, FaList, FaSearch, FaHeart, FaMapMarkerAlt } from 'react-icons/fa';
+import {
+    FaCommentDots,
+    FaBell,
+    FaList,
+    FaSearch,
+    FaHeart,
+    FaMapMarkerAlt,
+} from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { Row, Col, Container, Navbar, Button, InputGroup, FormControl, Image, OverlayTrigger, Popover, Dropdown } from 'react-bootstrap';
+import {
+    Row,
+    Col,
+    Container,
+    Navbar,
+    Button,
+    InputGroup,
+    FormControl,
+    Dropdown
+} from 'react-bootstrap';
 import { Login, Register } from '../../modals';
 import { useAppContext, ActionTypes } from '../../../contexts';
+import { CategoryPopover, MobileNav } from '.';
 import './header.css';
 
 const HeaderComponent: React.FC = (): React.ReactElement => {
     const [loginModal, setLoginModal] = useState<boolean>(false);
     const [registerModal, setRegisterModal] = useState<boolean>(false);
     const { state, dispatch } = useAppContext();
-    const { session } = state;
+    const { session, user } = state;
 
     const handleSignOutClick = () => {
         dispatch({
@@ -22,82 +39,11 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
     }
     return (
         <>
-            <Navbar sticky="top" className=" d-none d-lg-flex navbar navbar-expand-lg navbar-dark shadow bg-success flex-wrap justify-content-between p-0">
+            <MobileNav />
+            <Navbar sticky="top" className="d-none d-lg-flex navbar navbar-expand-lg navbar-dark shadow bg-success flex-wrap justify-content-between p-0">
                 <Navbar className="w-100 navbar navbar-light bg-dark p-0 header-cat">
                     <Container className="align-items-end">
-                        <OverlayTrigger
-                            trigger="click"
-                            key='bottom'
-                            placement='bottom'
-                            overlay={
-                                <Popover className="head-cat" id={`popover-positioned-bottom`}>
-                                    <Popover.Body className="px-5 shadow d-flex justify-content-between flex-wrap">
-                                        <div className="p-3">
-                                            <h4>Cars</h4>
-                                            <ul>
-                                                <li><Link to="">Used Cars</Link></li>
-                                                <li><Link to="">Parallel Imports</Link></li>
-                                                <li><Link to="">New Cars</Link></li>
-                                                <li><Link to="">Commercial Vehicles</Link></li>
-                                                <li><Link to="">Car Rental</Link></li>
-                                                <li><Link to="">Other Vehicles</Link></li>
-                                                <li><Link to="">Specials</Link></li>
-                                            </ul>
-                                        </div>
-                                        <div className="p-3">
-                                            <h4>Cars</h4>
-                                            <ul>
-                                                <li><Link to="">Used Cars</Link></li>
-                                                <li><Link to="">Parallel Imports</Link></li>
-                                                <li><Link to="">New Cars</Link></li>
-                                                <li><Link to="">Commercial Vehicles</Link></li>
-                                                <li><Link to="">Car Rental</Link></li>
-                                                <li><Link to="">Other Vehicles</Link></li>
-                                                <li><Link to="">Specials</Link></li>
-                                            </ul>
-                                        </div>
-                                        <div className="p-3">
-                                            <h4>Cars</h4>
-                                            <ul>
-                                                <li><Link to="">Used Cars</Link></li>
-                                                <li><Link to="">Parallel Imports</Link></li>
-                                                <li><Link to="">New Cars</Link></li>
-                                                <li><Link to="">Commercial Vehicles</Link></li>
-                                                <li><Link to="">Car Rental</Link></li>
-                                                <li><Link to="">Other Vehicles</Link></li>
-                                                <li><Link to="">Specials</Link></li>
-                                            </ul>
-                                        </div>
-                                        <div className="p-3">
-                                            <h4>Cars</h4>
-                                            <ul>
-                                                <li><Link to="">Used Cars</Link></li>
-                                                <li><Link to="">Parallel Imports</Link></li>
-                                                <li><Link to="">New Cars</Link></li>
-                                                <li><Link to="">Commercial Vehicles</Link></li>
-                                                <li><Link to="">Car Rental</Link></li>
-                                                <li><Link to="">Other Vehicles</Link></li>
-                                                <li><Link to="">Specials</Link></li>
-                                            </ul>
-                                        </div>
-                                        <div className="p-3">
-                                            <h4>Cars</h4>
-                                            <ul>
-                                                <li><Link to="">Used Cars</Link></li>
-                                                <li><Link to="">Parallel Imports</Link></li>
-                                                <li><Link to="">New Cars</Link></li>
-                                                <li><Link to="">Commercial Vehicles</Link></li>
-                                                <li><Link to="">Car Rental</Link></li>
-                                                <li><Link to="">Other Vehicles</Link></li>
-                                                <li><Link to="">Specials</Link></li>
-                                            </ul>
-                                        </div>
-                                    </Popover.Body>
-                                </Popover>
-                            }
-                        >
-                            <Link to="">Popover on bottom</Link>
-                        </OverlayTrigger>
+                        <CategoryPopover />
                         <div className="d-flex align-items-center ms-auto me-0">
                             <ul className="navbar-nav ms-auto me-sm-2 mt-2 mt-lg-0 icon-list d-none d-lg-flex align-items-center">
                                 <li className="nav-item icon-item active me-3">
@@ -126,7 +72,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                             {session.isLoggedIn && (
                                 <Dropdown align="end" className="ps-3">
                                     <Dropdown.Toggle variant="link" id="dropdown-basic" className="p-0">
-                                        <img className="rounded-circle" width="36" height="36" src={state?.user?.metaData?.profilePicture?.url || "/images/user-circle.svg"} alt="Htmlstream" />
+                                        <img className="rounded-circle" width="36" height="36" src={user?.metaData?.profilePicture?.url || "/images/user-circle.svg"} alt={user?.metaData?.profilePicture?.url} />
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu>
                                         <Link to="/profile">
@@ -210,7 +156,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                 {session.isLoggedIn && (
                     <Dropdown align="end" className="ps-3">
                         <Dropdown.Toggle variant="link" id="dropdown-basic" className="p-0">
-                            <img className="rounded-circle" width="30" height="30" src={state?.user?.metaData?.profilePicture?.url || "/images/user-circle.svg"} alt="Htmlstream" />
+                            <img className="rounded-circle" width="30" height="30" src={user?.metaData?.profilePicture?.url || "/images/user-circle.svg"} alt="Htmlstream" />
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
                             <Link to="/profile">

@@ -1,10 +1,10 @@
-@extends('layout.app') 
-@section('body') 
+@extends('layout.app')
+@section('body')
 @include('layout.breadcrumb')
 <div class="row-fluid">
     <div class="span12">
         <div class="widget-box">
-            
+
             <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
                 <h5>Update Category :&nbsp&nbsp{{ $data->name }}</h5>
             </div>
@@ -88,7 +88,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            
+
                             <div class="control-group">
                                 <label class="control-label">IsParent :</label>
                                 <div class="controls">
@@ -99,7 +99,7 @@
                                 </div>
                             </div>
 
-                            
+
                             <div class="control-group" id='cattId'>
                                 <label class="control-label">Parent Category :</label>
                                 <div class="controls">
@@ -117,7 +117,7 @@
                                     @else
                                         <option value="Select parent category" selected>Select parent category</option>
                                         @foreach($categories as $category)
-                                            
+
                                             <option value="{{  $category->id }}">{{ $category->name }}</option>
                                         @endforeach
                                     @endif
@@ -128,31 +128,31 @@
                                 @enderror
                                 </div>
                             </div>
-                            
+
                             <div class="control-group">
                                 <label class="control-label">Select Fields :</label>
                                 <div class="controls">
                                 <select multiple name="fields[]">
                                     @foreach($fields as $field)
                                         @php $selected = 0 @endphp
-                                        @foreach ($existingFields as $existingField)
-                                            @if($field == $existingField)
+                                        @foreach ($existing_fields as $existing_field)
+                                            @if($field == $existing_field)
                                                 <option value="{{ $field->id }}" selected>{{ $field->label}}</option>
                                             @php $selected = 1 @endphp
                                             @break;
                                             @endif
                                         @endforeach
                                         @if($selected == 0)
-                                            <option value="{{$existingField->id}}">{{ $existingField->label}}</option>
+                                            <option value="{{$existing_field->id}}">{{ $existing_field->label}}</option>
                                         @endif
                                     @endforeach
                                 </select>
                                 @error('product')
                                     <div class="alert alert-danger ">{{ $message }}</div>
-                                @enderror 
+                                @enderror
                                 </div>
-                            </div> 
-                            
+                            </div>
+
                         @csrf
                         <div class="form-actions">
                             <button type="submit" class="btn btn-success">Update</button>

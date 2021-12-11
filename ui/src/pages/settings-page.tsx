@@ -19,7 +19,7 @@ export const SettingsPage: React.FC = () => {
     const { page } = useParams<{ page: string }>();
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
     const getPage = (): React.ReactElement => {
-        switch(page) {
+        switch (page) {
             case 'personal-details':
                 return <PersonalPetails />;
             case 'change-email':

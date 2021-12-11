@@ -92,12 +92,12 @@ export const Register: React.FC<RegisterProps> = ({
                 <Form.Group className="mb-3">
                     <FloatingLabel label="TIN number" className="mb-3">
                         <Form.Control
-                            {...register("tin")}
+                            {...register("tinNumber")}
                             placeholder="TIN number"
-                            isValid={!!errors.tin}
-                            className={getErrorClassName('tin')}
+                            isValid={!!errors.tinNumber}
+                            className={getErrorClassName('tinNumber')}
                         />
-                        {getErrorText('tin')}
+                        {getErrorText('tinNumber')}
                     </FloatingLabel>
                 </Form.Group>
                 <Form.Group className="mb-3">
