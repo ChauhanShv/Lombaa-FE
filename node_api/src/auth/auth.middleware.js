@@ -60,7 +60,7 @@ module.exports = async (req, res, next) => {
             error: {
                 code: 401,
                 message: "Unauthorized access",
-                message_detail: "Something went wrong"
+                message_detail: err.message
             }
         });
     }
