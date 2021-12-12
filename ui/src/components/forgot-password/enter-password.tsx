@@ -106,7 +106,7 @@ export const EnterPassword: React.FC = () => {
                                 Change Password
                             </span>
                         </Card.Header>
-                        <Form onSubmit={handleFormSubmit} className="card-content text-center p-5 col-md-6 mx-auto" noValidate>
+                        <Form onSubmit={handleFormSubmit} className="card-content text-center p-5 col-lg-6 mx-auto" noValidate>
                             <h4 className="mb-4">Enter your email to get the forgot password link</h4>
                             <FloatingLabel
                                 label="New password"

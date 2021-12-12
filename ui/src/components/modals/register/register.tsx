@@ -274,6 +274,7 @@ export const Register: React.FC<RegisterProps> = ({
                                     label="Individual"
                                     inline
                                     type="radio"
+                                    id="Individual"
                                     value={AccountType.INDIVIDUAL}
                                     checked={selectedAccountType === AccountType.INDIVIDUAL}
                                     {...register("accountType")}
@@ -283,6 +284,7 @@ export const Register: React.FC<RegisterProps> = ({
                                 />
                                 <Form.Check
                                     label="Business"
+                                    id="Business"
                                     inline
                                     type="radio"
                                     value={AccountType.BUSINESS}
@@ -296,7 +298,7 @@ export const Register: React.FC<RegisterProps> = ({
                             </div>
                             {selectedAccountType && getFieldsOnAccountType()}
                             <div className="form-group text-center mt-3">
-                                <button type="submit" className="btn btn-primary w-100">
+                                <button type="submit" className="btn btn-success w-100">
                                     {
                                         loading ? (
                                             <Spinner animation="border" role="status"></Spinner>

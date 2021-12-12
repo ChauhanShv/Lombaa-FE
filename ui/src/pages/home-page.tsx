@@ -153,7 +153,7 @@ export const HomePage: React.FC = (): React.ReactElement => {
                     <Row>
                         <Col sm={12}>
                             <Row className="post-list">
-                                <Col md={3} className="col-12 mb-3">
+                                <Col lg={3} className="col-12 mb-3">
                                     <Link to="/create-post" className="ad-post bg-dark  p-4 rounded text-white d-flex align-items-center justify-content-center flex-wrap  text-center">
                                         <p><i className="fas fa-plus-circle"></i></p>
                                         <h6>Want to see your stuff here ?</h6>
@@ -163,13 +163,13 @@ export const HomePage: React.FC = (): React.ReactElement => {
                                         </Button>
                                     </Link>
                                 </Col>
-                                <Col md={3} className="col-6 mb-3">
+                                <Col lg={3} md={4} className="col-6 mb-3">
                                     <AdCard />
                                 </Col>
-                                <Col md={3} className="col-6 mb-3">
+                                <Col lg={3} md={4} className="col-6 mb-3">
                                     <AdCard />
                                 </Col>
-                                <Col md={3} className="col-6 mb-3">
+                                <Col lg={3} md={4} className="col-6 mb-3">
                                     <AdCard />
                                 </Col>
                             </Row>

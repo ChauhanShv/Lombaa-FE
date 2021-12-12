@@ -49,12 +49,14 @@ export const DeactivateAccount: React.FC = (): React.ReactElement => {
                             {alert.message || getAPIErrorMessage(apiError)}
                         </Alert>
                     )}
-                    <Col sm={8}>
+                    <Row>
+                    <Col sm={12}>
                         <p>You can deactivate your account here. Be careful, all your profile data will be lost after that.</p>
                     </Col>
-                    <Col sm={4}>
-                        <Button onClick={handleFormSubmit} className="btn btn-success w-100">Deactivate</Button>
+                    <Col sm={3}>
+                        <Button onClick={handleFormSubmit} className="btn btn-danger w-100">Deactivate</Button>
                     </Col>
+                    </Row>
                 </Form>
             </Container>
         </Card>
