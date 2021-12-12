@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3001/api
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA5YmJlZTQ4LTU0M2YtNGJjMy1iOTIwLTIwYWMyZTdhZDVlYyIsImlhdCI6MTYzOTIyNjIyMCwiZXhwIjoxNjM5MzEyNjIwfQ.6kfprlklsR492IY-E12oUIK5cikarLWcL1LsJVQ_SS0
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MmEyY2Y1LTEyNjItNDI5YS05ZmE2LWJhNWI3MGFkMmJiNyIsImlhdCI6MTYzOTM0MTYyOSwiZXhwIjoxNjM5NDI4MDI5fQ.ybK6n39vGXfiQF6NlhGQx6m5ff1yOnoDw0QimH9l_5E
 
 POST {{baseUrl}}/product HTTP/1.1
 content-type: application/json
@@ -18,5 +18,26 @@ x-access-token: {{token}}
                 "value": "2020"
             }
         }
+    ],
+    "media": [
+        {
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDJhMmNmNS0xMjYyLTQyOWEtOWZhNi1iYTViNzBhZDJiYjciLCJmaWxlSWQiOiIzMDhhNDA4OC1lNTU3LTRmNWYtOGIxMC1kODUwYTFmZGE5NmYiLCJpYXQiOjE2MzkzNDUxNzIsImV4cCI6MTYzOTQzMTU3Mn0.lOJXKxji71C5_A9GmLCUQYfb1qDeJkmrqqcBD9SvVxo"
+        }
     ]
 }
+
+###
+
+POST  {{baseUrl}}/product/media HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+title
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="media"; filename="data.png"
+Content-Type: image/png
+
+< C:\data\data.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
