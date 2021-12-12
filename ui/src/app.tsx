@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Switch } from 'react-router-dom';
-import './app.css';
+import './app.scss';
 import { PrivateRoute, PublicRoute } from './components/routes';
 import { AppContextProvider } from './contexts';
 import {
@@ -22,6 +22,7 @@ const App: React.FC = () => {
         <AppContainer>
           <Switch>
             <PublicRoute component={HomePage} path="/" exact />
+            <PublicRoute restricted component={HomePage} path="/login" exact />
             <PublicRoute restricted component={ForgotPasswordPage} path="/forgot-password/:token?" exact />
             <PrivateRoute component={SettingsPage} path="/settings/:page?" exact />
             <PrivateRoute component={ProfilePage} path="/profile" exact />

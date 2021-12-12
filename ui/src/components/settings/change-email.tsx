@@ -14,7 +14,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useAxios } from '../../services/base-service';
+import { useAxios } from '../../services';
 import { isEmpty } from 'lodash';
 import { ChangeEmailFormFeilds, AlertType } from './types';
 import { useAppContext } from '../../contexts';

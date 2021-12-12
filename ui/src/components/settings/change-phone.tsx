@@ -15,7 +15,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { isEmpty } from 'lodash';
-import { useAxios } from '../../services/base-service';
+import { useAxios } from '../../services';
 import { MOBILE_REGEX, COMMON_ERROR_MESSAGE } from '../../constants';
 import { ChangePhoneFormFeilds, AlertType } from './types';
 import { useAppContext } from '../../contexts';

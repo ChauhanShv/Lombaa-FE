@@ -16,7 +16,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { isEmpty } from 'lodash';
 import { getAPIErrorMessage } from '../../utils';
-import { useAxios } from '../../services/base-service';
+import { useAxios } from '../../services';
 import { PASSWORD_REGEX } from '../../constants';
 import { ChangePasswordFormFeilds, AlertType } from './types';
 

@@ -26,7 +26,7 @@ import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { useAppContext, ActionTypes } from '../../contexts';
 import { isEmpty } from 'lodash';
-import { useAxios } from '../../services/base-service';
+import { useAxios } from '../../services';
 import { getAPIErrorMessage } from '../../utils';
 import { GOOGLE_CLIENTID, FB_APPID } from '../../config';
 import { ImageCropModal } from '.';

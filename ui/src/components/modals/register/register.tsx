@@ -49,7 +49,6 @@ export const Register: React.FC<RegisterProps> = ({
     useEffect(() => {
         const { success, response, metadata } = registerRes || fbRes || googleRes || {};
         if (success) {
-            localStorage.setItem("token", response?.token);
             dispatch({
                 type: ActionTypes.LOGIN,
                 payload: {
@@ -60,6 +59,56 @@ export const Register: React.FC<RegisterProps> = ({
             onClose();
         }
     }, [registerRes, googleRes, fbRes]);
+
+    const getErrorText = (field: string): React.ReactElement | null => {
+        const errorMessages: any = {
+            ...errors
+        };
+        const formValues = getValues();
+        if (errorMessages.accountType) {
+            errorMessages.accountType = {
+                message: 'Account type is required',
+            };
+        }
+
+        if (formValues.accountType === AccountType.INDIVIDUAL) {
+            if (!formValues.name) {
+                errorMessages.name = {
+                    message: 'Name is required',
+                };
+            } else if (formValues.name?.length < NAME_MIN_LENGTH) {
+                errorMessages.name = {
+                    message: 'Name is invalid',
+                };
+            }
+        }
+        if (formValues.accountType === AccountType.BUSINESS) {
+            if (!formValues.businessName) {
+                errorMessages.businessName = {
+                    message: 'Busines name is required',
+                };
+            } else if (formValues.businessName?.length < NAME_MIN_LENGTH) {
+                errorMessages.businessName = {
+                    message: 'Busines name is invalid',
+                };
+            }
+        }
+
+        if (errorMessages[field]) {
+            return (
+                <Form.Text className="text-danger">
+                    {errorMessages[field]?.message}
+                </Form.Text>
+            );
+        }
+        return null;
+    };
+    const getErrorClassName = (field: string): string => {
+        const errorMessages: any = {
+            ...errors
+        };
+        return errorMessages[field] ? 'is-invalid' : '';
+    };
 
     const getIndividualFields = (): React.ReactElement => {
         return (
@@ -166,49 +215,6 @@ export const Register: React.FC<RegisterProps> = ({
         openLogin(true);
     };
 
-    const getErrorText = (field: string): React.ReactElement | null => {
-        const errorMessages: any = {
-            ...errors
-        };
-        const formValues = getValues();
-        if (errorMessages.accountType) {
-            errorMessages.accountType = {
-                message: 'Account type is required',
-            };
-        }
-
-        if (formValues.accountType === AccountType.INDIVIDUAL) {
-            if (!formValues.name) {
-                errorMessages.name = {
-                    message: 'Name is required',
-                };
-            } else if (formValues.name?.length < NAME_MIN_LENGTH) {
-                errorMessages.name = {
-                    message: 'Name is invalid',
-                };
-            }
-        }
-        if (formValues.accountType === AccountType.BUSINESS) {
-            if (!formValues.businessName) {
-                errorMessages.businessName = {
-                    message: 'Busines name is required',
-                };
-            } else if (formValues.businessName?.length < NAME_MIN_LENGTH) {
-                errorMessages.businessName = {
-                    message: 'Busines name is invalid',
-                };
-            }
-        }
-
-        if (errorMessages[field]) {
-            return (
-                <Form.Text className="text-danger">
-                    {errorMessages[field]?.message}
-                </Form.Text>
-            );
-        }
-        return null;
-    };
     const showAPIErrorMessage = () => {
         if (!apiError && !fbApiError && !googleApiError) {
             return null;
@@ -233,13 +239,6 @@ export const Register: React.FC<RegisterProps> = ({
             },
         });
     }
-
-    const getErrorClassName = (field: string): string => {
-        const errorMessages: any = {
-            ...errors
-        };
-        return errorMessages[field] ? 'is-invalid' : '';
-    };
 
     return (
         <Modal show={show} onHide={onClose}>

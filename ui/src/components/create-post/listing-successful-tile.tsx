@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import { FaSearch, FaHeart, FaCheckCircle } from 'react-icons/fa';
+import { FaHeart, FaCheckCircle } from 'react-icons/fa';
 
 export const ListingSuccessfulTile: React.FC = (): React.ReactElement => {
     return (

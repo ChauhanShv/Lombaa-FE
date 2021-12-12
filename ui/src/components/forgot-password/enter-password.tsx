@@ -16,7 +16,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { useParams } from 'react-router-dom';
 import { isEmpty } from 'lodash';
-import { useAxios } from '../../services/base-service';
+import { useAxios } from '../../services';
 import { PASSWORD_REGEX } from '../../constants';
 import { getAPIErrorMessage } from '../../utils';
 
