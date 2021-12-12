@@ -77,27 +77,6 @@
                 @enderror
              </div>
             </div>
-
-            {{--
-            <div class="control-group" id="field_wrapper">
-              <div class="controls">
-                <a href="{{ route('values_add') }}" id="">Add value first</a>
-              </div>
-            </div>
-            <div class="control-group" id="field_wrapper">
-                @foreach ($fields->values as $value)
-                  <div class="controls" >
-                    <input type="text" name="" value="{{ $value->value }}" style="width: 20%" class="span11" readonly/>&nbsp;&nbsp;
-                    <img style="width:40px;height:40px" src="{{ $value->icon->absolute_path }}"/>
-                    <a href="{{ route('delete_value', [$value->id]) }}" onclick="return confirm('Do you want to delete {{ $value->value }} from {{ $fields->label }}?');" class="" title="Remove field">&nbsp;&nbsp;<button type="button">Remove</button></a>
-                    <a href="{{ route('values_update', [$value->id]) }}" class="" title="Update field">&nbsp;&nbsp;<button type="button">Update</button></a>
-                    @error('label')
-                      <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
-                    @enderror
-                  </div>
-                @endforeach
-            </div>
-            --}}
             <div class="control-group">
                 <label class="control-label">Data Type:</label>
                 <div class="controls">

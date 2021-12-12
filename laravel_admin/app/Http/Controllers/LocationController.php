@@ -39,7 +39,7 @@ class LocationController extends Controller
                 'code' => $country_code,
                 'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
             ];
-            $insert_country = Countries::insert($data);
+            $insert_country = Countries::create($data);
             try {
                 return redirect()->route('country_list')->with('response', ['status' => 'success', 'message' => 'Country added successfully']);
             } catch (Exception $e) {

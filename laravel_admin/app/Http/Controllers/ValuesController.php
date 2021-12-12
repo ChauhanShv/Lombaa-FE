@@ -56,7 +56,7 @@ class ValuesController extends Controller
                 'location' => 's3',
             ];
 
-            $sendFileData = Files::insert($fileData);
+            $sendFileData = Files::create($fileData);
 
             if ($sendFileData) {
                 $data = [
@@ -65,7 +65,7 @@ class ValuesController extends Controller
                     'iconId' => $fileData['id'],
                 ];
 
-                $sendData = Values::insert($data);
+                $sendData = Values::create($data);
 
                 return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Value added successfully']);
 
@@ -109,7 +109,7 @@ class ValuesController extends Controller
                     'location' => 's3',
                 ];
 
-                Files::insert($fileData);
+                Files::create($fileData);
 
                 $iconId = $fileData['id'];
 

@@ -13,7 +13,7 @@ class Category extends Model
     use HasFactory;
 
     protected $table = 'categories';
-    public $timestamps = false;
+    public $timestamps = true;
     protected $keyType = 'string';
 
     const CREATED_AT = 'createdAt';
