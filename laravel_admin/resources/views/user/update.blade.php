@@ -1,5 +1,5 @@
-@extends('layout.app') 
-@section('body') 
+@extends('layout.app')
+@section('body')
 @include('layout.breadcrumb')
 <div class="row-fluid">
     <div class="span12">
@@ -22,16 +22,6 @@
                     @if($data)
                     <form action="/user/edit" method="POST" class="form-horizontal">
                         @csrf
-                        <input type="hidden" name="id" value="{{ $data['id'] }}" >
-                        <div class="control-group">
-                            <label class="control-label">User ID :</label>
-                            <div class="controls">
-                                <input type="text" name="id" class="span11" placeholder="Enter ID" value="{{ $data['id'] }}" />
-                                @error('id')
-                                <div class="alert alert-danger ">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
                         <div class="control-group">
                             <label class="control-label">Name :</label>
                             <div class="controls">

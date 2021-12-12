@@ -92,11 +92,14 @@ class FieldsController extends Controller
             }
         } else {
             $field_types = array(
-                'label' => 'label',
                 'dropdown' => 'dropdown',
                 'checkbox' => 'checkbox',
                 'switch' => 'switch',
                 'tagView' => 'tagView',
+                'email' => 'email',
+                'date' => 'date',
+                'text' => 'text',
+                'textArea' => 'textArea',
             );
 
             $data_types = array(
@@ -114,11 +117,14 @@ class FieldsController extends Controller
     public function field_edit($id)
     {
         $field_types = array(
-            'label' => 'label',
             'dropdown' => 'dropdown',
             'checkbox' => 'checkbox',
             'switch' => 'switch',
             'tagView' => 'tagView',
+            'email' => 'email',
+            'date' => 'date',
+            'text' => 'text',
+            'textArea' => 'textArea',
         );
 
         $data_types = array(

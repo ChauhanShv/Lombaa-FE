@@ -27,6 +27,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('show_Data');
     Route::post('/user/edit', [UserController::class, 'update']);
     Route::get('/user/delete/{id}', [UserController::class, 'delete'])->name('delete');
+    Route::get('/user/filter/{action}', [UserController::class, 'user_filter'])->name('user_filter');
 
     Route::get('/category/add', [CategoryController::class, 'categories'])->name('categories');
     Route::post('/category/add', [CategoryController::class, 'categories']);
