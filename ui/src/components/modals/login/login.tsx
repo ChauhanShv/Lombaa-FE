@@ -145,11 +145,11 @@ export const Login: React.FC<LoginProps> = ({
                                 {getErrorText('password')}
                             </FloatingLabel>
                             <div className="form-group mb-3 d-flex justify-content-between align-items-center">
-                                <Form.Check name="usertype" label="Remember Me" inline type="checkbox" aria-label="radio 1" />
+                                <Form.Check name="usertype" label="Remember Me" id="remember" inline type="checkbox" aria-label="radio 1" />
                                 <Link to="/forgot-password" onClick={() => onClose()}>Forgot Password?</Link>
                             </div>
                             <div className="form-group text-center mt-3">
-                                <Button type="submit" className="btn btn-primary w-100">
+                                <Button type="submit" className="btn btn-success w-100">
                                     {
                                         loading ? (
                                             <Spinner animation="border" role="status"></Spinner>
