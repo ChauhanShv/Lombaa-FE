@@ -1,7 +1,7 @@
 @extends('layout.app')
 @section('body')
 @include('layout.breadcrumb')
-@if (session('response')) 
+@if (session('response'))
 @if (session('response.status') == 'success')
 <div class="alert alert-success">
     @else
@@ -12,21 +12,28 @@
     </div>
     @endif
     <div class="widget-box">
-    <select class="form-select" aria-label="Default select example">
-        <option selected>select menu</option>
-        <option value="1" name="suspend">Suspended</option>
-        <option value="0" name="unsuspend">Unsuspended</option>
-    </select>
     <style>
         .widget-title{display:flex; justify-content:space-between;}
         .widget-title .pagination{margin:2px;}
     </style>
-        <div class="widget-title"> 
+        <div class="widget-title">
             <div><span class="icon"><i class="icon-th"></i></span>
-                <h5>Users List</h5> 
+                <h5>Users List</h5>
             </div>
             <div>
                 {{$user_list->links('pagination::bootstrap-4')}}
+            </div>
+            <div class="btn-group show-on-hover" style="padding-right: 10px;">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Filter Users <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu pull-right" style="text-align: left; "  role="menu">
+                    <li><a href="{{ route('user') }}"><i style="color: grey" class="icon icon-list"></i>&nbsp;&nbsp;&nbsp;All</a></li>
+                    <li class="divider"></li>
+                    <li><a href="{{ route('user_filter', ['action' => 'active']) }}"><i style="color: grey" class="icon icon-ok"></i>&nbsp;&nbsp;&nbsp;Active</a></li>
+                    <li class="divider"></li>
+                    <li><a href="{{ route('user_filter', ['action' => 'suspended']) }}"><i style="color: grey" class="icon icon-remove"></i>&nbsp;&nbsp;&nbsp;Suspended</a></li>
+                </ul>
             </div>
         </div>
         <div class="widget-content nopadding">
@@ -38,6 +45,7 @@
                         <th>Name</th>
                         <th>Join Date</th>
                         <th>Location</th>
+                        <th>Account Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -53,6 +61,7 @@
                         <td style="text-align: center;">{{ htmlspecialchars_decode(date('jS F Y', strtotime($data->memberSince))) }}</td>
                         @endif
                         <td style="text-align: center;">{{ $data->location }}</td>
+                        <td style="text-align: center;">{{ ($data->isActive) ? 'Active' : 'Suspended'}}</td>
                         <td>
                             @if(($data->isSuspended)==0)
                                 <a href="{{ route('suspend', $data->id) }}" onclick="return confirm('Do you want to suspend this user?');">
@@ -80,7 +89,7 @@
                                 <a href="{{ route('show_Data', $data->id) }}">
                                     <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>&nbsp&nbsp
-                                <a href="{{ url('/user/delete', $data->id) }}">
+                                <a href="{{ url('/user/delete', $data->id) }}" onclick="return confirm('Do you want to delete user : {{ $data->name }}')">
                                     <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>&nbsp&nbsp
                         </td>

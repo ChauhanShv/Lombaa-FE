@@ -20,19 +20,7 @@
           @endif
         </div>
         <div class="widget-content nopadding">
-
           <form action="{{ route('field_edit_post', $id) }}" method="post" enctype="multipart/form-data" class="form-horizontal">
-
-            <div class="control-group">
-              <label class="control-label">Field Id :</label>
-              <div class="controls">
-                <input type="text" name="label" value="{{ old('label', $fields->id) }}" style="width: 40%" class="span11"  readonly/>
-                @error('label')
-                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
-                @enderror
-              </div>
-            </div>
-
             <div class="control-group">
               <label class="control-label">Field Label :</label>
               <div class="controls">
@@ -42,7 +30,6 @@
                 @enderror
               </div>
             </div>
-
             <div class="control-group">
               <label class="control-label">Field Type:</label>
               <div class="controls">
@@ -129,10 +116,9 @@
                 @enderror
               </div>
             </div>
-
             @csrf
             <div class="form-actions">
-              <button type="submit" class="btn btn-success">Save</button>
+              <button type="submit" class="btn btn-success">Update</button>
             </div>
           </form>
         </div>
@@ -140,9 +126,6 @@
     </div>
   </div>
 </div>
-
-
-
 @endsection
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript"  src="{{ asset('assets/js/admin/update_category.js')}}"></script>

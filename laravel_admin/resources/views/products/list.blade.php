@@ -109,42 +109,42 @@
                         <td style="text-align: center;">
                             @if(($product->approvedAt) == null && $product->rejectedAt == null)
                                 <p><strong>Under&nbsp;Review</strong></p>
-                                <a href="{{ route('approve_reject', ['action' => 'approve', 'id' => $product->id ]) }}" onclick="return confirm('Do you want to Approve this user?');">
+                                <a href="{{ route('approve_reject', ['action' => 'approve', 'id' => $product->id ]) }}" onclick="return confirm('Do you want to Approve this produdct: {{ $product->title }}?');">
                                     <button class="btn btn-success" style="border-radius:6px; width:40%"><i style="color: white" class="icon icon-ok"></i></button>
                                 </a>
-                                <a href="{{ route('approve_reject', ['action' => 'reject', 'id' => $product->id]) }}" onclick="return confirm('Do you want to Reject this user?');">
+                                <a href="{{ route('approve_reject', ['action' => 'reject', 'id' => $product->id]) }}" onclick="return confirm('Do you want to Reject this produdct: {{ $product->title }}?');">
                                     <button class="btn btn-warning" style="border-radius:6px; width:40%"><i style="color: white" class="icon icon-remove"></i></button>
                                 </a>
                                 <a href="">
                                     <i class="icon icon-user" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
-                                <a href="}">
+                                <a href="">
                                     <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
                                 <a href="">
-                                    <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                                    <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;" onclick="return confirm('Do you want to Delete this produdct: {{ $product->title }}?');"></i>
                                 </a>
                             @elseif(($product->approvedAt) !== null)
                                 <p><strong>Approved</strong></p>
                                 <a href="">
                                     <i class="icon icon-user" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
-                                <a href="}">
+                                <a href="">
                                     <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
                                 <a href="">
-                                    <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                                    <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;" onclick="return confirm('Do you want to Delete this produdct: {{ $product->title }}?');"></i>
                                 </a>
                             @elseif(($product->rejectedAt) !== null)
                                 <p><strong>Rejected</strong></p>
                                 <a href="">
                                     <i class="icon icon-user" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
-                                <a href="}">
+                                <a href="">
                                     <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
                                 <a href="">
-                                    <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                                    <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;" onclick="return confirm('Do you want to Delete this produdct: {{ $product->title }}?');"></i>
                                 </a>
                             @endif
                         </td>
