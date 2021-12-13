@@ -26,12 +26,14 @@ class FieldsController extends Controller
                 'label' => 'required|regex:/^[\s\w-]*$/',
                 'fieldtype' => 'required',
                 'icon' => 'required',
+                'values' => 'required',
             ];
 
             $messages = [
                 'label.required' => 'Label is required',
                 'fieldtype.required' => 'Field Type is required',
                 'icon.required' => 'Icon is required',
+                'values.required' => 'Values cannot be empty',
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -76,10 +78,12 @@ class FieldsController extends Controller
 
                 $submit_data = Fields::create($data);
 
+                $i = 1;
                 if ($submit_data) {
                     foreach ($request->values as $value) {
-                        $field_id = ['fieldId' => $data['id']];
+                        $field_id = ['fieldId' => $data['id'], 'sort' => $i];
                         Values::where('id', $value)->update($field_id);
+                        $i++;
                     }
 
                     return redirect()->route('field_list')->with('response', ['status' => 'success', 'message' => 'Field added successfully']);
@@ -202,13 +206,16 @@ class FieldsController extends Controller
 
             $set_field_id_null = [
                 'fieldId' => null,
+                'sort' => null,
             ];
 
             $reset_field_id = Values::where('fieldId', '=', $id)->update($set_field_id_null);
 
+            $i = 1;
             foreach ($request->values as $value) {
-                $field_id = ['fieldId' => $id];
+                $field_id = ['fieldId' => $id, 'sort' => $i];
                 Values::where('id', $value)->update($field_id);
+                $i++;
             }
 
             return redirect()->route('field_list')->with('response', ['status' => 'success', 'message' => 'Field updated successfully']);
