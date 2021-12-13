@@ -61,7 +61,7 @@ class CategoryController extends Controller
                 'iconId' => $file_data['id'],
                 'isPopular' => isset($request->popular) ? 1 : 0,
                 'isActive' => isset($request->active) ? 1 : 0,
-                'parentId' => $request->product ? $request->product : null,
+                'parentId' => isset($request->is_parent) ? null : $request->product,
             ];
 
             $category_id = Category::create($data)->id;
