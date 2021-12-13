@@ -73,7 +73,13 @@ add_button {
                 @enderror
              </div>
             </div>
-
+            @if($values->isEmpty())
+            <div class="control-group">
+              <div class="controls">
+                <a href="{{ route('values_add') }}"><p>Add Values first</p></a>
+             </div>
+            </div>
+            @endif
             <div class="control-group">
                 <label class="control-label">Data Type:</label>
                 <div class="controls">
