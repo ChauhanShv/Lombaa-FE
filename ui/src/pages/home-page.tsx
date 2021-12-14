@@ -154,19 +154,14 @@ export const HomePage: React.FC = (): React.ReactElement => {
                         <Col sm={12}>
                             <Row className="post-list">
                                 <Col md={3} className="col-12 mb-3">
-                                    <a href="#" className="ad-post bg-dark  p-4 rounded text-white d-flex align-items-center justify-content-center flex-wrap  text-center">
+                                    <Link to="/create-post" className="ad-post bg-dark  p-4 rounded text-white d-flex align-items-center justify-content-center flex-wrap  text-center">
                                         <p><i className="fas fa-plus-circle"></i></p>
                                         <h6>Want to see your stuff here ?</h6>
                                         <p>Sell things in your community. It's quick safe and local.</p>
-                                        <p>
-                                            <Link to="/create-post">
-                                                <Button className="btn btn-success rounded px-3" variant="fullround">
-                                                    Post an Ad for free!
-                                                </Button>
-                                            </Link>
-                                        </p>
-
-                                    </a>
+                                        <Button className="btn btn-success rounded px-3" variant="fullround">
+                                            Post an Ad for free!
+                                        </Button>
+                                    </Link>
                                 </Col>
                                 <Col md={3} className="col-6 mb-3">
                                     <AdCard />

@@ -12,7 +12,7 @@ import {
     FaChevronLeft,
 } from 'react-icons/fa';
 import { getAPIErrorMessage } from '../../utils';
-import { useAxios } from '../../services/base-service';
+import { useAxios } from '../../services';
 import { AlertType } from './types';
 
 export const DeactivateAccount: React.FC = (): React.ReactElement => {

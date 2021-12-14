@@ -46,7 +46,6 @@ export const Login: React.FC<LoginProps> = ({
     useEffect(() => {
         const { success, response, metadata } = loginResponse || fbRes || googleRes || {};
         if (success) {
-            localStorage.setItem("token", response?.token);
             dispatch({
                 type: ActionTypes.LOGIN,
                 payload: {
