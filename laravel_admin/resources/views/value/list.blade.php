@@ -27,17 +27,21 @@
             <div><span class="icon"><i class="icon-th"></i></span>
                 <h5>Values List</h5>
             </div>
-            <div>
-                <a href="{{ route('values_add') }}">
-                    <button class="btn btn-success">Add Value</button>
-                 </a>
+            <style>
+                .widget-secondary-title{display:flex; justify-content:end;}
+            </style>
+            <div class="widget-secondary-title">
+                <div>
+                    <a href="{{ route('values_add') }}">
+                        <button class="btn btn-success">Add Value</button>
+                    </a>
+                </div>
+                <div>
+                {{ $values->links('pagination::bootstrap-4') }}
+                </div>
             </div>
         </div>
-        <div class="widget-title">
-            <div>
-               {{ $values->links('pagination::bootstrap-4') }}
-            </div>
-        </div>
+
         <div class="widget-content nopadding">
             <table class="table table-bordered data-table">
                 <thead>
@@ -50,7 +54,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @php $i = 0 @endphp @foreach( $values as $data ) @php $i++ @endphp
+                    @php $i = $values->perPage() * ($values->currentPage() - 1); @endphp
+                    @foreach( $values as $data ) @php $i++ @endphp
                     <tr class="gradeX" style="align-content: center;">
                         <td style="text-align: center;">{{ $i }}</td>
                         <td style="text-align: center;"><image style="width:50px; height:50px; border-radius: 5%;" src="{{ $data->icon->absolute_path }}"/></td>

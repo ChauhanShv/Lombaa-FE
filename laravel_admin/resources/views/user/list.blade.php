@@ -20,22 +20,28 @@
             <div><span class="icon"><i class="icon-th"></i></span>
                 <h5>Users List</h5>
             </div>
-            <div>
-                {{$user_list->links('pagination::bootstrap-4')}}
-            </div>
-            <div class="btn-group show-on-hover" style="padding-right: 10px;">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    Filter Users <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu pull-right" style="text-align: left; "  role="menu">
-                    <li><a href="{{ route('user') }}"><i style="color: grey" class="icon icon-list"></i>&nbsp;&nbsp;&nbsp;All</a></li>
-                    <li class="divider"></li>
-                    <li><a href="{{ route('user_filter', ['action' => 'active']) }}"><i style="color: grey" class="icon icon-ok"></i>&nbsp;&nbsp;&nbsp;Active</a></li>
-                    <li class="divider"></li>
-                    <li><a href="{{ route('user_filter', ['action' => 'suspended']) }}"><i style="color: grey" class="icon icon-remove"></i>&nbsp;&nbsp;&nbsp;Suspended</a></li>
-                </ul>
+            <style>
+                .widget-secondary-title{display:flex; justify-content:end;}
+            </style>
+            <div class="widget-secondary-title">
+                <div class="btn-group show-on-hover" style="padding-right: 10px;">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        Filter Users <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu pull-right" style="text-align: left; "  role="menu">
+                        <li><a href="{{ route('user') }}"><i style="color: grey" class="icon icon-list"></i>&nbsp;&nbsp;&nbsp;All</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{{ route('user_filter', ['action' => 'active']) }}"><i style="color: grey" class="icon icon-ok"></i>&nbsp;&nbsp;&nbsp;Active</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{{ route('user_filter', ['action' => 'suspended']) }}"><i style="color: grey" class="icon icon-remove"></i>&nbsp;&nbsp;&nbsp;Suspended</a></li>
+                    </ul>
+                </div>
+                <div>
+                    {{$user_list->links('pagination::bootstrap-4')}}
+                </div>
             </div>
         </div>
+
         <div class="widget-content nopadding">
             <table class="table table-bordered data-table">
                 <thead>
@@ -50,7 +56,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @php $i = 0 @endphp @foreach($user_list as $data) @php $i++ @endphp
+                    @php $i = $user_list->perPage() * ($user_list->currentPage() - 1); @endphp
+                    @foreach($user_list as $data) @php $i++ @endphp
                     <tr class="gradeX" style="align-content: center;">
                         <td style="text-align: center;">{{ $i }}</td>
                         <td style="text-align: center;">{{ $data->id }}</td>
