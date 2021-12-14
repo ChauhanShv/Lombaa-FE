@@ -61,7 +61,7 @@ class productController extends BaseController {
       const payload = { userId: user?.id, fileId: uploadedFile?.id };
       const token = jwt.encode(payload);
 
-      return super.jsonRes({ res, code: 201, data: { Success: true, message: "Uploaded", media: { token } } });
+      return super.jsonRes({ res, code: 201, data: { Success: true, message: "Uploaded", media: { token, url: uploadedFile?.absolute_path } } });
     } catch (error) {
       return super.jsonRes({ res, code: 400, data: { success: false, error: { code: 400, message: "Failed to upload", message_detail: error.message } } });
     }
@@ -86,12 +86,25 @@ class productController extends BaseController {
       if (filters.isApproved) where.isApproved = filters.isApproved;
       if (filters.isSold) [(where.isSold = filters.isSold)];
 
-      const products = await Product.findAll({ offset, limit, where, attributes: ["id", "title", "slug", "price", "isNegotiable", "description", "location", "isSold", "isApproved", "is_Free", "buyerDoDelivery"] });
+      const products = await Product.findAll({
+        offset,
+        limit,
+        where,
+        attributes: ["id", "title", "slug", "price", "isNegotiable", "description", "location", "isSold", "isApproved", "is_Free", "buyerDoDelivery"],
+      });
 
-      return super.jsonRes({ res, code: 200, data: { Success: true, Messaage: "Product listed", products: products } });
+      return super.jsonRes({
+        res,
+        code: 200,
+        data: { Success: true, Messaage: "Product listed", products: products },
+      });
     } catch (error) {
       console.log(error);
-      return super.jsonRes({ res, code: 401, data: { message: "Fail to load" } });
+      return super.jsonRes({
+        res,
+        code: 401,
+        data: { message: "Fail to load" },
+      });
     }
   };
 
@@ -99,11 +112,25 @@ class productController extends BaseController {
     try {
       const Op = require("sequelize");
       const givenId = req.params.id;
-      const singleProduct = await Product.findOne({ where: { id: givenId, isApproved: 0 } });
+      const singleProduct = await Product.findOne({
+        where: { id: givenId, isApproved: 0 },
+      });
 
-      return super.jsonRes({ res, code: 200, data: { Success: true, Message: "Product retrieved.", Product: singleProduct } });
+      return super.jsonRes({
+        res,
+        code: 200,
+        data: {
+          Success: true,
+          Message: "Product retrieved.",
+          Product: singleProduct,
+        },
+      });
     } catch {
-      return super.jsonRes({ res, code: 401, data: { message: "no data found" } });
+      return super.jsonRes({
+        res,
+        code: 401,
+        data: { message: "no data found" },
+      });
     }
   };
 
