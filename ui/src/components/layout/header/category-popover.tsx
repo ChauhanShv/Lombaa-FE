@@ -77,7 +77,9 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
                 </Popover>
             }
         >
-            <Link to="">Popover on bottom</Link>
+            <Link to="">Category</Link>
         </OverlayTrigger>
+        
+        
     );
 }

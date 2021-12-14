@@ -34,9 +34,9 @@ a, .btn-link { text-decoration: none !important; color:#455A64; }
 
  .nav-tabs .nav-link{font-size:14px; font-weight: 700;color:#333 !important;}
 
- .nav-link.active{border-bottom: 3px solid green !important;}
+ .nav-link.active{border-bottom: 3px solid var(--bs-success) !important;}
  .tab-content .nav-link{color:#333 !important; font-weight: 600; font-size:14px;}
- .tab-content .nav-link.active{background:green !important; color:#fff !important;}
+ .tab-content .nav-link.active{background: var(--bs-success) !important; color:#fff !important;}
 
  .my-listing{}
 

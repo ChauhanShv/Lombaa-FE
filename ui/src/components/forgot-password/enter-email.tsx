@@ -97,9 +97,9 @@ export const EnterEmail: React.FC = () => {
                             </Alert>
                         )}
                         <Card.Header className="d-flex align-items-center justify-content-between bg-white">
-                            <h1><FaKey className="text-success" /> Forgot Password?</h1>
+                            <h1 className="h3"><FaKey className="text-success" /> &nbsp; Forgot Password?</h1>
                         </Card.Header>
-                        <Form onSubmit={handleFormSubmit} className="card-content text-center p-5 col-md-6 mx-auto" noValidate>
+                        <Form onSubmit={handleFormSubmit} className="card-content text-center p-5 col-lg-6 mx-auto" noValidate>
                            <h4 className="mb-4">Enter your email to get the forgot password link</h4>
                             <FloatingLabel controlId="floatingInput" label="Email" className="mb-3">
                                 <Form.Control
