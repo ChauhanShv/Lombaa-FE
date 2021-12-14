@@ -20,20 +20,30 @@
             <div><span class="icon"><i class="icon-th"></i></span>
                 <h5>Categories List</h5>
             </div>
-            <div>
-                {{$category_list->links('pagination::bootstrap-4')}}
-            </div>
-            <div class="btn-group show-on-hover" style="padding-right: 10px;">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    Filter categories <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu pull-right" style="text-align: left; "  role="menu">
-                    <li><a href="{{ route('category_list') }}"><i style="color: grey" class="icon icon-list"></i>All</a></li>
-                    <li class="divider"></li>
-                    <li><a href="{{ route('category_filter', ['action' => 'parent_categories']) }}"><i style="color: grey" class="icon icon-th-list"></i>Parent&nbsp;Categories</a></li>
-                    <li class="divider"></li>
-                    <li><a href="{{ route('category_filter', ['action' => 'sub_categories']) }}"><i style="color: grey" class="icon icon-list-alt"></i>Sub&nbsp;Categories</a></li>
-                </ul>
+            <style>
+                .widget-secondary-title{display:flex; justify-content:end;}
+            </style>
+            <div class="widget-secondary-title">
+                <div>
+                    <a href="{{ route('categories') }}">
+                        <button class="btn btn-success">Add Category</button>
+                    </a>
+                </div>
+                <div class="btn-group show-on-hover" style="padding-right: 10px;">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        Filter categories <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu pull-right" style="text-align: left; "  role="menu">
+                        <li><a href="{{ route('category_list') }}"><i style="color: grey" class="icon icon-list"></i>All</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{{ route('category_filter', ['action' => 'parent_categories']) }}"><i style="color: grey" class="icon icon-th-list"></i>Parent&nbsp;Categories</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{{ route('category_filter', ['action' => 'sub_categories']) }}"><i style="color: grey" class="icon icon-list-alt"></i>Sub&nbsp;Categories</a></li>
+                    </ul>
+                </div>
+                <div>
+                    {{$category_list->links('pagination::bootstrap-4')}}
+                </div>
             </div>
         </div>
         <div class="widget-content nopadding">
@@ -52,7 +62,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @php $i = 0 @endphp @foreach($category_list as $data) @php $i++ @endphp
+                    @php $i = $category_list->perPage() * ($category_list->currentPage() - 1); @endphp
+                    @foreach($category_list as $data) @php $i++ @endphp
                     <tr class="gradeX" style="align-content: center;">
                         <td style="text-align: center;">{{ $i }}</td>
                         <td style="text-align: center;"><image style="width:40px; height:40px; border-radius: 5%;" src="{{ $data->icon->absolute_path }}"></td>

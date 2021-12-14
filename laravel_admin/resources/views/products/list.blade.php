@@ -63,18 +63,29 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @php $i = 0 @endphp @foreach($products as  $product)  @php $i++ @endphp
+                    @php $i = $products->perPage() * ($products->currentPage() - 1); @endphp
+                    @foreach($products as  $product)  @php $i++ @endphp
                     <tr class="gradeX" style="align-content: center;">
                         <td style="text-align: center;">{{ $i }}</td>
                         <td style="text-align: center;">{{ $product->title }}</td>
-                        <td style="text-align: center;">{{ $product->category->name }}</td>
+                        <td style="text-align: center;">
+                            @if ($product->categoryId == null)
+                                <p>No Category </p>
+                            @else
+                                {{ $product->category->name }}
+                            @endif
+                        </td>
                         <td style="text-align: center;">{{ $product->price }}</td>
                         <td style="text-align: center;">{{ ($product->isNegotiable) ? 'Yes' : 'No' }}</td>
                         <td style="text-align: center;">{{ $product->condition }}</td>
                         <td style="text-align: center;">
-                            <p>{{ $product->location->city->name }}</p>
-                            <p>{{ $product->location->region->name }}</p>
-                            <p>{{ $product->location->country->name }}</p>
+                            @if ($product->locationId == null)
+                                <p>No Location </p>
+                            @else
+                                <p>{{ $product->location->city->name }}</p>
+                                <p>{{ $product->location->region->name }}</p>
+                                <p>{{ $product->location->country->name }}</p>
+                            @endif
                         </td>
                         <td style="text-align: center;">{{ $product->promoteType }}</td>
                         <td style="text-align: center;">{{ $product->dealMethod }}</td>
