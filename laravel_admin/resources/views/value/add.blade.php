@@ -1,5 +1,5 @@
-@extends('layout.app') 
-@section('body') 
+@extends('layout.app')
+@section('body')
 @include('layout.breadcrumb')
 
 <div class="row-fluid">
@@ -9,7 +9,7 @@
         <h5>Add Value</h5>
       </div>
       <div>
-        @if (session('response')) 
+        @if (session('response'))
         @if (session('response.status') == 'success')
         <div class="alert alert-success">
           @else
@@ -24,7 +24,7 @@
             <div class="control-group">
               <label class="control-label">Value name :</label>
               <div class="controls">
-                <input type="text" name="name" value="{{ old('label')}}" style="width: 40%" class="span11"  />
+                <input type="text" name="name" value="{{ old('name')}}" style="width: 40%" class="span11"  />
                 @error('name')
                   <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                 @enderror
@@ -33,13 +33,13 @@
             <div class="control-group">
               <label class="control-label">Icon:</label>
               <div class="controls">
-                <input type="file" name="icon" style="width: 40%" class="span11" value="" />
+                <input type="file" name="icon" value="" style="width: 40%" class="span11" />
                 @error('icon')
-                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                  <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                 @enderror
               </div>
             </div>
-            @csrf 
+            @csrf
             <div class="form-actions">
               <button type="submit" class="btn btn-success">Save</button>
             </div>
