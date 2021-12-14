@@ -27,6 +27,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('show_Data');
     Route::post('/user/edit', [UserController::class, 'update']);
     Route::get('/user/delete/{id}', [UserController::class, 'delete'])->name('delete');
+    Route::get('/user/filter/{action}', [UserController::class, 'user_filter'])->name('user_filter');
 
     Route::get('/category/add', [CategoryController::class, 'categories'])->name('categories');
     Route::post('/category/add', [CategoryController::class, 'categories']);
@@ -58,7 +59,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/fields', [FieldsController::class, 'fields'])->name('fields');
     Route::get('/fieldslist', [FieldsController::class, 'field_list'])->name('field_list');
     Route::get('/fieldedit/{id}', [FieldsController::class, 'field_edit'])->name('field_edit');
-    Route::post('/fieldedit/{id}', [FieldsController::class, 'field_edit'])->name('field_edit_post');
+    Route::post('/fieldedit/{id}', [FieldsController::class, 'field_edit_post'])->name('field_edit_post');
     Route::get('/fieldedit/{label}/{value}/{id}/updateicon', [FieldsController::class, 'update_icon'])->name('update_icon');
     Route::post('/fieldedit/{label}/{value}/{id}/updateicon', [FieldsController::class, 'update_icon_post'])->name('update_icon_post');
     Route::get('/fieldedit/values/delete/{id}', [FieldsController::class, 'delete_value'])->name('delete_value');

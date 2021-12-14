@@ -26,12 +26,14 @@ class FieldsController extends Controller
                 'label' => 'required|regex:/^[\s\w-]*$/',
                 'fieldtype' => 'required',
                 'icon' => 'required',
+                'values' => 'required',
             ];
 
             $messages = [
                 'label.required' => 'Label is required',
                 'fieldtype.required' => 'Field Type is required',
                 'icon.required' => 'Icon is required',
+                'values.required' => 'Values cannot be empty',
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -76,10 +78,12 @@ class FieldsController extends Controller
 
                 $submit_data = Fields::create($data);
 
+                $i = 1;
                 if ($submit_data) {
                     foreach ($request->values as $value) {
-                        $field_id = ['fieldId' => $data['id']];
+                        $field_id = ['fieldId' => $data['id'], 'sort' => $i];
                         Values::where('id', $value)->update($field_id);
+                        $i++;
                     }
 
                     return redirect()->route('field_list')->with('response', ['status' => 'success', 'message' => 'Field added successfully']);
@@ -92,11 +96,14 @@ class FieldsController extends Controller
             }
         } else {
             $field_types = array(
-                'Label' => 'Label',
-                'Dropdown' => 'Dropdown',
-                'Checkbox' => 'Checkbox',
-                'Switch' => 'Switch',
-                'Tag View' => 'Tag View',
+                'dropdown' => 'dropdown',
+                'checkbox' => 'checkbox',
+                'switch' => 'switch',
+                'tagView' => 'tagView',
+                'email' => 'email',
+                'date' => 'date',
+                'text' => 'text',
+                'textArea' => 'textArea',
             );
 
             $data_types = array(
@@ -114,11 +121,14 @@ class FieldsController extends Controller
     public function field_edit($id)
     {
         $field_types = array(
-            'Label' => 'Label',
-            'Dropdown' => 'Dropdown',
-            'Checkbox' => 'Checkbox',
-            'Switch' => 'Switch',
-            'Tag View' => ' Tag View',
+            'dropdown' => 'dropdown',
+            'checkbox' => 'checkbox',
+            'switch' => 'switch',
+            'tagView' => 'tagView',
+            'email' => 'email',
+            'date' => 'date',
+            'text' => 'text',
+            'textArea' => 'textArea',
         );
 
         $data_types = array(
@@ -134,19 +144,17 @@ class FieldsController extends Controller
         return view('fields.update', ['id' => $id, 'field_types' => $field_types, 'data_types' => $data_types, 'fields' => $fields, 'values' => $values]);
     }
 
-    public function field_edit_post($id)
+    public function field_edit_post(Request $request, $id)
     {
         $rules = [
             'label' => 'required|regex:/^[\s\w-]*$/',
             'fieldtype' => 'required',
-            'icon' => 'required',
             'dataTypes' => 'required',
         ];
 
         $messages = [
             'label.required' => 'Label is required',
             'fieldtype.required' => 'Field Type is required',
-            'icon.required' => 'Icon is required',
             'dataTypes.required' => 'Data type is required',
         ];
 
@@ -182,29 +190,36 @@ class FieldsController extends Controller
             $icon_id = $get_icon_id->iconId;
         }
 
-        if ($send_file_data) {
-            $data = [
-                'label' => $request->label,
-                'isRequired' => isset($request->required) ? 1 : 0,
-                'isActive' => isset($request->active) ? 1 : 0,
-                'dataTypes' => $request->dataTypes,
-                'fieldType' => $request->fieldtype,
-                'iconId' => $icon_id,
+        $data = [
+            'label' => $request->label,
+            'isRequired' => isset($request->required) ? 1 : 0,
+            'isActive' => isset($request->active) ? 1 : 0,
+            'dataTypes' => $request->dataTypes,
+            'fieldType' => $request->fieldtype,
+            'sortOrder' => null,
+            'iconId' => $icon_id,
+        ];
+
+        $submit_data = Fields::where('id', $id)->update($data);
+
+        if ($submit_data) {
+
+            $set_field_id_null = [
+                'fieldId' => null,
+                'sort' => null,
             ];
 
-            $submit_data = Fields::where('id', $id)->update($data);
+            $reset_field_id = Values::where('fieldId', '=', $id)->update($set_field_id_null);
 
-            if ($submit_data) {
-                foreach ($request->values as $value) {
-                    $field_id = ['fieldId' => $data['id']];
-                    Values::where('id', $value)->update($field_id);
-                }
-
-                return redirect()->route('field_list')->with('response', ['status' => 'success', 'message' => 'Field updated successfully']);
-
-            } else {
-                return redirect()->route('fields')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
+            $i = 1;
+            foreach ($request->values as $value) {
+                $field_id = ['fieldId' => $id, 'sort' => $i];
+                Values::where('id', $value)->update($field_id);
+                $i++;
             }
+
+            return redirect()->route('field_list')->with('response', ['status' => 'success', 'message' => 'Field updated successfully']);
+
         } else {
             return redirect()->route('fields')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
         }

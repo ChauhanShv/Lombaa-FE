@@ -92,10 +92,10 @@
             </a>
             <ul>
                 <li class="">
-                    <a href="{{ route('categories') }}">Add</a>
+                    <a href="{{ route('category_list') }}">List</a>
                 </li>
                 <li class="">
-                    <a href="{{ route('category_list') }}">List</a>
+                    <a href="{{ route('categories') }}">Add</a>
                 </li>
             </ul>
         </li>
@@ -123,7 +123,6 @@
                 <li class="">
                     <a href="{{ route('products_list', ['id' => 'all']) }}">List</a>
                 </li>
-
             </ul>
         </li>
         <li class="submenu">
@@ -132,10 +131,10 @@
             </a>
             <ul>
                 <li class="">
-                    <a href="{{ route('fields') }}">Add Fields</a>
+                    <a href="{{ route('field_list') }}">List</a>
                 </li>
-               <li class="">
-                    <a href="{{ route('field_list') }}">Fields List</a>
+                <li class="">
+                    <a href="{{ route('fields') }}">Add</a>
                 </li>
             </ul>
         </li>
@@ -145,12 +144,12 @@
             </a>
             <ul>
                 <li class="">
-                    <a href="{{ route('values') }}">Values List</a>
+                    <a href="{{ route('values') }}">List</a>
                 </li>
             </ul>
             <ul>
                 <li class="" >
-                    <a href="{{ route('values_add') }}">Add Values</a>
+                    <a href="{{ route('values_add') }}">Add</a>
                 </li>
             </ul>
         </li>
@@ -161,10 +160,10 @@
             </a>
             <ul>
                 <li class="">
-                    <a href="#">Add</a>
+                    <a href="#">List</a>
                 </li>
                 <li class="">
-                    <a href="#">List</a>
+                    <a href="#">Add</a>
                 </li>
             </ul>
         </li>
