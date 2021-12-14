@@ -32,7 +32,7 @@ export const Register: React.FC<RegisterProps> = ({
     const { register, handleSubmit, getValues, formState: { errors } } = useForm<FormFields>({
         resolver: yupResolver(schema),
     });
-    const [selectedAccountType, setSelectedAccountType] = useState<AccountType>();
+    const [selectedAccountType, setSelectedAccountType] = useState<AccountType>(AccountType.INDIVIDUAL);
     const { dispatch } = useAppContext();
     const [{ data: registerRes, loading, error: apiError }, execute] = useAxios({
         url: '/user',
@@ -78,7 +78,7 @@ export const Register: React.FC<RegisterProps> = ({
                 };
             } else if (formValues.name?.length < NAME_MIN_LENGTH) {
                 errorMessages.name = {
-                    message: 'Name is invalid',
+                    message: 'Name is invalid. Enter atleast 3 characters for Name',
                 };
             }
         }
@@ -118,6 +118,8 @@ export const Register: React.FC<RegisterProps> = ({
                         <Form.Control
                             {...register("name")}
                             placeholder="Your Name"
+                            isValid={!!errors.name}
+                            className={getErrorClassName('name')}
                         />
                         {getErrorText('name')}
                     </FloatingLabel>
@@ -127,6 +129,8 @@ export const Register: React.FC<RegisterProps> = ({
                         <Form.Control
                             {...register("phoneNumber")}
                             placeholder="Your phone number"
+                            isValid={!!errors.phoneNumber}
+                            className={getErrorClassName('phoneNumber')}
                         />
                         {getErrorText('phoneNumber')}
                     </FloatingLabel>
