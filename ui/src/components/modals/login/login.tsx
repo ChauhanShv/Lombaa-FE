@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Alert, Spinner } from 'react-bootstrap';
-import { FaGoogle, FaFacebook } from 'react-icons/fa';
-import { Form, FloatingLabel, Button } from 'react-bootstrap';
+import { Modal, Alert, Spinner, Form, FloatingLabel, Button, Nav } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -123,7 +121,9 @@ export const Login: React.FC<LoginProps> = ({
             <div className="log-reg-pop">
                 <div className="pt-3 modal-login">
                     <div className="modal-body px-0">
-                        <p className="ml-3"><strong>Welcome back!</strong></p>
+                        <Modal.Header closeButton>
+                            <p className="ml-3"><strong>Welcome back!</strong></p>
+                        </Modal.Header>
                         {showAPIErrorMessage()}
                         <Form onSubmit={handleFormSubmit} noValidate>
                             <FloatingLabel label="Your Email address" className="mb-3" >
@@ -159,7 +159,11 @@ export const Login: React.FC<LoginProps> = ({
                             </div>
                         </Form>
                     </div>
-                    <div className="text-center mb-4">Don't have an account? <Button className="px-0" variant="link" onClick={handleRegisterClick}>Register</Button></div>
+                    <div className="text-center mb-4">Don't have an account?
+                        <Nav.Link className="px-0 register-link" onClick={handleRegisterClick}>
+                            Register
+                        </Nav.Link>
+                    </div>
                     <div className="row justify-content-center mb-5">
                         <div className="col-12">
                             <GoogleLogin

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Alert, Spinner } from 'react-bootstrap';
-import { Form, FloatingLabel, Button } from 'react-bootstrap';
+import { Modal, Alert, Spinner, Form, FloatingLabel, Button, Nav } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -249,7 +248,9 @@ export const Register: React.FC<RegisterProps> = ({
             <div className="log-reg-pop">
                 <div className="pt-3 modal-login">
                     <div className="modal-body px-0">
-                        <p className="ml-3"><strong>Create your account!</strong></p>
+                        <Modal.Header closeButton>
+                            <p className="ml-3"><strong>Create your account!</strong></p>
+                        </Modal.Header>
                         {showAPIErrorMessage()}
                         <Form onSubmit={handleFormSubmit} noValidate>
                             <FloatingLabel label="Email address" className="mb-3">
@@ -312,7 +313,7 @@ export const Register: React.FC<RegisterProps> = ({
                             </div>
                         </Form>
                         <div className="text-center mt-3 mb-3">Already have an account?
-                            <Button variant="link" onClick={handleLoginClick}>Login</Button>
+                            <Nav.Link className='login-link' onClick={handleLoginClick}>Login</Nav.Link>
                         </div>
                     </div>
                     <div className="row justify-content-center mb-5">
