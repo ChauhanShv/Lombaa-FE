@@ -1,12 +1,12 @@
-import React, {useState, useEffect, useCallback, useRef} from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import ReactCrop, { Crop } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { ImageModalProps } from './types';
 
-export const ImageCropModal: React.FC<ImageModalProps> = ({onClose, show, image, onImageCropComplete}: ImageModalProps): React.ReactElement => {
-    const [crop, setCrop] = useState<Crop>({x: 0, y: 0, width: 0, height: 0, unit: 'px', aspect: 1/1});
-    const [completedCrop, setCompletedCrop] = useState<Crop>({x: 0, y: 0, width: 0, height: 0, unit: 'px'});
+export const ImageCropModal: React.FC<ImageModalProps> = ({ onClose, show, image, onImageCropComplete }: ImageModalProps): React.ReactElement => {
+    const [crop, setCrop] = useState<Crop>({ x: 0, y: 0, width: 0, height: 0, unit: 'px', aspect: 1 / 1 });
+    const [completedCrop, setCompletedCrop] = useState<Crop>({ x: 0, y: 0, width: 0, height: 0, unit: 'px' });
     const [completedCropImage, setCompletedCropImage] = useState<any>();
     const imgRef = useRef<any>();
     const previewCanvasRef = useRef<any>(image);
@@ -17,20 +17,20 @@ export const ImageCropModal: React.FC<ImageModalProps> = ({onClose, show, image,
 
     useEffect(() => {
         if (!completedCrop || !previewCanvasRef.current || !imgRef.current) {
-          return;
-        }    
+            return;
+        }
         const image = imgRef.current;
         const canvas = previewCanvasRef.current;
         const crop = completedCrop;
-    
+
         const scaleX: any = image.naturalWidth / image.width;
         const scaleY: any = image.naturalHeight / image.height;
         const ctx = canvas.getContext('2d');
         const pixelRatio = window.devicePixelRatio;
-    
+
         canvas.width = crop.width * pixelRatio * scaleX;
         canvas.height = crop.height * pixelRatio * scaleY;
-    
+
         ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
         ctx.imageSmoothingQuality = 'high';
 
@@ -49,18 +49,18 @@ export const ImageCropModal: React.FC<ImageModalProps> = ({onClose, show, image,
             setCompletedCropImage(blob);
         }, 'image/png', 1);
     }, [completedCrop]);
-    
-    return(
+
+    return (
         <Modal md={12} show={show} onHide={onClose}>
             <Modal.Dialog>
-                <Modal.Header>
+                <Modal.Header closeButton>
                     <Modal.Title>Crop Your Image</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <ReactCrop
                         ruleOfThirds
                         className='ReactCrop'
-                        crop={crop} 
+                        crop={crop}
                         src={image}
                         onImageLoaded={onLoad}
                         onChange={(c) => setCrop(c)}
@@ -80,7 +80,7 @@ export const ImageCropModal: React.FC<ImageModalProps> = ({onClose, show, image,
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={() => {onImageCropComplete(completedCropImage); onClose();}}>Save Changes</Button>
+                    <Button onClick={() => { onImageCropComplete(completedCropImage); onClose(); }}>Save Changes</Button>
                 </Modal.Footer>
             </Modal.Dialog>
         </Modal>

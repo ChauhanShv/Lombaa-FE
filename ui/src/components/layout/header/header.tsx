@@ -51,23 +51,25 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                     <Container className="align-items-end">
                         <CategoryPopover />
                         <div className="d-flex align-items-center ms-auto me-0">
-                            <ul className="navbar-nav ms-auto me-sm-2 mt-2 mt-lg-0 icon-list d-none d-lg-flex align-items-center">
-                                <li className="nav-item icon-item active me-3">
-                                    <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Saved">
-                                        <FaHeart />
-                                    </Link>
-                                </li>
-                                <li className="nav-item icon-item me-3">
-                                    <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Messages"><FaCommentDots /></Link>
-                                </li>
-                                <li className="nav-item icon-item me-3">
-                                    <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications"><FaBell /></Link>
-                                </li>
-                                <li className="nav-item icon-item me-3">
-                                    <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Ads">
-                                        <FaList /></Link>
-                                </li>
-                            </ul>
+                            {session.isLoggedIn && (
+                                <ul className="navbar-nav ms-auto me-sm-2 mt-2 mt-lg-0 icon-list d-none d-lg-flex align-items-center">
+                                    <li className="nav-item icon-item active me-3">
+                                        <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Saved">
+                                            <FaHeart />
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item icon-item me-3">
+                                        <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Messages"><FaCommentDots /></Link>
+                                    </li>
+                                    <li className="nav-item icon-item me-3">
+                                        <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications"><FaBell /></Link>
+                                    </li>
+                                    <li className="nav-item icon-item me-3">
+                                        <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Ads">
+                                            <FaList /></Link>
+                                    </li>
+                                </ul>
+                            )}
 
                             {!session.isLoggedIn && (
                                 <>
