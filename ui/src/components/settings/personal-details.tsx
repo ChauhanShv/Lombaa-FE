@@ -266,7 +266,8 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                 <span className="d-flex align-items-center ">
                     <button className="btn btn-white d-md-block d-lg-none">
                         <FaChevronLeft />
-                    </button> Personal details
+                    </button>
+                    {state?.user?.metaData?.accountType === 'standard' ? 'Personal Details' : 'Business Information'}
                 </span>
             </Card.Header>
             <Col md={8} className="card-content mx-auto">
