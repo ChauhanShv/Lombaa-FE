@@ -104,6 +104,7 @@ class FieldsController extends Controller
                 'date' => 'date',
                 'text' => 'text',
                 'textArea' => 'textArea',
+                'title' => 'title'
             );
 
             $data_types = array(
@@ -129,6 +130,7 @@ class FieldsController extends Controller
             'date' => 'date',
             'text' => 'text',
             'textArea' => 'textArea',
+            'title' => 'title'
         );
 
         $data_types = array(

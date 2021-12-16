@@ -16,11 +16,13 @@ class CategoryController extends Controller
     public function categories(Request $request)
     {
         if ($request->isMethod('post')) {
+            // dd($request->all());
             $rules = [
                 'name' => 'required|regex:/^[\s\w-]*$/',
                 'description' => 'required',
                 'image' => 'required',
-                'fields' => ['required', new HasSingleTitle],
+                'product' => ['required_unless:is_parent,on'],
+                'fields' => [new HasSingleTitle],
 
             ];
 
@@ -28,9 +30,12 @@ class CategoryController extends Controller
                 'name.required' => 'Name is required',
                 'description.required' => 'Description is required',
                 'image.required' => 'Image is required',
-                'fields.required' => 'Fields are required',
+                'product.required' => 'Category is required',
+                'product.required_unless' => 'Parent cartegory is required',
+                // 'fields.required' => 'Fields are required',
+                // 'fields.required_unless' => 'Fields are required'
             ];
-
+            
             $validator = Validator::make($request->all(), $rules, $messages);
 
             if ($validator->fails()) {
@@ -91,7 +96,7 @@ class CategoryController extends Controller
 
                     // dd($category_fields);
 
-                    $send_category_fields = CategoryField::create($category_fields);
+                    $send_category_fields = CategoryField::insert($category_fields);
 
                     return redirect()->route('category_list')->with('response', ['status' => 'success', 'message' => 'Category added successfully']);
                 } else {
@@ -119,13 +124,14 @@ class CategoryController extends Controller
             $rules = [
                 'name' => 'required|regex:/^[\s\w-]*$/',
                 'description' => 'required',
-                'product' => 'required',
+                // 'product' => 'required',
+                'add_fields' => ['required', new HasSingleTitle],
             ];
 
             $messages = [
                 'name.required' => 'Name is required',
                 'description.required' => 'Description is required',
-                'product.required' => 'Product is required',
+                // 'product.required' => 'Category is required',
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -173,17 +179,40 @@ class CategoryController extends Controller
 
                     $delete_old_records = CategoryField::where('categoryId', $id)->delete();
 
+                    // $category_fields = array();
+
+                    // $i = 1;
+                    // foreach ($request->input('add_fields') as $field) {
+                    //     $category_field = array();
+                    //     $category_field['sort'] = $i;
+                    //     $category_field['categoryId'] = $id;
+                    //     $category_field['fieldId'] = $field;
+                    //     array_push($category_fields, $category_field);
+                    //     $i++;
+                    // }
+
+                    // $send_category_fields = CategoryField::insert($category_fields);
+
                     $category_fields = array();
 
-                    $i = 1;
-                    foreach ($request->input('add_fields') as $field) {
+                    $i = 2;
+
+                    $fields = Fields::findMany($request->fields);
+                    foreach ($fields as $field) {
                         $category_field = array();
-                        $category_field['sort'] = $i;
-                        $category_field['categoryId'] = $id;
-                        $category_field['fieldId'] = $field;
+                        $category_field['categoryId'] = $category_id;
+                        $category_field['fieldId'] = $field->id;
+
+                        if ($field->fieldType === 'title') {
+                            $category_field['sort'] = 1;
+                        } else {
+                            $category_field['sort'] = $i;
+                            $i++;
+                        }
                         array_push($category_fields, $category_field);
-                        $i++;
                     }
+
+                    // dd($category_fields);
 
                     $send_category_fields = CategoryField::insert($category_fields);
                 }

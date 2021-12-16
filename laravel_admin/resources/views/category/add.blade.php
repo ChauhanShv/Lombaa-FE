@@ -81,7 +81,7 @@
                 <label class="control-label">Parent Category :</label>
                 <div class="controls">
                     <select class="selectpicker" name="product">
-                        <option value="Select parent category" selected>Select parent category</option>
+                        <option value="" selected>Select parent category</option>
                         @foreach($categories as $category)
                             <option value="{{  $category->id }}">{{ $category->name }}</option>
                         @endforeach
