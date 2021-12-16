@@ -2,7 +2,6 @@ import React from 'react';
 import { COMMON_ERROR_MESSAGE } from '../constants';
 
 export const getAPIErrorMessage = (error?: any): string => {
-  console.log(error?.response?.data[0]?.message);
   return (
     error?.response?.data.error?.messageDetail ||
     error?.response?.data[0]?.message ||

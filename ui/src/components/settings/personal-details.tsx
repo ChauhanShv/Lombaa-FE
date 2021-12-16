@@ -4,7 +4,6 @@ import {
     Row,
     Col,
     Button,
-    ListGroup,
     Card,
     Form,
     FloatingLabel,
@@ -12,23 +11,17 @@ import {
     Alert,
     Spinner,
 } from 'react-bootstrap';
-import {
-    FaChevronLeft,
-    FaGoogle,
-    FaFacebook
-} from 'react-icons/fa';
+import { FaChevronLeft } from 'react-icons/fa';
 import moment from 'moment';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { AiOutlineEdit } from 'react-icons/ai';
-import { GoogleLogin } from 'react-google-login';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import { SocialMediaConnect } from '.';
 import { useAppContext, ActionTypes } from '../../contexts';
 import { isEmpty } from 'lodash';
 import { useAxios } from '../../services';
 import { getAPIErrorMessage } from '../../utils';
-import { GOOGLE_CLIENTID, FB_APPID } from '../../config';
 import { ImageCropModal } from '.';
 import { AlertType } from './types';
 import './settings.css';
@@ -85,22 +78,6 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
         url: '/user/picture',
         method: 'PUT',
     });
-    const [{ data: googleResponse, loading: googleLoading, error: googleError }, googleExecute] = useAxios({
-        url: '/user/google',
-        method: 'PUT',
-    });
-    const [{ data: facebookResponse, loading: facebookLoading, error: facebookError }, facebookExecute] = useAxios({
-        url: '/user/facebook',
-        method: 'PUT'
-    });
-    const [{ data: googleDeleteResponse, loading: googleDeleteLoading, error: googleDeleteError }, googleDeleteExecute] = useAxios({
-        url: '/user/google',
-        method: 'DELETE',
-    });
-    const [{ data: fbDeleteResponse, loading: fbDeleteLoading, error: fbDeleteError }, fbDeleteExecute] = useAxios({
-        url: '/user/facebook',
-        method: 'DELETE',
-    });
 
     useEffect(() => {
         if (response?.success) {
@@ -115,38 +92,6 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                 }
             });
         }
-        if (googleResponse?.success) {
-            dispatch({
-                type: ActionTypes.UPDATE_PROFILE,
-                payload: {
-                    metaData: googleResponse?.metadata?.user,
-                }
-            })
-        }
-        if (facebookResponse?.success) {
-            dispatch({
-                type: ActionTypes.UPDATE_PROFILE,
-                payload: {
-                    metaData: facebookResponse?.metadata?.user,
-                }
-            })
-        }
-        if (googleDeleteResponse?.success) {
-            dispatch({
-                type: ActionTypes.UPDATE_PROFILE,
-                payload: {
-                    metaData: googleDeleteResponse?.metadata?.user,
-                }
-            })
-        }
-        if (fbDeleteResponse?.success) {
-            dispatch({
-                type: ActionTypes.UPDATE_PROFILE,
-                payload: {
-                    metaData: fbDeleteResponse?.metadata?.user,
-                }
-            })
-        }
         if (profileImageRes?.success) {
             dispatch({
                 type: ActionTypes.UPDATE_PROFILE,
@@ -155,41 +100,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                 }
             })
         }
-    }, [response, googleResponse, facebookResponse, googleDeleteResponse, fbDeleteResponse, profileImageRes]);
-
-    const handleGoogleDisconnect = () => {
-        const confirmDisconnect = confirm('Are you sure you want to disconnect from your google account');
-        if (confirmDisconnect) {
-            googleDeleteExecute({});
-        }
-        else return;
-    };
-    const handleFacebookDisconnect = () => {
-        const confirmDisconnect = confirm('Are you sure you want to disconnect from your facebook account');
-        if (confirmDisconnect) {
-            fbDeleteExecute({});
-        }
-        else return;
-    }
-
-    const responseGoogle = (response: any) => {
-        if (response.accessToken) {
-            googleExecute({
-                data: {
-                    accessToken: response.accessToken
-                }
-            });
-        }
-    };
-    const responseFacebook = (response: any) => {
-        if (response.accessToken) {
-            facebookExecute({
-                data: {
-                    accessToken: response.accessToken
-                }
-            });
-        }
-    }
+    }, [response, profileImageRes]);
 
     const onSubmit = (values: any) => {
         if (isEmpty(errors)) {
@@ -406,71 +317,9 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                             {moment(userData?.lastActiveAt).format('DD-MM-YYYY')}
                         </Form.Label>
                     </Form.Group>
-                    <p className="mb-3"><strong>Connect your social media accounts for smoother experience!</strong></p>
-                    <ListGroup as="ul" className="connectsocial mb-3">
-                        <ListGroup.Item as="li">
-                            <span><FaGoogle />  Google</span>
-                            <span>
-                                {!userData?.isGoogleVerified ?
-                                    (
-                                        <GoogleLogin
-                                            clientId={GOOGLE_CLIENTID}
-                                            render={renderProps => (
-                                                <Form.Check
-                                                    id='connect-google'
-                                                    type="switch"
-                                                    checked={userData?.isGoogleVerified}
-                                                    onChange={renderProps.onClick}
-                                                />
-                                            )}
-                                            buttonText="Login"
-                                            onSuccess={responseGoogle}
-                                            onFailure={responseGoogle}
-                                            cookiePolicy={'single_host_origin'}
-                                        />
-                                    ) : (
-                                        <Form.Check
-                                            id='connect-google'
-                                            type="switch"
-                                            checked={userData?.isGoogleVerified}
-                                            onChange={handleGoogleDisconnect}
-                                        />
-                                    )
-                                }
-                            </span>
-                        </ListGroup.Item>
-                        <ListGroup.Item as="li">
-                            <span><FaFacebook /> Facebook</span>
-                            <span>
-                                {!userData?.isFacebookVerified ?
-                                    (
-                                        <FacebookLogin
-                                            appId={FB_APPID}
-                                            autoLoad={false}
-                                            fields='name,email,picture'
-                                            render={renderProps => (
-                                                <Form.Check
-                                                    id='connect-facebook'
-                                                    type="switch"
-                                                    checked={userData?.isFacebookVerified}
-                                                    onChange={renderProps.onClick}
-                                                />
-                                            )}
-                                            callback={responseFacebook}
-                                            onFailure={responseFacebook}
-                                        />
-                                    ) : (
-                                        <Form.Check
-                                            id='connect-facebook'
-                                            type="switch"
-                                            checked={userData?.isFacebookVerified}
-                                            onChange={handleFacebookDisconnect}
-                                        />
-                                    )
-                                }
-                            </span>
-                        </ListGroup.Item>
-                    </ListGroup>
+
+                    <SocialMediaConnect />
+
                     <Button type="submit" className="btn btn-success w-100">
                         {
                             loading ? (
