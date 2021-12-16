@@ -181,21 +181,21 @@ x-access-token : {{token}}
 x-app-version : 1.0.0
 x-client-platform : Android
 
-# {
-#     "businessName": "MS Soft",
-#     "yearOfEstablishment" : 2004,
-#     "aboutBusiness" : "i am very glad",
-#     "accountType": "business"
-# }
-
 {
-    "name" : "Glenn",
-    "location" : 5346,
-    "birthday" : null,
-    "sex" : "male",
-    "bio" : "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
-    "accountType": "standard"
+    "businessName": "MS Soft",
+    "yearOfEstablishment" : 2004,
+    "aboutBusiness" : "Software business",
+    "accountType": "business"
 }
+
+# {
+#     "name" : "Glenn",
+#     "location" : 5346,
+#     "birthday" : null,
+#     "sex" : "male",
+#     "bio" : "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+#     "accountType": "standard"
+# }
 
 ###
 

@@ -74,6 +74,15 @@ module.exports = {
     },
   },
 
+  businessName: {
+    custom: {
+      options: (value, { req }) => {
+        if (req?.body?.accountType === "business" && (value ?? "") === "") return Promise.reject("Business name is required");
+        return Promise.resolve();
+      },
+    },
+  },
+
   aboutBusiness: {
     custom: {
       options: (value, { req }) => {

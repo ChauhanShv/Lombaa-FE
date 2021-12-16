@@ -405,7 +405,7 @@ class UserController extends BaseController {
     }
 
     try {
-      const { name, location, birthday, sex, bio, yearOfEstablishment, aboutBussiness } = req.body;
+      const { name, location, birthday, sex, bio, yearOfEstablishment, aboutBussiness, businessName } = req.body;
       const user = req.user;
 
       user.name = name;
@@ -415,6 +415,7 @@ class UserController extends BaseController {
       user.bio = bio;
       user.yearOfEstablishment = yearOfEstablishment;
       user.aboutBussiness = aboutBussiness;
+      user.businessName = businessName;
 
       const dUser = await user.save();
 
