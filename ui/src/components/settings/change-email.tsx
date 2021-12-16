@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Card,
     Form,
@@ -14,7 +14,7 @@ import {
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useAxios } from '../../services/base-service';
+import { useAxios } from '../../services';
 import { isEmpty } from 'lodash';
 import { ChangeEmailFormFeilds, AlertType } from './types';
 import { useAppContext } from '../../contexts';
@@ -33,7 +33,7 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
             email: state.user?.metaData?.email
         }
     });
-    const [{data: response, loading, error: apiError}, execute] = useAxios({
+    const [{ data: response, loading, error: apiError }, execute] = useAxios({
         url: '/user/email',
         method: 'PUT'
     });
@@ -100,10 +100,10 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
                         label="Email"
                         className="mb-3"
                     >
-                        <Form.Control 
-                            {...register('email')} 
-                            type="text" 
-                            placeholder="Email" 
+                        <Form.Control
+                            {...register('email')}
+                            type="text"
+                            placeholder="Email"
                             className={getErrorClassName('email')}
                         />
                         {getErrorText('email')}

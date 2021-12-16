@@ -39,10 +39,10 @@ export const SettingsPage: React.FC = () => {
         if (!isTabletOrMobile) {
             return (
                 <>
-                    <Col md={4}>
+                    <Col lg={4}>
                         <SideBar />
                     </Col>
-                    <Col md={8}>
+                    <Col lg={8}>
                         {getPage()}
                     </Col>
                 </>
@@ -51,7 +51,7 @@ export const SettingsPage: React.FC = () => {
 
         if (!page) {
             return (
-                <Col md={4}>
+                <Col lg={4}>
                     <SideBar />
                 </Col>
             );
@@ -59,7 +59,7 @@ export const SettingsPage: React.FC = () => {
 
         if (page) {
             return (
-                <Col md={8}>
+                <Col lg={8}>
                     {getPage()}
                 </Col>
             );

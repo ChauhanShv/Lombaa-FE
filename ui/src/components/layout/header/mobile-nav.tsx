@@ -19,11 +19,11 @@ export const MobileNav: React.FC = (): React.ReactElement => {
                 <FaList /><br />
                 My Listing
             </Link>
-            <Link className="w-100 text-center" to="/">
+            <Link className="w-100 text-center" to="/create-post">
                 <FaCamera /><br />
                 Sell
             </Link>
-            <Link className="w-100 text-center" to="/">
+            <Link className="w-100 text-center" to="/profile">
                 <FaCommentDots /><br />
                 Inbox
             </Link>

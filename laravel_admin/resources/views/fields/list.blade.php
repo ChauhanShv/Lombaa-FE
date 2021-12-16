@@ -27,8 +27,18 @@
             <div><span class="icon"><i class="icon-th"></i></span>
                 <h5>Fields List</h5>
             </div>
-            <div>
-               {{ $fields_list->links('pagination::bootstrap-4') }}
+            <style>
+                .widget-secondary-title{display:flex; justify-content:end;}
+            </style>
+            <div class="widget-secondary-title">
+                <div>
+                    <a href="{{ route('fields') }}">
+                        <button class="btn btn-success">Add Field</button>
+                    </a>
+                </div>
+                <div>
+                    {{ $fields_list->links('pagination::bootstrap-4') }}
+                </div>
             </div>
         </div>
         <div class="widget-content nopadding">

@@ -15,10 +15,11 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { isEmpty } from 'lodash';
-import { useAxios } from '../../services/base-service';
-import { MOBILE_REGEX, COMMON_ERROR_MESSAGE } from '../../constants';
+import { useAxios } from '../../services';
+import { MOBILE_REGEX } from '../../constants';
 import { ChangePhoneFormFeilds, AlertType } from './types';
 import { useAppContext } from '../../contexts';
+import { getAPIErrorMessage } from '../../utils';
 
 const schema = yup.object().shape({
     phoneNumber: yup.string().matches(
@@ -36,7 +37,7 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
             phoneNumber: state.user?.metaData?.phoneNumber,
         }
     });
-    const [{data: response, loading, error: apiError}, execute] = useAxios({
+    const [{ data: response, loading, error: apiError }, execute] = useAxios({
         url: '/user/phone',
         method: 'PUT'
     });
@@ -91,7 +92,7 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
                 <Form onSubmit={handleFormSubmit} className="details-form p-5">
                     {(apiError || alert.message) && (
                         <Alert variant={alert.message ? 'success' : 'danger'} onClose={() => setAlert({})} dismissible>
-                            {alert.message || COMMON_ERROR_MESSAGE}
+                            {alert.message || getAPIErrorMessage(apiError)}
                         </Alert>
                     )}
                     <FloatingLabel
@@ -99,15 +100,14 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
                         label="Phone Number"
                         className="mb-3"
                     >
-                        <Form.Control 
-                            {...register('phoneNumber')} 
-                            type="phoneNumber" 
-                            placeholder="Phone" 
-                            className={getErrorClassName('email')}
+                        <Form.Control
+                            {...register('phoneNumber')}
+                            type="phoneNumber"
+                            placeholder="Phone"
+                            className={getErrorClassName('phoneNumber')}
                         />
-                        {getErrorText('email')}
+                        {getErrorText('phoneNumber')}
                     </FloatingLabel>
-                    {errors.phoneNumber ? 'Phone Number is Invalid' : null }
                     <Button type="submit" className="btn btn-success w-100">
                         {
                             loading ? (

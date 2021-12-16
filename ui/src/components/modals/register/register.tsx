@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Alert, Spinner } from 'react-bootstrap';
-import { Form, FloatingLabel, Button } from 'react-bootstrap';
+import { Modal, Alert, Spinner, Form, FloatingLabel, Button, Nav } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -32,7 +31,7 @@ export const Register: React.FC<RegisterProps> = ({
     const { register, handleSubmit, getValues, formState: { errors } } = useForm<FormFields>({
         resolver: yupResolver(schema),
     });
-    const [selectedAccountType, setSelectedAccountType] = useState<AccountType>();
+    const [selectedAccountType, setSelectedAccountType] = useState<AccountType>(AccountType.INDIVIDUAL);
     const { dispatch } = useAppContext();
     const [{ data: registerRes, loading, error: apiError }, execute] = useAxios({
         url: '/user',
@@ -49,7 +48,6 @@ export const Register: React.FC<RegisterProps> = ({
     useEffect(() => {
         const { success, response, metadata } = registerRes || fbRes || googleRes || {};
         if (success) {
-            localStorage.setItem("token", response?.token);
             dispatch({
                 type: ActionTypes.LOGIN,
                 payload: {
@@ -61,6 +59,56 @@ export const Register: React.FC<RegisterProps> = ({
         }
     }, [registerRes, googleRes, fbRes]);
 
+    const getErrorText = (field: string): React.ReactElement | null => {
+        const errorMessages: any = {
+            ...errors
+        };
+        const formValues = getValues();
+        if (errorMessages.accountType) {
+            errorMessages.accountType = {
+                message: 'Account type is required',
+            };
+        }
+
+        if (formValues.accountType === AccountType.INDIVIDUAL) {
+            if (!formValues.name) {
+                errorMessages.name = {
+                    message: 'Name is required',
+                };
+            } else if (formValues.name?.length < NAME_MIN_LENGTH) {
+                errorMessages.name = {
+                    message: 'Name is invalid. Enter atleast 3 characters for Name',
+                };
+            }
+        }
+        if (formValues.accountType === AccountType.BUSINESS) {
+            if (!formValues.businessName) {
+                errorMessages.businessName = {
+                    message: 'Busines name is required',
+                };
+            } else if (formValues.businessName?.length < NAME_MIN_LENGTH) {
+                errorMessages.businessName = {
+                    message: 'Busines name is invalid',
+                };
+            }
+        }
+
+        if (errorMessages[field]) {
+            return (
+                <Form.Text className="text-danger">
+                    {errorMessages[field]?.message}
+                </Form.Text>
+            );
+        }
+        return null;
+    };
+    const getErrorClassName = (field: string): string => {
+        const errorMessages: any = {
+            ...errors
+        };
+        return errorMessages[field] ? 'is-invalid' : '';
+    };
+
     const getIndividualFields = (): React.ReactElement => {
         return (
             <>
@@ -69,6 +117,8 @@ export const Register: React.FC<RegisterProps> = ({
                         <Form.Control
                             {...register("name")}
                             placeholder="Your Name"
+                            isValid={!!errors.name}
+                            className={getErrorClassName('name')}
                         />
                         {getErrorText('name')}
                     </FloatingLabel>
@@ -78,6 +128,8 @@ export const Register: React.FC<RegisterProps> = ({
                         <Form.Control
                             {...register("phoneNumber")}
                             placeholder="Your phone number"
+                            isValid={!!errors.phoneNumber}
+                            className={getErrorClassName('phoneNumber')}
                         />
                         {getErrorText('phoneNumber')}
                     </FloatingLabel>
@@ -166,49 +218,6 @@ export const Register: React.FC<RegisterProps> = ({
         openLogin(true);
     };
 
-    const getErrorText = (field: string): React.ReactElement | null => {
-        const errorMessages: any = {
-            ...errors
-        };
-        const formValues = getValues();
-        if (errorMessages.accountType) {
-            errorMessages.accountType = {
-                message: 'Account type is required',
-            };
-        }
-
-        if (formValues.accountType === AccountType.INDIVIDUAL) {
-            if (!formValues.name) {
-                errorMessages.name = {
-                    message: 'Name is required',
-                };
-            } else if (formValues.name?.length < NAME_MIN_LENGTH) {
-                errorMessages.name = {
-                    message: 'Name is invalid',
-                };
-            }
-        }
-        if (formValues.accountType === AccountType.BUSINESS) {
-            if (!formValues.businessName) {
-                errorMessages.businessName = {
-                    message: 'Busines name is required',
-                };
-            } else if (formValues.businessName?.length < NAME_MIN_LENGTH) {
-                errorMessages.businessName = {
-                    message: 'Busines name is invalid',
-                };
-            }
-        }
-
-        if (errorMessages[field]) {
-            return (
-                <Form.Text className="text-danger">
-                    {errorMessages[field]?.message}
-                </Form.Text>
-            );
-        }
-        return null;
-    };
     const showAPIErrorMessage = () => {
         if (!apiError && !fbApiError && !googleApiError) {
             return null;
@@ -234,19 +243,14 @@ export const Register: React.FC<RegisterProps> = ({
         });
     }
 
-    const getErrorClassName = (field: string): string => {
-        const errorMessages: any = {
-            ...errors
-        };
-        return errorMessages[field] ? 'is-invalid' : '';
-    };
-
     return (
         <Modal show={show} onHide={onClose}>
             <div className="log-reg-pop">
                 <div className="pt-3 modal-login">
                     <div className="modal-body px-0">
-                        <p className="ml-3"><strong>Create your account!</strong></p>
+                        <Modal.Header closeButton>
+                            <p className="ml-3"><strong>Create your account!</strong></p>
+                        </Modal.Header>
                         {showAPIErrorMessage()}
                         <Form onSubmit={handleFormSubmit} noValidate>
                             <FloatingLabel label="Email address" className="mb-3">
@@ -275,6 +279,7 @@ export const Register: React.FC<RegisterProps> = ({
                                     label="Individual"
                                     inline
                                     type="radio"
+                                    id="Individual"
                                     value={AccountType.INDIVIDUAL}
                                     checked={selectedAccountType === AccountType.INDIVIDUAL}
                                     {...register("accountType")}
@@ -284,6 +289,7 @@ export const Register: React.FC<RegisterProps> = ({
                                 />
                                 <Form.Check
                                     label="Business"
+                                    id="Business"
                                     inline
                                     type="radio"
                                     value={AccountType.BUSINESS}
@@ -297,7 +303,7 @@ export const Register: React.FC<RegisterProps> = ({
                             </div>
                             {selectedAccountType && getFieldsOnAccountType()}
                             <div className="form-group text-center mt-3">
-                                <button type="submit" className="btn btn-primary w-100">
+                                <button type="submit" className="btn btn-success w-100">
                                     {
                                         loading ? (
                                             <Spinner animation="border" role="status"></Spinner>
@@ -307,7 +313,7 @@ export const Register: React.FC<RegisterProps> = ({
                             </div>
                         </Form>
                         <div className="text-center mt-3 mb-3">Already have an account?
-                            <Button variant="link" onClick={handleLoginClick}>Login</Button>
+                            <Nav.Link className='login-link' onClick={handleLoginClick}>Login</Nav.Link>
                         </div>
                     </div>
                     <div className="row justify-content-center mb-5">

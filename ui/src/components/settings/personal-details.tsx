@@ -26,7 +26,7 @@ import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import { useAppContext, ActionTypes } from '../../contexts';
 import { isEmpty } from 'lodash';
-import { useAxios } from '../../services/base-service';
+import { useAxios } from '../../services';
 import { getAPIErrorMessage } from '../../utils';
 import { GOOGLE_CLIENTID, FB_APPID } from '../../config';
 import { ImageCropModal } from '.';
@@ -266,7 +266,8 @@ export const PersonalPetails: React.FC = (): React.ReactElement => {
                 <span className="d-flex align-items-center ">
                     <button className="btn btn-white d-md-block d-lg-none">
                         <FaChevronLeft />
-                    </button> Personal details
+                    </button>
+                    {state?.user?.metaData?.accountType === 'standard' ? 'Personal Details' : 'Business Information'}
                 </span>
             </Card.Header>
             <Col md={8} className="card-content mx-auto">

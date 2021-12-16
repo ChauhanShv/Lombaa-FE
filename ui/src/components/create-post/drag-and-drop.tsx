@@ -3,32 +3,44 @@ import { useDropzone } from 'react-dropzone';
 import { BsBoxArrowUp } from 'react-icons/bs';
 import './post-ad.css';
 
-export const DragAndDrop: React.FC = (): React.ReactElement => {
+interface DragAndDropProps {
+  onFilesUpload: (files: Array<Blob>) => void;
+};
 
-  const [files, setFiles] = useState<any>([]);
+export const DragAndDrop: React.FC<DragAndDropProps> = ({
+  onFilesUpload
+}: DragAndDropProps): React.ReactElement => {
+  const [files, setFiles] = useState<any[]>([]);
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
     onDrop: acceptedFiles => {
-      setFiles(acceptedFiles.map(file => Object.assign(file, {
+      const newFiles: any[] = files;
+      newFiles.push(...acceptedFiles.map(file => Object.assign(file, {
         preview: URL.createObjectURL(file)
-      })))
+      })));
+      setFiles([...newFiles]);
     }
   });
 
-  const thumbs = files.map((file: any) => (
-    <div key={file.name} className="thumb">
-      <div className="thumb-inner">
-        <img
-          src={file.preview}
-          className="img"
-        />
+  const imagePreview = () => {
+    return files.map((file: any) => (
+      <div key={file.name} className="thumb">
+        <div className="thumb-inner">
+          <img
+            src={file.preview}
+            className="img"
+          />
+        </div>
       </div>
-    </div>
-  ));
+    ));
+  }
 
   useEffect(() => {
     // Make sure to revoke the data uris to avoid memory leaks
     files.forEach((file: any) => URL.revokeObjectURL(file.preview));
+    if (files.length) {
+      onFilesUpload(files);
+    }
   }, [files]);
 
   return (
@@ -40,7 +52,7 @@ export const DragAndDrop: React.FC = (): React.ReactElement => {
         <p className="upload-limit-text">(Up to 10 files)</p>
       </div>
       <aside className="thumbs-container">
-        {thumbs}
+        {imagePreview()}
       </aside>
     </div>
   );

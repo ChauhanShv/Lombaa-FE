@@ -17,14 +17,6 @@ export interface Fields {
   sortOrder?: string;
   values: FieldValues[];
 }
-export interface Categories {
-  id: string;
-  name: string;
-  description: string;
-  fields: Fields[];
-  isActive: number;
-  isPopular: number;
-}
 export interface SubCategories {
   id: string;
   name: string;
@@ -32,4 +24,13 @@ export interface SubCategories {
   fields: Fields[];
   isActive: number;
   isPopular: number;
+}
+export interface Categories {
+  id: string;
+  name: string;
+  description: string;
+  fields: Fields[];
+  isActive: number;
+  isPopular: number;
+  subCategories: SubCategories[];
 }

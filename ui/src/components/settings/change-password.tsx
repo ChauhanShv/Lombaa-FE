@@ -16,7 +16,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { isEmpty } from 'lodash';
 import { getAPIErrorMessage } from '../../utils';
-import { useAxios } from '../../services/base-service';
+import { useAxios } from '../../services';
 import { PASSWORD_REGEX } from '../../constants';
 import { ChangePasswordFormFeilds, AlertType } from './types';
 
@@ -34,7 +34,7 @@ export const ChangePassword: React.FC = (): React.ReactElement => {
         resolver: yupResolver(schema),
     });
     const [alert, setAlert] = useState<AlertType>({});
-    const [{data: response, loading, error: apiError}, execute] = useAxios({
+    const [{ data: response, loading, error: apiError }, execute] = useAxios({
         url: '/user/password',
         method: 'PUT'
     });
@@ -98,27 +98,27 @@ export const ChangePassword: React.FC = (): React.ReactElement => {
                         </Alert>
                     )}
                     <FloatingLabel
-                        controlId="floatingInput"
+                        controlId="currentPassword"
                         label="Current Password"
                         className="mb-3"
                     >
-                        <Form.Control 
-                            {...register('oldPassword')} 
-                            type="password" 
-                            placeholder="Password" 
+                        <Form.Control
+                            {...register('oldPassword')}
+                            type="password"
+                            placeholder="Password"
                             className={getErrorClassName('oldPassword')}
                         />
                         {getErrorText('oldPassword')}
                     </FloatingLabel>
                     <FloatingLabel
-                        controlId="floatingInput"
+                        controlId="newPassword"
                         label="New Password"
                         className="mb-3"
                     >
-                        <Form.Control 
-                            {...register('password')} 
-                            type="password" 
-                            placeholder="Password" 
+                        <Form.Control
+                            {...register('password')}
+                            type="password"
+                            placeholder="Password"
                             className={getErrorClassName('password')}
                         />
                         {getErrorText('password')}

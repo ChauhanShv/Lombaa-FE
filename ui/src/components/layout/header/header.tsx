@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     FaCommentDots,
     FaBell,
@@ -18,23 +18,29 @@ import {
     FormControl,
     Dropdown
 } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
 import { Login, Register } from '../../modals';
 import { useAppContext, ActionTypes } from '../../../contexts';
 import { CategoryPopover, MobileNav } from '.';
 import './header.css';
 
 const HeaderComponent: React.FC = (): React.ReactElement => {
-    const [loginModal, setLoginModal] = useState<boolean>(false);
-    const [registerModal, setRegisterModal] = useState<boolean>(false);
+    const location = useLocation();
     const { state, dispatch } = useAppContext();
     const { session, user } = state;
+    const [loginModal, setLoginModal] = useState<boolean>(false);
+    const [registerModal, setRegisterModal] = useState<boolean>(false);
+
+    useEffect(() => {
+        const showLogin = location.pathname === '/login';
+        if (showLogin && !state.session.isLoggedIn) {
+            setLoginModal(true);
+        }
+    }, [location, state.session.isLoggedIn]);
 
     const handleSignOutClick = () => {
         dispatch({
             type: ActionTypes.LOGOUT,
-            payload: {
-                token: "",
-            }
         })
     }
     return (
@@ -45,23 +51,25 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                     <Container className="align-items-end">
                         <CategoryPopover />
                         <div className="d-flex align-items-center ms-auto me-0">
-                            <ul className="navbar-nav ms-auto me-sm-2 mt-2 mt-lg-0 icon-list d-none d-lg-flex align-items-center">
-                                <li className="nav-item icon-item active me-3">
-                                    <a className="nav-link" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Saved">
-                                        <FaHeart />
-                                    </a>
-                                </li>
-                                <li className="nav-item icon-item me-3">
-                                    <a className="nav-link" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Messages"><FaCommentDots /></a>
-                                </li>
-                                <li className="nav-item icon-item me-3">
-                                    <a className="nav-link" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications"><FaBell /> </a>
-                                </li>
-                                <li className="nav-item icon-item me-3">
-                                    <a className="nav-link" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Ads">
-                                        <FaList /></a>
-                                </li>
-                            </ul>
+                            {session.isLoggedIn && (
+                                <ul className="navbar-nav ms-auto me-sm-2 mt-2 mt-lg-0 icon-list d-none d-lg-flex align-items-center">
+                                    <li className="nav-item icon-item active me-3">
+                                        <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Saved">
+                                            <FaHeart />
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item icon-item me-3">
+                                        <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Messages"><FaCommentDots /></Link>
+                                    </li>
+                                    <li className="nav-item icon-item me-3">
+                                        <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications"><FaBell /></Link>
+                                    </li>
+                                    <li className="nav-item icon-item me-3">
+                                        <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Ads">
+                                            <FaList /></Link>
+                                    </li>
+                                </ul>
+                            )}
 
                             {!session.isLoggedIn && (
                                 <>
@@ -75,15 +83,15 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                                         <img className="rounded-circle" width="36" height="36" src={user?.metaData?.profilePicture?.url || "/images/user-circle.svg"} alt={user?.metaData?.profilePicture?.url} />
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu>
-                                        <Link to="/profile">
-                                            <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
+                                        <Link to="/profile" className="dropdown-item">
+                                            Profile
                                         </Link>
-                                        <Link to="/settings">
-                                            <Dropdown.Item href="#/action-2">Account Settings</Dropdown.Item>
+                                        <Link to="/settings" className="dropdown-item">
+                                            Account Settings
                                         </Link>
                                         <Dropdown.Divider />
-                                        <Dropdown.Item href="#/action-3">
-                                            <a className="sign-out-button" onClick={handleSignOutClick}>Sign out</a>
+                                        <Dropdown.Item onClick={handleSignOutClick}>
+                                            Sign out
                                         </Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>
@@ -148,7 +156,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                         placeholder="Type your search"
                         aria-label="Type your search"
                     />
-                    <button className="btn btn-primary">
+                    <button className="btn btn-success">
                         <FaSearch />
                     </button>
                 </InputGroup>

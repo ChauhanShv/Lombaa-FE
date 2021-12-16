@@ -29,7 +29,7 @@ class ValuesController extends Controller
 
             $messages = [
                 'name.required' => 'Value name is required',
-                'icon' => 'Icon is required',
+                'icon.required' => 'Icon is required',
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
