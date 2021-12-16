@@ -7,16 +7,16 @@ const validationErrorFormatter = require("../modules/formatter").validationError
 const responseFormatter = require("../modules/formatter").response;
 const jwtService = require("../modules/jwt").service;
 const UserService = require("./user.service");
-const S3Service = require('../modules/s3/s3.service')
-const { v4: uuidv4 } = require('uuid');
-const FileType = require('file-type')
+const S3Service = require("../modules/s3/s3.service");
+const { v4: uuidv4 } = require("uuid");
+const FileType = require("file-type");
 
 class UserController extends BaseController {
   constructor() {
     super();
     this.service = new UserService();
     this.authService = new AuthService();
-    this.s3Service = new S3Service()
+    this.s3Service = new S3Service();
   }
 
   async create(req, res, next) {
@@ -77,7 +77,7 @@ class UserController extends BaseController {
       await model.update({ isActive: status }, { where: { id: user.id } });
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Account status updated" } });
     } catch (error) {
-      next(error)
+      next(error);
     }
   };
 
@@ -112,17 +112,17 @@ class UserController extends BaseController {
 
     try {
       const { email } = req.body;
-      const user = req.user
+      const user = req.user;
 
-      if (!await this.service.requestChangeEmail(email, user)) {
+      if (!(await this.service.requestChangeEmail(email, user))) {
         const data = {
           success: false,
           error: {
             code: 400,
             message: "Failed to request change email address",
-            message_detail: "Something went wrong "
-          }
-        }
+            message_detail: "Something went wrong ",
+          },
+        };
         return super.jsonRes({ res, code: 400, data });
       }
 
@@ -142,9 +142,9 @@ class UserController extends BaseController {
         error: {
           code: 400,
           message: "Email verification failed",
-          messageDetail: "Token verification failed"
-        }
-      }
+          messageDetail: "Token verification failed",
+        },
+      };
       return super.jsonRes({ res, code: 400, data });
     }
 
@@ -155,14 +155,14 @@ class UserController extends BaseController {
         error: {
           code: 400,
           message: "Email verification failed",
-          messageDetail: "Failed to update verified status"
-        }
-      }
+          messageDetail: "Failed to update verified status",
+        },
+      };
       return super.jsonRes({ res, code: 400, data });
     }
 
     return super.jsonRes({ res, code: 200, data: { success: true, message: "Email verified" } });
-  }
+  };
 
   updatePhone = async (req, res, next) => {
     try {
@@ -183,7 +183,6 @@ class UserController extends BaseController {
     }
   };
 
-
   forgetPassword = async (req, res, next) => {
     try {
       validationResult(req).formatWith(validationErrorFormatter).throw();
@@ -194,11 +193,11 @@ class UserController extends BaseController {
     try {
       const { email } = req.body;
       await this.service.forgetPassword(email);
-      return super.jsonRes({ res, code: 200, data: { success: true, message: `We have sent you password reset link at ${email}` } })
+      return super.jsonRes({ res, code: 200, data: { success: true, message: `We have sent you password reset link at ${email}` } });
     } catch (error) {
       next(error);
     }
-  }
+  };
 
   verifyResetPasswordToken = async (req, res, next) => {
     try {
@@ -210,20 +209,20 @@ class UserController extends BaseController {
     try {
       const { token } = req.body;
 
-      if (await this.service.verifyResetPasswordToken(token))
-        return super.jsonRes({ res, code: 200, data: { success: true, message: "Password token verified" } });
+      if (await this.service.verifyResetPasswordToken(token)) return super.jsonRes({ res, code: 200, data: { success: true, message: "Password token verified" } });
       const data = {
-        success: false, error: {
+        success: false,
+        error: {
           code: 401,
           message: "Password token not verified",
-          message_detail: "Can't read your token"
-        }
-      }
+          message_detail: "Can't read your token",
+        },
+      };
       return super.jsonRes({ res, code: 400, data });
     } catch (error) {
       next(error);
     }
-  }
+  };
 
   resetPassword = async (req, res, next) => {
     try {
@@ -235,22 +234,20 @@ class UserController extends BaseController {
     try {
       const { token, newPassword } = req.body;
 
-      if (await this.service.resetPassword(token, newPassword))
-        return super.jsonRes({ res, code: 200, data: { success: true, message: "Password reset" } });
+      if (await this.service.resetPassword(token, newPassword)) return super.jsonRes({ res, code: 200, data: { success: true, message: "Password reset" } });
       const data = {
         success: false,
         error: {
           code: 400,
           message: "Failed to reset password",
-          message_detail: "your password request failed"
-        }
-      }
+          message_detail: "your password request failed",
+        },
+      };
       return super.jsonRes({ res, code: 400, data });
-
     } catch (error) {
       next(error);
     }
-  }
+  };
 
   connectGoogle = async (req, res, next) => {
     try {
@@ -272,20 +269,20 @@ class UserController extends BaseController {
             code: 400401,
             message: "Failed to connect to google",
             messageDetail: "Google access token verification failed",
-          }
-        }
+          },
+        };
         return super.jsonRes({ res, code: 400, data });
       }
 
-      if (!await this.service.isGoogleAccountAvailable(account, user)) {
+      if (!(await this.service.isGoogleAccountAvailable(account, user))) {
         const data = {
           success: false,
           error: {
             code: 400401,
             message: "Google account is already in use",
             messageDetail: "Google acount is resgistered to another account",
-          }
-        }
+          },
+        };
         return super.jsonRes({ res, code: 400, data });
       }
 
@@ -298,8 +295,8 @@ class UserController extends BaseController {
             code: 400401,
             message: "Failed to connect facebook",
             messageDetail: "User not found",
-          }
-        }
+          },
+        };
         return super.jsonRes({ res, code: 400, data });
       }
 
@@ -308,13 +305,12 @@ class UserController extends BaseController {
         message: "Google connected",
         response: { token: jwtService.encode({ id: user.id }) },
         metadata: { user: user },
-      }
+      };
       return super.jsonRes({ req, res, code: 200, data });
     } catch (error) {
       next(error);
     }
-  }
-
+  };
 
   connectFacebook = async (req, res, next) => {
     try {
@@ -336,20 +332,20 @@ class UserController extends BaseController {
             code: 400401,
             message: "Failed facebook login/connect",
             messageDetail: "Facebook token verification failed",
-          }
-        }
+          },
+        };
         return super.jsonRes({ res, code: 400, data });
       }
 
-      if (!await this.service.isFacebookAccountAvailable(account, user)) {
+      if (!(await this.service.isFacebookAccountAvailable(account, user))) {
         const data = {
           success: false,
           error: {
             code: 400401,
             message: "Facebook account is already in use",
             messageDetail: "Facebook acount is resgistered to another account",
-          }
-        }
+          },
+        };
         return super.jsonRes({ res, code: 400, data });
       }
 
@@ -362,8 +358,8 @@ class UserController extends BaseController {
             code: 400401,
             message: "Failed to connect facebook",
             messageDetail: "User not found",
-          }
-        }
+          },
+        };
         return super.jsonRes({ res, code: 400, data });
       }
 
@@ -372,12 +368,12 @@ class UserController extends BaseController {
         message: "Facebook connected",
         response: { token: jwtService.encode({ id: user.id }) },
         metadata: { user: user },
-      }
+      };
       return super.jsonRes({ req, res, code: 200, data });
     } catch (error) {
       next(error);
     }
-  }
+  };
 
   isActive = async (req, res, next) => {
     try {
@@ -386,7 +382,7 @@ class UserController extends BaseController {
         success: true,
         message: "User is active",
         response: { user },
-      }
+      };
       super.jsonRes({ res, code: 200, data });
     } catch (error) {
       return super.jsonRes({
@@ -395,7 +391,7 @@ class UserController extends BaseController {
         data: {
           success: false,
           message: "Invalid user",
-          message_detail: " Something went wrong"
+          message_detail: " Something went wrong",
         },
       });
     }
@@ -416,22 +412,22 @@ class UserController extends BaseController {
       user.location = location;
       user.birthday = birthday;
       user.sex = sex;
-      user.bio = bio
-      user.yearOfEstablishment = yearOfEstablishment
-      user.aboutBussiness = aboutBussiness
+      user.bio = bio;
+      user.yearOfEstablishment = yearOfEstablishment;
+      user.aboutBussiness = aboutBussiness;
 
       const dUser = await user.save();
 
       const data = {
         success: true,
-        message: "User updated",
-        metadata: { user: dUser }
-      }
-      super.jsonRes({ res, code: 200, data })
+        message: "Profile updated",
+        metadata: { user: dUser },
+      };
+      super.jsonRes({ res, code: 200, data });
     } catch (error) {
       next(error);
     }
-  }
+  };
 
   uploadProfilePicture = async (req, res, next) => {
     try {
@@ -448,44 +444,42 @@ class UserController extends BaseController {
       const body = data[0].buffer;
       const s3Data = await this.s3Service.upload({ key, body });
 
-
       if (!s3Data) {
         const data = {
           success: false,
           error: {
             code: 401,
             message: "Failed to update profile picture",
-            message_detail: "s3 is enable to allow you space"
-          }
-        }
-        return super.jsonRes({ res, code: 401, data })
+            message_detail: "s3 is enable to allow you space",
+          },
+        };
+        return super.jsonRes({ res, code: 401, data });
       }
-      const dUser = await this.service.uploadProfilePic(req.files, s3Data, user)
+      const dUser = await this.service.uploadProfilePic(req.files, s3Data, user);
       if (!dUser) {
         const data = {
           success: false,
           error: {
             code: 401,
             message: "Failed to update profile picture",
-            message_detail: "Unable to load user data"
-          }
-        }
-        return super.jsonRes({ res, code: 401, data })
+            message_detail: "Unable to load user data",
+          },
+        };
+        return super.jsonRes({ res, code: 401, data });
       }
-      super.jsonRes({ res, code: 200, data: { success: true, message: "Profile picture updated ", metadata: { user: dUser } } })
-    }
-    catch (error) {
+      super.jsonRes({ res, code: 200, data: { success: true, message: "Profile picture updated ", metadata: { user: dUser } } });
+    } catch (error) {
       const data = {
         success: false,
         error: {
           code: 401,
           message: "Failed to update profile picture",
-          message_detail: "something went wrong"
-        }
-      }
-      super.jsonRes({ res, code: 401, })
+          message_detail: "something went wrong",
+        },
+      };
+      super.jsonRes({ res, code: 401 });
     }
-  }
+  };
 
   uploadCoverPicture = async (req, res, next) => {
     try {
@@ -502,46 +496,42 @@ class UserController extends BaseController {
       const body = data[0].buffer;
       const s3Data = await this.s3Service.upload({ key, body });
 
-
       if (!s3Data) {
         const data = {
           success: false,
           error: {
             code: 401,
             message: "Failed to update cover picture",
-            message_detail: "Unable to load user data"
-          }
-        }
-        return super.jsonRes({ res, code: 401, data })
+            message_detail: "Unable to load user data",
+          },
+        };
+        return super.jsonRes({ res, code: 401, data });
       }
-      const dUser = await this.service.uploadCoverPic(req.files, s3Data, user)
+      const dUser = await this.service.uploadCoverPic(req.files, s3Data, user);
       if (!dUser) {
         const data = {
           success: false,
           error: {
             code: 401,
             message: "Failed to update cover picture",
-            message_detail: "Unable to load user data"
-          }
-        }
-        return super.jsonRes({ res, code: 401, data })
+            message_detail: "Unable to load user data",
+          },
+        };
+        return super.jsonRes({ res, code: 401, data });
       }
-      super.jsonRes({ res, code: 200, data: { success: true, message: "Cover picture updated ", metadata: { user: dUser } } })
-    }
-    catch (error) {
+      super.jsonRes({ res, code: 200, data: { success: true, message: "Cover picture updated ", metadata: { user: dUser } } });
+    } catch (error) {
       const data = {
         success: false,
         error: {
           code: 401,
           message: "Failed to update cover picture",
-          message_detail: "Something went wrong"
-        }
-      }
-      super.jsonRes({ res, code: 401, data })
+          message_detail: "Something went wrong",
+        },
+      };
+      super.jsonRes({ res, code: 401, data });
     }
-  }
+  };
 }
-
-
 
 module.exports = UserController;
