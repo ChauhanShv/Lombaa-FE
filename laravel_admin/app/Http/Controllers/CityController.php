@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cities;
+use App\Models\Countries;
 use App\Models\Regions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -45,9 +46,15 @@ class CityController extends Controller
                 'name' => $city_name,
                 'code' => $city_code,
                 'regionId' => $region,
-                'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
             ];
             $insert_city = Cities::create($data);
+
+            $coordinate = [
+                'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
+            ];
+
+            $insert_city_coordinate = Cities::where('id', $data['id'])->update($coordinate);
+
             try {
                 return redirect()->route('city_list')->with('response', ['status' => 'success', 'message' => 'City added successfully']);
             } catch (Exception $e) {
@@ -55,8 +62,17 @@ class CityController extends Controller
             }
         } else {
             $regions = Regions::get();
-            return view('location.city.add', ['regions' => $regions]);
+            $countries = Countries::get();
+            $country_id = null;
+            return view('location.city.add', ['regions' => $regions, 'countries' => $countries, 'country_id' => $country_id]);
         }
+    }
+
+    public function with_country($country_id)
+    {
+        $regions = Regions::where('countryId', $country_id)->get();
+        $countries = Countries::get();
+        return view('location.city.add', ['regions' => $regions, 'countries' => $countries, 'country_id' => $country_id]);
     }
 
     public function update_city(Request $request, $id)
@@ -98,4 +114,5 @@ class CityController extends Controller
             return view('location.city.update', ['id' => $id, 'city' => $city, 'regions' => $regions]);
         }
     }
+
 }

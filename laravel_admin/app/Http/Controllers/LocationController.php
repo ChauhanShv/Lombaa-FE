@@ -33,13 +33,23 @@ class LocationController extends Controller
             }
             $counrtry_name = $request->input('name');
             $country_code = $request->input('code');
+
             $data = [
                 'id' => Str::uuid(),
                 'name' => $counrtry_name,
                 'code' => $country_code,
+                // 'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
+                // 'coordinate' => new Point($request->lat, $request->long),
+            ];
+
+            $insert_country = Countries::create($data);
+
+            $update_coordinate = [
                 'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
             ];
-            $insert_country = Countries::create($data);
+
+            $insert_country_coordinate = Countries::where('id', $data['id'])->update($update_coordinate);
+
             try {
                 return redirect()->route('country_list')->with('response', ['status' => 'success', 'message' => 'Country added successfully']);
             } catch (Exception $e) {

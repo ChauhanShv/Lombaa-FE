@@ -25,9 +25,6 @@ class Countries extends Model
         'id',
         'name',
         'code',
-        'createdAt',
-        'updatedAt',
-        'deletedAt',
     ];
 
     protected $spatialFields = [

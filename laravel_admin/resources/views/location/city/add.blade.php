@@ -1,5 +1,5 @@
-@extends('layout.app') 
-@section('body') 
+@extends('layout.app')
+@section('body')
 @include('layout.breadcrumb')
 
 
@@ -10,7 +10,7 @@
         <h5>Add City</h5>
       </div>
       <div>
-        @if (session('response')) 
+        @if (session('response'))
         @if (session('response.status') == 'success')
         <div class="alert alert-success">
           @else
@@ -21,6 +21,28 @@
         </div>
         <div class="widget-content nopadding">
           <form action="{{ route('city') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+          <div class="control-group">
+                <label class="control-label">Select Country :</label>
+                <div class="controls">
+                    <select id='' name="country" onchange="change_url(this.value);">
+                      @if($country_id)
+                        @foreach($countries as $country)
+                          @if($country_id ==  $country->id)
+                            <option value="{{ $country->name }}" selected>{{ $country->name }}</option>
+                          @endif
+                        @endforeach
+                      @else
+                        <option value="">Select Country</option>
+                      @endif
+                      @foreach($countries as $country)
+                        <option value="{{ route('with_country', ['country_id' => $country->id] ) }}">{{ $country->name }}</option>
+                      @endforeach
+                    </select>
+                    @error('country')
+                        <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
             <div class="control-group">
                 <label class="control-label">Select region :</label>
                 <div class="controls">
@@ -61,7 +83,7 @@
                 <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                 @enderror
               </div>
-            </div>  
+            </div>
             <div class="control-group">
               <label class="control-label">Longitude :</label>
               <div class="controls">
@@ -70,8 +92,8 @@
                 <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                 @enderror
               </div>
-            </div>                          
-            @csrf 
+            </div>
+            @csrf
             <div class="form-actions">
               <button type="submit" class="btn btn-success">Save</button>
             </div>
@@ -82,3 +104,8 @@
   </div>
 </div>
 @endsection
+<script type="text/javascript">
+    function change_url(val) {
+        window.location=val;
+    }
+</script>

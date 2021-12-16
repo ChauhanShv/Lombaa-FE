@@ -66,26 +66,28 @@ class CategoryController extends Controller
 
             $category_id = Category::create($data)->id;
 
-            if ($data) {
-                $category_fields = array();
-                $i = 1;
-                foreach ($request->input('fields') as $field) {
-                    $category_field = array();
+            if (!$data['parentId'] == null) {
+                if ($data) {
+                    $category_fields = array();
+                    $i = 1;
+                    foreach ($request->input('fields') as $field) {
+                        $category_field = array();
 
-                    $category_field['sort'] = $i;
-                    $category_field['categoryId'] = $category_id;
-                    $category_field['fieldId'] = $field;
+                        $category_field['sort'] = $i;
+                        $category_field['categoryId'] = $category_id;
+                        $category_field['fieldId'] = $field;
 
-                    array_push($category_fields, $category_field);
+                        array_push($category_fields, $category_field);
 
-                    $i++;
+                        $i++;
+                    }
+
+                    $send_category_fields = CategoryField::create($category_fields);
+
+                    return redirect()->route('category_list')->with('response', ['status' => 'success', 'message' => 'Category added successfully']);
+                } else {
+                    return redirect()->route('category_list')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
                 }
-
-                $send_category_fields = CategoryField::create($category_fields);
-
-                return redirect()->route('category_list')->with('response', ['status' => 'success', 'message' => 'Category added successfully']);
-            } else {
-                return redirect()->route('category_list')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
             }
         } else {
             $fields = Fields::get();

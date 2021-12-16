@@ -63,6 +63,7 @@ class ValuesController extends Controller
                     'id' => Str::uuid(),
                     'value' => $request->name,
                     'iconId' => $fileData['id'],
+                    'fieldId' => $request->field,
                 ];
 
                 $sendData = Values::create($data);
@@ -122,6 +123,7 @@ class ValuesController extends Controller
             $data = [
                 'value' => $request->name,
                 'iconId' => $iconId,
+                'fieldId' => $request->field,
             ];
 
             $sendData = Values::where('id', $id)->update($data);

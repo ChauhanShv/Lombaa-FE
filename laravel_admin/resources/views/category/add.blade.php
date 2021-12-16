@@ -92,7 +92,7 @@
                 </div>
             </div>
 
-            <div class="control-group">
+            <div class="control-group" id='fieldId'>
              <label class="control-label">Select Fields :</label>
               <div class="controls">
                 <select multiple name="fields[]" size="3" >
