@@ -96,8 +96,8 @@
              <label class="control-label">Select Fields :</label>
               <div class="controls">
                 <select multiple name="fields[]" size="3" >
-                @foreach($fields as $field)
-                    <option value="{{$field->id}}">{{ $field->label}}</option>
+                    @foreach($fields as $field)
+                      <option value="{{$field->id}}">{{ $field->label}}</option>
                     @endforeach
                 </select>
                 @error('fields')

@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\CategoryField;
 use App\Models\Fields;
 use App\Models\Files;
+use App\Rules\HasSingleTitle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Str;
@@ -19,7 +20,8 @@ class CategoryController extends Controller
                 'name' => 'required|regex:/^[\s\w-]*$/',
                 'description' => 'required',
                 'image' => 'required',
-                'fields' => 'required',
+                'fields' => ['required', new HasSingleTitle],
+
             ];
 
             $messages = [
@@ -69,18 +71,25 @@ class CategoryController extends Controller
             if (!$data['parentId'] == null) {
                 if ($data) {
                     $category_fields = array();
-                    $i = 1;
-                    foreach ($request->input('fields') as $field) {
+
+                    $i = 2;
+
+                    $fields = Fields::findMany($request->fields);
+                    foreach ($fields as $field) {
                         $category_field = array();
-
-                        $category_field['sort'] = $i;
                         $category_field['categoryId'] = $category_id;
-                        $category_field['fieldId'] = $field;
+                        $category_field['fieldId'] = $field->id;
 
+                        if ($field->fieldType === 'title') {
+                            $category_field['sort'] = 1;
+                        } else {
+                            $category_field['sort'] = $i;
+                            $i++;
+                        }
                         array_push($category_fields, $category_field);
-
-                        $i++;
                     }
+
+                    // dd($category_fields);
 
                     $send_category_fields = CategoryField::create($category_fields);
 
