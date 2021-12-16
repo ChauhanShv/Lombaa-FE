@@ -60,6 +60,19 @@
   height: 100%;
 }
 
+.video {
+  display: inline;
+  width: auto;
+  height: 100%;
+}
+
+.close-button {
+  display: inline-block;
+  position: absolute;
+  width: 17px;
+  height: 17px;
+}
+
 .upload-limit-text {
   margin-top: 1rem;
   margin-bottom: 0.5rem;

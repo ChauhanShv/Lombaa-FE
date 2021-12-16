@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Container, Row, Col, Button, Form, Spinner } from 'react-bootstrap';
 import { filter, isEmpty, isArray } from 'lodash';
 import {
@@ -19,6 +19,7 @@ import {
     SubCategories,
     Fields,
     FieldValues as CreatePostFieldValues,
+    Media,
 } from '.';
 
 interface CreatePostProps {
@@ -29,12 +30,13 @@ export const CreatePost: React.FC<CreatePostProps> = ({
     categories,
 }: CreatePostProps): React.ReactElement => {
     const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategories | null>(null);
-    const [filesToken, setFilesToken] = useState<Array<Object>>([]);
+    const [media, setMedia] = useState<Media[]>([]);
     const [successData, setSuccessData] = useState<any>({
         title: '',
         description: '',
-        file: [],
+        file: '',
     });
+
     const customResolver = async (
         values: UnpackNestedValue<FieldValues>
     ): Promise<ResolverResult<FieldValues>> => {
@@ -100,22 +102,6 @@ export const CreatePost: React.FC<CreatePostProps> = ({
         url: '/product',
         method: 'POST',
     });
-    const [{ data: mediaApi, loading: mediaLoading, error: mediaApiError }, executeMedia] = useAxios({
-        url: '/product/media',
-        method: 'POST',
-    });
-
-    useEffect(() => {
-        if (mediaApi?.Success && !filesToken.includes(mediaApi?.media?.token)) {
-            setFilesToken([...filesToken, { token: mediaApi?.media?.token }]);
-            if (filesToken.length === 0) {
-                setSuccessData({
-                    ...successData,
-                    file: mediaApi?.media?.url,
-                });
-            }
-        }
-    }, [mediaApi]);
 
     const onSubmit = (values: any) => {
         if (!isEmpty(errors)) {
@@ -124,7 +110,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
         const postData: any = {
             categoryId: values?.subCategory,
             fields: [],
-            media: filesToken,
+            media: media.map((i: Media) => i.token),
         };
         selectedSubCategory?.fields.forEach((field: Fields) => {
             const value: any = {};
@@ -181,16 +167,16 @@ export const CreatePost: React.FC<CreatePostProps> = ({
         }
     };
 
-    const onFilesUpload = async (files: Array<Blob>) => {
-        const formData = new FormData();
-        for (const file of files) {
-            formData.append('media', file);
-            try {
-                await executeMedia({ data: formData });
-            } catch (error: any) { }
-            formData.delete('media');
-        }
-    }
+
+    const updateMedia = (updatedMedia: Media[]) => {
+        setMedia([
+            ...updatedMedia,
+        ]);
+        setSuccessData({
+            ...successData,
+            file: updatedMedia[0]?.url || '',
+        });
+    };
 
     return createPostRes?.Success ? <ListingSuccessfulTile {...successData} /> : (
         <Container className="p-4 pt-lg-5">
@@ -198,27 +184,25 @@ export const CreatePost: React.FC<CreatePostProps> = ({
                 <Form onSubmit={handleFormSubmit} noValidate>
                     <h1 className="mb-3 h2">What are you listing today?</h1>
                     <Row>
-                        <Col lg={filesToken.length ? 4 : 12}>
-                            <DragAndDrop onFilesUpload={onFilesUpload} />
+                        <Col lg="4">
+                            <DragAndDrop updateMedia={updateMedia} />
                         </Col>
-                        {!!filesToken.length && (
-                            <Col lg={8}>
-                                <div className="shadow p-3 p-lg-5 h-100">
-                                    <CategoryDropDown
-                                        categories={categories}
-                                        onSubCategorySelected={onSubCategorySelected}
-                                    />
-                                    {!!selectedSubCategory?.fields?.length && <FormFields fields={selectedSubCategory?.fields} />}
-                                    <div className="d-flex justify-content-end">
-                                        <Button variant="fullround" className="btn-success rounded btn-lg" type="submit">
-                                            {createPostLoading ? (
-                                                <Spinner animation="border" role="status"></Spinner>
-                                            ) : 'List Now'}
-                                        </Button>
-                                    </div>
+                        <Col lg={8}>
+                            <div className="shadow p-3 p-lg-5 h-100">
+                                <CategoryDropDown
+                                    categories={categories}
+                                    onSubCategorySelected={onSubCategorySelected}
+                                />
+                                {!!selectedSubCategory?.fields?.length && <FormFields fields={selectedSubCategory?.fields} />}
+                                <div className="d-flex justify-content-end">
+                                    <Button variant="fullround" className="btn-success rounded btn-lg" type="submit">
+                                        {createPostLoading ? (
+                                            <Spinner animation="border" role="status"></Spinner>
+                                        ) : 'List Now'}
+                                    </Button>
                                 </div>
-                            </Col>
-                        )}
+                            </div>
+                        </Col>
                     </Row>
                 </Form>
             </FormProvider>

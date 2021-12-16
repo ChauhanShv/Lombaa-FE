@@ -34,3 +34,11 @@ export interface Categories {
   isPopular: number;
   subCategories: SubCategories[];
 }
+
+export interface Media {
+  token: string;
+  url: string;
+}
+export interface DragAndDropProps {
+  updateMedia: (media: Media[]) => void;
+}
