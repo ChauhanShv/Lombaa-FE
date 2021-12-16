@@ -28,7 +28,7 @@ module.exports = class FileService {
 
       if (!saveToDB) return s3Data;
 
-      return await File.create({ key_name: s3Data.key, extension, name: s3Data.key, mime, location: "s3", relative_path: "", absolute_path: s3Data.Location });
+      return await File.create({ key_name: s3Data.Key, extension, name: s3Data.Key, mime, location: "s3", relative_path: "", absolute_path: s3Data.Location });
     } catch (error) {
       throw new Error(error);
     }

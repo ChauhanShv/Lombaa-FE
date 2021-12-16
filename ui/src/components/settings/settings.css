@@ -32,3 +32,5 @@
 .sidenav .side-cta div{justify-content: space-between; align-items: center; display: flex;}
 
 .sidenav.card>.list-group{border:0;}
+
+.profile-image { width: 150px; height: 150px; }
