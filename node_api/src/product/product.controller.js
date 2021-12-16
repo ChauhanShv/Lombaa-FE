@@ -61,7 +61,7 @@ class productController extends BaseController {
       const payload = { userId: user?.id, fileId: uploadedFile?.id };
       const token = jwt.encode(payload);
 
-      return super.jsonRes({ res, code: 201, data: { Success: true, message: "Uploaded", media: { token, url: uploadedFile?.absolute_path } } });
+      return super.jsonRes({ res, code: 201, data: { Success: true, message: "Uploaded", media: { token, url: uploadedFile?.absolute_path, mime: uploadedFile?.mime, extension: uploadedFile?.extension } } });
     } catch (error) {
       return super.jsonRes({ res, code: 400, data: { success: false, error: { code: 400, message: "Failed to upload", message_detail: error.message } } });
     }

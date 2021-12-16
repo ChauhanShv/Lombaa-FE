@@ -39,7 +39,6 @@ module.exports = async (req, res, next) => {
       user
     );
   } catch (err) {
-    console.log({ err });
     return res.status(401).json({ success: false, error: { code: 401, message: "Unauthorized access", message_detail: err.message } });
   }
 };

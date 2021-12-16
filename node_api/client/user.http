@@ -202,14 +202,15 @@ x-client-platform : Android
 PUT  {{baseUrl}}/user/picture HTTP/1.1
 x-access-token : {{token}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
-
+x-client-platform : Android
+x-app-version : 1.0.0
 
 title
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="image"; filename="lombatest.png"
+Content-Disposition: form-data; name="image"; filename="data.png"
 Content-Type: image/png
 
-< C:\lombatest.png
+< C:\data\data.png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 ###

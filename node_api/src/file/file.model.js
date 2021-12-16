@@ -23,7 +23,7 @@ File.init(
     defaultScope: {
       attributes: {
         exclude: ["createdAt", "updatedAt", "extension", "key_name", "relative_path", "location", "name", "mime", "absolute_path", "deletedAt"],
-        include: [["absolute_path", "url"]],
+        include: [["absolute_path", "url"], "mime", "extension"],
       },
     },
   }
