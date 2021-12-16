@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3001/api
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMyNjZkODg0LTM3OWYtNDExYy1iODEwLTdiYmM3NjEzOTMyZSIsImlhdCI6MTYzOTM0MDczNiwiZXhwIjoxNjM5NDI3MTM2fQ.N9NBgR80qzeRblMY1h_kFY-WQu07LKdiNjptvC4rrPA
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMyNjZkODg0LTM3OWYtNDExYy1iODEwLTdiYmM3NjEzOTMyZSIsImlhdCI6MTYzOTY0MzUyMiwiZXhwIjoxNjM5NzI5OTIyfQ.wo-4ruDDKzwue0IlyVjngmhmTVVR7YznvRU614HQl9I
 ### Crete new User
 
 POST {{baseUrl}}/user HTTP/1.1
@@ -181,15 +181,20 @@ x-access-token : {{token}}
 x-app-version : 1.0.0
 x-client-platform : Android
 
+# {
+#     "businessName": "MS Soft",
+#     "yearOfEstablishment" : 2004,
+#     "aboutBusiness" : "i am very glad",
+#     "accountType": "business"
+# }
+
 {
-    "name" : "Vivek",
+    "name" : "Glenn",
     "location" : 5346,
     "birthday" : null,
     "sex" : "male",
     "bio" : "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
-    "yearOfEstablishment" : 2004,
-    "aboutBussiness" : "i am very glaf "
-    
+    "accountType": "standard"
 }
 
 ###
