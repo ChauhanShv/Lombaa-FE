@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import {
     SideBar,
-    PersonalPetails,
+    PersonalDetails,
     ChangeEmail,
     ChangePassword,
     ChangePhone,
@@ -21,7 +21,7 @@ export const SettingsPage: React.FC = () => {
     const getPage = (): React.ReactElement => {
         switch (page) {
             case 'personal-details':
-                return <PersonalPetails />;
+                return <PersonalDetails />;
             case 'change-email':
                 return <ChangeEmail />;
             case 'change-password':
@@ -31,7 +31,7 @@ export const SettingsPage: React.FC = () => {
             case 'deactivate-account':
                 return <DeactivateAccount />;
             default:
-                return <PersonalPetails />;
+                return <PersonalDetails />;
         };
     };
 
@@ -72,7 +72,6 @@ export const SettingsPage: React.FC = () => {
                     {getContent()}
                 </Row>
             </Container>
-
         </>
     )
 };
