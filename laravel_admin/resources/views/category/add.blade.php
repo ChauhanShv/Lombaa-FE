@@ -81,7 +81,7 @@
                 <label class="control-label">Parent Category :</label>
                 <div class="controls">
                     <select class="selectpicker" name="product">
-                        <option value="Select parent category" selected>Select parent category</option>
+                        <option value="" selected>Select parent category</option>
                         @foreach($categories as $category)
                             <option value="{{  $category->id }}">{{ $category->name }}</option>
                         @endforeach
@@ -92,12 +92,12 @@
                 </div>
             </div>
 
-            <div class="control-group">
+            <div class="control-group" id='fieldId'>
              <label class="control-label">Select Fields :</label>
               <div class="controls">
                 <select multiple name="fields[]" size="3" >
-                @foreach($fields as $field)
-                    <option value="{{$field->id}}">{{ $field->label}}</option>
+                    @foreach($fields as $field)
+                      <option value="{{$field->id}}">{{ $field->label}}</option>
                     @endforeach
                 </select>
                 @error('fields')
