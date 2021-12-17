@@ -45,9 +45,14 @@ class RegionController extends Controller
                 'name' => $region_name,
                 'code' => $region_code,
                 'countryId' => $country,
-                'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
             ];
             $insert_region = Regions::create($data);
+
+            $region_coordinate = [
+                'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
+            ];
+
+            $inser_region_coordinate = Regions::where('id', $data['id'])->update($region_coordinate);
             try {
                 return redirect()->route('region_list')->with('response', ['status' => 'success', 'message' => 'Region added successfully']);
             } catch (Exception $e) {

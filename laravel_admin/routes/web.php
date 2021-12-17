@@ -51,6 +51,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/city', [CityController::class, 'city_list'])->name('city_list');
     Route::get('/city/add', [CityController::class, 'add_city'])->name('city');
+    Route::get('/city/add/{country_id}', [CityController::class, 'with_country'])->name('with_country');
     Route::post('/city/add', [CityController::class, 'add_city']);
     Route::get('/city/update/{id}', [CityController::class, 'update_city'])->name('update_city');
     Route::post('/city/update/{id}', [CityController::class, 'update_city'])->name('update_city');

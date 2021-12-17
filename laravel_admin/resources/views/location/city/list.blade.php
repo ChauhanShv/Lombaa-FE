@@ -1,7 +1,7 @@
 @extends('layout.app')
 @section('body')
 @include('layout.breadcrumb')
-@if (session('response')) 
+@if (session('response'))
 @if (session('response.status') == 'success')
 <div class="alert alert-success">
     @else
@@ -16,11 +16,11 @@
             .widget-title{display:flex; justify-content:space-between;}
             .widget-title .pagination{margin:2px;}
         </style>
-        <div class="widget-title"> 
+        <div class="widget-title">
             <div><span class="icon"><i class="icon-th"></i></span>
-                <h5>Cities List</h5> 
+                <h5>Cities List</h5>
             </div>
-            
+
             <div>
                 <a href="{{ route('country')}}">
                     <button class="btn btn-success">Add Country</button>
@@ -52,7 +52,7 @@
                         <td style="text-align: center;">{{ $data->name }}</td>
                         <td style="text-align: center;">{{ $data->code}}</td>
                         <td style="text-align: center;">{{ $data->region->name}}</td>
-                        <td style="text-align: center;"><p><strong>Lat :</strong>&nbsp;{{ $data->coordinate->getLat()}}&nbsp;;&nbsp;<strong>Long :</strong>&nbsp;{{ $data->coordinate->getLng()}}</p></td>
+                        <td style="text-align: center;"><p><strong>Lat :</strong>&nbsp;{{ $data->coordinate ? $data->coordinate->getLat() : 'N/A' }}&nbsp;;&nbsp;<strong>Long :</strong>&nbsp;{{ $data->coordinate ? $data->coordinate->getLng() : 'N/A' }}</p></td>
                         <td style="text-align: center;">
                             <a href="{{ route('update_city', $data->id) }}">
                                 <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>

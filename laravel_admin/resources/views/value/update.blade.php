@@ -1,5 +1,5 @@
-@extends('layout.app') 
-@section('body') 
+@extends('layout.app')
+@section('body')
 @include('layout.breadcrumb')
 
 <div class="row-fluid">
@@ -9,7 +9,7 @@
         <h5>Update Value</h5>
       </div>
       <div>
-        @if (session('response')) 
+        @if (session('response'))
         @if (session('response.status') == 'success')
         <div class="alert alert-success">
           @else
@@ -22,8 +22,8 @@
           <form action="{{ route('values_update', $value->id) }}" method="post" enctype="multipart/form-data" class="form-horizontal">
             <div class="control-group">
                 <label class="control-label">Assigned to Field:</label>
-                <div class="controls">  
-                  <input type="text" name="name" value="{{ ($value->fieldId == null) ? 'Not yet assigned to ay Field' : $value->field->label }}" style="width: 40%" class="span11"  readonly/>
+                <div class="controls">
+                  <input type="text" name="field" value="{{ ($value->fieldId == null) ? 'Not yet assigned to ay Field' : $value->field->label }}" style="width: 40%" class="span11"/>
                 </div>
             </div>
             <div class="control-group">
@@ -44,7 +44,7 @@
                 @enderror
               </div>
             </div>
-            @csrf 
+            @csrf
             <div class="form-actions">
               <button type="submit" class="btn btn-success">Update</button>
             </div>
