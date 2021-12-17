@@ -21,11 +21,14 @@ import { PASSWORD_REGEX } from '../../constants';
 import { ChangePasswordFormFeilds, AlertType } from './types';
 
 const schema = yup.object().shape({
-    oldPassword: yup.string().required('Password is required'),
+    oldPassword: yup.string().matches(
+        PASSWORD_REGEX,
+        'Password should contain minimum 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character'
+    ).required('Password is required'),
     password: yup.string().matches(
         PASSWORD_REGEX,
         'Password should contain minimum 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character'
-    ),
+    ).required('Confirm Password is required'),
 }).required();
 const successMessage: string = 'Your password has changed';
 

@@ -18,7 +18,7 @@ import { isEmpty } from 'lodash';
 import { useAxios } from '../../services';
 import { MOBILE_REGEX } from '../../constants';
 import { ChangePhoneFormFeilds, AlertType } from './types';
-import { useAppContext } from '../../contexts';
+import { useAppContext, ActionTypes } from '../../contexts';
 import { getAPIErrorMessage } from '../../utils';
 
 const schema = yup.object().shape({
@@ -29,9 +29,9 @@ const schema = yup.object().shape({
 }).required();
 
 export const ChangePhone: React.FC = (): React.ReactElement => {
-    const { state } = useAppContext();
+    const { state, dispatch } = useAppContext();
     const [alert, setAlert] = useState<AlertType>({});
-    const { register, handleSubmit, formState: { errors } } = useForm<ChangePhoneFormFeilds>({
+    const { register, handleSubmit, formState: { errors }, getValues } = useForm<ChangePhoneFormFeilds>({
         resolver: yupResolver(schema),
         defaultValues: {
             phoneNumber: state.user?.metaData?.phoneNumber,
@@ -47,6 +47,15 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
             setAlert({
                 variant: 'success',
                 message: 'Phone changed successfully',
+            });
+            dispatch({
+                type: ActionTypes.UPDATE_PROFILE,
+                payload: {
+                    metaData: {
+                        ...state?.user?.metaData,
+                        phoneNumber: getValues().phoneNumber,
+                    },
+                }
             });
         }
     }, [response]);

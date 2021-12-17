@@ -65,7 +65,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
     const { register: registerBusiness, handleSubmit: handleSubmitBusiness, formState: { errors: businessErrors } } = useForm({
         resolver: yupResolver(businessSchema),
         defaultValues: {
-            businessName: userData?.name,
+            businessName: userData?.businessName,
             yearOfEstablishment: userData?.yearOfEstablishment,
             aboutBusiness: userData?.aboutBusiness,
         },
@@ -249,6 +249,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                                     placeholder="Select Birthday"
                                     className={getErrorClassName('birthday')}
                                 />
+                                {getErrorText('birthday')}
                             </FloatingLabel>
                             <FloatingLabel label="Sex" className="mb-3">
                                 <Form.Select {...register('sex')} aria-label="Floating label select example">
@@ -257,6 +258,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                                     <option value="male">Male</option>
                                     <option value="other">Other</option>
                                 </Form.Select>
+                                {getErrorText('sex')}
                             </FloatingLabel>
                             <FloatingLabel label="Bio" className="mb-3">
                                 <Form.Control
