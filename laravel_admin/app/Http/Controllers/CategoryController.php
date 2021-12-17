@@ -16,7 +16,6 @@ class CategoryController extends Controller
     public function categories(Request $request)
     {
         if ($request->isMethod('post')) {
-            // dd($request->all());
             $rules = [
                 'name' => 'required|regex:/^[\s\w-]*$/',
                 'description' => 'required',
@@ -32,10 +31,8 @@ class CategoryController extends Controller
                 'image.required' => 'Image is required',
                 'product.required' => 'Category is required',
                 'product.required_unless' => 'Parent cartegory is required',
-                // 'fields.required' => 'Fields are required',
-                // 'fields.required_unless' => 'Fields are required'
             ];
-            
+
             $validator = Validator::make($request->all(), $rules, $messages);
 
             if ($validator->fails()) {
@@ -94,8 +91,6 @@ class CategoryController extends Controller
                         array_push($category_fields, $category_field);
                     }
 
-                    // dd($category_fields);
-
                     $send_category_fields = CategoryField::insert($category_fields);
 
                     return redirect()->route('category_list')->with('response', ['status' => 'success', 'message' => 'Category added successfully']);
@@ -124,14 +119,12 @@ class CategoryController extends Controller
             $rules = [
                 'name' => 'required|regex:/^[\s\w-]*$/',
                 'description' => 'required',
-                // 'product' => 'required',
                 'add_fields' => ['required', new HasSingleTitle],
             ];
 
             $messages = [
                 'name.required' => 'Name is required',
                 'description.required' => 'Description is required',
-                // 'product.required' => 'Category is required',
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -174,33 +167,19 @@ class CategoryController extends Controller
 
             $update_category = Category::where('id', $id)->update($data);
 
-            if ($update_category) {
+            if (!$data['parentId'] == null) {
                 if ($request->add_fields !== null) {
 
                     $delete_old_records = CategoryField::where('categoryId', $id)->delete();
-
-                    // $category_fields = array();
-
-                    // $i = 1;
-                    // foreach ($request->input('add_fields') as $field) {
-                    //     $category_field = array();
-                    //     $category_field['sort'] = $i;
-                    //     $category_field['categoryId'] = $id;
-                    //     $category_field['fieldId'] = $field;
-                    //     array_push($category_fields, $category_field);
-                    //     $i++;
-                    // }
-
-                    // $send_category_fields = CategoryField::insert($category_fields);
 
                     $category_fields = array();
 
                     $i = 2;
 
-                    $fields = Fields::findMany($request->fields);
+                    $fields = Fields::findMany($request->add_fields);
                     foreach ($fields as $field) {
                         $category_field = array();
-                        $category_field['categoryId'] = $category_id;
+                        $category_field['categoryId'] = $id;
                         $category_field['fieldId'] = $field->id;
 
                         if ($field->fieldType === 'title') {
@@ -211,16 +190,10 @@ class CategoryController extends Controller
                         }
                         array_push($category_fields, $category_field);
                     }
-
-                    // dd($category_fields);
-
                     $send_category_fields = CategoryField::insert($category_fields);
                 }
 
                 return redirect()->route('category_list')->with('response', ['status' => 'success', 'message' => 'Category updated successfully']);
-            } else {
-                return redirect()->route('category_list')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
-
             }
 
         } else {

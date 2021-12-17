@@ -50,7 +50,7 @@
                             <label class="control-label">Description :</label>
                             <div class="controls">
                                 <input type="text" name="description" class="span11" placeholder="Enter location" value="{{ $data['description'] }}" />
-                                @error('location')
+                                @error('description')
                                 <div class="alert alert-danger ">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -92,7 +92,7 @@
                                 <label class="control-label">IsParent :</label>
                                 <div class="controls">
                                     <input type="checkbox"  id="parenttId" name="parent" {{ ($data->parentId) ? '' : 'checked' }} data-toggle="toggle" >
-                                    @error('active')
+                                    @error('parent')
                                     <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                                     @enderror
                                 </div>
@@ -122,7 +122,7 @@
                                 @enderror
                                 </div>
                             </div>
-                            <div class="control-group">
+                            <div class="control-group" id='fieldId'>
                                 <label class="control-label">Select Fields :</label>
                                 <div class="controls">
                                     <select multiple name="add_fields[]">
@@ -133,7 +133,7 @@
                                             <option value="{{ $field->id }}">{{ $field->label }}</option>
                                         @endforeach
                                     </select>
-                                @error('fields')
+                                @error('add_fields')
                                     <div class="alert alert-danger ">{{ $message }}</div>
                                 @enderror
                                 </div>
