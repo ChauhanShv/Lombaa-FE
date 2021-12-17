@@ -17,7 +17,7 @@ import * as yup from 'yup';
 import { useAxios } from '../../services';
 import { isEmpty } from 'lodash';
 import { ChangeEmailFormFeilds, AlertType } from './types';
-import { useAppContext } from '../../contexts';
+import { useAppContext, ActionTypes } from '../../contexts';
 import { getAPIErrorMessage } from '../../utils';
 
 const schema = yup.object().shape({
@@ -25,9 +25,9 @@ const schema = yup.object().shape({
 }).required();
 
 export const ChangeEmail: React.FC = (): React.ReactElement => {
-    const { state } = useAppContext();
+    const { state, dispatch } = useAppContext();
     const [alert, setAlert] = useState<AlertType>({});
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<ChangeEmailFormFeilds>({
+    const { register, handleSubmit, reset, formState: { errors }, getValues } = useForm<ChangeEmailFormFeilds>({
         resolver: yupResolver(schema),
         defaultValues: {
             email: state.user?.metaData?.email
@@ -44,6 +44,15 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
                 variant: 'success',
                 message: 'Email changed successfully',
             });
+            dispatch({
+                type: ActionTypes.UPDATE_PROFILE,
+                payload: {
+                    metaData: {
+                        ...state?.user?.metaData,
+                        email: getValues().email,
+                    },
+                }
+            })
         }
     }, [response]);
 

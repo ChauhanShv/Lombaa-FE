@@ -19,7 +19,7 @@ export const SideBar: React.FC = (): React.ReactElement => {
                 </NavLink>
                 Settings
             </Card.Header>
-            <ListGroup className="mb-2">
+            <ListGroup>
                 {userData?.accountType === 'standard' && (
                     <NavLink className="side-cta" to="/settings/personal-details" activeClassName="active">
                         <ListGroup.Item className="py-3">
@@ -37,7 +37,7 @@ export const SideBar: React.FC = (): React.ReactElement => {
                     </NavLink>
                 )}
             </ListGroup>
-            <ListGroup className="mb-2">
+            <ListGroup>
                 <NavLink className="side-cta" to="/settings/change-password">
                     <ListGroup.Item className="py-3" >
                         Change password
