@@ -8,7 +8,7 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 import GoogleLogin from 'react-google-login';
 import { getAPIErrorMessage } from '../../../utils';
 import { RegisterProps, FormFields, AccountType } from './types';
-import { PASSWORD_REGEX, NAME_MIN_LENGTH } from '../../../constants';
+import { PASSWORD_REGEX, NAME_MIN_LENGTH, TIN_MIN_LENGTH, MOBILE_REGEX, TIN_REGEX } from '../../../constants';
 import { GOOGLE_CLIENTID, FB_APPID } from '../../../config';
 import { useAxios } from '../../../services/base-service';
 import { useAppContext, ActionTypes } from '../../../contexts';
@@ -28,7 +28,7 @@ export const Register: React.FC<RegisterProps> = ({
     openLogin,
     onClose,
 }: RegisterProps): React.ReactElement => {
-    const { register, handleSubmit, getValues, formState: { errors } } = useForm<FormFields>({
+    const { register, handleSubmit, getValues, formState: { errors }, reset } = useForm<FormFields>({
         resolver: yupResolver(schema),
     });
     const [selectedAccountType, setSelectedAccountType] = useState<AccountType>(AccountType.INDIVIDUAL);
@@ -56,6 +56,7 @@ export const Register: React.FC<RegisterProps> = ({
                 }
             });
             onClose();
+            window.location.reload();
         }
     }, [registerRes, googleRes, fbRes]);
 
@@ -64,11 +65,6 @@ export const Register: React.FC<RegisterProps> = ({
             ...errors
         };
         const formValues = getValues();
-        if (errorMessages.accountType) {
-            errorMessages.accountType = {
-                message: 'Account type is required',
-            };
-        }
 
         if (formValues.accountType === AccountType.INDIVIDUAL) {
             if (!formValues.name) {
@@ -90,6 +86,24 @@ export const Register: React.FC<RegisterProps> = ({
                 errorMessages.businessName = {
                     message: 'Busines name is invalid',
                 };
+            }
+            if (!formValues.tinNumber) {
+                errorMessages.tinNumber = {
+                    message: 'TIN number is required'
+                }
+            } else if (formValues.tinNumber?.length < TIN_MIN_LENGTH && !formValues.tinNumber.match(TIN_REGEX)) {
+                errorMessages.tinNumber = {
+                    message: 'Enter valid TIN number with atleast 6 characters',
+                }
+            }
+            if (!formValues.phoneNumber) {
+                errorMessages.phoneNumber = {
+                    message: 'Phone Number is Required',
+                }
+            } else if (!formValues.phoneNumber.match(MOBILE_REGEX)) {
+                errorMessages.phoneNumber = {
+                    message: 'Phone Number is Invalid',
+                }
             }
         }
 
@@ -209,6 +223,15 @@ export const Register: React.FC<RegisterProps> = ({
             });
         }
     };
+    const handleAccountTypeChange = (accountType: string) => {
+        if (accountType === 'business') {
+            setSelectedAccountType(AccountType.BUSINESS);
+            reset();
+        } else {
+            setSelectedAccountType(AccountType.INDIVIDUAL);
+            reset();
+        }
+    }
     const handleFormSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         handleSubmit(onSubmit)();
@@ -283,7 +306,7 @@ export const Register: React.FC<RegisterProps> = ({
                                     value={AccountType.INDIVIDUAL}
                                     checked={selectedAccountType === AccountType.INDIVIDUAL}
                                     {...register("accountType")}
-                                    onChange={() => setSelectedAccountType(AccountType.INDIVIDUAL)}
+                                    onChange={() => handleAccountTypeChange(AccountType.INDIVIDUAL)}
                                     isValid={!!errors.accountType}
                                     className={getErrorClassName('accountType')}
                                 />
@@ -295,7 +318,7 @@ export const Register: React.FC<RegisterProps> = ({
                                     value={AccountType.BUSINESS}
                                     checked={selectedAccountType === AccountType.BUSINESS}
                                     {...register("accountType")}
-                                    onChange={() => setSelectedAccountType(AccountType.BUSINESS)}
+                                    onChange={() => handleAccountTypeChange(AccountType.BUSINESS)}
                                     isValid={!!errors.accountType}
                                     className={getErrorClassName('accountType')}
                                 />
