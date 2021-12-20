@@ -8,6 +8,7 @@ export interface FormFields {
   email: string;
   password: string;
   accountType: string;
+  countryCode: string;
   phoneNumber: string;
   tinNumber: string;
   businessName: string;

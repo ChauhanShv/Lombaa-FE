@@ -26,11 +26,12 @@ const schema = yup.object().shape({
 
 export const ChangeEmail: React.FC = (): React.ReactElement => {
     const { state, dispatch } = useAppContext();
+    const userData = state.user?.metaData;
     const [alert, setAlert] = useState<AlertType>({});
-    const { register, handleSubmit, reset, formState: { errors }, getValues } = useForm<ChangeEmailFormFeilds>({
+    const { register, handleSubmit, formState: { errors }, getValues } = useForm<ChangeEmailFormFeilds>({
         resolver: yupResolver(schema),
         defaultValues: {
-            email: state.user?.metaData?.email
+            email: userData?.email,
         }
     });
     const [{ data: response, loading, error: apiError }, execute] = useAxios({
@@ -42,13 +43,13 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
         if (response?.success) {
             setAlert({
                 variant: 'success',
-                message: 'Email changed successfully',
+                message: response?.message || 'Email Changed Successfully',
             });
             dispatch({
                 type: ActionTypes.UPDATE_PROFILE,
                 payload: {
                     metaData: {
-                        ...state?.user?.metaData,
+                        ...state.user?.metaData,
                         email: getValues().email,
                     },
                 }
@@ -92,6 +93,10 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
         return errorMessages[field] ? 'is-invalid' : '';
     };
 
+    const getSubmitButtonText = (isEmailVerified: number) => {
+        return isEmailVerified ? 'Update' : 'Verify';
+    }
+
     return (
         <Card>
             <Card.Header className="d-flex align-items-center justify-content-between bg-white">
@@ -121,7 +126,7 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
                         {
                             loading ? (
                                 <Spinner animation="border" role="status"></Spinner>
-                            ) : 'Update'
+                            ) : `${getSubmitButtonText(userData?.isEmailVerified)}`
                         }
                     </Button>
                 </Form>

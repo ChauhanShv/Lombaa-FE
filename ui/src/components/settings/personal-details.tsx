@@ -31,7 +31,7 @@ const standardSchema = yup.object().shape({
     location: yup.string().required('Location is Required'),
     birthday: yup.string().nullable().required('Date of Birth is Required'),
     sex: yup.string().required('Please Enter your Gender'),
-    bio: yup.string().required('Bio is Required')
+    bio: yup.string().nullable().required('Bio is Required')
         .min(20, 'Please Enter at least 20 letters bio')
         .max(5000, 'Bio should not exceed more than 5000 characters'),
 });
@@ -58,8 +58,6 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
             birthday: userData?.birthday,
             sex: userData?.sex,
             bio: userData?.bio,
-            memberSince: moment(userData?.memberSince).format('DD-MM-YYYY'),
-            lastActiveAt: userData?.lastActiveAt,
         },
     });
     const { register: registerBusiness, handleSubmit: handleSubmitBusiness, formState: { errors: businessErrors } } = useForm({
@@ -199,7 +197,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                         <Form.Group className="mb-3">
                             <Form.Label className='profile-image-label'>
                                 <AiOutlineEdit className="upload-image" />
-                                <Form.Control style={{ display: 'none' }} type="file" onChange={handleImageUpload} />
+                                <Form.Control style={{ display: 'none' }} type="file" accept='image/*' onChange={handleImageUpload} />
                             </Form.Label>
                         </Form.Group>
                     </div>
@@ -308,7 +306,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                             Member Since
                         </Form.Label>
                         <Form.Label column sm="8">
-                            {moment(userData?.memberSince).format('DD-MM-YYYY')}
+                            {moment(userData?.memberSince).format('LLL')}
                         </Form.Label>
                     </Form.Group>
                     <Form.Group as={Row} className="mb-3" controlId="lastActiveAtText">
@@ -316,7 +314,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                             Last Active At
                         </Form.Label>
                         <Form.Label column sm="8">
-                            {moment(userData?.lastActiveAt).format('DD-MM-YYYY')}
+                            {userData?.lastActiveAt ? moment(userData?.lastActiveAt).format('LLL') : 'N.A.'}
                         </Form.Label>
                     </Form.Group>
 

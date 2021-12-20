@@ -22,6 +22,7 @@ import { useAppContext, ActionTypes } from '../../contexts';
 import { getAPIErrorMessage } from '../../utils';
 
 const schema = yup.object().shape({
+    countryCode: yup.string().required('Enter Country Code'),
     phoneNumber: yup.string().matches(
         MOBILE_REGEX,
         'Mobile Number is invalid'
@@ -106,12 +107,25 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
                     )}
                     <FloatingLabel
                         controlId="floatingInput"
+                        label="Country Code"
+                        className="mb-3"
+                    >
+                        <Form.Select
+                            {...register('countryCode')}
+                            placeholder="Phone"
+                            className={getErrorClassName('phoneNumber')}
+                        >
+                        </Form.Select>
+                        {getErrorText('phoneNumber')}
+                    </FloatingLabel>
+                    <FloatingLabel
+                        controlId="floatingInput"
                         label="Phone Number"
                         className="mb-3"
                     >
                         <Form.Control
                             {...register('phoneNumber')}
-                            type="phoneNumber"
+                            type="text"
                             placeholder="Phone"
                             className={getErrorClassName('phoneNumber')}
                         />

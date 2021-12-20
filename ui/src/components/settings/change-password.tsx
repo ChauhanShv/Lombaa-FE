@@ -21,14 +21,13 @@ import { PASSWORD_REGEX } from '../../constants';
 import { ChangePasswordFormFeilds, AlertType } from './types';
 
 const schema = yup.object().shape({
-    oldPassword: yup.string().matches(
-        PASSWORD_REGEX,
-        'Password should contain minimum 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character'
-    ).required('Password is required'),
+    oldPassword: yup.string().required('Current Password is required'),
     password: yup.string().matches(
         PASSWORD_REGEX,
         'Password should contain minimum 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character'
     ).required('Confirm Password is required'),
+    confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match')
+        .required('Password Confirmation is required'),
 }).required();
 const successMessage: string = 'Your password has changed';
 
@@ -125,6 +124,19 @@ export const ChangePassword: React.FC = (): React.ReactElement => {
                             className={getErrorClassName('password')}
                         />
                         {getErrorText('password')}
+                    </FloatingLabel>
+                    <FloatingLabel
+                        controlId="confirmPassword"
+                        label="New Password"
+                        className="mb-3"
+                    >
+                        <Form.Control
+                            {...register('confirmPassword')}
+                            type="password"
+                            placeholder="Password"
+                            className={getErrorClassName('confirmPassword')}
+                        />
+                        {getErrorText('confirmPassword')}
                     </FloatingLabel>
                     <Button type="submit" className="btn btn-success w-100">
                         {
