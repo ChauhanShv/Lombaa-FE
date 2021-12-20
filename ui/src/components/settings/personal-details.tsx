@@ -17,7 +17,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { AiOutlineEdit } from 'react-icons/ai';
-import { SocialMediaConnect } from '.';
+import { SocialMediaConnect, AccountTypeSelector } from '.';
 import { useAppContext, ActionTypes } from '../../contexts';
 import { isEmpty } from 'lodash';
 import { useAxios } from '../../services';
@@ -49,6 +49,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
     const userData = state.user?.metaData;
     const [alert, setAlert] = useState<AlertType>({});
     const [imageSrc, setImageSrc] = useState<any>();
+    const [accountType, setAccountType] = useState<string>(userData?.accountType);
     const [openCropModal, setOpenCropModal] = useState<boolean>(false);
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(standardSchema),
@@ -89,6 +90,17 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                     metaData: response?.metadata?.user,
                 }
             });
+            if (userData?.accountType !== accountType) {
+                dispatch({
+                    type: ActionTypes.UPDATE_PROFILE,
+                    payload: {
+                        metaData: {
+                            ...state.user?.metaData,
+                            accountType: accountType,
+                        }
+                    }
+                });
+            }
         }
         if (profileImageRes?.success) {
             dispatch({
@@ -174,6 +186,10 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
         const formData = new FormData();
         formData.append('image', croppedImageBlob);
         profileImageExecute({ data: formData });
+    }
+
+    const handleOnAccountTypeChange = (accountType: string) => {
+        setAccountType(accountType);
     }
 
     return (
@@ -317,6 +333,8 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                             {userData?.lastActiveAt ? moment(userData?.lastActiveAt).format('LLL') : 'N.A.'}
                         </Form.Label>
                     </Form.Group>
+
+                    <AccountTypeSelector onChangeAccountType={handleOnAccountTypeChange} />
 
                     <SocialMediaConnect />
 

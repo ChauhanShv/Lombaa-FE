@@ -34,3 +34,12 @@ export interface AlertType {
   variant?: string;
   message?: string;
 }
+
+export interface AccountTypeSelectorProps {
+  onChangeAccountType: (accountType: string) => void;
+}
+
+export enum AccountType {
+  BUSINESS = 'business',
+  INDIVIDUAL = 'standard',
+}
