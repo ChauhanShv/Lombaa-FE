@@ -10,6 +10,9 @@ const UserService = require("./user.service");
 const S3Service = require("../modules/s3/s3.service");
 const { v4: uuidv4 } = require("uuid");
 const FileType = require("file-type");
+const eventEmitter = require("./user.subscriber");
+const event = require("./user.event");
+const appConfig = require('../app/app.config');
 
 class UserController extends BaseController {
   constructor() {
@@ -45,6 +48,10 @@ class UserController extends BaseController {
       const token = jwtService.encode({ id: newUser.id });
 
       const data = { success: true, message: "User created successfully.", response: { token }, metadata: { user: newUser } };
+
+      const verificationToken = jwtService.encode({ id: newUser?.id, email: newUser?.email }, "1h");
+      eventEmitter.emit(event.newEmail, { user: newUser, verificationLink: `${appConfig.frontEndUrl}/email/verify/${verificationToken}` });
+
       return super.jsonRes({ res, code: 200, data: responseFormatter.format(data) });
     } catch (err) {
       next(err);
