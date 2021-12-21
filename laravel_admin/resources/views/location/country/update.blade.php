@@ -7,7 +7,7 @@
   <div class="span12">
     <div class="widget-box">
       <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
-        <h5>Update Country : {{ $country->name }}({{ $country->id }})</h5>
+        <h5>Update Country : {{ $country->name }}</h5>
       </div>
       <div>
         @if (session('response'))
