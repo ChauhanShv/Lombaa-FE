@@ -219,8 +219,7 @@ class UserService {
       if (!dUser) return null;
 
       const verificationToken = jwtService.encode({ id: user?.id, email }, "1h");
-      console.log(verificationToken);
-      eventEmitter.emit(event.changeEmail, { user, verificationLink: `${appConfig.frontEndUrl}/email/verify/${verificationToken}` });
+      eventEmitter.emit(event.newEmail, { user, verificationLink: `${appConfig.frontEndUrl}/email/verify/${verificationToken}` });
       return dUser;
     } catch (error) {
       console.error({ error });
