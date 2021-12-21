@@ -28,17 +28,18 @@ export const DragAndDrop: React.FC<DragAndDropProps> = ({
     }
   }
 
-
   useEffect(() => {
     if (mediaData?.Success && !includes(media, {
       token: mediaData?.media.token,
       url: mediaData?.media.token,
+      mime: mediaData.media?.mime,
     })) {
       setMedia([
         ...media,
         {
           token: mediaData.media.token,
-          url: mediaData.media.url
+          url: mediaData.media.url,
+          mime: mediaData.media?.mime,
         }
       ]);
     }
@@ -73,8 +74,11 @@ export const DragAndDrop: React.FC<DragAndDropProps> = ({
     return media.map((file: any, index: number) => (
       <div key={file.token} className="thumb">
         <div className="thumb-inner">
-          {file.type?.includes('video') ? (
-            <video src={file.url} className='video' />
+          {console.log(file.mime, '1112222')}
+          {file.mime?.includes('video') ? (
+            <video className='video' poster='placeholder.png' controls>
+              <source src={file.url} type="video/*" />
+            </video>
           ) : (
             <img src={file.url} className="img" />
           )}

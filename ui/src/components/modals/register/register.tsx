@@ -28,7 +28,7 @@ export const Register: React.FC<RegisterProps> = ({
     openLogin,
     onClose,
 }: RegisterProps): React.ReactElement => {
-    const { register, handleSubmit, getValues, formState: { errors }, reset } = useForm<FormFields>({
+    const { register, handleSubmit, getValues, formState: { errors }, setValue } = useForm<FormFields>({
         resolver: yupResolver(schema),
     });
     const [selectedAccountType, setSelectedAccountType] = useState<AccountType>(AccountType.INDIVIDUAL);
@@ -123,6 +123,26 @@ export const Register: React.FC<RegisterProps> = ({
         return errorMessages[field] ? 'is-invalid' : '';
     };
 
+    const CountryCode = (): React.ReactElement => {
+        return (
+            <Form.Group>
+                <FloatingLabel
+                    controlId="floatingInput"
+                    label="Country Code"
+                    className="mb-3"
+                >
+                    <Form.Select
+                        {...register('countryCode')}
+                        placeholder="Country Code"
+                        className={getErrorClassName('countryCode')}
+                    >
+                    </Form.Select>
+                    {getErrorText('countryCode')}
+                </FloatingLabel>
+            </Form.Group>
+        );
+    }
+
     const getIndividualFields = (): React.ReactElement => {
         return (
             <>
@@ -137,6 +157,7 @@ export const Register: React.FC<RegisterProps> = ({
                         {getErrorText('name')}
                     </FloatingLabel>
                 </Form.Group>
+                <CountryCode />
                 <Form.Group className="mb-3">
                     <FloatingLabel label="Your phone number" className="mb-3">
                         <Form.Control
@@ -177,6 +198,7 @@ export const Register: React.FC<RegisterProps> = ({
                         {getErrorText('businessName')}
                     </FloatingLabel>
                 </Form.Group>
+                <CountryCode />
                 <Form.Group className="mb-3">
                     <FloatingLabel label="Business phone number" className="mb-3">
                         <Form.Control
@@ -226,10 +248,13 @@ export const Register: React.FC<RegisterProps> = ({
     const handleAccountTypeChange = (accountType: string) => {
         if (accountType === 'business') {
             setSelectedAccountType(AccountType.BUSINESS);
-            reset();
+            setValue('tinNumber', '');
+            setValue('businessName', '');
+            setValue('phoneNumber', '');
         } else {
             setSelectedAccountType(AccountType.INDIVIDUAL);
-            reset();
+            setValue('name', '');
+            setValue('phoneNumber', '');
         }
     }
     const handleFormSubmit = (event: React.FormEvent) => {

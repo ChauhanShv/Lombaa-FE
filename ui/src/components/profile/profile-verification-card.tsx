@@ -19,7 +19,7 @@ export const ProfileVerificationCard: React.FC = (): React.ReactElement => {
                     </Col>
                 </Col>
                 <Col md={12} className="justify-content-end border-top align-items-center d-flex">
-                    <Link to="" className="m-0 p-3 text-dark fs-5">Verify Now <FaChevronRight /></Link>
+                    <Link to="/profile" className="m-0 p-3 text-dark fs-5">Verify Now <FaChevronRight /></Link>
                 </Col>
             </Row>
         </Container>
