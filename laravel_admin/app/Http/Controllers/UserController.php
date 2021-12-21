@@ -21,7 +21,7 @@ class UserController extends Controller
     {
         $suspend_User = Users::where([['id', '=', $id], ['isSuspended', '=', 0]])->update(['isSuspended' => 1]);
         if ($suspend_User) {
-            return redirect()->back()->with('response', ['status' => 'success', 'message' => 'User Suspend Successfully']);
+            return redirect()->back()->with('response', ['status' => 'success', 'message' => 'User Suspended Successfully']);
         } else {
             return redirect()->back();
         }
@@ -30,7 +30,7 @@ class UserController extends Controller
     {
         $unsuspend_User = Users::where([['id', '=', $id], ['isSuspended', '=', 1]])->update(['isSuspended' => 0]);
         if ($unsuspend_User) {
-            return redirect()->back()->with('response', ['status' => 'success', 'message' => 'User UnSuspend Successfully']);
+            return redirect()->back()->with('response', ['status' => 'success', 'message' => 'User Unsuspended Successfully']);
         } else {
             return redirect()->back();
         }
@@ -39,7 +39,7 @@ class UserController extends Controller
     {
         $active_User = Users::where([['id', '=', $id], ['isActive', '=', 0]])->update(['isActive' => 1]);
         if ($active_User) {
-            return redirect()->back()->with('response', ['status' => 'success', 'message' => 'User Active Successfully']);
+            return redirect()->back()->with('response', ['status' => 'success', 'message' => 'User Activated Successfully']);
         } else {
             return redirect()->back();
         }
@@ -48,7 +48,7 @@ class UserController extends Controller
     {
         $deactive_User = Users::where([['id', '=', $id], ['isActive', '=', 1]])->update(['isActive' => 0]);
         if ($deactive_User) {
-            return redirect()->back()->with('response', ['status' => 'success', 'message' => 'User Deactive Successfully']);
+            return redirect()->back()->with('response', ['status' => 'success', 'message' => 'User Deactivated Successfully']);
         } else {
             return redirect()->back();
         }
@@ -78,9 +78,16 @@ class UserController extends Controller
         if ($action === 'active') {
             $user_list = Users::where('isActive', '=', '1')->paginate(30);
             return view('user.list', ['user_list' => $user_list]);
-        } elseif ($action === 'suspended') {
+        } elseif ($action === 'inactive') {
             $user_list = Users::where('isActive', '=', '0')->paginate(30);
             return view('user.list', ['user_list' => $user_list]);
+        } elseif ($action === 'suspended') {
+            $user_list = Users::where('isSuspended', '=', '1')->paginate(30);
+            return view('user.list', ['user_list' => $user_list]);
+        } elseif ($action === 'unsuspended') {
+            $user_list = Users::where('isSuspended', '=', '0')->paginate(30);
+            return view('user.list', ['user_list' => $user_list]);
         }
+
     }
 }

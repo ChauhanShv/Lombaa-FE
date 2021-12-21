@@ -32,7 +32,7 @@
                             <div class="controls">
                                 <input type="text" name="id" class="span11" placeholder="Enter ID" value="{{ $data['id'] }}" readonly/>
                                 @error('id')
-                                <div class="alert alert-danger ">{{ $message }}</div>
+                                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div> --}}
@@ -40,9 +40,9 @@
                         <div class="control-group">
                             <label class="control-label">Category Name :</label>
                             <div class="controls">
-                                <input type="text" name="name" class="span11" placeholder="ENter Name" value="{{ $data['name'] }}" />
+                                <input type="text" name="name" class="span11" placeholder="Enter Name" value="{{ $data['name'] }}" />
                                 @error('name')
-                                <div class="alert alert-danger ">{{ $message }}</div>
+                                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
@@ -51,7 +51,7 @@
                             <div class="controls">
                                 <input type="text" name="description" class="span11" placeholder="Enter location" value="{{ $data['description'] }}" />
                                 @error('description')
-                                <div class="alert alert-danger ">{{ $message }}</div>
+                                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
@@ -91,9 +91,14 @@
                             <div class="control-group">
                                 <label class="control-label">IsParent :</label>
                                 <div class="controls">
-                                    <input type="checkbox"  id="parenttId" name="parent" {{ ($data->parentId) ? '' : 'checked' }} data-toggle="toggle" >
-                                    @error('parent')
-                                    <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                                    @if (Session::hasOldInput())
+                                        <input type="checkbox"  id="parenttId" name="is_parent" {{ old('is_parent') === null ? '' : 'checked' }} data-toggle="toggle" >
+                                    @else
+                                        <input type="checkbox"  id="parenttId" name="is_parent" {{ $data->parentId === null ? 'checked' : '' }} data-toggle="toggle" >
+                                    @endif
+
+                                    @error('is_parent')
+                                        <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
@@ -118,7 +123,7 @@
 
                                     </select>
                                 @error('product')
-                                    <div class="alert alert-danger ">{{ $message }}</div>
+                                    <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                                 @enderror
                                 </div>
                             </div>
@@ -134,7 +139,7 @@
                                         @endforeach
                                     </select>
                                 @error('add_fields')
-                                    <div class="alert alert-danger ">{{ $message }}</div>
+                                    <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                                 @enderror
                                 </div>
                             </div>

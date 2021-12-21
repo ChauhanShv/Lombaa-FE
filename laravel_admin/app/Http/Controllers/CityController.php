@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cities;
 use App\Models\Countries;
 use App\Models\Regions;
+use Grimzy\LaravelMysqlSpatial\Types\Point;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Str;
@@ -31,8 +32,10 @@ class CityController extends Controller
                 'name.required' => 'City name is required',
                 'code.required' => 'City code is required',
                 'region.required' => 'Region name is required',
-                'lat' => 'required|numeric|between:-90,90',
-                'long' => 'required|numeric|between:-180,180',
+                'lat.required' => 'Latitude is required',
+                'lat.numeric' => 'Incorrect Latitude inserted',
+                'long.required' => 'Longitude is required',
+                'long.numeric' => 'Incorrect Latitude inserted',
             ];
             $validator = Validator::make($request->all(), $rules, $messages);
             if ($validator->fails()) {
@@ -41,19 +44,30 @@ class CityController extends Controller
             $city_name = $request->input('name');
             $city_code = $request->input('code');
             $region = $request->input('region');
-            $data = [
-                'id' => Str::uuid(),
-                'name' => $city_name,
-                'code' => $city_code,
-                'regionId' => $region,
-            ];
-            $insert_city = Cities::create($data);
 
-            $coordinate = [
-                'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
-            ];
+            $city = new Cities;
 
-            $insert_city_coordinate = Cities::where('id', $data['id'])->update($coordinate);
+            $city->id = Str::uuid();
+            $city->name = $city_name;
+            $city->code = $city_code;
+            $city->regionId = $region;
+            $city->coordinate = new Point($request->lat, $request->long);
+
+            $city->save();
+
+            // $data = [
+            //     'id' => Str::uuid(),
+            //     'name' => $city_name,
+            //     'code' => $city_code,
+            //     'regionId' => $region,
+            // ];
+            // $insert_city = Cities::create($data);
+
+            // $city_coordinate = [
+            //     'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
+            // ];
+
+            // $insert_city_coordinate = Cities::where('id', $data['id'])->update($city_coordinate);
 
             try {
                 return redirect()->route('city_list')->with('response', ['status' => 'success', 'message' => 'City added successfully']);
@@ -99,7 +113,7 @@ class CityController extends Controller
                 'name' => $city_name,
                 'code' => $city_code,
                 'regionId' => $region,
-                'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
+                'coordinate' => new Point($request->lat, $request->long),
             ];
             $insert_city = Cities::where('id', $id)->update($data);
             try {

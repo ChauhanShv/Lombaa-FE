@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Countries;
-use DB;
+use Grimzy\LaravelMysqlSpatial\Types\Point;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Str;
@@ -31,24 +31,36 @@ class LocationController extends Controller
             if ($validator->fails()) {
                 return redirect()->back()->withInput($request->all())->withErrors($validator);
             }
-            $counrtry_name = $request->input('name');
+            $country_name = $request->input('name');
             $country_code = $request->input('code');
 
-            $data = [
-                'id' => Str::uuid(),
-                'name' => $counrtry_name,
-                'code' => $country_code,
-                // 'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
-                // 'coordinate' => new Point($request->lat, $request->long),
-            ];
+            // dd($request->lat, $request->long, new Point($request->lat, $request->long));
 
-            $insert_country = Countries::create($data);
+            $country = new Countries();
 
-            $update_coordinate = [
-                'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
-            ];
+            $country->id = Str::uuid();
+            $country->name = $country_name;
+            $country->code = $country_code;
+            $country->coordinate = new Point($request->lat, $request->long);
 
-            $insert_country_coordinate = Countries::where('id', $data['id'])->update($update_coordinate);
+            $country->save();
+
+            // $data = [
+            //     'name' => $counrtry_name,
+            //     'code' => $country_code,
+            //     // 'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
+            //     'coordinate' => new Point($request->lat, $request->long),
+            // ];
+
+            $country->save();
+
+            // $insert_country = Countries::create($data);
+
+            // $update_coordinate = [
+            //     'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
+            // ];
+
+            // $insert_country_coordinate = Countries::where('id', $data['id'])->update($update_coordinate);
 
             try {
                 return redirect()->route('country_list')->with('response', ['status' => 'success', 'message' => 'Country added successfully']);
@@ -82,14 +94,23 @@ class LocationController extends Controller
             if ($validator->fails()) {
                 return redirect()->back()->withInput($request->all())->withErrors($validator);
             }
-            $counrtry_name = $request->input('name');
+            $country_name = $request->input('name');
             $country_code = $request->input('code');
-            $data = [
-                'name' => $counrtry_name,
-                'code' => $country_code,
-                'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
-            ];
-            $insert_country = Countries::where('id', $id)->update($data);
+
+            $country = Countries::find($id);
+
+            $country->name = $country_name;
+            $country->code = $country_code;
+            $country->coordinate = new Point($request->lat, $request->long);
+
+            $country->save();
+
+            // $data = [
+            //     'name' => $counrtry_name,
+            //     'code' => $country_code,
+            //     'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
+            // ];
+            // $insert_country = Countries::where('id', $id)->update($data);
             try {
                 return redirect()->route('country_list')->with('response', ['status' => 'success', 'message' => 'Country updated successfully']);
             } catch (Exception $e) {
