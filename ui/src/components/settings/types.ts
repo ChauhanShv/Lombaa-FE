@@ -43,3 +43,7 @@ export enum AccountType {
   BUSINESS = 'business',
   INDIVIDUAL = 'standard',
 }
+
+export interface LocationSelectorProps {
+  onCitySelected: (data: object) => void;
+}

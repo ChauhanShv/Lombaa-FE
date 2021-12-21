@@ -38,6 +38,7 @@ export interface Categories {
 export interface Media {
   token: string;
   url: string;
+  mime: string;
 }
 export interface DragAndDropProps {
   updateMedia: (media: Media[]) => void;
