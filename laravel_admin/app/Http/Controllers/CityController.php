@@ -31,8 +31,10 @@ class CityController extends Controller
                 'name.required' => 'City name is required',
                 'code.required' => 'City code is required',
                 'region.required' => 'Region name is required',
-                'lat' => 'required|numeric|between:-90,90',
-                'long' => 'required|numeric|between:-180,180',
+                'lat.required' => 'Latitude is required',
+                'lat.numeric' => 'Incorrect Latitude inserted',
+                'long.required' => 'Longitude is required',
+                'long.numeric' => 'Incorrect Latitude inserted',
             ];
             $validator = Validator::make($request->all(), $rules, $messages);
             if ($validator->fails()) {
@@ -49,11 +51,11 @@ class CityController extends Controller
             ];
             $insert_city = Cities::create($data);
 
-            $coordinate = [
+            $city_coordinate = [
                 'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
             ];
 
-            $insert_city_coordinate = Cities::where('id', $data['id'])->update($coordinate);
+            $insert_city_coordinate = Cities::where('id', $data['id'])->update($city_coordinate);
 
             try {
                 return redirect()->route('city_list')->with('response', ['status' => 'success', 'message' => 'City added successfully']);

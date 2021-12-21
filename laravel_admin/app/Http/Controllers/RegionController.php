@@ -30,8 +30,10 @@ class RegionController extends Controller
                 'name.required' => 'Region name is required',
                 'code.required' => 'Region code is required',
                 'country.required' => 'Country name is required',
-                'lat' => 'required|numeric|between:-90,90',
-                'long' => 'required|numeric|between:-180,180',
+                'lat.required' => 'Latitude is required',
+                'lat.numeric' => 'Incorrect Latitude inserted',
+                'long.required' => 'Longitude is required',
+                'long.numeric' => 'Incorrect Latitude inserted',
             ];
             $validator = Validator::make($request->all(), $rules, $messages);
             if ($validator->fails()) {

@@ -21,8 +21,7 @@ class CategoryController extends Controller
                 'description' => 'required',
                 'image' => 'required',
                 'product' => ['required_unless:is_parent,on'],
-                'fields' => [new HasSingleTitle],
-
+                'fields' => ['required_unless:is_parent,on', new HasSingleTitle],
             ];
 
             $messages = [
@@ -31,6 +30,7 @@ class CategoryController extends Controller
                 'image.required' => 'Image is required',
                 'product.required' => 'Category is required',
                 'product.required_unless' => 'Parent cartegory is required',
+                'fields.required_unless' => 'Parent cartegory is required',
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -119,12 +119,16 @@ class CategoryController extends Controller
             $rules = [
                 'name' => 'required|regex:/^[\s\w-]*$/',
                 'description' => 'required',
-                'add_fields' => ['required', new HasSingleTitle],
+                'product' => ['required_unless:is_parent,on'],
+                'add_fields' => ['required_unless:is_parent,on', new HasSingleTitle],
             ];
 
             $messages = [
                 'name.required' => 'Name is required',
                 'description.required' => 'Description is required',
+                'product.required' => 'Category is required',
+                'product.required_unless' => 'Parent cartegory is required',
+                'add_fields.required_unless' => 'Fields required',
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -162,15 +166,14 @@ class CategoryController extends Controller
                 'description' => $request->description,
                 'isPopular' => isset($request->popular) ? 1 : 0,
                 'isActive' => isset($request->active) ? 1 : 0,
-                'parentId' => isset($request->parent) ? null : $request->product,
+                'parentId' => isset($request->is_parent) ? null : $request->product,
             ];
-
             $update_category = Category::where('id', $id)->update($data);
 
-            if (!$data['parentId'] == null) {
+            if ($data['parentId'] !== null) {
                 if ($request->add_fields !== null) {
 
-                    $delete_old_records = CategoryField::where('categoryId', $id)->delete();
+                    CategoryField::where('categoryId', $id)->delete();
 
                     $category_fields = array();
 
@@ -193,8 +196,10 @@ class CategoryController extends Controller
                     $send_category_fields = CategoryField::insert($category_fields);
                 }
 
-                return redirect()->route('category_list')->with('response', ['status' => 'success', 'message' => 'Category updated successfully']);
+            } else {
+                CategoryField::where('categoryId', $id)->delete();
             }
+            return redirect()->route('category_list')->with('response', ['status' => 'success', 'message' => 'Category updated successfully']);
 
         } else {
             $data = Category::with('icon')->find($id);

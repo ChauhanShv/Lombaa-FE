@@ -33,7 +33,11 @@
                         <li class="divider"></li>
                         <li><a href="{{ route('user_filter', ['action' => 'active']) }}"><i style="color: grey" class="icon icon-ok"></i>&nbsp;&nbsp;&nbsp;Active</a></li>
                         <li class="divider"></li>
-                        <li><a href="{{ route('user_filter', ['action' => 'suspended']) }}"><i style="color: grey" class="icon icon-remove"></i>&nbsp;&nbsp;&nbsp;Suspended</a></li>
+                        <li><a href="{{ route('user_filter', ['action' => 'inactive']) }}"><i style="color: grey" class="icon icon-remove"></i>&nbsp;&nbsp;&nbsp;Inactive</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{{ route('user_filter', ['action' => 'suspended']) }}"><i style="color: grey" class="icon  icon-ban-circle"></i>&nbsp;&nbsp;&nbsp;Suspended</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{{ route('user_filter', ['action' => 'unsuspended']) }}"><i style="color: grey" class="icon icon-ok-circle"></i>&nbsp;&nbsp;&nbsp;Unsuspended</a></li>
                     </ul>
                 </div>
                 <div>
@@ -51,7 +55,6 @@
                         <th>Name</th>
                         <th>Join Date</th>
                         <th>Location</th>
-                        <th>Account Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -68,26 +71,25 @@
                         <td style="text-align: center;">{{ htmlspecialchars_decode(date('jS F Y', strtotime($data->memberSince))) }}</td>
                         @endif
                         <td style="text-align: center;">{{ $data->location }}</td>
-                        <td style="text-align: center;">{{ ($data->isActive) ? 'Active' : 'Suspended'}}</td>
                         <td>
                             @if(($data->isSuspended)==0)
-                                <a href="{{ route('suspend', $data->id) }}" onclick="return confirm('Do you want to suspend this user?');">
+                                <a href="{{ route('suspend', $data->id) }}" onclick="return confirm('Do you want to Suspend user: {{ $data->name }}?');">
                                     <button class="btn btn-success" style="border-radius:6px; width:100px">Suspend</button>
                                 </a>
                             @endif
                             @if(($data->isSuspended)==1)
-                                <a href="{{ route('unsuspend', $data->id) }}" onclick="return confirm('Do you want to unblock this user?');">
+                                <a href="{{ route('unsuspend', $data->id) }}" onclick="return confirm('Do you want to Unsuspend user {{ $data->name }}?');">
                                     <button class="btn btn-warning" style="border-radius:6px; width:100px">Unsuspend</button>
                                 </a>
                             @endif  &nbsp&nbsp
                             @if(($data->isActive)==0)
-                                <a href="{{ route('active', $data->id)}}" onclick="return confirm('Do you want to Deactive this user?');">
-                                    <button class="btn btn-success" style="border-radius:6px; width:100px">Active</button>
+                                <a href="{{ route('deactive', $data->id)}}" onclick="return confirm('Do you want to Deactive user {{ $data->name }}?');">
+                                    <button class="btn btn-success" style="border-radius:6px; width:100px">Activate</button>
                                 </a>
                             @endif
                             @if(($data->isActive)==1)
-                                <a href="{{ route('deactive', $data->id) }}" onclick="return confirm('Do you want to Active this user?');">
-                                    <button class="btn btn-warning" style="border-radius:6px; width:100px">Deactive</button>
+                                <a href="{{ route('active', $data->id) }}" onclick="return confirm('Do you want to Activate user {{ $data->name }}?');">
+                                    <button class="btn btn-warning" style="border-radius:6px; width:100px">Deactivate</button>
                                 </a>
                             @endif &nbsp&nbsp
                                 <a href="{{ url('user', $data->id) }}">
