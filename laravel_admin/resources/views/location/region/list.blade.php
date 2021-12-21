@@ -28,7 +28,7 @@
                  <a href="{{ route('region')}}">
                     <button class="btn btn-danger">Add Region</button>
                  </a>
-                 <a href="{{ route('country')}}">
+                 <a href="{{ route('city')}}">
                     <button class="btn btn-info">Add City</button>
                  </a>
             </div>
