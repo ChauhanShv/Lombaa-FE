@@ -7,7 +7,7 @@ import { isEmpty } from 'lodash';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import GoogleLogin from 'react-google-login';
 import { getAPIErrorMessage } from '../../../utils';
-import { RegisterProps, FormFields, AccountType } from './types';
+import { RegisterProps, FormFields, AccountType, PhoneCodeProps } from './types';
 import { PASSWORD_REGEX, NAME_MIN_LENGTH, TIN_MIN_LENGTH, MOBILE_REGEX, TIN_REGEX } from '../../../constants';
 import { GOOGLE_CLIENTID, FB_APPID } from '../../../config';
 import { useAxios } from '../../../services/base-service';
@@ -32,6 +32,7 @@ export const Register: React.FC<RegisterProps> = ({
         resolver: yupResolver(schema),
     });
     const [selectedAccountType, setSelectedAccountType] = useState<AccountType>(AccountType.INDIVIDUAL);
+    const [phoneCodeData, setPhoneCodeData] = useState<any[]>([]);
     const { dispatch } = useAppContext();
     const [{ data: registerRes, loading, error: apiError }, execute] = useAxios({
         url: '/user',
@@ -45,6 +46,19 @@ export const Register: React.FC<RegisterProps> = ({
         url: '/auth/facebook',
         method: 'POST',
     });
+    const [{ data: phoneCodeResponse }, phoneCodeExecute] = useAxios({
+        url: 'locations/countries',
+        method: 'GET',
+    });
+
+    useEffect(() => {
+        phoneCodeExecute({});
+    }, []);
+    useEffect(() => {
+        if (phoneCodeResponse?.success) {
+            setPhoneCodeData(phoneCodeResponse.response);
+        }
+    }, [phoneCodeResponse]);
     useEffect(() => {
         const { success, response, metadata } = registerRes || fbRes || googleRes || {};
         if (success) {
@@ -123,7 +137,14 @@ export const Register: React.FC<RegisterProps> = ({
         return errorMessages[field] ? 'is-invalid' : '';
     };
 
-    const CountryCode = (): React.ReactElement => {
+    const PhoneCode = ({ onPhoneCodeChange }: PhoneCodeProps): React.ReactElement => {
+        const [phoneCode, setPhoneCode] = useState<string>('');
+
+        const handlePhoneCodeChange = (e: any) => {
+            setPhoneCode(e.target.value);
+            onPhoneCodeChange(e.target.value);
+        }
+
         return (
             <Form.Group>
                 <FloatingLabel
@@ -132,18 +153,28 @@ export const Register: React.FC<RegisterProps> = ({
                     className="mb-3"
                 >
                     <Form.Select
-                        {...register('countryCode')}
+                        {...register('phoneCode')}
                         placeholder="Country Code"
-                        className={getErrorClassName('countryCode')}
+                        className={getErrorClassName('phoneCode')}
+                        onChange={handlePhoneCodeChange}
                     >
+                        {!!phoneCodeData.length && phoneCodeData.map((phone: any) =>
+                            <option value={phone.phoneCode} key={phone.id}>
+                                {'+'}{phone.phoneCode}
+                            </option>
+                        )}
                     </Form.Select>
-                    {getErrorText('countryCode')}
+                    {getErrorText('phoneCode')}
                 </FloatingLabel>
             </Form.Group>
         );
     }
 
     const getIndividualFields = (): React.ReactElement => {
+        const [phoneCode, setPhoneCode] = useState<string>('');
+        const onPhoneCodeChange = (code: string) => {
+            setPhoneCode(code);
+        }
         return (
             <>
                 <Form.Group className="mb-3">
@@ -157,7 +188,7 @@ export const Register: React.FC<RegisterProps> = ({
                         {getErrorText('name')}
                     </FloatingLabel>
                 </Form.Group>
-                <CountryCode />
+                <PhoneCode onPhoneCodeChange={(code: string) => setPhoneCode(code)} />
                 <Form.Group className="mb-3">
                     <FloatingLabel label="Your phone number" className="mb-3">
                         <Form.Control
@@ -174,6 +205,7 @@ export const Register: React.FC<RegisterProps> = ({
     };
 
     const getBusinessFields = (): React.ReactElement => {
+        const [phoneCode, setPhoneCode] = useState<string>('');
         return (
             <>
                 <Form.Group className="mb-3">
@@ -198,7 +230,7 @@ export const Register: React.FC<RegisterProps> = ({
                         {getErrorText('businessName')}
                     </FloatingLabel>
                 </Form.Group>
-                <CountryCode />
+                <PhoneCode onPhoneCodeChange={(code: string) => setPhoneCode(code)} />
                 <Form.Group className="mb-3">
                     <FloatingLabel label="Business phone number" className="mb-3">
                         <Form.Control
