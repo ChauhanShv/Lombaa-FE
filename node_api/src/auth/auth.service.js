@@ -7,13 +7,17 @@ const fs = require("fs");
 const https = require("https");
 const axios = require("axios");
 
+const Location = require('../location/location.model');
+
 const appRoot = require("app-root-path");
 class AuthService {
 
   async doAuth({ email, password }) {
     const dbUser = await User.scope(null).findOne({
       where: { email: email }, include: [{ model: fileModel, as: "profilePicture" },
-      { model: fileModel, as: "coverPicture" }]
+      { model: fileModel, as: "coverPicture" },
+      { model: Location, as: "location" }
+      ]
     });
 
     if (!dbUser) return false;

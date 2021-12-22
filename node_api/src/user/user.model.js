@@ -1,9 +1,10 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize").service;
+const Location = require('../location/location.model');
 
 const File = require("../file/file.model");
 
-class User extends Model {}
+class User extends Model { }
 
 User.init(
   {
@@ -30,6 +31,11 @@ User.init(
 
     phoneNumber: {
       type: DataTypes.STRING(20),
+      allowNull: true,
+    },
+
+    phoneCode: {
+      type: DataTypes.INTEGER(5),
       allowNull: true,
     },
 
@@ -184,11 +190,6 @@ User.init(
       allowNull: true,
     },
 
-    location: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true,
-    },
-
     isActive: {
       type: DataTypes.INTEGER(1),
       allowNull: false,
@@ -226,5 +227,6 @@ User.init(
 
 User.belongsTo(File, { as: "profilePicture" });
 User.belongsTo(File, { as: "coverPicture" });
+User.belongsTo(Location, { as: "location" });
 
 module.exports = User;

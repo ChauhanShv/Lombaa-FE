@@ -1,6 +1,9 @@
 const { isDate } = require("../../modules/validator");
 const moment = require("moment");
 const config = require("../user.config");
+const LocationService = require('../../location/location.service');
+
+const locationService = new LocationService();
 
 module.exports = {
   name: {
@@ -24,10 +27,38 @@ module.exports = {
     },
   },
 
-  location: {
-    optional: {
-      options: { nullable: true },
-    },
+
+  'location.city': {
+    custom: {
+      options: async (value, { req }) => {
+        if (!await locationService.cityExists(value)) return Promise.reject("Invalid City");
+
+        return Promise.resolve();
+
+      }
+    }
+  },
+
+  'location.region': {
+    custom: {
+      options: async (value, { req }) => {
+        if (!await locationService.regionExists(value)) return Promise.reject("Invalid Region");
+
+        return Promise.resolve();
+
+      }
+    }
+  },
+
+  'location.country': {
+    custom: {
+      options: async (value, { req }) => {
+        if (!await locationService.countryExists(value)) return Promise.reject("Invalid Country");
+
+        return Promise.resolve();
+
+      }
+    }
   },
 
   birthday: {

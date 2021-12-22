@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3001/api
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMyNjZkODg0LTM3OWYtNDExYy1iODEwLTdiYmM3NjEzOTMyZSIsImlhdCI6MTY0MDA1NTg5NSwiZXhwIjoxNjQwMTQyMjk1fQ.NoFeOZlnJLOnRR9fvcu9Q2ulqHlGdcmGtNEBS2GIcMI
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAzYjk5ODdmLTc2ZmUtNDM4ZS05NDYwLTlmZTViNWY1YjRkYyIsImlhdCI6MTY0MDE4NTk5NCwiZXhwIjoxNjQwMjcyMzk0fQ.fXfNbe0LcMK1JlcYRedLySsoUyxA_DV8ktZ_0lloygc
 ### Crete new User
 
 POST {{baseUrl}}/user HTTP/1.1
@@ -12,6 +12,7 @@ x-client-platform : Android
     "password": "123456",
     "name": "Gates",
     "phoneNumber": "9641132931",
+    "phoneCode": "91",
     "accountType": "standard",
     "lattitude": "",
     "longitude": "",
@@ -27,7 +28,7 @@ POST {{baseUrl}}/auth HTTP/1.1
 content-type: application/json
 
 {
-    "email": "gary@mc.com",
+    "email": "ajay@datortech.com",
     "password": "123456"
 }
 
@@ -99,7 +100,8 @@ x-client-platform : Android
 x-app-version : 1.0.0
 
 {
-    "phone": "7083769223"
+    "phone": "7083769220",
+    "phoneCode": "91"
 }
 
 ###
@@ -183,21 +185,26 @@ x-access-token : {{token}}
 x-app-version : 1.0.0
 x-client-platform : Android
 
-{
-    "businessName": "MS Soft",
-    "yearOfEstablishment" : 2004,
-    "aboutBusiness" : "Software business",
-    "accountType": "business"
-}
-
 # {
-#     "name" : "Glenn",
-#     "location" : 5346,
-#     "birthday" : null,
-#     "sex" : "male",
-#     "bio" : "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
-#     "accountType": "standard"
+#     "businessName": "MS Soft",
+#     "yearOfEstablishment" : 2004,
+#     "aboutBusiness" : "Software business",
+#     "accountType": "business"
 # }
+
+{
+    "name" : "Glenn",
+    "location" : {
+        "city": "87a18afa-76dd-4bd6-ada9-789c54a9eef2",
+        "region": "2a1b44e9-4f24-4173-b207-1c2baccb380b",
+        "country": "0f346fe1-5d2e-440f-99eb-eb1703293cdc"
+
+    },
+    "birthday" : null,
+    "sex" : "male",
+    "bio" : "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+    "accountType": "standard"
+}
 
 ###
 
