@@ -74,7 +74,6 @@ export const DragAndDrop: React.FC<DragAndDropProps> = ({
     return media.map((file: any, index: number) => (
       <div key={file.token} className="thumb">
         <div className="thumb-inner">
-          {console.log(file.mime, '1112222')}
           {file.mime?.includes('video') ? (
             <video className='video' poster='placeholder.png' controls>
               <source src={file.url} type="video/*" />

@@ -32,6 +32,7 @@ const schema = yup.object().shape({
 export const ChangePhone: React.FC = (): React.ReactElement => {
     const { state, dispatch } = useAppContext();
     const [alert, setAlert] = useState<AlertType>({});
+    const [phoneCodeData, setPhoneCodeData] = useState<any[]>([]);
     const { register, handleSubmit, formState: { errors }, getValues } = useForm<ChangePhoneFormFeilds>({
         resolver: yupResolver(schema),
         defaultValues: {
@@ -42,6 +43,19 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
         url: '/user/phone',
         method: 'PUT'
     });
+    const [{ data: phoneCodeResponse }, phoneCodeExecute] = useAxios({
+        url: 'locations/countries',
+        method: 'GET',
+    });
+
+    useEffect(() => {
+        phoneCodeExecute({});
+    }, []);
+    useEffect(() => {
+        if (phoneCodeResponse?.success) {
+            setPhoneCodeData(phoneCodeResponse.response);
+        }
+    }, [phoneCodeResponse]);
 
     useEffect(() => {
         if (response?.success) {
@@ -69,6 +83,7 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
         if (isEmpty(errors)) {
             execute({
                 data: {
+                    phoneCode: values.phoneCode,
                     phone: values.phoneNumber,
                 }
             });
@@ -93,6 +108,7 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
         };
         return errorMessages[field] ? 'is-invalid' : '';
     };
+
     return (
         <Card>
             <Card.Header className="d-flex align-items-center justify-content-between bg-white">
@@ -113,8 +129,13 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
                         <Form.Select
                             {...register('countryCode')}
                             placeholder="Phone"
-                            className={getErrorClassName('phoneNumber')}
+                            className={getErrorClassName('countryCode')}
                         >
+                            {!!phoneCodeData.length && phoneCodeData.map((phone: any) =>
+                                <option value={phone.phoneCode} key={phone.id}>
+                                    {'+'}{phone.phoneCode}
+                                </option>
+                            )}
                         </Form.Select>
                         {getErrorText('phoneNumber')}
                     </FloatingLabel>
