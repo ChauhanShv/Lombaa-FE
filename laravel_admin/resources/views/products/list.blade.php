@@ -121,19 +121,19 @@
                             @if(($product->approvedAt) == null && $product->rejectedAt == null)
                                 <p><strong>Under&nbsp;Review</strong></p>
                                 <a href="{{ route('approve_reject', ['action' => 'approve', 'id' => $product->id ]) }}" onclick="return confirm('Do you want to Approve this produdct: {{ $product->title }}?');">
-                                    <button class="btn btn-success" style="border-radius:6px; width:40%"><i style="color: white" class="icon icon-ok"></i></button>
+                                    <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Approve" style="width: 24px; height: 24px; font-size: 1.5em;" class="icon icon-ok"></i>
                                 </a>
                                 <a href="{{ route('approve_reject', ['action' => 'reject', 'id' => $product->id]) }}" onclick="return confirm('Do you want to Reject this produdct: {{ $product->title }}?');">
-                                    <button class="btn btn-warning" style="border-radius:6px; width:40%"><i style="color: white" class="icon icon-remove"></i></button>
+                                   <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Reject" style="width: 24px; height: 24px; font-size: 1.5em;" class="icon icon-remove"></i>
                                 </a>
                                 <a href="">
-                                    <i class="icon icon-user" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                                    <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="View" class="icon icon-user" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
                                 <a href="">
-                                    <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                                    <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Edit" class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
                                 <a href="">
-                                    <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;" onclick="return confirm('Do you want to Delete this produdct: {{ $product->title }}?');"></i>
+                                    <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Delete" class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;" onclick="return confirm('Do you want to Delete this produdct: {{ $product->title }}?');"></i>
                                 </a>
                             @elseif(($product->approvedAt) !== null)
                                 <p><strong>Approved</strong></p>
