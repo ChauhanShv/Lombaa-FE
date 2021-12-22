@@ -3,7 +3,7 @@ const sequelize = require("../modules/sequelize/sequelize.service");
 const File = require("../file/file.model");
 const Field = require("../field/field.model");
 
-class Category extends Model {}
+class Category extends Model { }
 
 Category.init(
   {
@@ -38,27 +38,8 @@ Category.init(
     defaultScope: {
       attributes: {
         exclude: ["createdAt", "updatedAt", "iconId", "parentId", "deletedAt"],
-      },
-      include: [
-        {
-          model: Field,
-          as: "fields",
-          where: { isActive: true },
-          through: { attributes: [] },
-        },
-      ],
-    },
-    scopes: {
-      includeSubcategories: {
-        include: [
-          {
-            model: Category,
-            where: { isActive: true },
-            as: "subCategories",
-          },
-        ],
-      },
-    },
+      }
+    }
   }
 );
 
