@@ -52,6 +52,14 @@ module.exports = {
     },
   },
 
+  phoneCode: {
+    optional: {
+      options: { checkFalsy: true },
+    },
+    isInt: true,
+    toInt: true,
+  },
+
   password: {
     notEmpty: {
       errorMessage: "Password is required",

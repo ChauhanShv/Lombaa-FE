@@ -17,4 +17,12 @@ module.exports = {
       },
     },
   },
+
+  phoneCode: {
+    optional: {
+      options: { checkFalsy: true },
+    },
+    isInt: true,
+    toInt: true,
+  },
 };

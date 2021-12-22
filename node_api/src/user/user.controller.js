@@ -13,6 +13,7 @@ const FileType = require("file-type");
 const eventEmitter = require("./user.subscriber");
 const event = require("./user.event");
 const appConfig = require('../app/app.config');
+const LocationService = require('../location/location.service');
 
 class UserController extends BaseController {
   constructor() {
@@ -20,6 +21,7 @@ class UserController extends BaseController {
     this.service = new UserService();
     this.authService = new AuthService();
     this.s3Service = new S3Service();
+    this.locationService = new LocationService();
   }
 
   async create(req, res, next) {
@@ -36,6 +38,7 @@ class UserController extends BaseController {
       name: body?.name,
       email: body?.email,
       phoneNumber: body?.phoneNumber,
+      phoneCode: body?.phoneCode,
       accountType: body?.accountType,
       tinNumber: body?.tinNumber,
       password: util?.hashPassword(body.password),
@@ -179,10 +182,16 @@ class UserController extends BaseController {
     }
 
     try {
-      const phoneNumber = req.body.phoneNumber;
+      const phoneNumber = req.body.phone;
+      const phoneCode = req.body.phoneCode;
       const user = req.user;
 
-      await model.update({ phoneNumber: phoneNumber, isPhoneVerified: 1 }, { where: { id: user.id } });
+      console.log({ phoneNumber, phoneCode })
+
+      await model.update({ phoneNumber: phoneNumber, phoneCode, isPhoneVerified: 1 }, { where: { id: user.id } });
+
+      req.user.phoneNumber = phoneNumber;
+      req.user.phoneCode = phoneCode;
 
       return super.jsonRes({ res, req, code: 200, data: { success: true, message: "Phone update request received" } });
     } catch (error) {
@@ -415,8 +424,10 @@ class UserController extends BaseController {
       const { name, location, birthday, sex, bio, yearOfEstablishment, aboutBussiness, businessName } = req.body;
       const user = req.user;
 
+      const loc = await this.locationService.add(location.country, location.region, location.city);
+
       user.name = name;
-      user.location = location;
+      user.locationId = loc?.id;
       user.birthday = birthday;
       user.sex = sex;
       user.bio = bio;
