@@ -33,7 +33,7 @@ const standardSchema = yup.object().shape({
     city: yup.string().required('City is Required'),
     location: yup.string().required('Location is Required'),
     birthday: yup.string().nullable().required('Date of Birth is Required'),
-    sex: yup.string().required('Please Enter your Gender'),
+    sex: yup.string().nullable().required('Please Enter your Gender'),
     bio: yup.string().nullable().required('Bio is Required')
         .min(20, 'Please Enter at least 20 letters bio')
         .max(5000, 'Bio should not exceed more than 5000 characters'),

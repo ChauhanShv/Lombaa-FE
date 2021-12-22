@@ -10,8 +10,13 @@ export interface FormFields {
   accountType: string;
   countryCode: string;
   phoneNumber: string;
+  phoneCode: string;
   tinNumber: string;
   businessName: string;
+}
+
+export interface PhoneCodeProps {
+  onPhoneCodeChange: (phoneCode: string) => void;
 }
 
 export enum AccountType {

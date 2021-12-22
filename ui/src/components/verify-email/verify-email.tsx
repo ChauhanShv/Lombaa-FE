@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Form } from 'react-bootstrap';
+import { useAxios } from '../../services';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
 
 interface VerifyEmailProps {
@@ -7,6 +8,19 @@ interface VerifyEmailProps {
 };
 
 export const VerifyEmail: React.FC<VerifyEmailProps> = ({ token }: VerifyEmailProps): React.ReactElement => {
+    const [{ data, loading }, execute] = useAxios({
+        url: '/user/email',
+        method: 'POST',
+    });
+
+    useEffect(() => {
+        execute({
+            data: {
+                token: token,
+            }
+        });
+    }, [])
+
     return (
         <Container className="p-5">
             <Row>
