@@ -93,11 +93,11 @@ class CategoryController extends Controller
 
                     $send_category_fields = CategoryField::insert($category_fields);
 
-                    return redirect()->route('category_list')->with('response', ['status' => 'success', 'message' => 'Category added successfully']);
                 } else {
                     return redirect()->route('category_list')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
                 }
             }
+            return redirect()->route('category_list')->with('response', ['status' => 'success', 'message' => 'Category added successfully']);
         } else {
             $fields = Fields::get();
             $categories = Category::get();
