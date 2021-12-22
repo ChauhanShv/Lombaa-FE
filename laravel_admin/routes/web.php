@@ -6,6 +6,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ValuesController;
 use Illuminate\Support\Facades\Route;
@@ -74,5 +75,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/products/{id}', [ProductsController::class, 'products_list'])->name('products_list');
     Route::get('/products/status/{action}', [ProductsController::class, 'filter'])->name('filter');
     Route::get('/products/{action}/{id}', [ProductsController::class, 'approve_reject'])->name('approve_reject');
+
+    Route::get('/settings', [SettingsController::class, 'settings'])->name('settings');
+    Route::post('/settings/add', [SettingsController::class, 'settings_post'])->name('settings_post');
 
 });

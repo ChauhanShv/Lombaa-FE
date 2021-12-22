@@ -153,7 +153,16 @@
                 </li>
             </ul>
         </li>
-
+        <li class="submenu">
+            <a href="">
+                <i style="color: white" class="icon icon-list"></i> <span style="color: white">Site Settings</span>
+            </a>
+            <ul>
+                <li class="">
+                    <a href="{{ route('settings') }}">Settings List</a>
+                </li>
+            </ul>
+        </li>
         <li class="submenu">
             <a href="">
                 <i style="color: white" class="icon icon-certificate"></i> <span style="color: white">Certificate</span>
