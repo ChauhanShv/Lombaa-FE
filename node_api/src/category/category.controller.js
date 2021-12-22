@@ -2,7 +2,6 @@ const BaseController = require("../modules/controller").base;
 const Category = require("./category.model");
 const File = require("../file/file.model");
 const Field = require("../field/field.model");
-const FieldValue = require("../field_value/field_value.model");
 
 class CategoryController extends BaseController {
   constructor() {
@@ -10,7 +9,21 @@ class CategoryController extends BaseController {
   }
   async categories(req, res, next) {
     try {
-      const data = await Category.scope("defaultScope", "includeSubcategories").findAll({ where: { parentId: null, isActive: true } });
+      // const data = await Category.scope("defaultScope", "includeSubcategories").findAll({ where: { parentId: null, isActive: true } });
+      const data = await Category.findAll({
+        include: [
+          { model: File, as: "icon" },
+          { model: Field, as: 'fields' },
+          {
+            model: Category,
+            as: 'subCategories',
+            include: [
+              { model: File, as: "icon" },
+              { model: Field, as: 'fields' },
+            ]
+          },
+        ]
+      })
       const value = {
         success: true,
         code: 200,
