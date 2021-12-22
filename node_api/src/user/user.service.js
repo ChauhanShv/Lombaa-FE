@@ -180,7 +180,7 @@ class UserService {
 
       if (!user) return null;
       const resetPasswordToken = jwtService.encode({ id: user.id, email }, "1h");
-      eventEmitter.emit(event.forgetPassword, { user, resetPasswordLink: `${appConfig.frontEndUrl}/password/reset/${resetPasswordToken}` });
+      eventEmitter.emit(event.forgetPassword, { user, resetPasswordLink: `${appConfig.frontEndUrl}/password/reset?token=${resetPasswordToken}` });
     } catch (error) {
       console.error({ error });
       return null;
@@ -219,7 +219,7 @@ class UserService {
       if (!dUser) return null;
 
       const verificationToken = jwtService.encode({ id: user?.id, email }, "1h");
-      eventEmitter.emit(event.newEmail, { user, verificationLink: `${appConfig.frontEndUrl}/email/verify/${verificationToken}` });
+      eventEmitter.emit(event.newEmail, { user, verificationLink: `${appConfig.frontEndUrl}/email/verify?token=${verificationToken}` });
       return dUser;
     } catch (error) {
       console.error({ error });
