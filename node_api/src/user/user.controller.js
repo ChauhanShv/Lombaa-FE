@@ -50,7 +50,7 @@ class UserController extends BaseController {
       const data = { success: true, message: "User created successfully.", response: { token }, metadata: { user: newUser } };
 
       const verificationToken = jwtService.encode({ id: newUser?.id, email: newUser?.email }, "1h");
-      eventEmitter.emit(event.newEmail, { user: newUser, verificationLink: `${appConfig.frontEndUrl}/email/verify/${verificationToken}` });
+      eventEmitter.emit(event.newEmail, { user: newUser, verificationLink: `${appConfig.frontEndUrl}/email/verify?token=${verificationToken}` });
 
       return super.jsonRes({ res, code: 200, data: responseFormatter.format(data) });
     } catch (err) {
