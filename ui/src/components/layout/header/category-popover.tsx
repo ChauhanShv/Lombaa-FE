@@ -1,10 +1,29 @@
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
     OverlayTrigger,
     Popover,
+    Button,
 } from 'react-bootstrap';
+import { useAxios } from '../../../services';
+import { Categories } from '../../create-post';
 
 export const CategoryPopover: React.FC = (): React.ReactElement => {
+    const [categories, setCategories] = useState<Categories[]>([]);
+    const [{ data, loading }, execute] = useAxios({
+        url: '/category',
+        method: 'GET',
+    });
+
+    useEffect(() => {
+        execute();
+    }, []);
+    useEffect(() => {
+        if (data?.code === 200) {
+            setCategories(data.response);
+        }
+    }, [data]);
+
     return (
         <OverlayTrigger
             trigger="click"
@@ -12,74 +31,22 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
             placement='bottom'
             overlay={
                 <Popover className="head-cat" id={`popover-positioned-bottom`}>
-                    <Popover.Body className="px-5 shadow d-flex justify-content-between flex-wrap">
-                        <div className="p-3">
-                            <h4>Cars</h4>
-                            <ul>
-                                <li><Link to="">Used Cars</Link></li>
-                                <li><Link to="">Parallel Imports</Link></li>
-                                <li><Link to="">New Cars</Link></li>
-                                <li><Link to="">Commercial Vehicles</Link></li>
-                                <li><Link to="">Car Rental</Link></li>
-                                <li><Link to="">Other Vehicles</Link></li>
-                                <li><Link to="">Specials</Link></li>
-                            </ul>
-                        </div>
-                        <div className="p-3">
-                            <h4>Cars</h4>
-                            <ul>
-                                <li><Link to="">Used Cars</Link></li>
-                                <li><Link to="">Parallel Imports</Link></li>
-                                <li><Link to="">New Cars</Link></li>
-                                <li><Link to="">Commercial Vehicles</Link></li>
-                                <li><Link to="">Car Rental</Link></li>
-                                <li><Link to="">Other Vehicles</Link></li>
-                                <li><Link to="">Specials</Link></li>
-                            </ul>
-                        </div>
-                        <div className="p-3">
-                            <h4>Cars</h4>
-                            <ul>
-                                <li><Link to="">Used Cars</Link></li>
-                                <li><Link to="">Parallel Imports</Link></li>
-                                <li><Link to="">New Cars</Link></li>
-                                <li><Link to="">Commercial Vehicles</Link></li>
-                                <li><Link to="">Car Rental</Link></li>
-                                <li><Link to="">Other Vehicles</Link></li>
-                                <li><Link to="">Specials</Link></li>
-                            </ul>
-                        </div>
-                        <div className="p-3">
-                            <h4>Cars</h4>
-                            <ul>
-                                <li><Link to="">Used Cars</Link></li>
-                                <li><Link to="">Parallel Imports</Link></li>
-                                <li><Link to="">New Cars</Link></li>
-                                <li><Link to="">Commercial Vehicles</Link></li>
-                                <li><Link to="">Car Rental</Link></li>
-                                <li><Link to="">Other Vehicles</Link></li>
-                                <li><Link to="">Specials</Link></li>
-                            </ul>
-                        </div>
-                        <div className="p-3">
-                            <h4>Cars</h4>
-                            <ul>
-                                <li><Link to="">Used Cars</Link></li>
-                                <li><Link to="">Parallel Imports</Link></li>
-                                <li><Link to="">New Cars</Link></li>
-                                <li><Link to="">Commercial Vehicles</Link></li>
-                                <li><Link to="">Car Rental</Link></li>
-                                <li><Link to="">Other Vehicles</Link></li>
-                                <li><Link to="">Specials</Link></li>
-                            </ul>
-                        </div>
+                    <Popover.Body className="px-5 shadow d-flex flex-wrap">
+                        {categories.map((category: any, index: number) =>
+                            <div className='p-3'>
+                                <h4>{category?.name}</h4>
+                                <ul>
+                                    {category.subCategories.map((subCategory: any) =>
+                                        <li><Link to="">{subCategory.name}</Link></li>
+                                    )}
+                                </ul>
+                            </div>
+                        )}
                     </Popover.Body>
                 </Popover>
             }
         >
-            <Link to="">Category</Link>
+            <Button className="bg-dark border-dark">Category</Button>
         </OverlayTrigger>
-        
-        
     );
 }

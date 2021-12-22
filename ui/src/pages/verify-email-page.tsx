@@ -9,7 +9,8 @@ function useQuery() {
 
 export const VerifyEmailPage: React.FC = (): React.ReactElement => {
     const query = useQuery();
-    const getToken = query.get("t")
+    const getToken = query.get("token")
+
     return (
         <>
             {getToken && <VerifyEmail token={getToken} />}

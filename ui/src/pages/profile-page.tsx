@@ -2,7 +2,6 @@ import React from 'react';
 import { useAppContext, ActionTypes } from '../contexts';
 import { useAxios } from '../services/base-service';
 import { Container } from 'react-bootstrap';
-import './profile-page.css';
 import { ProfileHeaderCard, ProfileVerificationCard, ProfileTabs } from '../components';
 
 export const ProfilePage: React.FC = (): React.ReactElement => {
