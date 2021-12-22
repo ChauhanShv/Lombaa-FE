@@ -27,7 +27,7 @@ Country.init(
     },
 
     phoneCode: {
-      type: DataTypes.INTEGER(5),
+      type: DataTypes.STRING(5),
       allowNull: true
     }
   },
