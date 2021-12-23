@@ -424,10 +424,14 @@ class UserController extends BaseController {
       const { name, location, birthday, sex, bio, yearOfEstablishment, aboutBussiness, businessName } = req.body;
       const user = req.user;
 
-      const loc = await this.locationService.add(location.country, location.region, location.city);
+      let loc = null;
+
+      if (location)
+        loc = await this.locationService.upsert(location?.country, location?.region, location?.city);
 
       user.name = name;
-      user.locationId = loc?.id;
+      if (loc?.id)
+        user.locationId = loc?.id;
       user.birthday = birthday;
       user.sex = sex;
       user.bio = bio;
@@ -437,10 +441,12 @@ class UserController extends BaseController {
 
       const dUser = await user.save();
 
+      const resUser = await this.service.getUser({ id: dUser?.id });
+
       const data = {
         success: true,
         message: "Profile updated",
-        metadata: { user: dUser },
+        metadata: { user: resUser },
       };
       super.jsonRes({ res, code: 200, data });
     } catch (error) {

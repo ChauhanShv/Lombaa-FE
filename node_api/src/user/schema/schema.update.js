@@ -31,10 +31,13 @@ module.exports = {
   'location.city': {
     custom: {
       options: async (value, { req }) => {
+        if (req?.body?.accountType === "business") return Promise.resolve();
+
+        if (!value) return Promise.reject("City is required");
+
         if (!await locationService.cityExists(value)) return Promise.reject("Invalid City");
 
         return Promise.resolve();
-
       }
     }
   },
@@ -42,10 +45,13 @@ module.exports = {
   'location.region': {
     custom: {
       options: async (value, { req }) => {
+        if (req?.body?.accountType === "business") return Promise.resolve();
+
+        if (!value) return Promise.reject("Region is required");
+
         if (!await locationService.regionExists(value)) return Promise.reject("Invalid Region");
 
         return Promise.resolve();
-
       }
     }
   },
@@ -53,10 +59,13 @@ module.exports = {
   'location.country': {
     custom: {
       options: async (value, { req }) => {
+        if (req?.body?.accountType === "business") return Promise.resolve();
+
+        if (!value) return Promise.reject("Country is required");
+
         if (!await locationService.countryExists(value)) return Promise.reject("Invalid Country");
 
         return Promise.resolve();
-
       }
     }
   },
