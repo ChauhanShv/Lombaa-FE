@@ -17,8 +17,14 @@ class LocationService {
         return await Country.count({ where: { id } });
     }
 
-    async add(countryId, regionId, cityId) {
-        return await Location.upsert({ countryId, regionId, cityId }, { returning: true });
+    async upsert(countryId, regionId, cityId) {
+        return Location.findOne({ where: { countryId, regionId, cityId } })
+            .then(function (location) {
+                if (location)
+                    return location.update({ countryId, regionId, cityId });
+
+                return Location.create({ countryId, regionId, cityId });
+            })
     }
 }
 

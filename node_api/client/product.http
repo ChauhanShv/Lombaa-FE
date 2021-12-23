@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3001/api
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMyNjZkODg0LTM3OWYtNDExYy1iODEwLTdiYmM3NjEzOTMyZSIsImlhdCI6MTYzOTY0MzUyMiwiZXhwIjoxNjM5NzI5OTIyfQ.wo-4ruDDKzwue0IlyVjngmhmTVVR7YznvRU614HQl9I
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAzYjk5ODdmLTc2ZmUtNDM4ZS05NDYwLTlmZTViNWY1YjRkYyIsImlhdCI6MTY0MDI3Mzk0NCwiZXhwIjoxNjQwMzYwMzQ0fQ.fXiItjd3SPZ_81kswtogte3ybm5v5a--KOWfu04ZvAw
 
 POST {{baseUrl}}/product HTTP/1.1
 content-type: application/json
@@ -12,16 +12,21 @@ x-access-token: {{token}}
     "categoryId": "34bac1ec-8d17-467e-936e-0545d222093b",
     "fields": [
         {
-            "id": "2b335941-5b95-484a-b1b7-581887f75ab0",
+            "id": "0149ee22-da43-4ef6-be41-958d7a82d81a",
             "value": {
-                "id": "07eca6df-1bef-4c92-9fcb-c6e81d58baf6",
-                "value": "2020"
+                "id": "05764cf9-132f-409a-a196-7a0be3766140",
+                "value": "Dieselll"
             }
         }
     ],
+    "location" : {
+        "city": "87a18afa-76dd-4bd6-ada9-789c54a9eef2",
+        "region": "2a1b44e9-4f24-4173-b207-1c2baccb380b",
+        "country": "0f346fe1-5d2e-440f-99eb-eb1703293cdc"
+    },
     "media": [
         {
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDJhMmNmNS0xMjYyLTQyOWEtOWZhNi1iYTViNzBhZDJiYjciLCJmaWxlSWQiOiIzMDhhNDA4OC1lNTU3LTRmNWYtOGIxMC1kODUwYTFmZGE5NmYiLCJpYXQiOjE2MzkzNDUxNzIsImV4cCI6MTYzOTQzMTU3Mn0.lOJXKxji71C5_A9GmLCUQYfb1qDeJkmrqqcBD9SvVxo"
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2I5OTg3Zi03NmZlLTQzOGUtOTQ2MC05ZmU1YjVmNWI0ZGMiLCJmaWxlSWQiOiI5NGFhZTYyMi1kNDA5LTQzYWItYTBiMy04NTE4ZTk0MTg0NzMiLCJpYXQiOjE2NDAyODM0NjUsImV4cCI6MTY0MDM2OTg2NX0.HQk8fFhVPEdb-3zqXslfxWsXj4odvzOM5DeZpGfo_dU"
         }
     ]
 }
@@ -37,7 +42,7 @@ x-app-version : 1.0.0
 title
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="media"; filename="video.mp4"
-Content-Type: image/png
+Content-Type: video/mp4
 
-< C:\data\video.mp4
+< ./video.mp4
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--

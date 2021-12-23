@@ -10,14 +10,20 @@
       </div>
       <div>
         @if (session('response'))
-        @if (session('response.status') == 'success')
-        <div class="alert alert-success">
+          @if (session('response.status') == 'success')
+            <div class="alert alert-success">
+              <ul>
+                <li>
+                  <button class="close" data-dismiss="alert">×</button><strong>{{ session('response.value_name') }}</strong> value added successfully to Field: <strong>{{ session('response.field_name') }}</strong>
+                </li>
+              </ul>
           @else
-          <div class="alert alert-error">
-            @endif
-            <button class="close" data-dismiss="alert">×</button>{{ session('response.message') }}</div>
+            <div class="alert alert-error">
+              <button class="close" data-dismiss="alert">×</button>{{ session('response.message') }}
           @endif
-        </div>
+            </div>
+         @endif
+      </div>
         <div class="widget-content nopadding">
 
           <form action="{{ route('values_add') }}" method="post" enctype="multipart/form-data" class="form-horizontal">
