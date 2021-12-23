@@ -260,6 +260,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                                         type="date"
                                         placeholder="Select Birthday"
                                         className={getErrorClassName('birthday')}
+                                        max={moment().subtract(13, 'years').format('YYYY-MM-DD')}
                                     />
                                     {getErrorText('birthday')}
                                 </FloatingLabel>
@@ -300,6 +301,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                                         placeholder="Establishment Year"
                                         className={getErrorClassName('yearOfEstablishment')}
                                         {...registerBusiness('yearOfEstablishment')}
+                                        max={moment().format('YYYY-MM-DD')}
                                     />
                                     {getErrorText('yearOfEstablishment')}
                                 </FloatingLabel>

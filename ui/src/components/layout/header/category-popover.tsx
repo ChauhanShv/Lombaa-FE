@@ -14,7 +14,6 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
         url: '/category',
         method: 'GET',
     });
-
     useEffect(() => {
         execute();
     }, []);
@@ -32,12 +31,14 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
             overlay={
                 <Popover className="head-cat" id={`popover-positioned-bottom`}>
                     <Popover.Body className="px-5 shadow d-flex flex-wrap">
-                        {categories.map((category: any, index: number) =>
-                            <div className='p-3'>
+                        {categories.map((category: any) =>
+                            <div className='p-3' key={category?.id}>
                                 <h4>{category?.name}</h4>
                                 <ul>
                                     {category.subCategories.map((subCategory: any) =>
-                                        <li><Link to="">{subCategory.name}</Link></li>
+                                        <li key={subCategory?.id}>
+                                            <Link to="">{subCategory?.name}</Link>
+                                        </li>
                                     )}
                                 </ul>
                             </div>

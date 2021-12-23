@@ -127,7 +127,7 @@ export const ChangePassword: React.FC = (): React.ReactElement => {
                     </FloatingLabel>
                     <FloatingLabel
                         controlId="confirmPassword"
-                        label="New Password"
+                        label="Confirm Password"
                         className="mb-3"
                     >
                         <Form.Control

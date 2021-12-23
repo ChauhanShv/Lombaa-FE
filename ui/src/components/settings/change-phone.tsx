@@ -7,6 +7,7 @@ import {
     Alert,
     Spinner,
     Col,
+    Row,
 } from 'react-bootstrap';
 import {
     FaChevronLeft,
@@ -83,7 +84,7 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
         if (isEmpty(errors)) {
             execute({
                 data: {
-                    phoneCode: values.phoneCode,
+                    phoneCode: values.countryCode,
                     phone: values.phoneNumber,
                 }
             });
@@ -121,37 +122,43 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
                             {alert.message || getAPIErrorMessage(apiError)}
                         </Alert>
                     )}
-                    <FloatingLabel
-                        controlId="floatingInput"
-                        label="Country Code"
-                        className="mb-3"
-                    >
-                        <Form.Select
-                            {...register('countryCode')}
-                            placeholder="Phone"
-                            className={getErrorClassName('countryCode')}
-                        >
-                            {!!phoneCodeData.length && phoneCodeData.map((phone: any) =>
-                                <option value={phone.phoneCode} key={phone.id}>
-                                    {'+'}{phone.phoneCode}
-                                </option>
-                            )}
-                        </Form.Select>
-                        {getErrorText('phoneNumber')}
-                    </FloatingLabel>
-                    <FloatingLabel
-                        controlId="floatingInput"
-                        label="Phone Number"
-                        className="mb-3"
-                    >
-                        <Form.Control
-                            {...register('phoneNumber')}
-                            type="text"
-                            placeholder="Phone"
-                            className={getErrorClassName('phoneNumber')}
-                        />
-                        {getErrorText('phoneNumber')}
-                    </FloatingLabel>
+                    <Row>
+                        <Col md={4}>
+                            <FloatingLabel
+                                controlId="floatingInput"
+                                label="Code"
+                                className="mb-3"
+                            >
+                                <Form.Select
+                                    {...register('countryCode')}
+                                    placeholder="Phone"
+                                    className={getErrorClassName('countryCode')}
+                                >
+                                    {!!phoneCodeData.length && phoneCodeData.map((phone: any) =>
+                                        <option value={phone.phoneCode} key={phone.id}>
+                                            {'+'}{phone.phoneCode}
+                                        </option>
+                                    )}
+                                </Form.Select>
+                                {getErrorText('countryCode')}
+                            </FloatingLabel>
+                        </Col>
+                        <Col md={8}>
+                            <FloatingLabel
+                                controlId="floatingInput"
+                                label="Phone Number"
+                                className="mb-3"
+                            >
+                                <Form.Control
+                                    {...register('phoneNumber')}
+                                    type="text"
+                                    placeholder="Phone"
+                                    className={getErrorClassName('phoneNumber')}
+                                />
+                                {getErrorText('phoneNumber')}
+                            </FloatingLabel>
+                        </Col>
+                    </Row>
                     <Button type="submit" className="btn btn-success w-100">
                         {
                             loading ? (

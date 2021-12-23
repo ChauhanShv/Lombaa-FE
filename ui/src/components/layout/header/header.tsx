@@ -141,7 +141,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                                 </Col>
                             </Row>
                         </form>
-                        <Link to='create-post'>
+                        <Link to='/create-post'>
                             <Button variant="fullround" className="nav-link px-4 bg-success rounded ms-3 text-white d-none d-lg-flex">
                                 + Sell
                             </Button>
