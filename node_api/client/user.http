@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3001/api
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAzYjk5ODdmLTc2ZmUtNDM4ZS05NDYwLTlmZTViNWY1YjRkYyIsImlhdCI6MTY0MDE4NTk5NCwiZXhwIjoxNjQwMjcyMzk0fQ.fXfNbe0LcMK1JlcYRedLySsoUyxA_DV8ktZ_0lloygc
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAzYjk5ODdmLTc2ZmUtNDM4ZS05NDYwLTlmZTViNWY1YjRkYyIsImlhdCI6MTY0MDI3Mzk0NCwiZXhwIjoxNjQwMzYwMzQ0fQ.fXiItjd3SPZ_81kswtogte3ybm5v5a--KOWfu04ZvAw
 ### Crete new User
 
 POST {{baseUrl}}/user HTTP/1.1
