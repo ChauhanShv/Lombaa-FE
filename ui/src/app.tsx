@@ -12,7 +12,8 @@ import {
   ForgotPasswordPage,
   ProfilePage,
   CreatePostPage,
-  AdDetailPage
+  AdDetailPage,
+  ÇategoryPage
 } from './pages';
 
 const App: React.FC = () => {
@@ -22,6 +23,8 @@ const App: React.FC = () => {
         <AppContainer>
           <Switch>
             <PublicRoute component={HomePage} path="/" exact />
+            <PublicRoute component={ÇategoryPage} path="/category-listing" exact />
+            
             <PublicRoute restricted component={HomePage} path="/login" exact />
             <PublicRoute restricted component={ForgotPasswordPage} path="/forgot-password/:token?" exact />
             <PrivateRoute component={SettingsPage} path="/settings/:page?" exact />
