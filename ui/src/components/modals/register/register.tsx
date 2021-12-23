@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Alert, Spinner, Form, FloatingLabel, Button, Nav } from 'react-bootstrap';
+import { Modal, Alert, Spinner, Form, FloatingLabel, Button, Nav, Row, Col } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -7,7 +7,7 @@ import { isEmpty } from 'lodash';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import GoogleLogin from 'react-google-login';
 import { getAPIErrorMessage } from '../../../utils';
-import { RegisterProps, FormFields, AccountType, PhoneCodeProps } from './types';
+import { RegisterProps, FormFields, AccountType } from './types';
 import { PASSWORD_REGEX, NAME_MIN_LENGTH, TIN_MIN_LENGTH, MOBILE_REGEX, TIN_REGEX } from '../../../constants';
 import { GOOGLE_CLIENTID, FB_APPID } from '../../../config';
 import { useAxios } from '../../../services/base-service';
@@ -146,12 +146,12 @@ export const Register: React.FC<RegisterProps> = ({
             <Form.Group>
                 <FloatingLabel
                     controlId="floatingInput"
-                    label="Country Code"
+                    label="Code"
                     className="mb-3"
                 >
                     <Form.Select
                         {...register('phoneCode')}
-                        placeholder="Country Code"
+                        placeholder="Code"
                         className={getErrorClassName('phoneCode')}
                     >
                         {!!phoneCodeData.length && phoneCodeData.map((phone: any) =>
@@ -180,24 +180,29 @@ export const Register: React.FC<RegisterProps> = ({
                         {getErrorText('name')}
                     </FloatingLabel>
                 </Form.Group>
-                <PhoneCode />
-                <Form.Group className="mb-3">
-                    <FloatingLabel label="Your phone number" className="mb-3">
-                        <Form.Control
-                            {...register("phoneNumber")}
-                            placeholder="Your phone number"
-                            isValid={!!errors.phoneNumber}
-                            className={getErrorClassName('phoneNumber')}
-                        />
-                        {getErrorText('phoneNumber')}
-                    </FloatingLabel>
-                </Form.Group>
+                <Row>
+                    <Col md={4}>
+                        <PhoneCode />
+                    </Col>
+                    <Col md={8}>
+                        <Form.Group className="mb-3">
+                            <FloatingLabel label="Your phone number" className="mb-3">
+                                <Form.Control
+                                    {...register("phoneNumber")}
+                                    placeholder="Your phone number"
+                                    isValid={!!errors.phoneNumber}
+                                    className={getErrorClassName('phoneNumber')}
+                                />
+                                {getErrorText('phoneNumber')}
+                            </FloatingLabel>
+                        </Form.Group>
+                    </Col>
+                </Row>
             </>
         );
     };
 
     const getBusinessFields = (): React.ReactElement => {
-        const [phoneCode, setPhoneCode] = useState<string>('');
         return (
             <>
                 <Form.Group className="mb-3">
@@ -222,18 +227,24 @@ export const Register: React.FC<RegisterProps> = ({
                         {getErrorText('businessName')}
                     </FloatingLabel>
                 </Form.Group>
-                <PhoneCode />
-                <Form.Group className="mb-3">
-                    <FloatingLabel label="Business phone number" className="mb-3">
-                        <Form.Control
-                            {...register("phoneNumber")}
-                            placeholder="Business phone number"
-                            isValid={!!errors.phoneNumber}
-                            className={getErrorClassName('phoneNumber')}
-                        />
-                        {getErrorText('phoneNumber')}
-                    </FloatingLabel>
-                </Form.Group>
+                <Row>
+                    <Col md={4}>
+                        <PhoneCode />
+                    </Col>
+                    <Col md={8}>
+                        <Form.Group className="mb-3">
+                            <FloatingLabel label="Business phone number" className="mb-3">
+                                <Form.Control
+                                    {...register("phoneNumber")}
+                                    placeholder="Business phone number"
+                                    isValid={!!errors.phoneNumber}
+                                    className={getErrorClassName('phoneNumber')}
+                                />
+                                {getErrorText('phoneNumber')}
+                            </FloatingLabel>
+                        </Form.Group>
+                    </Col>
+                </Row>
             </>
         );
     };
