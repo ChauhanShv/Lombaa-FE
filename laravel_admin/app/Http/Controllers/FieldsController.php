@@ -60,8 +60,6 @@ class FieldsController extends Controller
 
             $send_file_data = Files::create($file_data);
 
-            $count = Fields::count();
-
             if ($send_file_data) {
                 $data = [
                     'id' => Str::uuid(),
@@ -70,7 +68,6 @@ class FieldsController extends Controller
                     'isActive' => isset($request->active) ? 1 : 0,
                     'dataTypes' => $request->dataTypes,
                     'fieldType' => $request->fieldtype,
-                    'sortOrder' => $count + 1,
                     'iconId' => $file_data['id'],
                 ];
 
@@ -104,7 +101,7 @@ class FieldsController extends Controller
                 'date' => 'date',
                 'text' => 'text',
                 'textArea' => 'textArea',
-                'title' => 'title'
+                'title' => 'title',
             );
 
             $data_types = array(
@@ -130,7 +127,7 @@ class FieldsController extends Controller
             'date' => 'date',
             'text' => 'text',
             'textArea' => 'textArea',
-            'title' => 'title'
+            'title' => 'title',
         );
 
         $data_types = array(
@@ -198,7 +195,6 @@ class FieldsController extends Controller
             'isActive' => isset($request->active) ? 1 : 0,
             'dataTypes' => $request->dataTypes,
             'fieldType' => $request->fieldtype,
-            'sortOrder' => null,
             'iconId' => $icon_id,
         ];
 
@@ -236,50 +232,5 @@ class FieldsController extends Controller
         } else {
             return redirect()->back()->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
         }
-    }
-
-    public function update_icon($label, $value, $id)
-    {
-        $icon = Files::where('id', $id)->first();
-
-        return view('fields.updateicon', ['icon' => $icon, 'label' => $label, 'value' => $value]);
-    }
-
-    public function update_icon_post(Request $request, $label, $value, $id)
-    {
-        $rules = [
-            'icon' => 'required',
-        ];
-
-        $messages = [
-            'icon.required' => 'Icon is required',
-        ];
-
-        $validator = Validator::make($request->all(), $rules, $messages);
-
-        $icon_name = Str::uuid() . '.' . $request->file('icon')->getClientOriginalName();
-        // $path = Storage::disk('s3')->put('images', $request->icon);
-        // $iconPath = Storage::disk('s3')->url($path);
-        $icon_mime = $request->file('icon')->getClientMimeType();
-        $icon_ext = $request->file('icon')->extension();
-
-        if ($validator->fails()) {
-            return redirect()->back()->withInput($request->all())->withErrors($validator);
-        }
-
-        $file_data = [
-            'key_name' => $icon_name,
-            'extension' => $icon_ext,
-            'name' => $icon_name,
-            'mime' => $icon_mime,
-            'relative_path' => '',
-            // 'absolute_path'=> $iconPath,
-            'absolute_path' => 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/L27xI2KWxQerlkrlwWnPvHl0BJDLnfRzpRaQjrQb.jpg',
-            'location' => 's3',
-        ];
-
-        $send_file_data = Files::where('id', $id)->update($file_data);
-
-        return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Icon updated successfully']);
     }
 }

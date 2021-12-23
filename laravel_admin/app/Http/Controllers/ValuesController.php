@@ -67,8 +67,12 @@ class ValuesController extends Controller
                 ];
 
                 $sendData = Values::create($data);
+                $field_name = Fields::where('id', $data['fieldId'])->first('label');
+                $value_name = $data['value'];
 
-                return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Value added successfully']);
+                // dd($field_name['label']);
+
+                return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Value added successfully', 'field_name' => $field_name['label'], 'value_name' => $value_name]);
 
             } else {
                 return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Something went wrong']);

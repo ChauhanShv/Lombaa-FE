@@ -35,7 +35,6 @@ class Fields extends Model
         'isActive',
         'dataTypes',
         'fieldType',
-        'sortOrder',
         'iconId',
     ];
 
