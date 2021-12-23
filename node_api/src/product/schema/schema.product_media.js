@@ -9,6 +9,8 @@ module.exports = {
 
         const filters = await FileType.fromBuffer(file.buffer);
 
+        if (!filters) return Promise.reject(`Failed to read MIME`);
+
         if (!file.size > config.mediaSizeLimit) return Promise.reject(`Greater than ${config.mediaSizeLimit / 1000000} MB file size not allowed`);
 
         if (!config.allowedMediaType.includes(filters.mime)) return Promise.reject("Invalid media type");

@@ -1,6 +1,9 @@
 const CategoryService = require("../category/category.service");
 const { isDate } = require("../modules/validator");
 const jwt = require("../modules/jwt/jwt.service");
+const LocationService = require('../location/location.service');
+
+const locationService = new LocationService();
 
 const categoryService = new CategoryService();
 
@@ -18,15 +21,55 @@ exports.generate = async (req) => {
       },
     },
 
+    'location.city': {
+      custom: {
+        options: async (value, { req }) => {
+          if (!value) return Promise.reject("City is required");
+
+          if (!await locationService.cityExists(value)) return Promise.reject("Invalid City");
+
+          return Promise.resolve();
+        }
+      }
+    },
+
+    'location.region': {
+      custom: {
+        options: async (value, { req }) => {
+          if (!value) return Promise.reject("Region is required");
+
+          if (!await locationService.regionExists(value)) return Promise.reject("Invalid Region");
+
+          return Promise.resolve();
+        }
+      }
+    },
+
+    'location.country': {
+      custom: {
+        options: async (value, { req }) => {
+          if (!value) return Promise.reject("Country is required");
+
+          if (!await locationService.countryExists(value)) return Promise.reject("Invalid Country");
+
+          return Promise.resolve();
+        }
+      }
+    },
+
     "media.*": {
       notEmpty: {
         errorMessage: "Category is required",
       },
       custom: {
         options: async (media, { req, location, path }) => {
-          const { userId } = jwt.decode(media?.token);
-          if (userId !== req.user.id) return Promise.reject("Invalid media token");
-          Promise.resolve();
+          try {
+            const { userId } = jwt.decode(media?.token);
+            if (userId !== req.user.id) return Promise.reject("Invalid media token");
+            Promise.resolve();
+          } catch (e) {
+            Promise.reject('Invalid image');
+          }
         },
       },
       customSanitizer: {

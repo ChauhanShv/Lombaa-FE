@@ -307,6 +307,7 @@ class UserService {
       return null;
     }
   }
+
   async getUser(payload) {
     let user = await User.findOne({
       attributes: { exclude: ["password"] },

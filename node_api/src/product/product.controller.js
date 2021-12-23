@@ -9,12 +9,15 @@ const ProductField = require("./product_field.model");
 const FileService = require("../file/file.service");
 const jwt = require("../modules/jwt/jwt.service");
 const ProductMedia = require("./product_media.model");
+const LocationService = require('../location/location.service');
+const Location = require('../location/location.model');
 
 class productController extends BaseController {
   constructor(...args) {
     super(...args);
     this.service = new ProductService();
     this.fileService = new FileService();
+    this.locationService = new LocationService();
   }
 
   add = async (req, res, next) => {
@@ -27,10 +30,26 @@ class productController extends BaseController {
     try {
       const data = {
         slug: await this.slugify(req?.body?.categoryFields?.find((field) => field.fieldType === "title")?.value ?? req?.body?.categoryId ?? uuidv4()),
-        userId: req?.user?.id ?? null,
+        userId: req?.user?.id ?? null
       };
 
-      const product = await Product.create(data);
+      const { location } = req.body;
+
+      let loc = null;
+      if (location)
+        loc = await this.locationService.upsert(location?.country, location?.region, location?.city);
+
+      if (loc?.id)
+        data.locationId = loc?.id;
+
+      const p = await Product.create(data);
+
+      const product = await Product.findOne({
+        where: { id: p?.id },
+        include: [
+          { model: Location, as: "location" }
+        ],
+      })
 
       const productFieldData = req?.body?.fields?.map((field) => ({ fieldId: field?.id, value: field?.value?.value, fieldValueId: field?.value?.id, productId: product?.id }));
       await ProductField.bulkCreate(productFieldData);
@@ -59,7 +78,7 @@ class productController extends BaseController {
       const uploadedFile = await this.fileService?.upload(buffer, { saveToDB: true });
 
       const payload = { userId: user?.id, fileId: uploadedFile?.id };
-      const token = jwt.encode(payload);
+      const token = jwt.encode(payload, '30d');
 
       return super.jsonRes({ res, code: 201, data: { Success: true, message: "Uploaded", media: { token, url: uploadedFile?.absolute_path, mime: uploadedFile?.mime, extension: uploadedFile?.extension } } });
     } catch (error) {
