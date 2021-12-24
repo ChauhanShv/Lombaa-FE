@@ -16,3 +16,13 @@
 .ad-post i{font-size:45px;}
 
 .usermeta{color:#555; font-size:12px;}
+small.text-white{font-size:12px; text-shadow: 0 0 3px rgba(0,0,0,.5);}
+
+@media all and (max-width:767px) {
+    .ad-card .card-title{font-size:12px;}
+    .ad-card .card-body{font-size:11px; padding-bottom: 5px;}
+    .usermeta img{width:24px; height:24px;}
+    .saved{width:24px; height:24px;}
+    small.text-white{font-size:11px;}    
+    .ad-card .card-body p{margin-bottom: 5px;}
+}
