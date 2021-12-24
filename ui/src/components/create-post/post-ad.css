@@ -40,10 +40,10 @@
   display: inline-flex;
   border-radius: 2px;
   border: 1px solid #eaeaea;
-  margin-bottom: 8px;
-  margin-right: 8px;
-  width: 100px;
-  height: 100px;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  width: 75px;
+  height: 75px;
   padding: 4px;
   box-sizing: border-box;
 }
@@ -52,6 +52,7 @@
   display: flex;
   min-width: 0;
   overflow: hidden;
+  position: relative;
 }
 
 .img {
@@ -69,8 +70,12 @@
 .close-button {
   display: inline-block;
   position: absolute;
-  width: 17px;
-  height: 17px;
+  width: 16px;
+  height: 16px;
+  top:1px;
+  right:1px;
+  background: #fff;
+  border-radius: 100px;
 }
 
 .upload-limit-text {
@@ -84,3 +89,5 @@
   background-color: green;
   border-color: green;
 }
+
+h2, .h2{font-size:calc(1.0rem + 0.8vw);}
