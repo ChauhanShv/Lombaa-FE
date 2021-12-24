@@ -21,11 +21,13 @@ import { PASSWORD_REGEX } from '../../constants';
 import { ChangePasswordFormFeilds, AlertType } from './types';
 
 const schema = yup.object().shape({
-    oldPassword: yup.string().required('Password is required'),
+    oldPassword: yup.string().required('Current Password is required'),
     password: yup.string().matches(
         PASSWORD_REGEX,
         'Password should contain minimum 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character'
-    ),
+    ).required('Confirm Password is required'),
+    confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match')
+        .required('Password Confirmation is required'),
 }).required();
 const successMessage: string = 'Your password has changed';
 
@@ -34,7 +36,7 @@ export const ChangePassword: React.FC = (): React.ReactElement => {
         resolver: yupResolver(schema),
     });
     const [alert, setAlert] = useState<AlertType>({});
-    const [{data: response, loading, error: apiError}, execute] = useAxios({
+    const [{ data: response, loading, error: apiError }, execute] = useAxios({
         url: '/user/password',
         method: 'PUT'
     });
@@ -98,30 +100,43 @@ export const ChangePassword: React.FC = (): React.ReactElement => {
                         </Alert>
                     )}
                     <FloatingLabel
-                        controlId="floatingInput"
+                        controlId="currentPassword"
                         label="Current Password"
                         className="mb-3"
                     >
-                        <Form.Control 
-                            {...register('oldPassword')} 
-                            type="password" 
-                            placeholder="Password" 
+                        <Form.Control
+                            {...register('oldPassword')}
+                            type="password"
+                            placeholder="Password"
                             className={getErrorClassName('oldPassword')}
                         />
                         {getErrorText('oldPassword')}
                     </FloatingLabel>
                     <FloatingLabel
-                        controlId="floatingInput"
+                        controlId="newPassword"
                         label="New Password"
                         className="mb-3"
                     >
-                        <Form.Control 
-                            {...register('password')} 
-                            type="password" 
-                            placeholder="Password" 
+                        <Form.Control
+                            {...register('password')}
+                            type="password"
+                            placeholder="New Password"
                             className={getErrorClassName('password')}
                         />
                         {getErrorText('password')}
+                    </FloatingLabel>
+                    <FloatingLabel
+                        controlId="confirmPassword"
+                        label="Confirm Password"
+                        className="mb-3"
+                    >
+                        <Form.Control
+                            {...register('confirmPassword')}
+                            type="password"
+                            placeholder="Confirm Password"
+                            className={getErrorClassName('confirmPassword')}
+                        />
+                        {getErrorText('confirmPassword')}
                     </FloatingLabel>
                     <Button type="submit" className="btn btn-success w-100">
                         {

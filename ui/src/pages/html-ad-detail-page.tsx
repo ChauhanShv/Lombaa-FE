@@ -29,7 +29,7 @@ export const AdDetailPage: React.FC = (): React.ReactElement => {
                     <Row>
                         <ul className="breadcrumbs">
                             <li><Link to="/">Audio</Link></li>
-                            <li>></li>
+                            <li>{'>'}</li>
                             <li>Other Audio Equipment</li>
                         </ul>
                     </Row>

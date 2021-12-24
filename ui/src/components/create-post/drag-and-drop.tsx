@@ -1,35 +1,94 @@
 import React, { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { BsBoxArrowUp } from 'react-icons/bs';
+import { includes } from 'lodash';
+import { BsBoxArrowUp, BsXCircleFill } from 'react-icons/bs';
 import './post-ad.css';
+import { DragAndDropProps, Media } from '.';
+import { useAxios } from '../../services/base-service';
 
-export const DragAndDrop: React.FC = (): React.ReactElement => {
+export const DragAndDrop: React.FC<DragAndDropProps> = ({
+  updateMedia,
+}: DragAndDropProps): React.ReactElement => {
+  const [media, setMedia] = useState<Media[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
 
-  const [files, setFiles] = useState<any>([]);
+  const [{ data: mediaData }, executeMedia] = useAxios({
+    url: '/product/media',
+    method: 'POST',
+  });
+
+  const uploadFiles = async () => {
+    const formData = new FormData();
+    for (const file of files) {
+      formData.append('media', file);
+      try {
+        await executeMedia({ data: formData });
+      } catch (error: any) { }
+      formData.delete('media');
+    }
+  }
+
+  useEffect(() => {
+    if (mediaData?.Success && !includes(media, {
+      token: mediaData?.media.token,
+      url: mediaData?.media.token,
+      mime: mediaData.media?.mime,
+    })) {
+      setMedia([
+        ...media,
+        {
+          token: mediaData.media.token,
+          url: mediaData.media.url,
+          mime: mediaData.media?.mime,
+        }
+      ]);
+    }
+  }, [mediaData]);
+
+  useEffect(() => {
+    updateMedia(media);
+  }, [media]);
+
+  useEffect(() => {
+    uploadFiles();
+  }, [files])
+
   const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/*',
+    accept: 'image/*, video/*',
     onDrop: acceptedFiles => {
-      setFiles(acceptedFiles.map(file => Object.assign(file, {
+      const newFiles: File[] = [];
+      newFiles.push(...acceptedFiles.map(file => Object.assign(file, {
         preview: URL.createObjectURL(file)
-      })))
+      })));
+      setFiles([...newFiles]);
     }
   });
 
-  const thumbs = files.map((file: any) => (
-    <div key={file.name} className="thumb">
-      <div className="thumb-inner">
-        <img
-          src={file.preview}
-          className="img"
-        />
-      </div>
-    </div>
-  ));
+  const handleCloseButtonClick = (index: number) => {
+    const newMedia = media;
+    newMedia.splice(index, 1);
+    setMedia([...newMedia]);
+  }
 
-  useEffect(() => {
-    // Make sure to revoke the data uris to avoid memory leaks
-    files.forEach((file: any) => URL.revokeObjectURL(file.preview));
-  }, [files]);
+  const imagePreview = () => {
+    return media.map((file: any, index: number) => (
+      <div key={file.token} className="thumb">
+        <div className="thumb-inner">
+          {file.mime?.includes('video') ? (
+            <video className='video' poster='placeholder.png' controls>
+              <source src={file.url} type="video/*" />
+            </video>
+          ) : (
+            <img src={file.url} className="img" />
+          )}
+          <BsXCircleFill
+            onClick={() => handleCloseButtonClick(index)}
+            className="close-button"
+          />
+        </div>
+      </div>
+    ));
+  }
 
   return (
     <div className="shadow p-3 p-lg-5 h-100">
@@ -40,7 +99,7 @@ export const DragAndDrop: React.FC = (): React.ReactElement => {
         <p className="upload-limit-text">(Up to 10 files)</p>
       </div>
       <aside className="thumbs-container">
-        {thumbs}
+        {imagePreview()}
       </aside>
     </div>
   );

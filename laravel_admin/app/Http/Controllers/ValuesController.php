@@ -29,7 +29,7 @@ class ValuesController extends Controller
 
             $messages = [
                 'name.required' => 'Value name is required',
-                'icon' => 'Icon is required',
+                'icon.required' => 'Icon is required',
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -63,11 +63,16 @@ class ValuesController extends Controller
                     'id' => Str::uuid(),
                     'value' => $request->name,
                     'iconId' => $fileData['id'],
+                    'fieldId' => $request->field,
                 ];
 
                 $sendData = Values::create($data);
+                $field_name = Fields::where('id', $data['fieldId'])->first('label');
+                $value_name = $data['value'];
 
-                return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Value added successfully']);
+                // dd($field_name['label']);
+
+                return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Value added successfully', 'field_name' => $field_name['label'], 'value_name' => $value_name]);
 
             } else {
                 return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Something went wrong']);
@@ -122,6 +127,7 @@ class ValuesController extends Controller
             $data = [
                 'value' => $request->name,
                 'iconId' => $iconId,
+                'fieldId' => $request->field,
             ];
 
             $sendData = Values::where('id', $id)->update($data);

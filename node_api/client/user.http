@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3001/api
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImY1MWVlMTg2LTNkNzYtNGJlMC1hY2I0LWMyM2E0ZjljZjc3MiIsImlhdCI6MTYzNzM0NDMyMiwiZXhwIjoxNjM3NDMwNzIyfQ.bBcbBTX2MPPIBEeg430YzF-p1oo57yNq8OmzwLsyIe0
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAzYjk5ODdmLTc2ZmUtNDM4ZS05NDYwLTlmZTViNWY1YjRkYyIsImlhdCI6MTY0MDI3Mzk0NCwiZXhwIjoxNjQwMzYwMzQ0fQ.fXiItjd3SPZ_81kswtogte3ybm5v5a--KOWfu04ZvAw
 ### Crete new User
 
 POST {{baseUrl}}/user HTTP/1.1
@@ -8,10 +8,11 @@ content-type: application/json
 x-client-platform : Android
 
 {
-    "email": "gary@mc.com",
+    "email": "ajay@datortech.com",
     "password": "123456",
     "name": "Gates",
-    "phoneNumber": "7512651533",
+    "phoneNumber": "9641132931",
+    "phoneCode": "91",
     "accountType": "standard",
     "lattitude": "",
     "longitude": "",
@@ -27,7 +28,7 @@ POST {{baseUrl}}/auth HTTP/1.1
 content-type: application/json
 
 {
-    "email": "gary@mc.com",
+    "email": "ajay@datortech.com",
     "password": "123456"
 }
 
@@ -74,10 +75,12 @@ GET https://graph.facebook.com/me?access_token=EAAEHM3oWBboBAP9jUK9B7KuQZBndXr7p
 PUT {{baseUrl}}/user/email HTTP/1.1
 content-type: application/json
 x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
 
 {
-    "email": "newtest1212@gmail.com"
-}
+    "email": "uday1@datortech.com"
+}   
 
 ###
 
@@ -97,7 +100,8 @@ x-client-platform : Android
 x-app-version : 1.0.0
 
 {
-    "phone": "7083769223"
+    "phone": "7083769220",
+    "phoneCode": "91"
 }
 
 ###
@@ -106,7 +110,7 @@ POST {{baseUrl}}/user/password/forget HTTP/1.1
 content-type: application/json
 
 {
-    "email": "ajay@gmail.com"
+    "email": "ajay@datortech.com"
 }
 
 ###
@@ -181,15 +185,25 @@ x-access-token : {{token}}
 x-app-version : 1.0.0
 x-client-platform : Android
 
+# {
+#     "businessName": "MS Soft",
+#     "yearOfEstablishment" : 2004,
+#     "aboutBusiness" : "Software business",
+#     "accountType": "business"
+# }
+
 {
-    "name" : "Vivek",
-    "location" : 5346,
+    "name" : "Glenn",
+    "location" : {
+        "city": "87a18afa-76dd-4bd6-ada9-789c54a9eef2",
+        "region": "2a1b44e9-4f24-4173-b207-1c2baccb380b",
+        "country": "0f346fe1-5d2e-440f-99eb-eb1703293cdc"
+
+    },
     "birthday" : null,
     "sex" : "male",
     "bio" : "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
-    "yearOfEstablishment" : 2004,
-    "aboutBussiness" : "i am very glaf "
-    
+    "accountType": "standard"
 }
 
 ###
@@ -197,14 +211,15 @@ x-client-platform : Android
 PUT  {{baseUrl}}/user/picture HTTP/1.1
 x-access-token : {{token}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
-
+x-client-platform : Android
+x-app-version : 1.0.0
 
 title
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="image"; filename="lombatest.png"
+Content-Disposition: form-data; name="image"; filename="data.png"
 Content-Type: image/png
 
-< C:\lombatest.png
+< C:\data\data.png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
 ###

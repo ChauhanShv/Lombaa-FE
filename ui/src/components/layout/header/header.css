@@ -67,6 +67,10 @@ body{padding-bottom: 80px;}
 .sign-out-button{background-color: #fff; border: 0px; color: #000;}
 .sign-out-button:hover{border: 0px; color: #000;}
 
+<<<<<<< HEAD
 .btn-success{color:#fff !important; fill:#fff !important;}
 
 .btn-outline-success:hover{color:#fff !important; fill:#fff !important;}
+=======
+.btn-success{color:#fff !important; fill:#fff !important;}
+>>>>>>> af0e019d2d19913722ce8b394d99e8980b369368

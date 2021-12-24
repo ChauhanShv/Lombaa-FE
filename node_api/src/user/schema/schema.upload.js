@@ -9,7 +9,7 @@ module.exports = {
                 const filters = await FileType.fromBuffer(file.buffer);
 
                 if (!file.size > config.pictureSizeLimit)
-                    return Promise.reject("Greater than 1MB file size not allowed");
+                    return Promise.reject(`Greater than ${config.pictureSizeLimit / 1000000} MB file size not allowed`);
 
                 if (!config.allowedPictureMime.includes(filters.mime))
                     return Promise.reject("Invalid image type");

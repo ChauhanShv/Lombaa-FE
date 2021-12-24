@@ -32,7 +32,7 @@
                             <div class="controls">
                                 <input type="text" name="id" class="span11" placeholder="Enter ID" value="{{ $data['id'] }}" readonly/>
                                 @error('id')
-                                <div class="alert alert-danger ">{{ $message }}</div>
+                                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div> --}}
@@ -40,9 +40,9 @@
                         <div class="control-group">
                             <label class="control-label">Category Name :</label>
                             <div class="controls">
-                                <input type="text" name="name" class="span11" placeholder="ENter Name" value="{{ $data['name'] }}" />
+                                <input type="text" name="name" class="span11" placeholder="Enter Name" value="{{ $data['name'] }}" />
                                 @error('name')
-                                <div class="alert alert-danger ">{{ $message }}</div>
+                                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
@@ -50,8 +50,8 @@
                             <label class="control-label">Description :</label>
                             <div class="controls">
                                 <input type="text" name="description" class="span11" placeholder="Enter location" value="{{ $data['description'] }}" />
-                                @error('location')
-                                <div class="alert alert-danger ">{{ $message }}</div>
+                                @error('description')
+                                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
@@ -88,18 +88,20 @@
                                     @enderror
                                 </div>
                             </div>
-
                             <div class="control-group">
                                 <label class="control-label">IsParent :</label>
                                 <div class="controls">
-                                    <input type="checkbox"  id="parenttId" name="parent" {{ ($data->parentId) ? '' : 'checked' }} data-toggle="toggle" >
-                                    @error('active')
-                                    <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                                    @if (Session::hasOldInput())
+                                        <input type="checkbox"  id="parenttId" name="is_parent" {{ old('is_parent') === null ? '' : 'checked' }} data-toggle="toggle" >
+                                    @else
+                                        <input type="checkbox"  id="parenttId" name="is_parent" {{ $data->parentId === null ? 'checked' : '' }} data-toggle="toggle" >
+                                    @endif
+
+                                    @error('is_parent')
+                                        <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
-
-
                             <div class="control-group" id='cattId'>
                                 <label class="control-label">Parent Category :</label>
                                 <div class="controls">
@@ -121,11 +123,11 @@
 
                                     </select>
                                 @error('product')
-                                    <div class="alert alert-danger ">{{ $message }}</div>
+                                    <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                                 @enderror
                                 </div>
                             </div>
-                            <div class="control-group">
+                            <div class="control-group" id='fieldId'>
                                 <label class="control-label">Select Fields :</label>
                                 <div class="controls">
                                     <select multiple name="add_fields[]">
@@ -136,8 +138,8 @@
                                             <option value="{{ $field->id }}">{{ $field->label }}</option>
                                         @endforeach
                                     </select>
-                                @error('fields')
-                                    <div class="alert alert-danger ">{{ $message }}</div>
+                                @error('add_fields')
+                                    <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                                 @enderror
                                 </div>
                             </div>

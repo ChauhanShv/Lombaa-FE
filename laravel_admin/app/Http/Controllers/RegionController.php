@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Countries;
 use App\Models\Regions;
+use Grimzy\LaravelMysqlSpatial\Types\Point;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Str;
@@ -30,24 +31,43 @@ class RegionController extends Controller
                 'name.required' => 'Region name is required',
                 'code.required' => 'Region code is required',
                 'country.required' => 'Country name is required',
-                'lat' => 'required|numeric|between:-90,90',
-                'long' => 'required|numeric|between:-180,180',
+                'lat.required' => 'Latitude is required',
+                'lat.numeric' => 'Incorrect Latitude inserted',
+                'long.required' => 'Longitude is required',
+                'long.numeric' => 'Incorrect Latitude inserted',
             ];
             $validator = Validator::make($request->all(), $rules, $messages);
             if ($validator->fails()) {
                 return redirect()->back()->withInput($request->all())->withErrors($validator);
             }
+
             $region_name = $request->input('name');
             $region_code = $request->input('code');
             $country = $request->input('country');
-            $data = [
-                'id' => Str::uuid(),
-                'name' => $region_name,
-                'code' => $region_code,
-                'countryId' => $country,
-                'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
-            ];
-            $insert_region = Regions::create($data);
+
+            $region = new Regions;
+
+            $region->id = Str::uuid();
+            $region->name = $region_name;
+            $region->code = $region_code;
+            $region->countryId = $country;
+            $region->coordinate = new Point($request->lat, $request->long);
+
+            $region->save();
+
+            // $data = [
+            //     'id' => Str::uuid(),
+            //     'name' => $region_name,
+            //     'code' => $region_code,
+            //     'countryId' => $country,
+            // ];
+            // $insert_region = Regions::create($data);
+
+            // $region_coordinate = [
+            //     'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
+            // ];
+
+            // $inser_region_coordinate = Regions::where('id', $data['id'])->update($region_coordinate);
             try {
                 return redirect()->route('region_list')->with('response', ['status' => 'success', 'message' => 'Region added successfully']);
             } catch (Exception $e) {
@@ -83,7 +103,7 @@ class RegionController extends Controller
                 'name' => $region_name,
                 'code' => $region_code,
                 'countryId' => $country,
-                'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
+                'coordinate' => new Point($request->lat, $request->long),
             ];
             $insert_country = Regions::where('id', $id)->update($data);
             try {

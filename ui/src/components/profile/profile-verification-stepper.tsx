@@ -1,16 +1,23 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
+import StepButton from '@mui/material/StepButton';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 import { StepIconProps } from '@mui/material/StepIcon';
+import { useHistory } from 'react-router-dom';
 import { useAppContext, ActionTypes } from '../../contexts';
 import { makeStyles } from '@mui/styles';
 import { MdDone } from "react-icons/md";
 
 const useStyles = makeStyles({
+    step: {
+        '& .css-ascpo7-MuiStepLabel-root.Mui-disabled': {
+            cursor: 'pointer',
+        }
+    },
     stepLabel: {
         fontWeight: 600,
         fontFamily: 'Poppins !important',
@@ -22,7 +29,7 @@ const useStyles = makeStyles({
         '& .MuiStepLabel-label.Mui-completed': {
             fontWeight: 600,
             fontFamily: 'Poppins !important',
-            color: 'green',
+            color: '#00AF41',
         },
         '& .MuiStepLabel-label.MuiStepLabel-alternativeLabel': {
             marginTop: '10px',
@@ -30,7 +37,11 @@ const useStyles = makeStyles({
     },
 });
 
-export const ProfileVerificationStepper: React.FC = (): React.ReactElement => {
+interface ProfileVerificationStepperProps {
+    onVerify: (nonVerifiedStep: string) => void;
+}
+
+export const ProfileVerificationStepper: React.FC<ProfileVerificationStepperProps> = ({ onVerify }: ProfileVerificationStepperProps): React.ReactElement => {
     const classes = useStyles();
     const { state, dispatch } = useAppContext();
     const userData = state?.user?.metaData;
@@ -60,6 +71,18 @@ export const ProfileVerificationStepper: React.FC = (): React.ReactElement => {
         return Number(y.completed) - Number(x.completed);
     });;
 
+    const getNonVerifiedStepLabel = () => {
+        for (const content of stepContent) {
+            if (!content.completed) {
+                return content.stepLabel;
+            }
+        }
+    }
+
+    useEffect(() => {
+        onVerify(getNonVerifiedStepLabel() || '');
+    }, []);
+
     const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
         [`&.${stepConnectorClasses.alternativeLabel}`]: {
             top: 13,
@@ -68,12 +91,12 @@ export const ProfileVerificationStepper: React.FC = (): React.ReactElement => {
         },
         [`&.${stepConnectorClasses.active}`]: {
             [`& .${stepConnectorClasses.line}`]: {
-                backgroundColor: 'green',
+                backgroundColor: '#00AF41',
             },
         },
         [`&.${stepConnectorClasses.completed}`]: {
             [`& .${stepConnectorClasses.line}`]: {
-                backgroundColor: 'green',
+                backgroundColor: '#00AF41',
             },
         },
         [`& .${stepConnectorClasses.line}`]: {
@@ -97,16 +120,16 @@ export const ProfileVerificationStepper: React.FC = (): React.ReactElement => {
         justifyContent: 'center',
         alignItems: 'center',
         ...(ownerState.active && {
-            backgroundColor: 'green',
-            boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
+            backgroundColor: '#00AF41',
         }),
         ...(ownerState.completed && {
-            backgroundColor: 'green',
+            backgroundColor: '#00AF41',
         }),
     }));
 
     function ColorlibStepIcon(props: any) {
         const { active, completed, className } = props;
+        const navigate = useHistory();
 
         const icons: { [index: string]: any } = {
             1: completed ? <MdDone /> : '1',
@@ -116,8 +139,27 @@ export const ProfileVerificationStepper: React.FC = (): React.ReactElement => {
             5: completed ? <MdDone /> : '5',
         };
 
+        const handleStepClick = (event: any) => {
+            if (!completed) {
+                const stepLabel = stepContent[icons[Number(props.icon - 1)]].stepLabel;
+                switch (stepLabel) {
+                    case 'Google':
+                    case 'Facebook':
+                    case 'Photo':
+                        navigate.push('/settings');
+                        break;
+                    case 'Email':
+                        navigate.push('/settings/change-email');
+                        break;
+                    case 'Phone':
+                        navigate.push('/settings/change-phone');
+                        break;
+                }
+            }
+        }
+
         return (
-            <ColorlibStepIconRoot ownerState={{ completed, active }} className={className}>
+            <ColorlibStepIconRoot onClick={handleStepClick} ownerState={{ completed, active }} className={className}>
                 {icons[String(props.icon)]}
             </ColorlibStepIconRoot>
         );
@@ -130,7 +172,7 @@ export const ProfileVerificationStepper: React.FC = (): React.ReactElement => {
                 activeStep={(stepContent.findIndex(step => step.completed === false) ?? stepContent.length) - 1}
                 connector={<ColorlibConnector />}>
                 {stepContent.map((step, index) => (
-                    <Step completed={step?.completed} key={index}>
+                    <Step className={classes.step} completed={step?.completed} key={index}>
                         <StepLabel className={classes.stepLabel} StepIconComponent={ColorlibStepIcon}>
                             {step.stepLabel}
                         </StepLabel>

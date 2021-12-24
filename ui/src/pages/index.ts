@@ -7,5 +7,4 @@ export * from './forgot-password-page';
 export * from './create-post-page';
 export * from './ad-detail-page';
 export * from './html-category-listing';
-
-
+export * from './verify-email-page';

@@ -13,27 +13,13 @@ class Countries extends Model
     const UPDATED_AT = 'updatedAt';
     const DELETED_AT = 'deletedAt';
 
-    use SoftDeletes;
+    use SoftDeletes, SpatialTrait, HasFactory;
 
     public $timestamps = true;
 
-    use SpatialTrait;
-
-    protected $table = 'countries';
-
-    protected $fillable = [
-        'id',
-        'name',
-        'code',
-        'createdAt',
-        'updatedAt',
-        'deletedAt',
-    ];
-
-    protected $spatialFields = [
-        'coordinate',
-    ];
-
     protected $keyType = 'string';
-    use HasFactory;
+    protected $table = 'countries';
+    protected $fillable = ['id', 'name', 'code'];
+    protected $spatialFields = ['coordinate'];
+
 }

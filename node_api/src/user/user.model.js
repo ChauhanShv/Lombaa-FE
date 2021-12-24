@@ -1,7 +1,8 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize").service;
+const Location = require('../location/location.model');
 
-const File = require('../file/file.model')
+const File = require("../file/file.model");
 
 class User extends Model { }
 
@@ -30,6 +31,11 @@ User.init(
 
     phoneNumber: {
       type: DataTypes.STRING(20),
+      allowNull: true,
+    },
+
+    phoneCode: {
+      type: DataTypes.STRING(5),
       allowNull: true,
     },
 
@@ -66,7 +72,7 @@ User.init(
     memberSince: {
       type: DataTypes.DATE,
       allowNull: true,
-      defaultValue: Sequelize.NOW
+      defaultValue: Sequelize.NOW,
     },
 
     ipCountry: {
@@ -77,7 +83,7 @@ User.init(
     profileVerificationScore: {
       type: DataTypes.INTEGER(11),
       allowNull: true,
-      defaultValue: 0
+      defaultValue: 0,
     },
 
     isFacebookVerified: {
@@ -184,11 +190,6 @@ User.init(
       allowNull: true,
     },
 
-    location: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true,
-    },
-
     isActive: {
       type: DataTypes.INTEGER(1),
       allowNull: false,
@@ -198,14 +199,19 @@ User.init(
     yearOfEstablishment: {
       type: DataTypes.DATEONLY,
       allowNull: true,
-      defaultValue: null
+      defaultValue: null,
+    },
+
+    businessName: {
+      type: DataTypes.STRING(250),
+      allowNull: true,
     },
 
     aboutBussiness: {
       type: DataTypes.STRING(250),
       allowNull: true,
-      defaultValue: null
-    }
+      defaultValue: null,
+    },
   },
   {
     modelName: "User",
@@ -214,12 +220,13 @@ User.init(
     sequelize,
     paranoid: true,
     defaultScope: {
-      attributes: { exclude: ['password'] }
-    }
+      attributes: { exclude: ["password"] },
+    },
   }
 );
 
-User.belongsTo(File, { as: "profilePicture" })
-User.belongsTo(File, { as: "coverPicture" })
+User.belongsTo(File, { as: "profilePicture" });
+User.belongsTo(File, { as: "coverPicture" });
+User.belongsTo(Location, { as: "location" });
 
 module.exports = User;

@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\CategoryField;
 use App\Models\Fields;
 use App\Models\Files;
+use App\Rules\HasSingleTitle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Str;
@@ -19,14 +20,17 @@ class CategoryController extends Controller
                 'name' => 'required|regex:/^[\s\w-]*$/',
                 'description' => 'required',
                 'image' => 'required',
-                'fields' => 'required',
+                'product' => ['required_unless:is_parent,on'],
+                'fields' => ['required_unless:is_parent,on', new HasSingleTitle],
             ];
 
             $messages = [
                 'name.required' => 'Name is required',
                 'description.required' => 'Description is required',
                 'image.required' => 'Image is required',
-                'fields.required' => 'Fields are required',
+                'product.required' => 'Category is required',
+                'product.required_unless' => 'Parent cartegory is required',
+                'fields.required_unless' => 'Parent cartegory is required',
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -61,32 +65,39 @@ class CategoryController extends Controller
                 'iconId' => $file_data['id'],
                 'isPopular' => isset($request->popular) ? 1 : 0,
                 'isActive' => isset($request->active) ? 1 : 0,
-                'parentId' => $request->product ? $request->product : null,
+                'parentId' => isset($request->is_parent) ? null : $request->product,
             ];
 
             $category_id = Category::create($data)->id;
 
-            if ($data) {
-                $category_fields = array();
-                $i = 1;
-                foreach ($request->input('fields') as $field) {
-                    $category_field = array();
+            if (!$data['parentId'] == null) {
+                if ($data) {
+                    $category_fields = array();
 
-                    $category_field['sort'] = $i;
-                    $category_field['categoryId'] = $category_id;
-                    $category_field['fieldId'] = $field;
+                    $i = 2;
 
-                    array_push($category_fields, $category_field);
+                    $fields = Fields::findMany($request->fields);
+                    foreach ($fields as $field) {
+                        $category_field = array();
+                        $category_field['categoryId'] = $category_id;
+                        $category_field['fieldId'] = $field->id;
 
-                    $i++;
+                        if ($field->fieldType === 'title') {
+                            $category_field['sort'] = 1;
+                        } else {
+                            $category_field['sort'] = $i;
+                            $i++;
+                        }
+                        array_push($category_fields, $category_field);
+                    }
+
+                    $send_category_fields = CategoryField::insert($category_fields);
+
+                } else {
+                    return redirect()->route('category_list')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
                 }
-
-                $send_category_fields = CategoryField::create($category_fields);
-
-                return redirect()->route('category_list')->with('response', ['status' => 'success', 'message' => 'Category added successfully']);
-            } else {
-                return redirect()->route('category_list')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
             }
+            return redirect()->route('category_list')->with('response', ['status' => 'success', 'message' => 'Category added successfully']);
         } else {
             $fields = Fields::get();
             $categories = Category::get();
@@ -108,13 +119,16 @@ class CategoryController extends Controller
             $rules = [
                 'name' => 'required|regex:/^[\s\w-]*$/',
                 'description' => 'required',
-                'product' => 'required',
+                'product' => ['required_unless:is_parent,on'],
+                'add_fields' => ['required_unless:is_parent,on', new HasSingleTitle],
             ];
 
             $messages = [
                 'name.required' => 'Name is required',
                 'description.required' => 'Description is required',
-                'product.required' => 'Product is required',
+                'product.required' => 'Category is required',
+                'product.required_unless' => 'Parent cartegory is required',
+                'add_fields.required_unless' => 'Fields required',
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -152,36 +166,40 @@ class CategoryController extends Controller
                 'description' => $request->description,
                 'isPopular' => isset($request->popular) ? 1 : 0,
                 'isActive' => isset($request->active) ? 1 : 0,
-                'parentId' => isset($request->parent) ? null : $request->product,
+                'parentId' => isset($request->is_parent) ? null : $request->product,
             ];
-
             $update_category = Category::where('id', $id)->update($data);
 
-            if ($update_category) {
+            if ($data['parentId'] !== null) {
                 if ($request->add_fields !== null) {
 
-                    $delete_old_records = CategoryField::where('categoryId', $id)->delete();
+                    CategoryField::where('categoryId', $id)->delete();
 
                     $category_fields = array();
 
-                    $i = 1;
-                    foreach ($request->input('add_fields') as $field) {
-                        $category_field = array();
-                        $category_field['sort'] = $i;
-                        $category_field['categoryId'] = $id;
-                        $category_field['fieldId'] = $field;
-                        array_push($category_fields, $category_field);
-                        $i++;
-                    }
+                    $i = 2;
 
+                    $fields = Fields::findMany($request->add_fields);
+                    foreach ($fields as $field) {
+                        $category_field = array();
+                        $category_field['categoryId'] = $id;
+                        $category_field['fieldId'] = $field->id;
+
+                        if ($field->fieldType === 'title') {
+                            $category_field['sort'] = 1;
+                        } else {
+                            $category_field['sort'] = $i;
+                            $i++;
+                        }
+                        array_push($category_fields, $category_field);
+                    }
                     $send_category_fields = CategoryField::insert($category_fields);
                 }
 
-                return redirect()->route('category_list')->with('response', ['status' => 'success', 'message' => 'Category updated successfully']);
             } else {
-                return redirect()->route('category_list')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
-
+                CategoryField::where('categoryId', $id)->delete();
             }
+            return redirect()->route('category_list')->with('response', ['status' => 'success', 'message' => 'Category updated successfully']);
 
         } else {
             $data = Category::with('icon')->find($id);

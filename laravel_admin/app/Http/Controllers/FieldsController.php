@@ -60,8 +60,6 @@ class FieldsController extends Controller
 
             $send_file_data = Files::create($file_data);
 
-            $count = Fields::count();
-
             if ($send_file_data) {
                 $data = [
                     'id' => Str::uuid(),
@@ -70,33 +68,40 @@ class FieldsController extends Controller
                     'isActive' => isset($request->active) ? 1 : 0,
                     'dataTypes' => $request->dataTypes,
                     'fieldType' => $request->fieldtype,
-                    'sortOrder' => $count + 1,
                     'iconId' => $file_data['id'],
                 ];
 
                 $submit_data = Fields::create($data);
 
-                if ($submit_data) {
-                    foreach ($request->values as $value) {
-                        $field_id = ['fieldId' => $data['id']];
-                        Values::where('id', $value)->update($field_id);
+                if (!($request->values) == null) {
+                    $i = 1;
+                    if ($submit_data) {
+                        foreach ($request->values as $value) {
+                            $field_id = ['fieldId' => $data['id'], 'sort' => $i];
+                            Values::where('id', $value)->update($field_id);
+                            $i++;
+                        }
+                    } else {
+                        return redirect()->route('fields')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
                     }
-
-                    return redirect()->route('field_list')->with('response', ['status' => 'success', 'message' => 'Field added successfully']);
-
-                } else {
-                    return redirect()->route('fields')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
                 }
+
+                return redirect()->route('field_list')->with('response', ['status' => 'success', 'message' => 'Field added successfully']);
+
             } else {
                 return redirect()->route('fields')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
             }
         } else {
             $field_types = array(
-                'Label' => 'Label',
-                'Dropdown' => 'Dropdown',
-                'Checkbox' => 'Checkbox',
-                'Switch' => 'Switch',
-                'Tag View' => 'Tag View',
+                'dropdown' => 'dropdown',
+                'checkbox' => 'checkbox',
+                'switch' => 'switch',
+                'tagView' => 'tagView',
+                'email' => 'email',
+                'date' => 'date',
+                'text' => 'text',
+                'textArea' => 'textArea',
+                'title' => 'title',
             );
 
             $data_types = array(
@@ -114,11 +119,15 @@ class FieldsController extends Controller
     public function field_edit($id)
     {
         $field_types = array(
-            'Label' => 'Label',
-            'Dropdown' => 'Dropdown',
-            'Checkbox' => 'Checkbox',
-            'Switch' => 'Switch',
-            'Tag View' => ' Tag View',
+            'dropdown' => 'dropdown',
+            'checkbox' => 'checkbox',
+            'switch' => 'switch',
+            'tagView' => 'tagView',
+            'email' => 'email',
+            'date' => 'date',
+            'text' => 'text',
+            'textArea' => 'textArea',
+            'title' => 'title',
         );
 
         $data_types = array(
@@ -134,19 +143,17 @@ class FieldsController extends Controller
         return view('fields.update', ['id' => $id, 'field_types' => $field_types, 'data_types' => $data_types, 'fields' => $fields, 'values' => $values]);
     }
 
-    public function field_edit_post($id)
+    public function field_edit_post(Request $request, $id)
     {
         $rules = [
             'label' => 'required|regex:/^[\s\w-]*$/',
             'fieldtype' => 'required',
-            'icon' => 'required',
             'dataTypes' => 'required',
         ];
 
         $messages = [
             'label.required' => 'Label is required',
             'fieldtype.required' => 'Field Type is required',
-            'icon.required' => 'Icon is required',
             'dataTypes.required' => 'Data type is required',
         ];
 
@@ -182,29 +189,35 @@ class FieldsController extends Controller
             $icon_id = $get_icon_id->iconId;
         }
 
-        if ($send_file_data) {
-            $data = [
-                'label' => $request->label,
-                'isRequired' => isset($request->required) ? 1 : 0,
-                'isActive' => isset($request->active) ? 1 : 0,
-                'dataTypes' => $request->dataTypes,
-                'fieldType' => $request->fieldtype,
-                'iconId' => $icon_id,
+        $data = [
+            'label' => $request->label,
+            'isRequired' => isset($request->required) ? 1 : 0,
+            'isActive' => isset($request->active) ? 1 : 0,
+            'dataTypes' => $request->dataTypes,
+            'fieldType' => $request->fieldtype,
+            'iconId' => $icon_id,
+        ];
+
+        $submit_data = Fields::where('id', $id)->update($data);
+
+        if ($submit_data) {
+
+            $set_field_id_null = [
+                'fieldId' => null,
+                'sort' => null,
             ];
 
-            $submit_data = Fields::where('id', $id)->update($data);
+            $reset_field_id = Values::where('fieldId', '=', $id)->update($set_field_id_null);
 
-            if ($submit_data) {
-                foreach ($request->values as $value) {
-                    $field_id = ['fieldId' => $data['id']];
-                    Values::where('id', $value)->update($field_id);
-                }
-
-                return redirect()->route('field_list')->with('response', ['status' => 'success', 'message' => 'Field updated successfully']);
-
-            } else {
-                return redirect()->route('fields')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
+            $i = 1;
+            foreach ($request->values as $value) {
+                $field_id = ['fieldId' => $id, 'sort' => $i];
+                Values::where('id', $value)->update($field_id);
+                $i++;
             }
+
+            return redirect()->route('field_list')->with('response', ['status' => 'success', 'message' => 'Field updated successfully']);
+
         } else {
             return redirect()->route('fields')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
         }
@@ -219,50 +232,5 @@ class FieldsController extends Controller
         } else {
             return redirect()->back()->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
         }
-    }
-
-    public function update_icon($label, $value, $id)
-    {
-        $icon = Files::where('id', $id)->first();
-
-        return view('fields.updateicon', ['icon' => $icon, 'label' => $label, 'value' => $value]);
-    }
-
-    public function update_icon_post(Request $request, $label, $value, $id)
-    {
-        $rules = [
-            'icon' => 'required',
-        ];
-
-        $messages = [
-            'icon.required' => 'Icon is required',
-        ];
-
-        $validator = Validator::make($request->all(), $rules, $messages);
-
-        $icon_name = Str::uuid() . '.' . $request->file('icon')->getClientOriginalName();
-        // $path = Storage::disk('s3')->put('images', $request->icon);
-        // $iconPath = Storage::disk('s3')->url($path);
-        $icon_mime = $request->file('icon')->getClientMimeType();
-        $icon_ext = $request->file('icon')->extension();
-
-        if ($validator->fails()) {
-            return redirect()->back()->withInput($request->all())->withErrors($validator);
-        }
-
-        $file_data = [
-            'key_name' => $icon_name,
-            'extension' => $icon_ext,
-            'name' => $icon_name,
-            'mime' => $icon_mime,
-            'relative_path' => '',
-            // 'absolute_path'=> $iconPath,
-            'absolute_path' => 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/L27xI2KWxQerlkrlwWnPvHl0BJDLnfRzpRaQjrQb.jpg',
-            'location' => 's3',
-        ];
-
-        $send_file_data = Files::where('id', $id)->update($file_data);
-
-        return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Icon updated successfully']);
     }
 }

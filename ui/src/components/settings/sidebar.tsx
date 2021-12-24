@@ -2,34 +2,42 @@ import React from 'react';
 import { ListGroup, Card } from 'react-bootstrap';
 import { FaChevronLeft, FaChevronRight, } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
+import { useAppContext } from '../../contexts';
 import './settings.css';
 
 export const SideBar: React.FC = (): React.ReactElement => {
+    const { state, dispatch } = useAppContext();
+    const userData = state?.user?.metaData;
+
     return (
         <Card className="sidenav bg-light position-sticky">
             <Card.Header className="d-flex align-items-center py-3">
                 <NavLink to="/settings" activeClassName="">
                     <button className="btn">
-                    <FaChevronLeft />
+                        <FaChevronLeft />
                     </button>
                 </NavLink>
                 Settings
             </Card.Header>
-            <ListGroup className="mb-2">
-                <NavLink className="side-cta" to="/settings/personal-details" activeClassName="active">
-                    <ListGroup.Item className="py-3">
-                        Personal details
-                        <FaChevronRight />
-                    </ListGroup.Item>
-                </NavLink>
-                <NavLink className="side-cta" to="/settings/business-information">
-                    <ListGroup.Item className="py-3">
-                        Business information
-                        <FaChevronRight />
-                    </ListGroup.Item>
-                </NavLink>
+            <ListGroup>
+                {userData?.accountType === 'standard' && (
+                    <NavLink className="side-cta" to="/settings/personal-details" activeClassName="active">
+                        <ListGroup.Item className="py-3">
+                            Personal details
+                            <FaChevronRight />
+                        </ListGroup.Item>
+                    </NavLink>
+                )}
+                {userData?.accountType === 'business' && (
+                    <NavLink className="side-cta" to="/settings/business-information">
+                        <ListGroup.Item className="py-3">
+                            Business information
+                            <FaChevronRight />
+                        </ListGroup.Item>
+                    </NavLink>
+                )}
             </ListGroup>
-            <ListGroup className="mb-2">
+            <ListGroup>
                 <NavLink className="side-cta" to="/settings/change-password">
                     <ListGroup.Item className="py-3" >
                         Change password

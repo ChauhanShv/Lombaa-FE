@@ -6,6 +6,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ValuesController;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('show_Data');
     Route::post('/user/edit', [UserController::class, 'update']);
     Route::get('/user/delete/{id}', [UserController::class, 'delete'])->name('delete');
+    Route::get('/user/filter/{action}', [UserController::class, 'user_filter'])->name('user_filter');
 
     Route::get('/category/add', [CategoryController::class, 'categories'])->name('categories');
     Route::post('/category/add', [CategoryController::class, 'categories']);
@@ -50,6 +52,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/city', [CityController::class, 'city_list'])->name('city_list');
     Route::get('/city/add', [CityController::class, 'add_city'])->name('city');
+    Route::get('/city/add/{country_id}', [CityController::class, 'with_country'])->name('with_country');
     Route::post('/city/add', [CityController::class, 'add_city']);
     Route::get('/city/update/{id}', [CityController::class, 'update_city'])->name('update_city');
     Route::post('/city/update/{id}', [CityController::class, 'update_city'])->name('update_city');
@@ -58,7 +61,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/fields', [FieldsController::class, 'fields'])->name('fields');
     Route::get('/fieldslist', [FieldsController::class, 'field_list'])->name('field_list');
     Route::get('/fieldedit/{id}', [FieldsController::class, 'field_edit'])->name('field_edit');
-    Route::post('/fieldedit/{id}', [FieldsController::class, 'field_edit'])->name('field_edit_post');
+    Route::post('/fieldedit/{id}', [FieldsController::class, 'field_edit_post'])->name('field_edit_post');
     Route::get('/fieldedit/{label}/{value}/{id}/updateicon', [FieldsController::class, 'update_icon'])->name('update_icon');
     Route::post('/fieldedit/{label}/{value}/{id}/updateicon', [FieldsController::class, 'update_icon_post'])->name('update_icon_post');
     Route::get('/fieldedit/values/delete/{id}', [FieldsController::class, 'delete_value'])->name('delete_value');
@@ -72,5 +75,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/products/{id}', [ProductsController::class, 'products_list'])->name('products_list');
     Route::get('/products/status/{action}', [ProductsController::class, 'filter'])->name('filter');
     Route::get('/products/{action}/{id}', [ProductsController::class, 'approve_reject'])->name('approve_reject');
+
+    Route::get('/settings', [SettingsController::class, 'settings'])->name('settings');
+    Route::post('/settings/add', [SettingsController::class, 'settings_post'])->name('settings_post');
 
 });

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Card,
     Form,
@@ -17,7 +17,7 @@ import * as yup from 'yup';
 import { useAxios } from '../../services';
 import { isEmpty } from 'lodash';
 import { ChangeEmailFormFeilds, AlertType } from './types';
-import { useAppContext } from '../../contexts';
+import { useAppContext, ActionTypes } from '../../contexts';
 import { getAPIErrorMessage } from '../../utils';
 
 const schema = yup.object().shape({
@@ -25,15 +25,16 @@ const schema = yup.object().shape({
 }).required();
 
 export const ChangeEmail: React.FC = (): React.ReactElement => {
-    const { state } = useAppContext();
+    const { state, dispatch } = useAppContext();
+    const userData = state.user?.metaData;
     const [alert, setAlert] = useState<AlertType>({});
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<ChangeEmailFormFeilds>({
+    const { register, handleSubmit, formState: { errors }, getValues } = useForm<ChangeEmailFormFeilds>({
         resolver: yupResolver(schema),
         defaultValues: {
-            email: state.user?.metaData?.email
+            email: userData?.email,
         }
     });
-    const [{data: response, loading, error: apiError}, execute] = useAxios({
+    const [{ data: response, loading, error: apiError }, execute] = useAxios({
         url: '/user/email',
         method: 'PUT'
     });
@@ -42,8 +43,17 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
         if (response?.success) {
             setAlert({
                 variant: 'success',
-                message: 'Email changed successfully',
+                message: response?.message || 'Email Changed Successfully',
             });
+            dispatch({
+                type: ActionTypes.UPDATE_PROFILE,
+                payload: {
+                    metaData: {
+                        ...state.user?.metaData,
+                        email: getValues().email,
+                    },
+                }
+            })
         }
     }, [response]);
 
@@ -83,6 +93,10 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
         return errorMessages[field] ? 'is-invalid' : '';
     };
 
+    const getSubmitButtonText = (isEmailVerified: number) => {
+        return isEmailVerified ? 'Update' : 'Verify';
+    }
+
     return (
         <Card>
             <Card.Header className="d-flex align-items-center justify-content-between bg-white">
@@ -100,10 +114,10 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
                         label="Email"
                         className="mb-3"
                     >
-                        <Form.Control 
-                            {...register('email')} 
-                            type="text" 
-                            placeholder="Email" 
+                        <Form.Control
+                            {...register('email')}
+                            type="text"
+                            placeholder="Email"
                             className={getErrorClassName('email')}
                         />
                         {getErrorText('email')}
@@ -112,7 +126,7 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
                         {
                             loading ? (
                                 <Spinner animation="border" role="status"></Spinner>
-                            ) : 'Update'
+                            ) : `${getSubmitButtonText(userData?.isEmailVerified)}`
                         }
                     </Button>
                 </Form>

@@ -51,23 +51,25 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                     <Container className="align-items-end">
                         <CategoryPopover />
                         <div className="d-flex align-items-center ms-auto me-0">
-                            <ul className="navbar-nav ms-auto me-sm-2 mt-2 mt-lg-0 icon-list d-none d-lg-flex align-items-center">
-                                <li className="nav-item icon-item active me-3">
-                                    <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Saved">
-                                        <FaHeart />
-                                    </Link>
-                                </li>
-                                <li className="nav-item icon-item me-3">
-                                    <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Messages"><FaCommentDots /></Link>
-                                </li>
-                                <li className="nav-item icon-item me-3">
-                                    <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications"><FaBell /></Link>
-                                </li>
-                                <li className="nav-item icon-item me-3">
-                                    <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Ads">
-                                        <FaList /></Link>
-                                </li>
-                            </ul>
+                            {session.isLoggedIn && (
+                                <ul className="navbar-nav ms-auto me-sm-2 mt-2 mt-lg-0 icon-list d-none d-lg-flex align-items-center">
+                                    <li className="nav-item icon-item active me-3">
+                                        <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Saved">
+                                            <FaHeart />
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item icon-item me-3">
+                                        <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Messages"><FaCommentDots /></Link>
+                                    </li>
+                                    <li className="nav-item icon-item me-3">
+                                        <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications"><FaBell /></Link>
+                                    </li>
+                                    <li className="nav-item icon-item me-3">
+                                        <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Ads">
+                                            <FaList /></Link>
+                                    </li>
+                                </ul>
+                            )}
 
                             {!session.isLoggedIn && (
                                 <>
@@ -139,7 +141,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                                 </Col>
                             </Row>
                         </form>
-                        <Link to='create-post'>
+                        <Link to='/create-post'>
                             <Button variant="fullround" className="nav-link px-4 bg-success rounded ms-3 text-white d-none d-lg-flex">
                                 + Sell
                             </Button>
@@ -172,8 +174,8 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                                 <Dropdown.Item href="#/action-2">Account Settings</Dropdown.Item>
                             </Link>
                             <Dropdown.Divider />
-                            <Dropdown.Item href="#/action-3">
-                                <a className="sign-out-button" onClick={handleSignOutClick}>Sign out</a>
+                            <Dropdown.Item onClick={handleSignOutClick}>
+                                Sign out
                             </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
