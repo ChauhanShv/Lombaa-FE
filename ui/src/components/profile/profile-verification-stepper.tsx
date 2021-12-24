@@ -13,6 +13,11 @@ import { makeStyles } from '@mui/styles';
 import { MdDone } from "react-icons/md";
 
 const useStyles = makeStyles({
+    step: {
+        '& .css-ascpo7-MuiStepLabel-root.Mui-disabled': {
+            cursor: 'pointer',
+        }
+    },
     stepLabel: {
         fontWeight: 600,
         fontFamily: 'Poppins !important',
@@ -24,7 +29,7 @@ const useStyles = makeStyles({
         '& .MuiStepLabel-label.Mui-completed': {
             fontWeight: 600,
             fontFamily: 'Poppins !important',
-            color: 'green',
+            color: '#00AF41',
         },
         '& .MuiStepLabel-label.MuiStepLabel-alternativeLabel': {
             marginTop: '10px',
@@ -86,12 +91,12 @@ export const ProfileVerificationStepper: React.FC<ProfileVerificationStepperProp
         },
         [`&.${stepConnectorClasses.active}`]: {
             [`& .${stepConnectorClasses.line}`]: {
-                backgroundColor: 'green',
+                backgroundColor: '#00AF41',
             },
         },
         [`&.${stepConnectorClasses.completed}`]: {
             [`& .${stepConnectorClasses.line}`]: {
-                backgroundColor: 'green',
+                backgroundColor: '#00AF41',
             },
         },
         [`& .${stepConnectorClasses.line}`]: {
@@ -115,11 +120,10 @@ export const ProfileVerificationStepper: React.FC<ProfileVerificationStepperProp
         justifyContent: 'center',
         alignItems: 'center',
         ...(ownerState.active && {
-            backgroundColor: 'green',
-            boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
+            backgroundColor: '#00AF41',
         }),
         ...(ownerState.completed && {
-            backgroundColor: 'green',
+            backgroundColor: '#00AF41',
         }),
     }));
 
@@ -168,7 +172,7 @@ export const ProfileVerificationStepper: React.FC<ProfileVerificationStepperProp
                 activeStep={(stepContent.findIndex(step => step.completed === false) ?? stepContent.length) - 1}
                 connector={<ColorlibConnector />}>
                 {stepContent.map((step, index) => (
-                    <Step completed={step?.completed} key={index}>
+                    <Step className={classes.step} completed={step?.completed} key={index}>
                         <StepLabel className={classes.stepLabel} StepIconComponent={ColorlibStepIcon}>
                             {step.stepLabel}
                         </StepLabel>

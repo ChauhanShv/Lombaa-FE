@@ -21,6 +21,7 @@ import {
     FieldValues as CreatePostFieldValues,
     Media,
 } from '.';
+import { LocationSelector } from '../settings';
 
 interface CreatePostProps {
     categories: Categories[],
@@ -30,6 +31,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
     categories,
 }: CreatePostProps): React.ReactElement => {
     const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategories | null>(null);
+    const [location, setLocation] = useState<object>({});
     const [media, setMedia] = useState<Media[]>([]);
     const [successData, setSuccessData] = useState<any>({
         title: '',
@@ -111,6 +113,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
             categoryId: values?.subCategory,
             fields: [],
             media: media.map((i: Media) => i.token),
+            location: location,
         };
         selectedSubCategory?.fields.forEach((field: Fields) => {
             const value: any = {};
@@ -167,6 +170,9 @@ export const CreatePost: React.FC<CreatePostProps> = ({
         }
     };
 
+    const onCitySelected = (location: object) => {
+        setLocation(location);
+    };
 
     const updateMedia = (updatedMedia: Media[]) => {
         setMedia([
@@ -193,6 +199,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
                                     categories={categories}
                                     onSubCategorySelected={onSubCategorySelected}
                                 />
+                                {!!selectedSubCategory?.fields?.length && <LocationSelector onCitySelected={onCitySelected} />}
                                 {!!selectedSubCategory?.fields?.length && <FormFields fields={selectedSubCategory?.fields} />}
                                 <div className="d-flex justify-content-end">
                                     <Button variant="fullround" className="btn-success rounded btn-lg" type="submit">

@@ -15,10 +15,6 @@ export interface FormFields {
   businessName: string;
 }
 
-export interface PhoneCodeProps {
-  onPhoneCodeChange: (phoneCode: string) => void;
-}
-
 export enum AccountType {
   BUSINESS = 'business',
   INDIVIDUAL = 'standard',
