@@ -84,10 +84,10 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu>
                                         <Link to="/profile" className="dropdown-item">
-                                            <Dropdown.Item href="/profile">Profile</Dropdown.Item>
+                                            Profile
                                         </Link>
                                         <Link to="/settings" className="dropdown-item">
-                                            <Dropdown.Item href="/settings">Account Settings</Dropdown.Item>
+                                            Account Settings
                                         </Link>
                                         <Dropdown.Divider />
                                         <Dropdown.Item onClick={handleSignOutClick}>

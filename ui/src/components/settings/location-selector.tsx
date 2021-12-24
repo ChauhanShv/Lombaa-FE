@@ -50,11 +50,15 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
     }, [cityResponse]);
 
     useEffect(() => {
-        regionExecute({});
+        if (selectedCountry) {
+            regionExecute();
+        }
     }, [selectedCountry]);
 
     useEffect(() => {
-        cityExecute({});
+        if (selectedRegion) {
+            cityExecute();
+        }
     }, [selectedRegion]);
 
     const getErrorText = (field: string): React.ReactElement | null => {
