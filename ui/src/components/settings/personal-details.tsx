@@ -31,7 +31,6 @@ const standardSchema = yup.object().shape({
     country: yup.string().required('Country is Required'),
     region: yup.string().required('Region is Required'),
     city: yup.string().required('City is Required'),
-    location: yup.string().required('Location is Required'),
     birthday: yup.string().nullable().required('Date of Birth is Required'),
     sex: yup.string().nullable().required('Please Enter your Gender'),
     bio: yup.string().nullable().required('Bio is Required')
@@ -322,7 +321,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                                 Member Since
                             </Form.Label>
                             <Form.Label column sm="8">
-                                {moment(userData?.memberSince).format('LLL')}
+                                {moment(userData?.memberSince).format('DD MMMM YYYY')}
                             </Form.Label>
                         </Form.Group>
                         <Form.Group as={Row} className="mb-3" controlId="lastActiveAtText">
@@ -332,7 +331,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                                         Last Active At
                                     </Form.Label>
                                     <Form.Label column sm="8">
-                                        {moment(userData?.lastActiveAt).format('LLL')}
+                                        {moment(userData?.lastActiveAt).format('DD MMMM YYYY')}
                                     </Form.Label>
                                 </>
                             )}

@@ -28,11 +28,12 @@ export const Register: React.FC<RegisterProps> = ({
     openLogin,
     onClose,
 }: RegisterProps): React.ReactElement => {
-    const { register, handleSubmit, getValues, formState: { errors }, setValue } = useForm<FormFields>({
+    const { register, handleSubmit, getValues, formState: { errors, isDirty }, setValue } = useForm<FormFields>({
         resolver: yupResolver(schema),
     });
     const [selectedAccountType, setSelectedAccountType] = useState<AccountType>(AccountType.INDIVIDUAL);
     const [phoneCodeData, setPhoneCodeData] = useState<any[]>([]);
+    const [submitClicked, setSubmitClicked] = useState<boolean>(false);
     const { dispatch } = useAppContext();
     const [{ data: registerRes, loading, error: apiError }, execute] = useAxios({
         url: '/user',
@@ -70,11 +71,14 @@ export const Register: React.FC<RegisterProps> = ({
                 }
             });
             onClose();
-            window.location.reload();
+            window.location.href = '/';
         }
     }, [registerRes, googleRes, fbRes]);
 
     const getErrorText = (field: string): React.ReactElement | null => {
+        if (!submitClicked && !isDirty) {
+            return null;
+        }
         const errorMessages: any = {
             ...errors
         };
@@ -152,7 +156,7 @@ export const Register: React.FC<RegisterProps> = ({
                     >
                         {!!phoneCodeData.length && phoneCodeData.map((phone: any) =>
                             <option value={phone.phoneCode} key={phone.id}>
-                                {'+'}{phone.phoneCode}
+                                {`+${phone.phoneCode} ${phone.name}`}
                             </option>
                         )}
                     </Form.Select>
@@ -289,6 +293,7 @@ export const Register: React.FC<RegisterProps> = ({
         }
     }
     const handleFormSubmit = (event: React.FormEvent) => {
+        setSubmitClicked(true);
         event.preventDefault();
         handleSubmit(onSubmit)();
     };

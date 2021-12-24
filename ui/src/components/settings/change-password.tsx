@@ -120,7 +120,7 @@ export const ChangePassword: React.FC = (): React.ReactElement => {
                         <Form.Control
                             {...register('password')}
                             type="password"
-                            placeholder="Password"
+                            placeholder="New Password"
                             className={getErrorClassName('password')}
                         />
                         {getErrorText('password')}
@@ -133,7 +133,7 @@ export const ChangePassword: React.FC = (): React.ReactElement => {
                         <Form.Control
                             {...register('confirmPassword')}
                             type="password"
-                            placeholder="Password"
+                            placeholder="Confirm Password"
                             className={getErrorClassName('confirmPassword')}
                         />
                         {getErrorText('confirmPassword')}
