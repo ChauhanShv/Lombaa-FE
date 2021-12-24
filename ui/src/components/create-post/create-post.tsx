@@ -45,6 +45,9 @@ export const CreatePost: React.FC<CreatePostProps> = ({
         const yupShape: any = {
             category: yup.string().required('Category is required'),
             subCategory: yup.string().required('Sub category is required'),
+            country: yup.string().required('Country is required'),
+            region: yup.string().required('Region is required'),
+            city: yup.string().required('City is required'),
         };
         if (selectedSubCategory) {
             const fields: Fields[] = selectedSubCategory.fields;
@@ -112,7 +115,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
         const postData: any = {
             categoryId: values?.subCategory,
             fields: [],
-            media: media.map((i: Media) => i.token),
+            media: media.map((i: Media) => ({ token: i.token })),
             location: location,
         };
         selectedSubCategory?.fields.forEach((field: Fields) => {
