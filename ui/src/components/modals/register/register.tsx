@@ -28,11 +28,12 @@ export const Register: React.FC<RegisterProps> = ({
     openLogin,
     onClose,
 }: RegisterProps): React.ReactElement => {
-    const { register, handleSubmit, getValues, formState: { errors }, setValue } = useForm<FormFields>({
+    const { register, handleSubmit, getValues, formState: { errors, isDirty }, setValue } = useForm<FormFields>({
         resolver: yupResolver(schema),
     });
     const [selectedAccountType, setSelectedAccountType] = useState<AccountType>(AccountType.INDIVIDUAL);
     const [phoneCodeData, setPhoneCodeData] = useState<any[]>([]);
+    const [submitClicked, setSubmitClicked] = useState<boolean>(false);
     const { dispatch } = useAppContext();
     const [{ data: registerRes, loading, error: apiError }, execute] = useAxios({
         url: '/user',
@@ -70,11 +71,14 @@ export const Register: React.FC<RegisterProps> = ({
                 }
             });
             onClose();
-            window.location.reload();
+            window.location.href = '/';
         }
     }, [registerRes, googleRes, fbRes]);
 
     const getErrorText = (field: string): React.ReactElement | null => {
+        if (!submitClicked && !isDirty) {
+            return null;
+        }
         const errorMessages: any = {
             ...errors
         };
@@ -137,14 +141,7 @@ export const Register: React.FC<RegisterProps> = ({
         return errorMessages[field] ? 'is-invalid' : '';
     };
 
-    const PhoneCode = ({ onPhoneCodeChange }: PhoneCodeProps): React.ReactElement => {
-        const [phoneCode, setPhoneCode] = useState<string>('');
-
-        const handlePhoneCodeChange = (e: any) => {
-            setPhoneCode(e.target.value);
-            onPhoneCodeChange(e.target.value);
-        }
-
+    const PhoneCode = (): React.ReactElement => {
         return (
             <Form.Group>
                 <FloatingLabel
@@ -156,11 +153,10 @@ export const Register: React.FC<RegisterProps> = ({
                         {...register('phoneCode')}
                         placeholder="Country Code"
                         className={getErrorClassName('phoneCode')}
-                        onChange={handlePhoneCodeChange}
                     >
                         {!!phoneCodeData.length && phoneCodeData.map((phone: any) =>
                             <option value={phone.phoneCode} key={phone.id}>
-                                {'+'}{phone.phoneCode}
+                                {`+${phone.phoneCode} ${phone.name}`}
                             </option>
                         )}
                     </Form.Select>
@@ -171,10 +167,6 @@ export const Register: React.FC<RegisterProps> = ({
     }
 
     const getIndividualFields = (): React.ReactElement => {
-        const [phoneCode, setPhoneCode] = useState<string>('');
-        const onPhoneCodeChange = (code: string) => {
-            setPhoneCode(code);
-        }
         return (
             <>
                 <Form.Group className="mb-3">
@@ -188,7 +180,7 @@ export const Register: React.FC<RegisterProps> = ({
                         {getErrorText('name')}
                     </FloatingLabel>
                 </Form.Group>
-                <PhoneCode onPhoneCodeChange={(code: string) => setPhoneCode(code)} />
+                <PhoneCode />
                 <Form.Group className="mb-3">
                     <FloatingLabel label="Your phone number" className="mb-3">
                         <Form.Control
@@ -230,7 +222,7 @@ export const Register: React.FC<RegisterProps> = ({
                         {getErrorText('businessName')}
                     </FloatingLabel>
                 </Form.Group>
-                <PhoneCode onPhoneCodeChange={(code: string) => setPhoneCode(code)} />
+                <PhoneCode />
                 <Form.Group className="mb-3">
                     <FloatingLabel label="Business phone number" className="mb-3">
                         <Form.Control
@@ -290,6 +282,7 @@ export const Register: React.FC<RegisterProps> = ({
         }
     }
     const handleFormSubmit = (event: React.FormEvent) => {
+        setSubmitClicked(true);
         event.preventDefault();
         handleSubmit(onSubmit)();
     };
