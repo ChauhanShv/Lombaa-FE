@@ -49,5 +49,7 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
         >
             <Button className="bg-dark border-dark">Category</Button>
         </OverlayTrigger>
+        
+        
     );
 }
