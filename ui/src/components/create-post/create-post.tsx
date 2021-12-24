@@ -112,7 +112,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
         const postData: any = {
             categoryId: values?.subCategory,
             fields: [],
-            media: media.map((i: Media) => i.token),
+            media: media.map((i: Media) => ({ token: i.token })),
             location: location,
         };
         selectedSubCategory?.fields.forEach((field: Fields) => {

@@ -61,7 +61,8 @@ export const DragAndDrop: React.FC<DragAndDropProps> = ({
         preview: URL.createObjectURL(file)
       })));
       setFiles([...newFiles]);
-    }
+    },
+    maxFiles: 10,
   });
 
   const handleCloseButtonClick = (index: number) => {
