@@ -16,6 +16,8 @@ export const ProfileHeaderCard: React.FC = (): React.ReactElement => {
 
     const getAccountType = () => userData?.accountType === 'standard' ? 'Standard Account' : 'Business Account';
 
+    const getLocation = `${userData?.location?.city?.name}, ${userData?.location?.region?.name}`;
+
     return (
         <Container className="p-4">
             <Row className="shadow border rounded py-4" >
@@ -48,7 +50,7 @@ export const ProfileHeaderCard: React.FC = (): React.ReactElement => {
                 </Col>
                 <Col md={6} className="pt-4 pt-md-0 text-muted px-4">
                     <p><FaEnvelope className="me-2" />{userData?.email}</p>
-                    <p><FaMapMarkerAlt className="me-2" />{userData?.location}</p>
+                    <p><FaMapMarkerAlt className="me-2" />{getLocation}</p>
                     <p><FaClock className="me-2" />Joined on {moment(userData?.memberSince).format('LLL')}</p>
                 </Col>
             </Row>
