@@ -247,3 +247,10 @@ Content-Type: image/png
 < C:\lombatest.png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
+###
+
+GET {{baseUrl}}/user/products HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
