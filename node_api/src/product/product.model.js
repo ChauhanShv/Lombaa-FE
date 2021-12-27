@@ -6,7 +6,7 @@ const Category = require("../category/category.model");
 const ProductField = require("./product_field.model");
 const ProductMedia = require("./product_media.model");
 
-class Product extends Model { }
+class Product extends Model {}
 
 Product.init(
   {
@@ -16,17 +16,20 @@ Product.init(
     postedAt: { type: DataTypes.DATE, defaultValue: Sequelize.NOW(), allowNull: true },
     soldAt: { type: DataTypes.DATE, allowNull: true },
     rejectedAt: { type: DataTypes.DATE, allowNull: true },
+    rejectReason: { type: DataTypes.TEXT, allowNull: true },
     expiry: { type: DataTypes.DATE, allowNull: true },
   },
   {
     modelName: "Product",
-    tableName: "products", timestamps: true, sequelize,
+    tableName: "products",
+    timestamps: true,
+    sequelize,
     paranoid: true,
     defaultScope: {
       attributes: {
         exclude: ["createdAt", "updatedAt", "iconId", "parentId", "deletedAt"],
-      }
-    }
+      },
+    },
   }
 );
 
