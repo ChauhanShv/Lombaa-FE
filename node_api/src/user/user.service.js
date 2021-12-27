@@ -14,6 +14,8 @@ const FileType = require("file-type");
 const fileModel = require("../file/file.model");
 const moment = require("moment");
 const Location = require("../location/location.model");
+const Product = require("../product/product.model");
+const FavoriteProduct = require("./user.favorite_product_model");
 
 class UserService {
   constructor() {
@@ -346,6 +348,19 @@ class UserService {
   updateLastActiveTime(user) {
     user.lastActiveAt = moment().format("YYYY-MM-DD HH:mm:ss");
     user.save();
+  }
+
+  async getFavoriteProducts(userId) {
+    return await User.findOne({ where: { id: userId }, include: [{ model: Product, through: { attributes: [] } }] });
+  }
+
+  async alreadyInFavorites(userId, productId) {
+    const user = await User.findOne({ where: { id: userId }, include: [{ model: Product, through: { attributes: [] } }] });
+    return user.Products?.length;
+  }
+
+  async addFavoriteProduct(userId, productId) {
+    return await FavoriteProduct.create({ userId, productId });
   }
 }
 
