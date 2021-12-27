@@ -1,10 +1,10 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize").service;
-const Location = require('../location/location.model');
+const Location = require("../location/location.model");
 
 const File = require("../file/file.model");
 
-class User extends Model { }
+class User extends Model {}
 
 User.init(
   {
