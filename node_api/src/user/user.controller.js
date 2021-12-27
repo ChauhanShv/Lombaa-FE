@@ -15,6 +15,7 @@ const event = require("./user.event");
 const appConfig = require("../app/app.config");
 const LocationService = require("../location/location.service");
 const ProductService = require("../product/product.service");
+require("./user.favorite_product_model");
 
 class UserController extends BaseController {
   constructor() {
@@ -198,7 +199,7 @@ class UserController extends BaseController {
       if (await this.service.verifyResetPasswordToken(token)) return super.jsonRes({ res, code: 200, data: { success: true, message: "Password token verified" } });
       const data = {
         success: false,
-        error: { code: 401, message: "Password token not verified", message_detail: "Can't read your token" },
+        error: { code: 400, message: "Password token not verified", message_detail: "Can't read your token" },
       };
       return super.jsonRes({ res, code: 400, data });
     } catch (error) {
@@ -364,26 +365,22 @@ class UserController extends BaseController {
       if (!s3Data) {
         const data = {
           success: false,
-          error: { code: 401, message: "Failed to update profile picture", message_detail: "s3 is enable to allow you space" },
+          error: { code: 400, message: "Failed to update profile picture", message_detail: "s3 is enable to allow you space" },
         };
-        return super.jsonRes({ res, code: 401, data });
+        return super.jsonRes({ res, code: 400, data });
       }
       const dUser = await this.service.uploadProfilePic(req.files, s3Data, user);
       if (!dUser) {
-        const data = { success: false, error: { code: 401, message: "Failed to update profile picture", message_detail: "Unable to load user data" } };
-        return super.jsonRes({ res, code: 401, data });
+        const data = { success: false, error: { code: 400, message: "Failed to update profile picture", message_detail: "Unable to load user data" } };
+        return super.jsonRes({ res, code: 400, data });
       }
       super.jsonRes({ res, code: 200, data: { success: true, message: "Profile picture updated ", metadata: { user: dUser } } });
     } catch (error) {
       const data = {
         success: false,
-        error: {
-          code: 401,
-          message: "Failed to update profile picture",
-          message_detail: "something went wrong",
-        },
+        error: { code: 400, message: "Failed to update profile picture", message_detail: "something went wrong" },
       };
-      super.jsonRes({ res, code: 401 });
+      super.jsonRes({ res, code: 400 });
     }
   };
 
@@ -403,18 +400,18 @@ class UserController extends BaseController {
       const s3Data = await this.s3Service.upload({ key, body });
 
       if (!s3Data) {
-        const data = { success: false, error: { code: 401, message: "Failed to update cover picture", message_detail: "Unable to load user data" } };
-        return super.jsonRes({ res, code: 401, data });
+        const data = { success: false, error: { code: 400, message: "Failed to update cover picture", message_detail: "Unable to load user data" } };
+        return super.jsonRes({ res, code: 400, data });
       }
       const dUser = await this.service.uploadCoverPic(req.files, s3Data, user);
       if (!dUser) {
-        const data = { success: false, error: { code: 401, message: "Failed to update cover picture", message_detail: "Unable to load user data" } };
-        return super.jsonRes({ res, code: 401, data });
+        const data = { success: false, error: { code: 400, message: "Failed to update cover picture", message_detail: "Unable to load user data" } };
+        return super.jsonRes({ res, code: 400, data });
       }
       super.jsonRes({ res, code: 200, data: { success: true, message: "Cover picture updated ", metadata: { user: dUser } } });
     } catch (error) {
-      const data = { success: false, error: { code: 401, message: "Failed to update cover picture", message_detail: "Something went wrong" } };
-      super.jsonRes({ res, code: 401, data });
+      const data = { success: false, error: { code: 400, message: "Failed to update cover picture", message_detail: "Something went wrong" } };
+      super.jsonRes({ res, code: 400, data });
     }
   };
 
@@ -428,7 +425,41 @@ class UserController extends BaseController {
       const expired = await this.productService?.getUserExpiredProducts(userId);
       const sold = await this.productService?.getUserSoldProducts(userId);
 
-      const data = { success: true, message: "Fetched user listing", response: { inReview, active, declined, expired, sold } };
+      const data = { success: true, message: "Fetched user product listing", response: { inReview, active, declined, expired, sold } };
+      return super.jsonRes({ res, code: 200, data });
+    } catch (error) {
+      console.log({ error });
+      next(error);
+    }
+  };
+
+  favoriteProducts = async (req, res, next) => {
+    try {
+      const userId = req.user?.id;
+
+      const favorites = await this.service.getFavoriteProducts(userId);
+
+      const data = { success: true, message: "Fetched user favorite products", response: { favorites: favorites?.Products } };
+      return super.jsonRes({ res, code: 200, data });
+    } catch (error) {
+      console.log({ error });
+      next(error);
+    }
+  };
+
+  addFavoriteProduct = async (req, res, next) => {
+    try {
+      const userId = req.user?.id;
+      const { productId } = req.body;
+
+      if (this.service.alreadyInFavorites(userId, productId)) {
+        const data = { success: false, error: { code: 400, message: "Already in favorites", message_detail: "Duplicate entry found in user favorites" } };
+        return super.jsonRes({ res, code: 400, data });
+      }
+
+      await this.service.addFavoriteProduct(userId, productId);
+
+      const data = { success: true, message: "Added to favorites" };
       return super.jsonRes({ res, code: 200, data });
     } catch (error) {
       console.log({ error });

@@ -1,6 +1,5 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize").service;
-const User = require("../user/user.model");
 const Location = require("../location/location.model");
 const Category = require("../category/category.model");
 const ProductField = require("./product_field.model");
@@ -34,7 +33,7 @@ Product.init(
 );
 
 Product.belongsTo(Category, { as: "category" });
-Product.belongsTo(User, { as: "user" });
+// Product.belongsTo(User, { as: "user" });
 Product.belongsTo(Location, { as: "location" });
 Product.hasMany(ProductField, { foreignKey: "productId" });
 Product.hasMany(ProductMedia, { foreignKey: "productId" });
