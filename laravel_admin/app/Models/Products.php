@@ -30,16 +30,7 @@ class Products extends Model
 
     protected $fillable = [
         'id',
-        'title',
         'slug',
-        'price',
-        'isNegotiable',
-        'isFree',
-        'buyerDoDelivery',
-        'condition',
-        'description',
-        'promoteType',
-        'dealMethod',
         'approvedAt',
         'postedAt',
         'rejectedAt',
