@@ -36,5 +36,7 @@ module.exports = () => {
   router.put("/picture", multer({ storage: storage }).any(), checkSchema(pictureUploadSchema), authMiddleware, controller.uploadProfilePicture);
   router.put("/cover", multer({ storage: storage }).any(), checkSchema(coverUploadSchema), authMiddleware, controller.uploadCoverPicture);
 
+  router.get("/products", authMiddleware, controller.products);
+
   return router;
 };

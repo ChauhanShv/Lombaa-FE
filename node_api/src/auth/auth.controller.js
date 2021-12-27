@@ -5,8 +5,6 @@ const UserService = require("../user/user.service");
 const config = require("./auth.config");
 const jwt = require("../modules/jwt/jwt.service");
 
-const axios = require("axios");
-
 class AuthController extends BaseController {
   constructor() {
     super();
@@ -30,12 +28,7 @@ class AuthController extends BaseController {
         return super.jsonRes({ res, code: 401, data });
       }
       if (authUser) {
-        const data = {
-          success: true,
-          message: "User logged in successfully.",
-          response: { token: jwtService.encode({ id: authUser.id }, "1d"), refreshToken: jwtService.encode({ userId: authUser.id, type: "refresh_token" }, "30d") },
-          metadata: { user: authUser },
-        };
+        const data = { success: true, message: "User logged in successfully.", response: { token: jwtService.encode({ id: authUser.id }, "1d"), refreshToken: jwtService.encode({ userId: authUser.id, type: "refresh_token" }, "30d") }, metadata: { user: authUser } };
         super.jsonRes({ res, code: 200, data });
       } else {
         const data = { success: false, error: { code: 4002, message: "Login Failed", messageDetail: "Email & Password combination is incorrect." } };
@@ -59,24 +52,12 @@ class AuthController extends BaseController {
 
       const account = await this.service.googleAuth(accessToken);
       if (!account) {
-        const data = {
-          success: false,
-          error: {
-            code: 400401,
-            message: "Failed google login/connect",
-            messageDetail: "Google token verification failed",
-          },
-        };
+        const data = { success: false, error: { code: 400401, message: "Failed google login/connect", messageDetail: "Google token verification failed" } };
         return super.jsonRes({ res, code: 400, data });
       }
       user = await this.userService.upsertGoogleAcount(account, user?.id);
 
-      const data = {
-        success: true,
-        message: "Google connected",
-        response: { token: jwtService.encode({ id: user.id }) },
-        metadata: { user: user },
-      };
+      const data = { success: true, message: "Google connected", response: { token: jwtService.encode({ id: user.id }) }, metadata: { user: user } };
       return super.jsonRes({ res, code: 200, data });
     } catch (error) {
       next(error);
@@ -97,25 +78,13 @@ class AuthController extends BaseController {
       const account = await this.service.facebookAuth(accessToken);
 
       if (!account) {
-        const data = {
-          success: false,
-          error: {
-            code: 400401,
-            message: "Failed facebook login/connect",
-            messageDetail: "Facebook token verification failed",
-          },
-        };
+        const data = { success: false, error: { code: 400401, message: "Failed facebook login/connect", messageDetail: "Facebook token verification failed" } };
         return super.jsonRes({ res, code: 400, data });
       }
 
       user = await this.userService.upsertFacebookAcount(account, user?.id);
 
-      const data = {
-        success: true,
-        message: "Facebook connected",
-        response: { token: jwtService.encode({ id: user.id }) },
-        metadata: { user: user },
-      };
+      const data = { success: true, message: "Facebook connected", response: { token: jwtService.encode({ id: user.id }) }, metadata: { user: user } };
       return super.jsonRes({ res, code: 200, data });
     } catch (error) {
       next(error);
@@ -148,11 +117,7 @@ class AuthController extends BaseController {
         return this.jsonRes({ res, code: 400, data });
       }
 
-      const data = {
-        success: true,
-        message: "Token refreshed successfully.",
-        response: { token: jwtService.encode({ id: payload?.userId }) },
-      };
+      const data = { success: true, message: "Token refreshed successfully.", response: { token: jwtService.encode({ id: payload?.userId }) } };
       return super.jsonRes({ res, code: 200, data });
     } catch (error) {
       next(error);
