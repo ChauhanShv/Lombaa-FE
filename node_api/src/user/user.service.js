@@ -13,7 +13,7 @@ const FileService = require("../file/file.service");
 const FileType = require("file-type");
 const fileModel = require("../file/file.model");
 const moment = require("moment");
-const Location = require('../location/location.model');
+const Location = require("../location/location.model");
 
 class UserService {
   constructor() {
@@ -307,7 +307,6 @@ class UserService {
       return null;
     }
   }
-
   async getUser(payload) {
     let user = await User.findOne({
       attributes: { exclude: ["password"] },
@@ -315,7 +314,7 @@ class UserService {
       include: [
         { model: fileModel, as: "profilePicture" },
         { model: fileModel, as: "coverPicture" },
-        { model: Location, as: 'location' }
+        { model: Location, as: "location" },
       ],
     });
     if (!user) return null;
