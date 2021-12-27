@@ -47,14 +47,8 @@
                 <thead>
                     <tr>
                         <th># No.</th>
-                        <th>Title</th>
                         <th>Category</th>
-                        <th>Price</th>
-                        <th>Negotiable</th>
-                        <th>Condition</th>
                         <th>Location</th>
-                        <th>Promote</th>
-                        <th>Deal</th>
                         <th>Approval</th>
                         <th>Sold</th>
                         <th>Posted On</th>
@@ -67,28 +61,8 @@
                     @foreach($products as  $product)  @php $i++ @endphp
                     <tr class="gradeX" style="align-content: center;">
                         <td style="text-align: center;">{{ $i }}</td>
-                        <td style="text-align: center;">{{ $product->title }}</td>
-                        <td style="text-align: center;">
-                            @if ($product->categoryId == null)
-                                <p>No Category </p>
-                            @else
-                                {{ $product->category->name }}
-                            @endif
-                        </td>
-                        <td style="text-align: center;">{{ $product->price }}</td>
-                        <td style="text-align: center;">{{ ($product->isNegotiable) ? 'Yes' : 'No' }}</td>
-                        <td style="text-align: center;">{{ $product->condition }}</td>
-                        <td style="text-align: center;">
-                            @if ($product->locationId == null)
-                                <p>No Location </p>
-                            @else
-                                <p>{{ $product->location->city->name }}</p>
-                                <p>{{ $product->location->region->name }}</p>
-                                <p>{{ $product->location->country->name }}</p>
-                            @endif
-                        </td>
-                        <td style="text-align: center;">{{ $product->promoteType }}</td>
-                        <td style="text-align: center;">{{ $product->dealMethod }}</td>
+                        <td style="text-align: center;">{{ $product->categoryId == null ? 'N/A' : $product->category->name }}</td>
+                        <td style="text-align: center;">{!! $product->locationId == null ? 'No Location' : $product->location->city->name . '  (' . $product->location->region->code . ',' . $product->location->country->code . ')' !!}</td>
                         <td style="text-align: center;">
                             @if($product->approvedAt == null && $product->rejectedAt == null)
                                 <p>No</p>
@@ -100,19 +74,12 @@
                                 <p><strong>On :</strong>{{ \Carbon\Carbon::parse($product->rejectedAt) }}</p>
                             @endif
                         </td>
-                        <td style="text-align: center;">
-                            @if(($product->soldAt) == null)
-                                <p>No</p>
-                            @else
-                                <p><strong>Yes</strong></p>
-                                <p><Strong>Sold At :</strong>{{ \Carbon\Carbon::parse($product->soldAt) }}
-                            @endif
-                        </td>
-                        <td style="text-align: center;">{{ \Carbon\Carbon::parse($product->postedAt) }}</td>
+                        <td style="text-align: center;">{!! $product->soldAt == null ? 'No' : 'Yes'. '<br>' . 'On:  ' . \Carbon\Carbon::parse($product->soldAt)->format('d/M/Y') !!}</td>
+                        <td style="text-align: center;">{{ \Carbon\Carbon::parse($product->postedAt)->format('d/M/Y') }}</td>
                         <td style="text-align: center;">
 
                             @if ($product->expiry == null)
-                                <p>NA</p>
+                                <p>N/A</p>
                             @else
                                 <p>{{ \Carbon\Carbon::parse($product->expiry) }}</p>
                             @endif
@@ -120,42 +87,42 @@
                         <td style="text-align: center;">
                             @if(($product->approvedAt) == null && $product->rejectedAt == null)
                                 <p><strong>Under&nbsp;Review</strong></p>
-                                <a href="{{ route('approve_reject', ['action' => 'approve', 'id' => $product->id ]) }}" onclick="return confirm('Do you want to Approve this produdct: {{ $product->title }}?');">
+                                <a href="{{ route('approve_reject', ['action' => 'approve', 'id' => $product->id ]) }}" onclick="return confirm('Do you want to Approve this product?');">
                                     <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Approve" style="width: 24px; height: 24px; font-size: 1.5em;" class="icon icon-ok"></i>
                                 </a>
-                                <a href="{{ route('approve_reject', ['action' => 'reject', 'id' => $product->id]) }}" onclick="return confirm('Do you want to Reject this produdct: {{ $product->title }}?');">
+                                <a href="{{ route('approve_reject', ['action' => 'reject', 'id' => $product->id]) }}" onclick="return confirm('Do you want to Reject this product?');">
                                    <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Reject" style="width: 24px; height: 24px; font-size: 1.5em;" class="icon icon-remove"></i>
                                 </a>
-                                <a href="">
+                                <a href="{{ route('show_product', $product->id) }}">
                                     <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="View" class="icon icon-user" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
                                 <a href="">
                                     <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Edit" class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
                                 <a href="">
-                                    <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Delete" class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;" onclick="return confirm('Do you want to Delete this produdct: {{ $product->title }}?');"></i>
+                                    <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Delete" class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;" onclick="return confirm('Do you want to Delete this product?');"></i>
                                 </a>
                             @elseif(($product->approvedAt) !== null)
                                 <p><strong>Approved</strong></p>
-                                <a href="">
+                                <a href="{{ route('show_product', $product->id) }}">
                                     <i class="icon icon-user" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
                                 <a href="">
                                     <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
                                 <a href="">
-                                    <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;" onclick="return confirm('Do you want to Delete this produdct: {{ $product->title }}?');"></i>
+                                    <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;" onclick="return confirm('Do you want to Delete this product?');"></i>
                                 </a>
                             @elseif(($product->rejectedAt) !== null)
                                 <p><strong>Rejected</strong></p>
-                                <a href="">
+                                <a href="{{ route('show_product', $product->id) }}">
                                     <i class="icon icon-user" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
                                 <a href="">
                                     <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
                                 <a href="">
-                                    <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;" onclick="return confirm('Do you want to Delete this produdct: {{ $product->title }}?');"></i>
+                                    <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;" onclick="return confirm('Do you want to Delete this product?');"></i>
                                 </a>
                             @endif
                         </td>
