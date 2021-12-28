@@ -51,7 +51,7 @@ export const ProfileHeaderCard: React.FC = (): React.ReactElement => {
                 <Col md={6} className="pt-4 pt-md-0 text-muted px-4">
                     <p><FaEnvelope className="me-2" />{userData?.email}</p>
                     <p><FaMapMarkerAlt className="me-2" />{getLocation}</p>
-                    <p><FaClock className="me-2" />Joined on {moment(userData?.memberSince).format('LLL')}</p>
+                    <p><FaClock className="me-2" />Joined on {moment(userData?.memberSince).format('LL')}</p>
                 </Col>
             </Row>
         </Container>

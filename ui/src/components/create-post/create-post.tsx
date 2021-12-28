@@ -20,8 +20,8 @@ import {
     Fields,
     FieldValues as CreatePostFieldValues,
     Media,
+    LocationDropdown,
 } from '.';
-import { LocationSelector } from '../settings';
 
 interface CreatePostProps {
     categories: Categories[],
@@ -45,9 +45,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
         const yupShape: any = {
             category: yup.string().required('Category is required'),
             subCategory: yup.string().required('Sub category is required'),
-            country: yup.string().required('Country is required'),
-            region: yup.string().required('Region is required'),
-            city: yup.string().required('City is required'),
+            location: yup.string().required('Location is required'),
         };
         if (selectedSubCategory) {
             const fields: Fields[] = selectedSubCategory.fields;
@@ -202,7 +200,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
                                     categories={categories}
                                     onSubCategorySelected={onSubCategorySelected}
                                 />
-                                {!!selectedSubCategory?.fields?.length && <LocationSelector onCitySelected={onCitySelected} />}
+                                {!!selectedSubCategory?.fields?.length && <LocationDropdown onCitySelected={onCitySelected} />}
                                 {!!selectedSubCategory?.fields?.length && <FormFields fields={selectedSubCategory?.fields} />}
                                 <div className="d-flex justify-content-end">
                                     <Button variant="fullround" className="btn-success rounded btn-lg" type="submit">
