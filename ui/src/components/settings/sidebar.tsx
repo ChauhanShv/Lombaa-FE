@@ -1,12 +1,14 @@
 import React from 'react';
 import { ListGroup, Card } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
 import { FaChevronLeft, FaChevronRight, } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 import { useAppContext } from '../../contexts';
 import './settings.css';
 
 export const SideBar: React.FC = (): React.ReactElement => {
-    const { state, dispatch } = useAppContext();
+    const { state } = useAppContext();
+    const location = useLocation();
     const userData = state?.user?.metaData;
 
     return (
@@ -20,17 +22,16 @@ export const SideBar: React.FC = (): React.ReactElement => {
                 Settings
             </Card.Header>
             <ListGroup>
-                {userData?.accountType === 'standard' && (
+                {userData?.accountType === 'standard' ? (
                     <NavLink className="side-cta" to="/settings/personal-details" activeClassName="active">
-                        <ListGroup.Item className="py-3">
+                        <ListGroup.Item className="py-3" active={location.pathname === '/settings'}>
                             Personal details
                             <FaChevronRight />
                         </ListGroup.Item>
                     </NavLink>
-                )}
-                {userData?.accountType === 'business' && (
+                ) : (
                     <NavLink className="side-cta" to="/settings/business-information">
-                        <ListGroup.Item className="py-3">
+                        <ListGroup.Item className="py-3" active={location.pathname === '/settings'}>
                             Business information
                             <FaChevronRight />
                         </ListGroup.Item>

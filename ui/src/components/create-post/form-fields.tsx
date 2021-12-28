@@ -20,6 +20,7 @@ export const FormFields: React.FC<FormFieldsProps> = ({
     fields
 }: FormFieldsProps): React.ReactElement => {
     const { register, formState: { errors } } = useFormContext();
+    const getFieldNecessity = (required: boolean) => required ? '*' : '(Optional)';
     const getErrorText = (field: string): React.ReactElement | null => {
         const errorMessages: any = {
             ...errors
@@ -33,15 +34,16 @@ export const FormFields: React.FC<FormFieldsProps> = ({
         }
         return null;
     };
-    
+
     const InputComponent: React.FC<Fields> = ({
         id,
         label,
-        fieldType
+        fieldType,
+        isRequired,
     }: Fields): React.ReactElement => {
         const type = ['email', 'text', 'date'].includes(fieldType) ? fieldType : 'text';
         return (
-            <FloatingLabel label={label} className="mb-3">
+            <FloatingLabel label={label + getFieldNecessity(isRequired)} className="mb-3">
                 <Form.Control
                     {...register(id)}
                     type={type}
@@ -57,9 +59,10 @@ export const FormFields: React.FC<FormFieldsProps> = ({
     const TextAreaComponent: React.FC<Fields> = ({
         id,
         label,
+        isRequired,
     }: Fields): React.ReactElement => {
         return (
-            <FloatingLabel label={label} className="mb-3">
+            <FloatingLabel label={label + getFieldNecessity(isRequired)} className="mb-3">
                 <Form.Control
                     {...register(id)}
                     as="textarea"
@@ -77,9 +80,10 @@ export const FormFields: React.FC<FormFieldsProps> = ({
         id,
         label,
         values,
+        isRequired,
     }: Fields): React.ReactElement => {
         return (
-            <FloatingLabel className="mb-3" label={label}>
+            <FloatingLabel className="mb-3" label={label + getFieldNecessity(isRequired)}>
                 <Form.Select
                     {...register(id)}
                     className={getErrorClassName(id, errors)}
@@ -207,7 +211,7 @@ export const FormFields: React.FC<FormFieldsProps> = ({
                             placeholder="Price of your listing"
                             aria-label="Price of your listing"
                             aria-describedby="basic-addon1"
-                            // onChange={handlePriceChange}
+                        // onChange={handlePriceChange}
                         />
                         {getErrorText('price')}
                     </InputGroup>
