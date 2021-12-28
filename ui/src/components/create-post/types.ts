@@ -40,6 +40,21 @@ export interface Media {
   url: string;
   mime: string;
 }
+
+export interface Region {
+  cities: Array<City>;
+  code: string;
+  coordinate?: object;
+  id: string;
+  name: string;
+}
+
+export interface City {
+  code: string;
+  coordinate?: object;
+  id: string;
+  name: string;
+}
 export interface DragAndDropProps {
   updateMedia: (media: Media[]) => void;
 }

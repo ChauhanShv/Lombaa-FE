@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { Form, FloatingLabel } from 'react-bootstrap';
 import { useFormContext } from 'react-hook-form';
 import { useAxios } from '../../services';
-import { LocationSelectorProps } from './types';
+import { LocationSelectorProps, Country, Region, City } from './types';
 
 export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelected }: LocationSelectorProps): React.ReactElement => {
-    const [countryData, setCountryData] = React.useState<any[]>([]);
-    const [regionData, setRegionData] = React.useState<any[]>([]);
-    const [cityData, setCityData] = React.useState<any[]>([]);
+    const [countryData, setCountryData] = React.useState<Country[]>([]);
+    const [regionData, setRegionData] = React.useState<Region[]>([]);
+    const [cityData, setCityData] = React.useState<City[]>([]);
     const [selectedCountry, setSelectedCountry] = React.useState<string>('');
     const [selectedRegion, setSelectedRegion] = React.useState<string>('');
     const { register, formState: { errors } } = useFormContext();
@@ -99,7 +99,7 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
                     onChange={(e: any) => setSelectedCountry(e.target.value)}>
                     <option value="">Select Country</option>
                     {!!countryData.length && (
-                        countryData.map((country: any) =>
+                        countryData.map((country: Country) =>
                             <option value={country.id} key={country?.id}>
                                 {country.name}
                             </option>
@@ -117,7 +117,7 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
                             onChange={(e: any) => setSelectedRegion(e.target.value)}>
                             <option value="">Select Region</option>
                             {!!regionData.length && (
-                                regionData.map((region: any) =>
+                                regionData.map((region: Region) =>
                                     <option value={region.id} key={region?.id}>
                                         {region.name}
                                     </option>
@@ -137,7 +137,7 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
                             onChange={handleCitySelected}>
                             <option value="">Select City</option>
                             {!!cityData.length && (
-                                cityData.map((city: any) =>
+                                cityData.map((city: City) =>
                                     <option value={city.id} key={city?.id}>
                                         {city.name}
                                     </option>

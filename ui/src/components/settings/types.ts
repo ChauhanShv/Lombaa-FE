@@ -47,3 +47,31 @@ export enum AccountType {
 export interface LocationSelectorProps {
   onCitySelected: (data: object) => void;
 }
+
+export interface Coordinate {
+  type: string;
+  coordinate: Array<number>;
+}
+
+export interface Country {
+  id: string;
+  name: string;
+  code: string;
+  coordinate: Coordinate;
+  phoneCode: number;
+}
+
+export interface Region {
+  cities: Array<City>;
+  code: string;
+  coordinate?: object;
+  id: string;
+  name: string;
+}
+
+export interface City {
+  code: string;
+  coordinate?: object;
+  id: string;
+  name: string;
+}

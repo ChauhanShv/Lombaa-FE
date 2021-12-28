@@ -83,11 +83,11 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                                         <img className="rounded-circle" width="36" height="36" src={user?.metaData?.profilePicture?.url || "/images/user-circle.svg"} alt={user?.metaData?.profilePicture?.url} />
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu>
-                                        <Link to="/profile" className="dropdown-item">
-                                            Profile
+                                        <Link to="/profile">
+                                            <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
                                         </Link>
-                                        <Link to="/settings" className="dropdown-item">
-                                            Account Settings
+                                        <Link to="/settings">
+                                            <Dropdown.Item href="#/action-2">Account Settings</Dropdown.Item>
                                         </Link>
                                         <Dropdown.Divider />
                                         <Dropdown.Item onClick={handleSignOutClick}>
