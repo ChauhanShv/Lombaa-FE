@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProductFields;
 use App\Models\Products;
 use Carbon\Carbon;
 
@@ -18,6 +19,14 @@ class ProductsController extends Controller
 
             return view('products.list', ['products' => $products]);
         }
+    }
+
+    public function show_product($id)
+    {
+
+        $data = ProductFields::with('field', 'product')->where('productId', $id)->first();
+
+        return view('products.show', ['data' => $data]);
     }
 
     public function approve_reject($action, $id)

@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3001/api
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAzYjk5ODdmLTc2ZmUtNDM4ZS05NDYwLTlmZTViNWY1YjRkYyIsImlhdCI6MTY0MDI3Mzk0NCwiZXhwIjoxNjQwMzYwMzQ0fQ.fXiItjd3SPZ_81kswtogte3ybm5v5a--KOWfu04ZvAw
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAzYjk5ODdmLTc2ZmUtNDM4ZS05NDYwLTlmZTViNWY1YjRkYyIsImlhdCI6MTY0MDYyNTY2MSwiZXhwIjoxNjQwNzEyMDYxfQ.9IpOG44BYMUi-CgHuofmnv3MVlYk0f2g8Nns5_PgHCw
 ### Crete new User
 
 POST {{baseUrl}}/user HTTP/1.1
@@ -30,6 +30,15 @@ content-type: application/json
 {
     "email": "ajay@datortech.com",
     "password": "123456"
+}
+
+###
+
+POST {{baseUrl}}/auth/token/refresh HTTP/1.1
+content-type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2I5OTg3Zi03NmZlLTQzOGUtOTQ2MC05ZmU1YjVmNWI0ZGMiLCJ0eXBlIjoicmVmcmVzaF90b2tlbiIsImlhdCI6MTY0MDYyNTM4NSwiZXhwIjoxNjQzMjE3Mzg1fQ.5SIZoD61CzMrrcEC59BZ3sOAlQSNlEOLgseJj8kqtzI"
 }
 
 ###
@@ -238,3 +247,30 @@ Content-Type: image/png
 < C:\lombatest.png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
+###
+
+GET {{baseUrl}}/user/products HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+###
+
+PUT {{baseUrl}}/user/favorite/product HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+{
+    "productId": "16aeda94-f75e-4f44-b799-85d6b5b20800"
+}
+
+###
+
+GET {{baseUrl}}/user/favorite/products HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0

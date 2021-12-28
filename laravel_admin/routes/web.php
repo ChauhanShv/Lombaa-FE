@@ -59,12 +59,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/fields', [FieldsController::class, 'fields'])->name('fields');
     Route::post('/fields', [FieldsController::class, 'fields'])->name('fields');
-    Route::get('/fieldslist', [FieldsController::class, 'field_list'])->name('field_list');
-    Route::get('/fieldedit/{id}', [FieldsController::class, 'field_edit'])->name('field_edit');
-    Route::post('/fieldedit/{id}', [FieldsController::class, 'field_edit_post'])->name('field_edit_post');
-    Route::get('/fieldedit/{label}/{value}/{id}/updateicon', [FieldsController::class, 'update_icon'])->name('update_icon');
-    Route::post('/fieldedit/{label}/{value}/{id}/updateicon', [FieldsController::class, 'update_icon_post'])->name('update_icon_post');
-    Route::get('/fieldedit/values/delete/{id}', [FieldsController::class, 'delete_value'])->name('delete_value');
+    Route::get('/fields/list', [FieldsController::class, 'field_list'])->name('field_list');
+    Route::get('/fields/edit/{id}', [FieldsController::class, 'field_edit'])->name('field_edit');
+    Route::post('/fields/edit/{id}', [FieldsController::class, 'field_edit_post'])->name('field_edit_post');
+    Route::get('/fields/edit/{label}/{value}/{id}/updateicon', [FieldsController::class, 'update_icon'])->name('update_icon');
+    Route::post('/fields/edit/{label}/{value}/{id}/updateicon', [FieldsController::class, 'update_icon_post'])->name('update_icon_post');
+    Route::get('/fields/edit/values/delete/{id}', [FieldsController::class, 'delete_value'])->name('delete_value');
 
     Route::get('/values', [ValuesController::class, 'values'])->name('values');
     Route::get('/values/add', [ValuesController::class, 'values_add'])->name('values_add');
@@ -73,6 +73,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/values/update/{id}', [ValuesController::class, 'values_update']);
 
     Route::get('/products/{id}', [ProductsController::class, 'products_list'])->name('products_list');
+    Route::get('/products/show/{id}', [ProductsController::class, 'show_product'])->name('show_product');
     Route::get('/products/status/{action}', [ProductsController::class, 'filter'])->name('filter');
     Route::get('/products/{action}/{id}', [ProductsController::class, 'approve_reject'])->name('approve_reject');
 
