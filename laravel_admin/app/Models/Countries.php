@@ -19,7 +19,7 @@ class Countries extends Model
 
     protected $keyType = 'string';
     protected $table = 'countries';
-    protected $fillable = ['id', 'name', 'code'];
+    protected $fillable = ['id', 'name', 'code', 'phoneCode'];
     protected $spatialFields = ['coordinate'];
 
 }

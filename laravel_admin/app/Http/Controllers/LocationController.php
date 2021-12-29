@@ -10,6 +10,13 @@ use Str;
 
 class LocationController extends Controller
 {
+
+    public function country_list()
+    {
+        $countries = Countries::get();
+        return view('location.country.list', ['countries' => $countries]);
+    }
+
     public function add_country(Request $request)
     {
         if ($request->isMethod('post')) {
@@ -34,33 +41,15 @@ class LocationController extends Controller
             $country_name = $request->input('name');
             $country_code = $request->input('code');
 
-            // dd($request->lat, $request->long, new Point($request->lat, $request->long));
-
             $country = new Countries();
 
             $country->id = Str::uuid();
             $country->name = $country_name;
             $country->code = $country_code;
+            $country->phoneCode = $request->input('phoneCode');
             $country->coordinate = new Point($request->lat, $request->long);
 
             $country->save();
-
-            // $data = [
-            //     'name' => $counrtry_name,
-            //     'code' => $country_code,
-            //     // 'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
-            //     'coordinate' => new Point($request->lat, $request->long),
-            // ];
-
-            $country->save();
-
-            // $insert_country = Countries::create($data);
-
-            // $update_coordinate = [
-            //     'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
-            // ];
-
-            // $insert_country_coordinate = Countries::where('id', $data['id'])->update($update_coordinate);
 
             try {
                 return redirect()->route('country_list')->with('response', ['status' => 'success', 'message' => 'Country added successfully']);
@@ -70,12 +59,6 @@ class LocationController extends Controller
         } else {
             return view('location.country.add');
         }
-    }
-
-    public function country_list()
-    {
-        $countries = Countries::get();
-        return view('location.country.list', ['countries' => $countries]);
     }
 
     public function update_country(Request $request, $id)
@@ -101,16 +84,11 @@ class LocationController extends Controller
 
             $country->name = $country_name;
             $country->code = $country_code;
+            $country->phoneCode = $request->input('phoneCode');
             $country->coordinate = new Point($request->lat, $request->long);
 
             $country->save();
 
-            // $data = [
-            //     'name' => $counrtry_name,
-            //     'code' => $country_code,
-            //     'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
-            // ];
-            // $insert_country = Countries::where('id', $id)->update($data);
             try {
                 return redirect()->route('country_list')->with('response', ['status' => 'success', 'message' => 'Country updated successfully']);
             } catch (Exception $e) {

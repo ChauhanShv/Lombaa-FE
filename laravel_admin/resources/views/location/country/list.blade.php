@@ -39,6 +39,7 @@
                         <th># No.</th>
                         <th>Country Name</th>
                         <th>Country Code</th>
+                        <th>Phone Code</th>
                         <th>Latitude and Longitude</th>
                         <th>Actions</th>
                     </tr>
@@ -49,6 +50,7 @@
                         <td style="text-align: center;">{{ $i }}</td>
                         <td style="text-align: center;">{{ $data->name }}</td>
                         <td style="text-align: center;">{{ $data->code }}</td>
+                        <td style="text-align: center;">{{ $data->phoneCode }}</td>
                         <td style="text-align: center;"><p><strong>Lat :</strong>&nbsp;{{ $data->coordinate ? $data->coordinate->getLat() : 'N/A' }}&nbsp;;&nbsp;<strong>Long :</strong>&nbsp;{{ $data->coordinate ? $data->coordinate->getLng() : 'N/A'}}</p></td>
                         <td style="text-align: center;">
                             <a href="{{ route('update_country', $data->id) }}">
