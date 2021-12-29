@@ -18,6 +18,12 @@ class CityController extends Controller
         return view('location.city.list', ['cities' => $cities]);
     }
 
+    public function delete_city($id)
+    {
+        Cities::find($id)->delete();
+        return redirect()->back()->with('response', ['status' => 'success', 'message' => 'City deleted successfully']);
+    }
+
     public function add_city(Request $request)
     {
         if ($request->isMethod('post')) {
