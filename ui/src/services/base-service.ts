@@ -9,12 +9,20 @@ const refreshAccessToken = (): string => {
     return 'newToken';
 };
 
-axios.interceptors.request.use(
+const newAxios = axios.create({
+    baseURL: `${BACKEND_HOST}:${BACKEND_PORT}/api`,
+    headers: {
+        'x-client-platform': 'Web'
+    },
+});
+
+newAxios.interceptors.request.use(
     async (config) => {
         const token = localStorage.getItem("token");
         if (token) {
             config.headers = {
-                'x-access-token': `Bearer ${token}`
+                'x-access-token': token,
+                'x-client-platform': 'Web',
             };
         }
         return config;
@@ -22,14 +30,15 @@ axios.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-axios.interceptors.response.use(
+newAxios.interceptors.response.use(
     (response) => response,
     async (error) => {
         const config = error.config;
         if (error.response.status === 401 && refreshTokenRetry > 0) {
-            refreshTokenRetry--;
-            localStorage.setItem("token", await refreshAccessToken());
-            return axios(config);
+            // refreshTokenRetry--;
+            // localStorage.setItem("token", await refreshAccessToken());
+            // return axios(config);
+            window.location.href = '/login';
         }
         return Promise.reject(error);
     }
@@ -37,13 +46,7 @@ axios.interceptors.response.use(
 
 const token = localStorage.getItem("token");
 export const useAxios = makeUseAxios({
-    axios: axios.create({
-        baseURL: `${BACKEND_HOST}:${BACKEND_PORT}/api`,
-        headers: {
-            'x-access-token': `${token}`,
-            'x-client-platform': 'Web'
-        }
-    }),
+    axios: newAxios,
     defaultOptions: {
         manual: true,
     }

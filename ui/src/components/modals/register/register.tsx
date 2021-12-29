@@ -71,7 +71,6 @@ export const Register: React.FC<RegisterProps> = ({
                 }
             });
             onClose();
-            window.location.href = '/';
         }
     }, [registerRes, googleRes, fbRes]);
 

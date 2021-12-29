@@ -52,7 +52,6 @@ export const Login: React.FC<LoginProps> = ({
                 }
             });
             onClose();
-            window.location.reload();
         }
     }, [loginResponse, googleRes, fbRes]);
 
