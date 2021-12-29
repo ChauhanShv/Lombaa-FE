@@ -189,6 +189,7 @@ export const Register: React.FC<RegisterProps> = ({
                             <FloatingLabel label="Your phone number" className="mb-3">
                                 <Form.Control
                                     {...register("phoneNumber")}
+                                    type="number"
                                     placeholder="Your phone number"
                                     isValid={!!errors.phoneNumber}
                                     className={getErrorClassName('phoneNumber')}
@@ -236,6 +237,7 @@ export const Register: React.FC<RegisterProps> = ({
                             <FloatingLabel label="Business phone number" className="mb-3">
                                 <Form.Control
                                     {...register("phoneNumber")}
+                                    type="number"
                                     placeholder="Business phone number"
                                     isValid={!!errors.phoneNumber}
                                     className={getErrorClassName('phoneNumber')}

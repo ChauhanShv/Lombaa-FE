@@ -39,9 +39,10 @@ export const FormFields: React.FC<FormFieldsProps> = ({
         id,
         label,
         fieldType,
+        dataTypes,
         isRequired,
     }: Fields): React.ReactElement => {
-        const type = ['email', 'text', 'date'].includes(fieldType) ? fieldType : 'text';
+        const type = ['email', 'text', 'date'].includes(fieldType) && ['numeric'].includes(dataTypes) ? 'number' : fieldType || 'text';
         return (
             <FloatingLabel label={label + getFieldNecessity(isRequired)} className="mb-3">
                 <Form.Control
@@ -64,6 +65,7 @@ export const FormFields: React.FC<FormFieldsProps> = ({
         return (
             <FloatingLabel label={label + getFieldNecessity(isRequired)} className="mb-3">
                 <Form.Control
+                    style={{ height: '120px' }}
                     {...register(id)}
                     as="textarea"
                     placeholder={label}
@@ -206,6 +208,7 @@ export const FormFields: React.FC<FormFieldsProps> = ({
                     <InputGroup className="mt-2 mb-5">
                         <InputGroup.Text id="basic-addon1 d-block">$</InputGroup.Text>
                         <FormControl
+                            type="number"
                             className={getErrorClassName('price', errors)}
                             {...register('price')}
                             placeholder="Price of your listing"

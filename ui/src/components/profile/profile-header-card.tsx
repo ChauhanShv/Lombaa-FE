@@ -11,12 +11,12 @@ import { FaEnvelope, FaMapMarkerAlt, FaClock, FaCheckCircle } from 'react-icons/
 import './profile.css';
 
 export const ProfileHeaderCard: React.FC = (): React.ReactElement => {
-    const { state, dispatch } = useAppContext();
+    const { state } = useAppContext();
     const userData = state?.user?.metaData;
 
     const getAccountType = () => userData?.accountType === 'standard' ? 'Standard Account' : 'Business Account';
 
-    const getLocation = `${userData?.location?.city?.name}, ${userData?.location?.region?.name}`;
+    const getLocation = userData?.location ? `${userData?.location?.city?.name}, ${userData?.location?.region?.name}` : 'Location';
 
     return (
         <Container className="p-4">
@@ -28,6 +28,7 @@ export const ProfileHeaderCard: React.FC = (): React.ReactElement => {
                                 <Image
                                     src={userData?.profilePicture?.url || "/images/user-circle.svg"}
                                     width="100"
+                                    height="100"
                                     roundedCircle
                                 />
                             </div>

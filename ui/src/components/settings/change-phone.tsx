@@ -151,7 +151,7 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
                             >
                                 <Form.Control
                                     {...register('phoneNumber')}
-                                    type="text"
+                                    type="number"
                                     placeholder="Phone"
                                     className={getErrorClassName('phoneNumber')}
                                 />
