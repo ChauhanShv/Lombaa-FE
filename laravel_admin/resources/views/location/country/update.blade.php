@@ -40,6 +40,15 @@
               </div>
             </div>
             <div class="control-group">
+              <label class="control-label">Phone Code:</label>
+              <div class="controls">
+                <input type="text" name="phoneCode" value="{{ old('phoneCode', $country->phoneCode) }}" style="width: 40%"  class="span11" />
+                @error('phoneCode')
+                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                @enderror
+              </div>
+            </div>
+            <div class="control-group">
               <label class="control-label">Latitude :</label>
               <div class="controls">
                 <input type="text" name="lat" value="{{ old('name',  $country->coordinate ? $country->coordinate->getLat() : '') }}" style="width: 40%"  class="span11" />
