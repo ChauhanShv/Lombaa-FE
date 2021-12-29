@@ -82,14 +82,14 @@
                                     <button class="btn btn-warning" style="border-radius:6px; width:100px">Unsuspend</button>
                                 </a>
                             @endif  &nbsp&nbsp
-                            @if(($data->isActive)==0)
-                                <a href="{{ route('deactive', $data->id)}}" onclick="return confirm('Do you want to Deactive user {{ $data->name }}?');">
-                                    <button class="btn btn-success" style="border-radius:6px; width:100px">Activate</button>
+                            @if(($data->isActive)==1)
+                                <a href="{{ route('deactive', $data->id)}}" onclick="return confirm('Do you want to Deactivate user {{ $data->name }}?');">
+                                    <button class="btn btn-success" style="border-radius:6px; width:100px">Deactivate</button>
                                 </a>
                             @endif
-                            @if(($data->isActive)==1)
+                            @if(($data->isActive)==0)
                                 <a href="{{ route('active', $data->id) }}" onclick="return confirm('Do you want to Activate user {{ $data->name }}?');">
-                                    <button class="btn btn-warning" style="border-radius:6px; width:100px">Deactivate</button>
+                                    <button class="btn btn-warning" style="border-radius:6px; width:100px">Activate</button>
                                 </a>
                             @endif &nbsp&nbsp
                                 <a href="{{ url('user', $data->id) }}">

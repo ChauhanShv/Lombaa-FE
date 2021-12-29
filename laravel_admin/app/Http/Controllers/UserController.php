@@ -37,7 +37,7 @@ class UserController extends Controller
     }
     public function active($id)
     {
-        $active_User = Users::where([['id', '=', $id], ['isActive', '=', 0]])->update(['isActive' => 1]);
+        $active_User = Users::where('id', $id)->update(['isActive' => 1]);
         if ($active_User) {
             return redirect()->back()->with('response', ['status' => 'success', 'message' => 'User Activated Successfully']);
         } else {
@@ -46,7 +46,7 @@ class UserController extends Controller
     }
     public function deactive($id)
     {
-        $deactive_User = Users::where([['id', '=', $id], ['isActive', '=', 1]])->update(['isActive' => 0]);
+        $deactive_User = Users::where('id', $id)->update(['isActive' => 0]);
         if ($deactive_User) {
             return redirect()->back()->with('response', ['status' => 'success', 'message' => 'User Deactivated Successfully']);
         } else {
