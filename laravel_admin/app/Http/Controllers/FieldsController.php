@@ -99,8 +99,8 @@ class FieldsController extends Controller
                 'tagView' => 'tagView',
                 'email' => 'email',
                 'date' => 'date',
-                'text' => 'text',
-                'textArea' => 'textArea',
+                'text' => 'input-SingleLine',
+                'textArea' => 'input-MultiLine',
                 'title' => 'title',
             );
 
@@ -125,8 +125,8 @@ class FieldsController extends Controller
             'tagView' => 'tagView',
             'email' => 'email',
             'date' => 'date',
-            'text' => 'text',
-            'textArea' => 'textArea',
+            'text' => 'input-SingleLine',
+            'textArea' => 'input-MultiLine',
             'title' => 'title',
         );
 
