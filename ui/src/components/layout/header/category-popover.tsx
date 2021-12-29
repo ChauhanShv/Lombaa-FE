@@ -10,7 +10,7 @@ import { Categories } from '../../create-post';
 
 export const CategoryPopover: React.FC = (): React.ReactElement => {
     const [categories, setCategories] = useState<Categories[]>([]);
-    const [{ data, loading }, execute] = useAxios({
+    const [{ data }, execute] = useAxios({
         url: '/category',
         method: 'GET',
     });
