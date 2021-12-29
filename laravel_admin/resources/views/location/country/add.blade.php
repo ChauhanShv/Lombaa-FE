@@ -1,5 +1,5 @@
-@extends('layout.app') 
-@section('body') 
+@extends('layout.app')
+@section('body')
 @include('layout.breadcrumb')
 <div class="row-fluid">
   <div class="span12">
@@ -8,7 +8,7 @@
         <h5>Add-Country</h5>
       </div>
       <div>
-        @if (session('response')) 
+        @if (session('response'))
         @if (session('response.status') == 'success')
         <div class="alert alert-success">
           @else
@@ -38,6 +38,15 @@
               </div>
             </div>
             <div class="control-group">
+              <label class="control-label">Phone Code:</label>
+              <div class="controls">
+                <input type="text" name="phoneCode" style="width: 40%"  class="span11" />
+                @error('phoneCode')
+                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                @enderror
+              </div>
+            </div>
+            <div class="control-group">
               <label class="control-label">Latitude :</label>
               <div class="controls">
                 <input type="text" name="lat" style="width: 40%"  class="span11" />
@@ -45,7 +54,7 @@
                 <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                 @enderror
               </div>
-            </div>  
+            </div>
             <div class="control-group">
               <label class="control-label">Longitude :</label>
               <div class="controls">
@@ -54,8 +63,8 @@
                 <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                 @enderror
               </div>
-            </div>  
-            @csrf 
+            </div>
+            @csrf
             <div class="form-actions">
               <button type="submit" class="btn btn-success">Save</button>
             </div>
