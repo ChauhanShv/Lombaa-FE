@@ -23,10 +23,16 @@ class ProductsController extends Controller
 
     public function show_product($id)
     {
-
         $data = ProductFields::with('field', 'product')->where('productId', $id)->first();
 
         return view('products.show', ['data' => $data]);
+    }
+
+    public function delete_product($id)
+    {
+        Products::find($id)->delete();
+        return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Product deleted successfully']);
+
     }
 
     public function approve_reject($action, $id)

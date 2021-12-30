@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3001/api
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAzYjk5ODdmLTc2ZmUtNDM4ZS05NDYwLTlmZTViNWY1YjRkYyIsImlhdCI6MTY0MDYyNTY2MSwiZXhwIjoxNjQwNzEyMDYxfQ.9IpOG44BYMUi-CgHuofmnv3MVlYk0f2g8Nns5_PgHCw
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAzYjk5ODdmLTc2ZmUtNDM4ZS05NDYwLTlmZTViNWY1YjRkYyIsImlhdCI6MTY0MDg2ODM5MywiZXhwIjoxNjQwOTU0NzkzfQ.a91IXK8aHhfIYQGqrQZvw3Xc0J6NK6pFHemx1ikavsg
 ### Crete new User
 
 POST {{baseUrl}}/user HTTP/1.1
@@ -270,6 +270,14 @@ x-app-version : 1.0.0
 ###
 
 GET {{baseUrl}}/user/favorite/products HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+###
+
+GET {{baseUrl}}/user/email/verify/resend HTTP/1.1
 content-type: application/json
 x-access-token: {{token}}
 x-client-platform : Android

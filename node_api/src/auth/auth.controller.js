@@ -24,7 +24,7 @@ class AuthController extends BaseController {
 
       const authUser = await this.service.doAuth({ email: user.email, password: user.password });
       if (authUser?.isSuspended === 1) {
-        const data = { success: false, error: { code: 401, message: "Something went wrong", message_detail: "You are not allowed to login. contact to us for further details" } };
+        const data = { success: false, error: { code: 401, message: "Your account is suspended. Please contact admin for support", message_detail: "Your account is suspended. Please contact admin for support" } };
         return super.jsonRes({ res, code: 401, data });
       }
       if (authUser) {

@@ -225,6 +225,19 @@ class UserController extends BaseController {
     }
   };
 
+  resendEmailVerification = async (req, res, next) => {
+    try {
+      const user = req.user;
+
+      const verificationToken = jwtService.encode({ id: user?.id, email: user?.email }, "1h");
+      eventEmitter.emit(event.newEmail, { user: user, verificationLink: `${appConfig.frontEndUrl}/email/verify?token=${verificationToken}` });
+
+      super.jsonRes({ res, code: 200, data: { success: true, message: "Email verification link sent" } });
+    } catch (e) {
+      next(e);
+    }
+  };
+
   connectGoogle = async (req, res, next) => {
     try {
       validationResult(req).formatWith(validationErrorFormatter).throw();

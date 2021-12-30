@@ -64,6 +64,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/fields/list', [FieldsController::class, 'field_list'])->name('field_list');
     Route::get('/fields/edit/{id}', [FieldsController::class, 'field_edit'])->name('field_edit');
     Route::post('/fields/edit/{id}', [FieldsController::class, 'field_edit_post'])->name('field_edit_post');
+    Route::get('/fields/delete/{id}', [FieldsController::class, 'delete_field'])->name('delete_field');
     Route::get('/fields/edit/{label}/{value}/{id}/updateicon', [FieldsController::class, 'update_icon'])->name('update_icon');
     Route::post('/fields/edit/{label}/{value}/{id}/updateicon', [FieldsController::class, 'update_icon_post'])->name('update_icon_post');
     Route::get('/fields/edit/values/delete/{id}', [FieldsController::class, 'delete_value'])->name('delete_value');
@@ -73,10 +74,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/values/add', [ValuesController::class, 'values_add']);
     Route::get('/values/update/{id}', [ValuesController::class, 'values_update'])->name('values_update');
     Route::post('/values/update/{id}', [ValuesController::class, 'values_update']);
+    Route::get('/values/delete/{id}', [ValuesController::class, 'delete_value'])->name('delete_value');
 
     Route::get('/products/{id}', [ProductsController::class, 'products_list'])->name('products_list');
     Route::get('/products/show/{id}', [ProductsController::class, 'show_product'])->name('show_product');
     Route::get('/products/status/{action}', [ProductsController::class, 'filter'])->name('filter');
+    Route::get('/products/delete/{id}', [ProductsController::class, 'delete_product'])->name('delete_product');
     Route::get('/products/{action}/{id}', [ProductsController::class, 'approve_reject'])->name('approve_reject');
 
     Route::get('/settings', [SettingsController::class, 'settings'])->name('settings');
