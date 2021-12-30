@@ -25,6 +25,7 @@ module.exports = () => {
   router.post("/password/forget", checkSchema(forgetPasswordSchema), controller.forgetPassword);
   router.get("/password/reset/verify-token", controller.verifyResetPasswordToken);
   router.put("/password/reset", controller.resetPassword);
+  router.get("/email/verify/resend", authMiddleware, controller.resendEmailVerification);
 
   router.put("/facebook", checkSchema(connectFacebookSchema), authMiddleware, controller.connectFacebook);
   router.put("/google", checkSchema(connectGoogleSchema), authMiddleware, controller.connectGoogle);
