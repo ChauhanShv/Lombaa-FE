@@ -9,21 +9,21 @@ class CategoryController extends BaseController {
   }
   async categories(req, res, next) {
     try {
-      // const data = await Category.scope("defaultScope", "includeSubcategories").findAll({ where: { parentId: null, isActive: true } });
       const data = await Category.findAll({
+        where: { parentId: null },
         include: [
           { model: File, as: "icon" },
-          { model: Field, as: 'fields' },
+          { model: Field, as: "fields" },
           {
             model: Category,
-            as: 'subCategories',
+            as: "subCategories",
             include: [
               { model: File, as: "icon" },
-              { model: Field, as: 'fields' },
-            ]
+              { model: Field, as: "fields" },
+            ],
           },
-        ]
-      })
+        ],
+      });
       const value = {
         success: true,
         code: 200,
