@@ -17,6 +17,11 @@ class RegionController extends Controller
         return view('location.region.list', ['regions' => $regions]);
     }
 
+    public function delete_region($id)
+    {
+        Regions::find($id)->delete();
+        return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Region deleted successfully']);
+    }
     public function add_region(Request $request)
     {
         if ($request->isMethod('post')) {
@@ -54,20 +59,6 @@ class RegionController extends Controller
             $region->coordinate = new Point($request->lat, $request->long);
 
             $region->save();
-
-            // $data = [
-            //     'id' => Str::uuid(),
-            //     'name' => $region_name,
-            //     'code' => $region_code,
-            //     'countryId' => $country,
-            // ];
-            // $insert_region = Regions::create($data);
-
-            // $region_coordinate = [
-            //     'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
-            // ];
-
-            // $inser_region_coordinate = Regions::where('id', $data['id'])->update($region_coordinate);
             try {
                 return redirect()->route('region_list')->with('response', ['status' => 'success', 'message' => 'Region added successfully']);
             } catch (Exception $e) {

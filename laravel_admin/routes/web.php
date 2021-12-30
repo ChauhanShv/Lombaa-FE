@@ -49,6 +49,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/region/add', [RegionController::class, 'add_region']);
     Route::get('/region/update/{id}', [RegionController::class, 'update_region'])->name('update_region');
     Route::post('/region/update/{id}', [RegionController::class, 'update_region'])->name('update_region');
+    Route::get('/region/delete/{id}', [RegionController::class, 'delete_region'])->name('delete_region');
 
     Route::get('/city', [CityController::class, 'city_list'])->name('city_list');
     Route::get('/city/add', [CityController::class, 'add_city'])->name('city');
@@ -56,6 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/city/add', [CityController::class, 'add_city']);
     Route::get('/city/update/{id}', [CityController::class, 'update_city'])->name('update_city');
     Route::post('/city/update/{id}', [CityController::class, 'update_city'])->name('update_city');
+    Route::get('/city/delete/{id}', [CityController::class, 'delete_city'])->name('delete_city');
 
     Route::get('/fields', [FieldsController::class, 'fields'])->name('fields');
     Route::post('/fields', [FieldsController::class, 'fields'])->name('fields');

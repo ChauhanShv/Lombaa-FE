@@ -57,6 +57,9 @@
                             <a href="{{ route('update_region', $data->id) }}">
                                 <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                             </a>
+                            <a href="{{ route('delete_region', $data->id) }}" onclick="return confirm('Do you want to delete region : {{ $data->name }}')">
+                                <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                            </a>&nbsp&nbsp
                         </td>
                     </tr>
                     @endforeach
