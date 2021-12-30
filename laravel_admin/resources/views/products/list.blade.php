@@ -61,8 +61,8 @@
                     @foreach($products as  $product)  @php $i++ @endphp
                     <tr class="gradeX" style="align-content: center;">
                         <td style="text-align: center;">{{ $i }}</td>
-                        <td style="text-align: center;">{{ $product->categoryId == null ? 'N/A' : $product->category->name }}</td>
-                        <td style="text-align: center;">{!! $product->locationId == null ? 'No Location' : $product->location->city->name . '  (' . $product->location->region->code . ',' . $product->location->country->code . ')' !!}</td>
+                        <td style="text-align: center;">{{ $product->categoryId == null ? 'N/A' : ($product->category->name ?? '') }}</td>
+                        <td style="text-align: center;">{!! $product->locationId == null ? 'No Location' : ($product->location->city->name ?? '') . '  (' . ($product->location->region->code ?? '') . ',' . ($product->location->country->code ?? '') . ')' !!}</td>
                         <td style="text-align: center;">
                             @if($product->approvedAt == null && $product->rejectedAt == null)
                                 <p>No</p>
@@ -99,8 +99,8 @@
                                 <a href="">
                                     <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Edit" class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
-                                <a href="">
-                                    <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Delete" class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;" onclick="return confirm('Do you want to Delete this product?');"></i>
+                                <a href="{{ route('delete_product', $product->id) }}">
+                                    <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Delete" class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;" onclick="return confirm('Do you want to delete this product?');"></i>
                                 </a>
                             @elseif(($product->approvedAt) !== null)
                                 <p><strong>Approved</strong></p>
@@ -110,8 +110,8 @@
                                 <a href="">
                                     <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
-                                <a href="">
-                                    <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;" onclick="return confirm('Do you want to Delete this product?');"></i>
+                                <a href="{{ route('delete_product', $product->id) }}">
+                                    <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Delete" class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;" onclick="return confirm('Do you want to delete this product?');"></i>
                                 </a>
                             @elseif(($product->rejectedAt) !== null)
                                 <p><strong>Rejected</strong></p>
@@ -121,8 +121,8 @@
                                 <a href="">
                                     <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
-                                <a href="">
-                                    <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;" onclick="return confirm('Do you want to Delete this product?');"></i>
+                                <a href="{{ route('delete_product', $product->id) }}">
+                                    <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Delete" class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;" onclick="return confirm('Do you want to delete this product?');"></i>
                                 </a>
                             @endif
                         </td>

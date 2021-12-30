@@ -85,9 +85,11 @@
                             <a href=" {{ route('field_edit', $data->id) }} ">
                                 <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                             </a>
+                            <a href="{{ route('delete_field', $data->id) }}">
+                                <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Delete" class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;" onclick="return confirm('Do you want to delete field: {{ $data->label }} ?');"></i>
+                            </a>
                             &nbsp
                         </td>
-
                     </tr>
                     @endforeach
                     @if ($errors->any())
