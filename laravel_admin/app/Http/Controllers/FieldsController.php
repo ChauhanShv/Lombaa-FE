@@ -19,6 +19,12 @@ class FieldsController extends Controller
         return view('fields.list', ['fields_list' => $fields_list, 'field_values' => $field_values]);
     }
 
+    public function delete_field($id)
+    {
+        Fields::find($id)->delete();
+        return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Field deleted successfully']);
+    }
+
     public function fields(Request $request)
     {
         if ($request->isMethod('post')) {

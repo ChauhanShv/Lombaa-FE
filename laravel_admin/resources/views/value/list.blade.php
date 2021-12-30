@@ -66,6 +66,9 @@
                             <a href=" {{ route('values_update', $data->id) }} ">
                                 <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                             </a>
+                            <a href="{{ route('delete_value', $data->id) }}">
+                                <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Delete" class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;" onclick="return confirm('Do you want to delete value: {{ $data->value }} ?');"></i>
+                            </a>
                             &nbsp
                         </td>
                     </tr>

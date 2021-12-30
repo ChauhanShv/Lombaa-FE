@@ -18,6 +18,12 @@ class ValuesController extends Controller
         return view('value.list', ['values' => $values]);
     }
 
+    public function delete_value($id)
+    {
+        Values::find($id)->delete();
+        return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Value deleted successfully']);
+    }
+
     public function values_add(Request $request)
     {
         if ($request->isMethod('post')) {
