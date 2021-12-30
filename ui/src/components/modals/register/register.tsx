@@ -180,14 +180,15 @@ export const Register: React.FC<RegisterProps> = ({
                     </FloatingLabel>
                 </Form.Group>
                 <Row>
-                    <Col md={4}>
+                    <Col md={6}>
                         <PhoneCode />
                     </Col>
-                    <Col md={8}>
+                    <Col md={6}>
                         <Form.Group className="mb-3">
                             <FloatingLabel label="Your phone number" className="mb-3">
                                 <Form.Control
                                     {...register("phoneNumber")}
+                                    type="number"
                                     placeholder="Your phone number"
                                     isValid={!!errors.phoneNumber}
                                     className={getErrorClassName('phoneNumber')}
@@ -235,6 +236,7 @@ export const Register: React.FC<RegisterProps> = ({
                             <FloatingLabel label="Business phone number" className="mb-3">
                                 <Form.Control
                                     {...register("phoneNumber")}
+                                    type="number"
                                     placeholder="Business phone number"
                                     isValid={!!errors.phoneNumber}
                                     className={getErrorClassName('phoneNumber')}

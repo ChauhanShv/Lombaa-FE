@@ -5,7 +5,7 @@ import 'react-image-crop/dist/ReactCrop.css';
 import { ImageModalProps } from './types';
 
 export const ImageCropModal: React.FC<ImageModalProps> = ({ onClose, show, image, onImageCropComplete }: ImageModalProps): React.ReactElement => {
-    const [crop, setCrop] = useState<Crop>({ x: 0, y: 0, width: 40, height: 40, unit: '%', aspect: 1 / 1 });
+    const [crop, setCrop] = useState<Crop>({ x: 0, y: 0, width: 50, height: 50, unit: '%', aspect: 3 / 4 });
     const [completedCrop, setCompletedCrop] = useState<Crop>({ x: 0, y: 0, width: 0, height: 0, unit: 'px' });
     const [completedCropImage, setCompletedCropImage] = useState<any>();
     const imgRef = useRef<any>();

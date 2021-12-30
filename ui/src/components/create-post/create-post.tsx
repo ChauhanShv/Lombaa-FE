@@ -142,8 +142,10 @@ export const CreatePost: React.FC<CreatePostProps> = ({
                     }
                     return item.id === values[field.id];
                 })[0];
-                value.id = selectedValue.id;
-                value.value = selectedValue.value;
+                if (selectedValue) {
+                    value.id = selectedValue.id;
+                    value.value = selectedValue.value;
+                }
             }
             postData.fields.push({
                 id: field.id,

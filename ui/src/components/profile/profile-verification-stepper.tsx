@@ -4,9 +4,7 @@ import Stack from '@mui/material/Stack';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import StepButton from '@mui/material/StepButton';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
-import { StepIconProps } from '@mui/material/StepIcon';
 import { useHistory } from 'react-router-dom';
 import { useAppContext, ActionTypes } from '../../contexts';
 import { makeStyles } from '@mui/styles';
@@ -141,7 +139,7 @@ export const ProfileVerificationStepper: React.FC<ProfileVerificationStepperProp
 
         const handleStepClick = (event: any) => {
             if (!completed) {
-                const stepLabel = stepContent[icons[Number(props.icon - 1)]].stepLabel;
+                const stepLabel = stepContent[icons[Number(props.icon)] - 1].stepLabel;
                 switch (stepLabel) {
                     case 'Google':
                     case 'Facebook':

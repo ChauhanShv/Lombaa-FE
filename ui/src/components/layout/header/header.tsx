@@ -21,7 +21,7 @@ import {
 import { useLocation } from 'react-router-dom';
 import { Login, Register } from '../../modals';
 import { useAppContext, ActionTypes } from '../../../contexts';
-import { CategoryPopover, MobileNav } from '.';
+import { CategoryPopover, MobileNav, HeaderDropdown } from '.';
 import './header.css';
 
 const HeaderComponent: React.FC = (): React.ReactElement => {
@@ -78,23 +78,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                                 </>
                             )}
                             {session.isLoggedIn && (
-                                <Dropdown align="end" className="ps-3">
-                                    <Dropdown.Toggle variant="link" id="dropdown-basic" className="p-0">
-                                        <img className="rounded-circle" width="36" height="36" src={user?.metaData?.profilePicture?.url || "/images/user-circle.svg"} alt={user?.metaData?.profilePicture?.url} />
-                                    </Dropdown.Toggle>
-                                    <Dropdown.Menu>
-                                        <Link to="/profile">
-                                            <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
-                                        </Link>
-                                        <Link to="/settings">
-                                            <Dropdown.Item href="#/action-2">Account Settings</Dropdown.Item>
-                                        </Link>
-                                        <Dropdown.Divider />
-                                        <Dropdown.Item onClick={handleSignOutClick}>
-                                            Sign out
-                                        </Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>
+                                <HeaderDropdown />
                             )}
                         </div>
                     </Container>
