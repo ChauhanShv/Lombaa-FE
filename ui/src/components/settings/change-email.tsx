@@ -7,9 +7,13 @@ import {
     Alert,
     Spinner,
     Col,
+    Row,
+    OverlayTrigger,
+    Tooltip,
 } from 'react-bootstrap';
 import {
     FaChevronLeft,
+    FaInfoCircle,
 } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -19,6 +23,7 @@ import { isEmpty } from 'lodash';
 import { ChangeEmailFormFeilds, AlertType } from './types';
 import { useAppContext, ActionTypes } from '../../contexts';
 import { getAPIErrorMessage } from '../../utils';
+import './settings.css';
 
 const schema = yup.object().shape({
     email: yup.string().email('Email is invalid').required('Email is required'),
@@ -107,10 +112,6 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
         return errorMessages[field] ? 'is-invalid' : '';
     };
 
-    const getSubmitButtonText = (isEmailVerified: number) => {
-        return isEmailVerified ? 'Update' : 'Verify';
-    }
-
     return (
         <Card>
             <Card.Header className="d-flex align-items-center justify-content-between bg-white">
@@ -137,22 +138,31 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
                         {getErrorText('email')}
                     </FloatingLabel>
                     {!userData?.isEmailVerified && (
-                        <>
-                            <p className="text-danger">Your email is not verified yet. Please verify</p>
-                            <Button
-                                variant='outline-success'
-                                className="mb-3 w-100"
-                                onClick={handleResendVerificationMail}
-                            >
-                                Resend Verification Mail
-                            </Button>
-                        </>
+                        <Row className='mb-3'>
+                            <Col md={2}>
+                                <OverlayTrigger
+                                    placement='bottom'
+                                    overlay={
+                                        <Tooltip id="tooltip">
+                                            Your email is not verified yet. Please verify
+                                        </Tooltip>
+                                    }
+                                >
+                                    <Button className='border-0 bg-white'>
+                                        <FaInfoCircle style={{ width: 50, height: 30 }} fill='red' />{'     '}
+                                    </Button>
+                                </OverlayTrigger>
+                            </Col>
+                            <Col md={10} className='mt-2'>
+                                Please <a onClick={handleResendVerificationMail} className="verify-email-link">Verify</a> Your account here.
+                            </Col>
+                        </Row>
                     )}
                     <Button type="submit" className="btn btn-success w-100">
                         {
                             loading ? (
                                 <Spinner animation="border" role="status"></Spinner>
-                            ) : `${getSubmitButtonText(userData?.isEmailVerified)}`
+                            ) : 'Update'
                         }
                     </Button>
                 </Form>
