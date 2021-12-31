@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3001/api
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAzYjk5ODdmLTc2ZmUtNDM4ZS05NDYwLTlmZTViNWY1YjRkYyIsImlhdCI6MTY0MDI3Mzk0NCwiZXhwIjoxNjQwMzYwMzQ0fQ.fXiItjd3SPZ_81kswtogte3ybm5v5a--KOWfu04ZvAw
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5NzE5NWUzLThkODMtNDY5YS1hMTliLTc3NWE3MmE5NjUzMiIsImlhdCI6MTY0MDk0NjA1NSwiZXhwIjoxNjQxMDMyNDU1fQ.Q2c5_Zpm_wizFJPehHykGMsRSLJGIsJnchX-vtDsjTg
 
 POST {{baseUrl}}/product HTTP/1.1
 content-type: application/json
@@ -21,12 +21,13 @@ x-access-token: {{token}}
     ],
     "location" : {
         "city": "87a18afa-76dd-4bd6-ada9-789c54a9eef2",
-        "region": "2a1b44e9-4f24-4173-b207-1c2baccb380b",
+        "region": "af02b759-52d4-11ec-809d-021b0ebe8bee",
         "country": "0f346fe1-5d2e-440f-99eb-eb1703293cdc"
     },
     "media": [
         {
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2I5OTg3Zi03NmZlLTQzOGUtOTQ2MC05ZmU1YjVmNWI0ZGMiLCJmaWxlSWQiOiI5NGFhZTYyMi1kNDA5LTQzYWItYTBiMy04NTE4ZTk0MTg0NzMiLCJpYXQiOjE2NDAyODM0NjUsImV4cCI6MTY0MDM2OTg2NX0.HQk8fFhVPEdb-3zqXslfxWsXj4odvzOM5DeZpGfo_dU"
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1OTcxOTVlMy04ZDgzLTQ2OWEtYTE5Yi03NzVhNzJhOTY1MzIiLCJmaWxlSWQiOiI1OTI2NDkwYS03NmQxLTQ1MjQtOTI2Zi0yYzU5YWFiZjQ1NGEiLCJpYXQiOjE2NDA5NDYwNzcsImV4cCI6MTY0MzUzODA3N30.cT9dYGFVJWvfvZGMgE6nPfzXDyG6A2ntRcpZDwwNyaU",
+            "isPrimary": true
         }
     ]
 }

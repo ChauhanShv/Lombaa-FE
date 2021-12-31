@@ -11,6 +11,10 @@ ProductMedia.init(
       primaryKey: true,
       defaultValue: Sequelize.UUIDV4,
     },
+    isPrimary: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+    },
   },
   {
     modelName: "ProductMedia",
