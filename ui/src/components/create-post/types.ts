@@ -41,6 +41,11 @@ export interface Media {
   mime: string;
 }
 
+export interface LocationSelectorProps {
+  onCitySelected: (data: object) => void;
+  isSettingsPage: boolean;
+}
+
 export interface Region {
   cities: Array<City>;
   code: string;

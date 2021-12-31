@@ -22,6 +22,9 @@ export const HeaderDropdown: React.FC = (): React.ReactElement => {
     const handleDropdownClick = (event: any) => {
         setAnchorEl(event.currentTarget);
     }
+    const handleCloseDropdown = (e: any) => {
+        setAnchorEl(null);
+    }
 
     const handleSignOutClick = () => {
         dispatch({
@@ -40,12 +43,13 @@ export const HeaderDropdown: React.FC = (): React.ReactElement => {
                 alt={user?.metaData?.profilePicture?.url}
                 onClick={handleDropdownClick}
                 onMouseEnter={handleDropdownClick}
-            //onMouseLeave={(e) => setAnchorEl(null)}
+            //onMouseLeave={handleCloseDropdown}
             />
             <Menu
                 anchorEl={anchorEl}
                 open={open}
                 onClose={() => setAnchorEl(null)}
+                id="menu-dropdown"
                 aria-labelledby="demo-positioned-button"
                 MenuListProps={{ 'aria-labelledby': 'profile-image' }}
                 anchorOrigin={{

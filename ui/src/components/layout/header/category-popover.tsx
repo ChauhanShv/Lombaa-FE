@@ -24,32 +24,31 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
     }, [data]);
 
     return (
-        <OverlayTrigger
-            trigger="click"
-            key='bottom'
-            placement='bottom'
-            overlay={
-                <Popover className="head-cat" id={`popover-positioned-bottom`}>
-                    <Popover.Body className="px-5 shadow d-flex flex-wrap">
-                        {categories.map((category: any) =>
-                            <div className='p-3' key={category?.id}>
-                                <h4>{category?.name}</h4>
-                                <ul>
-                                    {category.subCategories.map((subCategory: any) =>
-                                        <li key={subCategory?.id}>
-                                            <Link to="">{subCategory?.name}</Link>
-                                        </li>
-                                    )}
-                                </ul>
-                            </div>
-                        )}
-                    </Popover.Body>
-                </Popover>
-            }
-        >
-            <Button className="bg-dark border-dark">Category</Button>
-        </OverlayTrigger>
-        
-        
+        <>
+            {categories.map((category: any) =>
+                <OverlayTrigger
+                    key='bottom'
+                    placement='bottom-end'
+                    trigger='hover'
+                    overlay={
+                        <Popover className="head-cat" id={`popover-positioned-bottom`}>
+                            <Popover.Body className="px-5 shadow d-flex flex-wrap">
+                                <div className='p-3' key={category?.id}>
+                                    <ul>
+                                        {category.subCategories.map((subCategory: any) =>
+                                            <li key={subCategory?.id}>
+                                                <Link to="">{subCategory?.name}</Link>
+                                            </li>
+                                        )}
+                                    </ul>
+                                </div>
+                            </Popover.Body>
+                        </Popover>
+                    }
+                >
+                    <Button className="bg-dark border-dark">{category?.name}</Button>
+                </OverlayTrigger>
+            )}
+        </>
     );
 }

@@ -37,6 +37,7 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
     const { register, handleSubmit, formState: { errors }, getValues } = useForm<ChangePhoneFormFeilds>({
         resolver: yupResolver(schema),
         defaultValues: {
+            countryCode: state.user?.metaData?.phoneCode,
             phoneNumber: state.user?.metaData?.phoneNumber,
         }
     });

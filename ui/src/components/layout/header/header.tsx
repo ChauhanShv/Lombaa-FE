@@ -146,23 +146,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                 </InputGroup>
 
                 {session.isLoggedIn && (
-                    <Dropdown align="end" className="ps-3">
-                        <Dropdown.Toggle variant="link" id="dropdown-basic" className="p-0">
-                            <img className="rounded-circle" width="30" height="30" src={user?.metaData?.profilePicture?.url || "/images/user-circle.svg"} alt="Htmlstream" />
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu>
-                            <Link to="/profile">
-                                <Dropdown.Item href="#/action-1">Profile</Dropdown.Item>
-                            </Link>
-                            <Link to="/settings">
-                                <Dropdown.Item href="#/action-2">Account Settings</Dropdown.Item>
-                            </Link>
-                            <Dropdown.Divider />
-                            <Dropdown.Item onClick={handleSignOutClick}>
-                                Sign out
-                            </Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
+                    <HeaderDropdown />
                 )}
             </Navbar>
             <Navbar sticky="top" className="d-lg-none navbar navbar-expand-lg shadow bg-white px-2">

@@ -19,6 +19,7 @@ import * as yup from "yup";
 import { isEmpty } from 'lodash';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { SocialMediaConnect, AccountTypeSelector, LocationSelector } from '.';
+import { LocationDropdown } from '../create-post';
 import { useAppContext, ActionTypes } from '../../contexts';
 import { useAxios } from '../../services';
 import { getAPIErrorMessage } from '../../utils';
@@ -28,9 +29,7 @@ import './settings.css';
 
 const standardSchema = yup.object().shape({
     name: yup.string().required('Name is Required'),
-    country: yup.string().required('Country is Required'),
-    region: yup.string().required('Region is Required'),
-    city: yup.string().required('City is Required'),
+    location: yup.string().required('Location is Requied'),
     birthday: yup.string().nullable().required('Date of Birth is Required'),
     sex: yup.string().nullable().required('Please Enter your Gender'),
     bio: yup.string().nullable().required('Bio is Required')
@@ -58,7 +57,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
         resolver: yupResolver(standardSchema),
         defaultValues: {
             name: userData?.name,
-            location: userData?.location,
+            location: userData?.location?.city?.id,
             birthday: userData?.birthday,
             sex: userData?.sex,
             bio: userData?.bio,
@@ -212,7 +211,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                         <div className="text-center">
                             <Image
                                 className="profile-image"
-                                src={userData?.profilePicture?.url || "/images/user-circle.svg"}
+                                src={profileImageLoading ? '/images/loading-gif.gif' : userData?.profilePicture?.url || "/images/user-circle.svg"}
                                 roundedCircle
                             />
                             <Form.Group className="mb-3">
@@ -249,10 +248,13 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                                     />
                                     {getErrorText('name')}
                                 </FloatingLabel>
-                                <LocationSelector onCitySelected={(data: object) => setLocationId(data)} />
+                                <LocationDropdown
+                                    onCitySelected={(data: object) => setLocationId(data)}
+                                    isSettingsPage={true}
+                                />
                                 <FloatingLabel
                                     label="Birthday"
-                                    className="mb-3 mt-3"
+                                    className="mb-3"
                                 >
                                     <Form.Control
                                         {...register('birthday')}
