@@ -38,6 +38,10 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
         url: '/user/email',
         method: 'PUT'
     });
+    const [{ data: resendEmailRes, loading: resendEmailLoading }, executeEmailResend] = useAxios({
+        url: '/user/email/verify/resend',
+        method: 'GET',
+    });
 
     useEffect(() => {
         if (response?.success) {
@@ -55,7 +59,13 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
                 }
             })
         }
-    }, [response]);
+        if (resendEmailRes?.success) {
+            setAlert({
+                variant: 'success',
+                message: resendEmailRes?.message || 'Verification mail sent successful',
+            });
+        }
+    }, [response, resendEmailRes]);
 
     const onSubmit = (values: any) => {
         if (isEmpty(errors)) {
@@ -71,6 +81,10 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
         event.preventDefault();
         handleSubmit(onSubmit)();
     };
+    const handleResendVerificationMail = (event: React.FormEvent) => {
+        event.preventDefault();
+        executeEmailResend({});
+    }
 
     const getErrorText = (field: string): React.ReactElement | null => {
         const errorMessages: any = {
@@ -122,6 +136,18 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
                         />
                         {getErrorText('email')}
                     </FloatingLabel>
+                    {!userData?.isEmailVerified && (
+                        <>
+                            <p className="text-danger">Your email is not verified yet. Please verify</p>
+                            <Button
+                                variant='outline-success'
+                                className="mb-3 w-100"
+                                onClick={handleResendVerificationMail}
+                            >
+                                Resend Verification Mail
+                            </Button>
+                        </>
+                    )}
                     <Button type="submit" className="btn btn-success w-100">
                         {
                             loading ? (
