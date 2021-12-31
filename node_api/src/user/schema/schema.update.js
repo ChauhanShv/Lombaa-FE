@@ -1,7 +1,7 @@
 const { isDate } = require("../../modules/validator");
 const moment = require("moment");
 const config = require("../user.config");
-const LocationService = require('../../location/location.service');
+const LocationService = require("../../location/location.service");
 
 const locationService = new LocationService();
 
@@ -27,47 +27,46 @@ module.exports = {
     },
   },
 
-
-  'location.city': {
+  "location.city": {
     custom: {
       options: async (value, { req }) => {
         if (req?.body?.accountType === "business") return Promise.resolve();
 
         if (!value) return Promise.reject("City is required");
 
-        if (!await locationService.cityExists(value)) return Promise.reject("Invalid City");
+        if (!(await locationService.cityExists(value))) return Promise.reject("Invalid City");
 
         return Promise.resolve();
-      }
-    }
+      },
+    },
   },
 
-  'location.region': {
+  "location.region": {
     custom: {
       options: async (value, { req }) => {
         if (req?.body?.accountType === "business") return Promise.resolve();
 
         if (!value) return Promise.reject("Region is required");
 
-        if (!await locationService.regionExists(value)) return Promise.reject("Invalid Region");
+        if (!(await locationService.regionExists(value))) return Promise.reject("Invalid Region");
 
         return Promise.resolve();
-      }
-    }
+      },
+    },
   },
 
-  'location.country': {
+  "location.country": {
     custom: {
       options: async (value, { req }) => {
         if (req?.body?.accountType === "business") return Promise.resolve();
 
         if (!value) return Promise.reject("Country is required");
 
-        if (!await locationService.countryExists(value)) return Promise.reject("Invalid Country");
+        if (!(await locationService.countryExists(value))) return Promise.reject("Invalid Country");
 
         return Promise.resolve();
-      }
-    }
+      },
+    },
   },
 
   birthday: {
@@ -163,6 +162,12 @@ module.exports = {
     isIn: {
       options: [["standard", "business"]],
       errorMessage: "Account type should be 'Standard' or 'Business'",
+    },
+  },
+
+  tinNumber: {
+    notEmpty: {
+      errorMessage: "TIN number is required",
     },
   },
 };
