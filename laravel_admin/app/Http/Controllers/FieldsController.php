@@ -31,13 +31,11 @@ class FieldsController extends Controller
             $rules = [
                 'label' => 'required|regex:/^[\s\w-]*$/',
                 'fieldtype' => 'required',
-                'icon' => 'required',
             ];
 
             $messages = [
                 'label.required' => 'Label is required',
                 'fieldtype.required' => 'Field Type is required',
-                'icon.required' => 'Icon is required',
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -46,57 +44,55 @@ class FieldsController extends Controller
                 return redirect()->back()->withInput($request->all())->withErrors($validator);
             }
 
-            $icon_name = Str::uuid() . '.' . $request->file('icon')->getClientOriginalName();
-            // $path = Storage::disk('s3')->put('images', $request->icon);
-            // $iconPath = Storage::disk('s3')->url($path);
-            $icon_mime = $request->file('icon')->getClientMimeType();
-            $icon_ext = $request->file('icon')->extension();
+            if ($request->hasfile('icon')) {
+                $icon_name = Str::uuid() . '.' . $request->file('icon')->getClientOriginalName();
+                // $path = Storage::disk('s3')->put('images', $request->icon);
+                // $iconPath = Storage::disk('s3')->url($path);
+                $icon_mime = $request->file('icon')->getClientMimeType();
+                $icon_ext = $request->file('icon')->extension();
 
-            $file_data = [
-                'id' => Str::uuid(),
-                'key_name' => $icon_name,
-                'extension' => $icon_ext,
-                'name' => $icon_name,
-                'mime' => $icon_mime,
-                'relative_path' => '',
-                // 'absolute_path'=> $iconPath,
-                'absolute_path' => 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/L27xI2KWxQerlkrlwWnPvHl0BJDLnfRzpRaQjrQb.jpg',
-                'location' => 's3',
-            ];
-
-            $send_file_data = Files::create($file_data);
-
-            if ($send_file_data) {
-                $data = [
+                $file_data = [
                     'id' => Str::uuid(),
-                    'label' => $request->label,
-                    'isRequired' => isset($request->required) ? 1 : 0,
-                    'isActive' => isset($request->active) ? 1 : 0,
-                    'dataTypes' => $request->dataTypes,
-                    'fieldType' => $request->fieldtype,
-                    'iconId' => $file_data['id'],
+                    'key_name' => $icon_name,
+                    'extension' => $icon_ext,
+                    'name' => $icon_name,
+                    'mime' => $icon_mime,
+                    'relative_path' => '',
+                    // 'absolute_path'=> $iconPath,
+                    'absolute_path' => 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/L27xI2KWxQerlkrlwWnPvHl0BJDLnfRzpRaQjrQb.jpg',
+                    'location' => 's3',
                 ];
 
-                $submit_data = Fields::create($data);
-
-                if (!($request->values) == null) {
-                    $i = 1;
-                    if ($submit_data) {
-                        foreach ($request->values as $value) {
-                            $field_id = ['fieldId' => $data['id'], 'sort' => $i];
-                            Values::where('id', $value)->update($field_id);
-                            $i++;
-                        }
-                    } else {
-                        return redirect()->route('fields')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
-                    }
-                }
-
-                return redirect()->route('field_list')->with('response', ['status' => 'success', 'message' => 'Field added successfully']);
-
-            } else {
-                return redirect()->route('fields')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
+                $send_file_data = Files::create($file_data);
             }
+
+            $data = [
+                'id' => Str::uuid(),
+                'label' => $request->label,
+                'isRequired' => isset($request->required) ? 1 : 0,
+                'isActive' => isset($request->active) ? 1 : 0,
+                'dataTypes' => $request->dataTypes,
+                'fieldType' => $request->fieldtype,
+                'iconId' => $file_data['id'],
+            ];
+
+            $submit_data = Fields::create($data);
+
+            if (!($request->values) == null) {
+                $i = 1;
+                if ($submit_data) {
+                    foreach ($request->values as $value) {
+                        $field_id = ['fieldId' => $data['id'], 'sort' => $i];
+                        Values::where('id', $value)->update($field_id);
+                        $i++;
+                    }
+                } else {
+                    return redirect()->route('fields')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
+                }
+            }
+
+            return redirect()->route('field_list')->with('response', ['status' => 'success', 'message' => 'Field added successfully']);
+
         } else {
             $field_types = array(
                 'dropdown' => 'dropdown',
