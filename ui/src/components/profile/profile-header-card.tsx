@@ -15,6 +15,7 @@ export const ProfileHeaderCard: React.FC = (): React.ReactElement => {
     const userData = state?.user?.metaData;
 
     const getAccountType = () => userData?.accountType === 'standard' ? 'Standard Account' : 'Business Account';
+    const getAccountName = () => userData?.accountType === 'standrad' ? userData?.name : userData?.businessName;
 
     const getLocation = userData?.location ? `${userData?.location?.city?.name}, ${userData?.location?.region?.name}` : 'Location';
 
@@ -34,7 +35,7 @@ export const ProfileHeaderCard: React.FC = (): React.ReactElement => {
                             </div>
                             <div className="px-2">
                                 <h3 className="user-title px-3 text-success m-0">
-                                    {userData?.name} {'  '}
+                                    {getAccountName()} {'  '}
                                     {userData?.profileVerificationScore >= 60 ? <FaCheckCircle className="fs-5 text-info" /> : ''}
                                 </h3>
                                 <p className="px-3 text-muted mb-2">

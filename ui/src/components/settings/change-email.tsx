@@ -7,9 +7,13 @@ import {
     Alert,
     Spinner,
     Col,
+    Row,
+    OverlayTrigger,
+    Tooltip,
 } from 'react-bootstrap';
 import {
     FaChevronLeft,
+    FaInfoCircle,
 } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -19,6 +23,7 @@ import { isEmpty } from 'lodash';
 import { ChangeEmailFormFeilds, AlertType } from './types';
 import { useAppContext, ActionTypes } from '../../contexts';
 import { getAPIErrorMessage } from '../../utils';
+import './settings.css';
 
 const schema = yup.object().shape({
     email: yup.string().email('Email is invalid').required('Email is required'),
@@ -38,6 +43,10 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
         url: '/user/email',
         method: 'PUT'
     });
+    const [{ data: resendEmailRes, loading: resendEmailLoading }, executeEmailResend] = useAxios({
+        url: '/user/email/verify/resend',
+        method: 'GET',
+    });
 
     useEffect(() => {
         if (response?.success) {
@@ -55,7 +64,13 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
                 }
             })
         }
-    }, [response]);
+        if (resendEmailRes?.success) {
+            setAlert({
+                variant: 'success',
+                message: resendEmailRes?.message || 'Verification mail sent successful',
+            });
+        }
+    }, [response, resendEmailRes]);
 
     const onSubmit = (values: any) => {
         if (isEmpty(errors)) {
@@ -71,6 +86,10 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
         event.preventDefault();
         handleSubmit(onSubmit)();
     };
+    const handleResendVerificationMail = (event: React.FormEvent) => {
+        event.preventDefault();
+        executeEmailResend({});
+    }
 
     const getErrorText = (field: string): React.ReactElement | null => {
         const errorMessages: any = {
@@ -92,10 +111,6 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
         };
         return errorMessages[field] ? 'is-invalid' : '';
     };
-
-    const getSubmitButtonText = (isEmailVerified: number) => {
-        return isEmailVerified ? 'Update' : 'Verify';
-    }
 
     return (
         <Card>
@@ -122,11 +137,32 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
                         />
                         {getErrorText('email')}
                     </FloatingLabel>
+                    {!userData?.isEmailVerified && (
+                        <Row className='mb-3'>
+                            <Col md={2}>
+                                <OverlayTrigger
+                                    placement='bottom'
+                                    overlay={
+                                        <Tooltip id="tooltip">
+                                            Your email is not verified yet. Please verify
+                                        </Tooltip>
+                                    }
+                                >
+                                    <Button className='border-0 bg-white'>
+                                        <FaInfoCircle style={{ width: 50, height: 30 }} fill='red' />{'     '}
+                                    </Button>
+                                </OverlayTrigger>
+                            </Col>
+                            <Col md={10} className='mt-2'>
+                                Please <a onClick={handleResendVerificationMail} className="verify-email-link">Verify</a> Your account here.
+                            </Col>
+                        </Row>
+                    )}
                     <Button type="submit" className="btn btn-success w-100">
                         {
                             loading ? (
                                 <Spinner animation="border" role="status"></Spinner>
-                            ) : `${getSubmitButtonText(userData?.isEmailVerified)}`
+                            ) : 'Update'
                         }
                     </Button>
                 </Form>
