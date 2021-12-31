@@ -65,7 +65,7 @@ export const FormFields: React.FC<FormFieldsProps> = ({
         return (
             <FloatingLabel label={label + getFieldNecessity(isRequired)} className="mb-3">
                 <Form.Control
-                    style={{ height: '120px' }}
+                    style={{ height: '150px' }}
                     {...register(id)}
                     as="textarea"
                     placeholder={label}

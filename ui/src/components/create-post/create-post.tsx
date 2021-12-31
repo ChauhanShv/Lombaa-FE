@@ -202,7 +202,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
                                     categories={categories}
                                     onSubCategorySelected={onSubCategorySelected}
                                 />
-                                {!!selectedSubCategory?.fields?.length && <LocationDropdown onCitySelected={onCitySelected} />}
+                                {!!selectedSubCategory?.fields?.length && <LocationDropdown onCitySelected={onCitySelected} isSettingsPage={false} />}
                                 {!!selectedSubCategory?.fields?.length && <FormFields fields={selectedSubCategory?.fields} />}
                                 <div className="d-flex justify-content-end">
                                     <Button variant="fullround" className="btn-success rounded btn-lg" type="submit">
