@@ -359,16 +359,16 @@ class UserController extends BaseController {
 
       if (location) loc = await this.locationService.upsert(location?.country, location?.region, location?.city);
 
-      user.name = name;
+      if (user?.name) user.name = name;
       if (loc?.id) user.locationId = loc?.id;
-      user.birthday = birthday;
-      user.sex = sex;
-      user.bio = bio;
-      user.yearOfEstablishment = yearOfEstablishment;
-      user.aboutBussiness = aboutBussiness;
-      user.businessName = businessName;
-      user.tinNumber = tinNumber;
-      user.accountType = accountType;
+      if (user?.birthday) user.birthday = birthday;
+      if (user?.sex) user.sex = sex;
+      if (user?.bio) user.bio = bio;
+      if (user?.yearOfEstablishment) user.yearOfEstablishment = yearOfEstablishment;
+      if (user?.aboutBussiness) user.aboutBussiness = aboutBussiness;
+      if (user?.businessName) user.businessName = businessName;
+      if (user?.tinNumber) user.tinNumber = tinNumber;
+      if (user?.accountType) user.accountType = accountType;
 
       const dUser = await user.save();
 
