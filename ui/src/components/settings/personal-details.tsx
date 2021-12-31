@@ -133,7 +133,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                         sex: values.sex,
                         bio: values.bio,
                         memberSince: values.memberSince,
-                        accountType: accountType,
+                        accountType: 'standard',
                     }
                 });
             } else {
@@ -143,7 +143,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                         tinNumber: values.tinNumber,
                         yearOfEstablishment: values.yearOfEstablishment,
                         aboutBusiness: values.aboutBusiness,
-                        accountType: accountType,
+                        accountType: 'business',
                     }
                 })
             }
