@@ -5,20 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\ProductFields;
 use App\Models\Products;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
-    public function products_list($id)
+    public function products_list($action)
     {
-        if ($id === 'all') {
-            $products = Products::with('category', 'location', 'location.city', 'location.region', 'location.country')->paginate(30);
+        $products = Products::with('category', 'location', 'location.city', 'location.region', 'location.country', 'user')->paginate(30);
 
-            return view('products.list', ['products' => $products]);
-        } else {
-            $products = Products::with('category')->where('userId', $id)->paginate(30);
-
-            return view('products.list', ['products' => $products]);
-        }
+        return view('products.list', ['products' => $products]);
     }
 
     public function show_product($id)
@@ -32,27 +27,34 @@ class ProductsController extends Controller
     {
         Products::find($id)->delete();
         return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Product deleted successfully']);
-
     }
 
-    public function approve_reject($action, $id)
+    public function approve_product(Request $request, $id)
     {
-        if ($action === 'approve') {
-            $data = [
-                'approvedAt' => Carbon::now(),
-                'expiry' => Carbon::now()->addHours(72),
-            ];
+        $data = [
+            'approvedAt' => Carbon::now(),
+            'expiry' => Carbon::now()->addHours(72),
+            'rejectedAt' => null,
+            'rejectReason' => null,
+        ];
 
-            Products::where('id', $id)->update($data);
+        Products::where('id', $id)->update($data);
 
-            return redirect()->route('products_list', ['id' => 'all'])->with('response', ['status' => 'success', 'message' => 'Approved']);
-        } elseif ($action == 'reject') {
-            $data = ['rejectedAt' => Carbon::now()];
+        return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Approved']);
+    }
 
-            Products::where('id', $id)->update($data);
+    public function reject_product(Request $request, $id)
+    {
+        $data = [
+            'rejectedAt' => Carbon::now(),
+            'rejectReason' => $request->reason,
+            'approvedAt' => null,
+            'expiry' => null,
+        ];
 
-            return redirect()->route('products_list', ['id' => 'all'])->with('response', ['status' => 'success', 'message' => 'Rejected']);
-        }
+        Products::where('id', $id)->update($data);
+
+        return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Rejected']);
     }
 
     public function filter($action)

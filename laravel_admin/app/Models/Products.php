@@ -26,6 +26,11 @@ class Products extends Model
         return $this->belongsTo(Locations::class, 'locationId', 'id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(Users::class, 'userId', 'id');
+    }
+
     protected $table = 'products';
 
     protected $fillable = [
@@ -34,6 +39,7 @@ class Products extends Model
         'approvedAt',
         'postedAt',
         'rejectedAt',
+        'rejectReason',
         'expiry',
         'soldAt',
         'createdAt',
