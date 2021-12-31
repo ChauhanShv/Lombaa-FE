@@ -34,6 +34,7 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
     const { state, dispatch } = useAppContext();
     const [alert, setAlert] = useState<AlertType>({});
     const [phoneCodeData, setPhoneCodeData] = useState<any[]>([]);
+    const [phoneCode, setPhoneCode] = useState<string>(state.user?.metaData?.phoneCode);
     const { register, handleSubmit, formState: { errors }, getValues } = useForm<ChangePhoneFormFeilds>({
         resolver: yupResolver(schema),
         defaultValues: {
@@ -134,6 +135,8 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
                                     {...register('countryCode')}
                                     placeholder="Phone"
                                     className={getErrorClassName('countryCode')}
+                                    value={phoneCode}
+                                    onChange={(e: any) => setPhoneCode(e.target.value)}
                                 >
                                     {!!phoneCodeData.length && phoneCodeData.map((phone: any) =>
                                         <option value={phone.phoneCode} key={phone.id}>

@@ -36,7 +36,7 @@ class UserController extends BaseController {
 
     const body = req.body;
 
-    const userData = { businessName: body.businessName, name: body?.name, email: body?.email, phoneNumber: body?.phoneNumber, phoneCode: body?.phoneCode, accountType: body?.accountType, tinNumber: body?.tinNumber, password: util?.hashPassword(body.password) };
+    const userData = { businessName: body.businessName, name: body?.name, email: body?.email, phoneNumber: body?.phoneNumber, phoneCode: body?.phoneCode, accountType: body?.accountType, tinNumber: body?.tinNumber, password: util?.hashPassword(body.password), isPhoneVerified: true };
 
     try {
       const newUser = await model.create(userData);
@@ -165,6 +165,25 @@ class UserController extends BaseController {
       req.user.phoneCode = phoneCode;
 
       return super.jsonRes({ res, req, code: 200, data: { success: true, message: "Phone update request received" } });
+    } catch (error) {
+      return next(error);
+    }
+  };
+
+  updatePhoneShowConsent = async (req, res, next) => {
+    try {
+      validationResult(req).formatWith(validationErrorFormatter).throw();
+    } catch (error) {
+      return res.status(422).json(error.array({ onlyFirstError: true }));
+    }
+
+    try {
+      const user = req.user;
+      await model.update({ showPhoneNumberConsent: req.body.consent }, { where: { id: user.id }, returning: true });
+
+      req.user.showPhoneNumberConsent = req.body.consent;
+
+      return super.jsonRes({ res, req, code: 200, data: { success: true, message: "Show phone number consent updated" } });
     } catch (error) {
       return next(error);
     }
@@ -333,7 +352,7 @@ class UserController extends BaseController {
     }
 
     try {
-      const { name, location, birthday, sex, bio, yearOfEstablishment, aboutBussiness, businessName, tinNumber } = req.body;
+      const { name, location, birthday, sex, bio, yearOfEstablishment, aboutBussiness, businessName, tinNumber, accountType } = req.body;
       const user = req.user;
 
       let loc = null;

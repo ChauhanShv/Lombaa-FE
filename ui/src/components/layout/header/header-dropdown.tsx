@@ -1,6 +1,5 @@
 import React from 'react';
 import Divider from '@mui/material/Divider';
-import Paper from '@mui/material/Paper';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -9,7 +8,9 @@ import { Link } from 'react-router-dom';
 import { CgProfile } from 'react-icons/cg';
 import { MdLogout } from 'react-icons/md';
 import { MdSettings } from 'react-icons/md';
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { useAppContext, ActionTypes } from '../../../contexts';
+import './header.css'
 
 export const HeaderDropdown: React.FC = (): React.ReactElement => {
 
@@ -44,7 +45,11 @@ export const HeaderDropdown: React.FC = (): React.ReactElement => {
                 onClick={handleDropdownClick}
                 onMouseEnter={handleDropdownClick}
             //onMouseLeave={handleCloseDropdown}
-            />
+            /> {'  '}
+            {anchorEl ?
+                <FaChevronDown className='profile-icon' /> :
+                <FaChevronUp className='profile-icon' />
+            }
             <Menu
                 anchorEl={anchorEl}
                 open={open}

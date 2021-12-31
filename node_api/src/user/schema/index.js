@@ -9,5 +9,6 @@ const updateSchema = require("./schema.update");
 const pictureUploadSchema = require("./schema.upload");
 const coverUploadSchema = require("./schema.coverPicture");
 const favoriteProductSchema = require("./schema.favorite_products");
+const phoneConsentSchema = require("./schema.phone_consent");
 
-module.exports = { setPassword, emailSchema, phoneSchema, activeSchema, forgetPasswordSchema, connectGoogleSchema, connectFacebookSchema, updateSchema, pictureUploadSchema, coverUploadSchema, favoriteProductSchema };
+module.exports = { setPassword, emailSchema, phoneSchema, activeSchema, forgetPasswordSchema, connectGoogleSchema, connectFacebookSchema, updateSchema, pictureUploadSchema, coverUploadSchema, favoriteProductSchema, phoneConsentSchema };

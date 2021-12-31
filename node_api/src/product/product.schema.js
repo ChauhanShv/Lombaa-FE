@@ -1,7 +1,7 @@
 const CategoryService = require("../category/category.service");
 const { isDate } = require("../modules/validator");
 const jwt = require("../modules/jwt/jwt.service");
-const LocationService = require('../location/location.service');
+const LocationService = require("../location/location.service");
 
 const locationService = new LocationService();
 
@@ -21,40 +21,40 @@ exports.generate = async (req) => {
       },
     },
 
-    'location.city': {
+    "location.city": {
       custom: {
         options: async (value, { req }) => {
           if (!value) return Promise.reject("City is required");
 
-          if (!await locationService.cityExists(value)) return Promise.reject("Invalid City");
+          if (!(await locationService.cityExists(value))) return Promise.reject("Invalid City");
 
           return Promise.resolve();
-        }
-      }
+        },
+      },
     },
 
-    'location.region': {
+    "location.region": {
       custom: {
         options: async (value, { req }) => {
           if (!value) return Promise.reject("Region is required");
 
-          if (!await locationService.regionExists(value)) return Promise.reject("Invalid Region");
+          if (!(await locationService.regionExists(value))) return Promise.reject("Invalid Region");
 
           return Promise.resolve();
-        }
-      }
+        },
+      },
     },
 
-    'location.country': {
+    "location.country": {
       custom: {
         options: async (value, { req }) => {
           if (!value) return Promise.reject("Country is required");
 
-          if (!await locationService.countryExists(value)) return Promise.reject("Invalid Country");
+          if (!(await locationService.countryExists(value))) return Promise.reject("Invalid Country");
 
           return Promise.resolve();
-        }
-      }
+        },
+      },
     },
 
     "media.*": {
@@ -68,14 +68,14 @@ exports.generate = async (req) => {
             if (userId !== req.user.id) return Promise.reject("Invalid media token");
             Promise.resolve();
           } catch (e) {
-            Promise.reject('Invalid image');
+            Promise.reject("Invalid image");
           }
         },
       },
       customSanitizer: {
         options: async (media, { req, location, path }) => {
           const { fileId, userId } = jwt.decode(media?.token);
-          return { token: media?.token, fileId, userId };
+          return { token: media?.token, fileId, userId, isPrimary: media?.isPrimary };
         },
       },
     },

@@ -11,6 +11,7 @@ class UserController extends Controller
         $user_list = Users::paginate(30);
         return view('user.list', ['user_list' => $user_list]);
     }
+
     public function info($id)
     {
         $info = Users::where('id', $id)->first();

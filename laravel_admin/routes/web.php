@@ -76,11 +76,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/values/update/{id}', [ValuesController::class, 'values_update']);
     Route::get('/values/delete/{id}', [ValuesController::class, 'delete_value'])->name('delete_value');
 
-    Route::get('/products/{id}', [ProductsController::class, 'products_list'])->name('products_list');
+    Route::get('/products/{action}', [ProductsController::class, 'products_list'])->name('products_list');
     Route::get('/products/show/{id}', [ProductsController::class, 'show_product'])->name('show_product');
     Route::get('/products/status/{action}', [ProductsController::class, 'filter'])->name('filter');
     Route::get('/products/delete/{id}', [ProductsController::class, 'delete_product'])->name('delete_product');
-    Route::get('/products/{action}/{id}', [ProductsController::class, 'approve_reject'])->name('approve_reject');
+    Route::get('/products/approve/{id}', [ProductsController::class, 'approve_product'])->name('approve_product');
+    Route::post('/products/reject/{id}', [ProductsController::class, 'reject_product'])->name('reject_product');
 
     Route::get('/settings', [SettingsController::class, 'settings'])->name('settings');
     Route::post('/settings/add', [SettingsController::class, 'settings_post'])->name('settings_post');
