@@ -194,26 +194,27 @@ x-access-token : {{token}}
 x-app-version : 1.0.0
 x-client-platform : Android
 
-# {
-#     "businessName": "MS Soft",
-#     "yearOfEstablishment" : 2004,
-#     "aboutBusiness" : "Software business",
-#     "accountType": "business"
-# }
-
 {
-    "name" : "Glenn",
-    "location" : {
-        "city": "87a18afa-76dd-4bd6-ada9-789c54a9eef2",
-        "region": "2a1b44e9-4f24-4173-b207-1c2baccb380b",
-        "country": "0f346fe1-5d2e-440f-99eb-eb1703293cdc"
-
-    },
-    "birthday" : null,
-    "sex" : "male",
-    "bio" : "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
-    "accountType": "standard"
+    "businessName": "MS Soft",
+    "yearOfEstablishment" : 2004,
+    "aboutBusiness" : "Software business",
+    "accountType": "business",
+    "tinNumber": "123232"
 }
+
+# {
+#     "name" : "Glenn",
+#     "location" : {
+#         "city": "87a18afa-76dd-4bd6-ada9-789c54a9eef2",
+#         "region": "2a1b44e9-4f24-4173-b207-1c2baccb380b",
+#         "country": "0f346fe1-5d2e-440f-99eb-eb1703293cdc"
+
+#     },
+#     "birthday" : null,
+#     "sex" : "male",
+#     "bio" : "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+#     "accountType": "standard"
+# }
 
 ###
 
