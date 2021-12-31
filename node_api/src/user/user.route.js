@@ -2,7 +2,7 @@ const router = require("../modules/express").instance.Router();
 const { checkSchema } = require("express-validator");
 const UserController = require("./user.controller");
 const schema = require("./user.data-schema");
-const { setPassword: setPasswordSchema, activeSchema, phoneSchema, emailSchema, forgetPasswordSchema, connectGoogleSchema, connectFacebookSchema, updateSchema, pictureUploadSchema, coverUploadSchema, favoriteProductSchema } = require("./schema");
+const { setPassword: setPasswordSchema, activeSchema, phoneSchema, emailSchema, forgetPasswordSchema, connectGoogleSchema, connectFacebookSchema, updateSchema, pictureUploadSchema, coverUploadSchema, favoriteProductSchema, phoneConsentSchema } = require("./schema");
 const authMiddleware = require("../auth/auth.middleware");
 
 const multer = require("multer");
@@ -18,6 +18,7 @@ module.exports = () => {
   router.put("/email", authMiddleware, checkSchema(emailSchema), controller.changeEmail);
   router.post("/email", controller.verifyEmail);
   router.put("/phone", authMiddleware, checkSchema(phoneSchema), controller.updatePhone);
+  router.put("/phone/consent", authMiddleware, checkSchema(phoneConsentSchema), controller.updatePhoneShowConsent);
 
   router.delete("/facebook", authMiddleware, controller.deleteFacebook);
   router.delete("/google", authMiddleware, controller.deleteGoogle);

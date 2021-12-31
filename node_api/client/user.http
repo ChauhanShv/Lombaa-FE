@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3001/api
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRiNmY4ZmQ0LTQxZmUtNGNmNS04OGMxLTU0NTBiOTBhZmU1YiIsImlhdCI6MTY0MDk0MjA0MSwiZXhwIjoxNjQxMDI4NDQxfQ.-RSH0yHo2AmVTKBFQSPrJyHMhU6TskRG-yefecf-WOE
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5NzE5NWUzLThkODMtNDY5YS1hMTliLTc3NWE3MmE5NjUzMiIsImlhdCI6MTY0MDk1NTQ1OCwiZXhwIjoxNjQxMDQxODU4fQ.s1OVmwe1xA_IBCB6MfvL0wCLryfDTVJDW2KUgkGqiD4
 ### Crete new User
 
 POST {{baseUrl}}/user HTTP/1.1
@@ -282,3 +282,15 @@ content-type: application/json
 x-access-token: {{token}}
 x-client-platform : Android
 x-app-version : 1.0.0
+
+###
+
+PUT {{baseUrl}}/user/phone/consent HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+{
+    "consent": true
+}
