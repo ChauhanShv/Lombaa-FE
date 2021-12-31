@@ -18,7 +18,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { isEmpty } from 'lodash';
 import { AiOutlineEdit } from 'react-icons/ai';
-import { SocialMediaConnect, AccountTypeSelector, LocationSelector } from '.';
+import { SocialMediaConnect, AccountTypeSelector } from '.';
 import { LocationDropdown } from '../create-post';
 import { useAppContext, ActionTypes } from '../../contexts';
 import { useAxios } from '../../services';
@@ -40,6 +40,7 @@ const standardSchema = yup.object().shape({
 const businessSchema = yup.object().shape({
     businessName: yup.string().required('Please enter name of your business'),
     yearOfEstablishment: yup.string().nullable().required('Please Enter Year of Establishment'),
+    tinNumber: yup.string().required('TIN number is required'),
     aboutBusiness: yup.string().required('This Field is Required')
         .min(20, 'Please Enter at least 20 characters')
         .max(5000, 'About Business should not exceed more than 5000 characters'),
@@ -53,6 +54,11 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
     const [accountType, setAccountType] = useState<string>(userData?.accountType);
     const [openCropModal, setOpenCropModal] = useState<boolean>(false);
     const [locationId, setLocationId] = useState<object>({});
+    const defaultLocation = {
+        country: userData?.location?.country?.id,
+        region: userData?.location?.region?.id,
+        city: userData?.location?.city?.id,
+    };
     const formMethods = useForm({
         resolver: yupResolver(standardSchema),
         defaultValues: {
@@ -67,6 +73,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
         resolver: yupResolver(businessSchema),
         defaultValues: {
             businessName: userData?.businessName,
+            tinNumber: userData?.tinNumber,
             yearOfEstablishment: userData?.yearOfEstablishment,
             aboutBusiness: userData?.aboutBusiness,
         },
@@ -121,7 +128,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                 execute({
                     data: {
                         name: values.name,
-                        location: locationId,
+                        location: isEmpty(locationId) ? defaultLocation : locationId,
                         birthday: values.birthday,
                         sex: values.sex,
                         bio: values.bio,
@@ -133,6 +140,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                 execute({
                     data: {
                         businessName: values.businessName,
+                        tinNumber: values.tinNumber,
                         yearOfEstablishment: values.yearOfEstablishment,
                         aboutBusiness: values.aboutBusiness,
                         accountType: 'business',
@@ -295,6 +303,15 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                                         {...registerBusiness('businessName')}
                                     />
                                     {getErrorText('businessName')}
+                                </FloatingLabel>
+                                <FloatingLabel label="TIN Number" className="mb-3">
+                                    <Form.Control
+                                        type="number"
+                                        placeholder="TIN Number"
+                                        className={getErrorClassName('tinNumber')}
+                                        {...registerBusiness('tinNumber')}
+                                    />
+                                    {getErrorText('yearOfEstablishment')}
                                 </FloatingLabel>
                                 <FloatingLabel label="Year Of Establishment" className="mb-3">
                                     <Form.Control

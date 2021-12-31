@@ -52,8 +52,7 @@ listing p{font-size:12px;}
     .my-listing .btn{padding: .175rem .55rem; font-size:12px; }
  }
 
-.placeholder-image { width: 20%; margin-top: 3%; text-align: center; }
+.placeholder-image { width: 30%; height: 20%; margin-top: 3%; text-align: center; }
 
 .tab-placeholder-text{ margin-bottom: 50px; color: #888; }
 
-.placeholder-image { fill: green; width: 15%; height: 10% }

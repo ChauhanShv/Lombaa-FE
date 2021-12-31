@@ -11,7 +11,7 @@ interface TabContentProps {
 const EmptyTabContent: React.FC<TabContentProps> = ({ tabTitle }: TabContentProps): React.ReactElement => {
     return (
         <div style={{ textAlign: 'center' }} className="pt-15 pb-15">
-            <AiOutlineShoppingCart className='placeholder-image' />
+            <img src="/images/placeholder-image.jpg" className='placeholder-image' />
             <p className="tab-placeholder-text">{`We could not fetch anything for ${tabTitle} tab. There is no data available.`}</p>
             <Link to="create-post">
                 <Button variant="success">Sell Your Item</Button>

@@ -166,8 +166,14 @@ module.exports = {
   },
 
   tinNumber: {
-    notEmpty: {
-      errorMessage: "TIN number is required",
+    custom: {
+      options: async (value, { req, location, path }) => {
+        if (req?.body?.accountType === "standard") return Promise.resolve();
+
+        if (!value) return Promise.reject("TIN is required");
+
+        return Promise.resolve();
+      },
     },
   },
 };
