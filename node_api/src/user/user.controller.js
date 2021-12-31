@@ -36,7 +36,7 @@ class UserController extends BaseController {
 
     const body = req.body;
 
-    const userData = { businessName: body.businessName, name: body?.name, email: body?.email, phoneNumber: body?.phoneNumber, phoneCode: body?.phoneCode, accountType: body?.accountType, tinNumber: body?.tinNumber, password: util?.hashPassword(body.password) };
+    const userData = { businessName: body.businessName, name: body?.name, email: body?.email, phoneNumber: body?.phoneNumber, phoneCode: body?.phoneCode, accountType: body?.accountType, tinNumber: body?.tinNumber, password: util?.hashPassword(body.password), isPhoneVerified: true };
 
     try {
       const newUser = await model.create(userData);
