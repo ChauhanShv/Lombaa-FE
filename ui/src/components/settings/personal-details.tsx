@@ -100,17 +100,6 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                     metaData: response?.metadata?.user,
                 }
             });
-            if (userData?.accountType !== accountType) {
-                dispatch({
-                    type: ActionTypes.UPDATE_PROFILE,
-                    payload: {
-                        metaData: {
-                            ...state.user?.metaData,
-                            accountType: accountType,
-                        }
-                    }
-                });
-            }
         }
         if (profileImageRes?.success) {
             dispatch({
@@ -133,7 +122,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                         sex: values.sex,
                         bio: values.bio,
                         memberSince: values.memberSince,
-                        accountType: 'standard',
+                        accountType: accountType,
                     }
                 });
             } else {
@@ -143,7 +132,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                         tinNumber: values.tinNumber,
                         yearOfEstablishment: values.yearOfEstablishment,
                         aboutBusiness: values.aboutBusiness,
-                        accountType: 'business',
+                        accountType: accountType,
                     }
                 })
             }
