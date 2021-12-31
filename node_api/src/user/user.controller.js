@@ -170,6 +170,25 @@ class UserController extends BaseController {
     }
   };
 
+  updatePhoneShowConsent = async (req, res, next) => {
+    try {
+      validationResult(req).formatWith(validationErrorFormatter).throw();
+    } catch (error) {
+      return res.status(422).json(error.array({ onlyFirstError: true }));
+    }
+
+    try {
+      const user = req.user;
+      await model.update({ showPhoneNumberConsent: req.body.consent }, { where: { id: user.id }, returning: true });
+
+      req.user.showPhoneNumberConsent = req.body.consent;
+
+      return super.jsonRes({ res, req, code: 200, data: { success: true, message: "Show phone number consent updated" } });
+    } catch (error) {
+      return next(error);
+    }
+  };
+
   forgetPassword = async (req, res, next) => {
     try {
       validationResult(req).formatWith(validationErrorFormatter).throw();
