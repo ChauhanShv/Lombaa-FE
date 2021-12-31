@@ -121,7 +121,7 @@
             </a>
             <ul>
                 <li class="">
-                    <a href="{{ route('products_list', ['id' => 'all']) }}">List</a>
+                    <a href="{{ route('products_list', ['action' => 'all']) }}">List</a>
                 </li>
             </ul>
         </li>

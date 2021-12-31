@@ -28,7 +28,7 @@
                     Filter products <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu pull-right" style="text-align: left; "  role="menu">
-                    <li><a href="{{ route('products_list', ['id' => 'all']) }}"><i style="color: grey" class="icon icon-list"></i>&nbsp;&nbsp;&nbsp;All</a></li>
+                    <li><a href="{{ route('products_list', ['action' => 'all']) }}"><i style="color: grey" class="icon icon-list"></i>&nbsp;&nbsp;&nbsp;All</a></li>
                     <li class="divider"></li>
                     <li><a href="{{ route('filter', ['action' => 'under_review']) }}"><i style="color: grey" class="icon icon-exclamation-sign"></i>&nbsp;&nbsp;&nbsp;Under&nbsp;review</a></li>
                     <li class="divider"></li>
@@ -57,6 +57,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @php $modal = 1; @endphp
                     @php $i = $products->perPage() * ($products->currentPage() - 1); @endphp
                     @foreach($products as  $product)  @php $i++ @endphp
                     <tr class="gradeX" style="align-content: center;">
@@ -87,14 +88,17 @@
                         <td style="text-align: center;">
                             @if(($product->approvedAt) == null && $product->rejectedAt == null)
                                 <p><strong>Under&nbsp;Review</strong></p>
-                                <a href="{{ route('approve_reject', ['action' => 'approve', 'id' => $product->id ]) }}" onclick="return confirm('Do you want to Approve this product?');">
+                                <a href="{{ route('approve_product', ['id' => $product->id ]) }}" onclick="return confirm('Do you want to Approve this product?');">
                                     <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Approve" style="width: 24px; height: 24px; font-size: 1.5em;" class="icon icon-ok"></i>
                                 </a>
-                                <a href="{{ route('approve_reject', ['action' => 'reject', 'id' => $product->id]) }}" onclick="return confirm('Do you want to Reject this product?');">
+                                <a href="#myModal-{{ $modal }}" data-toggle="modal">
                                    <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Reject" style="width: 24px; height: 24px; font-size: 1.5em;" class="icon icon-remove"></i>
                                 </a>
                                 <a href="{{ route('show_product', $product->id) }}">
-                                    <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="View" class="icon icon-user" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                                    <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="View" class="icon icon-eye-open" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                                </a>
+                                <a href="{{ route('info', $product->user->id) }}">
+                                    <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="User profile" class="icon icon-user" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
                                 <a href="">
                                     <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Edit" class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
@@ -102,24 +106,68 @@
                                 <a href="{{ route('delete_product', $product->id) }}">
                                     <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Delete" class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;" onclick="return confirm('Do you want to delete this product?');"></i>
                                 </a>
+                                <div id="myModal-{{ $modal }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h3 id="myModalLabel">Add reason for rejection</h3>
+                                    </div>
+                                    <form action="{{ route('reject_product', ['id' => $product->id]) }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                        <div class="modal-body" style="width:100%">
+                                            <textarea style="width:85%" name="reason" rows="3"></textarea>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                                                @csrf
+                                            <button type="submit" class="btn btn-primary">Reject</button>
+                                        </div>
+                                    </form>
+                                </div>
                             @elseif(($product->approvedAt) !== null)
                                 <p><strong>Approved</strong></p>
+                                <a href="#myModal-{{ $modal }}" data-toggle="modal">
+                                   <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Reject" style="width: 24px; height: 24px; font-size: 1.5em;" class="icon icon-remove"></i>
+                                </a>
                                 <a href="{{ route('show_product', $product->id) }}">
-                                    <i class="icon icon-user" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                                    <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="View" class="icon icon-eye-open"  style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                                </a>
+                                <a href="{{ route('info', $product->user->id) }}">
+                                    <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="User profile" class="icon icon-user"  style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
                                 <a href="">
-                                    <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                                    <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Edit" class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
                                 <a href="{{ route('delete_product', $product->id) }}">
                                     <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Delete" class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;" onclick="return confirm('Do you want to delete this product?');"></i>
                                 </a>
+                                <div id="myModal-{{ $modal }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h3 id="myModalLabel">Add reason for rejection</h3>
+                                    </div>
+                                    <form action="{{ route('reject_product', ['id' => $product->id]) }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                        <div class="modal-body" style="width:100%">
+                                            <textarea style="width:85%" name="reason" rows="3"></textarea>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                                                @csrf
+                                            <button type="submit" class="btn btn-primary">Reject</button>
+                                        </div>
+                                    </form>
+                                </div>
                             @elseif(($product->rejectedAt) !== null)
                                 <p><strong>Rejected</strong></p>
+                                <a href="{{ route('approve_product', ['id' => $product->id ]) }}" onclick="return confirm('Do you want to Approve this product?');">
+                                    <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Approve" style="width: 24px; height: 24px; font-size: 1.5em;" class="icon icon-ok"></i>
+                                </a>
                                 <a href="{{ route('show_product', $product->id) }}">
-                                    <i class="icon icon-user" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                                    <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="View" class="icon icon-eye-open"  style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                                </a>
+                                <a href="{{ route('info', $product->user->id) }}">
+                                    <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="User profile" class="icon icon-user"  style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
                                 <a href="">
-                                    <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                                    <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Edit" class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>
                                 <a href="{{ route('delete_product', $product->id) }}">
                                     <i data-toggle="tooltip" data-trigger="hover" data-placement="left" title="Delete" class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;" onclick="return confirm('Do you want to delete this product?');"></i>
@@ -127,6 +175,7 @@
                             @endif
                         </td>
                     </tr>
+                    @php $modal++ @endphp
                     @endforeach
                     @if ($errors->any())
                         <div class="alert alert-danger">
