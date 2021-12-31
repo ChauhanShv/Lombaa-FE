@@ -30,12 +30,10 @@ class ValuesController extends Controller
 
             $rules = [
                 'name' => 'required',
-                'icon' => 'required',
             ];
 
             $messages = [
                 'name.required' => 'Value name is required',
-                'icon.required' => 'Icon is required',
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);
@@ -44,45 +42,40 @@ class ValuesController extends Controller
                 return redirect()->back()->withInput($request->all())->withErrors($validator);
             }
 
-            $iconName = Str::uuid() . '.' . $request->file('icon')->getClientOriginalName();
-            // $path = Storage::disk('s3')->put('images', $request->icon);
-            // $iconPath = Storage::disk('s3')->url($path);
-            $iconMime = $request->file('icon')->getClientMimeType();
-            $iconExt = $request->file('icon')->extension();
+            if ($request->hasFile('icon')) {
+                $iconName = Str::uuid() . '.' . $request->file('icon')->getClientOriginalName();
+                // $path = Storage::disk('s3')->put('images', $request->icon);
+                // $iconPath = Storage::disk('s3')->url($path);
+                $iconMime = $request->file('icon')->getClientMimeType();
+                $iconExt = $request->file('icon')->extension();
 
-            $fileData = [
-                'id' => Str::uuid(),
-                'key_name' => $iconName,
-                'extension' => $iconExt,
-                'name' => $iconName,
-                'mime' => $iconMime,
-                'relative_path' => '',
-                // 'absolute_path'=> $iconPath,
-                'absolute_path' => 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/L27xI2KWxQerlkrlwWnPvHl0BJDLnfRzpRaQjrQb.jpg',
-                'location' => 's3',
-            ];
-
-            $sendFileData = Files::create($fileData);
-
-            if ($sendFileData) {
-                $data = [
+                $fileData = [
                     'id' => Str::uuid(),
-                    'value' => $request->name,
-                    'iconId' => $fileData['id'],
-                    'fieldId' => $request->field,
+                    'key_name' => $iconName,
+                    'extension' => $iconExt,
+                    'name' => $iconName,
+                    'mime' => $iconMime,
+                    'relative_path' => '',
+                    // 'absolute_path'=> $iconPath,
+                    'absolute_path' => 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/L27xI2KWxQerlkrlwWnPvHl0BJDLnfRzpRaQjrQb.jpg',
+                    'location' => 's3',
                 ];
 
-                $sendData = Values::create($data);
-                $field_name = Fields::where('id', $data['fieldId'])->first('label');
-                $value_name = $data['value'];
-
-                // dd($field_name['label']);
-
-                return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Value added successfully', 'field_name' => $field_name['label'], 'value_name' => $value_name]);
-
-            } else {
-                return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Something went wrong']);
+                $sendFileData = Files::create($fileData);
             }
+
+            $data = [
+                'id' => Str::uuid(),
+                'value' => $request->name,
+                'iconId' => $fileData['id'],
+                'fieldId' => $request->field,
+            ];
+
+            $sendData = Values::create($data);
+            $field_name = Fields::where('id', $data['fieldId'])->first('label');
+            $value_name = $data['value'];
+
+            return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Value added successfully', 'field_name' => $field_name['label'], 'value_name' => $value_name]);
 
         } else {
 

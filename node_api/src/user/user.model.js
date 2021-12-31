@@ -211,6 +211,12 @@ User.init(
       allowNull: true,
       defaultValue: null,
     },
+
+    tinNumber: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
+      defaultValue: null,
+    },
   },
   {
     modelName: "User",
