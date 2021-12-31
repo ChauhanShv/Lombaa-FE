@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3001/api
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5NzE5NWUzLThkODMtNDY5YS1hMTliLTc3NWE3MmE5NjUzMiIsImlhdCI6MTY0MDk1NTQ1OCwiZXhwIjoxNjQxMDQxODU4fQ.s1OVmwe1xA_IBCB6MfvL0wCLryfDTVJDW2KUgkGqiD4
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5NzE5NWUzLThkODMtNDY5YS1hMTliLTc3NWE3MmE5NjUzMiIsImlhdCI6MTY0MDk3NDQ5NSwiZXhwIjoxNjQxMDYwODk1fQ.snZ9W029R-D4vW-2Ke-ogNiDLx_Moz_-hr8rBPbwdVw
 ### Crete new User
 
 POST {{baseUrl}}/user HTTP/1.1
@@ -206,7 +206,7 @@ x-client-platform : Android
 #     "name" : "Glenn",
 #     "location" : {
 #         "city": "87a18afa-76dd-4bd6-ada9-789c54a9eef2",
-#         "region": "2a1b44e9-4f24-4173-b207-1c2baccb380b",
+#         "region": "af02b759-52d4-11ec-809d-021b0ebe8bee",
 #         "country": "0f346fe1-5d2e-440f-99eb-eb1703293cdc"
 
 #     },
