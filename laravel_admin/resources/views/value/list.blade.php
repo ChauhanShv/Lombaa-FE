@@ -58,7 +58,7 @@
                     @foreach( $values as $data ) @php $i++ @endphp
                     <tr class="gradeX" style="align-content: center;">
                         <td style="text-align: center;">{{ $i }}</td>
-                        <td style="text-align: center;"><image style="width:50px; height:50px; border-radius: 5%;" src="{{ $data->icon->absolute_path }}"/></td>
+                        <td style="text-align: center;"><image style="width:50px; height:50px; border-radius: 5%;" src="{{ $data->icon->absolute_path ?? 'No icon' }}"/></td>
                         <td style="text-align: center;">{{ $data->value }}</td>
                         <td style="text-align: center;">{{ ($data->fieldId == null ) ? 'Not yet assigned to ay Field' : $data->field->label }}</td>
                         <td style="text-align: center;">

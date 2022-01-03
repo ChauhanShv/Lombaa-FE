@@ -21,11 +21,22 @@
         <div class="widget-content nopadding">
           <form action="{{ route('values_update', $value->id) }}" method="post" enctype="multipart/form-data" class="form-horizontal">
             <div class="control-group">
-                <label class="control-label">Assigned to Field:</label>
-                <div class="controls">
-                  <input type="text" name="field" value="{{ ($value->fieldId == null) ? 'Not yet assigned to ay Field' : $value->field->label }}" style="width: 40%" class="span11"/>
-                </div>
+              <label class="control-label">Assigned to Field:</label>
+              <div class="controls">
+                <select id='' name="field">
+                    <option value="{{ $value->fieldId }}" selected>{{ $value->field->label }}</option>
+                        @foreach($fields as $field)
+                          @if( $value->fieldId !== $field->id )
+                            <option value="{{ $field->id }}">{{ $field->label }}</option>
+                          @endif
+                        @endforeach
+                </select>
+                @error('field')
+                  <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                @enderror
+              </div>
             </div>
+
             <div class="control-group">
               <label class="control-label">Value name :</label>
               <div class="controls">
