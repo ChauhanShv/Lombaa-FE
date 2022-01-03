@@ -42,8 +42,8 @@ export const DeactivateAccount: React.FC = (): React.ReactElement => {
             <Card.Header className="d-flex align-items-center justify-content-between bg-white">
                 <span className="d-flex align-items-center "><button className="btn btn-white d-md-block d-lg-none"><FaChevronLeft /></button>Deactivate Account</span>
             </Card.Header>
-            <Container className="card-content mx-auto">
-                <Form className="details-form p-5 d-flex">
+            <Container className="card-content mx-auto col-11">
+                <Form className="details-form py-5 d-flex">
                     {(apiError || alert.message) && (
                         <Alert variant={alert.message ? 'success' : 'danger'} onClose={() => setAlert({})} dismissible>
                             {alert.message || getAPIErrorMessage(apiError)}

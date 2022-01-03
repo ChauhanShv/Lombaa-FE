@@ -326,10 +326,10 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                             </>
                         )}
                         <Form.Group as={Row} controlId="memberSinceText">
-                            <Form.Label column sm="4">
+                            <Form.Label column xs="4">
                                 Member Since
                             </Form.Label>
-                            <Form.Label column sm="8">
+                            <Form.Label column xs="8">
                                 {moment(userData?.memberSince).format('DD MMMM YYYY')}
                             </Form.Label>
                         </Form.Group>
@@ -339,7 +339,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                                     <Form.Label column sm="4">
                                         Last Active At
                                     </Form.Label>
-                                    <Form.Label column sm="8">
+                                    <Form.Label column xs="8">
                                         {moment(userData?.lastActiveAt).format('DD MMMM YYYY')}
                                     </Form.Label>
                                 </>

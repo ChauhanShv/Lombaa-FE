@@ -122,7 +122,7 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
                     </Link>Change Email
                 </span>
             </Card.Header>
-            <Col md={8} className="card-content mx-auto">
+            <Col md={8} className="card-content mx-auto col-11">
                 <Form onSubmit={handleFormSubmit} className="details-form p-5">
                     {(apiError || alert.message) && (
                         <Alert variant={alert.message ? 'success' : 'danger'} onClose={() => setAlert({})} dismissible>

@@ -25,7 +25,7 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
 
     return (
         <>
-            {categories.map((category: any) => {
+            {categories.map((category: Categories) => {
                 return (
                     <>
                         {!!category?.isPopular && (
@@ -39,7 +39,7 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
                                                 <ul>
                                                     <div className='row'>
                                                         <div className="col pe-0">
-                                                            <img width="24" height="24" src=" https://dummyimage.com/100/007bff/efefef" />
+                                                            <img width="24" height="24" src={category?.icon?.url || "https://dummyimage.com/100/007bff/efefef"} />
                                                         </div>
                                                         <div className="col">
                                                             {category.subCategories.map((subCategory: any) =>
@@ -69,14 +69,14 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
                         <Popover.Body className="px-5 shadow d-flex flex-wrap">
                             {categories.map((category: Categories) =>
                                 <>
-                                    {!!category.isPopular && (
+                                    {!!!category.isPopular && (
                                         <>
                                             <h3 className="p-3 text-center">{category?.name}</h3>
                                             <div className='p-3 text-center' key={category?.id}>
                                                 <ul>
                                                     <div className='row'>
                                                         <div className="col pe-0">
-                                                            <img width="24" height="24" src=" https://dummyimage.com/100/007bff/efefef" />
+                                                            <img width="24" height="24" src={category?.icon?.url || "https://dummyimage.com/100/007bff/efefef"} />
                                                         </div>
                                                         <div className="col">
                                                             {category.subCategories.map((subCategory: any) =>

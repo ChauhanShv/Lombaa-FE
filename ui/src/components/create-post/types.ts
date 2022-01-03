@@ -25,6 +25,14 @@ export interface SubCategories {
   isActive: number;
   isPopular: number;
 }
+
+export interface CategoryIcon {
+  extension: string;
+  id: string;
+  mime: string;
+  url: string;
+}
+
 export interface Categories {
   id: string;
   name: string;
@@ -33,6 +41,7 @@ export interface Categories {
   isActive: number;
   isPopular: number;
   subCategories: SubCategories[];
+  icon: CategoryIcon;
 }
 
 export interface Media {
