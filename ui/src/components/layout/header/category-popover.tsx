@@ -37,11 +37,18 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
                                         <Popover.Body className="px-5 shadow d-flex flex-wrap">
                                             <div className='p-3 text-center'>
                                                 <ul>
-                                                    {category.subCategories.map((subCategory: any) =>
-                                                        <li key={subCategory?.id}>
-                                                            <Link to="">{subCategory?.name}</Link>
-                                                        </li>
-                                                    )}
+                                                    <div className='row'>
+                                                        <div className="col pe-0">
+                                                            <img width="24" height="24" src=" https://dummyimage.com/100/007bff/efefef" />
+                                                        </div>
+                                                        <div className="col">
+                                                            {category.subCategories.map((subCategory: any) =>
+                                                                <li key={subCategory?.id}>
+                                                                    <Link to="">{subCategory?.name}</Link>
+                                                                </li>
+                                                            )}
+                                                        </div>
+                                                    </div>
                                                 </ul>
                                             </div>
                                         </Popover.Body>
@@ -67,11 +74,18 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
                                             <h3 className="p-3 text-center">{category?.name}</h3>
                                             <div className='p-3 text-center' key={category?.id}>
                                                 <ul>
-                                                    {category.subCategories.map((subCategory: any) =>
-                                                        <li key={subCategory?.id}>
-                                                            <Link to="">{subCategory?.name}</Link>
-                                                        </li>
-                                                    )}
+                                                    <div className='row'>
+                                                        <div className="col pe-0">
+                                                            <img width="24" height="24" src=" https://dummyimage.com/100/007bff/efefef" />
+                                                        </div>
+                                                        <div className="col">
+                                                            {category.subCategories.map((subCategory: any) =>
+                                                                <li key={subCategory?.id}>
+                                                                    <Link to="">{subCategory?.name}</Link>
+                                                                </li>
+                                                            )}
+                                                        </div>
+                                                    </div>
                                                 </ul>
                                             </div>
                                         </>
