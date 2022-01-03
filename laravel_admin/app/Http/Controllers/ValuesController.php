@@ -44,8 +44,8 @@ class ValuesController extends Controller
 
             if ($request->hasFile('icon')) {
                 $iconName = Str::uuid() . '.' . $request->file('icon')->getClientOriginalName();
-                // $path = Storage::disk('s3')->put('images', $request->icon);
-                // $iconPath = Storage::disk('s3')->url($path);
+                $path = Storage::disk('s3')->put('images', $request->icon);
+                $iconPath = Storage::disk('s3')->url($path);
                 $iconMime = $request->file('icon')->getClientMimeType();
                 $iconExt = $request->file('icon')->extension();
 
@@ -56,8 +56,7 @@ class ValuesController extends Controller
                     'name' => $iconName,
                     'mime' => $iconMime,
                     'relative_path' => '',
-                    // 'absolute_path'=> $iconPath,
-                    'absolute_path' => 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/L27xI2KWxQerlkrlwWnPvHl0BJDLnfRzpRaQjrQb.jpg',
+                    'absolute_path' => $iconPath,
                     'location' => 's3',
                 ];
 
@@ -96,8 +95,8 @@ class ValuesController extends Controller
                 $deleteOldIcon = Files::where('id', $getIconId->iconId)->delete();
 
                 $iconName = Str::uuid() . '.' . $request->file('icon')->getClientOriginalName();
-                // $path = Storage::disk('s3')->put('images', $request->icon);
-                // $iconPath = Storage::disk('s3')->url($path);
+                $path = Storage::disk('s3')->put('images', $request->icon);
+                $iconPath = Storage::disk('s3')->url($path);
                 $iconMime = $request->file('icon')->getClientMimeType();
                 $iconExt = $request->file('icon')->extension();
 
@@ -108,8 +107,7 @@ class ValuesController extends Controller
                     'name' => $iconName,
                     'mime' => $iconMime,
                     'relative_path' => '',
-                    // 'absolute_path'=> $iconPath,
-                    'absolute_path' => 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/L27xI2KWxQerlkrlwWnPvHl0BJDLnfRzpRaQjrQb.jpg',
+                    'absolute_path' => $iconPath,
                     'location' => 's3',
                 ];
 
