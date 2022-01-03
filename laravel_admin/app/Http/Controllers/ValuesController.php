@@ -67,7 +67,7 @@ class ValuesController extends Controller
             $data = [
                 'id' => Str::uuid(),
                 'value' => $request->name,
-                'iconId' => $fileData['id'],
+                'iconId' => $request->icon ? $fileData['id'] : null,
                 'fieldId' => $request->field,
             ];
 
