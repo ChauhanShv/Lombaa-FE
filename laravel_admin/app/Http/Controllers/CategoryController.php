@@ -9,6 +9,7 @@ use App\Models\Files;
 use App\Rules\HasSingleTitle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Storage;
 use Str;
 
 class CategoryController extends Controller
@@ -19,7 +20,6 @@ class CategoryController extends Controller
             $rules = [
                 'name' => 'required|regex:/^[\s\w-]*$/',
                 'description' => 'required',
-                'image' => 'required',
                 'product' => ['required_unless:is_parent,on'],
                 'fields' => ['required_unless:is_parent,on', new HasSingleTitle],
             ];
@@ -27,7 +27,6 @@ class CategoryController extends Controller
             $messages = [
                 'name.required' => 'Name is required',
                 'description.required' => 'Description is required',
-                'image.required' => 'Image is required',
                 'product.required' => 'Category is required',
                 'product.required_unless' => 'Parent cartegory is required',
                 'fields.required_unless' => 'Parent cartegory is required',
@@ -39,30 +38,31 @@ class CategoryController extends Controller
                 return redirect()->back()->withInput($request->all())->withErrors($validator);
             }
 
-            $image_name = Str::uuid() . '.' . $request->file('image')->getClientOriginalName();
-            // $path = Storage::disk('s3')->put('images', $request->image);
-            // $image_path = Storage::disk('s3')->url($path);
-            $image_mime = $request->file('image')->getClientMimeType();
-            $image_ext = $request->file('image')->extension();
+            if ($request->hasFile('image')) {
+                $image_name = Str::uuid() . '.' . $request->file('image')->getClientOriginalName();
+                $path = Storage::disk('s3')->put('images', $request->image);
+                $image_path = Storage::disk('s3')->url($path);
+                $image_mime = $request->file('image')->getClientMimeType();
+                $image_ext = $request->file('image')->extension();
 
-            $file_data = [
-                'id' => Str::uuid(),
-                'key_name' => $image_name,
-                'extension' => $image_ext,
-                'name' => $image_name,
-                'mime' => $image_mime,
-                'relative_path' => '',
-                // 'absolute_path'=> $image_path,
-                'absolute_path' => 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/Djehr3diIDdqjo8Wf2JhFbZC70M9w1RZ0xb9VFH4.png',
-                'location' => 's3',
-            ];
+                $file_data = [
+                    'id' => Str::uuid(),
+                    'key_name' => $image_name,
+                    'extension' => $image_ext,
+                    'name' => $image_name,
+                    'mime' => $image_mime,
+                    'relative_path' => '',
+                    'absolute_path' => $image_path,
+                    'location' => 's3',
+                ];
 
-            $send_file_data = Files::create($file_data);
+                $send_file_data = Files::create($file_data);
+            }
 
             $data = [
                 'name' => $request->name,
                 'description' => $request->description,
-                'iconId' => $file_data['id'],
+                'iconId' => $request->image ? $file_data['id'] : null,
                 'isPopular' => isset($request->popular) ? 1 : 0,
                 'isActive' => isset($request->active) ? 1 : 0,
                 'parentId' => isset($request->is_parent) ? null : $request->product,
@@ -137,10 +137,10 @@ class CategoryController extends Controller
                 return redirect()->back()->withInput($request->all())->withErrors($validator);
             }
 
-            if ($request->image !== null) {
+            if ($request->hasFile('image')) {
                 $image_name = Str::uuid() . '.' . $request->file('image')->getClientOriginalName();
-                // $path = Storage::disk('s3')->put('images', $request->image);
-                // $image_path = Storage::disk('s3')->url($path);
+                $path = Storage::disk('s3')->put('images', $request->image);
+                $image_path = Storage::disk('s3')->url($path);
                 $image_mime = $request->file('image')->getClientMimeType();
                 $image_ext = $request->file('image')->extension();
 
@@ -153,8 +153,7 @@ class CategoryController extends Controller
                     'name' => $image_name,
                     'mime' => $image_mime,
                     'relative_path' => '',
-                    // 'absolute_path'=> $image_path,
-                    'absolute_path' => 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/MONRfS7gQ3w0LOJOlijQ8j1Ned7TC7NhSeeCGpfj.png',
+                    'absolute_path' => $image_path,
                     'location' => 's3',
                 ];
 
