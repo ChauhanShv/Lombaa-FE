@@ -15,6 +15,7 @@ import {
     FaChevronLeft,
     FaInfoCircle,
 } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -43,7 +44,7 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
         url: '/user/email',
         method: 'PUT'
     });
-    const [{ data: resendEmailRes, loading: resendEmailLoading }, executeEmailResend] = useAxios({
+    const [{ data: resendEmailRes, loading: resendEmailLoading, error: resendMailError }, executeEmailResend] = useAxios({
         url: '/user/email/verify/resend',
         method: 'GET',
     });
@@ -115,13 +116,17 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
     return (
         <Card>
             <Card.Header className="d-flex align-items-center justify-content-between bg-white">
-                <span className="d-flex align-items-center "><button className="btn btn-white d-md-block d-lg-none"><FaChevronLeft /></button>Change Email</span>
+                <span className="d-flex align-items-center ">
+                    <Link to="/settings" className="btn btn-white d-md-block d-lg-none">
+                        <FaChevronLeft />
+                    </Link>Change Email
+                </span>
             </Card.Header>
             <Col md={8} className="card-content mx-auto">
                 <Form onSubmit={handleFormSubmit} className="details-form p-5">
                     {(apiError || alert.message) && (
                         <Alert variant={alert.message ? 'success' : 'danger'} onClose={() => setAlert({})} dismissible>
-                            {alert.message || getAPIErrorMessage(apiError)}
+                            {alert.message || getAPIErrorMessage(apiError) || getAPIErrorMessage(resendMailError)}
                         </Alert>
                     )}
                     <FloatingLabel

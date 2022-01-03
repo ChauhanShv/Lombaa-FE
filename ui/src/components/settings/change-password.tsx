@@ -11,6 +11,7 @@ import {
 import {
     FaChevronLeft,
 } from 'react-icons/fa';
+import { Link } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -90,7 +91,11 @@ export const ChangePassword: React.FC = (): React.ReactElement => {
     return (
         <Card>
             <Card.Header className="d-flex align-items-center justify-content-between bg-white">
-                <span className="d-flex align-items-center "><button className="btn btn-white d-md-block d-lg-none"><FaChevronLeft /></button>Change Password</span>
+                <span className="d-flex align-items-center ">
+                    <Link to="/settings" className="btn btn-white d-md-block d-lg-none">
+                        <FaChevronLeft />
+                    </Link>Change Password
+                </span>
             </Card.Header>
             <Col md={8} className="card-content mx-auto">
                 <Form onSubmit={handleFormSubmit} className="details-form p-5" noValidate>

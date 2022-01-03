@@ -28,15 +28,14 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
             {categories.map((category: any) => {
                 return (
                     <>
-                        {category?.isPopular && (
+                        {!!category?.isPopular && (
                             <OverlayTrigger
-                                key='bottom'
+                                key={category?.id}
                                 placement='bottom-end'
-                                trigger='hover'
                                 overlay={
                                     <Popover className="head-cat" id={`popover-positioned-bottom`}>
                                         <Popover.Body className="px-5 shadow d-flex flex-wrap">
-                                            <div className='p-3 text-center' key={category?.id}>
+                                            <div className='p-3 text-center'>
                                                 <ul>
                                                     {category.subCategories.map((subCategory: any) =>
                                                         <li key={subCategory?.id}>
@@ -58,13 +57,12 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
             <OverlayTrigger
                 key='bottom'
                 placement='bottom-end'
-                trigger='hover'
                 overlay={
                     <Popover className="head-cat" id={`popover-positioned-bottom`}>
                         <Popover.Body className="px-5 shadow d-flex flex-wrap">
                             {categories.map((category: Categories) =>
                                 <>
-                                    {!category.isPopular && (
+                                    {!!category.isPopular && (
                                         <>
                                             <h3 className="p-3 text-center">{category?.name}</h3>
                                             <div className='p-3 text-center' key={category?.id}>

@@ -12,6 +12,7 @@ import {
 import {
     FaChevronLeft,
 } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -34,6 +35,7 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
     const { state, dispatch } = useAppContext();
     const [alert, setAlert] = useState<AlertType>({});
     const [phoneCodeData, setPhoneCodeData] = useState<any[]>([]);
+    const [phoneConsent, setPhoneConsent] = useState<boolean>(state.user?.metaData?.showPhoneNumberConsent);
     const [phoneCode, setPhoneCode] = useState<string>(state.user?.metaData?.phoneCode);
     const { register, handleSubmit, formState: { errors }, getValues } = useForm<ChangePhoneFormFeilds>({
         resolver: yupResolver(schema),
@@ -49,6 +51,10 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
     const [{ data: phoneCodeResponse }, phoneCodeExecute] = useAxios({
         url: 'locations/countries',
         method: 'GET',
+    });
+    const [{ data: consentResponse, loading: consentLoading, error: consentError }, consentExecute] = useAxios({
+        url: '/user/phone/consent',
+        method: 'PUT',
     });
 
     useEffect(() => {
@@ -76,8 +82,23 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
                 }
             });
         }
-    }, [response]);
+        if (consentResponse?.success) {
+            setAlert({
+                variant: 'success',
+                message: 'Consent Updated',
+            });
+            setPhoneConsent(!phoneConsent);
+        }
+    }, [response, consentResponse]);
 
+    const handleConsentSwitch = (event: React.FormEvent) => {
+        event.preventDefault();
+        consentExecute({
+            data: {
+                consent: !phoneConsent,
+            }
+        })
+    }
     const handleFormSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         handleSubmit(onSubmit)();
@@ -115,7 +136,11 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
     return (
         <Card>
             <Card.Header className="d-flex align-items-center justify-content-between bg-white">
-                <span className="d-flex align-items-center "><button className="btn btn-white d-md-block d-lg-none"><FaChevronLeft /></button>Change Phone</span>
+                <span className="d-flex align-items-center ">
+                    <Link to="/settings" className="btn btn-white d-md-block d-lg-none">
+                        <FaChevronLeft />
+                    </Link>Change Phone
+                </span>
             </Card.Header>
             <Col md={8} className="card-content col-md-8 mx-auto">
                 <Form onSubmit={handleFormSubmit} className="details-form p-5">
@@ -163,6 +188,20 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
                             </FloatingLabel>
                         </Col>
                     </Row>
+                    <Form.Label className='text-muted'>
+                        Share phone number with Buyer's Consent
+                    </Form.Label>
+                    {!consentLoading ? (
+                        <Form.Check
+                            className="mb-3"
+                            id="buyer-consent-switch"
+                            type="switch"
+                            checked={phoneConsent}
+                            onChange={handleConsentSwitch}
+                        />
+                    ) : (
+                        <Spinner animation='grow' role='status' />
+                    )}
                     <Button type="submit" className="btn btn-success w-100">
                         {
                             loading ? (
