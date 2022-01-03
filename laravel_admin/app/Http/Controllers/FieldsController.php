@@ -46,8 +46,8 @@ class FieldsController extends Controller
 
             if ($request->hasfile('icon')) {
                 $icon_name = Str::uuid() . '.' . $request->file('icon')->getClientOriginalName();
-                // $path = Storage::disk('s3')->put('images', $request->icon);
-                // $iconPath = Storage::disk('s3')->url($path);
+                $path = Storage::disk('s3')->put('images', $request->icon);
+                $iconPath = Storage::disk('s3')->url($path);
                 $icon_mime = $request->file('icon')->getClientMimeType();
                 $icon_ext = $request->file('icon')->extension();
 
@@ -58,8 +58,7 @@ class FieldsController extends Controller
                     'name' => $icon_name,
                     'mime' => $icon_mime,
                     'relative_path' => '',
-                    // 'absolute_path'=> $iconPath,
-                    'absolute_path' => 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/L27xI2KWxQerlkrlwWnPvHl0BJDLnfRzpRaQjrQb.jpg',
+                    'absolute_path' => $iconPath,
                     'location' => 's3',
                 ];
 
@@ -73,7 +72,7 @@ class FieldsController extends Controller
                 'isActive' => isset($request->active) ? 1 : 0,
                 'dataTypes' => $request->dataTypes,
                 'fieldType' => $request->fieldtype,
-                'iconId' => $file_data['id'],
+                'iconId' => $request->icon ? $file_data['id'] : null,
             ];
 
             $submit_data = Fields::create($data);
@@ -167,8 +166,8 @@ class FieldsController extends Controller
 
         if ($request->hasFile('icon')) {
             $icon_name = Str::uuid() . '.' . $request->file('icon')->getClientOriginalName();
-            // $path = Storage::disk('s3')->put('images', $request->icon);
-            // $iconPath = Storage::disk('s3')->url($path);
+            $path = Storage::disk('s3')->put('images', $request->icon);
+            $iconPath = Storage::disk('s3')->url($path);
             $icon_mime = $request->file('icon')->getClientMimeType();
             $icon_ext = $request->file('icon')->extension();
 
@@ -179,8 +178,7 @@ class FieldsController extends Controller
                 'name' => $icon_name,
                 'mime' => $icon_mime,
                 'relative_path' => '',
-                // 'absolute_path'=> $iconPath,
-                'absolute_path' => 'https://lomba-task-temp.s3.ap-south-1.amazonaws.com/images/L27xI2KWxQerlkrlwWnPvHl0BJDLnfRzpRaQjrQb.jpg',
+                'absolute_path' => $iconPath,
                 'location' => 's3',
             ];
 

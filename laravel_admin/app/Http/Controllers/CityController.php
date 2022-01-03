@@ -61,20 +61,6 @@ class CityController extends Controller
 
             $city->save();
 
-            // $data = [
-            //     'id' => Str::uuid(),
-            //     'name' => $city_name,
-            //     'code' => $city_code,
-            //     'regionId' => $region,
-            // ];
-            // $insert_city = Cities::create($data);
-
-            // $city_coordinate = [
-            //     'coordinate' => \DB::raw("GeomFromText('POINT({$request->lat} {$request->long})')"),
-            // ];
-
-            // $insert_city_coordinate = Cities::where('id', $data['id'])->update($city_coordinate);
-
             try {
                 return redirect()->route('city_list')->with('response', ['status' => 'success', 'message' => 'City added successfully']);
             } catch (Exception $e) {
