@@ -24,7 +24,7 @@ export const AccountTypeSelector: React.FC<AccountTypeSelectorProps> = ({ onChan
 
     return (
         <div className="form-group mb-3">
-            <Form.Label column sm="4">AccountType</Form.Label>
+            <Form.Label column xs="4">AccountType</Form.Label>
             <Form.Check
                 label="Individual"
                 inline

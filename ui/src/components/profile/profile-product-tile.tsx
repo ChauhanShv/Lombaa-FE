@@ -1,9 +1,9 @@
 import React from 'react';
-import {Col, Row, Card, Button} from 'react-bootstrap';
+import { Col, Row, Card, Button } from 'react-bootstrap';
 
 export const ProfileProductTile: React.FC = (): React.ReactElement => {
     return (
-        <Col md={12} className="col-6 mb-3">
+        <Col md={12} className="col-md-6 md-3">
             <Card>
                 <Row>
                     <Col md={4}>

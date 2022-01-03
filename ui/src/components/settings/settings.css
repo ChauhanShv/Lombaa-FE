@@ -36,3 +36,8 @@
 .profile-image { width: 150px; height: 150px; }
 
 .verify-email-link { color: green; cursor: pointer; font-weight: 600; text-decoration: underline; }
+
+@media all and (max-width:767px){
+.sidenav .side-cta{font-size:12px;}
+}
+

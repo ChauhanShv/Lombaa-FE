@@ -12,6 +12,7 @@ import {
     Spinner,
 } from 'react-bootstrap';
 import { FaChevronLeft } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { useForm, FormProvider } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -196,9 +197,9 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
         <Card>
             <Card.Header className="d-flex align-items-center justify-content-between bg-white">
                 <span className="d-flex align-items-center ">
-                    <button className="btn btn-white d-md-block d-lg-none">
+                    <Link to='/settings' className="btn btn-white d-md-block d-lg-none">
                         <FaChevronLeft />
-                    </button>
+                    </Link>
                     {userData?.accountType === 'standard' ? 'Personal Details' : 'Business Information'}
                 </span>
             </Card.Header>
@@ -325,10 +326,10 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                             </>
                         )}
                         <Form.Group as={Row} controlId="memberSinceText">
-                            <Form.Label column sm="4">
+                            <Form.Label column xs="4">
                                 Member Since
                             </Form.Label>
-                            <Form.Label column sm="8">
+                            <Form.Label column xs="8">
                                 {moment(userData?.memberSince).format('DD MMMM YYYY')}
                             </Form.Label>
                         </Form.Group>
@@ -338,7 +339,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                                     <Form.Label column sm="4">
                                         Last Active At
                                     </Form.Label>
-                                    <Form.Label column sm="8">
+                                    <Form.Label column xs="8">
                                         {moment(userData?.lastActiveAt).format('DD MMMM YYYY')}
                                     </Form.Label>
                                 </>

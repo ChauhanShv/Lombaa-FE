@@ -21,7 +21,7 @@ export const ProfileHeaderCard: React.FC = (): React.ReactElement => {
 
     return (
         <Container className="p-4">
-            <Row className="shadow border rounded py-4" >
+            <Row className="shadow border rounded py-4 user-card" >
                 <Col md={6}>
                     <Row>
                         <Col md={12} className="d-flex">
@@ -50,7 +50,7 @@ export const ProfileHeaderCard: React.FC = (): React.ReactElement => {
                         </Col>
                     </Row>
                 </Col>
-                <Col md={6} className="pt-4 pt-md-0 text-muted px-4">
+                <Col md={6} className="pt-2 pt-md-0 text-muted px-4">
                     <p><FaEnvelope className="me-2" />{userData?.email}</p>
                     <p><FaMapMarkerAlt className="me-2" />{getLocation}</p>
                     <p><FaClock className="me-2" />Joined on {moment(userData?.memberSince).format('LL')}</p>
