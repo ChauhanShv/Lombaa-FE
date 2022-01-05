@@ -64,6 +64,7 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
             <OverlayTrigger
                 key='bottom'
                 placement='bottom-end'
+                trigger='click'
                 overlay={
                     <Popover className="head-cat" id={`popover-positioned-bottom`}>
                         <Popover.Body className="px-5 shadow d-flex flex-wrap">
@@ -71,14 +72,14 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
                                 <>
                                     {!!!category.isPopular && (
                                         <>
-                                            <h3 className="p-3 text-center">{category?.name}</h3>
                                             <div className='p-3 text-center' key={category?.id}>
                                                 <ul>
                                                     <div className='row'>
-                                                        <div className="col pe-0">
+                                                        <div className="col col-md-2 pe-0">
                                                             <img width="24" height="24" src={category?.icon?.url || "https://dummyimage.com/100/007bff/efefef"} />
                                                         </div>
-                                                        <div className="col">
+                                                        <div className="col col-md-10">
+                                                            <h3 className="text-center">{category?.name}</h3>
                                                             {category.subCategories.map((subCategory: any) =>
                                                                 <li key={subCategory?.id}>
                                                                     <Link to="">{subCategory?.name}</Link>

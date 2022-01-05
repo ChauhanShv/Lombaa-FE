@@ -140,7 +140,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                         placeholder="Type your search"
                         aria-label="Type your search"
                     />
-                    <button className="btn btn-success">
+                    <button className="btn btn-success margin-right-14">
                         <FaSearch />
                     </button>
                 </InputGroup>
