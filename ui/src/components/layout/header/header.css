@@ -47,6 +47,7 @@ body{padding-bottom: 80px;}
 .rounded{border-radius:1rem !important;}
 .btn-fullround, .fullround{border-radius:100px !important;}
 .shadow{box-shadow: 0 0.3rem .8rem rgba(0,0,0,.09)!important;}
+.margin-right-14{margin-right: 14px;}
 
 .z1{z-index: 11;}
 
