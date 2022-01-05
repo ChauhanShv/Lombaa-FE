@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Spinner } from 'react-bootstrap';
 import { useDropzone } from 'react-dropzone';
 import { includes } from 'lodash';
 import { BsBoxArrowUp, BsXCircleFill } from 'react-icons/bs';
@@ -12,7 +13,7 @@ export const DragAndDrop: React.FC<DragAndDropProps> = ({
   const [media, setMedia] = useState<Media[]>([]);
   const [files, setFiles] = useState<File[]>([]);
 
-  const [{ data: mediaData }, executeMedia] = useAxios({
+  const [{ data: mediaData, loading: mediaLoading }, executeMedia] = useAxios({
     url: '/product/media',
     method: 'POST',
   });
@@ -33,6 +34,7 @@ export const DragAndDrop: React.FC<DragAndDropProps> = ({
       token: mediaData?.media.token,
       url: mediaData?.media.token,
       mime: mediaData.media?.mime,
+      isPrimary: false,
     })) {
       setMedia([
         ...media,
@@ -40,6 +42,7 @@ export const DragAndDrop: React.FC<DragAndDropProps> = ({
           token: mediaData.media.token,
           url: mediaData.media.url,
           mime: mediaData.media?.mime,
+          isPrimary: !!media.length ? false : true,
         }
       ]);
     }
@@ -50,8 +53,9 @@ export const DragAndDrop: React.FC<DragAndDropProps> = ({
   }, [media]);
 
   useEffect(() => {
+    setMedia([]);
     uploadFiles();
-  }, [files])
+  }, [files]);
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*, video/*',
@@ -65,30 +69,50 @@ export const DragAndDrop: React.FC<DragAndDropProps> = ({
     maxFiles: 10,
   });
 
+  const handlePrimaryMedia = (index: number) => {
+    const newMedia = media;
+    newMedia.map((mediaFile: Media, index: number) => {
+      mediaFile.isPrimary = false;
+    });
+    newMedia[index].isPrimary = true;
+    setMedia([...newMedia]);
+  }
+
   const handleCloseButtonClick = (index: number) => {
     const newMedia = media;
     newMedia.splice(index, 1);
     setMedia([...newMedia]);
+    const newFiles = files;
+    newFiles.splice(index, 1);
+    setFiles([...newFiles]);
   }
 
   const imagePreview = () => {
-    return media.map((file: any, index: number) => (
-      <div key={file.token} className="thumb">
-        <div className="thumb-inner">
-          {file.mime?.includes('video') ? (
-            <video className='video' poster='placeholder.png' controls>
-              <source src={file.url} type="video/*" />
-            </video>
-          ) : (
-            <img src={file.url} className="img" />
-          )}
-          <BsXCircleFill
-            onClick={() => handleCloseButtonClick(index)}
-            className="close-button"
-          />
-        </div>
-      </div>
-    ));
+    return (
+      <>
+        {files.map((file: any, index: number) => (
+          <div key={file.name} className="thumb">
+            <div className="thumb-inner">
+              {file.type?.includes('video') ? (
+                <video className='video' controls placeholder='/images/placeholder-image.jpg' onClick={() => handlePrimaryMedia(index)}>
+                  <source src={`${file.preview}#t=3.1`} type="video/*" />
+                </video>
+              ) : (
+                <div>
+                  <img src={file.preview} className="img" onClick={() => handlePrimaryMedia(index)} />
+                </div>
+              )}
+              <BsXCircleFill
+                onClick={() => handleCloseButtonClick(index)}
+                className="close-button"
+              />
+              {!!media.length && media[index]?.isPrimary && <div className="primary-label">Primary</div>}
+            </div>
+          </div>
+        )
+        )}
+      </>
+    );
   }
 
   return (
@@ -101,6 +125,9 @@ export const DragAndDrop: React.FC<DragAndDropProps> = ({
       </div>
       <aside className="thumbs-container">
         {imagePreview()}
+        {mediaLoading ? (
+          <div><Spinner animation="border" />Uploading... Please wait</div>
+        ) : <div>{''}</div>}
       </aside>
     </div>
   );

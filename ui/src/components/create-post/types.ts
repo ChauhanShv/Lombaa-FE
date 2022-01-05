@@ -48,6 +48,7 @@ export interface Media {
   token: string;
   url: string;
   mime: string;
+  isPrimary?: boolean;
 }
 
 export interface LocationSelectorProps {
