@@ -58,9 +58,9 @@ export const DragAndDrop: React.FC<DragAndDropProps> = ({
   }, [files]);
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/*, video/*',
+    accept: 'image/png, image/jpeg, image/jpg, video/mp4',
     onDrop: acceptedFiles => {
-      const newFiles: File[] = [];
+      const newFiles: File[] = files;
       newFiles.push(...acceptedFiles.map(file => Object.assign(file, {
         preview: URL.createObjectURL(file)
       })));
@@ -94,8 +94,9 @@ export const DragAndDrop: React.FC<DragAndDropProps> = ({
           <div key={file.name} className="thumb">
             <div className="thumb-inner">
               {file.type?.includes('video') ? (
-                <video className='video' controls placeholder='/images/placeholder-image.jpg' onClick={() => handlePrimaryMedia(index)}>
-                  <source src={`${file.preview}#t=3.1`} type="video/*" />
+                <video className='video' controls onClick={() => handlePrimaryMedia(index)}>
+                  <source src={file.preview} type="video/mp4" />
+                  <source src={file.preview} type="video/webm" />
                 </video>
               ) : (
                 <div>
