@@ -37,6 +37,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
         title: '',
         description: '',
         file: '',
+        media: [],
     });
 
     const customResolver = async (
@@ -184,6 +185,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
         setSuccessData({
             ...successData,
             file: updatedMedia[0]?.url || '',
+            media: updatedMedia,
         });
     };
 
