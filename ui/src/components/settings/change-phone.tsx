@@ -8,6 +8,7 @@ import {
     Spinner,
     Col,
     Row,
+    ListGroup,
 } from 'react-bootstrap';
 import {
     FaChevronLeft,
@@ -188,20 +189,27 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
                             </FloatingLabel>
                         </Col>
                     </Row>
-                    <Form.Label className='text-muted'>
-                        Share phone number with Buyer's Consent
-                    </Form.Label>
-                    {!consentLoading ? (
-                        <Form.Check
-                            className="mb-3"
-                            id="buyer-consent-switch"
-                            type="switch"
-                            checked={phoneConsent}
-                            onChange={handleConsentSwitch}
-                        />
-                    ) : (
-                        <Spinner animation='grow' role='status' />
-                    )}
+                    <ListGroup as="ul" className="connectsocial mb-3">
+                        <ListGroup.Item as="li">
+                            <span>
+                                <p className='text-muted mb-0'>
+                                    Share phone number with Buyer's Consent
+                                </p>
+                            </span>
+                            <span>
+                                {!consentLoading ? (
+                                    <Form.Check
+                                        id="buyer-consent-switch"
+                                        type="switch"
+                                        checked={phoneConsent}
+                                        onChange={handleConsentSwitch}
+                                    />
+                                ) : (
+                                    <Spinner animation='grow' role='status' />
+                                )}
+                            </span>
+                        </ListGroup.Item>
+                    </ListGroup>
                     <Button type="submit" className="btn btn-success w-100">
                         {
                             loading ? (

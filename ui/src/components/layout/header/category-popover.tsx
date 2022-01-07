@@ -64,7 +64,6 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
             <OverlayTrigger
                 key='bottom'
                 placement='bottom-end'
-                trigger='click'
                 overlay={
                     <Popover className="head-cat" id={`popover-positioned-bottom`}>
                         <Popover.Body className="px-5 shadow d-flex flex-wrap">
