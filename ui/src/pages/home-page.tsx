@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Row, Col, Container, InputGroup, FormControl, } from 'react-bootstrap';
-import { FaSearch, FaHeart } from 'react-icons/fa';
+import { Row, Col, Container } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 
 import Slider from "react-slick";
@@ -163,13 +162,13 @@ export const HomePage: React.FC = (): React.ReactElement => {
                                         </Button>
                                     </Link>
                                 </Col>
-                                <Col lg={3} md={4} className="col-6 mb-3">
+                                <Col lg={3} md={6} className="mb-3">
                                     <AdCard />
                                 </Col>
-                                <Col lg={3} md={4} className="col-6 mb-3">
+                                <Col lg={3} md={6} className="mb-3">
                                     <AdCard />
                                 </Col>
-                                <Col lg={3} md={4} className="col-6 mb-3">
+                                <Col lg={3} md={6} className="mb-3">
                                     <AdCard />
                                 </Col>
                             </Row>

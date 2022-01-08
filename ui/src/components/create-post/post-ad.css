@@ -42,8 +42,8 @@
   border: 1px solid #eaeaea;
   margin-bottom: 5px;
   margin-right: 5px;
-  width: 75px;
-  height: 75px;
+  width: calc(100% / 3.33);
+  height: 100px;
   padding: 4px;
   box-sizing: border-box;
 }
@@ -59,23 +59,36 @@
   display: block;
   width: auto;
   height: 100%;
+  cursor: pointer;
 }
 
 .video {
   display: inline;
   width: auto;
   height: 100%;
+  cursor: pointer;
 }
 
 .close-button {
   display: inline-block;
   position: absolute;
-  width: 16px;
-  height: 16px;
-  top:1px;
-  right:1px;
+  width: 20px;
+  height: 20px;
+  top: 1px;
+  right: 1px;
   background: #fff;
   border-radius: 100px;
+}
+
+.primary-label {
+  background-color: #000;
+  position: absolute;
+  bottom: 0;
+  color: #fff;
+  font-weight: 500;
+  font-size: 12px;
+  width: 100%;
+  text-align: center;
 }
 
 .upload-limit-text {
@@ -90,4 +103,7 @@
   border-color: green;
 }
 
-h2, .h2{font-size:calc(1.0rem + 0.8vw);}
+h2,
+.h2 {
+  font-size: calc(1rem + 0.8vw);
+}

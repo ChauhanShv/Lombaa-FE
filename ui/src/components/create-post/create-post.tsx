@@ -37,6 +37,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
         title: '',
         description: '',
         file: '',
+        media: [],
     });
 
     const customResolver = async (
@@ -113,7 +114,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
         const postData: any = {
             categoryId: values?.subCategory,
             fields: [],
-            media: media.map((i: Media) => ({ token: i.token })),
+            media: media.map((i: Media) => ({ token: i.token, isPrimary: i.isPrimary })),
             location: location,
         };
         selectedSubCategory?.fields.forEach((field: Fields) => {
@@ -184,6 +185,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
         setSuccessData({
             ...successData,
             file: updatedMedia[0]?.url || '',
+            media: updatedMedia,
         });
     };
 

@@ -34,7 +34,7 @@ export const ProfileVerificationCard: React.FC = (): React.ReactElement => {
             <h2 className="fwsemi text-secondary">Verification</h2>
             <Row className="shadow border rounded pt-4">
                 <Col md={12}>
-                    <Col className="text-center p-3">
+                    <Col className="text-center p-md-3">
                         <ProfileVerificationStepper onVerify={getNonVerifiedStepLabel} />
                     </Col>
                     <Col className="text-center p-3 text-muted">
@@ -43,7 +43,7 @@ export const ProfileVerificationCard: React.FC = (): React.ReactElement => {
                     </Col>
                 </Col>
                 <Col md={12} className="justify-content-end border-top align-items-center d-flex">
-                    <Button onClick={handleVerifyNowClick} className="m-0 p-3 text-dark fs-5 bg-white border-white">Verify Now <FaChevronRight /></Button>
+                    <Button onClick={handleVerifyNowClick} className="m-0 p-3 text-dark bg-white border-white">Verify Now <FaChevronRight /></Button>
                 </Col>
             </Row>
         </Container>

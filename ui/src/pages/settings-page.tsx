@@ -67,7 +67,7 @@ export const SettingsPage: React.FC = () => {
     };
     return (
         <>
-            <Container className="p-5">
+            <Container className="p-md-5 pt-4">
                 <Row>
                     {getContent()}
                 </Row>
