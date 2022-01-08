@@ -18,7 +18,7 @@ class ProductsController extends Controller
 
     public function show_product($id)
     {
-        $product_data = Products::with('user', 'location', 'location.city')->where('id', $id)->first();
+        $product_data = Products::with('user', 'location', 'location.city', 'location.region', 'location.country')->where('id', $id)->first();
         $product_fields_data = ProductFields::with('field')->where('ProductId', $id)->get();
         return view('products.show', ['product_data' => $product_data, 'product_fields_data' => $product_fields_data]);
     }
