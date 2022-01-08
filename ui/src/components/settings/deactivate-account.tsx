@@ -20,7 +20,7 @@ export const DeactivateAccount: React.FC = (): React.ReactElement => {
 
     const [{ data: response, loading, error: apiError }, execute] = useAxios({
         url: '/user/active',
-        method: 'POST'
+        method: 'PUT'
     });
     useEffect(() => {
         if (response?.success) {
@@ -33,7 +33,9 @@ export const DeactivateAccount: React.FC = (): React.ReactElement => {
     const handleFormSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         execute({
-            data: {}
+            data: {
+                status: 0,
+            }
         });
     };
 
@@ -43,7 +45,7 @@ export const DeactivateAccount: React.FC = (): React.ReactElement => {
                 <span className="d-flex align-items-center "><button className="btn btn-white d-md-block d-lg-none"><FaChevronLeft /></button>Deactivate Account</span>
             </Card.Header>
             <Container className="card-content mx-auto col-11">
-                <Form className="details-form py-5 d-flex">
+                <Form className="details-form py-5">
                     {(apiError || alert.message) && (
                         <Alert variant={alert.message ? 'success' : 'danger'} onClose={() => setAlert({})} dismissible>
                             {alert.message || getAPIErrorMessage(apiError)}

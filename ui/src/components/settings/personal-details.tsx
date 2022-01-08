@@ -11,6 +11,10 @@ import {
     Alert,
     Spinner,
 } from 'react-bootstrap';
+import { FormControl, TextField } from '@mui/material';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DatePicker from '@mui/lab/DatePicker';
 import { FaChevronLeft } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
@@ -53,6 +57,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
     const [alert, setAlert] = useState<AlertType>({});
     const [imageSrc, setImageSrc] = useState<any>();
     const [accountType, setAccountType] = useState<string>(userData?.accountType);
+    const [yearOfEstablish, setYearOfEstablish] = useState<string>(userData?.yearOfEstablishment);
     const [openCropModal, setOpenCropModal] = useState<boolean>(false);
     const [locationId, setLocationId] = useState<object>({});
     const defaultLocation = {
@@ -131,7 +136,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                     data: {
                         businessName: values.businessName,
                         tinNumber: values.tinNumber,
-                        yearOfEstablishment: values.yearOfEstablishment,
+                        yearOfEstablishment: moment(yearOfEstablish).format('YYYY'),
                         aboutBusiness: values.aboutBusiness,
                         accountType: accountType,
                     }
@@ -303,16 +308,19 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                                     />
                                     {getErrorText('yearOfEstablishment')}
                                 </FloatingLabel>
-                                <FloatingLabel label="Year Of Establishment" className="mb-3">
-                                    <Form.Control
-                                        type="date"
-                                        placeholder="Establishment Year"
-                                        className={getErrorClassName('yearOfEstablishment')}
-                                        {...registerBusiness('yearOfEstablishment')}
-                                        max={moment().format('YYYY-MM-DD')}
-                                    />
-                                    {getErrorText('yearOfEstablishment')}
-                                </FloatingLabel>
+                                <FormControl sx={{ width: '100%', marginBottom: '1rem' }}>
+                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                        <DatePicker
+                                            value={yearOfEstablish}
+                                            views={['year']}
+                                            label="Year of Establishment"
+                                            {...registerBusiness('yearOfEstablishment')}
+                                            maxDate={new Date(moment().format('YYYY-MM-DD'))}
+                                            onChange={(value: any) => setYearOfEstablish(value)}
+                                            renderInput={(params) => <TextField {...params} helperText={null} />}
+                                        />
+                                    </LocalizationProvider>
+                                </FormControl>
                                 <FloatingLabel label="About Business" className="mb-3">
                                     <Form.Control
                                         as="textarea"
