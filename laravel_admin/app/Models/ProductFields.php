@@ -27,7 +27,7 @@ class ProductFields extends Model
         'key',
         'fieldId',
         'fieldValueId',
-        'productId',
+        'ProductId',
     ];
 
     protected $keyType = 'string';
