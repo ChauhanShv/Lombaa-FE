@@ -31,17 +31,12 @@
                 <label class="control-label">Added by user : <strong>{{ $product_data->user->name ?? '' }} </strong></label>
             </div>
             <div class="control-group">
-                <label class="control-label">Location : <strong>{{ $product_data->location->city->name ?? ''}} </strong></label>
+                <label class="control-label">Location : <strong>{{ $product_data->location->city->name ?? ''}}, {{ $product_data->location->region->name ?? ''}}, {{ $product_data->location->country->name ?? ''}}</strong></label>
             </div>
-            @php $i = 1; @endphp
             @foreach($product_fields_data as $data)
             <div class="control-group">
-                <label class="control-label">Field [{{$i}}] : <strong>{{ $data->field->label ?? ''}} </strong></label>
+                <label class="control-label">{{ $data->field->label ?? ''}} : <strong>{{ $data->value ?? ''}} </strong></label>
             </div>
-            <div class="control-group">
-                <label class="control-label">Value [{{$i}}]: <strong>{{ $data->value ?? ''}} </strong></label>
-            </div>
-            @php $i++; @endphp
             @endforeach
         </div>
       </div>
