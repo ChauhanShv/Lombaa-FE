@@ -20,6 +20,7 @@ class CategoryController extends Controller
             $rules = [
                 'name' => 'required|regex:/^[\s\w-]*$/',
                 'description' => 'required',
+                'image' => 'required',
                 'product' => ['required_unless:is_parent,on'],
                 'fields' => ['required_unless:is_parent,on', new HasSingleTitle],
             ];
@@ -28,6 +29,7 @@ class CategoryController extends Controller
                 'name.required' => 'Name is required',
                 'description.required' => 'Description is required',
                 'product.required' => 'Category is required',
+                'image.required' => 'Icon is required for category',
                 'product.required_unless' => 'Parent cartegory is required',
                 'fields.required_unless' => 'Parent cartegory is required',
             ];
