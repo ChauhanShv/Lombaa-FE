@@ -31,7 +31,7 @@
                            <lable class="span11" style="font-weight: bold"></lable>
                         </div>
                         <div class="control-group">
-                           <a href="{{ route('products_list', ['id' => $info->id])}}">
+                           <a href="{{ route('products_list', ['action' => $info->id])}}">
                               <button class="btn btn-success" style="border-radius:6px; width:20%">View Products</button>
                            </a>
                         </div>
