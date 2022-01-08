@@ -87,7 +87,11 @@
               <label class="control-label">Icon:</label>
               <div class="controls">
                   <div id="imageDisplay">
-                      <image style="width:50px" src="{{ $fields->icon->absolute_path }}">
+                      @if( $fields->iconId !== null)
+                        <image style="width:50px" src="{{ $fields->icon->absolute_path }}">
+                      @else
+                        No Icon
+                      @endif
                   </div>
                   <div id="uploadField">
                     <input type="file" name="icon" style="width: 40%" class="span11" value="" />
