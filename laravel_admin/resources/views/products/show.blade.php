@@ -36,10 +36,10 @@
             @php $i = 1; @endphp
             @foreach($product_fields_data as $data)
             <div class="control-group">
-                <label class="control-label">Field [$i] : <strong>{{ $data->field->label ?? ''}} </strong></label>
+                <label class="control-label">Field [{{$i}}] : <strong>{{ $data->field->label ?? ''}} </strong></label>
             </div>
             <div class="control-group">
-                <label class="control-label">Value [$i]: <strong>{{ $data->value ?? ''}} </strong></label>
+                <label class="control-label">Value [{{$i}}]: <strong>{{ $data->value ?? ''}} </strong></label>
             </div>
             @php $i++; @endphp
             @endforeach
