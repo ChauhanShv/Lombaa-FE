@@ -7,7 +7,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import { AdCard } from '../components/ad-card/product-card';
+import { ProductCard } from '../components/ad-card/product-card';
 
 import './home-page.css';
 
@@ -163,7 +163,7 @@ export const HomePage: React.FC = (): React.ReactElement => {
                                     </Link>
                                 </Col>
                                 <Col lg={3} md={6} className="mb-3">
-                                    <AdCard
+                                    <ProductCard
                                         productId='4'
                                         title="Special title treatment"
                                         summary='With supporting text below as a natural lead-in...'
@@ -175,7 +175,7 @@ export const HomePage: React.FC = (): React.ReactElement => {
                                     />
                                 </Col>
                                 <Col lg={3} md={6} className="mb-3">
-                                    <AdCard
+                                    <ProductCard
                                         productId='5'
                                         title="New Title"
                                         summary='Summary Text'
@@ -187,7 +187,7 @@ export const HomePage: React.FC = (): React.ReactElement => {
                                     />
                                 </Col>
                                 <Col lg={3} md={6} className="mb-3">
-                                    <AdCard
+                                    <ProductCard
                                         productId='6'
                                         title="Counter Strike"
                                         summary="Global Offensive"

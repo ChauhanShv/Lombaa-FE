@@ -14,7 +14,7 @@ interface ProductCardProps {
     authorProfilePicture: string,
 };
 
-export const AdCard: React.FC<ProductCardProps> = ({
+export const ProductCard: React.FC<ProductCardProps> = ({
     productId,
     title,
     summary,

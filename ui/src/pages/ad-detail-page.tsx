@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Container } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
-import { AdCard } from '../components/ad-card/product-card';
+import { ProductCard } from '../components/ad-card/product-card';
 import { AdDetailImageSlider, AdDetailDescription } from '../components/ad-detail';
 
 export const AdDetailPage: React.FC = (): React.ReactElement => {
@@ -30,7 +30,7 @@ export const AdDetailPage: React.FC = (): React.ReactElement => {
                                     </a>
                                 </Col>
                                 <Col md={3} className="col-6 mb-3">
-                                    <AdCard
+                                    <ProductCard
                                         productId='1'
                                         title="Special title treatment"
                                         summary='With supporting text below as a natural lead-in...'
@@ -42,7 +42,7 @@ export const AdDetailPage: React.FC = (): React.ReactElement => {
                                     />
                                 </Col>
                                 <Col md={3} className="col-6 mb-3">
-                                    <AdCard
+                                    <ProductCard
                                         productId='2'
                                         title="New Title"
                                         summary='Summary Text'
@@ -54,7 +54,7 @@ export const AdDetailPage: React.FC = (): React.ReactElement => {
                                     />
                                 </Col>
                                 <Col md={3} className="col-6 mb-3">
-                                    <AdCard
+                                    <ProductCard
                                         productId='3'
                                         title="Counter Strike"
                                         summary="Global Offensive"
