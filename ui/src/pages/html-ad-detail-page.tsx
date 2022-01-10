@@ -8,7 +8,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import { AdCard } from '../components/ad-card/ad-card';
+import { AdCard } from '../components/ad-card/product-card';
 import { ProfileHeaderCard } from '../components/profile/profile-header-card';
 
 import './ad-page.css';
@@ -21,9 +21,6 @@ const AdSpotsettings = {
 export const AdDetailPage: React.FC = (): React.ReactElement => {
     return (
         <>
-
-
-
             <section className="pt-4 pb-5 mt-0 align-items-center">
                 <Container>
                     <Row>

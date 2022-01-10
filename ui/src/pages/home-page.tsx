@@ -7,7 +7,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import { AdCard } from '../components/ad-card/ad-card';
+import { AdCard } from '../components/ad-card/product-card';
 
 import './home-page.css';
 
@@ -163,13 +163,40 @@ export const HomePage: React.FC = (): React.ReactElement => {
                                     </Link>
                                 </Col>
                                 <Col lg={3} md={6} className="mb-3">
-                                    <AdCard />
+                                    <AdCard
+                                        productId='4'
+                                        title="Special title treatment"
+                                        summary='With supporting text below as a natural lead-in...'
+                                        description='Ashanti, Greater Accra lorelpsum...'
+                                        mediaType="image"
+                                        mediaSrc="https://media.kasperskydaily.com/wp-content/uploads/sites/92/2014/04/18130043/online-gamer-threats-featured.jpg"
+                                        authorName='John Smith'
+                                        authorProfilePicture='/images/user-circle.svg'
+                                    />
                                 </Col>
                                 <Col lg={3} md={6} className="mb-3">
-                                    <AdCard />
+                                    <AdCard
+                                        productId='5'
+                                        title="New Title"
+                                        summary='Summary Text'
+                                        description='Ashanti, Greater Accra lorelpsum...'
+                                        mediaType="image"
+                                        mediaSrc="https://static3.srcdn.com/wordpress/wp-content/uploads/2021/04/Older-Games-With-Great-Graphics-Far-Cry-2.jpg?q=50&fit=crop&w=740&h=370&dpr=1.5"
+                                        authorName='John Wick'
+                                        authorProfilePicture='/images/user-circle.svg'
+                                    />
                                 </Col>
                                 <Col lg={3} md={6} className="mb-3">
-                                    <AdCard />
+                                    <AdCard
+                                        productId='6'
+                                        title="Counter Strike"
+                                        summary="Global Offensive"
+                                        description="Counter Strike Global Offensive"
+                                        mediaType="image"
+                                        mediaSrc='https://www.cswarzone.com/wp-content/uploads/2020/10/fps-guide.jpg'
+                                        authorName='Kenny S'
+                                        authorProfilePicture='/images/user-circle.svg'
+                                    />
                                 </Col>
                             </Row>
                         </Col>

@@ -10,7 +10,7 @@ import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
 
-import { AdCard } from '../components/ad-card/ad-card';
+import { AdCard } from '../components/ad-card/product-card';
 
 
 export const ÇategoryPage: React.FC = (): React.ReactElement => {
