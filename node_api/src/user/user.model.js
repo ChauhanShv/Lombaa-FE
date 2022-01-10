@@ -3,7 +3,7 @@ const sequelize = require("../modules/sequelize").service;
 const Location = require("../location/location.model");
 const File = require("../file/file.model");
 
-class User extends Model {}
+class User extends Model { }
 
 User.init(
   {
@@ -206,7 +206,7 @@ User.init(
       allowNull: true,
     },
 
-    aboutBussiness: {
+    aboutBusiness: {
       type: DataTypes.STRING(250),
       allowNull: true,
       defaultValue: null,
