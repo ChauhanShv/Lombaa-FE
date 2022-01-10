@@ -203,18 +203,23 @@ class FieldsController extends Controller
 
         if ($submit_data) {
 
-            $set_field_id_null = [
-                'fieldId' => null,
-                'sort' => null,
-            ];
+            if ($request->values !== null) {
 
-            $reset_field_id = Values::where('fieldId', '=', $id)->update($set_field_id_null);
+                $set_field_id_null = [
+                    'fieldId' => null,
+                    'sort' => null,
+                ];
 
-            $i = 1;
-            foreach ($request->values as $value) {
-                $field_id = ['fieldId' => $id, 'sort' => $i];
-                Values::where('id', $value)->update($field_id);
-                $i++;
+                $reset_field_id = Values::where('fieldId', '=', $id)->update($set_field_id_null);
+
+                $i = 1;
+                foreach ($request->values as $value) {
+                    $field_id = ['fieldId' => $id, 'sort' => $i];
+                    Values::where('id', $value)->update($field_id);
+                    $i++;
+                }
+
+                return redirect()->route('field_list')->with('response', ['status' => 'success', 'message' => 'Field updated successfully']);
             }
 
             return redirect()->route('field_list')->with('response', ['status' => 'success', 'message' => 'Field updated successfully']);

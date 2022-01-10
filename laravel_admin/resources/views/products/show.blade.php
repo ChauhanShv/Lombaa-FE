@@ -5,7 +5,7 @@
   <div class="span12">
     <div class="widget-box">
       <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
-        <h5>Add Region</h5>
+        <h5>Product details</h5>
       </div>
       <div>
         @if (session('response'))
@@ -19,24 +19,25 @@
         </div>
         <div class="widget-content">
             <div class="control-group">
-                <label class="control-label">Select country : {{ $data->id }}</label>
+                <label class="control-label">Posted at : <strong>{{ $product_data->postedAt ?? '' }}</strong></label>
             </div>
             <div class="control-group">
-                <label class="control-label">Select country : {{ $data->product->id }}</label>
+                <label class="control-label">Approved at : <strong>{{ $product_data->approvedAt ?? '' }}</strong></label>
             </div>
             <div class="control-group">
-                <label class="control-label">Select country : {{ $data->field->id }}</label>
+                <label class="control-label">Expiry at : <strong>{{ $product_data->expiry ?? '' }}</strong></label>
             </div>
             <div class="control-group">
-                <label class="control-label">Select country : </label>
+                <label class="control-label">Added by user : <strong>{{ $product_data->user->name ?? '' }} </strong></label>
             </div>
             <div class="control-group">
-                <label class="control-label">Select country : </label>
+                <label class="control-label">Location : <strong>{{ $product_data->location->city->name ?? ''}}, {{ $product_data->location->region->name ?? ''}}, {{ $product_data->location->country->name ?? ''}}</strong></label>
             </div>
-            @csrf
-            <div class="form-actions">
-              <button type="submit" class="btn btn-success">Save</button>
+            @foreach($product_fields_data as $data)
+            <div class="control-group">
+                <label class="control-label">{{ $data->field->label ?? ''}} : <strong>{{ $data->value ?? ''}} </strong></label>
             </div>
+            @endforeach
         </div>
       </div>
     </div>

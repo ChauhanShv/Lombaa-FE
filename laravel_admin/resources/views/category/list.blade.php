@@ -66,7 +66,12 @@
                     @foreach($category_list as $data) @php $i++ @endphp
                     <tr class="gradeX" style="align-content: center;">
                         <td style="text-align: center;">{{ $i }}</td>
-                        <td style="text-align: center;"><image style="width:40px; height:40px; border-radius: 5%;" src="{{ $data->icon->absolute_path ?? '' }}"></td>
+                        <td style="text-align: center;">
+                        @if($data->iconId !== null)
+                            <image style="width:40px; height:40px; border-radius: 5%;" src="{{ $data->icon->absolute_path }}"></td>
+                        @else
+                            No Icon
+                        @endif
                         <td style="text-align: center;">{{ $data->id }}</td>
                         <td style="text-align: center;">{{ $data->name }}</td>
                         <td style="text-align: center;">{{ $data->description }}</td>

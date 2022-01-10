@@ -68,7 +68,7 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
         if (resendEmailRes?.success) {
             setAlert({
                 variant: 'success',
-                message: resendEmailRes?.message || 'Verification mail sent successful',
+                message: `Verification link sent to your mail ${userData?.email}`,
             });
         }
     }, [response, resendEmailRes]);
