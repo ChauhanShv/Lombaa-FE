@@ -1,7 +1,7 @@
 import { FaHeart } from 'react-icons/fa';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import './ad-card.css';
+import './product-card.css';
 
 interface ProductCardProps {
     productId: string,
