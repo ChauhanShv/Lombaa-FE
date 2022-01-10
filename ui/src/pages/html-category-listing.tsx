@@ -263,7 +263,7 @@ export const ÇategoryPage: React.FC = (): React.ReactElement => {
                                     <Col lg={3} md={4} className="col-6 mb-3">
                                         <AdCard />
                                     </Col>
-                                    <Col lg="{12}" className="py-3 text-center">
+                                    <Col lg={12} className="py-3 text-center">
                                         <button className="btn btn-outline-success rounded btn-fullround"> Load More</button>
                                     </Col>
                                 </Row>

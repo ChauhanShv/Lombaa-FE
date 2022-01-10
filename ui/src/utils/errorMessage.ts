@@ -6,6 +6,7 @@ export const getAPIErrorMessage = (error?: any): string => {
     error?.response?.data?.error?.message_detail ||
     error?.response?.data?.error?.messageDetail ||
     error?.response?.data?.error?.message ||
+    error?.response?.data[0]?.message ||
     COMMON_ERROR_MESSAGE
   );
 };
