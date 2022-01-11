@@ -1,18 +1,9 @@
-import { FaHeart } from 'react-icons/fa';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { FaHeart } from 'react-icons/fa';
+import { FiHeart } from 'react-icons/fi';
+import { ProductCardProps } from './types';
 import './product-card.css';
-
-interface ProductCardProps {
-    productId: string,
-    title: string,
-    summary: string,
-    description: string,
-    mediaType: string,
-    mediaSrc: string,
-    authorName: string,
-    authorProfilePicture: string,
-};
 
 export const ProductCard: React.FC<ProductCardProps> = ({
     productId,
@@ -22,13 +13,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     mediaSrc,
     mediaType,
     authorName,
-    authorProfilePicture
+    postedOnDate,
+    authorProfilePicture,
+    isFavourite,
 }: ProductCardProps): React.ReactElement => {
     return (
         <div className="ad-card card">
             <Link to='/'>
                 {mediaType === 'video' ? (
-                    <video>
+                    <video controls>
                         <source src={mediaSrc} type="video/mp4" />
                         <source src={mediaSrc} type="video/webm" />
                     </video>
@@ -36,8 +29,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     <Card.Img variant="top" src={mediaSrc} />
                 )}
                 <div className="d-flex justify-content-between p-3 position-absolute saved-wrap">
-                    <small className="text-white">Today</small>
-                    <button className="saved" id="fav"><FaHeart /></button>
+                    <small className="text-white">{postedOnDate}</small>
+                    {isFavourite ?
+                        <button className="saved" id="fav"><FiHeart /></button> :
+                        <button className="saved" id="fav"><FaHeart /></button>
+                    }
                 </div>
                 <div className="card-body">
                     <Card.Header className="card-title text-success">

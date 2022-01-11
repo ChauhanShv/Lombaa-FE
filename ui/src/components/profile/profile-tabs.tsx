@@ -21,6 +21,17 @@ const EmptyTabContent: React.FC<TabContentProps> = ({ tabTitle }: TabContentProp
 }
 
 export const ProfileTabs = () => {
+
+    const cardContents = {
+        productId: '',
+        title: 'Special title treatment',
+        summary: 'With supporting text below as a natural lead-in...',
+        description: 'Ashanti, Greater Accra lorelpsum...',
+        postedOnDate: "Toady",
+        mediaType: 'image',
+        mediaSrc: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=ee8417f0ea2a50d53a12665820b54e23',
+    }
+
     return (
         <Container className="p-4">
             <Row className="py-4">
@@ -30,9 +41,9 @@ export const ProfileTabs = () => {
                             <Tabs defaultActiveKey="InReview" id="uncontrolled-tab-example">
                                 <Tab eventKey="InReview" title="InReview" mountOnEnter unmountOnExit={false} className="py-4 my-listing">
                                     <Row className="row">
-                                        <ProfileProductTile />
-                                        <ProfileProductTile />
-                                        <ProfileProductTile />
+                                        <ProfileProductTile {...cardContents} />
+                                        <ProfileProductTile {...cardContents} />
+                                        <ProfileProductTile {...cardContents} />
                                     </Row>
                                 </Tab>
                                 <Tab eventKey="Active" title="Active" mountOnEnter unmountOnExit={false}>

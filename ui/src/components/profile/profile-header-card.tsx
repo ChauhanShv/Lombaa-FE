@@ -15,7 +15,7 @@ export const ProfileHeaderCard: React.FC = (): React.ReactElement => {
     const userData = state?.user?.metaData;
 
     const getAccountType = () => userData?.accountType === 'standard' ? 'Standard Account' : 'Business Account';
-    const getAccountName = () => userData?.accountType === 'standrad' ? userData?.name : userData?.businessName;
+    const getAccountName = () => userData?.accountType === 'standard' ? userData?.name : userData?.businessName;
 
     const getLocation = userData?.location ? `${userData?.location?.city?.name}, ${userData?.location?.region?.name}` : 'Location';
 

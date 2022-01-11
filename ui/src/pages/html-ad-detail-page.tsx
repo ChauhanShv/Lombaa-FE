@@ -29,6 +29,8 @@ export const AdDetailPage: React.FC = (): React.ReactElement => {
         mediaSrc: "https://media.kasperskydaily.com/wp-content/uploads/sites/92/2014/04/18130043/online-gamer-threats-featured.jpg",
         authorName: 'John Smith',
         authorProfilePicture: '/images/user-circle.svg',
+        postedOnDate: '',
+        isFavourite: false,
     };
 
     return (

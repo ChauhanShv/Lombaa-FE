@@ -39,6 +39,8 @@ export const AdDetailPage: React.FC = (): React.ReactElement => {
                                         mediaSrc="https://media.kasperskydaily.com/wp-content/uploads/sites/92/2014/04/18130043/online-gamer-threats-featured.jpg"
                                         authorName='John Smith'
                                         authorProfilePicture='/images/user-circle.svg'
+                                        postedOnDate=''
+                                        isFavourite={false}
                                     />
                                 </Col>
                                 <Col md={3} className="col-6 mb-3">
@@ -51,6 +53,8 @@ export const AdDetailPage: React.FC = (): React.ReactElement => {
                                         mediaSrc="https://static3.srcdn.com/wordpress/wp-content/uploads/2021/04/Older-Games-With-Great-Graphics-Far-Cry-2.jpg?q=50&fit=crop&w=740&h=370&dpr=1.5"
                                         authorName='John Wick'
                                         authorProfilePicture='/images/user-circle.svg'
+                                        postedOnDate=''
+                                        isFavourite={false}
                                     />
                                 </Col>
                                 <Col md={3} className="col-6 mb-3">
@@ -63,6 +67,8 @@ export const AdDetailPage: React.FC = (): React.ReactElement => {
                                         mediaSrc='https://www.cswarzone.com/wp-content/uploads/2020/10/fps-guide.jpg'
                                         authorName='Kenny S'
                                         authorProfilePicture='/images/user-circle.svg'
+                                        postedOnDate=''
+                                        isFavourite={false}
                                     />
                                 </Col>
                             </Row>
