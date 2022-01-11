@@ -170,7 +170,6 @@ class productController extends BaseController {
     }
     try {
       const allProducts = await Product.findAll({ where: { categoryId: req.body?.categoryId } })
-      console.log(allProducts)
       return super.jsonRes({
         res,
         code: 200,
@@ -185,7 +184,6 @@ class productController extends BaseController {
         res,
         code: 401,
         data: {
-          success: false,
           message: "No data found"
         }
       })
