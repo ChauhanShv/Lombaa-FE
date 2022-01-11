@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3001/api
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5NzE5NWUzLThkODMtNDY5YS1hMTliLTc3NWE3MmE5NjUzMiIsImlhdCI6MTY0MDk0NjA1NSwiZXhwIjoxNjQxMDMyNDU1fQ.Q2c5_Zpm_wizFJPehHykGMsRSLJGIsJnchX-vtDsjTg
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2YTIyOTkzLTJjNWYtNDMyMy04NGUyLTRkMTA2YjA2ZjVmMyIsImlhdCI6MTY0MTg4MDQ1NywiZXhwIjoxNjQxOTY2ODU3fQ.6leWT5CnsEfBQORt3Degxbn4pfbralG8H4idQaJSF58
 
 POST {{baseUrl}}/product HTTP/1.1
 content-type: application/json
@@ -9,7 +9,7 @@ x-app-version : 1.0.0
 x-access-token: {{token}}
 
 {
-    "categoryId": "34bac1ec-8d17-467e-936e-0545d222093b",
+    "categoryId": "94c7293f-a23e-4046-9b35-c4925543a2d4",
     "fields": [
         {
             "id": "0149ee22-da43-4ef6-be41-958d7a82d81a",
@@ -26,7 +26,7 @@ x-access-token: {{token}}
     },
     "media": [
         {
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1OTcxOTVlMy04ZDgzLTQ2OWEtYTE5Yi03NzVhNzJhOTY1MzIiLCJmaWxlSWQiOiI1OTI2NDkwYS03NmQxLTQ1MjQtOTI2Zi0yYzU5YWFiZjQ1NGEiLCJpYXQiOjE2NDA5NDYwNzcsImV4cCI6MTY0MzUzODA3N30.cT9dYGFVJWvfvZGMgE6nPfzXDyG6A2ntRcpZDwwNyaU",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhNmEyMjk5My0yYzVmLTQzMjMtODRlMi00ZDEwNmIwNmY1ZjMiLCJmaWxlSWQiOiIzZjdlMWNiYi03Yzk2LTQxZTQtOTE4OC03NzAxOWFiNWVmMzgiLCJpYXQiOjE2NDE4ODI1OTgsImV4cCI6MTY0NDQ3NDU5OH0.XLQ6rBkssFWKPb2EGGOMbJR06o7U1Y7feo9uJ9LNF_w",
             "isPrimary": true
         }
     ]
