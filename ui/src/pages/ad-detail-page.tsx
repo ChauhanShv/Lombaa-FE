@@ -41,6 +41,7 @@ export const AdDetailPage: React.FC = (): React.ReactElement => {
                                         authorProfilePicture='/images/user-circle.svg'
                                         postedOnDate=''
                                         isFavourite={false}
+                                        onFavUnfav={(fav: boolean) => { }}
                                     />
                                 </Col>
                                 <Col md={3} className="col-6 mb-3">
@@ -55,6 +56,7 @@ export const AdDetailPage: React.FC = (): React.ReactElement => {
                                         authorProfilePicture='/images/user-circle.svg'
                                         postedOnDate=''
                                         isFavourite={false}
+                                        onFavUnfav={(fav: boolean) => { }}
                                     />
                                 </Col>
                                 <Col md={3} className="col-6 mb-3">
@@ -69,6 +71,7 @@ export const AdDetailPage: React.FC = (): React.ReactElement => {
                                         authorProfilePicture='/images/user-circle.svg'
                                         postedOnDate=''
                                         isFavourite={false}
+                                        onFavUnfav={(fav: boolean) => { }}
                                     />
                                 </Col>
                             </Row>

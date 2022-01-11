@@ -9,9 +9,7 @@ import Dropzone from 'react-dropzone';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
-
 import { ProductCard } from '../components/ad-card/product-card';
-
 
 export const ÇategoryPage: React.FC = (): React.ReactElement => {
 
@@ -26,6 +24,7 @@ export const ÇategoryPage: React.FC = (): React.ReactElement => {
         authorProfilePicture: '/images/user-circle.svg',
         postedOnDate: 'Today',
         isFavourite: false,
+        onFavUnfav: (fav: boolean) => { },
     };
 
     return (
@@ -100,11 +99,7 @@ export const ÇategoryPage: React.FC = (): React.ReactElement => {
                     </Modal.Footer>
                 </div>
 
-
-
-
                 <Container className="pt-4 pt-lg-4">
-
                     <Breadcrumb>
                         <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
                         <Breadcrumb.Item href="https://getbootstrap.com/docs/4.0/components/breadcrumb/">
@@ -114,7 +109,6 @@ export const ÇategoryPage: React.FC = (): React.ReactElement => {
                     </Breadcrumb>
                     <h1 className="h4 text-secondary mb-1">Get The Best Deals On Used Cars in Ghana</h1>
                     <p className="mb-2">Thousands of cars to choose from Kia, Honda, Volkswagen, Toyota and more under $70,000 in Ghana</p>
-
                 </Container>
 
                 <div className="fixed-filters">
@@ -178,7 +172,6 @@ export const ÇategoryPage: React.FC = (): React.ReactElement => {
                                 <Dropdown.Item href="#" className="py-2">Menu Item</Dropdown.Item>
                                 <Dropdown.Item href="#" className="py-2">Menu Item</Dropdown.Item>
                                 <Dropdown.Item href="#" className="py-2">Menu Item</Dropdown.Item>
-
                             </Dropdown.Menu>
                         </Dropdown>
                         <Dropdown className="d-inline mx-2">
@@ -197,97 +190,29 @@ export const ÇategoryPage: React.FC = (): React.ReactElement => {
                                     <Form.Check type="radio" id="dc5" label="Price - Low to High" name="sortby" />
                                     <Form.Check type="radio" id="dc6" label="Reg. Year - New to Old" name="sortby" />
                                 </div>
-
-
                             </Dropdown.Menu>
                         </Dropdown>
-
-
                     </Container>
-
-
-
-
                 </div>
 
                 <Container className="">
                     <section className="pb-5">
-
                         <Row>
                             <Col sm={12}>
                                 <Row className="post-list">
-                                    <Col lg={3} md={4} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
-                                    <Col lg={3} md={4} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
-                                    <Col lg={3} md={4} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
-                                    <Col lg={3} md={4} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
-                                    <Col lg={3} md={4} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
-                                    <Col lg={3} md={4} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
-                                    <Col lg={3} md={4} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
-                                    <Col lg={3} md={4} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
-                                    <Col lg={3} md={4} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
-                                    <Col lg={3} md={4} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
-                                    <Col lg={3} md={4} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
-                                    <Col lg={3} md={4} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
-                                    <Col lg={3} md={4} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
-                                    <Col lg={3} md={4} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
-                                    <Col lg={3} md={4} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
-                                    <Col lg={3} md={4} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
-                                    <Col lg={3} md={4} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
-                                    <Col lg={3} md={4} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
-                                    <Col lg={3} md={4} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
-                                    <Col lg={3} md={4} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
+                                    {[...Array(20)].map(() =>
+                                        <Col lg={3} md={4} className="col-6 mb-3">
+                                            <ProductCard {...productCardContents} />
+                                        </Col>
+                                    )};
                                     <Col lg={12} className="py-3 text-center">
                                         <button className="btn btn-outline-success rounded btn-fullround"> Load More</button>
                                     </Col>
                                 </Row>
                             </Col>
                         </Row>
-
                     </section>
                 </Container>
-
-
-
             </div>
         </>
     );

@@ -45,6 +45,9 @@ const CatCarSettings = {
     ]
 };
 export const HomePage: React.FC = (): React.ReactElement => {
+
+    const [favourite, setFavourite] = React.useState<any>({ fav: false, productId: '' });
+
     return (
         <>
             <section className="pt-4 pb-5 mt-0 align-items-center">
@@ -173,21 +176,8 @@ export const HomePage: React.FC = (): React.ReactElement => {
                                         authorName='John Smith'
                                         authorProfilePicture='/images/user-circle.svg'
                                         postedOnDate=''
-                                        isFavourite={true}
-                                    />
-                                </Col>
-                                <Col lg={3} md={6} className="mb-3">
-                                    <ProductCard
-                                        productId='5'
-                                        title="New Title"
-                                        summary='Summary Text'
-                                        description='Ashanti, Greater Accra lorelpsum...'
-                                        mediaType="image"
-                                        mediaSrc="https://static3.srcdn.com/wordpress/wp-content/uploads/2021/04/Older-Games-With-Great-Graphics-Far-Cry-2.jpg?q=50&fit=crop&w=740&h=370&dpr=1.5"
-                                        authorName='John Wick'
-                                        authorProfilePicture='/images/user-circle.svg'
-                                        postedOnDate=''
-                                        isFavourite={false}
+                                        isFavourite={favourite.fav && favourite.productId === '4'}
+                                        onFavUnfav={(fav: boolean) => setFavourite({ fav: fav, productId: '4' })}
                                     />
                                 </Col>
                                 <Col lg={3} md={6} className="mb-3">
@@ -201,9 +191,27 @@ export const HomePage: React.FC = (): React.ReactElement => {
                                         authorName='Kenny S'
                                         authorProfilePicture='/images/user-circle.svg'
                                         postedOnDate=''
-                                        isFavourite={false}
+                                        isFavourite={favourite.fav && favourite.productId === '6'}
+                                        onFavUnfav={(fav: boolean) => setFavourite({ fav: fav, productId: '6' })}
                                     />
                                 </Col>
+                                {[...Array(8)].map((n, i) =>
+                                    <Col lg={3} md={6} className="mb-3">
+                                        <ProductCard
+                                            productId='5'
+                                            title="New Title"
+                                            summary='Summary Text'
+                                            description='Ashanti, Greater Accra lorelpsum Ashanti, Greater Accra lorelpsum Ashanti, Greater Accra lorelpsum Ashanti, Greater Accra lorelpsum Ashanti, Greater Accra lorelpsum Ashanti, Greater Accra lorelpsum Ashanti, Greater Accra lorelpsum'
+                                            mediaType="image"
+                                            mediaSrc="https://static3.srcdn.com/wordpress/wp-content/uploads/2021/04/Older-Games-With-Great-Graphics-Far-Cry-2.jpg?q=50&fit=crop&w=740&h=370&dpr=1.5"
+                                            authorName='John Wick'
+                                            authorProfilePicture='/images/user-circle.svg'
+                                            postedOnDate=''
+                                            isFavourite={favourite.fav && favourite.productId === '5'}
+                                            onFavUnfav={(fav: boolean) => setFavourite({ fav: fav, productId: '5' })}
+                                        />
+                                    </Col>
+                                )}
                             </Row>
                         </Col>
                     </Row>

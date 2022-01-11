@@ -9,4 +9,5 @@ export interface ProductCardProps {
   authorName: string;
   authorProfilePicture: string;
   isFavourite: boolean;
+  onFavUnfav: (isFav: boolean) => void;
 }

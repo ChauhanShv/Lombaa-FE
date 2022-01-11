@@ -31,6 +31,7 @@ export const AdDetailPage: React.FC = (): React.ReactElement => {
         authorProfilePicture: '/images/user-circle.svg',
         postedOnDate: '',
         isFavourite: false,
+        onFavUnfav: (fav: boolean) => { },
     };
 
     return (
@@ -190,15 +191,11 @@ export const AdDetailPage: React.FC = (): React.ReactElement => {
 
                                         </a>
                                     </Col>
-                                    <Col md={3} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
-                                    <Col md={3} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
-                                    <Col md={3} className="col-6 mb-3">
-                                        <ProductCard {...productCardContents} />
-                                    </Col>
+                                    {[...Array(16)].map(() =>
+                                        <Col md={3} className="col-6 mb-3">
+                                            <ProductCard {...productCardContents} />
+                                        </Col>
+                                    )}
                                 </Row>
                             </>
                         </Col>
