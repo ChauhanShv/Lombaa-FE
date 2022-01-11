@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3001/api
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5NzE5NWUzLThkODMtNDY5YS1hMTliLTc3NWE3MmE5NjUzMiIsImlhdCI6MTY0MTYyMjM3NCwiZXhwIjoxNjQxNzA4Nzc0fQ.YsbiS5Tuy6Sy_XaAPtmsQ5PY9DejFF22Fvgt9Ks_QJU
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2YTIyOTkzLTJjNWYtNDMyMy04NGUyLTRkMTA2YjA2ZjVmMyIsImlhdCI6MTY0MTgxNTI5NSwiZXhwIjoxNjQxOTAxNjk1fQ.Hnw25UMtAKMTyraxOFL3DO3_RDi4c72GjHIj0aaULk4
 ### Crete new User
 
 POST {{baseUrl}}/user HTTP/1.1
@@ -8,12 +8,12 @@ content-type: application/json
 x-client-platform : Android
 
 {
-    "email": "ajay@datortech.com",
+    "email": "vivek@datortech.com",
     "password": "123456",
     "name": "Gates",
-    "phoneNumber": "9641132931",
+    "phoneNumber": "7083769223",
     "phoneCode": "91",
-    "accountType": "standard",
+    "accountType": "business",
     "lattitude": "",
     "longitude": "",
     "location_city":"",
@@ -28,7 +28,7 @@ POST {{baseUrl}}/auth HTTP/1.1
 content-type: application/json
 
 {
-    "email": "ajay@datortech.com",
+    "email": "vivek@datortech.com",
     "password": "123456"
 }
 
