@@ -162,6 +162,37 @@ class productController extends BaseController {
 
     return slug;
   }
+  findByCategoryId = async (req, res, next) => {
+    try {
+      validationResult(req).formatWith(validationErrorFormatter).throw();
+    } catch (error) {
+      return res.status(422).json(error.array({ onlyFirstError: true }));
+    }
+    try {
+      const allProducts = await Product.findAll({ where: { categoryId: req.body?.categoryId } })
+      console.log(allProducts)
+      return super.jsonRes({
+        res,
+        code: 200,
+        data: {
+          success: true,
+          message: "Products retrieved",
+          Products: allProducts
+        }
+      })
+    } catch (error) {
+      return super.jsonRes({
+        res,
+        code: 401,
+        data: {
+          success: false,
+          message: "No data found"
+        }
+      })
+    }
+  }
+
 }
+
 
 module.exports = new productController();

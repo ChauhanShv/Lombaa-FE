@@ -9,7 +9,7 @@ x-app-version : 1.0.0
 x-access-token: {{token}}
 
 {
-    "categoryId": "94c7293f-a23e-4046-9b35-c4925543a2d4",
+    "categoryId": "23ddd3e5-b943-403d-9238-d8f200384dde",
     "fields": [
         {
             "id": "0149ee22-da43-4ef6-be41-958d7a82d81a",
@@ -47,3 +47,15 @@ Content-Type: video/mp4
 
 < ./video.mp4
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+GET {{baseUrl}}/product/category HTTP/1.1
+Content-Type: application/json
+x-access-token : {{token}}
+x-app-version : 1.0.0
+x-client-platform : Android
+
+{
+    "categoryId" : "23ddd3e5-b943-403d-9238-d8f200384dde"
+}
