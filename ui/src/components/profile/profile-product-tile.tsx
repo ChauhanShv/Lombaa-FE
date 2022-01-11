@@ -43,13 +43,3 @@ export const ProfileProductTile: React.FC<ProfileProductTileProps> = ({
         </Col>
     );
 };
-
-/*
-productId: '',
-title: 'Special title treatment',
-summary: 'With supporting text below as a natural lead-in...',
-description: 'Ashanti, Greater Accra lorelpsum...',
-postedOnDate: "Toady",
-mediaType: 'image',
-mediaSrc: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1080&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=ee8417f0ea2a50d53a12665820b54e23',
-*/
