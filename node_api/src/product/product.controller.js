@@ -78,7 +78,7 @@ class productController extends BaseController {
       const payload = { userId: user?.id, fileId: uploadedFile?.id };
       const token = jwt.encode(payload, "30d");
 
-      return super.jsonRes({ res, code: 201, data: { Success: true, message: "Uploaded", media: { token, url: uploadedFile?.absolute_path, mime: uploadedFile?.mime, extension: uploadedFile?.extension } } });
+      return super.jsonRes({ res, code: 201, data: { success: true, message: "Uploaded", media: { token, url: uploadedFile?.absolute_path, mime: uploadedFile?.mime, extension: uploadedFile?.extension } } });
     } catch (error) {
       return super.jsonRes({ res, code: 400, data: { success: false, error: { code: 400, message: "Failed to upload", message_detail: error.message } } });
     }
@@ -161,33 +161,6 @@ class productController extends BaseController {
     } while (!(await this.service.isSlugAvailable(slug)));
 
     return slug;
-  }
-  findByCategoryId = async (req, res, next) => {
-    try {
-      validationResult(req).formatWith(validationErrorFormatter).throw();
-    } catch (error) {
-      return res.status(422).json(error.array({ onlyFirstError: true }));
-    }
-    try {
-      const allProducts = await Product.findAll({ where: { categoryId: req.body?.categoryId } })
-      return super.jsonRes({
-        res,
-        code: 200,
-        data: {
-          success: true,
-          message: "Products retrieved",
-          Products: allProducts
-        }
-      })
-    } catch (error) {
-      return super.jsonRes({
-        res,
-        code: 401,
-        data: {
-          message: "No data found"
-        }
-      })
-    }
   }
 
 }

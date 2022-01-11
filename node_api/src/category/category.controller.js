@@ -2,10 +2,15 @@ const BaseController = require("../modules/controller").base;
 const Category = require("./category.model");
 const File = require("../file/file.model");
 const Field = require("../field/field.model");
+const ProductService = require("../product/product.service")
+
+const { validationResult } = require("express-validator");
+const { validationErrorFormatter } = require("../formater");
 
 class CategoryController extends BaseController {
   constructor() {
     super();
+    this.productService = new ProductService()
   }
   async categories(req, res, next) {
     try {
@@ -48,6 +53,37 @@ class CategoryController extends BaseController {
       return super.jsonRes({ res, code: 400, message: "bye" });
     }
   }
+
+  getProducts = async (req, res, next) => {
+    try {
+      validationResult(req).formatWith(validationErrorFormatter).throw();
+    } catch (error) {
+      return res.status(422).json(error.array({ onlyFirstError: true }));
+    }
+
+    try {
+      const catId = req.params?.id
+      const allProducts = await this.productService?.getproductByCategoryId(catId);
+      return super.jsonRes({
+        res,
+        code: 200,
+        data: {
+          success: true,
+          message: "Products retrieved",
+          data: allProducts
+        }
+      })
+    } catch (error) {
+      return super.jsonRes({
+        res,
+        code: 400,
+        data: {
+          message: "No data found"
+        }
+      })
+    }
+  }
+
 }
 
 module.exports = CategoryController;

@@ -40,6 +40,12 @@ class ProductService {
 
     return await Product.findAll({ where: { userId: userId, soldAt: { [Op.not]: null } } });
   }
+
+  async getproductByCategoryId(categoryId) {
+    if (!categoryId) return [];
+
+    return await Product.findAll({ where: { categoryId: categoryId } })
+  }
 }
 
 module.exports = ProductService;
