@@ -8,7 +8,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import { AdCard } from '../components/ad-card/ad-card';
+import { ProductCard } from '../components/ad-card/product-card';
 import { ProfileHeaderCard } from '../components/profile/profile-header-card';
 
 import './ad-page.css';
@@ -19,11 +19,23 @@ const AdSpotsettings = {
 }
 
 export const AdDetailPage: React.FC = (): React.ReactElement => {
+
+    const productCardContents = {
+        productId: '4',
+        title: "Special title treatment",
+        summary: 'With supporting text below as a natural lead-in...',
+        description: 'Ashanti, Greater Accra lorelpsum...',
+        mediaType: "image",
+        mediaSrc: "https://media.kasperskydaily.com/wp-content/uploads/sites/92/2014/04/18130043/online-gamer-threats-featured.jpg",
+        authorName: 'John Smith',
+        authorProfilePicture: '/images/user-circle.svg',
+        postedOnDate: '',
+        isFavourite: false,
+        onFavUnfav: (fav: boolean) => { },
+    };
+
     return (
         <>
-
-
-
             <section className="pt-4 pb-5 mt-0 align-items-center">
                 <Container>
                     <Row>
@@ -179,15 +191,11 @@ export const AdDetailPage: React.FC = (): React.ReactElement => {
 
                                         </a>
                                     </Col>
-                                    <Col md={3} className="col-6 mb-3">
-                                        <AdCard />
-                                    </Col>
-                                    <Col md={3} className="col-6 mb-3">
-                                        <AdCard />
-                                    </Col>
-                                    <Col md={3} className="col-6 mb-3">
-                                        <AdCard />
-                                    </Col>
+                                    {[...Array(16)].map(() =>
+                                        <Col md={3} className="col-6 mb-3">
+                                            <ProductCard {...productCardContents} />
+                                        </Col>
+                                    )}
                                 </Row>
                             </>
                         </Col>
