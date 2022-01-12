@@ -7,7 +7,7 @@ content-type: application/json
 
 ###
 
-GET {{baseUrl}}/category/23ddd3e5-b943-403d-9238-d8f200384dde/products HTTP/1.1
+GET {{baseUrl}}/category/5462dd5e-d40f-40ac-9289-b083fc45e29c/products HTTP/1.1
 Content-Type: application/json
 x-access-token : {{token}}
 x-app-version : 1.0.0

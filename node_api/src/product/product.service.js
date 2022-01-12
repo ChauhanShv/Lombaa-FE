@@ -1,6 +1,8 @@
 const Product = require("./product.model");
 const { Op } = require("sequelize");
 const moment = require("moment");
+const Location = require("../location/location.model");
+const Category = require("../category/category.model")
 
 class ProductService {
   async isSlugAvailable(slug) {
@@ -44,7 +46,10 @@ class ProductService {
   async getproductByCategoryId(categoryId) {
     if (!categoryId) return [];
 
-    return await Product.findAll({ where: { categoryId: categoryId } })
+    return await Product.findAll({
+      where: { categoryId: categoryId },
+      include: [{ model: Location, as: "location" }],
+    })
   }
 }
 
