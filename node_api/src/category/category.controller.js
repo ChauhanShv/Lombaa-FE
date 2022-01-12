@@ -66,7 +66,7 @@ class CategoryController extends BaseController {
     try {
       const catId = req.params?.id
       const allProducts = await this.productService?.getproductByCategoryId(catId);
-      const catdetail = await this.service?.getCatDetails(allProducts[0].categoryId)
+      const catdetail = await this.service?.getCatDetails(catId);
       return super.jsonRes({
         res,
         code: 200,
@@ -77,6 +77,7 @@ class CategoryController extends BaseController {
         }
       })
     } catch (error) {
+      console.log(error)
       return super.jsonRes({
         res,
         code: 400,

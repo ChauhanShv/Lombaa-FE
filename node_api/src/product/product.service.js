@@ -2,6 +2,9 @@ const Product = require("./product.model");
 const { Op } = require("sequelize");
 const moment = require("moment");
 const Location = require("../location/location.model");
+const ProductField = require("../product/product_field.model");
+const Field = require("../field/field.model");
+const User = require("../user/user.model")
 
 class ProductService {
   async isSlugAvailable(slug) {
@@ -44,10 +47,25 @@ class ProductService {
 
   async getproductByCategoryId(categoryId) {
     if (!categoryId) return [];
-    return await Product.findAll({
+    let products = await Product.findAll({
       where: { categoryId: categoryId, approvedAt: { [Op.not]: null }, expiry: { [Op.lt]: moment() } },
-      include: [{ model: Location, as: "location" }],
-    })
+      include: [
+        { model: Location, as: "location" },
+        { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
+        { model: User, as: 'user', attributes: ["name"] }
+      ]
+    });
+
+    console.log(products, 'products')
+
+    products = products.map(product => {
+      product.title = product.productFields.find(productField => productField?.field?.fieldType === 'title')?.value ?? null;
+      // product.setDataValue('title', title);
+
+      return product;
+    });
+
+    return products;
   }
 }
 
