@@ -3,6 +3,7 @@ const Category = require("./category.model");
 const File = require("../file/file.model");
 const Field = require("../field/field.model");
 const ProductService = require("../product/product.service")
+const CategoryService = require("./category.service")
 
 const { validationResult } = require("express-validator");
 const { validationErrorFormatter } = require("../formater");
@@ -11,6 +12,7 @@ class CategoryController extends BaseController {
   constructor() {
     super();
     this.productService = new ProductService()
+    this.service = new CategoryService()
   }
   async categories(req, res, next) {
     try {
@@ -64,16 +66,18 @@ class CategoryController extends BaseController {
     try {
       const catId = req.params?.id
       const allProducts = await this.productService?.getproductByCategoryId(catId);
+      const catdetail = await this.service?.getCatDetails(catId);
       return super.jsonRes({
         res,
         code: 200,
         data: {
           success: true,
           message: "Products retrieved",
-          data: allProducts
+          data: { Products: allProducts, Category: catdetail }
         }
       })
     } catch (error) {
+      console.log(error)
       return super.jsonRes({
         res,
         code: 400,

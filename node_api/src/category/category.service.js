@@ -11,6 +11,11 @@ class CategoryService {
         if (!id) return false;
         return !! await Category.count({ where: { id: id } });
     }
+
+    async getCatDetails(id) {
+        if (!id) return false;
+        return await Category.findOne({ where: { id: id } })
+    }
 }
 
 module.exports = CategoryService;

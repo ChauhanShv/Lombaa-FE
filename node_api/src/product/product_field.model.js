@@ -29,7 +29,12 @@ ProductField.init(
         modelName: "ProductField",
         tableName: "product_fields",
         timestamps: false,
-        sequelize
+        sequelize,
+        defaultScope: {
+            attributes: {
+                exclude: ["fieldId", "fieldValueId", "productId"],
+            }
+        }
     }
 );
 

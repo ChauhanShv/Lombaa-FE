@@ -23,6 +23,6 @@ FavoriteProduct.init(
 
 User.belongsToMany(Product, { through: FavoriteProduct, foreignKey: "userId" });
 Product.belongsToMany(User, { through: FavoriteProduct, foreignKey: "productId" });
-Product.belongsTo(User, { as: "user" });
+// Product.belongsTo(User, { as: "user" });
 
 module.exports = FavoriteProduct;
