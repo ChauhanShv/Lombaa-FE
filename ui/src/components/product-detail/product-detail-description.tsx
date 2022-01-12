@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { FaAsterisk, FaHandshake, FaMapMarkerAlt } from 'react-icons/fa';
 import { ProfileHeaderCard } from '../profile';
-import './ad-page.css';
+import './product-detail.css';
 
 export const AdDetailDescription = () => {
     return (
@@ -14,13 +14,13 @@ export const AdDetailDescription = () => {
                     <Row className="border-bottom py-3 mb-5">
                         <Col>
                             <FaAsterisk /> Used
-                                </Col>
+                        </Col>
                         <Col>
                             <FaHandshake /> Meetup
-                                </Col>
+                        </Col>
                         <Col>
                             <FaMapMarkerAlt /> Blk 2019 Bukit Batok St 23
-                                </Col>
+                        </Col>
                     </Row>
                     <Row>
                         <Col className="col-12 mb-2">
@@ -47,15 +47,15 @@ export const AdDetailDescription = () => {
 
                         <Col className="col-12 mb-2">
                             <p>"First Come  First Serve ".<br />
-                                        Unable to reply inquiries, Therefore, JUST WALK IN to check the condition and see 5000 other items at our warehouse</p>
+                                Unable to reply inquiries, Therefore, JUST WALK IN to check the condition and see 5000 other items at our warehouse</p>
 
                             <p>Thanks for your understanding. </p>
 
                             <p>**********************************************<br />
-                                        Viewing & Self inspection: </p>
+                                Viewing & Self inspection: </p>
 
                             <p>Blk 2019 Bukit Batok St 23 (Industrial Park A)<br />
-                                        #01-254, Singapore 659524</p>
+                                #01-254, Singapore 659524</p>
 
                             <p>Operating hours: 11 am to 5 pm (Mon - Sat).</p>
                         </Col>

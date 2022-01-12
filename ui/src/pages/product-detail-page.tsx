@@ -1,8 +1,8 @@
 import React from 'react';
 import { Row, Col, Container } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
-import { ProductCard } from '../components/ad-card/product-card';
-import { AdDetailImageSlider, AdDetailDescription } from '../components/ad-detail';
+import { ProductCard } from '../components/product-card/product-card';
+import { AdDetailImageSlider, AdDetailDescription } from '../components/product-detail';
 
 export const AdDetailPage: React.FC = (): React.ReactElement => {
     return (
