@@ -119,13 +119,13 @@ class UserController extends BaseController {
       const user = req.user;
 
       if (!(await this.service.requestChangeEmail(email, user))) {
-        const data = { success: false, error: { code: 400, message: "Failed to request change email address", message_detail: "Something went wrong " } };
+        const data = { success: false, error: { code: 400, message: "Failed to request change email address", messageDetail: "Something went wrong " } };
         return super.jsonRes({ res, code: 400, data });
       }
 
       return super.jsonRes({ res, code: 200, data: { success: true, message: `Email Verification is sent at ${email}` } });
     } catch (error) {
-      return next(error);
+      return super.jsonRes({ res, success: false, error: { code: 42201, message: "Failed to change email", messageDetail: "Please provide a valid Email address" } });
     }
   };
 
@@ -166,7 +166,7 @@ class UserController extends BaseController {
 
       return super.jsonRes({ res, req, code: 200, data: { success: true, message: "Phone update request received" } });
     } catch (error) {
-      return next(error);
+      return super.jsonRes({ res, req, success: false, error: { code: 40021, message: "failed to update Phonenumber", messageDetail: "Please provide a valid Phonenumber" } });
     }
   };
 
@@ -236,11 +236,11 @@ class UserController extends BaseController {
     try {
       const { token, newPassword } = req.body;
 
-      if (await this.service.resetPassword(token, newPassword)) return super.jsonRes({ res, code: 200, data: { success: true, message: "Password reset" } });
-      const data = { success: false, error: { code: 400, message: "Failed to reset password", message_detail: "your password request failed" } };
+      if (await this.service.resetPassword(token, newPassword)) return super.jsonRes({ res, code: 200, data: { success: true, message: "Password reseted" } });
+      const data = { success: false, error: { code: 400, message: "Failed to reset password", messageDetail: "your password request failed" } };
       return super.jsonRes({ res, code: 400, data });
     } catch (error) {
-      next(error);
+      return super.jsonRes({ res, success: false, error: { code: 42201, message: "Failed to reset Password", messageDetail: "Please provide a proper Password" } });
     }
   };
 

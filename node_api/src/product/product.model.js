@@ -4,8 +4,9 @@ const Location = require("../location/location.model");
 const Category = require("../category/category.model");
 const ProductField = require("./product_field.model");
 const ProductMedia = require("./product_media.model");
+const User = require("../user/user.model")
 
-class Product extends Model {}
+class Product extends Model { }
 
 Product.init(
   {
@@ -17,6 +18,7 @@ Product.init(
     rejectedAt: { type: DataTypes.DATE, allowNull: true },
     rejectReason: { type: DataTypes.TEXT, allowNull: true },
     expiry: { type: DataTypes.DATE, allowNull: true },
+    title: DataTypes.VIRTUAL
   },
   {
     modelName: "Product",
@@ -26,7 +28,7 @@ Product.init(
     paranoid: true,
     defaultScope: {
       attributes: {
-        exclude: ["createdAt", "updatedAt", "iconId", "parentId", "deletedAt"],
+        exclude: ["createdAt", "updatedAt", "iconId", "deletedAt"],
       },
     },
   }
@@ -35,7 +37,7 @@ Product.init(
 Product.belongsTo(Category, { as: "category" });
 // Product.belongsTo(User, { as: "user" });
 Product.belongsTo(Location, { as: "location" });
-Product.hasMany(ProductField, { foreignKey: "productId" });
+Product.hasMany(ProductField, { as: 'productFields', foreignKey: "productId" });
 Product.hasMany(ProductMedia, { foreignKey: "productId" });
-
+Product.belongsTo(User, { as: 'user' })
 module.exports = Product;

@@ -46,5 +46,4 @@ Category.init(
 Category.belongsTo(File, { as: "icon" });
 Category.belongsTo(Category, { foreignKey: "parentId", as: "parent", targetKey: "id" });
 Category.hasMany(Category, { as: "subCategories", foreignKey: "parentId" });
-
 module.exports = Category;
