@@ -2,7 +2,6 @@ const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize/sequelize.service");
 const File = require("../file/file.model");
 const Field = require("../field/field.model");
-const Product = require("../product/product.model");
 
 class Category extends Model { }
 
@@ -47,6 +46,4 @@ Category.init(
 Category.belongsTo(File, { as: "icon" });
 Category.belongsTo(Category, { foreignKey: "parentId", as: "parent", targetKey: "id" });
 Category.hasMany(Category, { as: "subCategories", foreignKey: "parentId" });
-
-
 module.exports = Category;

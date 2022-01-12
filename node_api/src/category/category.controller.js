@@ -12,7 +12,7 @@ class CategoryController extends BaseController {
   constructor() {
     super();
     this.productService = new ProductService()
-    this.catService = new CategoryService()
+    this.service = new CategoryService()
   }
   async categories(req, res, next) {
     try {
@@ -66,8 +66,7 @@ class CategoryController extends BaseController {
     try {
       const catId = req.params?.id
       const allProducts = await this.productService?.getproductByCategoryId(catId);
-      const catdetail = await this.catService?.getCatDetails(allProducts[0].categoryId)
-      console.log(catdetail, ' dhdhdhdgdgdgdgdgdgdgdgdg')
+      const catdetail = await this.service?.getCatDetails(allProducts[0].categoryId)
       return super.jsonRes({
         res,
         code: 200,
