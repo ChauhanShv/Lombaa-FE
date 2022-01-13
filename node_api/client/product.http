@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:3001/api
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2YTIyOTkzLTJjNWYtNDMyMy04NGUyLTRkMTA2YjA2ZjVmMyIsImlhdCI6MTY0MTkwNjcxOCwiZXhwIjoxNjQxOTkzMTE4fQ.BzdZpZaWE98j4YVLeOfYlNWCkTIV4NIPGNthbs1in4c
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2YTIyOTkzLTJjNWYtNDMyMy04NGUyLTRkMTA2YjA2ZjVmMyIsImlhdCI6MTY0MjA1MzA2OCwiZXhwIjoxNjQyMTM5NDY4fQ.HPnPS41ajLiOwty5naKDXXvZV2AYc0BPOSzV1jASchI
 
 POST {{baseUrl}}/product HTTP/1.1
 content-type: application/json
@@ -9,7 +9,7 @@ x-app-version : 1.0.0
 x-access-token: {{token}}
 
 {
-    "categoryId": "5462dd5e-d40f-40ac-9289-b083fc45e29c",
+    "categoryId": "",
     "fields": [
         {
             "id": "0149ee22-da43-4ef6-be41-958d7a82d81a",
