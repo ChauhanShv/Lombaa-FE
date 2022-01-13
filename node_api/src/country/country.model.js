@@ -29,7 +29,17 @@ Country.init(
     phoneCode: {
       type: DataTypes.STRING(5),
       allowNull: true
-    }
+    },
+
+    currencySymbol: {
+      type: DataTypes.STRING(10),
+      allowNull: true
+    },
+
+    currencyCode: {
+      type: DataTypes.STRING(10),
+      allowNull: true
+    },
   },
   {
     modelName: "country",
