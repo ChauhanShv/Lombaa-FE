@@ -30,7 +30,7 @@ export const DragAndDrop: React.FC<DragAndDropProps> = ({
   }
 
   useEffect(() => {
-    if (mediaData?.Success && !includes(media, {
+    if (mediaData?.success && !includes(media, {
       token: mediaData?.media.token,
       url: mediaData?.media.token,
       mime: mediaData.media?.mime,

@@ -2,16 +2,16 @@ import React from 'react';
 import { Row, Col, Container } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { ProductCard } from '../components/product-card/product-card';
-import { AdDetailImageSlider, AdDetailDescription } from '../components/product-detail';
+import { ProductDetailImageSlider, ProductDetailDescription } from '../components/product-detail';
 
 export const AdDetailPage: React.FC = (): React.ReactElement => {
     return (
         <>
             <section className="pt-4 pb-5 mt-0 align-items-center">
-                <AdDetailImageSlider />
+                <ProductDetailImageSlider />
             </section>
             <section className=" pb-5">
-                <AdDetailDescription />
+                <ProductDetailDescription />
             </section>
             <section className="pb-5">
                 <Container>

@@ -10,7 +10,7 @@ const AdSpotsettings = {
     dots: true,
 }
 
-export const AdDetailImageSlider: React.FC = (): React.ReactElement => {
+export const ProductDetailImageSlider: React.FC = (): React.ReactElement => {
     return (
         <>
             <Container>

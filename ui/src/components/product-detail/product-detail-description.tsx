@@ -4,7 +4,7 @@ import { FaAsterisk, FaHandshake, FaMapMarkerAlt } from 'react-icons/fa';
 import { ProfileHeaderCard } from '../profile';
 import './product-detail.css';
 
-export const AdDetailDescription = () => {
+export const ProductDetailDescription: React.FC = (): React.ReactElement => {
     return (
         <Container>
             <Row>
