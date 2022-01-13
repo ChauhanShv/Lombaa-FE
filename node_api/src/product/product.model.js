@@ -38,6 +38,6 @@ Product.belongsTo(Category, { as: "category" });
 // Product.belongsTo(User, { as: "user" });
 Product.belongsTo(Location, { as: "location" });
 Product.hasMany(ProductField, { as: 'productFields', foreignKey: "productId" });
-Product.hasMany(ProductMedia, { foreignKey: "productId" });
+Product.hasMany(ProductMedia, { as: "productMedia", foreignKey: "productId" });
 Product.belongsTo(User, { as: 'user' })
 module.exports = Product;
