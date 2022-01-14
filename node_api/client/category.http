@@ -1,7 +1,3 @@
-@baseUrl = http://localhost:3001/api
-
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2YTIyOTkzLTJjNWYtNDMyMy04NGUyLTRkMTA2YjA2ZjVmMyIsImlhdCI6MTY0MjA1MzU2OCwiZXhwIjoxNjQyMTM5OTY4fQ.G494N0AfnSzE4HJTIX1vLHgRw6daQCCZWnUcvuNp_rA
-
 GET {{baseUrl}}/category HTTP/1.1
 content-type: application/json
 
