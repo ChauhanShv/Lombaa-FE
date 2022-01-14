@@ -10,12 +10,24 @@ export interface Product {
   categoryId: string;
   locationId: string;
   userId: string;
+  productMedia: ProductMedia[];
   location: Location;
   productFields: ProductFields[];
-  user: {
-    name: string;
-  };
+  user: User;
   title: string;
+}
+export interface ProductMedia {
+  id: string;
+  isPrimary: boolean;
+  fileId: string;
+  productId: string;
+  file: ProductMediaFile;
+}
+export interface ProductMediaFile {
+  id: string;
+  url: string;
+  mime: string;
+  extension: string;
 }
 export interface Location {
   id?: string;
@@ -67,4 +79,15 @@ export interface FieldValue {
     mime?: string;
     extension?: string;
   };
+}
+export interface User {
+  name: string;
+  profilePictureId: string;
+  profilePicture: ProfilePicture;
+}
+export interface ProfilePicture {
+  id: string;
+  url: string;
+  mime: string;
+  extension: string;
 }

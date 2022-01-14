@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import moment from 'moment';
 import { Container, Row, Col } from 'react-bootstrap';
 import { ProductCard } from '../product-card/product-card';
 import { useAxios } from '../../services';
-import { Product } from './types';
+import { Product, ProductMedia } from './types';
 
 export const ProductList: React.FC = (): React.ReactElement => {
 
     const [products, setProducts] = useState<Product[]>([]);
+    const [productMedia, setProductMedia] = useState<ProductMedia[]>([]);
 
     const productCardContents = {
         summary: 'With supporting text below as a natural lead-in...',
         description: 'Ashanti, Greater Accra lorelpsum...',
-        mediaType: "image",
-        mediaSrc: "https://media.kasperskydaily.com/wp-content/uploads/sites/92/2014/04/18130043/online-gamer-threats-featured.jpg",
-        authorProfilePicture: '/images/user-circle.svg',
-        postedOnDate: 'Today',
-        isFavourite: false,
-        onFavUnfav: (fav: boolean) => { },
     };
 
     const [{ data, loading, error }, execute] = useAxios({
@@ -26,9 +22,17 @@ export const ProductList: React.FC = (): React.ReactElement => {
 
     useEffect(() => {
         if (data?.success) {
+            const getProductMedia: ProductMedia[] | undefined = [];
             setProducts(data?.data?.Products);
+            if (products) {
+                products.map((product: Product) => {
+                    getProductMedia.push(product?.productMedia?.find((media) => media.isPrimary) || productMedia[0]);
+                });
+                setProductMedia(getProductMedia);
+            }
         }
-    }, [data]);
+    }, [data, products]);
+
 
     useEffect(() => {
         execute({});
@@ -40,12 +44,18 @@ export const ProductList: React.FC = (): React.ReactElement => {
                 <Row>
                     <Col sm={12}>
                         <Row className="post-list">
-                            {products.map((product: Product) =>
+                            {products.map((product: Product, index: number) =>
                                 <Col lg={3} md={6} className="mb-3" key={product?.id}>
                                     <ProductCard
                                         productId={product?.id}
                                         title={product?.title}
+                                        mediaType={productMedia[index]?.file?.mime}
+                                        mediaSrc={productMedia[index]?.file?.url}
                                         authorName={product?.user?.name}
+                                        authorProfilePicture={product?.user?.profilePicture?.url || '/images/user-circle.svg'}
+                                        postedOnDate={moment(product?.postedAt).format('LL')}
+                                        isFavourite={false}
+                                        onFavUnfav={(fav: boolean) => { }}
                                         {...productCardContents}
                                     />
                                 </Col>

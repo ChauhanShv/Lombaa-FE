@@ -43,8 +43,8 @@ export const ProductFilters: React.FC = (): React.ReactElement => {
                                     <FaSearch />
                                 </button>
                             </InputGroup>
-                            {[...Array(15)].map(() =>
-                                <Dropdown.Item className="py-2" href="#">Menu Item</Dropdown.Item>
+                            {[...Array(15)].map((index: number) =>
+                                <Dropdown.Item className="py-2" href="#" key={index}>Menu Item</Dropdown.Item>
                             )}
                         </Dropdown.Menu>
                     </Dropdown>
@@ -54,8 +54,8 @@ export const ProductFilters: React.FC = (): React.ReactElement => {
                         </Dropdown.Toggle>
 
                         <Dropdown.Menu className="pre-scrollable">
-                            {[...Array(5)].map(() =>
-                                <Dropdown.Item href="#" className="py-2">Menu Item</Dropdown.Item>
+                            {[...Array(5)].map((index: number) =>
+                                <Dropdown.Item href="#" className="py-2" key={index}>Menu Item</Dropdown.Item>
                             )}
                         </Dropdown.Menu>
                     </Dropdown>
