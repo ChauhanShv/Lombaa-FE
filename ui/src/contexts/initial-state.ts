@@ -5,5 +5,6 @@ export const initialState: State = {
     user: {},
     app: {
         appReady: false,
-    }
+    },
+    category: []
 };

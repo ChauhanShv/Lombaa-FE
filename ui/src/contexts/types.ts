@@ -1,3 +1,5 @@
+import { Categories } from "../components/create-post";
+
 export type KeyValuePair = {
     [key: string]: any;
 }
@@ -12,7 +14,9 @@ export enum ActionTypes {
     LOGOUT = 'LOGOUT',
     APP_READY = 'APP_READY',
     UPDATE_PROFILE = 'UPDATE_PROFILE',
-};  
+    CATEGORIES = 'CATEGORIES',
+    SINGLECATEGORY = 'SINGLECATEGORY',
+};
 export type AppContextProviderProps = {
     children: React.ReactNode
 }
@@ -31,5 +35,6 @@ export type State = {
     session: Session;
     user: User;
     app: App;
+    category: [];
 };
 

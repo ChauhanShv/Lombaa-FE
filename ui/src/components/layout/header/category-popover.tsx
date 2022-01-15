@@ -7,9 +7,11 @@ import {
 } from 'react-bootstrap';
 import { useAxios } from '../../../services';
 import { Categories } from '../../create-post';
+import { ActionTypes, useAppContext } from '../../../contexts';
 
 export const CategoryPopover: React.FC = (): React.ReactElement => {
     const [popularCategories, setPopularCategories] = useState<Categories[]>([]);
+    const { dispatch } = useAppContext();
     const [otherCategories, setOtherCategories] = useState<Categories[]>([]);
     const [{ data }, execute] = useAxios({
         url: '/category',
@@ -21,6 +23,12 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
     useEffect(() => {
         const { code, response = [] } = data || {};
         if (code === 200) {
+            dispatch({
+                type: ActionTypes.CATEGORIES,
+                payload: {
+                    category: data?.response,
+                }
+            })
             const popularCat: Categories[] = [];
             const otherCat: Categories[] = [];
             response.map((item: Categories) => {
