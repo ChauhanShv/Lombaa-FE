@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Rejectreason;
+use App\Models\RejectReason;
 use Illuminate\Http\Request;
 
 class RejectReasonController extends Controller
