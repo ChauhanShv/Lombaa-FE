@@ -20,7 +20,7 @@ class Rejectreason extends Model
     const DELETED_AT = 'deletedAt';
 
     protected $keyType = 'string';
-    protected $table = 'reject_reason';
+    protected $table = 'reject_reasons';
 
     protected $fillable = [
         'body',
