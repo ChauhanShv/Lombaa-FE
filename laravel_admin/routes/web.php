@@ -6,6 +6,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\RejectreasonController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ValuesController;
@@ -76,12 +77,19 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/values/update/{id}', [ValuesController::class, 'values_update']);
     Route::get('/values/delete/{id}', [ValuesController::class, 'delete_value'])->name('delete_value');
 
+    Route::get('/products/reject_reason', [RejectreasonController::class, 'reject_reason_list'])->name('reject_reason_list');
+    Route::post('/products/reject_reason/add', [RejectreasonController::class, 'reject_reason_add'])->name('reject_reason_add');
+    Route::post('/products/reject_reason/edit/{id}', [RejectreasonController::class, 'reject_reason_edit'])->name('reject_reason_edit');
+    Route::get('/products/reject_reason/delete/{id}', [RejectreasonController::class, 'reject_reason_delete'])->name('reject_reason_delete');
+
     Route::get('/products/{action}', [ProductsController::class, 'products_list'])->name('products_list');
     Route::get('/products/show/{id}', [ProductsController::class, 'show_product'])->name('show_product');
     Route::get('/products/status/{action}', [ProductsController::class, 'filter'])->name('filter');
     Route::get('/products/delete/{id}', [ProductsController::class, 'delete_product'])->name('delete_product');
     Route::get('/products/approve/{id}', [ProductsController::class, 'approve_product'])->name('approve_product');
     Route::post('/products/reject/{id}', [ProductsController::class, 'reject_product'])->name('reject_product');
+
+    // Route::get('/products/reject_reason', [RejectreasonController::class, 'reject_reason_list'])->name('reject_reason_list');
 
     Route::get('/settings', [SettingsController::class, 'settings'])->name('settings');
     Route::post('/settings/add', [SettingsController::class, 'settings_post'])->name('settings_post');
