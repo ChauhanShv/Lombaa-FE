@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Rejectreason;
 use Illuminate\Http\Request;
-use Str;
 
 class RejectReasonController extends Controller
 {
@@ -32,7 +31,6 @@ class RejectReasonController extends Controller
         // }
 
         $data = [
-            'id' => Str::uuid(),
             'body' => $request->reason_body,
         ];
 

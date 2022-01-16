@@ -89,8 +89,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/products/approve/{id}', [ProductsController::class, 'approve_product'])->name('approve_product');
     Route::post('/products/reject/{id}', [ProductsController::class, 'reject_product'])->name('reject_product');
 
-    // Route::get('/products/reject_reason', [RejectReasonController::class, 'reject_reason_list'])->name('reject_reason_list');
-
     Route::get('/settings', [SettingsController::class, 'settings'])->name('settings');
     Route::post('/settings/add', [SettingsController::class, 'settings_post'])->name('settings_post');
 
