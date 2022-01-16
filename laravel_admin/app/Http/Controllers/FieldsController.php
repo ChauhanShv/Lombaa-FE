@@ -104,6 +104,8 @@ class FieldsController extends Controller
                 'text' => 'input-SingleLine',
                 'textArea' => 'input-MultiLine',
                 'title' => 'title',
+                'price' => 'price',
+                'description' => 'description',
             );
 
             $data_types = array(
@@ -130,6 +132,8 @@ class FieldsController extends Controller
             'text' => 'input-SingleLine',
             'textArea' => 'input-MultiLine',
             'title' => 'title',
+            'price' => 'price',
+            'description' => 'description',
         );
 
         $data_types = array(
