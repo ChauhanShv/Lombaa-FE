@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Fields;
 use App\Models\Files;
 use App\Models\Values;
+use Config;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Storage;
@@ -94,17 +95,7 @@ class FieldsController extends Controller
             return redirect()->route('field_list')->with('response', ['status' => 'success', 'message' => 'Field added successfully']);
 
         } else {
-            $field_types = array(
-                'dropdown' => 'dropdown',
-                'checkbox' => 'checkbox',
-                'switch' => 'switch',
-                'tagView' => 'tagView',
-                'email' => 'email',
-                'date' => 'date',
-                'text' => 'input-SingleLine',
-                'textArea' => 'input-MultiLine',
-                'title' => 'title',
-            );
+            $field_types = Config::get('fieldtypes');
 
             $data_types = array(
                 'String' => 'string',
@@ -120,17 +111,7 @@ class FieldsController extends Controller
 
     public function field_edit($id)
     {
-        $field_types = array(
-            'dropdown' => 'dropdown',
-            'checkbox' => 'checkbox',
-            'switch' => 'switch',
-            'tagView' => 'tagView',
-            'email' => 'email',
-            'date' => 'date',
-            'text' => 'input-SingleLine',
-            'textArea' => 'input-MultiLine',
-            'title' => 'title',
-        );
+        $field_types = Config::get('fieldtypes');
 
         $data_types = array(
             'String' => 'string',
