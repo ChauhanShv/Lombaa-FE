@@ -11,6 +11,10 @@ const jwt = require("../modules/jwt/jwt.service");
 const ProductMedia = require("./product_media.model");
 const LocationService = require("../location/location.service");
 const Location = require("../location/location.model");
+const User = require("../user/user.model");
+const fileModel = require("../file/file.model")
+const Field = require("../field/field.model")
+const Category = require("../category/category.model")
 
 class productController extends BaseController {
   constructor(...args) {
@@ -127,10 +131,17 @@ class productController extends BaseController {
 
   findById = async (req, res, next) => {
     try {
-      const Op = require("sequelize");
+      const Op = require('Sequelize').Op
       const givenId = req.params.id;
-      const singleProduct = await Product.findOne({
-        where: { id: givenId, isApproved: 0 },
+      const singleProduct = await Product.findAll({
+        where: { [Op.or]: [{ id: givenId }, { slug: givenId }] },
+        include: [
+          { model: Category, as: "category" },
+          { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
+          { model: Location, as: "location" },
+          { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
+          { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] }
+        ]
       });
 
       return super.jsonRes({
@@ -142,7 +153,8 @@ class productController extends BaseController {
           Product: singleProduct,
         },
       });
-    } catch {
+    } catch (err) {
+      console.log(err)
       return super.jsonRes({
         res,
         code: 401,
