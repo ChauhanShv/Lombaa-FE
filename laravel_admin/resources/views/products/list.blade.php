@@ -15,6 +15,16 @@
         <style>
             .widget-title{display:flex; justify-content:space-between;}
             .widget-title .pagination{margin:2px;}
+            input[type="radio"] {
+                display:block !important;
+                opacity: 1 !important;
+            }
+            .select2-drop-active {
+                z-index: 999999999;
+            }
+            .select2-container {
+                width: 100%;
+            }
         </style>
         <div class="widget-title">
             <div><span class="icon"><i class="icon-th"></i></span>
@@ -109,11 +119,21 @@
                                 <div id="myModal-{{ $modal }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                        <h3 id="myModalLabel">Add reason for rejection</h3>
+                                        <h3 id="myModalLabel">Select reason for rejection</h3>
                                     </div>
                                     <form action="{{ route('reject_product', ['id' => $product->id]) }}" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                        <div class="modal-body" style="width:100%">
-                                            <textarea style="width:85%" name="reason" rows="3"></textarea>
+                                        <div class="modal-body girlLookAtThatBody" style="padding:30px; text-align:left;">
+                                            <div class="control-group">
+                                                <label class="control-label">Select reason :</label>
+                                                <div class="controls">
+                                                    <select id='' name="reason" class="display_class">
+                                                    <option value="">Select reason</option>
+                                                        @foreach($reject_reasons as $reason)
+                                                            <option value="{{ $reason->body }}">{{ $reason->body }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
@@ -142,11 +162,21 @@
                                 <div id="myModal-{{ $modal }}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                     <div class="modal-header">
                                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                        <h3 id="myModalLabel">Add reason for rejection</h3>
+                                        <h3 id="myModalLabel">Select reason for rejection</h3>
                                     </div>
                                     <form action="{{ route('reject_product', ['id' => $product->id]) }}" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                        <div class="modal-body" style="width:100%">
-                                            <textarea style="width:85%" name="reason" rows="3"></textarea>
+                                        <div class="modal-body girlLookAtThatBody" style="padding:30px; text-align:left;">
+                                            <div class="control-group">
+                                                <label class="control-label">Select reason :</label>
+                                                <div class="controls">
+                                                    <select name="reason" >
+                                                    <option value="">Select reason</option>
+                                                        @foreach($reject_reasons as $reason)
+                                                            <option value="{{ $reason->body }}">{{ $reason->body }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
