@@ -61,7 +61,8 @@ class ProductService {
 
 
     products = products.map(product => {
-      product.title = product.productFields.find(productField => productField?.field?.fieldType === 'title')?.value ?? null;
+      const fieldArray = ['title', 'description', 'price']
+      product.title = product.productFields.find(productField => fieldArray.includes(productField?.field?.fieldType))?.value ?? null;
       // product.setDataValue('title', title);
 
       return product;

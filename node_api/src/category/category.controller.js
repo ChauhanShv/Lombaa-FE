@@ -73,11 +73,10 @@ class CategoryController extends BaseController {
         data: {
           success: true,
           message: "Products retrieved",
-          data: { Products: allProducts, Category: catdetail }
+          data: { products: allProducts, category: catdetail }
         }
       })
     } catch (error) {
-      console.log(error)
       return super.jsonRes({
         res,
         code: 400,
