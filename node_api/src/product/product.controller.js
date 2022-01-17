@@ -140,7 +140,7 @@ class productController extends BaseController {
           { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
           { model: Location, as: "location" },
           { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
-          { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] }
+          { model: User, as: 'user', attributes: ["name", "profilePictureId", "email", "accountType", "locationId"], include: [{ model: fileModel, as: "profilePicture" }, { model: Location, as: "location" }] }
         ]
       });
 
