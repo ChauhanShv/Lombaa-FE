@@ -5,6 +5,6 @@ export * from './settings-page';
 export * from './signup-page';
 export * from './forgot-password-page';
 export * from './create-post-page';
-export * from './ad-detail-page';
-export * from './html-category-listing';
+export * from './product-detail-page';
+export * from './product-listing-page';
 export * from './verify-email-page';

@@ -4,20 +4,20 @@ import { FaShare, FaHeart, FaImages } from 'react-icons/fa';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import './ad-page.css';
+import './product-detail.css';
 
 const AdSpotsettings = {
     dots: true,
 }
 
-export const AdDetailImageSlider: React.FC = (): React.ReactElement => {
+export const ProductDetailImageSlider: React.FC = (): React.ReactElement => {
     return (
         <>
             <Container>
                 <Row>
                     <Breadcrumb>
                         <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
-                        <Breadcrumb.Item href="https://getbootstrap.com/docs/4.0/components/breadcrumb/">
+                        <Breadcrumb.Item href="#">
                             Library
                         </Breadcrumb.Item>
                         <Breadcrumb.Item active>Data</Breadcrumb.Item>

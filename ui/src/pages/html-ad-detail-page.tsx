@@ -1,17 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Row, Col, Container, InputGroup, FormControl } from 'react-bootstrap';
+import { Row, Col, Container } from 'react-bootstrap';
 import { FaShare, FaHeart, FaImages, FaAsterisk, FaHandshake, FaMapMarkerAlt } from 'react-icons/fa';
 import Button from 'react-bootstrap/Button';
-
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-import { ProductCard } from '../components/ad-card/product-card';
+import { ProductCard } from '../components/product-card/product-card';
 import { ProfileHeaderCard } from '../components/profile/profile-header-card';
-
-import './ad-page.css';
 
 
 const AdSpotsettings = {
