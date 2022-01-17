@@ -5,14 +5,14 @@ import Col from 'react-bootstrap/Col';
 import Image from 'react-bootstrap/Image';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import { useAppContext, ActionTypes } from '../../contexts';
+import { useAppContext } from '../../contexts';
 import { FaEnvelope, FaMapMarkerAlt, FaClock, FaCheckCircle } from 'react-icons/fa';
 
 import './profile.css';
 
 export const ProfileHeaderCard: React.FC = (): React.ReactElement => {
     const { state } = useAppContext();
-    const userData = state?.user?.metaData;
+    const userData = state.user?.metaData;
 
     const getAccountType = () => userData?.accountType === 'standard' ? 'Standard Account' : 'Business Account';
     const getAccountName = () => userData?.accountType === 'standard' ? userData?.name : userData?.businessName;

@@ -35,7 +35,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
     return (
         <div className="ad-card card">
-            <Link to='/'>
+            <Link to={`/product-detail/${productId}`}>
                 {mediaType === 'video' ? (
                     <video controls>
                         <source src={mediaSrc} type="video/mp4" />
@@ -52,17 +52,19 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     <button className="saved" id="fav" onClick={handleFavUnfav}><FiHeart /></button>
                 }
             </div>
-            <div className="card-body">
-                <Card.Header className="card-title text-success product-card-header">
-                    {title}
-                </Card.Header>
-                <p className="card-text">
-                    <strong>{summary}</strong>
-                </p>
-                <p className="text-muted" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }}>
-                    {description}
-                </p>
-            </div>
+            <Link to={`/product-detail/${productId}`}>
+                <div className="card-body">
+                    <Card.Header className="card-title text-success product-card-header">
+                        {title}
+                    </Card.Header>
+                    <p className="card-text">
+                        <strong>{summary}</strong>
+                    </p>
+                    <p className="text-muted" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }}>
+                        {description}
+                    </p>
+                </div>
+            </Link>
             <Link to='/' className="p-0 ms-3 mb-3 usermeta">
                 <img
                     className="rounded-circle me-2"

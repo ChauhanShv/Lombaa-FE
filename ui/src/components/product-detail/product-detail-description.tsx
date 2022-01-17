@@ -1,10 +1,14 @@
 import React from 'react';
+import moment from 'moment';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { FaAsterisk, FaHandshake, FaMapMarkerAlt } from 'react-icons/fa';
 import { ProfileHeaderCard } from '../profile';
+import { ProductDetailDescriptionProps, ProductDetail } from './types';
 import './product-detail.css';
 
-export const ProductDetailDescription: React.FC = (): React.ReactElement => {
+export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> = ({
+    productDetail
+}: ProductDetailDescriptionProps): React.ReactElement => {
     return (
         <Container>
             <Row>
@@ -25,13 +29,11 @@ export const ProductDetailDescription: React.FC = (): React.ReactElement => {
                     <Row>
                         <Col className="col-12 mb-2">
                             <h4>Description</h4>
-
                         </Col>
                         <Col className="col-12 mb-2">
                             <p className="text-muted m-0">Posted</p>
-                            <p>2 weeks ago</p>
+                            <p>{moment(productDetail?.postedAt).format('LL')}</p>
                         </Col>
-
                         <Col className="col-12 mb-2">
                             <p>Please self inspect. Find just about anything using the app on your mobile.</p>
                         </Col>

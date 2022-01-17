@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { Container, Row, Col } from 'react-bootstrap';
-import { ProductCard } from '../product-card/product-card';
+import { ProductCard } from '../product-card';
 import { useAxios } from '../../services';
 import { Product, ProductMedia } from './types';
 

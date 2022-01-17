@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { ProductCard } from '../components/product-card/product-card';
+import { ProductCard } from '../components/product-card';
 import { ProfileHeaderCard } from '../components/profile/profile-header-card';
 
 
