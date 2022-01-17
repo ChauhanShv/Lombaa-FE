@@ -2,6 +2,7 @@ const BaseController = require("../modules/controller").base;
 const countryModel = require("./country.model");
 const { validationResult } = require("express-validator");
 const { validationErrorFormatter } = require("../formater");
+const Filter = require("../filter/filter.model")
 
 class countryController extends BaseController {
   constructor(...args) {
