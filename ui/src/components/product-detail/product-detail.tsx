@@ -37,10 +37,10 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                                 <Col md={6} lg={3} className="mb-3">
                                     <ProductCard
                                         productId='1'
+                                        slug='2'
                                         title="Special title treatment"
                                         summary='With supporting text below as a natural lead-in...'
                                         description='Ashanti, Greater Accra lorelpsum...'
-                                        mediaType="image"
                                         mediaSrc="https://media.kasperskydaily.com/wp-content/uploads/sites/92/2014/04/18130043/online-gamer-threats-featured.jpg"
                                         authorName='John Smith'
                                         authorProfilePicture='/images/user-circle.svg'

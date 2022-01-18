@@ -7,6 +7,9 @@ export interface ProductDetailImageSliderProps {
 export interface ProductDetailDescriptionProps {
   productDetail: ProductDetail;
 }
+export interface SellerDetailsCardProps {
+  user: User;
+}
 export interface ProductDetail {
   approvedAt: string;
   category: ProductDetailCategory;
@@ -16,7 +19,7 @@ export interface ProductDetail {
   location: Location;
   locationId: string;
   postedAt: string;
-  productFeilds: ProductFields[];
+  productFields: ProductFields[];
   productMedia: ProductMedia[];
   rejectReason: string | null;
   rejectedAt: string | null;
@@ -50,7 +53,7 @@ export interface Field {
   isRequired?: boolean;
   isActive?: number | boolean;
   dataTypes: string;
-  fieldTypes: string;
+  fieldType: string;
   values: FieldValue[];
 }
 export interface FieldValue {

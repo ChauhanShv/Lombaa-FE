@@ -6,9 +6,9 @@ import { useAxios } from '../services';
 
 export const ProductDetailPage: React.FC = (): React.ReactElement => {
     //34bac1ec-8d17-467e-936e-0545d222093b
-    const { slug } = useParams<{ slug: string }>();
+    const { productId, slug } = useParams<{ slug: string, productId: string }>();
     const [{ data, loading }] = useAxios({
-        url: `product/${slug}`,
+        url: `product/${productId}`,
         method: 'GET',
     }, {
         manual: false,

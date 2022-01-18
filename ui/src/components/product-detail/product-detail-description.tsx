@@ -2,8 +2,8 @@ import React from 'react';
 import moment from 'moment';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { FaAsterisk, FaHandshake, FaMapMarkerAlt } from 'react-icons/fa';
-import { ProfileHeaderCard } from '../profile';
-import { ProductDetailDescriptionProps, ProductDetail } from './types';
+import { SellerDetailCard } from '.';
+import { ProductFields, ProductDetailDescriptionProps, FieldValue } from './types';
 import './product-detail.css';
 
 export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> = ({
@@ -23,7 +23,7 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                             <FaHandshake /> Meetup
                         </Col>
                         <Col>
-                            <FaMapMarkerAlt /> Blk 2019 Bukit Batok St 23
+                            <FaMapMarkerAlt /> {`${productDetail.location.city.name}, ${productDetail.location.region.name}`}
                         </Col>
                     </Row>
                     <Row>
@@ -35,17 +35,29 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                             <p>{moment(productDetail?.postedAt).format('LL')}</p>
                         </Col>
                         <Col className="col-12 mb-2">
-                            <p>Please self inspect. Find just about anything using the app on your mobile.</p>
+                            <p className="text-muted m-0">Qty: </p>
+                            <p>1 pc</p>
                         </Col>
                         <Col className="col-12 mb-2">
-                            <p>Qty: 1 pc</p>
+                            <p className="text-muted m-0"> Model No : </p>
+                            <p>700</p>
                         </Col>
-                        <Col className="col-12 mb-2">
-                            <p>Used. Items can be powered on, however, not fully tested.</p>
-                        </Col>
-                        <Col className="col-12 mb-2">
-                            <p> Model No : 700</p>
-                        </Col>
+                        {productDetail.productFields?.map((productField: ProductFields) =>
+                            <>
+                                {!['title', 'description', 'price'].includes(productField.field.fieldType) && (
+                                    <>
+                                        {console.log(!!!['title', 'description', 'price'].includes(productField.field.fieldType))}
+                                        <Col className='col-12 mb-2'>
+                                            {console.log(productDetail, '11111222qwwe')}
+                                            <p className="text-muted m-0">{productField.field.label}</p>
+                                            {productField.field.values.map((value: FieldValue) =>
+                                                <p>{value.value}</p>
+                                            )}
+                                        </Col>
+                                    </>
+                                )}
+                            </>
+                        )}
 
                         <Col className="col-12 mb-2">
                             <p>"First Come  First Serve ".<br />
@@ -64,7 +76,7 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
 
                         <Col className="col-12 mb-2">
                             <h4>Meet-up</h4>
-                            <p><FaMapMarkerAlt /> Blk 2019 Bukit Batok St 23</p>
+                            <p><FaMapMarkerAlt /> {`${productDetail.location.city.name}, ${productDetail.location.region.name}`}</p>
                         </Col>
 
                         <Col className="col-12 mb-5">
@@ -73,7 +85,7 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                         </Col>
                         <Col className="col-12 mb-2">
                             <h4 className="mb-0">Meet the seller</h4>
-                            <ProfileHeaderCard />
+                            <SellerDetailCard user={productDetail?.user} />
                         </Col>
                     </Row>
                 </Col>

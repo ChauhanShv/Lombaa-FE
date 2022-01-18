@@ -9,11 +9,11 @@ import './product-card.css';
 
 export const ProductCard: React.FC<ProductCardProps> = ({
     productId,
+    slug,
     title,
     summary,
     description,
     mediaSrc,
-    mediaType,
     authorName,
     postedOnDate,
     authorProfilePicture,
@@ -35,15 +35,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
     return (
         <div className="ad-card card">
-            <Link to={`/product-detail/${productId}`}>
-                {mediaType === 'video' ? (
-                    <video controls>
-                        <source src={mediaSrc} type="video/mp4" />
-                        <source src={mediaSrc} type="video/webm" />
-                    </video>
-                ) : (
-                    <Card.Img variant="top" src={mediaSrc} />
-                )}
+            <Link to={`/product-detail/${productId}/${slug}`}>
+                <Card.Img variant="top" src={mediaSrc} />
             </Link>
             <div className="d-flex justify-content-between p-3 position-absolute saved-wrap">
                 <small className="text-white">{postedOnDate}</small>

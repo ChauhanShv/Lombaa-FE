@@ -48,8 +48,8 @@ export const ProductList: React.FC = (): React.ReactElement => {
                                 <Col lg={3} md={6} className="mb-3" key={product?.id}>
                                     <ProductCard
                                         productId={product?.id}
+                                        slug={product?.slug}
                                         title={product?.title}
-                                        mediaType={productMedia[index]?.file?.mime}
                                         mediaSrc={productMedia[index]?.file?.url}
                                         authorName={product?.user?.name}
                                         authorProfilePicture={product?.user?.profilePicture?.url || '/images/user-circle.svg'}

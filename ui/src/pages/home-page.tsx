@@ -168,10 +168,10 @@ export const HomePage: React.FC = (): React.ReactElement => {
                                 <Col lg={3} md={6} className="mb-3">
                                     <ProductCard
                                         productId='4'
+                                        slug='8'
                                         title="Special title treatment"
                                         summary='With supporting text below as a natural lead-in...'
                                         description='Ashanti, Greater Accra lorelpsum...'
-                                        mediaType="image"
                                         mediaSrc="https://media.kasperskydaily.com/wp-content/uploads/sites/92/2014/04/18130043/online-gamer-threats-featured.jpg"
                                         authorName='John Smith'
                                         authorProfilePicture='/images/user-circle.svg'
@@ -183,10 +183,10 @@ export const HomePage: React.FC = (): React.ReactElement => {
                                 <Col lg={3} md={6} className="mb-3">
                                     <ProductCard
                                         productId='6'
+                                        slug='12'
                                         title="Counter Strike"
                                         summary="Global Offensive"
                                         description="Counter Strike Global Offensive"
-                                        mediaType="image"
                                         mediaSrc='https://www.cswarzone.com/wp-content/uploads/2020/10/fps-guide.jpg'
                                         authorName='Kenny S'
                                         authorProfilePicture='/images/user-circle.svg'
@@ -199,10 +199,10 @@ export const HomePage: React.FC = (): React.ReactElement => {
                                     <Col lg={3} md={6} className="mb-3">
                                         <ProductCard
                                             productId='5'
+                                            slug='10'
                                             title="New Title"
                                             summary='Summary Text'
                                             description='Ashanti, Greater Accra lorelpsum Ashanti, Greater Accra lorelpsum Ashanti, Greater Accra lorelpsum Ashanti, Greater Accra lorelpsum Ashanti, Greater Accra lorelpsum Ashanti, Greater Accra lorelpsum Ashanti, Greater Accra lorelpsum'
-                                            mediaType="image"
                                             mediaSrc="https://static3.srcdn.com/wordpress/wp-content/uploads/2021/04/Older-Games-With-Great-Graphics-Far-Cry-2.jpg?q=50&fit=crop&w=740&h=370&dpr=1.5"
                                             authorName='John Wick'
                                             authorProfilePicture='/images/user-circle.svg'
