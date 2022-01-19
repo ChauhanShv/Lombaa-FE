@@ -1,5 +1,3 @@
-import { Categories } from "../components/create-post";
-
 export type KeyValuePair = {
     [key: string]: any;
 }

@@ -8,5 +8,5 @@ export const CreatePostContainer: React.FC = (): React.ReactElement => {
     const { state, dispatch } = useAppContext();
     const categories = state?.category;
 
-    return <CreatePost categories={categories} />;
+    return !categories ? <Loader show={true} /> : <CreatePost categories={categories} />;
 };
