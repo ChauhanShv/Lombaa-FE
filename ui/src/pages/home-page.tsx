@@ -7,7 +7,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-import { AdCard } from '../components/ad-card/ad-card';
+import { ProductCard } from '../components/product-card/product-card';
 
 import './home-page.css';
 
@@ -45,6 +45,9 @@ const CatCarSettings = {
     ]
 };
 export const HomePage: React.FC = (): React.ReactElement => {
+
+    const [favourite, setFavourite] = React.useState<any>({ fav: false, productId: '' });
+
     return (
         <>
             <section className="pt-4 pb-5 mt-0 align-items-center">
@@ -163,14 +166,52 @@ export const HomePage: React.FC = (): React.ReactElement => {
                                     </Link>
                                 </Col>
                                 <Col lg={3} md={6} className="mb-3">
-                                    <AdCard />
+                                    <ProductCard
+                                        productId='4'
+                                        title="Special title treatment"
+                                        summary='With supporting text below as a natural lead-in...'
+                                        description='Ashanti, Greater Accra lorelpsum...'
+                                        mediaType="image"
+                                        mediaSrc="https://media.kasperskydaily.com/wp-content/uploads/sites/92/2014/04/18130043/online-gamer-threats-featured.jpg"
+                                        authorName='John Smith'
+                                        authorProfilePicture='/images/user-circle.svg'
+                                        postedOnDate=''
+                                        isFavourite={favourite.fav && favourite.productId === '4'}
+                                        onFavUnfav={(fav: boolean) => setFavourite({ fav: fav, productId: '4' })}
+                                    />
                                 </Col>
                                 <Col lg={3} md={6} className="mb-3">
-                                    <AdCard />
+                                    <ProductCard
+                                        productId='6'
+                                        title="Counter Strike"
+                                        summary="Global Offensive"
+                                        description="Counter Strike Global Offensive"
+                                        mediaType="image"
+                                        mediaSrc='https://www.cswarzone.com/wp-content/uploads/2020/10/fps-guide.jpg'
+                                        authorName='Kenny S'
+                                        authorProfilePicture='/images/user-circle.svg'
+                                        postedOnDate=''
+                                        isFavourite={favourite.fav && favourite.productId === '6'}
+                                        onFavUnfav={(fav: boolean) => setFavourite({ fav: fav, productId: '6' })}
+                                    />
                                 </Col>
-                                <Col lg={3} md={6} className="mb-3">
-                                    <AdCard />
-                                </Col>
+                                {[...Array(8)].map((n, i) =>
+                                    <Col lg={3} md={6} className="mb-3">
+                                        <ProductCard
+                                            productId='5'
+                                            title="New Title"
+                                            summary='Summary Text'
+                                            description='Ashanti, Greater Accra lorelpsum Ashanti, Greater Accra lorelpsum Ashanti, Greater Accra lorelpsum Ashanti, Greater Accra lorelpsum Ashanti, Greater Accra lorelpsum Ashanti, Greater Accra lorelpsum Ashanti, Greater Accra lorelpsum'
+                                            mediaType="image"
+                                            mediaSrc="https://static3.srcdn.com/wordpress/wp-content/uploads/2021/04/Older-Games-With-Great-Graphics-Far-Cry-2.jpg?q=50&fit=crop&w=740&h=370&dpr=1.5"
+                                            authorName='John Wick'
+                                            authorProfilePicture='/images/user-circle.svg'
+                                            postedOnDate=''
+                                            isFavourite={favourite.fav && favourite.productId === '5'}
+                                            onFavUnfav={(fav: boolean) => setFavourite({ fav: fav, productId: '5' })}
+                                        />
+                                    </Col>
+                                )}
                             </Row>
                         </Col>
                     </Row>

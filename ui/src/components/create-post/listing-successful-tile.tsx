@@ -38,11 +38,11 @@ export const ListingSuccessfulTile: React.FC<ListingTileProps> = ({
                                 <div className="shadow">
                                     {primaryMedia?.mime?.includes('video') ? (
                                         <video className="img-fluid" controls>
-                                            <source src={primaryMedia.url} type="video/mp4" />
-                                            <source src={primaryMedia.url} type="video/webm" />
+                                            <source src={primaryMedia?.url} type="video/mp4" />
+                                            <source src={primaryMedia?.url} type="video/webm" />
                                         </video>
                                     ) : (
-                                        <img className="img-fluid" alt={title} src={primaryMedia.url} />
+                                        <img className="img-fluid" alt={title} src={primaryMedia?.url} />
                                     )}
                                     <div className="d-flex justify-content-between p-3 position-absolute saved-wrap">
                                         <small className="text-white">Today</small>

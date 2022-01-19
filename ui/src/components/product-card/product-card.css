@@ -12,6 +12,8 @@
 .ad-card .card-body{font-size:14px; color:#444;}
 .ad-card .card button svg{width:14px;}
 
+.product-card-header { background-color: #fff; padding: 0; border-bottom: 0px; margin-bottom: 0.5rem; }
+
 .ad-post{transition: all ease-in-out 300ms; height:100%; flex-direction: column; text-decoration: none !important;}
 .ad-post i{font-size:45px;}
 

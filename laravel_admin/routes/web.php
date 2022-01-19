@@ -6,6 +6,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\RejectreasonController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ValuesController;
@@ -75,6 +76,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/values/update/{id}', [ValuesController::class, 'values_update'])->name('values_update');
     Route::post('/values/update/{id}', [ValuesController::class, 'values_update']);
     Route::get('/values/delete/{id}', [ValuesController::class, 'delete_value'])->name('delete_value');
+
+    Route::get('/products/reject_reason', [RejectReasonController::class, 'reject_reason_list'])->name('reject_reason_list');
+    Route::post('/products/reject_reason/add', [RejectReasonController::class, 'reject_reason_add'])->name('reject_reason_add');
+    Route::post('/products/reject_reason/edit/{id}', [RejectReasonController::class, 'reject_reason_edit'])->name('reject_reason_edit');
+    Route::get('/products/reject_reason/delete/{id}', [RejectReasonController::class, 'reject_reason_delete'])->name('reject_reason_delete');
 
     Route::get('/products/{action}', [ProductsController::class, 'products_list'])->name('products_list');
     Route::get('/products/show/{id}', [ProductsController::class, 'show_product'])->name('show_product');
