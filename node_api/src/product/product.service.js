@@ -61,26 +61,40 @@ class ProductService {
 
     products = this.fieldsMapping(products);
 
-    if (sortby === 'price') {
+    if (sortby === 'price' && sortorder === 'asc') {
       products.sort(function (x, y) {
         let a = x.price
         let b = y.price
         return +b.price - +a.price
       })
     }
-    if (sortby === 'postedAt') {
+    if (sortby === 'price' && sortorder === 'dsc') {
+      products.sort(function (x, y) {
+        let a = x.price
+        let b = y.price
+        return +a.price - +b.price
+      })
+    }
+    if (sortby === 'postedAt' && sortorder === 'asc') {
       products.sort(function (x, y) {
         let a = new Date(x.postedAt)
         b = new Date(y.postedAt);
         return a - b;
       });
+      if (sortby === 'postedAt' && sortorder === 'dsc') {
+        products.sort(function (x, y) {
+          let a = new Date(x.postedAt)
+          b = new Date(y.postedAt);
+          return b - a;
+        });
+      }
     }
     return products
 
 
   }
 
-  async fieldsMapping(products) {
+  fieldsMapping(products) {
     return products.map(product => {
       product.title = product.productFields.find(productField => productField?.field?.fieldType === 'title')?.value ?? null;
       product.price = product.productFields.find(productField => (productField?.field?.fieldType === 'price'))?.value ?? null;
@@ -88,6 +102,12 @@ class ProductService {
 
       return product;
     });
+  }
+
+  async tickSoldProduct(givenId) {
+    const data = await Product.update({ soldAt: moment() }, { where: { id: givenId } })
+    return data
+
   }
 
 }

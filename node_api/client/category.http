@@ -1,9 +1,10 @@
+
 GET {{baseUrl}}/category HTTP/1.1
 content-type: application/json
 
 ###
 
-GET {{baseUrl}}/category/0c725006-069e-4c62-b3cf-d370b70539db/products HTTP/1.1
+GET {{baseUrl}}/category/0c725006-069e-4c62-b3cf-d370b70539db/products?sortby=price&sortorder=dsc HTTP/1.1
 Content-Type: application/json
 x-access-token : {{token}}
 x-app-version : 1.0.0

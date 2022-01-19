@@ -175,6 +175,16 @@ class productController extends BaseController {
     return slug;
   }
 
+  soldProduct = async (req, res, next) => {
+    try {
+      const givenId = req.params?.id
+      const soldService = await this.service.tickSoldProduct(givenId)
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Marked as sold" } })
+    } catch (error) {
+      super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to mark", message_detail: error?.message } })
+    }
+  }
+
 }
 
 

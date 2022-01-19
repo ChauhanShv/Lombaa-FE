@@ -25,6 +25,7 @@ module.exports = () => {
   router.get("/", productController.listing);
   router.post("/media", authMiddleware, multer({ storage: storage }).any(), checkSchema(productMediaSchema), productController.uploadMedia);
   router.get("/:id", productController.findById);
+  router.post("/:id", productController.soldProduct)
 
 
 
