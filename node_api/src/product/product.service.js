@@ -47,7 +47,7 @@ class ProductService {
     return await Product.findAll({ where: { userId: userId, soldAt: { [Op.not]: null } } });
   }
 
-  async getproductByCategoryId(categoryId) {
+  async getproductByCategoryId(categoryId, sortby, sortorder) {
     if (!categoryId) return [];
     let products = await Product.findAll({
       where: { categoryId: categoryId, approvedAt: { [Op.not]: null }, expiry: { [Op.gt]: moment() } },
@@ -59,17 +59,38 @@ class ProductService {
       ]
     });
 
+    products = this.fieldsMapping(products);
 
-    products = products.map(product => {
-      const fieldArray = ['title', 'description', 'price']
-      product.title = product.productFields.find(productField => fieldArray.includes(productField?.field?.fieldType))?.value ?? null;
-      // product.setDataValue('title', title);
+    if (sortby === 'price') {
+      products.sort(function (x, y) {
+        let a = x.price
+        let b = y.price
+        return +b.price - +a.price
+      })
+    }
+    if (sortby === 'postedAt') {
+      products.sort(function (x, y) {
+        let a = new Date(x.postedAt)
+        b = new Date(y.postedAt);
+        return a - b;
+      });
+    }
+    return products
+
+
+  }
+
+  async fieldsMapping(products) {
+    return products.map(product => {
+      product.title = product.productFields.find(productField => productField?.field?.fieldType === 'title')?.value ?? null;
+      product.price = product.productFields.find(productField => (productField?.field?.fieldType === 'price'))?.value ?? null;
+      product.description = product.productFields.find(productField => (productField?.field?.fieldType === 'description'))?.value ?? null;
 
       return product;
     });
-
-    return products;
   }
+
 }
+
 
 module.exports = ProductService;

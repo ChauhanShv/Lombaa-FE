@@ -124,7 +124,7 @@ class productController extends BaseController {
       return super.jsonRes({
         res,
         code: 401,
-        data: { message: "Fail to load" },
+        data: { message: "Fail to load", messaage_detail: error?.messaage },
       });
     }
   };
@@ -143,6 +143,7 @@ class productController extends BaseController {
           { model: User, as: 'user', attributes: ["name", "profilePictureId", "email", "accountType", "locationId"], include: [{ model: fileModel, as: "profilePicture" }, { model: Location, as: "location" }] }
         ]
       });
+      const title = await this.service.fieldsMapping([singleProduct])
 
       return super.jsonRes({
         res,
@@ -153,11 +154,11 @@ class productController extends BaseController {
           product: singleProduct,
         },
       });
-    } catch {
+    } catch (error) {
       return super.jsonRes({
         res,
         code: 401,
-        data: { message: "no data found" },
+        data: { success: false, message: "no data found", messaage_detail: error?.message },
       });
     }
   };
