@@ -196,7 +196,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
         });
     };
 
-    return createPostRes?.Success ? <ListingSuccessfulTile {...successData} /> : (
+    return createPostRes?.success ? <ListingSuccessfulTile {...successData} /> : (
         <Container className="p-4 pt-lg-5">
             <FormProvider {...formMethods}>
                 <Form onSubmit={handleFormSubmit} noValidate>

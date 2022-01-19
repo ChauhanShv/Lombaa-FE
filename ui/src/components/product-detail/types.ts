@@ -14,17 +14,20 @@ export interface ProductDetail {
   approvedAt: string;
   category: ProductDetailCategory;
   categoryId: string;
+  description?: string;
   expiry: string;
   id: string;
   location: Location;
   locationId: string;
   postedAt: string;
+  price?: string | number;
   productFields: ProductFields[];
   productMedia: ProductMedia[];
   rejectReason: string | null;
   rejectedAt: string | null;
   slug: string;
   soldAt: string | null;
+  title?: string;
   user: User;
   userId: string;
 }
@@ -98,6 +101,8 @@ export interface Country {
   code?: string;
   coordinate?: object;
   phoneCode?: string | number;
+  currencyCode?: string;
+  currencySymbol?: string;
 }
 export interface User {
   accountType: string;

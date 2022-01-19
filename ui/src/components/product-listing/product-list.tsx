@@ -10,20 +10,15 @@ export const ProductList: React.FC = (): React.ReactElement => {
     const [products, setProducts] = useState<Product[]>([]);
     const [productMedia, setProductMedia] = useState<ProductMedia[]>([]);
 
-    const productCardContents = {
-        summary: 'With supporting text below as a natural lead-in...',
-        description: 'Ashanti, Greater Accra lorelpsum...',
-    };
-
     const [{ data, loading, error }, execute] = useAxios({
-        url: '/category/32983174-3f21-49b2-8143-5ae77a363a26/products',
+        url: '/category/95fdc7f3-4e9f-4108-aa28-372b23c75b19/products',
         method: 'GET',
     });
 
     useEffect(() => {
         if (data?.success) {
             const getProductMedia: ProductMedia[] | undefined = [];
-            setProducts(data?.data?.Products);
+            setProducts(data?.data?.products);
             if (products) {
                 products.map((product: Product) => {
                     getProductMedia.push(product?.productMedia?.find((media) => media.isPrimary) || productMedia[0]);
@@ -50,13 +45,14 @@ export const ProductList: React.FC = (): React.ReactElement => {
                                         productId={product?.id}
                                         slug={product?.slug}
                                         title={product?.title}
+                                        description={product?.description}
+                                        summary=""
                                         mediaSrc={productMedia[index]?.file?.url}
                                         authorName={product?.user?.name}
                                         authorProfilePicture={product?.user?.profilePicture?.url || '/images/user-circle.svg'}
                                         postedOnDate={moment(product?.postedAt).format('LL')}
                                         isFavourite={false}
                                         onFavUnfav={(fav: boolean) => { }}
-                                        {...productCardContents}
                                     />
                                 </Col>
                             )}

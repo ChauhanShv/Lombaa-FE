@@ -16,7 +16,7 @@ export const ProductDetailPage: React.FC = (): React.ReactElement => {
 
     return (
         <>
-            {loading ? <Loader show={loading} /> : <ProductDetail productDetail={data?.Product[0]} />}
+            {loading ? <Loader show={loading} /> : <ProductDetail productDetail={data?.product} />}
         </>
     );
 };

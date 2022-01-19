@@ -15,9 +15,11 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                     <ProductDetailImageSlider productMedia={productDetail?.productMedia} />
                 </section>
             )}
-            <section className=" pb-5">
-                <ProductDetailDescription productDetail={productDetail} />
-            </section>
+            {!!productDetail && (
+                <section className=" pb-5">
+                    <ProductDetailDescription productDetail={productDetail} />
+                </section>
+            )}
             <section className="pb-5">
                 <Container>
                     <h2 className="text-secondary mb-3">Shop for Similar Products</h2>

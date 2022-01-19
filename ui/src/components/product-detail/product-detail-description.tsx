@@ -13,8 +13,10 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
         <Container>
             <Row>
                 <Col className="col-lg-8 col-md-11 mx-auto">
-                    <h1 className="h2 text-dark mb-3">Polycom RealPresence Group 700 for sale @ $250 each(AAR660)</h1>
-                    <h2 className="text-success">$400</h2>
+                    <h1 className="h2 text-dark mb-3">{productDetail.title}</h1>
+                    <h2 className="text-success">
+                        {productDetail.location.country.currencySymbol}{' '}{productDetail.price}
+                    </h2>
                     <Row className="border-bottom py-3 mb-5">
                         <Col>
                             <FaAsterisk /> Used
@@ -60,18 +62,7 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                         )}
 
                         <Col className="col-12 mb-2">
-                            <p>"First Come  First Serve ".<br />
-                                Unable to reply inquiries, Therefore, JUST WALK IN to check the condition and see 5000 other items at our warehouse</p>
-
-                            <p>Thanks for your understanding. </p>
-
-                            <p>**********************************************<br />
-                                Viewing & Self inspection: </p>
-
-                            <p>Blk 2019 Bukit Batok St 23 (Industrial Park A)<br />
-                                #01-254, Singapore 659524</p>
-
-                            <p>Operating hours: 11 am to 5 pm (Mon - Sat).</p>
+                            <p>{productDetail.description}</p>
                         </Col>
 
                         <Col className="col-12 mb-2">
