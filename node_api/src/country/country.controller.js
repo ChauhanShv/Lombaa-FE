@@ -26,7 +26,8 @@ class countryController extends BaseController {
         res,
         code: 401,
         data: {
-          message: "no match found",
+          message: "Fail to ",
+          message_details: error?.message
         },
       });
     }

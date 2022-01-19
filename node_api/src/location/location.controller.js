@@ -48,7 +48,7 @@ class LocationController extends BaseController {
         code: 200,
         data: {
           success: true,
-          message: "",
+          message: "Retrieved location",
           response: location,
         },
       });

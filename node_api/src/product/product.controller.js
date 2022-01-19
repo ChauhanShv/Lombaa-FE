@@ -59,7 +59,7 @@ class productController extends BaseController {
 
       await ProductMedia.bulkCreate(mediaList);
 
-      return super.jsonRes({ res, code: 200, data: { Success: true, message: "Product added", Product: product } });
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Product added", product: product } });
     } catch (error) {
       console.log(error);
       return super.jsonRes({ res, code: 400, data: { success: false, error: { code: 400, message: "Failed to post Ad", message_detail: error.message } } });
@@ -117,14 +117,14 @@ class productController extends BaseController {
       return super.jsonRes({
         res,
         code: 200,
-        data: { Success: true, Messaage: "Product listed", products: products },
+        data: { success: true, messaage: "Product listed", products: products },
       });
     } catch (error) {
       console.log(error);
       return super.jsonRes({
         res,
         code: 401,
-        data: { message: "Fail to load" },
+        data: { message: "Fail to load", messaage_detail: error?.messaage },
       });
     }
   };
@@ -133,7 +133,7 @@ class productController extends BaseController {
     try {
       const Op = require('Sequelize').Op
       const givenId = req.params.id;
-      const singleProduct = await Product.findAll({
+      const singleProduct = await Product.findOne({
         where: { [Op.or]: [{ id: givenId }, { slug: givenId }] },
         include: [
           { model: Category, as: "category" },
@@ -143,22 +143,22 @@ class productController extends BaseController {
           { model: User, as: 'user', attributes: ["name", "profilePictureId", "email", "accountType", "locationId"], include: [{ model: fileModel, as: "profilePicture" }, { model: Location, as: "location" }] }
         ]
       });
+      const title = await this.service.fieldsMapping([singleProduct])
 
       return super.jsonRes({
         res,
         code: 200,
         data: {
-          Success: true,
-          Message: "Product retrieved.",
-          Product: singleProduct,
+          success: true,
+          message: "Product retrieved.",
+          product: singleProduct,
         },
       });
-    } catch (err) {
-      console.log(err)
+    } catch (error) {
       return super.jsonRes({
         res,
         code: 401,
-        data: { message: "no data found" },
+        data: { success: false, message: "no data found", messaage_detail: error?.message },
       });
     }
   };

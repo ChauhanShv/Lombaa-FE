@@ -50,8 +50,8 @@ class UserController extends BaseController {
       eventEmitter.emit(event.newEmail, { user: newUser, verificationLink: `${appConfig.frontEndUrl}/email/verify?token=${verificationToken}` });
 
       return super.jsonRes({ res, code: 200, data: responseFormatter.format(data) });
-    } catch (err) {
-      next(err);
+    } catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to create user", message_detail: error?.message } })
     }
   }
 
@@ -69,7 +69,7 @@ class UserController extends BaseController {
 
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Password changed", metadata: { user: updatedUser } } });
     } catch (error) {
-      next(error);
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to reset password", messageDetail: error?.message } })
     }
   }
 
@@ -81,7 +81,7 @@ class UserController extends BaseController {
       await model.update({ isActive: status }, { where: { id: user.id } });
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Account status updated" } });
     } catch (error) {
-      next(error);
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to update status", message_detail: error?.message } })
     }
   };
 
@@ -91,9 +91,9 @@ class UserController extends BaseController {
 
       await model.update({ isFacebookVerified: 0, facebookId: null }, { where: { id: user.id } });
 
-      return super.jsonRes({ req, res, code: 200, data: { success: true, message: "Facebook disconnected" } });
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Facebook disconnected" } });
     } catch (error) {
-      next(error);
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to disconnect facebook", message_detail: error?.message } })
     }
   };
 
@@ -101,9 +101,9 @@ class UserController extends BaseController {
     try {
       const user = req.user;
       await model.update({ isGoogleVerified: 0, googleId: null }, { where: { id: user.id } });
-      return super.jsonRes({ req, res, code: 200, data: { success: true, message: "Google disconnected" } });
-    } catch {
-      next(error);
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Google disconnected" } });
+    } catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to disconnect google", message_detail: error?.message } })
     }
   };
 
@@ -130,22 +130,26 @@ class UserController extends BaseController {
   };
 
   verifyEmail = async (req, res, next) => {
-    const { token } = req.body;
+    try {
+      const { token } = req.body;
 
-    let user = await this.service.verifyEmailVerificationToken(token);
-    if (!user) {
-      const data = { success: false, error: { code: 400, message: "Email verification failed", messageDetail: "Token verification failed" } };
-      return super.jsonRes({ res, code: 400, data });
+      let user = await this.service.verifyEmailVerificationToken(token);
+      if (!user) {
+        const data = { success: false, error: { code: 400, message: "Email verification failed", messageDetail: "Token verification failed" } };
+        return super.jsonRes({ res, code: 400, data });
+      }
+
+      user = await this.service.markEmailVerified(user);
+      if (!user) {
+        const data = { success: false, error: { code: 400, message: "Email verification failed", messageDetail: "Failed to update verified status" } };
+        return super.jsonRes({ res, code: 400, data });
+      }
+
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Email verified" } });
+    } catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to verify email", message_detail: error?.message } })
     }
-
-    user = await this.service.markEmailVerified(user);
-    if (!user) {
-      const data = { success: false, error: { code: 400, message: "Email verification failed", messageDetail: "Failed to update verified status" } };
-      return super.jsonRes({ res, code: 400, data });
-    }
-
-    return super.jsonRes({ res, code: 200, data: { success: true, message: "Email verified" } });
-  };
+  }
 
   updatePhone = async (req, res, next) => {
     try {
@@ -166,7 +170,7 @@ class UserController extends BaseController {
 
       return super.jsonRes({ res, req, code: 200, data: { success: true, message: "Phone update request received" } });
     } catch (error) {
-      return super.jsonRes({ res, req, success: false, error: { code: 40021, message: "failed to update Phonenumber", messageDetail: "Please provide a valid Phonenumber" } });
+      return super.jsonRes({ res, req, code: 40021, data: { success: false, message: "Failed to update Phonenumber", message_detail: error.message } });
     }
   };
 
@@ -185,7 +189,7 @@ class UserController extends BaseController {
 
       return super.jsonRes({ res, req, code: 200, data: { success: true, message: "Show phone number consent updated" } });
     } catch (error) {
-      return next(error);
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to show phone number consent", message_detail: error?.message } })
     }
   };
 
@@ -201,7 +205,9 @@ class UserController extends BaseController {
       await this.service.forgetPassword(email);
       return super.jsonRes({ res, code: 200, data: { success: true, message: `We have sent you password reset link at ${email}` } });
     } catch (error) {
-      next(error);
+      return super.jsonRes({
+        res, code: 400, data: { success: false, message: "Failed to sent password reset link", message_detail: error?.message }
+      })
     }
   };
 
@@ -253,7 +259,7 @@ class UserController extends BaseController {
 
       super.jsonRes({ res, code: 200, data: { success: true, message: "Email verification link sent" } });
     } catch (e) {
-      next(e);
+      super.jsonRes({ res, code: 400, data: {} })
     }
   };
 
@@ -377,7 +383,7 @@ class UserController extends BaseController {
       const data = { success: true, message: "Profile updated", metadata: { user: resUser } };
       super.jsonRes({ res, code: 200, data });
     } catch (error) {
-      next(error);
+      super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to update user", message_detail: error?.message } })
     }
   };
 

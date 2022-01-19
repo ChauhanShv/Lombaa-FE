@@ -18,7 +18,9 @@ Product.init(
     rejectedAt: { type: DataTypes.DATE, allowNull: true },
     rejectReason: { type: DataTypes.TEXT, allowNull: true },
     expiry: { type: DataTypes.DATE, allowNull: true },
-    title: DataTypes.VIRTUAL
+    title: DataTypes.VIRTUAL,
+    description: DataTypes.VIRTUAL,
+    price: DataTypes.VIRTUAL,
   },
   {
     modelName: "Product",
