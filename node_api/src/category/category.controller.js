@@ -65,7 +65,8 @@ class CategoryController extends BaseController {
 
     try {
       const catId = req.params?.id
-      const allProducts = await this.productService?.getproductByCategoryId(catId);
+      const { sortby, sortorder } = req.query
+      const allProducts = await this.productService?.getproductByCategoryId(catId, sortby, sortorder);
       const catdetail = await this.service?.getCatDetails(catId);
       return super.jsonRes({
         res,
@@ -73,7 +74,8 @@ class CategoryController extends BaseController {
         data: {
           success: true,
           message: "Products retrieved",
-          data: { Products: allProducts, Category: catdetail }
+          data: { products: allProducts, category: catdetail }
+
         }
       })
     } catch (error) {
@@ -82,7 +84,8 @@ class CategoryController extends BaseController {
         res,
         code: 400,
         data: {
-          message: "No data found"
+          message: "Fail to get data",
+          message_detail: error?.message
         }
       })
     }
