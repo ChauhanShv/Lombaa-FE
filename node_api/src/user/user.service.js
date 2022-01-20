@@ -355,12 +355,16 @@ class UserService {
   }
 
   async alreadyInFavorites(userId, productId) {
-    const user = await User.findOne({ where: { id: userId }, include: [{ model: Product, through: { attributes: [] } }] });
-    return user.Products?.length;
+    const data = await FavoriteProduct.findOne({ where: { userId: userId, productId: productId } });
+    return data
   }
 
   async addFavoriteProduct(userId, productId) {
     return await FavoriteProduct.create({ userId, productId });
+  }
+
+  async deleteFavoriteProduct(userId, productId) {
+    return await FavoriteProduct.destroy({ where: { userId: userId, productId: productId } })
   }
 }
 

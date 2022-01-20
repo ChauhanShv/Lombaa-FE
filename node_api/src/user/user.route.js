@@ -42,6 +42,7 @@ module.exports = () => {
 
   router.put("/favorite/product", authMiddleware, checkSchema(favoriteProductSchema), controller.addFavoriteProduct);
   router.get("/favorite/products", authMiddleware, controller.favoriteProducts);
+  router.delete("/favorite/product", authMiddleware, controller.deleteFavoriteProduct)
 
   return router;
 };

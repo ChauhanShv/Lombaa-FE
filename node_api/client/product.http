@@ -51,3 +51,9 @@ content-type: application/json
 x-client-platform : Android
 x-app-version : 1.0.0
 
+###
+
+POST   {{baseUrl}}/product/0050e6c2-45f0-40f8-91c9-86ca30f0a688 HTTP/1.1
+content-type: application/json
+x-client-platform : Android
+x-app-version : 1.0.0
