@@ -6,9 +6,13 @@ const ProductField = require("../product/product_field.model");
 const ProductMedia = require("./product_media.model")
 const Field = require("../field/field.model");
 const User = require("../user/user.model")
-const fileModel = require("../file/file.model")
+const fileModel = require("../file/file.model");
+const UserService = require("../user/user.service");
 
 class ProductService {
+  constructor() {
+    this.userService = new UserService()
+  }
   async isSlugAvailable(slug) {
     try {
       return !(await Product.count({ where: { slug } }));
@@ -47,7 +51,7 @@ class ProductService {
     return await Product.findAll({ where: { userId: userId, soldAt: { [Op.not]: null } } });
   }
 
-  async getproductByCategoryId(categoryId, sortby, sortorder) {
+  async getproductByCategoryId(categoryId, sortby, sortorder, userId) {
     if (!categoryId) return [];
     let products = await Product.findAll({
       where: { categoryId: categoryId, approvedAt: { [Op.not]: null }, expiry: { [Op.gt]: moment() } },
@@ -89,6 +93,9 @@ class ProductService {
         });
       }
     }
+    products = await this.mapUserFavorite(products, userId)
+    console.log(products, 'dhdhdhdhdhdhd')
+
     return products
 
 
@@ -99,9 +106,16 @@ class ProductService {
       product.title = product.productFields.find(productField => productField?.field?.fieldType === 'title')?.value ?? null;
       product.price = product.productFields.find(productField => (productField?.field?.fieldType === 'price'))?.value ?? null;
       product.description = product.productFields.find(productField => (productField?.field?.fieldType === 'description'))?.value ?? null;
-
       return product;
     });
+  }
+
+  mapUserFavorite(products, userId) {
+    return Promise.all(products.map(async product => {
+      const productId = product.id
+      product.isFavorite = await this.userService?.alreadyInFavorites(userId, productId) ?? false
+      return product;
+    }));
   }
 
   async tickSoldProduct(givenId) {
@@ -109,6 +123,7 @@ class ProductService {
     return data
 
   }
+
 
 }
 
