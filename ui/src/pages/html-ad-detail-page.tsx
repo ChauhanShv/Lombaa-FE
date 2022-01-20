@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { ProductCard } from '../components/product-card/product-card';
+import { ProductCard } from '../components/product-card';
 import { ProfileHeaderCard } from '../components/profile/profile-header-card';
 
 
@@ -15,21 +15,6 @@ const AdSpotsettings = {
 }
 
 export const AdDetailPage: React.FC = (): React.ReactElement => {
-
-    const productCardContents = {
-        productId: '4',
-        title: "Special title treatment",
-        summary: 'With supporting text below as a natural lead-in...',
-        description: 'Ashanti, Greater Accra lorelpsum...',
-        mediaType: "image",
-        mediaSrc: "https://media.kasperskydaily.com/wp-content/uploads/sites/92/2014/04/18130043/online-gamer-threats-featured.jpg",
-        authorName: 'John Smith',
-        authorProfilePicture: '/images/user-circle.svg',
-        postedOnDate: '',
-        isFavourite: false,
-        onFavUnfav: (fav: boolean) => { },
-    };
-
     return (
         <>
             <section className="pt-4 pb-5 mt-0 align-items-center">
@@ -187,11 +172,11 @@ export const AdDetailPage: React.FC = (): React.ReactElement => {
 
                                         </a>
                                     </Col>
-                                    {[...Array(16)].map(() =>
+                                    {/* {[...Array(16)].map(() =>
                                         <Col md={3} className="col-6 mb-3">
                                             <ProductCard {...productCardContents} />
                                         </Col>
-                                    )}
+                                    )} */}
                                 </Row>
                             </>
                         </Col>

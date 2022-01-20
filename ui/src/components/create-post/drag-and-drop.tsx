@@ -94,7 +94,7 @@ export const DragAndDrop: React.FC<DragAndDropProps> = ({
           <div key={file.name} className="thumb">
             <div className="thumb-inner">
               {file.type?.includes('video') ? (
-                <video className='video' controls onClick={() => handlePrimaryMedia(index)}>
+                <video className='video' controls>
                   <source src={file.preview} type="video/mp4" />
                   <source src={file.preview} type="video/webm" />
                 </video>

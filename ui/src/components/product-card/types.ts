@@ -1,9 +1,9 @@
 export interface ProductCardProps {
   productId: string;
+  slug: string;
   title: string;
   summary: string;
   description: string;
-  mediaType: string;
   mediaSrc: string;
   postedOnDate: string;
   authorName: string;
