@@ -492,7 +492,7 @@ class UserController extends BaseController {
       const userId = req.user?.id;
       const { productId } = req.body;
 
-      if (this.service.alreadyInFavorites(userId, productId)) {
+      if (await this.service.alreadyInFavorites(userId, productId)) {
         const data = { success: false, error: { code: 400, message: "Already in favorites", message_detail: "Duplicate entry found in user favorites" } };
         return super.jsonRes({ res, code: 400, data });
       }
@@ -502,10 +502,21 @@ class UserController extends BaseController {
       const data = { success: true, message: "Added to favorites" };
       return super.jsonRes({ res, code: 200, data });
     } catch (error) {
-      console.log({ error });
-      next(error);
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "No data found", message_detail: error.message } })
     }
   };
+
+  deleteFavoriteProduct = async (req, res, next) => {
+    try {
+      const userId = req.user?.id;
+      const { productId } = req.body;
+      await this.service.deleteFavoriteProduct(userId, productId)
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Product has been deleted" } })
+    }
+    catch {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Something went wrong", message_detail: error?.message } })
+    }
+  }
 }
 
 module.exports = UserController;
