@@ -356,7 +356,8 @@ class UserService {
 
   async alreadyInFavorites(userId, productId) {
     const data = await FavoriteProduct.findOne({ where: { userId: userId, productId: productId } });
-    return data
+    if (data) { return true }
+    else { return false }
   }
 
   async addFavoriteProduct(userId, productId) {

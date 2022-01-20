@@ -66,7 +66,8 @@ class CategoryController extends BaseController {
     try {
       const catId = req.params?.id
       const { sortby, sortorder } = req.query
-      const allProducts = await this.productService?.getproductByCategoryId(catId, sortby, sortorder);
+      const userId = req.user?.id
+      const allProducts = await this.productService?.getproductByCategoryId(catId, sortby, sortorder, userId);
       const catdetail = await this.service?.getCatDetails(catId);
       return super.jsonRes({
         res,
