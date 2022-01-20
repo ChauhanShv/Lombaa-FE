@@ -66,6 +66,12 @@
             </div>
             @csrf
             <div class="form-actions">
+              <button type="submit" class="btn btn-success">Approve</button>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-success">Reject</button>
+            </div>
+            <div class="form-actions">
               <button type="submit" class="btn btn-success">Save</button>
             </div>
           </form>

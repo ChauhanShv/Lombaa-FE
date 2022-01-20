@@ -82,6 +82,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/products/reject_reason/edit/{id}', [RejectReasonController::class, 'reject_reason_edit'])->name('reject_reason_edit');
     Route::get('/products/reject_reason/delete/{id}', [RejectReasonController::class, 'reject_reason_delete'])->name('reject_reason_delete');
 
+    Route::post('/products/update/{id}', [ProductsController::class, 'update_product'])->name('update_product');
+    Route::get('/products/delete/media/{id}', [ProductsController::class, 'delete_media'])->name('delete_media');
     Route::get('/products/{action}', [ProductsController::class, 'products_list'])->name('products_list');
     Route::get('/products/show/{id}', [ProductsController::class, 'show_product'])->name('show_product');
     Route::get('/products/status/{action}', [ProductsController::class, 'filter'])->name('filter');
@@ -91,5 +93,4 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/settings', [SettingsController::class, 'settings'])->name('settings');
     Route::post('/settings/add', [SettingsController::class, 'settings_post'])->name('settings_post');
-
 });
