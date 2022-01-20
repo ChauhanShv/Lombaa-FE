@@ -47,16 +47,12 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                         {productDetail.productFields?.map((productField: ProductFields) =>
                             <>
                                 {!['title', 'description', 'price'].includes(productField.field.fieldType) && (
-                                    <>
-                                        {console.log(!!!['title', 'description', 'price'].includes(productField.field.fieldType))}
-                                        <Col className='col-12 mb-2'>
-                                            {console.log(productDetail, '11111222qwwe')}
-                                            <p className="text-muted m-0">{productField.field.label}</p>
-                                            {productField.field.values.map((value: FieldValue) =>
-                                                <p>{value.value}</p>
-                                            )}
-                                        </Col>
-                                    </>
+                                    <Col className='col-12 mb-2'>
+                                        <p className="text-muted m-0">{productField.field.label}</p>
+                                        {productField.field.values.map((value: FieldValue) =>
+                                            <p>{value.value}</p>
+                                        )}
+                                    </Col>
                                 )}
                             </>
                         )}
