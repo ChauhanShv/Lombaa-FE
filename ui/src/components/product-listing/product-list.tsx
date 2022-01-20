@@ -51,7 +51,7 @@ export const ProductList: React.FC = (): React.ReactElement => {
                                         authorName={product?.user?.name}
                                         authorProfilePicture={product?.user?.profilePicture?.url || '/images/user-circle.svg'}
                                         postedOnDate={moment(product?.postedAt).format('LL')}
-                                        isFavourite={false}
+                                        isFavourite={product?.isFavorite}
                                         onFavUnfav={(fav: boolean) => { }}
                                     />
                                 </Col>

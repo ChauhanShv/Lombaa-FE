@@ -3,6 +3,8 @@ export interface ProductDetailProps {
 }
 export interface ProductDetailImageSliderProps {
   productMedia: ProductMedia[];
+  productCategory: ProductDetailCategory;
+  productName?: string;
 }
 export interface ProductDetailDescriptionProps {
   productDetail: ProductDetail;

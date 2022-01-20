@@ -22,15 +22,31 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 }: ProductCardProps): React.ReactElement => {
 
     const [favourite, setFavourite] = useState<boolean>(isFavourite);
-    const [{ data, loading, error }, execute] = useAxios({
-        url: '/dummyurl',
+    const [{ data }, favExecute] = useAxios({
+        url: '/user/favorite/product',
         method: 'PUT',
+    });
+    const [{ data: deleteFavourite }, unfavExecute] = useAxios({
+        url: '/user/favorite/product',
+        method: 'DELETE',
     });
 
     const handleFavUnfav = () => {
         setFavourite(!favourite);
         onFavUnfav(!favourite);
-        // execute({});
+        if (!favourite) {
+            favExecute({
+                data: {
+                    productId: productId,
+                }
+            });
+        } else {
+            unfavExecute({
+                data: {
+                    productId: productId,
+                }
+            });
+        }
     }
 
     return (
@@ -45,7 +61,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     <button className="saved" id="fav" onClick={handleFavUnfav}><FiHeart /></button>
                 }
             </div>
-            <Link to={`/product-detail/${productId}`}>
+            <Link to={`/product-detail/${productId}/${slug}`}>
                 <div className="card-body">
                     <Card.Header className="card-title text-success product-card-header">
                         {title}
@@ -58,7 +74,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     </p>
                 </div>
             </Link>
-            <Link to='/' className="p-0 ms-3 mb-3 usermeta">
+            <Link to={`/product-detail/${productId}/${slug}`} className="p-0 ms-3 mb-3 usermeta">
                 <img
                     className="rounded-circle me-2"
                     width="30"

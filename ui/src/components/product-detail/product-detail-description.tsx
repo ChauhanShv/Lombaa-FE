@@ -45,16 +45,16 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                             <p>700</p>
                         </Col>
                         {productDetail.productFields?.map((productField: ProductFields) =>
-                            <>
+                            <Col className='col-12 mb-2' key={productField.id}>
                                 {!['title', 'description', 'price'].includes(productField.field.fieldType) && (
-                                    <Col className='col-12 mb-2'>
+                                    <>
                                         <p className="text-muted m-0">{productField.field.label}</p>
                                         {productField.field.values.map((value: FieldValue) =>
-                                            <p>{value.value}</p>
+                                            <p key={value.id}>{value.value}</p>
                                         )}
-                                    </Col>
+                                    </>
                                 )}
-                            </>
+                            </Col>
                         )}
 
                         <Col className="col-12 mb-2">
