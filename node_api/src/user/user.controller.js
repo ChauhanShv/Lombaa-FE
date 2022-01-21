@@ -1,6 +1,6 @@
 const BaseController = require("../modules/controller").base;
 const AuthService = require("../auth").service;
-const model = require("./user.model");
+const User = require("./user.model");
 const util = require("./user.util");
 const { validationResult } = require("express-validator");
 const validationErrorFormatter = require("../modules/formatter").validationErrorFormatter;
@@ -16,6 +16,15 @@ const appConfig = require("../app/app.config");
 const LocationService = require("../location/location.service");
 const ProductService = require("../product/product.service");
 require("./user.favorite_product_model");
+const Product = require("../product/product.model")
+const viewedProduct = require("../viewed_product/viewed.product.model")
+const moment = require("moment")
+const Category = require("../category/category.model")
+const ProductField = require("../product/product_field.model")
+const Field = require("../field/field.model")
+const ProductMedia = require("../product/product_media.model");
+const fileModel = require("../file/file.model")
+const Location = require("../location/location.model")
 
 class UserController extends BaseController {
   constructor() {
@@ -39,7 +48,7 @@ class UserController extends BaseController {
     const userData = { businessName: body.businessName, name: body?.name, email: body?.email, phoneNumber: body?.phoneNumber, phoneCode: body?.phoneCode, accountType: body?.accountType, tinNumber: body?.tinNumber, password: util?.hashPassword(body.password), isPhoneVerified: true };
 
     try {
-      const newUser = await model.create(userData);
+      const newUser = await User.create(userData);
       newUser.password = undefined;
 
       const token = jwtService.encode({ id: newUser.id });
@@ -78,7 +87,7 @@ class UserController extends BaseController {
       const user = req.user;
       const { status } = req.body;
 
-      await model.update({ isActive: status }, { where: { id: user.id } });
+      await User.update({ isActive: status }, { where: { id: user.id } });
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Account status updated" } });
     } catch (error) {
       return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to update status", message_detail: error?.message } })
@@ -89,7 +98,7 @@ class UserController extends BaseController {
     try {
       const user = req.user;
 
-      await model.update({ isFacebookVerified: 0, facebookId: null }, { where: { id: user.id } });
+      await User.update({ isFacebookVerified: 0, facebookId: null }, { where: { id: user.id } });
 
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Facebook disconnected" } });
     } catch (error) {
@@ -100,7 +109,7 @@ class UserController extends BaseController {
   deleteGoogle = async (req, res, next) => {
     try {
       const user = req.user;
-      await model.update({ isGoogleVerified: 0, googleId: null }, { where: { id: user.id } });
+      await User.update({ isGoogleVerified: 0, googleId: null }, { where: { id: user.id } });
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Google disconnected" } });
     } catch (error) {
       return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to disconnect google", message_detail: error?.message } })
@@ -163,7 +172,7 @@ class UserController extends BaseController {
       const phoneCode = req.body.phoneCode;
       const user = req.user;
 
-      await model.update({ phoneNumber: phoneNumber, phoneCode, isPhoneVerified: 1 }, { where: { id: user.id } });
+      await User.update({ phoneNumber: phoneNumber, phoneCode, isPhoneVerified: 1 }, { where: { id: user.id } });
 
       req.user.phoneNumber = phoneNumber;
       req.user.phoneCode = phoneCode;
@@ -183,7 +192,7 @@ class UserController extends BaseController {
 
     try {
       const user = req.user;
-      await model.update({ showPhoneNumberConsent: req.body.consent }, { where: { id: user.id }, returning: true });
+      await User.update({ showPhoneNumberConsent: req.body.consent }, { where: { id: user.id }, returning: true });
 
       req.user.showPhoneNumberConsent = req.body.consent;
 
@@ -517,6 +526,72 @@ class UserController extends BaseController {
       return super.jsonRes({ res, code: 400, data: { success: false, message: "Something went wrong", message_detail: error?.message } })
     }
   }
+
+  last30Days = async (req, res, next) => {
+    try {
+      const Op = require('Sequelize').Op
+      const userId = req.user?.id;
+      console.log(userId)
+      // const data = await model.findOne({
+      //   where: {
+      //     userId: userId, createdAt: {
+      //       [Op.lte]: moment(),
+      //       [Op.gte]: moment().subtract(30, 'days').toDate()
+      //     },
+      //   },
+      //   include: [{ model: Product, as: "product" }]
+      // })
+      const products = await User.findOne({
+        where: { id: userId },
+        include: [{
+          model: Product, through: {
+            where: {
+              createdAt: {
+                [Op.lte]: moment(),
+                [Op.gte]: moment().subtract(30, 'days').toDate()
+              }
+            },
+            attributes: []
+          },
+          include: [
+            { model: Category, as: 'category' },
+            { model: Location, as: "location" },
+            { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
+            { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] }
+          ]
+        }],
+        attributes: ["name"]
+      })
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Product viewed", data: products } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Something went wrong", message_detail: error?.message } })
+    }
+  }
+
+  expiredProducts = async (req, res, next) => {
+    try {
+      const userId = req.user?.id;
+      const expired = await this.productService.getUserExpiredProducts(userId)
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Products retrieved", data: expired } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to load products", message_detail: error?.message } })
+    }
+  }
+
+  soldProducts = async (req, res, next) => {
+    try {
+      const userId = req.user?.id
+      const sold = await this.productService.getUserSoldProducts(userId)
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Products retrieved", data: sold } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 200, data: { success: false, message: "Failed to load products", message_detail: error?.message } })
+    }
+  }
+
+
 }
 
 module.exports = UserController;

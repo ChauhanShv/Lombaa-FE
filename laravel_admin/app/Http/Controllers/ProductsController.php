@@ -12,12 +12,17 @@ use Illuminate\Http\Request;
 
 class ProductsController extends Controller
 {
-    public function products_list($action)
+    public function products_list($list_type)
     {
-        $products = Products::with('category', 'location', 'location.city', 'location.region', 'location.country', 'user')->paginate(30);
+        if ($list_type !== 'all') {
+            $products = Products::with('category', 'location', 'location.city', 'location.region', 'location.country', 'user')->where('userId', $list_type)->paginate(30);
+        } else {
+            $products = Products::with('category', 'location', 'location.city', 'location.region', 'location.country', 'user')->paginate(30);
+        }
+
         $reject_reasons = RejectReason::get();
 
-        return view('products.list', ['products' => $products, 'reject_reasons' => $reject_reasons]);
+        return view('products.list', ['products' => $products, 'reject_reasons' => $reject_reasons, 'list_type' => $list_type]);
     }
 
     public function show_product($id)
@@ -72,40 +77,85 @@ class ProductsController extends Controller
         return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Rejected']);
     }
 
-    public function filter($action)
+    public function filter($action, $list_type)
     {
         if ($action === 'under_review') {
-            $products = Products::with('category', 'location', 'location.city', 'location.region', 'location.country', 'user')
-                ->whereNull('approvedAt')
-                ->whereNull('rejectedAt')
-                ->paginate(30);
+            if ($list_type !== 'all') {
+                $products = Products::with('category', 'location', 'location.city', 'location.region', 'location.country', 'user')
+                    ->whereNull('approvedAt')
+                    ->whereNull('rejectedAt')
+                    ->where('userId', $list_type)
+                    ->paginate(30);
+            } else {
+                $products = Products::with('category', 'location', 'location.city', 'location.region', 'location.country', 'user')
+                    ->whereNull('approvedAt')
+                    ->whereNull('rejectedAt')
+                    ->paginate(30);
+            }
+
             $reject_reasons = RejectReason::get();
 
-            return view('products.list', ['products' => $products, 'reject_reasons' => $reject_reasons]);
+            return view('products.list', ['products' => $products, 'reject_reasons' => $reject_reasons, 'list_type' => $list_type]);
         } elseif ($action === 'active') {
-            $products = Products::with('category', 'location', 'location.city', 'location.region', 'location.country', 'user')
-                ->whereNotNull('approvedAt')->paginate(30);
+            if ($list_type !== 'all') {
+                $products = Products::with('category', 'location', 'location.city', 'location.region', 'location.country', 'user')
+                    ->whereNotNull('approvedAt')
+                    ->where('userId', $list_type)
+                    ->paginate(30);
+            } else {
+                $products = Products::with('category', 'location', 'location.city', 'location.region', 'location.country', 'user')
+                    ->whereNotNull('approvedAt')
+                    ->paginate(30);
+            }
+
             $reject_reasons = RejectReason::get();
 
-            return view('products.list', ['products' => $products, 'reject_reasons' => $reject_reasons]);
+            return view('products.list', ['products' => $products, 'reject_reasons' => $reject_reasons, 'list_type' => $list_type]);
         } elseif ($action === 'declined') {
-            $products = Products::with('category', 'location', 'location.city', 'location.region', 'location.country', 'user')
-                ->whereNotNull('rejectedAt')->paginate(30);
+            if ($list_type !== 'all') {
+                $products = Products::with('category', 'location', 'location.city', 'location.region', 'location.country', 'user')
+                    ->whereNotNull('rejectedAt')
+                    ->where('userId', $list_type)
+                    ->paginate(30);
+            } else {
+                $products = Products::with('category', 'location', 'location.city', 'location.region', 'location.country', 'user')
+                    ->whereNotNull('rejectedAt')
+                    ->paginate(30);
+            }
+
             $reject_reasons = RejectReason::get();
 
-            return view('products.list', ['products' => $products, 'reject_reasons' => $reject_reasons]);
+            return view('products.list', ['products' => $products, 'reject_reasons' => $reject_reasons, 'list_type' => $list_type]);
         } elseif ($action === 'expired') {
-            $products = Products::with('category', 'location', 'location.city', 'location.region', 'location.country', 'user')
-                ->whereDate('expiry', '<=', Carbon::now())->paginate(30);
+            if ($list_type !== 'all') {
+                $products = Products::with('category', 'location', 'location.city', 'location.region', 'location.country', 'user')
+                    ->whereDate('expiry', '<=', Carbon::now())
+                    ->where('userId', $list_type)
+                    ->paginate(30);
+            } else {
+                $products = Products::with('category', 'location', 'location.city', 'location.region', 'location.country', 'user')
+                    ->whereDate('expiry', '<=', Carbon::now())
+                    ->paginate(30);
+            }
+
             $reject_reasons = RejectReason::get();
 
-            return view('products.list', ['products' => $products, 'reject_reasons' => $reject_reasons]);
+            return view('products.list', ['products' => $products, 'reject_reasons' => $reject_reasons, 'list_type' => $list_type]);
         } elseif ($action === 'sold') {
-            $products = Products::with('category', 'location', 'location.city', 'location.region', 'location.country', 'user')
-                ->whereNotNull('soldAt')->paginate(30);
+            if ($list_type !== 'all') {
+                $products = Products::with('category', 'location', 'location.city', 'location.region', 'location.country', 'user')
+                    ->whereNotNull('soldAt')
+                    ->where('userId', $list_type)
+                    ->paginate(30);
+            } else {
+                $products = Products::with('category', 'location', 'location.city', 'location.region', 'location.country', 'user')
+                    ->whereNotNull('soldAt')
+                    ->paginate(30);
+            }
+
             $reject_reasons = RejectReason::get();
 
-            return view('products.list', ['products' => $products, 'reject_reasons' => $reject_reasons]);
+            return view('products.list', ['products' => $products, 'reject_reasons' => $reject_reasons, 'list_type' => $list_type]);
         }
     }
 

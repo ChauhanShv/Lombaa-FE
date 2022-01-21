@@ -121,7 +121,7 @@
             </a>
             <ul>
                 <li class="">
-                    <a href="{{ route('products_list', ['action' => 'all']) }}">List</a>
+                    <a href="{{ route('products_list', ['list_type' => 'all']) }}">List</a>
                 </li>
                 <li class="">
                     <a href="{{ route('reject_reason_list') }}">Reject reason</a>
