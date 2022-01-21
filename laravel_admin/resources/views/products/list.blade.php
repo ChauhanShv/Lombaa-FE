@@ -38,17 +38,17 @@
                     Filter products <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu pull-right" style="text-align: left; "  role="menu">
-                    <li><a href="{{ route('products_list', ['action' => 'all']) }}"><i style="color: grey" class="icon icon-list"></i>&nbsp;&nbsp;&nbsp;All</a></li>
+                    <li><a href="{{ route('products_list', ['list_type' => 'all']) }}"><i style="color: grey" class="icon icon-list"></i>&nbsp;&nbsp;&nbsp;All</a></li>
                     <li class="divider"></li>
-                    <li><a href="{{ route('filter', ['action' => 'under_review']) }}"><i style="color: grey" class="icon icon-exclamation-sign"></i>&nbsp;&nbsp;&nbsp;Under&nbsp;review</a></li>
+                    <li><a href="{{ route('filter', ['action' => 'under_review', 'list_type' => $list_type]) }}"><i style="color: grey" class="icon icon-exclamation-sign"></i>&nbsp;&nbsp;&nbsp;Under&nbsp;review</a></li>
                     <li class="divider"></li>
-                    <li><a href="{{ route('filter', ['action' => 'active']) }}"><i style="color: grey" class="icon icon-ok"></i>&nbsp;&nbsp;&nbsp;Active</a></li>
+                    <li><a href="{{ route('filter', ['action' => 'active', 'list_type' => $list_type]) }}"><i style="color: grey" class="icon icon-ok"></i>&nbsp;&nbsp;&nbsp;Active</a></li>
                     <li class="divider"></li>
-                    <li><a href="{{ route('filter', ['action' => 'declined']) }}"><i style="color: grey" class="icon icon-remove"></i>&nbsp;&nbsp;&nbsp;Declined</a></li>
+                    <li><a href="{{ route('filter', ['action' => 'declined', 'list_type' => $list_type]) }}"><i style="color: grey" class="icon icon-remove"></i>&nbsp;&nbsp;&nbsp;Declined</a></li>
                     <li class="divider"></li>
-                    <li><a href="{{ route('filter', ['action' => 'expired']) }}"><i style="color: grey" class="icon icon-time"></i>&nbsp;&nbsp;&nbsp;Expired</a></li>
+                    <li><a href="{{ route('filter', ['action' => 'expired', 'list_type' => $list_type]) }}"><i style="color: grey" class="icon icon-time"></i>&nbsp;&nbsp;&nbsp;Expired</a></li>
                     <li class="divider"></li>
-                    <li><a href="{{ route('filter', ['action' => 'sold']) }}"><i style="color: grey" class="icon icon-thumbs-up"></i>&nbsp;&nbsp;&nbsp;Sold</a></li>
+                    <li><a href="{{ route('filter', ['action' => 'sold', 'list_type' => $list_type]) }}"><i style="color: grey" class="icon icon-thumbs-up"></i>&nbsp;&nbsp;&nbsp;Sold</a></li>
                 </ul>
             </div>
         </div>
@@ -63,6 +63,7 @@
                         <th>Sold</th>
                         <th>Posted On</th>
                         <th>Expiry</th>
+                        <th>User</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -94,7 +95,8 @@
                             @else
                                 <p>{{ \Carbon\Carbon::parse($product->expiry) }}</p>
                             @endif
-
+                        </td>
+                        <td style="text-align: center;">{{ $product->user->email }}</td>
                         <td style="text-align: center;">
                             @if(($product->approvedAt) == null && $product->rejectedAt == null)
                                 <p><strong>Under&nbsp;Review</strong></p>
