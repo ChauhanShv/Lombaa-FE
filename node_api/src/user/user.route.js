@@ -45,6 +45,8 @@ module.exports = () => {
   router.delete("/favorite/product", authMiddleware, controller.deleteFavoriteProduct)
 
   router.get("/last30days", authMiddleware, controller.last30Days)
+  router.get("/expired", authMiddleware, controller.expiredProducts)
+  router.get("/sold", authMiddleware, controller.soldProducts)
 
   return router;
 };

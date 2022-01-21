@@ -42,7 +42,7 @@ class ProductService {
   async getUserExpiredProducts(userId) {
     if (!userId) return [];
 
-    return await Product.findAll({ where: { userId: userId, expiry: { [Op.gt]: moment() }, soldAt: null } });
+    return await Product.findAll({ where: { userId: userId, expiry: { [Op.lt]: moment() }, soldAt: null } });
   }
 
   async getUserSoldProducts(userId) {
