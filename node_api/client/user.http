@@ -304,3 +304,11 @@ x-app-version : 1.0.0
 {
     "productId": "0050e6c2-45f0-40f8-91c9-86ca30f0a688"
 }
+
+###
+
+GET {{baseUrl}}/user/last30days HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0

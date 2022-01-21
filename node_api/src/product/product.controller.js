@@ -15,6 +15,7 @@ const User = require("../user/user.model");
 const fileModel = require("../file/file.model")
 const Field = require("../field/field.model")
 const Category = require("../category/category.model")
+const viewedProduct = require("../viewed_product/viewed.product.model")
 
 class productController extends BaseController {
   constructor(...args) {
@@ -133,6 +134,7 @@ class productController extends BaseController {
     try {
       const Op = require('Sequelize').Op
       const givenId = req.params.id;
+      const userId = req.user?.id;
       const singleProduct = await Product.findOne({
         where: { [Op.or]: [{ id: givenId }, { slug: givenId }] },
         include: [
@@ -143,6 +145,7 @@ class productController extends BaseController {
           { model: User, as: 'user', attributes: ["name", "profilePictureId", "email", "accountType", "locationId"], include: [{ model: fileModel, as: "profilePicture" }, { model: Location, as: "location" }] }
         ]
       });
+      const viewed = viewedProduct.create({ userId: userId, productId: singleProduct.id })
       const title = await this.service.fieldsMapping([singleProduct])
 
       return super.jsonRes({

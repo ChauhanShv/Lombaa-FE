@@ -44,5 +44,7 @@ module.exports = () => {
   router.get("/favorite/products", authMiddleware, controller.favoriteProducts);
   router.delete("/favorite/product", authMiddleware, controller.deleteFavoriteProduct)
 
+  router.get("/last30days", authMiddleware, controller.last30Days)
+
   return router;
 };
