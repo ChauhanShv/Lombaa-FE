@@ -568,6 +568,30 @@ class UserController extends BaseController {
       return super.jsonRes({ res, code: 400, data: { success: false, message: "Something went wrong", message_detail: error?.message } })
     }
   }
+
+  expiredProducts = async (req, res, next) => {
+    try {
+      const userId = req.user?.id;
+      const expired = await this.productService.getUserExpiredProducts(userId)
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Products retrieved", data: expired } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to load products", message_detail: error?.message } })
+    }
+  }
+
+  soldProducts = async (req, res, next) => {
+    try {
+      const userId = req.user?.id
+      const sold = await this.productService.getUserSoldProducts(userId)
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Products retrieved", data: sold } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 200, data: { success: false, message: "Failed to load products", message_detail: error?.message } })
+    }
+  }
+
+
 }
 
 module.exports = UserController;
