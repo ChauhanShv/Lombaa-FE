@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { Container, Row, Col } from 'react-bootstrap';
 import { ProductCard } from '../product-card';
+import { Loader } from '..';
 import { useAxios } from '../../services';
 import { Product, ProductMedia } from './types';
 
@@ -39,7 +40,9 @@ export const ProductList: React.FC = (): React.ReactElement => {
                 <Row>
                     <Col sm={12}>
                         <Row className="post-list">
-                            {products.map((product: Product, index: number) =>
+                            {loading ? (
+                                <Loader show={loading} />
+                            ) : products.map((product: Product, index: number) =>
                                 <Col lg={3} md={6} className="mb-3" key={product?.id}>
                                     <ProductCard
                                         productId={product?.id}
