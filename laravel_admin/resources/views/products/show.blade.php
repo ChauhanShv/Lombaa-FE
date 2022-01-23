@@ -39,6 +39,9 @@
         background: white;
         color: black;
       }
+      .fav_icons {
+        margin-left: 7px;
+      }
     </style>
     <div class="widget-box">
       <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
@@ -51,6 +54,9 @@
           @endif
           @if(($product_data->rejectedAt) !== null)
             <span class="label no_margin label-important">Rejected</span>
+          @endif
+          @if($product_data->favourite !==null )
+          <i style="color: red" class="icon icon-heart fav_icons"></i>
           @endif
         </h5>
       </div>
@@ -67,6 +73,12 @@
         <div class="widget-content">
           <form action="{{ route('update_product', ['id'=>$product_data->id]) }}" method="post" enctype="multipart/form-data" class="form-horizontal">
             @csrf
+            <div class="control-group">
+                <label class="control-label">Is Favourite : </label>
+                <div class="controls">
+                    <input type="text" name="" class="span6" placeholder="" value="{{ ($product_data->favourite)==null ? 'No' : 'Yes' }}" readonly/>
+                </div>
+            </div>
             @if($parent_category !== 'null')
             <div class="control-group">
                 <label class="control-label">Parent category : </label>
