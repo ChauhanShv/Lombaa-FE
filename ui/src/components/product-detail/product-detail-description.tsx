@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
-import { Container, Row, Col, Button, ListGroup } from 'react-bootstrap';
+import { Container, Row, Col, Button, ListGroup, Spinner } from 'react-bootstrap';
 import { FaAsterisk, FaHandshake, FaMapMarkerAlt, FaEdit, FaCheckCircle, FaTrashAlt } from 'react-icons/fa';
 import { SellerDetailCard } from '.';
 import { ProductFields, ProductDetailDescriptionProps, FieldValue } from './types';
@@ -11,15 +11,18 @@ import './product-detail.css';
 export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> = ({
     productDetail
 }: ProductDetailDescriptionProps): React.ReactElement => {
-
-    const [{ data, loading, error }, executeSoldProduct] = useAxios({
+    const [isMarkSolded, setIsMarkSolded] = useState<boolean>(false);
+    const [{ data, loading }, executeSoldProduct] = useAxios({
         url: `/product/${productDetail.id}`,
         method: 'POST',
     });
 
     const handleMarkSolded = () => {
         const confirmMarkSold = confirm('Are you sure you want to mark the product as sold !');
-        confirmMarkSold ? executeSoldProduct({}) : null;
+        if (confirmMarkSold) {
+            executeSoldProduct({});
+            data?.success ? setIsMarkSolded(true) : null;
+        }
     };
 
     return (
@@ -100,7 +103,7 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                             />
                             {productDetail?.user?.name}
                         </Link>
-                        {productDetail.soldAt ? (
+                        {loading ? <Spinner animation="border" variant='danger' /> : (isMarkSolded || productDetail.soldAt) ? (
                             <div className="bg-danger p-4 rounded">
                                 <h4 className="text-white">
                                     This product is out of stock
