@@ -15,6 +15,7 @@ export interface Product {
   productFields: ProductFields[];
   user: User;
   title: string;
+  description: string;
 }
 export interface ProductMedia {
   id: string;

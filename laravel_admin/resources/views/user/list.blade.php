@@ -51,8 +51,9 @@
                 <thead>
                     <tr>
                         <th># No.</th>
-                        <th>User ID</th>
+                        {{-- <th>User ID</th> --}}
                         <th>Name</th>
+                        <th>Email</th>
                         <th>Join Date</th>
                         <th>Location</th>
                         <th>Actions</th>
@@ -63,8 +64,9 @@
                     @foreach($user_list as $data) @php $i++ @endphp
                     <tr class="gradeX" style="align-content: center;">
                         <td style="text-align: center;">{{ $i }}</td>
-                        <td style="text-align: center;">{{ $data->id }}</td>
+                        {{-- <td style="text-align: center;">{{ $data->id }}</td> --}}
                         <td style="text-align: center;">{{ $data->name }}</td>
+                        <td style="text-align: center;">{{ $data->email }}</td>
                         @if(($data->memberSince)==null)
                         <td style="text-align: center;"></td>
                         @else
@@ -94,6 +96,9 @@
                             @endif &nbsp&nbsp
                                 <a href="{{ url('user', $data->id) }}">
                                     <i class="icon icon-user" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                                </a>&nbsp&nbsp
+                                <a href="{{ route('products_list', ['list_type' => $data->id])}}">
+                                    <i class="icon-th" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>&nbsp&nbsp
                                 <a href="{{ route('show_Data', $data->id) }}">
                                     <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>

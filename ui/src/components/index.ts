@@ -6,3 +6,5 @@ export * from './profile';
 export * from './forgot-password';
 export * from './verify-email';
 export * from './product-listing';
+export * from './product-detail';
+export * from './loader';

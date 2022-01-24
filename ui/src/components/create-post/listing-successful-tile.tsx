@@ -50,10 +50,9 @@ export const ListingSuccessfulTile: React.FC<ListingTileProps> = ({
                                     </div>
                                     <div className="card-body">
                                         <h4 className="card-title text-success">{title}</h4>
-                                        {description && <>
-                                            <p className="card-text"><strong>With supporting text below as a natural lead-in...</strong></p>
-                                            <p className="text-muted">Ashanti, Greater Accra lorelpsum...</p>
-                                        </>}
+                                        {description &&
+                                            <p className="card-text"><strong>{description}</strong></p>
+                                        }
                                     </div>
                                 </div>
                             </Col>

@@ -126,6 +126,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
                 'date',
                 'price',
                 'title',
+                'description',
                 'label'
             ].includes(field.fieldType)) {
                 value.id = null;
@@ -134,6 +135,12 @@ export const CreatePost: React.FC<CreatePostProps> = ({
                     setSuccessData({
                         ...successData,
                         title: values[field.id],
+                    });
+                }
+                if (field.fieldType === 'description') {
+                    setSuccessData({
+                        ...successData,
+                        description: values[field.id],
                     });
                 }
             } else {
@@ -189,7 +196,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
         });
     };
 
-    return createPostRes?.Success ? <ListingSuccessfulTile {...successData} /> : (
+    return createPostRes?.success ? <ListingSuccessfulTile {...successData} /> : (
         <Container className="p-4 pt-lg-5">
             <FormProvider {...formMethods}>
                 <Form onSubmit={handleFormSubmit} noValidate>

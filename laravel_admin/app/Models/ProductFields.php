@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductFields extends Model
 {
+    public $timestamps = false;
+
     use HasFactory;
 
     public function field()
@@ -19,7 +21,7 @@ class ProductFields extends Model
         return $this->belongsTo(Products::class, 'ProductId', 'id');
     }
 
-    protected $tabel = 'product_fields';
+    protected $table = 'product_fields';
 
     protected $fillable = [
         'id',

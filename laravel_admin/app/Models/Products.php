@@ -16,6 +16,11 @@ class Products extends Model
 
     use HasFactory;
 
+    public function favourite()
+    {
+        return $this->belongsTo(Favourite::class, 'id', 'productId');
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class, 'categoryId', 'id');

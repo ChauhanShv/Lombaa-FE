@@ -82,14 +82,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/products/reject_reason/edit/{id}', [RejectReasonController::class, 'reject_reason_edit'])->name('reject_reason_edit');
     Route::get('/products/reject_reason/delete/{id}', [RejectReasonController::class, 'reject_reason_delete'])->name('reject_reason_delete');
 
-    Route::get('/products/{action}', [ProductsController::class, 'products_list'])->name('products_list');
+    Route::post('/products/update/{id}', [ProductsController::class, 'update_product'])->name('update_product');
+    Route::get('/products/delete/media/{id}', [ProductsController::class, 'delete_media'])->name('delete_media');
+    Route::get('/products/{list_type}', [ProductsController::class, 'products_list'])->name('products_list');
     Route::get('/products/show/{id}', [ProductsController::class, 'show_product'])->name('show_product');
-    Route::get('/products/status/{action}', [ProductsController::class, 'filter'])->name('filter');
+    Route::get('/products/status/{action}/{list_type}', [ProductsController::class, 'filter'])->name('filter');
     Route::get('/products/delete/{id}', [ProductsController::class, 'delete_product'])->name('delete_product');
     Route::get('/products/approve/{id}', [ProductsController::class, 'approve_product'])->name('approve_product');
     Route::post('/products/reject/{id}', [ProductsController::class, 'reject_product'])->name('reject_product');
 
     Route::get('/settings', [SettingsController::class, 'settings'])->name('settings');
     Route::post('/settings/add', [SettingsController::class, 'settings_post'])->name('settings_post');
-
 });

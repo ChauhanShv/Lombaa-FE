@@ -22,11 +22,8 @@
                         </div>
                     @endif
                     @if($data)
-
-
                     <form action="{{ route('update_category_post', $data['id']) }}" method="post" enctype="multipart/form-data" class="form-horizontal">
                         @csrf
-
                         {{-- <div class="control-group">
                             <label class="control-label">Category ID :</label>
                             <div class="controls">
@@ -36,7 +33,6 @@
                                 @enderror
                             </div>
                         </div> --}}
-
                         <div class="control-group">
                             <label class="control-label">Category Name :</label>
                             <div class="controls">

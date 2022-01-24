@@ -188,7 +188,9 @@ export const FormFields: React.FC<FormFieldsProps> = ({
         );
     }
 
-    const PriceComponent = (): React.ReactElement => {
+    const PriceComponent = ({
+        id,
+    }: Fields): React.ReactElement => {
         const [isForSale, setIsForSale] = useState<string>('sale');
         return (
             <>
@@ -209,14 +211,14 @@ export const FormFields: React.FC<FormFieldsProps> = ({
                         <InputGroup.Text id="basic-addon1 d-block">$</InputGroup.Text>
                         <FormControl
                             type="number"
-                            className={getErrorClassName('price', errors)}
-                            {...register('price')}
-                            placeholder="Price of your listing"
+                            className={getErrorClassName(id, errors)}
+                            {...register(id)}
+                            placeholder="Price of your listing *"
                             aria-label="Price of your listing"
                             aria-describedby="basic-addon1"
                         // onChange={handlePriceChange}
                         />
-                        {getErrorText('price')}
+                        {getErrorText(id)}
                     </InputGroup>
                 )}
             </>
@@ -232,6 +234,7 @@ export const FormFields: React.FC<FormFieldsProps> = ({
             case 'date':
                 return <InputComponent {...field} key={field.id} />;
             case 'textArea':
+            case 'description':
                 return <TextAreaComponent {...field} key={field.id} />;
             case 'dropdown':
                 return <DropDownComponent {...field} key={field.id} />;
