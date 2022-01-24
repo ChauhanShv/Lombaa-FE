@@ -16,6 +16,10 @@ const moment = require("moment");
 const Location = require("../location/location.model");
 const Product = require("../product/product.model");
 const FavoriteProduct = require("./user.favorite_product_model");
+const ProductField = require("../product/product_field.model")
+const ProductMedia = require("../product/product_media.model")
+const Field = require("../field/field.model")
+const Category = require("../category/category.model")
 
 class UserService {
   constructor() {
@@ -351,7 +355,15 @@ class UserService {
   }
 
   async getFavoriteProducts(userId) {
-    return await User.findOne({ where: { id: userId }, include: [{ model: Product, through: { attributes: [] } }] });
+    return await User.findOne({
+      where: { id: userId }, include: [{
+        model: Product, through: { attributes: [] }, include: [{ model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
+        { model: Location, as: "location" },
+        { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
+        { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+        { model: Category, as: 'category' }]
+      }]
+    });
   }
 
   async alreadyInFavorites(userId, productId) {
