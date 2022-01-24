@@ -552,6 +552,7 @@ class UserController extends BaseController {
               }
             },
             attributes: []
+
           },
           include: [
             { model: Category, as: 'category' },

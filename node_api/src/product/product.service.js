@@ -8,6 +8,7 @@ const Field = require("../field/field.model");
 const User = require("../user/user.model")
 const fileModel = require("../file/file.model");
 const UserService = require("../user/user.service");
+const Category = require("../category/category.model")
 
 class ProductService {
   constructor() {
@@ -24,31 +25,71 @@ class ProductService {
   async getUserInReviewProducts(userId) {
     if (!userId) return [];
 
-    return await Product.findAll({ where: { userId: userId, approvedAt: null, rejectedAt: null } });
+    return await Product.findAll({
+      where: { userId: userId, approvedAt: null, rejectedAt: null }, include: [
+        { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
+        { model: Location, as: "location" },
+        { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
+        { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+        { model: Category, as: 'category' }
+      ]
+    });
   }
 
   async getUserActiveProducts(userId) {
     if (!userId) return [];
 
-    return await Product.findAll({ where: { userId: userId, approvedAt: { [Op.not]: null }, soldAt: null, expiry: { [Op.lte]: moment() } } });
+    return await Product.findAll({
+      where: { userId: userId, approvedAt: { [Op.not]: null }, soldAt: null, expiry: { [Op.lte]: moment() } }, include: [
+        { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
+        { model: Location, as: "location" },
+        { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
+        { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+        { model: Category, as: 'category' }
+      ]
+    });
   }
 
   async getUserDeclinedProducts(userId) {
     if (!userId) return [];
 
-    return await Product.findAll({ where: { userId: userId, rejectedAt: { [Op.not]: null } } });
+    return await Product.findAll({
+      where: { userId: userId, rejectedAt: { [Op.not]: null } }, include: [
+        { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
+        { model: Location, as: "location" },
+        { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
+        { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+        { model: Category, as: 'category' }
+      ]
+    });
   }
 
   async getUserExpiredProducts(userId) {
     if (!userId) return [];
 
-    return await Product.findAll({ where: { userId: userId, expiry: { [Op.lt]: moment() }, soldAt: null } });
+    return await Product.findAll({
+      where: { userId: userId, expiry: { [Op.lt]: moment() }, soldAt: null }, include: [
+        { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
+        { model: Location, as: "location" },
+        { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
+        { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+        { model: Category, as: 'category' }
+      ]
+    });
   }
 
   async getUserSoldProducts(userId) {
     if (!userId) return [];
 
-    return await Product.findAll({ where: { userId: userId, soldAt: { [Op.not]: null } } });
+    return await Product.findAll({
+      where: { userId: userId, soldAt: { [Op.not]: null } }, include: [
+        { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
+        { model: Location, as: "location" },
+        { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
+        { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+        { model: Category, as: 'category' }
+      ]
+    });
   }
 
   async getproductByCategoryId(categoryId, sortby, sortorder, userId) {
