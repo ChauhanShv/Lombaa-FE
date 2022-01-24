@@ -27,7 +27,8 @@ class ProductsController extends Controller
 
     public function show_product($id)
     {
-        $product_data = Products::with('category', 'user', 'location', 'location.city', 'location.region', 'location.country')->where('id', $id)->first();
+        $product_data = Products::with('category', 'user', 'favourite', 'location', 'location.city', 'location.region', 'location.country')->where('id', $id)->first();
+
         if ($product_data->category->parentId !== null) {
             $parent_category = Category::where('id', $product_data->category->parentId)->first();
         } else {
