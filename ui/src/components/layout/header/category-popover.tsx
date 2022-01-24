@@ -41,37 +41,35 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
         <>
             {popularCategories.map((category: Categories) => {
                 return (
-                    <>
-                        <OverlayTrigger
-                            key={category?.id}
-                            trigger="click"
-                            placement='bottom-end'
-                            overlay={
-                                <Popover className="head-cat" id={`popover-positioned-bottom`}>
-                                    <Popover.Body className="px-5 shadow d-flex flex-wrap">
-                                        <div className='p-3 text-center'>
-                                            <ul>
-                                                <div className='row'>
-                                                    <div className="col pe-0">
-                                                        <img width="24" height="24" src={category?.icon?.url || "https://dummyimage.com/100/007bff/efefef"} />
-                                                    </div>
-                                                    <div className="col">
-                                                        {category.subCategories.map((subCategory: any) =>
-                                                            <li key={subCategory?.id}>
-                                                                <Link to="">{subCategory?.name}</Link>
-                                                            </li>
-                                                        )}
-                                                    </div>
+                    <OverlayTrigger
+                        key={category?.id}
+                        trigger="click"
+                        placement='bottom-end'
+                        overlay={
+                            <Popover className="head-cat" id={`popover-positioned-bottom`}>
+                                <Popover.Body className="px-5 shadow d-flex flex-wrap">
+                                    <div className='p-3 text-center'>
+                                        <ul>
+                                            <div className='row'>
+                                                <div className="col pe-0">
+                                                    <img width="24" height="24" src={category?.icon?.url || "https://dummyimage.com/100/007bff/efefef"} />
                                                 </div>
-                                            </ul>
-                                        </div>
-                                    </Popover.Body>
-                                </Popover>
-                            }
-                        >
-                            <Button className="bg-dark border-dark">{category?.name}</Button>
-                        </OverlayTrigger>
-                    </>
+                                                <div className="col">
+                                                    {category.subCategories.map((subCategory: any) =>
+                                                        <li key={subCategory?.id}>
+                                                            <Link to="">{subCategory?.name}</Link>
+                                                        </li>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </Popover.Body>
+                            </Popover>
+                        }
+                    >
+                        <Button className="bg-dark border-dark">{category?.name}</Button>
+                    </OverlayTrigger>
                 )
             })}
             {!!otherCategories.length && (

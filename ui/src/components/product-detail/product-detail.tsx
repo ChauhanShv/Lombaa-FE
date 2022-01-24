@@ -12,7 +12,11 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
         <>
             {!!productDetail?.productMedia.length && (
                 <section className="pt-4 pb-5 mt-0 align-items-center">
-                    <ProductDetailImageSlider productMedia={productDetail?.productMedia} />
+                    <ProductDetailImageSlider
+                        productMedia={productDetail?.productMedia}
+                        productCategory={productDetail?.category}
+                        productName={productDetail?.title}
+                    />
                 </section>
             )}
             {!!productDetail && (

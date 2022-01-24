@@ -16,6 +16,7 @@ export interface Product {
   user: User;
   title: string;
   description: string;
+  isFavorite: boolean;
 }
 export interface ProductMedia {
   id: string;
