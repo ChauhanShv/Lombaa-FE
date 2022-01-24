@@ -25,7 +25,7 @@ class ProductService {
   async getUserInReviewProducts(userId) {
     if (!userId) return [];
 
-    return await Product.findAll({
+    let products = await Product.findAll({
       where: { userId: userId, approvedAt: null, rejectedAt: null }, include: [
         { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
         { model: Location, as: "location" },
@@ -34,12 +34,17 @@ class ProductService {
         { model: Category, as: 'category' }
       ]
     });
+
+    products = this.fieldsMapping(products);
+
+    return products
+
   }
 
   async getUserActiveProducts(userId) {
     if (!userId) return [];
 
-    return await Product.findAll({
+    let products = await Product.findAll({
       where: { userId: userId, approvedAt: { [Op.not]: null }, soldAt: null, expiry: { [Op.lte]: moment() } }, include: [
         { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
         { model: Location, as: "location" },
@@ -48,12 +53,15 @@ class ProductService {
         { model: Category, as: 'category' }
       ]
     });
+    products = this.fieldsMapping(products)
+
+    return products
   }
 
   async getUserDeclinedProducts(userId) {
     if (!userId) return [];
 
-    return await Product.findAll({
+    let products = await Product.findAll({
       where: { userId: userId, rejectedAt: { [Op.not]: null } }, include: [
         { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
         { model: Location, as: "location" },
@@ -62,12 +70,15 @@ class ProductService {
         { model: Category, as: 'category' }
       ]
     });
+    products = this.fieldsMapping(products)
+
+    return products
   }
 
   async getUserExpiredProducts(userId) {
     if (!userId) return [];
 
-    return await Product.findAll({
+    let products = await Product.findAll({
       where: { userId: userId, expiry: { [Op.lt]: moment() }, soldAt: null }, include: [
         { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
         { model: Location, as: "location" },
@@ -76,12 +87,15 @@ class ProductService {
         { model: Category, as: 'category' }
       ]
     });
+    products = this.fieldsMapping(products)
+
+    return products
   }
 
   async getUserSoldProducts(userId) {
     if (!userId) return [];
 
-    return await Product.findAll({
+    let products = await Product.findAll({
       where: { userId: userId, soldAt: { [Op.not]: null } }, include: [
         { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
         { model: Location, as: "location" },
@@ -90,6 +104,9 @@ class ProductService {
         { model: Category, as: 'category' }
       ]
     });
+    products = this.fieldsMapping(products)
+
+    return products
   }
 
   async getproductByCategoryId(categoryId, sortby, sortorder, userId) {
