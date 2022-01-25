@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
+import { useParams } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { ProductCard } from '../product-card';
 import { Loader } from '..';
@@ -7,14 +8,14 @@ import { useAxios } from '../../services';
 import { Product, ProductMedia } from './types';
 
 export const ProductList: React.FC = (): React.ReactElement => {
-
+    const { categoryId } = useParams<{ categoryId: string }>();
     const [products, setProducts] = useState<Product[]>([]);
     const [productMedia, setProductMedia] = useState<ProductMedia[]>([]);
 
     const [{ data, loading, error }, execute] = useAxios({
-        url: '/category/95fdc7f3-4e9f-4108-aa28-372b23c75b19/products',
+        url: `/category/${categoryId}/products`,
         method: 'GET',
-    });
+    }, { manual: false });
 
     useEffect(() => {
         if (data?.success) {
@@ -33,6 +34,10 @@ export const ProductList: React.FC = (): React.ReactElement => {
     useEffect(() => {
         execute({});
     }, []);
+
+    useEffect(() => {
+        execute({});
+    }, [categoryId]);
 
     return (
         <Container className="">
