@@ -6,7 +6,7 @@
 
         "local": {
             "baseUrl": "http://localhost:3001/api",
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2YTIyOTkzLTJjNWYtNDMyMy04NGUyLTRkMTA2YjA2ZjVmMyIsImlhdCI6MTY0MzAxMjIwMCwiZXhwIjoxNjQzMDk4NjAwfQ.ng0SSOYJCx5PtHlSgzxkDJvDjTrVTqgIcoJz1PKatac"
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE2YTIyOTkzLTJjNWYtNDMyMy04NGUyLTRkMTA2YjA2ZjVmMyIsImlhdCI6MTY0MzEwNTQ5MiwiZXhwIjoxNjQzMTkxODkyfQ.yWe2wwp7wq3goSQpwFhyV8w15Rd0Ljn9OQFVG0nE_gU"
         },
 
         "dev": {
