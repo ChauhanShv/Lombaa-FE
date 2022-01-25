@@ -57,7 +57,9 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
                                                 <div className="col">
                                                     {category.subCategories.map((subCategory: any) =>
                                                         <li key={subCategory?.id}>
-                                                            <Link to="">{subCategory?.name}</Link>
+                                                            <Link to={`/product-listing/${subCategory?.id}`}>
+                                                                {subCategory?.name}
+                                                            </Link>
                                                         </li>
                                                     )}
                                                 </div>
