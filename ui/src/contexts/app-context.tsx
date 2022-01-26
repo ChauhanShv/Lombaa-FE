@@ -8,6 +8,7 @@ import {
   sessionReducer as session,
   userReducer as user,
   appReducer as app,
+  categoryReducer as category,
 } from './reducer';
 import { combineReducers } from './utils';
 import { initialState } from './initial-state';
@@ -16,9 +17,10 @@ const rootReducer = combineReducers({
   session,
   user,
   app,
+  category,
 });
 const AppContext = React.createContext<
-  {state: State; dispatch: Dispatch} | undefined
+  { state: State; dispatch: Dispatch } | undefined
 >(undefined);
 const AppContextProvider = ({ children }: AppContextProviderProps) => {
   const [state, dispatch] = React.useReducer(rootReducer, initialState);
