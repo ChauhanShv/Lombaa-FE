@@ -1,0 +1,9 @@
+version: '3.8'
+services:
+    nodeapi:
+        build:
+            context: ./node_api
+        env_file: 
+            - ./node_api/.env
+        ports:
+            - 3001:3001
