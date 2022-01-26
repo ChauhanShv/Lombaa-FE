@@ -1,0 +1,71 @@
+version: '3.8'
+services:
+    nodeapi:
+        build:
+            context: ./node_api
+            dockerfile: Dockerfile
+        image: node_api
+        container_name: lombaa-node-api
+        restart: unless-stopped
+        env_file: 
+            - ./node_api/.env
+        ports:
+            - ${APP_PORT}:${APP_PORT}
+
+    laraveladmin:
+        build:
+            args:
+                user: lombaa
+                uid: 1000
+            context: ./laravel_admin
+            dockerfile: Dockerfile
+        image: laravel_admin
+        container_name: lombaa-laravel-admin
+        restart: unless-stopped
+        env_file: 
+            - ./laravel_admin/.env
+        networks:
+            - lombaanet
+
+    db:
+        image: mysql:8
+        container_name: lombaa-db
+        env_file:
+            - ./laravel_admin/.env
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_USER: ${DB_USERNAME}
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        volumes:
+            - ./dbdata:/var/lib/mysql
+        networks:
+            - lombaanet
+
+    nginx:
+        image: nginx:1.17-alpine
+        container_name: lombaa-nginx
+        restart: unless-stopped
+        ports:
+            - 8000:80
+        volumes:
+            - ./laravel_admin:/app/laravel_admin
+            - ./docker-compose/nginx:/etc/nginx/conf.d
+        networks:
+            - lombaanet
+
+    phpmyadmin:
+        image: phpmyadmin
+        restart: unless-stopped
+        container_name: lombaa-phpmyadmin
+        ports:
+            - 9000:80
+        environment:
+            - PMA_ARBITRARY=1
+
+networks:
+    lombaanet:
+        driver: bridge
