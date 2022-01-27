@@ -109,7 +109,7 @@ class ProductService {
     return products
   }
 
-  async getproductByCategoryId(categoryId, sortby, sortorder, userId) {
+  async getproductByCategoryId(categoryId, sortby, sortorder, userId, filter) {
     if (!categoryId) return [];
     let products = await Product.findAll({
       where: { categoryId: categoryId, approvedAt: { [Op.not]: null }, expiry: { [Op.gt]: moment() } },
@@ -120,7 +120,6 @@ class ProductService {
         { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] }
       ]
     });
-
     products = this.fieldsMapping(products);
 
     if (sortby === 'price' && sortorder === 'asc') {
@@ -151,11 +150,30 @@ class ProductService {
         });
       }
     }
+
+    const filterText = filter
+
+    const filterFieldsSeperator = '|'
+    const filterDataSeperator = '$'
+    const filterValueSeperator = ','
+
+    const filters = filterText.split(filterFieldsSeperator)
+
+    let filterObj = {}
+
+    const data = filters.forEach((filter, i) => {
+      const filterData = filter.split(filterDataSeperator)
+      filterObj[filterData[0]] = filterData[1].split(filterValueSeperator);
+
+    })
+
+
+    products = products.filter(product => {
+      return !!product.productFields.find(productField => productField?.field?.fieldType === 'dropdown' && (filterObj[productField?.field?.label] ?? []).includes(productField?.value));
+    });
+
     products = await this.mapUserFavorite(products, userId)
-    console.log(products, 'dhdhdhdhdhdhd')
-
     return products
-
 
   }
 
