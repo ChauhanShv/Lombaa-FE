@@ -16,6 +16,7 @@ const fileModel = require("../file/file.model")
 const Field = require("../field/field.model")
 const Category = require("../category/category.model")
 const viewedProduct = require("../viewed_product/viewed.product.model")
+const Sequelize = require('sequelize')
 
 class productController extends BaseController {
   constructor(...args) {
@@ -185,6 +186,26 @@ class productController extends BaseController {
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Marked as sold" } })
     } catch (error) {
       super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to mark", message_detail: error?.message } })
+    }
+  }
+
+  getRandom = async (req, res, next) => {
+    try {
+      let randomProducts = await Product.findAll({
+        order: Sequelize.literal('rand()'), limit: 10, include: [
+          { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
+          { model: Location, as: "location" },
+          { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
+          { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+          { model: Category, as: 'category' }
+        ]
+      });
+      randomProducts = this.service.fieldsMapping(randomProducts);
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Products retreived", product: randomProducts } })
+    }
+    catch (error) {
+      console.log(error, 'hdhdhdhdhdghgefuagfhgb')
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "failed to get products", message_detail: error?.messaage } })
     }
   }
 
