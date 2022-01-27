@@ -1,3 +1,6 @@
+export interface ProductFilterProps {
+  productList: Product[] | [];
+}
 export interface Product {
   id: string;
   slug: string;
@@ -68,7 +71,7 @@ export interface Field {
   isRequired?: boolean;
   isActive?: number | boolean;
   dataTypes: string;
-  fieldTypes: string;
+  fieldType: string;
   values: FieldValue[];
 }
 export interface FieldValue {

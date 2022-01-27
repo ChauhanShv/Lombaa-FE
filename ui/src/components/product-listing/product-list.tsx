@@ -6,6 +6,7 @@ import { ProductCard } from '../product-card';
 import { Loader } from '..';
 import { useAxios } from '../../services';
 import { Product, ProductMedia } from './types';
+import { ProductFilters } from '.';
 
 export const ProductList: React.FC = (): React.ReactElement => {
     const { categoryId } = useParams<{ categoryId: string }>();
@@ -15,7 +16,7 @@ export const ProductList: React.FC = (): React.ReactElement => {
     const [{ data, loading, error }, execute] = useAxios({
         url: `/category/${categoryId}/products`,
         method: 'GET',
-    }, { manual: false });
+    });
 
     useEffect(() => {
         if (data?.success) {
@@ -30,17 +31,13 @@ export const ProductList: React.FC = (): React.ReactElement => {
         }
     }, [data, products]);
 
-
-    useEffect(() => {
-        execute({});
-    }, []);
-
     useEffect(() => {
         execute({});
     }, [categoryId]);
 
     return (
         <Container className="">
+            <ProductFilters productList={products} />
             <section className="pb-5">
                 <Row>
                     <Col sm={12}>
