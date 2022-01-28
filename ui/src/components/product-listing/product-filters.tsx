@@ -12,29 +12,43 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
 }: ProductFilterProps): React.ReactElement => {
 
     const [showMoreFilters, setShowMoreFilters] = useState<boolean>(false);
-    const [categoryFields, setCategoryFields] = useState<Fields[]>([]);
     const [dropdownFields, setDropdownFields] = useState<Fields[]>([]);
+    const [fieldValues, setFieldValues] = useState<any>({});
     const { categoryId } = useParams<{ categoryId: string }>();
     const { state } = useAppContext();
     const category = state?.category;
 
-    const getCategoryFields = () => {
+    useEffect(() => {
         if (!!category.length) {
             category.map((categoryData: Categories) => {
                 const subCat = categoryData?.subCategories.find((subCategories) => subCategories.id === categoryId) || false;
-                if (subCat) {
-                    setCategoryFields(subCat.fields);
+                if (subCat && !!subCat.fields.length) {
+                    setDropdownFields(subCat.fields.filter((field) => field.fieldType === 'dropdown'));
                 }
             });
         }
-    }
+        console.log(fieldValues, '111222');
+    }, [productList, categoryId]);
 
-    useEffect(() => {
-        getCategoryFields();
-        if (!!categoryFields.length) {
-            setDropdownFields(categoryFields.filter((field) => field.fieldType === 'dropdown'));
+    const handleFilterChange = (e: any, fieldLabel: string) => {
+        console.log(e.target.checked, 'e target check');
+        if (e.target.checked) {
+            const checkedLabel = fieldLabel.toLowerCase().replace('_', ' ');
+            setFieldValues({
+                ...fieldValues,
+                [`${checkedLabel}`]: {
+                    value: [e.target.value],
+                },
+            });
+            console.log({
+                ...fieldValues,
+                [`${checkedLabel}`]: {
+                    value: [e.target.value],
+                },
+            }, '12233456');
         }
-    }, [productList, categoryId, categoryFields]);
+        //setFieldValues({ ...fieldValues, [`${fieldLabel}`]: { value: [] } })
+    };
 
     return (
         <>
@@ -57,30 +71,7 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
 
             <div className="fixed-filters mb-3">
                 <Container className="">
-                    <Dropdown className="d-inline mx-2">
-                        <Dropdown.Toggle variant="outline-success btn-success rounded btn-fullround" id="dropdown-autoclose-true">
-                            Used Cars
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu className="pre-scrollable">
-                            <InputGroup placeholder="Type your search" className="border-bottom">
-                                <FormControl className="border-0"
-                                    placeholder="Type your search"
-                                    aria-label="Type your search"
-                                />
-                                <button className="btn-link btn">
-                                    <FaSearch />
-                                </button>
-                            </InputGroup>
-                            {category.map((categoryData: Categories) =>
-                                categoryData.subCategories.map((subCategoryData) =>
-                                    <Dropdown.Item className="py-2" key={subCategoryData.id}>
-                                        {subCategoryData.name}
-                                    </Dropdown.Item>
-                                )
-                            )}
-                        </Dropdown.Menu>
-                    </Dropdown>
-                    {(!!dropdownFields.length) && dropdownFields.map((dropdownField) =>
+                    {(!!dropdownFields.length) && dropdownFields.map((dropdownField, dropdownFieldIndex) =>
                         <Dropdown className="d-inline mx-2" key={dropdownField.id}>
                             <Dropdown.Toggle variant="outline-dark rounded btn-fullround" id="dropdown-autoclose-true">
                                 {dropdownField.label}
@@ -89,7 +80,14 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
                                 {dropdownField.values.map((dropdownValue) =>
                                     <div className="px-2 py-2" key={dropdownValue.id}>
                                         <Form.Group>
-                                            <Form.Check type="checkbox" label={dropdownValue.value} />
+                                            <Form.Check
+                                                type="checkbox"
+                                                label={dropdownValue.value}
+                                                value={dropdownValue.value}
+                                                onChange={(e) =>
+                                                    handleFilterChange(e, dropdownField.label)
+                                                }
+                                            />
                                         </Form.Group>
                                     </div>
                                 )}
@@ -105,17 +103,17 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
                             <div className="px-3 py-1">
                                 <FormControl className="mb-3" type="number" placeholder='Min price' width="auto" />
                                 <FormControl className="mb-3" type="number" placeholder='Max price' width="auto" />
-                                <Button>Save Changes</Button>
+                                <Button>Apply</Button>
                             </div>
                         </Dropdown.Menu>
                     </Dropdown>
 
-                    <Button
+                    {/* <Button
                         className="outline-dark rounded btn-fullround"
                         onClick={() => setShowMoreFilters(true)}
                     >
                         More Filters
-                    </Button>
+                    </Button> */}
                 </Container>
             </div>
         </>

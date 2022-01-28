@@ -14,7 +14,7 @@ export const ProductList: React.FC = (): React.ReactElement => {
     const [productMedia, setProductMedia] = useState<ProductMedia[]>([]);
 
     const [{ data, loading, error }, execute] = useAxios({
-        url: `/category/${categoryId}/products`,
+        url: `/category/${categoryId}/products?sortby=pric&sortorder=dsc&filter=Brand$Tvs|Type$twowheeler,fourwheeler`,
         method: 'GET',
     });
 
