@@ -158,7 +158,7 @@
         </li>
         <li class="submenu">
             <a href="">
-                <i style="color: white" class="icon icon-list"></i> <span style="color: white">Site Settings</span>
+                <i style="color: white" class="icon icon-wrench"></i> <span style="color: white">Site Settings</span>
             </a>
             <ul>
                 <li class="">
