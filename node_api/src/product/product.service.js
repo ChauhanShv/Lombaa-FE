@@ -9,7 +9,7 @@ const User = require("../user/user.model")
 const fileModel = require("../file/file.model");
 const UserService = require("../user/user.service");
 const Category = require("../category/category.model")
-
+const Sequelize = require("sequelize")
 class ProductService {
   constructor() {
     this.userService = new UserService()
@@ -131,9 +131,9 @@ class ProductService {
     }
     if (sortby === 'price' && sortorder === 'dsc') {
       products.sort(function (x, y) {
-        let a = x.price
-        let b = y.price
-        return +a.price - +b.price
+        let a = x?.price
+        let b = y?.price
+        return +a?.price - +b?.price
       })
     }
     if (sortby === 'postedAt' && sortorder === 'asc') {
@@ -198,6 +198,21 @@ class ProductService {
     const data = await Product.update({ soldAt: moment() }, { where: { id: givenId } })
     return data
 
+  }
+
+  async randomProducts() {
+    let randomProducts = await Product.findAll({
+      order: Sequelize.literal('rand()'), limit: 10, include: [
+        { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
+        { model: Location, as: "location" },
+        { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
+        { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+        { model: Category, as: 'category' }
+      ]
+    });
+    randomProducts = this.fieldsMapping(randomProducts);
+
+    return randomProducts
   }
 
 

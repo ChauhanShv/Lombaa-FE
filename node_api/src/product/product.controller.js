@@ -191,16 +191,7 @@ class productController extends BaseController {
 
   getRandom = async (req, res, next) => {
     try {
-      let randomProducts = await Product.findAll({
-        order: Sequelize.literal('rand()'), limit: 10, include: [
-          { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
-          { model: Location, as: "location" },
-          { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
-          { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
-          { model: Category, as: 'category' }
-        ]
-      });
-      randomProducts = this.service.fieldsMapping(randomProducts);
+      const randomProducts = await this.service.randomProducts()
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Products retreived", product: randomProducts } })
     }
     catch (error) {
