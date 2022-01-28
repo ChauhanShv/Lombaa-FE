@@ -63,5 +63,14 @@ x-app-version : 1.0.0
 
 GET  {{baseUrl}}/product HTTP/1.1
 content-type: application/json
+x-access-token : {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+###
+
+GET  {{baseUrl}}/product/category?search=car HTTP/1.1
+content-type: application/json
+x-access-token : {{token}}
 x-client-platform : Android
 x-app-version : 1.0.0

@@ -1,7 +1,6 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize/sequelize.service");
 const File = require("../file/file.model");
-const Field = require("../field/field.model");
 
 class Category extends Model { }
 
@@ -39,7 +38,8 @@ Category.init(
       attributes: {
         exclude: ["createdAt", "updatedAt", "iconId", "parentId", "deletedAt"],
       }
-    }
+    },
+
   }
 );
 

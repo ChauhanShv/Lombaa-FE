@@ -109,7 +109,7 @@ class ProductService {
     return products
   }
 
-  async getproductByCategoryId(categoryId, sortby, sortorder, userId, filter) {
+  async getproductByCategoryId(categoryId, sortby, sortorder, userId, filter, search) {
     if (!categoryId) return [];
     let products = await Product.findAll({
       where: { categoryId: categoryId, approvedAt: { [Op.not]: null }, expiry: { [Op.gt]: moment() } },
@@ -150,29 +150,37 @@ class ProductService {
         });
       }
     }
+    if (filter) {
 
-    const filterText = filter
+      const filterText = filter
 
-    const filterFieldsSeperator = '|'
-    const filterDataSeperator = '$'
-    const filterValueSeperator = ','
+      const filterFieldsSeperator = '|'
+      const filterDataSeperator = '$'
+      const filterValueSeperator = ','
 
-    const filters = filterText.split(filterFieldsSeperator)
+      const filters = filterText.split(filterFieldsSeperator)
 
-    let filterObj = {}
+      let filterObj = {}
 
-    const data = filters.forEach((filter, i) => {
-      const filterData = filter.split(filterDataSeperator)
-      filterObj[filterData[0]] = filterData[1].split(filterValueSeperator);
+      const data = filters.forEach((filter, i) => {
+        const filterData = filter.split(filterDataSeperator)
+        filterObj[filterData[0]] = filterData[1].split(filterValueSeperator);
 
-    })
+      })
 
 
-    products = products.filter(product => {
-      return !!product.productFields.find(productField => productField?.field?.fieldType === 'dropdown' && (filterObj[productField?.field?.label] ?? []).includes(productField?.value));
-    });
+      products = products.filter(product => {
+        return !!product.productFields.find(productField => productField?.field?.fieldType === 'dropdown' && (filterObj[productField?.field?.label] ?? []).includes(productField?.value));
+      });
+    }
 
-    products = await this.mapUserFavorite(products, userId)
+    if (search) {
+      products = products.filter(product => {
+        return product?.title?.includes(search) || product?.description?.includes(search)
+      })
+    }
+
+    products = this.mapUserFavorite(products, userId)
     return products
 
   }
@@ -215,7 +223,24 @@ class ProductService {
     return randomProducts
   }
 
+  async search(search) {
+    let products = await Product.findAll({
+      include: [
+        { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
+        { model: Location, as: "location" },
+        { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
+        { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+        { model: Category, as: 'category', attributes: ["id", "name"] }
+      ]
+    })
+    products = this.fieldsMapping(products)
+    products = products.filter(product => {
+      return product?.title?.includes(search) || product?.description?.includes(search)
+    })
+    return products
 
+
+  }
 }
 
 
