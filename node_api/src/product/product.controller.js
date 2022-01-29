@@ -17,6 +17,7 @@ const Field = require("../field/field.model")
 const Category = require("../category/category.model")
 const viewedProduct = require("../viewed_product/viewed.product.model")
 const Sequelize = require('sequelize')
+const RejectReason = require("../reject_reason/reject_reason.model")
 
 class productController extends BaseController {
   constructor(...args) {
