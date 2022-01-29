@@ -174,6 +174,40 @@ class LocationController extends BaseController {
       });
     }
   };
+
+  getRegionsWithCitiesByCountryCode = async (req, res, next) => {
+    try {
+      const { countryCode } = req.params;
+
+      const regions = await Region.findAll({
+        include: [
+          { model: Country, as: "country", where: { code: countryCode }, attributes: [] },
+          { model: City, as: "cities" }
+        ],
+      });
+
+      return super.jsonRes({
+        res,
+        code: 200,
+        data: {
+          success: true,
+          message: "Retrieved all regions and cities",
+          response: regions,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      return super.jsonRes({
+        res,
+        code: 400,
+        data: {
+          message: "Failed to retrieve countries",
+          messageDetail: error?.message
+        },
+      });
+    }
+  };
+
 }
 
 module.exports = LocationController;

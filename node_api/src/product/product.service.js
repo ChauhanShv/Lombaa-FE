@@ -111,8 +111,13 @@ class ProductService {
 
   async getproductByCategoryId(categoryId, sortby, sortorder, userId, filter, search) {
     if (!categoryId) return [];
+    let whereCondition = { categoryId: categoryId, approvedAt: { [Op.not]: null }, expiry: { [Op.gt]: moment() } }
+    if (userId) {
+      whereCondition.userId = { [Op.not]: userId }
+    }
+    console.log(whereCondition, 'guwfytafgyfaeytfgjhafyg')
     let products = await Product.findAll({
-      where: { categoryId: categoryId, approvedAt: { [Op.not]: null }, expiry: { [Op.gt]: moment() } },
+      where: whereCondition,
       include: [
         { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
         { model: Location, as: "location" },
@@ -179,8 +184,9 @@ class ProductService {
         return product?.title?.includes(search) || product?.description?.includes(search)
       })
     }
-
-    products = this.mapUserFavorite(products, userId)
+    if (userId) {
+      products = this.mapUserFavorite(products, userId)
+    }
     return products
 
   }

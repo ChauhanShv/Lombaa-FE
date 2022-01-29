@@ -9,6 +9,7 @@ module.exports = () => {
 
   router.get("/region/:regionID/cities", controller.getCitiesOfRegion);
   router.get("/country/:countryID/regions", controller.getRegionsWithCities);
+  router.get("/country/code/:countryCode/regions", controller.getRegionsWithCitiesByCountryCode);
   router.get("/countries", controller.getCountries);
 
   router.get("/:id", controller.getById);
