@@ -1,3 +1,6 @@
+export type KeyValuePair = {
+    [key: string]: any;
+}
 export interface Icon {
     id: string;
     url: string;

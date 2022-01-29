@@ -34,7 +34,7 @@
                 <select id='' name="field">
                       <option value="">Select field</option>
                           @foreach($fields as $field)
-                            <option value="{{ $field->id }}">{{ $field->label }}</option>
+                            <option value="{{ $field->id }}">{{ $field->label }} ({{ $field->tag ?? '' }})</option>
                           @endforeach
                     </select>
                 @error('field')

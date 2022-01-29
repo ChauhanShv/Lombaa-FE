@@ -29,6 +29,7 @@ export const ProductTabList: React.FC<ProductTabListProps> = ({
         <Row className="row">
             {(productList && !!productList.length) ? productList.map((product: Product) =>
                 <ProfileProductTile
+                    key={product.id}
                     productId={product.id}
                     title={product.title}
                     summary=''

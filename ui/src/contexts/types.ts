@@ -1,6 +1,5 @@
-export type KeyValuePair = {
-    [key: string]: any;
-}
+import { KeyValuePair } from '../types';
+
 export type Action = {
     type: string;
     payload?: KeyValuePair;

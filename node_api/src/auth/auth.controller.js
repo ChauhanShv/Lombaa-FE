@@ -4,6 +4,8 @@ const jwtService = require("../modules/jwt").service;
 const UserService = require("../user/user.service");
 const config = require("./auth.config");
 const jwt = require("../modules/jwt/jwt.service");
+const AdminUser = require("../admin/admin.model")
+const Settings = require("../settings/settings.model")
 
 class AuthController extends BaseController {
   constructor() {

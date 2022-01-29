@@ -144,7 +144,7 @@ class ProductService {
     if (sortby === 'posted_at' && sortorder === 'asc') {
       products.sort(function (x, y) {
         let a = new Date(x.postedAt)
-        b = new Date(y.postedAt);
+        let b = new Date(y.postedAt);
         return a - b;
       });
       if (sortby === 'posted_at' && sortorder === 'desc') {
