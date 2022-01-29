@@ -132,10 +132,10 @@
                                 <div class="controls">
                                     <select multiple name="add_fields[]">
                                         @foreach ($existing_fields as $existing_field)
-                                            <option value="{{ $existing_field->fields->id }}" selected>{{ $existing_field->fields->label }}{{ $existing_field->field->field_tag }}</option>
+                                            <option value="{{ $existing_field->fields->id }}" selected>{{ $existing_field->fields->label }} {{ $existing_field->fields->field_tag }}</option>
                                         @endforeach
                                         @foreach($non_existing_fields as $field)
-                                            <option value="{{ $field->id }}">{{ $field->label }}{{ $field->field_tag }}</option>
+                                            <option value="{{ $field->id }}">{{ $field->label }} {{ $field->field_tag }}</option>
                                         @endforeach
                                     </select>
                                 @error('add_fields')
