@@ -26,7 +26,16 @@
               <div class="controls">
                 <input type="text" name="label" value="{{ old('label', $fields->label) }}" style="width: 40%" class="span11"  />
                 @error('label')
-                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                  <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                @enderror
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Field tag :</label>
+              <div class="controls">
+                <input type="text" name="field_tag" value="{{ old('field_tag', $fields->field_tag) }}" style="width: 40%" class="span11"  />
+                @error('field_tag')
+                  <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                 @enderror
               </div>
             </div>

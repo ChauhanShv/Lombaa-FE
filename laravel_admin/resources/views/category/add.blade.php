@@ -97,7 +97,7 @@
               <div class="controls">
                 <select multiple name="fields[]" size="3" >
                     @foreach($fields as $field)
-                      <option value="{{$field->id}}">{{ $field->label}}</option>
+                      <option value="{{$field->id}}">{{ $field->label}}{{ $field->field_tag }}</option>
                     @endforeach
                 </select>
                 @error('fields')
