@@ -139,7 +139,7 @@ class ProductService {
     if (sortby === 'postedAt' && sortorder === 'asc') {
       products.sort(function (x, y) {
         let a = new Date(x.postedAt)
-        b = new Date(y.postedAt);
+        let b = new Date(y.postedAt);
         return a - b;
       });
       if (sortby === 'postedAt' && sortorder === 'dsc') {
@@ -210,7 +210,7 @@ class ProductService {
 
   async randomProducts() {
     let randomProducts = await Product.findAll({
-      order: Sequelize.literal('rand()'), limit: 10, include: [
+      order: Sequelize.literal('rand()'), limit: 20, include: [
         { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
         { model: Location, as: "location" },
         { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },

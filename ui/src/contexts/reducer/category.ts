@@ -1,7 +1,7 @@
-import { Categories } from '../../components/create-post/types';
 import { Action, ActionTypes } from '../types';
+import { Category } from '../../types';
 
-export const categoryReducer = (state: Categories, action: Action) => {
+export const categoryReducer = (state: Category, action: Action) => {
     const { type, payload } = action;
     switch (type) {
         case ActionTypes.CATEGORIES:

@@ -75,7 +75,11 @@ class ValuesController extends Controller
             $field_name = Fields::where('id', $data['fieldId'])->first('label');
             $value_name = $data['value'];
 
-            return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Value added successfully', 'field_name' => $field_name['label'], 'value_name' => $value_name]);
+            if ($field_name) {
+                return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Value added successfully', 'field_name' => $field_name['label'], 'value_name' => $value_name]);
+            } else {
+                return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Value added successfully', 'field_name' => 'none', 'value_name' => $value_name]);
+            }
 
         } else {
 

@@ -1,71 +1,105 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Breadcrumb, Dropdown, Form, FormControl, InputGroup, Button } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { Container, Breadcrumb, Dropdown, Form, FormControl, Button } from 'react-bootstrap';
+import { find } from 'lodash';
 import { MoreFiltersModal } from '.';
 import { useAppContext } from '../../contexts';
 import { ProductFilterProps } from './types';
-import { Categories, Fields } from '../create-post';
+import { Category, SubCategory, Field, KeyValuePair } from '../../types';
 
 export const ProductFilters: React.FC<ProductFilterProps> = ({
-    productList,
-    onFilterChange,
+    categoryId,
+    sort,
+    onFilterChange
 }: ProductFilterProps): React.ReactElement => {
-
     const [showMoreFilters, setShowMoreFilters] = useState<boolean>(false);
-    const [dropdownFields, setDropdownFields] = useState<Fields[]>([]);
-    const [fieldValues, setFieldValues] = useState<any>({
-        sortBy: {},
-        budget: {
-            min: 0,
-            max: 0,
-        }
-    });
-    const { categoryId } = useParams<{ categoryId: string }>();
+    const [sortBy, setSortBy] = useState<string>(sort || '');
+    const [filter, setFilter] = useState<any>({});
     const { state } = useAppContext();
-    const category = state?.category;
+    const categories: Category[] = state?.category;
+    const category: SubCategory = categories.map((cat: Category) => 
+        cat.subCategories.filter((subCat: SubCategory) => subCat.id === categoryId)[0]
+    ).filter((i: any) => i)[0];
 
-    useEffect(() => {
-        if (!!category.length) {
-            category.map((categoryData: Categories) => {
-                const subCat = categoryData?.subCategories.find((subCategories) => subCategories.id === categoryId) || false;
-                if (subCat && !!subCat.fields.length) {
-                    setDropdownFields(subCat.fields.filter((field) => field.fieldType === 'dropdown'));
-                }
-            });
-        }
-    }, [productList, categoryId]);
-
-    const handleFilterChange = (e: any, fieldLabel: string) => {
-        let filter;
-        if (e.target.checked) {
-            filter = addItemToValue(fieldLabel.toLowerCase().replace(' ', '_'), e.target.value);
-            onFilterChange(filter);
-        } else {
-            filter = removeItemToValue(fieldLabel.toLowerCase().replace(' ', '_'), e.target.value);
-            onFilterChange(filter);
-        }
+    const formFilterUrl = () => {
+        let filterArr: string[] = [];
+        Object.keys(filter).map((item: string) => {
+            if (filter[item].length) {
+                filterArr.push(`${item}$${filter[item].join(',')}`);
+            }
+        });
+        onFilterChange([sortBy, filterArr.length ? `filter=${filterArr.join(',')}` : ''].filter((i: string) => i).join('&'));
     };
 
-    const addItemToValue = (label: string, value: any) => {
-        const tempFilter = { ...fieldValues } ?? {};
-        let newValue = [...tempFilter[label] ?? []];
-        newValue.push(value);
-        tempFilter[label] = newValue;
-        setFieldValues({ ...tempFilter });
-        return { ...tempFilter };
+    useEffect(() => {
+        formFilterUrl()
+    }, [sortBy, filter]);
+    
+    const sortDD: KeyValuePair = {
+        'sortby=postedAt&sortorder=asc': 'Oldest',
+        'sortby=postedAt&sortorder=desc': 'Latest',
+    };
+    if (category && find(category.fields, { fieldType: 'price' })) {
+        sortDD['sortby=price&sortorder=asc'] = 'Price - Low to High';
+        sortDD['sortby=price&sortorder=desc'] = 'Price - High to Low';
     }
 
-    const removeItemToValue = (label: string, value: any) => {
-        const tempFilter = { ...(fieldValues ?? {}) }
-        let newValue = [...tempFilter[label] ?? []];
-        newValue.splice(newValue.indexOf(value), 1);
-        tempFilter[label] = newValue;
-        setFieldValues({ ...tempFilter });
-        return { ...tempFilter };
-    }
+    const handleFilterChange = (e: any, field: string) => {
+        const newFilter: any = filter;
+        const value: string = e.target.value;
+        if (e.target.checked) {
+            const newValues: string[] = newFilter[field] ?? [];
+            newValues.push(value);
+            newFilter[field] = newValues;
+        } else {
+            const newValues: string[] = newFilter[field] ?? [];
+            newValues.splice(newValues.indexOf(value), 1);
+            newFilter[field] = newValues;
+        }
+        setFilter({...newFilter});
+    };
 
-    return (
-        <>
+    const getFilterDD = (field: Field) => {
+        if (field.fieldType !== 'dropdown') {
+            return null;
+        }
+        return (
+            <Dropdown className="d-inline mx-2" key={field.id}>
+                <Dropdown.Toggle variant="outline-dark rounded btn-fullround" id="dropdown-autoclose-true">
+                    {field.label}
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="pre-scrollable">
+                    {field.values.map((dropdownValue) =>
+                        <div className="px-2 py-2" key={dropdownValue.id}>
+                            <Form.Group>
+                                <Form.Check
+                                    type="checkbox"
+                                    label={dropdownValue.value}
+                                    value={dropdownValue.value}
+                                    onChange={(e) => handleFilterChange(e, field.label)}
+                                />
+                            </Form.Group>
+                        </div>
+                    )}
+                </Dropdown.Menu>
+            </Dropdown>
+        );
+    };
+
+    const onSortChange = (sortValue: string) => {
+        setSortBy(sortValue);
+    };
+
+    const getSortDD = () => {
+        return (
+            <Dropdown.Menu className="pre-scrollable">
+                {Object.keys(sortDD).map((item) =>
+                    <Dropdown.Item key={item} onClick={() => onSortChange(item)}>{sortDD[item]}</Dropdown.Item>)}
+            </Dropdown.Menu>
+        );
+    };
+
+    return category ? (
+        <>{console.log('abhi1', filter)}
             <MoreFiltersModal
                 showMoreFilters={showMoreFilters}
                 onCloseMoreFilters={() => setShowMoreFilters(false)}
@@ -73,61 +107,36 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
             <Container className="pt-4 pt-lg-4">
                 <Breadcrumb>
                     <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
-                    <Breadcrumb.Item href="https://getbootstrap.com/docs/4.0/components/breadcrumb/">
-                        Library
-                    </Breadcrumb.Item>
-                    <Breadcrumb.Item active>Data</Breadcrumb.Item>
+                    <Breadcrumb.Item active>{category?.name}</Breadcrumb.Item>
                 </Breadcrumb>
-                <h1 className="h4 text-secondary mb-1">Get The Best Deals On Used Cars in Ghana</h1>
-                <p className="mb-2">Thousands of cars to choose from Kia, Honda, Volkswagen, Toyota and more under $70,000 in Ghana</p>
+                <p className="mb-2">{category?.description}</p>
             </Container>
 
             <div className="fixed-filters mb-3">
                 <Container className="">
-                    <Dropdown className="d-inline mx-2">
-                        <Dropdown.Toggle variant="outline-dark rounded btn-fullround" id="dropdown-autoclose-true">
-                            Sort By:
+                    <Dropdown
+                        className="d-inline mx-2"
+                    >
+                        <Dropdown.Toggle variant="outline-dark rounded btn-fullround">
+                            Sort By {sortDD[sortBy] ? `: ${sortDD[sortBy]}` : ''}
                         </Dropdown.Toggle>
-                        <Dropdown.Menu className="pre-scrollable">
-                            <Dropdown.Item>Price</Dropdown.Item>
-                            <Dropdown.Item>Latest</Dropdown.Item>
-                        </Dropdown.Menu>
+                        {getSortDD()}
                     </Dropdown>
-                    {(!!dropdownFields.length) && dropdownFields.map((dropdownField, dropdownFieldIndex) =>
-                        <Dropdown className="d-inline mx-2" key={dropdownField.id}>
+                    {category.fields.map((field: Field) => getFilterDD(field) )}
+                    {find(category.fields, { fieldType: 'price' }) && (
+                        <Dropdown className="d-inline mx-2">
                             <Dropdown.Toggle variant="outline-dark rounded btn-fullround" id="dropdown-autoclose-true">
-                                {dropdownField.label}
+                                Budget:
                             </Dropdown.Toggle>
                             <Dropdown.Menu className="pre-scrollable">
-                                {dropdownField.values.map((dropdownValue) =>
-                                    <div className="px-2 py-2" key={dropdownValue.id}>
-                                        <Form.Group>
-                                            <Form.Check
-                                                type="checkbox"
-                                                label={dropdownValue.value}
-                                                value={dropdownValue.value}
-                                                onChange={(e) =>
-                                                    handleFilterChange(e, dropdownField.label)
-                                                }
-                                            />
-                                        </Form.Group>
-                                    </div>
-                                )}
+                                <div className="px-3 py-1">
+                                    <FormControl className="mb-3" type="number" placeholder='Min price' width="auto" />
+                                    <FormControl className="mb-3" type="number" placeholder='Max price' width="auto" />
+                                    <Button>Apply</Button>
+                                </div>
                             </Dropdown.Menu>
                         </Dropdown>
                     )}
-                    <Dropdown className="d-inline mx-2">
-                        <Dropdown.Toggle variant="outline-dark rounded btn-fullround" id="dropdown-autoclose-true">
-                            Budget:
-                        </Dropdown.Toggle>
-                        <Dropdown.Menu className="pre-scrollable">
-                            <div className="px-3 py-1">
-                                <FormControl className="mb-3" type="number" placeholder='Min price' width="auto" />
-                                <FormControl className="mb-3" type="number" placeholder='Max price' width="auto" />
-                                <Button>Apply</Button>
-                            </div>
-                        </Dropdown.Menu>
-                    </Dropdown>
 
                     {/* <Button
                         className="outline-dark rounded btn-fullround"
@@ -138,5 +147,5 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
                 </Container>
             </div>
         </>
-    );
+    ) : <></>
 }

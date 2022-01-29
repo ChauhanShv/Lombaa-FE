@@ -15,22 +15,24 @@ import {
     DragAndDrop,
     FormFields,
     ListingSuccessfulTile,
-    Categories,
-    SubCategories,
-    Fields,
-    FieldValues as CreatePostFieldValues,
     Media,
     LocationDropdown,
 } from '.';
+import {
+    Category,
+    SubCategory,
+    Field,
+    FieldValue as CreatePostFieldValue,
+} from '../../types';
 
 interface CreatePostProps {
-    categories: Categories[],
+    categories: Category[],
 };
 
 export const CreatePost: React.FC<CreatePostProps> = ({
     categories,
 }: CreatePostProps): React.ReactElement => {
-    const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategories | null>(null);
+    const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategory | null>(null);
     const [location, setLocation] = useState<object>({});
     const [media, setMedia] = useState<Media[]>([]);
     const [successData, setSuccessData] = useState<any>({
@@ -49,8 +51,8 @@ export const CreatePost: React.FC<CreatePostProps> = ({
             location: yup.string().required('Location is required'),
         };
         if (selectedSubCategory) {
-            const fields: Fields[] = selectedSubCategory.fields;
-            fields.forEach((field: Fields) => {
+            const fields: Field[] = selectedSubCategory.fields;
+            fields.forEach((field: Field) => {
                 switch (field.fieldType) {
                     case 'text':
                     case 'label':
@@ -102,7 +104,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
         resolver: customResolver
     });
     const { handleSubmit, formState: { errors } } = formMethods;
-    const [{ data: createPostRes, loading: createPostLoading, error: createPostError }, execute] = useAxios({
+    const [{ data: createPostRes, loading: createPostLoading }, execute] = useAxios({
         url: '/product',
         method: 'POST',
     });
@@ -117,7 +119,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
             media: media.map((i: Media) => ({ token: i.token, isPrimary: i.isPrimary })),
             location: location,
         };
-        selectedSubCategory?.fields.forEach((field: Fields) => {
+        selectedSubCategory?.fields.forEach((field: Field) => {
             const value: any = {};
             if ([
                 'text',
@@ -144,7 +146,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
                     });
                 }
             } else {
-                const selectedValue: CreatePostFieldValues = field.values.filter((item: CreatePostFieldValues) => {
+                const selectedValue: CreatePostFieldValue = field.values.filter((item: CreatePostFieldValue) => {
                     if (isArray(values[field.id])) {
                         return item.id === values[field.id][0];
                     }
@@ -172,7 +174,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
 
     const onSubCategorySelected = (subCat: string) => {
         if (subCat) {
-            const selectedSubCat = categories.map((cat: Categories) => {
+            const selectedSubCat = categories.map((cat: Category) => {
                 return filter(cat.subCategories, { id: subCat });
             }).filter(i => i.length)[0] || [];
             setSelectedSubCategory(selectedSubCat[0] || {});

@@ -31,7 +31,7 @@ class CategoryController extends Controller
                 'product.required' => 'Category is required',
                 'image.required' => 'Icon is required for category',
                 'product.required_unless' => 'Parent cartegory is required',
-                'fields.required_unless' => 'Parent cartegory is required',
+                'fields.required_unless' => 'Atleast one "Title" field is required',
             ];
 
             $validator = Validator::make($request->all(), $rules, $messages);

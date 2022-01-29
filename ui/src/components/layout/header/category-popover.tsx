@@ -6,20 +6,18 @@ import {
     Button,
 } from 'react-bootstrap';
 import { useAxios } from '../../../services';
-import { Categories } from '../../create-post';
 import { ActionTypes, useAppContext } from '../../../contexts';
+import { Category } from '../../../types';
 
 export const CategoryPopover: React.FC = (): React.ReactElement => {
-    const [popularCategories, setPopularCategories] = useState<Categories[]>([]);
+    const [popularCategories, setPopularCategories] = useState<Category[]>([]);
     const { dispatch } = useAppContext();
-    const [otherCategories, setOtherCategories] = useState<Categories[]>([]);
+    const [otherCategories, setOtherCategories] = useState<Category[]>([]);
     const [{ data }, execute] = useAxios({
         url: '/category',
         method: 'GET',
-    });
-    useEffect(() => {
-        execute();
-    }, []);
+    }, { manual: false });
+
     useEffect(() => {
         const { code, response = [] } = data || {};
         if (code === 200) {
@@ -29,9 +27,9 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
                     category: data?.response,
                 }
             })
-            const popularCat: Categories[] = [];
-            const otherCat: Categories[] = [];
-            response.map((item: Categories) => {
+            const popularCat: Category[] = [];
+            const otherCat: Category[] = [];
+            response.map((item: Category) => {
                 if (item.subCategories.length) {
                     if (popularCat.length < 6) {
                         popularCat.push(item);
@@ -47,12 +45,13 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
 
     return (
         <>
-            {popularCategories.map((category: Categories) => {
+            {popularCategories.map((category: Category) => {
                 return (
                     <OverlayTrigger
                         key={category?.id}
-                        trigger="click"
-                        placement='bottom-end'
+                        trigger={['click']}
+                        placement='bottom-start'
+                        transition={true}
                         overlay={
                             <Popover className="head-cat" id={`popover-positioned-bottom`}>
                                 <Popover.Body className="px-5 shadow d-flex flex-wrap">
@@ -90,7 +89,7 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
                     overlay={
                         <Popover className="head-cat" id={`popover-positioned-bottom`}>
                             <Popover.Body className="px-5 shadow d-flex flex-wrap">
-                                {otherCategories.map((category: Categories) =>
+                                {otherCategories.map((category: Category) =>
                                     <div className='p-3 text-center' key={category?.id}>
                                         <ul>
                                             <div className='row'>
