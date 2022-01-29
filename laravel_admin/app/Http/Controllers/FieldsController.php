@@ -70,7 +70,7 @@ class FieldsController extends Controller
             $data = [
                 'id' => Str::uuid(),
                 'label' => $request->label,
-                'field_tag' => $request->field_tag,
+                'tag' => $request->tag,
                 'isRequired' => isset($request->required) ? 1 : 0,
                 'isActive' => isset($request->active) ? 1 : 0,
                 'dataTypes' => $request->dataTypes,
@@ -174,7 +174,7 @@ class FieldsController extends Controller
 
         $data = [
             'label' => $request->label,
-            'field_tag' => $request->field_tag,
+            'tag' => $request->tag,
             'isRequired' => isset($request->required) ? 1 : 0,
             'isActive' => isset($request->active) ? 1 : 0,
             'dataTypes' => $request->dataTypes,
