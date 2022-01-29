@@ -87,7 +87,7 @@
                         @endforeach
                     </select>
                     @error('product')
-                        <div class="alert alert-danger ">{{ $message }}</div>
+                        <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                     @enderror
                 </div>
             </div>
@@ -101,7 +101,7 @@
                     @endforeach
                 </select>
                 @error('fields')
-                    <div class="alert alert-danger ">{{ $message }}</div>
+                    <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                 @enderror
              </div>
             </div>
