@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FaHeart } from 'react-icons/fa';
@@ -55,7 +56,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 <Card.Img variant="top" src={mediaSrc} />
             </Link>
             <div className="d-flex justify-content-between p-3 position-absolute saved-wrap">
-                <small className="text-white">{postedOnDate}</small>
+                <small className="text-white">{moment(postedOnDate).format('LL')}</small>
                 {favourite ?
                     <button className="saved" id="fav" onClick={handleFavUnfav}><FaHeart /></button> :
                     <button className="saved" id="fav" onClick={handleFavUnfav}><FiHeart /></button>
