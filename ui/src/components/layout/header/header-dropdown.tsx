@@ -15,8 +15,7 @@ import './header.css'
 export const HeaderDropdown: React.FC = (): React.ReactElement => {
 
     const { state, dispatch } = useAppContext();
-    const { user, session } = state;
-    const userData = state?.user?.metaData;
+    const { user } = state;
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
 
