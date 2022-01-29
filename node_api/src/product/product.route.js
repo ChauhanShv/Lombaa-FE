@@ -22,10 +22,13 @@ module.exports = () => {
     productController.add
   );
 
-  router.get("/", productController.listing);
+  router.get("/listing", productController.listing);
   router.post("/media", authMiddleware, multer({ storage: storage }).any(), checkSchema(productMediaSchema), productController.uploadMedia);
-  router.get("/:id", authMiddleware, productController.findById);
   router.post("/:id", productController.soldProduct)
+  router.get("/", authMiddleware, productController.getRandom)
+  router.get("/category", authMiddleware, productController.searchCat)
+  router.get("/:id", authMiddleware, productController.findById);
+
 
 
 

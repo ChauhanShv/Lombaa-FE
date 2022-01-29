@@ -9,7 +9,7 @@ const User = require("../user/user.model")
 const fileModel = require("../file/file.model");
 const UserService = require("../user/user.service");
 const Category = require("../category/category.model")
-
+const Sequelize = require("sequelize")
 class ProductService {
   constructor() {
     this.userService = new UserService()
@@ -109,7 +109,7 @@ class ProductService {
     return products
   }
 
-  async getproductByCategoryId(categoryId, sortby, sortorder, userId, filter) {
+  async getproductByCategoryId(categoryId, sortby, sortorder, userId, filter, search) {
     if (!categoryId) return [];
     let products = await Product.findAll({
       where: { categoryId: categoryId, approvedAt: { [Op.not]: null }, expiry: { [Op.gt]: moment() } },
@@ -131,9 +131,9 @@ class ProductService {
     }
     if (sortby === 'price' && sortorder === 'dsc') {
       products.sort(function (x, y) {
-        let a = x.price
-        let b = y.price
-        return +a.price - +b.price
+        let a = x?.price
+        let b = y?.price
+        return +a?.price - +b?.price
       })
     }
     if (sortby === 'postedAt' && sortorder === 'asc') {
@@ -150,29 +150,37 @@ class ProductService {
         });
       }
     }
+    if (filter) {
 
-    const filterText = filter
+      const filterText = filter
 
-    const filterFieldsSeperator = '|'
-    const filterDataSeperator = '$'
-    const filterValueSeperator = ','
+      const filterFieldsSeperator = '|'
+      const filterDataSeperator = '$'
+      const filterValueSeperator = ','
 
-    const filters = filterText.split(filterFieldsSeperator)
+      const filters = filterText.split(filterFieldsSeperator)
 
-    let filterObj = {}
+      let filterObj = {}
 
-    const data = filters.forEach((filter, i) => {
-      const filterData = filter.split(filterDataSeperator)
-      filterObj[filterData[0]] = filterData[1].split(filterValueSeperator);
+      const data = filters.forEach((filter, i) => {
+        const filterData = filter.split(filterDataSeperator)
+        filterObj[filterData[0]] = filterData[1].split(filterValueSeperator);
 
-    })
+      })
 
 
-    products = products.filter(product => {
-      return !!product.productFields.find(productField => productField?.field?.fieldType === 'dropdown' && (filterObj[productField?.field?.label] ?? []).includes(productField?.value));
-    });
+      products = products.filter(product => {
+        return !!product.productFields.find(productField => productField?.field?.fieldType === 'dropdown' && (filterObj[productField?.field?.label] ?? []).includes(productField?.value));
+      });
+    }
 
-    products = await this.mapUserFavorite(products, userId)
+    if (search) {
+      products = products.filter(product => {
+        return product?.title?.includes(search) || product?.description?.includes(search)
+      })
+    }
+
+    products = this.mapUserFavorite(products, userId)
     return products
 
   }
@@ -200,7 +208,39 @@ class ProductService {
 
   }
 
+  async randomProducts() {
+    let randomProducts = await Product.findAll({
+      order: Sequelize.literal('rand()'), limit: 10, include: [
+        { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
+        { model: Location, as: "location" },
+        { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
+        { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+        { model: Category, as: 'category' }
+      ]
+    });
+    randomProducts = this.fieldsMapping(randomProducts);
 
+    return randomProducts
+  }
+
+  async search(search) {
+    let products = await Product.findAll({
+      include: [
+        { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
+        { model: Location, as: "location" },
+        { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
+        { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+        { model: Category, as: 'category', attributes: ["id", "name"] }
+      ]
+    })
+    products = this.fieldsMapping(products)
+    products = products.filter(product => {
+      return product?.title?.includes(search) || product?.description?.includes(search)
+    })
+    return products
+
+
+  }
 }
 
 
