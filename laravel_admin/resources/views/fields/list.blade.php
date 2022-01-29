@@ -48,6 +48,7 @@
                         <th># No.</th>
                         <th>Icon</th>
                         <th>Label</th>
+                        <th>Tag</th>
                         <th>Is Required</th>
                         <th>Is Active</th>
                         <th>Data type</th>
@@ -67,6 +68,7 @@
                                 <p>No&nbsp;Icon</p>
                             @endif
                         <td style="text-align: center;">{{ $data->label }}</td>
+                        <td style="text-align: center;">{{ $data->tag ?? '' }}</td>
                         <td style="text-align: center;">{{ $data->isRequired == 1? 'Yes' : 'No' }}</td>
                         <td style="text-align: center;">{{ $data->isActive == 1? 'Yes' : 'No' }}</td>
                         <td style="text-align: center;">{{ $data->dataTypes }}</td>
