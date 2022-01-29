@@ -179,8 +179,9 @@ class ProductService {
         return product?.title?.includes(search) || product?.description?.includes(search)
       })
     }
-
-    products = this.mapUserFavorite(products, userId)
+    if (userId) {
+      products = this.mapUserFavorite(products, userId)
+    }
     return products
 
   }
@@ -210,7 +211,7 @@ class ProductService {
 
   async randomProducts() {
     let randomProducts = await Product.findAll({
-      order: Sequelize.literal('rand()'), limit: 10, include: [
+      order: Sequelize.literal('rand()'), limit: 20, include: [
         { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
         { model: Location, as: "location" },
         { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
