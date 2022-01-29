@@ -4,7 +4,7 @@ content-type: application/json
 
 ###
 
-GET {{baseUrl}}/category/0c725006-069e-4c62-b3cf-d370b70539db/products?search=car HTTP/1.1
+GET {{baseUrl}}/category/6c574ff2-03ef-4501-84ee-cabea11cb6e2/products?lat=18.513372735913&lng=73.827872221274&radius=166000 HTTP/1.1
 Content-Type: application/json
 x-app-version : 1.0.0
-x-client-platform : Android 
+x-client-platform : Android

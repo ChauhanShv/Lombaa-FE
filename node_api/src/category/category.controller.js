@@ -66,8 +66,6 @@ class CategoryController extends BaseController {
     try {
       const catId = req.params?.id
       const { sortby, sortorder, filter, search, lat, lng, radius = 20000 } = req.query
-      console.log(typeof lat, lat, 'hdhdhgdhgefytyewfy')
-      console.log(typeof lng, lng, 'hdhdhgdhgefytyewfy')
 
       const userId = req.user?.id
       const allProducts = await this.productService?.getproductByCategoryId(catId, sortby, sortorder, userId, filter, search, lat, lng, radius);
