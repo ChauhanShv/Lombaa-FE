@@ -16,6 +16,7 @@ const fileModel = require("../file/file.model")
 const Field = require("../field/field.model")
 const Category = require("../category/category.model")
 const viewedProduct = require("../viewed_product/viewed.product.model")
+const Sequelize = require('sequelize')
 
 class productController extends BaseController {
   constructor(...args) {
@@ -62,7 +63,6 @@ class productController extends BaseController {
 
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Product added", product: product } });
     } catch (error) {
-      console.log(error);
       return super.jsonRes({ res, code: 400, data: { success: false, error: { code: 400, message: "Failed to post Ad", message_detail: error.message } } });
     }
   };
@@ -121,7 +121,6 @@ class productController extends BaseController {
         data: { success: true, messaage: "Product listed", products: products },
       });
     } catch (error) {
-      console.log(error);
       return super.jsonRes({
         res,
         code: 401,
@@ -185,6 +184,32 @@ class productController extends BaseController {
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Marked as sold" } })
     } catch (error) {
       super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to mark", message_detail: error?.message } })
+    }
+  }
+
+  getRandom = async (req, res, next) => {
+    try {
+      const userId = req.user?.id
+      let randomProducts = await this.service.randomProducts()
+      if (userId) {
+        randomProducts = await this.service.mapUserFavorite(randomProducts, userId)
+      }
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Products retreived", product: randomProducts } })
+    }
+    catch (error) {
+      console.log(error)
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "failed to get products", message_detail: error?.messaage } })
+    }
+  }
+
+  searchCat = async (req, res, next) => {
+    try {
+      const search = req.query.search
+      let searchCat = await this.service.search(search)
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Products retreived", products: searchCat } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to load", message_detail: error?.messaage } })
     }
   }
 
