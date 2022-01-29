@@ -10,10 +10,10 @@ import {
 import { useFormContext } from 'react-hook-form';
 import './post-ad.css';
 import { getErrorClassName } from '../../utils';
-import { Fields } from '.';
+import { Field } from '../../types';
 
 interface FormFieldsProps {
-    fields: Fields[];
+    fields: Field[];
 }
 
 export const FormFields: React.FC<FormFieldsProps> = ({
@@ -35,13 +35,13 @@ export const FormFields: React.FC<FormFieldsProps> = ({
         return null;
     };
 
-    const InputComponent: React.FC<Fields> = ({
+    const InputComponent: React.FC<Field> = ({
         id,
         label,
         fieldType,
         dataTypes,
         isRequired,
-    }: Fields): React.ReactElement => {
+    }: Field): React.ReactElement => {
         const type = ['email', 'text', 'date'].includes(fieldType) && ['numeric'].includes(dataTypes) ? 'number' : fieldType || 'text';
         return (
             <FloatingLabel label={label + getFieldNecessity(isRequired)} className="mb-3">
@@ -57,11 +57,11 @@ export const FormFields: React.FC<FormFieldsProps> = ({
         );
     };
 
-    const TextAreaComponent: React.FC<Fields> = ({
+    const TextAreaComponent: React.FC<Field> = ({
         id,
         label,
         isRequired,
-    }: Fields): React.ReactElement => {
+    }: Field): React.ReactElement => {
         return (
             <FloatingLabel label={label + getFieldNecessity(isRequired)} className="mb-3">
                 <Form.Control
@@ -83,7 +83,7 @@ export const FormFields: React.FC<FormFieldsProps> = ({
         label,
         values,
         isRequired,
-    }: Fields): React.ReactElement => {
+    }: Field): React.ReactElement => {
         return (
             <FloatingLabel className="mb-3" label={label + getFieldNecessity(isRequired)}>
                 <Form.Select
@@ -106,7 +106,7 @@ export const FormFields: React.FC<FormFieldsProps> = ({
         id,
         label,
         values,
-    }: Fields): React.ReactElement => {
+    }: Field): React.ReactElement => {
         return (
             <>
                 <Form.Label className="text-muted">
@@ -138,7 +138,7 @@ export const FormFields: React.FC<FormFieldsProps> = ({
     const SwitchComponent = ({
         id,
         label,
-    }: Fields): React.ReactElement => {
+    }: Field): React.ReactElement => {
         return (
             <InputGroup className="mb-3">
                 <Form.Check
@@ -157,7 +157,7 @@ export const FormFields: React.FC<FormFieldsProps> = ({
         id,
         label,
         values,
-    }: Fields): React.ReactElement => {
+    }: Field): React.ReactElement => {
         const [toggleValue, setToggleValue] = useState<string>(values[0].id);
         return (
             <InputGroup className="mb-3">
@@ -190,7 +190,7 @@ export const FormFields: React.FC<FormFieldsProps> = ({
 
     const PriceComponent = ({
         id,
-    }: Fields): React.ReactElement => {
+    }: Field): React.ReactElement => {
         const [isForSale, setIsForSale] = useState<string>('sale');
         return (
             <>
@@ -225,7 +225,7 @@ export const FormFields: React.FC<FormFieldsProps> = ({
         );
     }
 
-    const getFieldFromType = (field: Fields) => {
+    const getFieldFromType = (field: Field) => {
         switch (field.fieldType) {
             case 'text':
             case 'label':
@@ -253,7 +253,7 @@ export const FormFields: React.FC<FormFieldsProps> = ({
     return (
         <>
             {
-                fields.map((field: Fields) => getFieldFromType(field))
+                fields.map((field: Field) => getFieldFromType(field))
             }
         </>
     );
