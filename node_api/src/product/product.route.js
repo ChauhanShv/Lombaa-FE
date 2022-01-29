@@ -29,7 +29,7 @@ module.exports = () => {
   router.post("/:id", productController.soldProduct)
   router.get("/", optionalAuthMiddleware, productController.getRandom)
   router.get("/category", authMiddleware, productController.searchCat)
-  router.get("/:id", authMiddleware, productController.findById);
+  router.get("/:id", optionalAuthMiddleware, productController.findById);
 
 
 
