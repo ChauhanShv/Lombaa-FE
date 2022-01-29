@@ -27,9 +27,15 @@ export const ProductDetailImageSlider: React.FC<ProductDetailImageSliderProps> =
             <Container>
                 <Row className="mb-3">
                     <Breadcrumbs separator=">" aria-label="breadcrumb">
-                        <Link underline="hover" key="1" color="inherit" href="/">{productCategory.name}</Link>
-                        <Link underline="hover" key="2" color="inherit" href="/product-listing">{productCategory.description}</Link>
-                        <Link underline="hover" key="3" color="inherit" href="#">{productName}</Link>
+                        <Link underline="hover" key="1" color="inherit" href="/">
+                            Home
+                        </Link>
+                        <Link underline="hover" key="2" color="inherit" href={`/product-listing/${productCategory.id}`}>
+                            {productCategory.name}
+                        </Link>
+                        <Link underline="hover" key="3" color="inherit" href="#">
+                            {productName}
+                        </Link>
                     </Breadcrumbs>
                 </Row>
                 <Row className="mt-auto">

@@ -33,8 +33,8 @@ const App: React.FC = () => {
               <PrivateRoute component={SettingsPage} path="/settings/:page?" exact />
               <PrivateRoute component={ProfilePage} path="/profile" exact />
               <PrivateRoute component={CreatePostPage} path="/create-post" exact />
-              <PublicRoute component={ProductListingPage} path="/product-listing/:categoryId?" exact />
-              <PublicRoute component={ProductDetailPage} path="/product-detail/:productId?/:slug?" exact />
+              <PublicRoute component={ProductListingPage} path="/product-listing/:categoryId" exact />
+              <PublicRoute component={ProductDetailPage} path="/product-detail/:productId/:slug" exact />
               {/* Html Routes - for nilesh */}
             </Switch>
           </AppContainer>

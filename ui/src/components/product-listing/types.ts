@@ -1,3 +1,8 @@
+export interface ProductFilterProps {
+  categoryId: string;
+  sort?: string;
+  onFilterChange: (filter: string) => void;
+}
 export interface City {
   id?: string;
   name?: string;
@@ -54,7 +59,7 @@ export interface Field {
   isRequired?: boolean;
   isActive?: number | boolean;
   dataTypes: string;
-  fieldTypes: string;
+  fieldType: string;
   values: FieldValue[];
 }
 export interface ProductFields {
