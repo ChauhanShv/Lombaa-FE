@@ -13,4 +13,28 @@ module.exports = {
             },
         },
     },
+    lat: {
+        optional: {
+            options: { nullable: true },
+        },
+        in: ['query'],
+        isFloat: true,
+        toFloat: true
+    },
+    lng: {
+        optional: {
+            options: { nullable: true },
+        },
+        in: ['query'],
+        isFloat: true,
+        toFloat: true
+    },
+    radius: {
+        optional: {
+            options: { nullable: true },
+        },
+        in: ['query'],
+        isInt: true,
+        toInt: true
+    },
 }
