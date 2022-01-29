@@ -16,7 +16,7 @@ const fileModel = require("../file/file.model")
 const Field = require("../field/field.model")
 const Category = require("../category/category.model")
 const viewedProduct = require("../viewed_product/viewed.product.model")
-const Sequelize = require('sequelize')
+const { Op } = require("sequelize");
 const RejectReason = require("../reject_reason/reject_reason.model")
 
 class productController extends BaseController {
@@ -97,7 +97,6 @@ class productController extends BaseController {
       const offset = filters.offset ? filters.offset * limit : 0;
       const where = {};
       const Sequelize = require("sequelize");
-      const Op = Sequelize.Op;
 
       if (filters.categoryId?.length) where.category_Id = { [Op.in]: filters.categoryId };
       if (filters.title) where.title = { [Op.like]: `%${filters.title}%` };
@@ -132,7 +131,6 @@ class productController extends BaseController {
 
   findById = async (req, res, next) => {
     try {
-      const Op = require('Sequelize').Op
       const givenId = req.params.id;
       const userId = req.user?.id;
       const singleProduct = await Product.findOne({
@@ -161,7 +159,7 @@ class productController extends BaseController {
       return super.jsonRes({
         res,
         code: 401,
-        data: { success: false, message: "no data found", messaage_detail: error?.message },
+        data: { success: false, message: "Failed to get product details", messaage_detail: error?.message },
       });
     }
   };
