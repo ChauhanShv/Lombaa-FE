@@ -45,7 +45,7 @@ class ProductService {
     if (!userId) return [];
 
     let products = await Product.findAll({
-      where: { userId: userId, approvedAt: { [Op.not]: null }, soldAt: null, expiry: { [Op.lte]: moment() } }, include: [
+      where: { userId: userId, approvedAt: { [Op.not]: null }, soldAt: null, expiry: { [Op.gte]: moment() } }, include: [
         { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
         { model: Location, as: "location" },
         { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
