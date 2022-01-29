@@ -13,4 +13,20 @@ module.exports = {
             },
         },
     },
+    lat: {
+        notEmpty: {
+            errorMessage: "Latitude is required"
+        },
+        in: ['query'],
+        isFloat: true,
+        toFloat: true
+    },
+    lng: {
+        notEmpty: {
+            errorMessage: "Longitude is required"
+        },
+        in: ['query'],
+        isFloat: true,
+        toFloat: true
+    },
 }

@@ -9,7 +9,10 @@ const User = require("../user/user.model")
 const fileModel = require("../file/file.model");
 const UserService = require("../user/user.service");
 const Category = require("../category/category.model")
-const Sequelize = require("sequelize")
+const Sequelize = require("sequelize");
+const City = require("../city/city.model");
+const Country = require("../country/country.model");
+const Region = require("../region/region.model");
 class ProductService {
   constructor() {
     this.userService = new UserService()
@@ -109,7 +112,7 @@ class ProductService {
     return products
   }
 
-  async getproductByCategoryId(categoryId, sortby, sortorder, userId, filter, search) {
+  async getproductByCategoryId(categoryId, sortby, sortorder, userId, filter, search, lat, lng, radius) {
     if (!categoryId) return [];
     let whereCondition = { categoryId: categoryId, approvedAt: { [Op.not]: null }, expiry: { [Op.gt]: moment() } }
     if (userId) {
@@ -120,7 +123,7 @@ class ProductService {
       where: whereCondition,
       include: [
         { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
-        { model: Location, as: "location" },
+        { model: Location.unscoped(), as: "location", include: [{ model: City, as: 'city' }, { model: Country, as: 'country' }, { model: Region, as: 'region' }] },
         { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
         { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] }
       ]
