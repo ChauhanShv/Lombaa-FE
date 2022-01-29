@@ -32,7 +32,7 @@ Field.init(
         },
         fieldType: {
             type: DataTypes.ENUM({
-                values: ['text', "textArea", "dropdown", "checkbox", "switch", 'tagView', 'email', 'date', 'price', 'title'],
+                values: ['text', "textArea", "dropdown", "checkbox", "switch", 'tagView', 'email', 'date', 'price', 'title', 'description'],
             }),
             allowNull: true
         }
