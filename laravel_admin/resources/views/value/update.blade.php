@@ -24,12 +24,14 @@
               <label class="control-label">Assigned to Field:</label>
               <div class="controls">
                 <select id='' name="field">
-                    <option value="{{ $value->fieldId }}" selected>{{ $value->field->label }}</option>
-                        @foreach($fields as $field)
-                          @if( $value->fieldId !== $field->id )
-                            <option value="{{ $field->id }}">{{ $field->label }}</option>
-                          @endif
-                        @endforeach
+                    @if($value->fieldId !== null and $value->field !== null)
+                      <option value="{{ $value->fieldId }}" selected>{{ $value->field->label }}</option>
+                    @endif
+                    @foreach($fields as $field)
+                      @if( $value->fieldId !== $field->id )
+                        <option value="{{ $field->id }}">{{ $field->label }}</option>
+                      @endif
+                    @endforeach
                 </select>
                 @error('field')
                   <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>

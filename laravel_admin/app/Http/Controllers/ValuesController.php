@@ -14,7 +14,6 @@ class ValuesController extends Controller
 {
     public function values()
     {
-
         $values = Values::with('icon')->with('field')->paginate();
         return view('value.list', ['values' => $values]);
     }
@@ -91,7 +90,6 @@ class ValuesController extends Controller
 
     public function values_update(Request $request, $id)
     {
-
         if ($request->ismethod('post')) {
 
             if ($request->hasFile('icon')) {
@@ -137,7 +135,6 @@ class ValuesController extends Controller
             return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Value updated successfully']);
 
         } else {
-
             $fields = Fields::get();
             $value = Values::with('field')->where('id', $id)->first();
             return view('value.update', ['fields' => $fields, 'value' => $value]);
