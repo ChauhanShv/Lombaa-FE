@@ -13,10 +13,17 @@ content-type: application/json
 
 ###
 
-GET {{baseUrl}}/locations/country/848a14fe-52d1-11ec-809d-021b0ebe8bee/regions HTTP/1.1
+GET {{baseUrl}}/locations/country/46cc6b39-eb86-4aff-9e21-2bbaf648f09d/regions HTTP/1.1
 content-type: application/json
 
 ###
 
 GET {{baseUrl}}/locations/region/123/cities HTTP/1.1
 content-type: application/json
+
+###
+
+GET {{baseUrl}}/locations/country/code/IN/regions HTTP/1.1
+content-type: application/json
+
+
