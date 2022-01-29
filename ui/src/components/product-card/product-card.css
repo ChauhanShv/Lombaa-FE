@@ -11,6 +11,7 @@
 .ad-card .card-title{font-size:18px;}
 .ad-card .card-body{font-size:14px; color:#444;}
 .ad-card .card button svg{width:14px;}
+.card-img-top { width: 100%; height: calc(100vw * 0.17); object-fit: stretch; }
 
 .product-card-header { background-color: #fff; padding: 0; border-bottom: 0px; margin-bottom: 0.5rem; }
 
@@ -27,4 +28,5 @@ small.text-white{font-size:12px; text-shadow: 0 0 3px rgba(0,0,0,.5);}
     .saved{width:24px; height:24px;}
     small.text-white{font-size:11px;}    
     .ad-card .card-body p{margin-bottom: 5px;}
+    .card-img-top { height: auto; }
 }
