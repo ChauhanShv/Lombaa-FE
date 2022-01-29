@@ -114,4 +114,7 @@ export interface User {
   name: string;
   profilePicture: ProductMediaFile;
   profilePictureId: string;
+  businessName?: string
+  profileVerificationScore?: number;
+  memberSince?: string;
 }
