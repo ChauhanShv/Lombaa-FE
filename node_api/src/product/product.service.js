@@ -134,20 +134,20 @@ class ProductService {
         return +b.price - +a.price
       })
     }
-    if (sortby === 'price' && sortorder === 'dsc') {
+    if (sortby === 'price' && sortorder === 'desc') {
       products.sort(function (x, y) {
         let a = x?.price
         let b = y?.price
         return +a?.price - +b?.price
       })
     }
-    if (sortby === 'postedAt' && sortorder === 'asc') {
+    if (sortby === 'posted_at' && sortorder === 'asc') {
       products.sort(function (x, y) {
         let a = new Date(x.postedAt)
         b = new Date(y.postedAt);
         return a - b;
       });
-      if (sortby === 'postedAt' && sortorder === 'dsc') {
+      if (sortby === 'posted_at' && sortorder === 'desc') {
         products.sort(function (x, y) {
           let a = new Date(x.postedAt)
           b = new Date(y.postedAt);

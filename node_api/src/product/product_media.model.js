@@ -2,7 +2,7 @@ const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize").service;
 const File = require("../file/file.model");
 
-class ProductMedia extends Model {}
+class ProductMedia extends Model { }
 
 ProductMedia.init(
   {
@@ -19,6 +19,7 @@ ProductMedia.init(
   {
     modelName: "ProductMedia",
     tableName: "product_media",
+    timestamps: true,
     sequelize,
     paranoid: true,
   }
