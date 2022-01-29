@@ -37,9 +37,9 @@
                   @if ($fields->fieldType !== null)
                     <option value="{{ $fields->fieldType }}" selected>{{ $fields->fieldType }}</option>
                   @endif
-                    @foreach($field_types as $field_type)
+                    @foreach($field_types as $key => $field_type)
                       @if($field_type !== $fields->fieldType)
-                        <option value="{{ $field_type }}">{{ $field_type }}</option>
+                        <option value="{{ $key }}">{{ $field_type }}</option>
                       @endif
                     @endforeach
                 </select>
