@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Breadcrumb, Dropdown, Form, FormControl, InputGroup, Button } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import { FaSearch } from 'react-icons/fa';
 import { MoreFiltersModal } from '.';
 import { useAppContext } from '../../contexts';
 import { ProductFilterProps } from './types';
 import { Categories, Fields } from '../create-post';
 
 export const ProductFilters: React.FC<ProductFilterProps> = ({
-    productList
+    productList,
+    onFilterChange,
 }: ProductFilterProps): React.ReactElement => {
 
     const [showMoreFilters, setShowMoreFilters] = useState<boolean>(false);
     const [dropdownFields, setDropdownFields] = useState<Fields[]>([]);
-    const [fieldValues, setFieldValues] = useState<any>({});
+    const [fieldValues, setFieldValues] = useState<any>({
+        sortBy: {},
+        budget: {
+            min: 0,
+            max: 0,
+        }
+    });
     const { categoryId } = useParams<{ categoryId: string }>();
     const { state } = useAppContext();
     const category = state?.category;
@@ -27,28 +33,36 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
                 }
             });
         }
-        console.log(fieldValues, '111222');
     }, [productList, categoryId]);
 
     const handleFilterChange = (e: any, fieldLabel: string) => {
-        console.log(e.target.checked, 'e target check');
+        let filter;
         if (e.target.checked) {
-            const checkedLabel = fieldLabel.toLowerCase().replace('_', ' ');
-            setFieldValues({
-                ...fieldValues,
-                [`${checkedLabel}`]: {
-                    value: [e.target.value],
-                },
-            });
-            console.log({
-                ...fieldValues,
-                [`${checkedLabel}`]: {
-                    value: [e.target.value],
-                },
-            }, '12233456');
+            filter = addItemToValue(fieldLabel.toLowerCase().replace(' ', '_'), e.target.value);
+            onFilterChange(filter);
+        } else {
+            filter = removeItemToValue(fieldLabel.toLowerCase().replace(' ', '_'), e.target.value);
+            onFilterChange(filter);
         }
-        //setFieldValues({ ...fieldValues, [`${fieldLabel}`]: { value: [] } })
     };
+
+    const addItemToValue = (label: string, value: any) => {
+        const tempFilter = { ...fieldValues } ?? {};
+        let newValue = [...tempFilter[label] ?? []];
+        newValue.push(value);
+        tempFilter[label] = newValue;
+        setFieldValues({ ...tempFilter });
+        return { ...tempFilter };
+    }
+
+    const removeItemToValue = (label: string, value: any) => {
+        const tempFilter = { ...(fieldValues ?? {}) }
+        let newValue = [...tempFilter[label] ?? []];
+        newValue.splice(newValue.indexOf(value), 1);
+        tempFilter[label] = newValue;
+        setFieldValues({ ...tempFilter });
+        return { ...tempFilter };
+    }
 
     return (
         <>
@@ -56,7 +70,6 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
                 showMoreFilters={showMoreFilters}
                 onCloseMoreFilters={() => setShowMoreFilters(false)}
             />
-
             <Container className="pt-4 pt-lg-4">
                 <Breadcrumb>
                     <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
@@ -71,6 +84,15 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
 
             <div className="fixed-filters mb-3">
                 <Container className="">
+                    <Dropdown className="d-inline mx-2">
+                        <Dropdown.Toggle variant="outline-dark rounded btn-fullround" id="dropdown-autoclose-true">
+                            Sort By:
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu className="pre-scrollable">
+                            <Dropdown.Item>Price</Dropdown.Item>
+                            <Dropdown.Item>Latest</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
                     {(!!dropdownFields.length) && dropdownFields.map((dropdownField, dropdownFieldIndex) =>
                         <Dropdown className="d-inline mx-2" key={dropdownField.id}>
                             <Dropdown.Toggle variant="outline-dark rounded btn-fullround" id="dropdown-autoclose-true">
@@ -98,7 +120,6 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
                         <Dropdown.Toggle variant="outline-dark rounded btn-fullround" id="dropdown-autoclose-true">
                             Budget:
                         </Dropdown.Toggle>
-
                         <Dropdown.Menu className="pre-scrollable">
                             <div className="px-3 py-1">
                                 <FormControl className="mb-3" type="number" placeholder='Min price' width="auto" />

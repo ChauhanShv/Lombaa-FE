@@ -12,9 +12,15 @@ export const ProductList: React.FC = (): React.ReactElement => {
     const { categoryId } = useParams<{ categoryId: string }>();
     const [products, setProducts] = useState<Product[]>([]);
     const [productMedia, setProductMedia] = useState<ProductMedia[]>([]);
+    const [filterObject, setFilterObject] = useState<any[]>([]);
 
     const [{ data, loading, error }, execute] = useAxios({
-        url: `/category/${categoryId}/products?sortby=pric&sortorder=dsc&filter=Brand$Tvs|Type$twowheeler,fourwheeler`,
+        url: `/category/${categoryId}/products`,
+        method: 'GET',
+    });
+
+    const [{ data: filterResponse, loading: filterLoading }, filterExecute] = useAxios({
+        url: `/category/${categoryId}/products`,
         method: 'GET',
     });
 
@@ -35,9 +41,18 @@ export const ProductList: React.FC = (): React.ReactElement => {
         execute({});
     }, [categoryId]);
 
+    useEffect(() => {
+        filterExecute({});
+    }, [filterObject]);
+
+    const onFilterChange = (filterObj: any) => {
+        console.log(filterObj, 'Callback called');
+        setFilterObject(filterObj);
+    };
+
     return (
         <Container className="">
-            <ProductFilters productList={products} />
+            <ProductFilters productList={products} onFilterChange={onFilterChange} />
             <section className="pb-5">
                 <Row>
                     <Col sm={12}>

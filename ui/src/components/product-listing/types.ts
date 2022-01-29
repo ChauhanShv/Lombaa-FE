@@ -1,5 +1,6 @@
 export interface ProductFilterProps {
   productList: Product[] | [];
+  onFilterChange: (fieldObject: any) => void;
 }
 export interface Product {
   id: string;
