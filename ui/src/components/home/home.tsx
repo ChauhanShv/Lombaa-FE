@@ -17,8 +17,6 @@ const Spotsettings = {
     dots: true,
 }
 const CatCarSettings = {
-    slidesToShow: 7,
-    slidesToScroll: 1,
     responsive: [
         {
             breakpoint: 1024,
@@ -112,7 +110,7 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
                                                 <p className="w-100">
                                                     <img width="64" height="64" src={cat.icon?.url} />
                                                 </p>
-                                                <p className="w-100">Vehicles</p>
+                                                <p className="w-100">{cat.name}</p>
                                             </Link>
                                         </div>
                                     ))
