@@ -7,6 +7,7 @@ use App\Models\ProductFields;
 use App\Models\ProductMedia;
 use App\Models\Products;
 use App\Models\RejectReason;
+use App\Models\Settings;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -52,9 +53,11 @@ class ProductsController extends Controller
 
     public function approve_product(Request $request, $id)
     {
+        $stored_expiry_date = Settings::where('key_name', 'ad_expiry_days')->first();
+
         $data = [
             'approvedAt' => Carbon::now(),
-            'expiry' => Carbon::now()->addHours(72),
+            'expiry' => Carbon::now()->addHours($stored_expiry_date->value * 24),
             'rejectedAt' => null,
             'rejectReason' => null,
         ];

@@ -9,18 +9,13 @@ class SettingsController extends Controller
 {
     public function settings()
     {
-
         $setting = Settings::get();
 
-        // dd($settings_data);
         return view('settings.list', ['setting' => $setting]);
     }
 
     public function settings_post(Request $request)
     {
-
-        // dd($request->$setting->key_name);
-
         $settings = Settings::get();
 
         foreach ($settings as $setting) {
