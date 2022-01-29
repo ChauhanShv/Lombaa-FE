@@ -35,6 +35,10 @@ Field.init(
                 values: ['text', "textArea", "dropdown", "checkbox", "switch", 'tagView', 'email', 'date', 'price', 'title', 'description'],
             }),
             allowNull: true
+        },
+        tag: {
+            type: DataTypes.STRING(255),
+            allowNull: true,
         }
     },
     {
