@@ -1,5 +1,6 @@
 version: '3.8'
 services:
+
     nodeapi:
         build:
             context: ./node_api
@@ -10,40 +11,23 @@ services:
         env_file: 
             - ./node_api/.env
         ports:
-            - ${APP_PORT}:${APP_PORT}
+            - 3001:3001
+        depends_on:
+            - db
+        # networks:
+        #     - lombaanet
 
     laraveladmin:
         build:
-            args:
-                user: lombaa
-                uid: 1000
             context: ./laravel_admin
             dockerfile: Dockerfile
         image: laravel_admin
         container_name: lombaa-laravel-admin
         restart: unless-stopped
-        env_file: 
-            - ./laravel_admin/.env
-        networks:
-            - lombaanet
-
-    db:
-        image: mysql:8
-        container_name: lombaa-db
-        env_file:
-            - ./laravel_admin/.env
-        restart: unless-stopped
-        environment:
-            MYSQL_DATABASE: ${DB_DATABASE}
-            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-            MYSQL_PASSWORD: ${DB_PASSWORD}
-            MYSQL_USER: ${DB_USERNAME}
-            SERVICE_TAGS: dev
-            SERVICE_NAME: mysql
         volumes:
-            - ./dbdata:/var/lib/mysql
-        networks:
-            - lombaanet
+            - ./laravel_admin/:/app/laravel_admin
+        # networks:
+        #     - lombaanet
 
     nginx:
         image: nginx:1.17-alpine
@@ -54,8 +38,8 @@ services:
         volumes:
             - ./laravel_admin:/app/laravel_admin
             - ./docker-compose/nginx:/etc/nginx/conf.d
-        networks:
-            - lombaanet
+    #     networks:
+    #         - lombaanet
 
     phpmyadmin:
         image: phpmyadmin
@@ -65,6 +49,24 @@ services:
             - 9000:80
         environment:
             - PMA_ARBITRARY=1
+
+    db:
+        image: mysql:8
+        platform: linux/x86_64
+        container_name: lombaa-db
+        command: --default-authentication-plugin=mysql_native_password
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: lombaa_dev01
+            MYSQL_ROOT_PASSWORD: 123456
+            MYSQL_PASSWORD: 123456
+            MYSQL_USER: lombaa_dev01
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        volumes:
+            - ./dbdata:/var/lib/mysql
+        # networks:
+        #     - lombaanet
 
 networks:
     lombaanet:
