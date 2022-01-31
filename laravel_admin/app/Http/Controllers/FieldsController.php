@@ -202,13 +202,13 @@ class FieldsController extends Controller
                     $i++;
                 }
 
-                return redirect()->route('field_list')->with('response', ['status' => 'success', 'message' => 'Field updated successfully']);
+                return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Field updated successfully']);
             }
 
-            return redirect()->route('field_list')->with('response', ['status' => 'success', 'message' => 'Field updated successfully']);
+            return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Field updated successfully']);
 
         } else {
-            return redirect()->route('fields')->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
+            return redirect()->back()->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
         }
     }
 
@@ -221,5 +221,17 @@ class FieldsController extends Controller
         } else {
             return redirect()->back()->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
         }
+    }
+
+    public function delete_field_icon($field_id, $icon_id)
+    {
+        $deleted = Files::where('id', $icon_id)->delete();
+
+        $data = ['iconId' => null];
+
+        Fields::where('id', $field_id)->update($data);
+
+        return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Icon deleted successfully']);
+
     }
 }

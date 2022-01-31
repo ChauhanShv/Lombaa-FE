@@ -62,6 +62,11 @@
                     <input type="file" name="icon" style="width: 40%" class="span11" value="" />
                   </div>
                   <button type="button" id="imageButton">Change Icon</button>
+                  @if( $value->iconId !== null)
+                  <a href="{{ route('delete_value_icon', ['value_id' => $value->id, 'icon_id' => $value->icon->id]) }}">
+                    <button type="button" id="" onclick="return confirm('Do you want to delete icon?');">Delete Icon</button>
+                  </a>
+                  @endif
                   @error('icon')
                     <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                   @enderror

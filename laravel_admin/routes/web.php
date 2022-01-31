@@ -69,6 +69,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/fields/edit/{label}/{value}/{id}/updateicon', [FieldsController::class, 'update_icon'])->name('update_icon');
     Route::post('/fields/edit/{label}/{value}/{id}/updateicon', [FieldsController::class, 'update_icon_post'])->name('update_icon_post');
     Route::get('/fields/edit/values/delete/{id}', [FieldsController::class, 'delete_value'])->name('delete_value');
+    Route::get('/fields/edit/{field_id}/icon/delete/{icon_id}', [FieldsController::class, 'delete_field_icon'])->name('delete_field_icon');
 
     Route::get('/values', [ValuesController::class, 'values'])->name('values');
     Route::get('/values/add', [ValuesController::class, 'values_add'])->name('values_add');
@@ -76,6 +77,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/values/update/{id}', [ValuesController::class, 'values_update'])->name('values_update');
     Route::post('/values/update/{id}', [ValuesController::class, 'values_update']);
     Route::get('/values/delete/{id}', [ValuesController::class, 'delete_value'])->name('delete_value');
+    Route::get('/values/update/{value_id}/icon/delete/{icon_id}', [ValuesController::class, 'delete_value_icon'])->name('delete_value_icon');
 
     Route::get('/products/reject_reason', [RejectReasonController::class, 'reject_reason_list'])->name('reject_reason_list');
     Route::post('/products/reject_reason/add', [RejectReasonController::class, 'reject_reason_add'])->name('reject_reason_add');
