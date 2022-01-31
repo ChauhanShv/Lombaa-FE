@@ -18,6 +18,8 @@ const Category = require("../category/category.model")
 const viewedProduct = require("../viewed_product/viewed.product.model")
 const Sequelize = require('sequelize')
 const RejectReason = require("../reject_reason/reject_reason.model")
+const Op = require('sequelize').Op
+
 
 class productController extends BaseController {
   constructor(...args) {
@@ -132,7 +134,6 @@ class productController extends BaseController {
 
   findById = async (req, res, next) => {
     try {
-      const Op = require('Sequelize').Op
       const givenId = req.params.id;
       const userId = req.user?.id;
       const singleProduct = await Product.findOne({

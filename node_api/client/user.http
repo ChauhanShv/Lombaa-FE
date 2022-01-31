@@ -25,7 +25,7 @@ POST {{baseUrl}}/auth HTTP/1.1
 content-type: application/json
 
 {
-    "email": "vivek@datortech.com",
+    "email": "uday@datortech.com",
     "password": "123456"
 }
 
@@ -192,7 +192,7 @@ x-app-version : 1.0.0
 x-client-platform : Android
 
 {
-    "businessName": "MS Soft",
+    "businessName": "MS S",
     "yearOfEstablishment" : 2004,
     "aboutBusiness" : "Software business",
     "accountType": "business",
