@@ -1,13 +1,11 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import { Breadcrumbs } from '@mui/material';
 import { FaShare, FaHeart, FaImages } from 'react-icons/fa';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import './product-detail.css';
 import { ProductDetailImageSliderProps, ProductMedia } from './types';
-import { Link } from 'react-router-dom';
 
 const AdSpotsettings = {
     dots: true,
@@ -19,26 +17,11 @@ const AdSpotsettings = {
 
 export const ProductDetailImageSlider: React.FC<ProductDetailImageSliderProps> = ({
     productMedia,
-    productCategory,
-    productName,
 }: ProductDetailImageSliderProps): React.ReactElement => {
 
     return (
         <>
             <Container>
-                <Row className="mb-3">
-                    <Breadcrumbs separator=">" aria-label="breadcrumb">
-                        <Link key="1" color="inherit" to="/">
-                            Home
-                        </Link>
-                        <Link key="2" color="inherit" to={`/product-listing/${productCategory.id}`}>
-                            {productCategory.name}
-                        </Link>
-                        <Link key="3" color="inherit" to="#">
-                            {productName}
-                        </Link>
-                    </Breadcrumbs>
-                </Row>
                 <Row className="mt-auto">
                     <Col lg={12} sm={12} className="position-relative">
                         <Slider className="ad-slider" {...AdSpotsettings}>

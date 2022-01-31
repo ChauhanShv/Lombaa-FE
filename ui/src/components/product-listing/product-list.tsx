@@ -76,7 +76,7 @@ export const ProductList: React.FC = (): React.ReactElement => {
                         <Row className="post-list">
                             {loading ? (
                                 <Loader show={loading} />
-                            ) : !!products.length ? (
+                            ) : !products.length ? (
                                 <div className='text-center'>
                                     <img className="w-50" src='/images/placeholder-image.jpg' />
                                     <p className="text-muted mt-4">No products available to show</p>
