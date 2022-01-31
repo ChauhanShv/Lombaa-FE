@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Form, FloatingLabel } from 'react-bootstrap';
 import { useFormContext } from 'react-hook-form';
 import { getErrorClassName } from '../../utils';
-import { Categories, SubCategories, Fields } from '.';
+import { Category, SubCategory } from '../../types';
 
 interface CategoryProps {
-    categories: Categories[],
+    categories: Category[],
     onSubCategorySelected: (subCat: string) => void,
 };
 
@@ -14,13 +14,13 @@ export const CategoryDropDown: React.FC<CategoryProps> = ({
     onSubCategorySelected
 }: CategoryProps): React.ReactElement => {
     const { register, formState: { errors } } = useFormContext();
-    const [subCategories, setSubCategories] = React.useState<SubCategories[]>([]);
+    const [subCategories, setSubCategories] = React.useState<SubCategory[]>([]);
 
     const handleCategoryChange = (e: React.FormEvent<HTMLSelectElement>) => {
         // @ts-ignore
         const { value } = e.target;
-        let newSubCat: SubCategories[] = [];
-        newSubCat = categories.filter((cat: any) => cat.id === value)[0]?.subCategories || [];
+        let newSubCat: SubCategory[] = [];
+        newSubCat = categories.filter((cat: Category) => cat.id === value)[0]?.subCategories || [];
         setSubCategories(newSubCat);
         onSubCategorySelected("");
     }
@@ -54,7 +54,7 @@ export const CategoryDropDown: React.FC<CategoryProps> = ({
                     onChange={handleCategoryChange}
                 >
                     <option value="">Select Category</option>
-                    {categories.map((category: any) =>
+                    {categories.map((category: Category) =>
                         <option key={category?.id} value={category?.id}>
                             {category?.name}
                         </option>
@@ -71,7 +71,7 @@ export const CategoryDropDown: React.FC<CategoryProps> = ({
                         onChange={handleSubCategoryChange}
                     >
                         <option value="">Select Sub-Category</option>
-                        {subCategories?.map((category: any) =>
+                        {subCategories?.map((category: SubCategory) =>
                             <option key={category?.id} value={category?.id}>
                                 {category?.name}
                             </option>

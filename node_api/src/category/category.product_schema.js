@@ -14,19 +14,27 @@ module.exports = {
         },
     },
     lat: {
-        notEmpty: {
-            errorMessage: "Latitude is required"
+        optional: {
+            options: { nullable: true },
         },
         in: ['query'],
         isFloat: true,
         toFloat: true
     },
     lng: {
-        notEmpty: {
-            errorMessage: "Longitude is required"
+        optional: {
+            options: { nullable: true },
         },
         in: ['query'],
         isFloat: true,
         toFloat: true
+    },
+    radius: {
+        optional: {
+            options: { nullable: true },
+        },
+        in: ['query'],
+        isInt: true,
+        toInt: true
     },
 }

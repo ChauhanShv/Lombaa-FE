@@ -47,11 +47,21 @@ add_button {
             </div>
 
             <div class="control-group">
+              <label class="control-label">Field tag :</label>
+              <div class="controls">
+                <input type="text" name="tag" value="{{ old('tag')}}" style="width: 40%" class="span11"  />
+                @error('tag')
+                  <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                @enderror
+              </div>
+            </div>
+
+            <div class="control-group">
                 <label class="control-label">Field Type:</label>
                 <div class="controls">
                     <select id='' name="fieldtype">
-                      @foreach($fieldtypes as $field_type)
-                        <option value="{{ $field_type }}">{{ $field_type }}</option>
+                      @foreach($fieldtypes as $key => $field_type)
+                        <option value="{{ $key }}">{{ $field_type }}</option>
                       @endforeach
                   </select>
                 @error('fieldtype')

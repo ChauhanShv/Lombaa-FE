@@ -34,11 +34,11 @@ newAxios.interceptors.response.use(
     (response) => response,
     async (error) => {
         const config = error.config;
-        if (error.response.status === 401 && refreshTokenRetry > 0) {
+        if (error?.response?.status === 401 && refreshTokenRetry > 0) {
             // refreshTokenRetry--;
             // localStorage.setItem("token", await refreshAccessToken());
             // return axios(config);
-            window.location.href = '/login';
+            // window.location.href = '/login';
         }
         return Promise.reject(error);
     }

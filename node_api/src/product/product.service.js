@@ -13,6 +13,8 @@ const Sequelize = require("sequelize");
 const City = require("../city/city.model");
 const Country = require("../country/country.model");
 const Region = require("../region/region.model");
+const sequelize = require("../modules/sequelize/sequelize.service");
+
 class ProductService {
   constructor() {
     this.userService = new UserService()
@@ -118,12 +120,27 @@ class ProductService {
     if (userId) {
       whereCondition.userId = { [Op.not]: userId }
     }
-    console.log(whereCondition, 'guwfytafgyfaeytfgjhafyg')
+
+    let precisenessCondition;
+    if (lat && lng) {
+      precisenessCondition = {
+        where:
+          sequelize.where(sequelize.fn('ST_Distance_Sphere', sequelize.literal('coordinate'), sequelize.literal(`ST_GeomFromText('POINT(${lng} ${lat})')`)), { [Op.lte]: radius })
+      }
+    }
+
     let products = await Product.findAll({
       where: whereCondition,
       include: [
         { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
-        { model: Location.unscoped(), as: "location", include: [{ model: City, as: 'city' }, { model: Country, as: 'country' }, { model: Region, as: 'region' }] },
+        {
+          model: Location.unscoped(), required: true, as: "location", include: [
+            {
+              model: City, as: 'city', where: precisenessCondition?.where ?? true
+            },
+            { model: Country, as: 'country' },
+            { model: Region, as: 'region' }]
+        },
         { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
         { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] }
       ]
@@ -224,6 +241,7 @@ class ProductService {
 
   async randomProducts() {
     let randomProducts = await Product.findAll({
+      where: { approvedAt: { [Op.not]: null }, expiry: { [Op.gt]: moment() } },
       order: Sequelize.literal('rand()'), limit: 20, include: [
         { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
         { model: Location, as: "location" },

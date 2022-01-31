@@ -1,14 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import moment from 'moment';
-import { Container, Row, Col, Button } from 'react-bootstrap';
-import { FaAsterisk, FaHandshake, FaMapMarkerAlt } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import { Container, Row, Col, Button, ListGroup, Spinner } from 'react-bootstrap';
+import { FaAsterisk, FaHandshake, FaMapMarkerAlt, FaEdit, FaCheckCircle, FaTrashAlt } from 'react-icons/fa';
 import { SellerDetailCard } from '.';
 import { ProductFields, ProductDetailDescriptionProps, FieldValue } from './types';
+import { useAxios } from '../../services';
 import './product-detail.css';
 
 export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> = ({
     productDetail
 }: ProductDetailDescriptionProps): React.ReactElement => {
+    const [isMarkSolded, setIsMarkSolded] = useState<boolean>(false);
+    const [{ data, loading }, executeSoldProduct] = useAxios({
+        url: `/product/${productDetail.id}`,
+        method: 'POST',
+    });
+
+    const handleMarkSolded = () => {
+        const confirmMarkSold = confirm('Are you sure you want to mark the product as sold !');
+        if (confirmMarkSold) {
+            executeSoldProduct({});
+            data?.success ? setIsMarkSolded(true) : null;
+        }
+    };
+
     return (
         <Container>
             <Row>
@@ -45,16 +61,16 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                             <p>700</p>
                         </Col>
                         {productDetail.productFields?.map((productField: ProductFields) =>
-                            <>
+                            <Col className='col-12 mb-2' key={productField.id}>
                                 {!['title', 'description', 'price'].includes(productField.field.fieldType) && (
-                                    <Col className='col-12 mb-2'>
+                                    <>
                                         <p className="text-muted m-0">{productField.field.label}</p>
                                         {productField.field.values.map((value: FieldValue) =>
-                                            <p>{value.value}</p>
+                                            <p key={value.id}>{value.value}</p>
                                         )}
-                                    </Col>
+                                    </>
                                 )}
-                            </>
+                            </Col>
                         )}
 
                         <Col className="col-12 mb-2">
@@ -76,7 +92,49 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                         </Col>
                     </Row>
                 </Col>
-                <Col lg={4} sm={12} className="d-flex">
+                <Col lg={4} sm={12} className="d-flex flex-wrap flex-column">
+                    <div className="p-4 w-100">
+                        <Link to='/' className="p-0 mb-3 usermeta d-block">
+                            <img
+                                className="rounded-circle me-2"
+                                src={productDetail?.user?.profilePicture?.url}
+                                width="30"
+                                height="30"
+                            />
+                            {productDetail?.user?.name}
+                        </Link>
+                        {loading ? <Spinner animation="border" variant='danger' /> : (isMarkSolded || productDetail.soldAt) ? (
+                            <div className="bg-danger p-4 rounded">
+                                <h4 className="text-white">
+                                    This product is out of stock
+                                </h4>
+                            </div>
+                        ) : (
+                            <>
+                                <Button variant="btn btn-success" className="p-2 me-lg-2 mb-3 w-100">
+                                    No Chats yet - Promote
+                                </Button>
+                                <ListGroup className="product-auth">
+                                    <ListGroup.Item className="text-gray" action>
+                                        <FaEdit className="me-2" />
+                                        Edit Listing
+                                    </ListGroup.Item>
+                                    <ListGroup.Item className="text-gray" action>
+                                        <FaCheckCircle className="me-2" />
+                                        Mark as Reserved
+                                    </ListGroup.Item>
+                                    <ListGroup.Item className="text-gray" onClick={handleMarkSolded} action>
+                                        <FaHandshake className="me-2" />
+                                        Mark as Sold
+                                    </ListGroup.Item>
+                                    <ListGroup.Item className="text-danger" action>
+                                        <FaTrashAlt className="me-2" />
+                                        Delete
+                                    </ListGroup.Item>
+                                </ListGroup>
+                            </>
+                        )}
+                    </div>
                     <div className="p-4">
                         <h3>Buy and sell quickly, safely and locally!</h3>
                         <p>Find just about anything using the app on your mobile.</p>

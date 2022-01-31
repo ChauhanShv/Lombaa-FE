@@ -1,6 +1,5 @@
-export type KeyValuePair = {
-    [key: string]: any;
-}
+import { KeyValuePair } from '../types';
+
 export type Action = {
     type: string;
     payload?: KeyValuePair;
@@ -12,7 +11,9 @@ export enum ActionTypes {
     LOGOUT = 'LOGOUT',
     APP_READY = 'APP_READY',
     UPDATE_PROFILE = 'UPDATE_PROFILE',
-};  
+    CATEGORIES = 'CATEGORIES',
+    SINGLECATEGORY = 'SINGLECATEGORY',
+};
 export type AppContextProviderProps = {
     children: React.ReactNode
 }
@@ -31,5 +32,6 @@ export type State = {
     session: Session;
     user: User;
     app: App;
+    category: [];
 };
 

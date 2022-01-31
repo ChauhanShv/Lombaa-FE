@@ -3,6 +3,8 @@ export interface ProductDetailProps {
 }
 export interface ProductDetailImageSliderProps {
   productMedia: ProductMedia[];
+  productCategory: ProductDetailCategory;
+  productName?: string;
 }
 export interface ProductDetailDescriptionProps {
   productDetail: ProductDetail;
@@ -112,4 +114,7 @@ export interface User {
   name: string;
   profilePicture: ProductMediaFile;
   profilePictureId: string;
+  businessName?: string
+  profileVerificationScore?: number;
+  memberSince?: string;
 }

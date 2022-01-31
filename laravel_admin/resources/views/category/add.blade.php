@@ -87,7 +87,7 @@
                         @endforeach
                     </select>
                     @error('product')
-                        <div class="alert alert-danger ">{{ $message }}</div>
+                        <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                     @enderror
                 </div>
             </div>
@@ -97,11 +97,11 @@
               <div class="controls">
                 <select multiple name="fields[]" size="3" >
                     @foreach($fields as $field)
-                      <option value="{{$field->id}}">{{ $field->label}}</option>
+                      <option value="{{$field->id}}">{{ $field->label}} ({{ $field->tag ?? '' }})</option>
                     @endforeach
                 </select>
                 @error('fields')
-                    <div class="alert alert-danger ">{{ $message }}</div>
+                    <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                 @enderror
              </div>
             </div>

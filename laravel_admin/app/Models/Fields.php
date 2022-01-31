@@ -31,6 +31,7 @@ class Fields extends Model
     protected $fillable = [
         'id',
         'label',
+        'tag',
         'isRequired',
         'isActive',
         'dataTypes',

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Container, Row, Col, Breadcrumb } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
+import { Breadcrumbs, Link } from '@mui/material';
 import { FaShare, FaHeart, FaImages } from 'react-icons/fa';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -16,20 +17,26 @@ const AdSpotsettings = {
 }
 
 export const ProductDetailImageSlider: React.FC<ProductDetailImageSliderProps> = ({
-    productMedia
+    productMedia,
+    productCategory,
+    productName,
 }: ProductDetailImageSliderProps): React.ReactElement => {
 
     return (
         <>
             <Container>
-                <Row>
-                    <Breadcrumb>
-                        <Breadcrumb.Item href="#">Home</Breadcrumb.Item>
-                        <Breadcrumb.Item href="#">
-                            Library
-                        </Breadcrumb.Item>
-                        <Breadcrumb.Item active>Data</Breadcrumb.Item>
-                    </Breadcrumb>
+                <Row className="mb-3">
+                    <Breadcrumbs separator=">" aria-label="breadcrumb">
+                        <Link underline="hover" key="1" color="inherit" href="/">
+                            Home
+                        </Link>
+                        <Link underline="hover" key="2" color="inherit" href={`/product-listing/${productCategory.id}`}>
+                            {productCategory.name}
+                        </Link>
+                        <Link underline="hover" key="3" color="inherit" href="#">
+                            {productName}
+                        </Link>
+                    </Breadcrumbs>
                 </Row>
                 <Row className="mt-auto">
                     <Col lg={12} sm={12} className="position-relative">

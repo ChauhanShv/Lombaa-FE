@@ -1,23 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useAxios } from '../../services';
+import React from 'react';
 import { Loader } from '../loader';
-import { CreatePost, Categories } from '.';
+import { useAppContext } from '../../contexts';
+import { CreatePost } from '.';
+import { Category } from '../../types';
 
 export const CreatePostContainer: React.FC = (): React.ReactElement => {
-    const [categories, setCategories] = useState<Categories[]>([]);
-    const [{ data, loading }, execute] = useAxios({
-        url: '/category',
-        method: 'GET',
-    });
+    const { state, dispatch } = useAppContext();
+    const categories: Category[] = state?.category;
 
-    useEffect(() => {
-        execute();
-    }, []);
-    useEffect(() => {
-        if (data?.code === 200) {
-            setCategories(data.response);
-        }
-    }, [data]);
-
-    return loading ? <Loader show={loading} /> : <CreatePost categories={categories} />;
+    return !categories ? <Loader show={true} /> : <CreatePost categories={categories} />;
 };

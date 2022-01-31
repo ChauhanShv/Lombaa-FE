@@ -26,7 +26,16 @@
               <div class="controls">
                 <input type="text" name="label" value="{{ old('label', $fields->label) }}" style="width: 40%" class="span11"  />
                 @error('label')
-                <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                  <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                @enderror
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label">Field tag :</label>
+              <div class="controls">
+                <input type="text" name="tag" value="{{ old('tag', $fields->tag ?? '') }}" style="width: 40%" class="span11"  />
+                @error('tag')
+                  <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
                 @enderror
               </div>
             </div>
@@ -37,9 +46,9 @@
                   @if ($fields->fieldType !== null)
                     <option value="{{ $fields->fieldType }}" selected>{{ $fields->fieldType }}</option>
                   @endif
-                    @foreach($field_types as $field_type)
+                    @foreach($field_types as $key => $field_type)
                       @if($field_type !== $fields->fieldType)
-                        <option value="{{ $field_type }}">{{ $field_type }}</option>
+                        <option value="{{ $key }}">{{ $field_type }}</option>
                       @endif
                     @endforeach
                 </select>
