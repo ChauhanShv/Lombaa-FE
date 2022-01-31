@@ -114,7 +114,7 @@ class ProductService {
     return products
   }
 
-  async getproductByCategoryId(categoryId, sortby, sortorder, userId, filter, search, lat, lng, radius) {
+  async getproductByCategoryId(categoryId, sortby, sortorder, userId, filter, search, lat, lng, radius, offset, limit) {
     if (!categoryId) return [];
     let whereCondition = { categoryId: categoryId, approvedAt: { [Op.not]: null }, expiry: { [Op.gt]: moment() } }
     if (userId) {
@@ -170,11 +170,13 @@ class ProductService {
       if (sortby === 'posted_at' && sortorder === 'desc') {
         products.sort(function (x, y) {
           let a = new Date(x.postedAt)
-          b = new Date(y.postedAt);
+          let b = new Date(y.postedAt);
           return b - a;
         });
       }
     }
+
+    products = products.slice(offset, limit)
     if (filter) {
 
       const filterText = filter
@@ -207,6 +209,9 @@ class ProductService {
     if (userId) {
       products = this.mapUserFavorite(products, userId)
     }
+    products = products.map(product => {
+      return product.id
+    })
     return products
 
   }
@@ -263,6 +268,9 @@ class ProductService {
     products = this.fieldsMapping(products)
     products = products.filter(product => {
       return product?.title?.includes(search) || product?.description?.includes(search)
+    })
+    products = products.map(product => {
+      return product.category
     })
     return products
 

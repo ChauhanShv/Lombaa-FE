@@ -181,7 +181,7 @@ class LocationController extends BaseController {
 
       const regions = await Region.findAll({
         include: [
-          { model: Country, as: "country", where: { code: countryCode }, attributes: [] },
+          { model: Country, as: "country", where: { code: countryCode } },
           { model: City, as: "cities" }
         ],
       });
