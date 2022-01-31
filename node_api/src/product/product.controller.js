@@ -18,7 +18,6 @@ const Category = require("../category/category.model")
 const viewedProduct = require("../viewed_product/viewed.product.model")
 const { Op } = require("sequelize");
 const RejectReason = require("../reject_reason/reject_reason.model")
-const Op = require('sequelize').Op
 
 
 class productController extends BaseController {

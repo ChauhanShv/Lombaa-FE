@@ -7,7 +7,7 @@ x-client-platform : Android
 {
     "email": "vivek@datortech.com",
     "password": "123456",
-    "name": "Gates",
+    "name": "Danny",
     "phoneNumber": "7083769223",
     "phoneCode": "91",
     "accountType": "business",
@@ -25,7 +25,7 @@ POST {{baseUrl}}/auth HTTP/1.1
 content-type: application/json
 
 {
-    "email": "uday@datortech.com",
+    "email": "vivek@datortech.com",
     "password": "123456"
 }
 
@@ -37,7 +37,6 @@ content-type: application/json
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2I5OTg3Zi03NmZlLTQzOGUtOTQ2MC05ZmU1YjVmNWI0ZGMiLCJ0eXBlIjoicmVmcmVzaF90b2tlbiIsImlhdCI6MTY0MDYyNTM4NSwiZXhwIjoxNjQzMjE3Mzg1fQ.5SIZoD61CzMrrcEC59BZ3sOAlQSNlEOLgseJj8kqtzI"
 }
-
 ###
 
 POST {{baseUrl}}/auth/google HTTP/1.1
