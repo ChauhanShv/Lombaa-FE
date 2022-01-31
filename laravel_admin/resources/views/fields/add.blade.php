@@ -15,7 +15,6 @@ add_button {
 }
 </style>
 
-
 <div class="row-fluid">
   <div class="span12">
     <div class="widget-box">

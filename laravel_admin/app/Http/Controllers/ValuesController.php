@@ -136,7 +136,8 @@ class ValuesController extends Controller
 
         } else {
             $fields = Fields::get();
-            $value = Values::with('field')->where('id', $id)->first();
+            $value = Values::with('field', 'icon')->where('id', $id)->first();
+
             return view('value.update', ['fields' => $fields, 'value' => $value]);
         }
     }
