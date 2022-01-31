@@ -13,13 +13,15 @@ const getPrimaryMedia = (media: ProductMedia[]): string =>
 
 export const ProductList: React.FC = (): React.ReactElement => {
     const query = useQuery();
-    const lat = query.get("lat");
-    const lng = query.get("lng");
     const { categoryId } = useParams<{ categoryId: string }>();
     const [products, setProducts] = useState<Product[]>([]);
+    const [currentLocation, setCurrentLocation] = useState<any>({
+        lat: query.get('lat'),
+        lng: query.get('lng'),
+    });
 
     const [{ data, loading }, refetch] = useAxios({
-        url: `/category/${categoryId}/products?lat=${lat}&lng=${lng}`,
+        url: `/category/${categoryId}/products`,
         method: 'GET',
     }, { manual: false });
 
@@ -29,11 +31,38 @@ export const ProductList: React.FC = (): React.ReactElement => {
         }
     }, [data]);
 
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition((position) => {
+            setCurrentLocation({
+                lat: position.coords.latitude,
+                lng: position.coords.longitude,
+            });
+            navigator.permissions.query({
+                name: 'geolocation',
+            }).then((result) => {
+                if (result.state == 'granted') {
+                    refetch({
+                        url: `/category/${categoryId}/products?lat=${currentLocation.lat}&lng=${currentLocation.lng}`
+                    })
+                }
+                result.onchange = () => {
+                    refetch({
+                        url: `/category/${categoryId}/products?lat=${currentLocation.lat}&lng=${currentLocation.lng}`
+                    })
+                }
+            });
+        }, () => {
+            setCurrentLocation({
+                lat: query.get('lat'),
+                lng: query.get('lng'),
+            })
+        });
+    }, []);
+
     const onFilterChange = (filter: string) => {
         if (filter) {
-            console.log('abhi', filter);
             refetch({
-                url: `/category/${categoryId}/products?lat=${lat}&lng=${lng}&${filter}`
+                url: `/category/${categoryId}/products?lat=${currentLocation.lat}&lng=${currentLocation.lng}&${filter}`
             });
         }
     };
@@ -47,7 +76,12 @@ export const ProductList: React.FC = (): React.ReactElement => {
                         <Row className="post-list">
                             {loading ? (
                                 <Loader show={loading} />
-                            ) : products.map((product: Product) =>
+                            ) : !!products.length ? (
+                                <div className='text-center'>
+                                    <img className="w-50" src='/images/placeholder-image.jpg' />
+                                    <p className="text-muted mt-4">No products available to show</p>
+                                </div>
+                            ) : (products.map((product: Product) =>
                                 <Col lg={3} md={6} className="mb-3" key={product?.id}>
                                     <ProductCard
                                         productId={product?.id}
@@ -63,7 +97,7 @@ export const ProductList: React.FC = (): React.ReactElement => {
                                         onFavUnfav={(fav: boolean) => { }}
                                     />
                                 </Col>
-                            )}
+                            ))}
                             {/* <Col lg={12} className="py-3 text-center">
                                 <button className="btn btn-outline-success rounded btn-fullround"> Load More</button>
                             </Col> */}

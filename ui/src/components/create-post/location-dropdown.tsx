@@ -22,7 +22,7 @@ export const LocationDropdown: React.FC<LocationSelectorProps> = ({ onCitySelect
     const { register, formState: { errors } } = useFormContext();
 
     const [{ data: regionResponse, loading: regionLoading }, regionExecute] = useAxios({
-        url: `/locations/country/${CURRENT_COUNTRY}/regions`,
+        url: `/locations/country/code/${CURRENT_COUNTRY}/regions`,
         method: 'GET'
     });
 
@@ -59,9 +59,10 @@ export const LocationDropdown: React.FC<LocationSelectorProps> = ({ onCitySelect
 
     const handleLocationChange = (event: SelectChangeEvent<HTMLSelectElement>, child: ReactNode) => {
         setLocation(event.target.value);
+        const currentRegion = regionData.find((region) => region.country.code === CURRENT_COUNTRY);
         onCitySelected({
             city: event.target.value,
-            country: CURRENT_COUNTRY,
+            country: currentRegion?.country.id,
             region: getRegionIdFromCityId(event.target.value),
         })
     };

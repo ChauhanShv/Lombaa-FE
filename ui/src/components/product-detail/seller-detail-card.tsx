@@ -9,9 +9,9 @@ export const SellerDetailCard: React.FC<SellerDetailsCardProps> = ({
     user
 }: SellerDetailsCardProps): React.ReactElement => {
 
-    const getAccountType = () => user.accountType === 'standard' ? 'Standard Account' : 'Business Account';
-    const getAccountName = () => user.accountType === 'standard' ? user?.name : user?.businessName;
-    const getLocation = () => user.location ? `${user.location.city.name}, ${user.location.region.name}` : 'Location';
+    const getAccountType = () => user?.accountType === 'standard' ? 'Standard Account' : 'Business Account';
+    const getAccountName = () => user?.accountType === 'standard' ? user?.name : user?.businessName;
+    const getLocation = () => user?.location ? `${user.location.city.name}, ${user.location.region.name}` : 'Location';
 
     return (
         <Container className="p-4">

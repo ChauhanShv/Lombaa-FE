@@ -10,7 +10,21 @@ export interface LocationSelectorProps {
   isSettingsPage: boolean;
 }
 
+export interface Country {
+  id: string;
+  name: string;
+  code: string;
+  coordinate: {
+    type: string;
+    coordinates: number[];
+  };
+  phoneCode: string;
+  currencySymbol: string;
+  currencyCode: string;
+}
+
 export interface Region {
+  country: Country;
   cities: Array<City>;
   code: string;
   coordinate?: object;

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Breadcrumb, Dropdown, Form, FormControl, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { Container, Dropdown, Form, FormControl, Button } from 'react-bootstrap';
+import { Breadcrumbs } from '@mui/material';
 import { find } from 'lodash';
 import { MoreFiltersModal } from '.';
 import { useAppContext } from '../../contexts';
@@ -16,7 +18,7 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
     const [filter, setFilter] = useState<any>({});
     const { state } = useAppContext();
     const categories: Category[] = state?.category;
-    const category: SubCategory = categories.map((cat: Category) => 
+    const category: SubCategory = categories.map((cat: Category) =>
         cat.subCategories.filter((subCat: SubCategory) => subCat.id === categoryId)[0]
     ).filter((i: any) => i)[0];
 
@@ -33,7 +35,7 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
     useEffect(() => {
         formFilterUrl()
     }, [sortBy, filter]);
-    
+
     const sortDD: KeyValuePair = {
         'sortby=postedAt&sortorder=asc': 'Oldest',
         'sortby=postedAt&sortorder=desc': 'Latest',
@@ -55,7 +57,7 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
             newValues.splice(newValues.indexOf(value), 1);
             newFilter[field] = newValues;
         }
-        setFilter({...newFilter});
+        setFilter({ ...newFilter });
     };
 
     const getFilterDD = (field: Field) => {
@@ -105,10 +107,10 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
                 onCloseMoreFilters={() => setShowMoreFilters(false)}
             />
             <Container className="pt-4 pt-lg-4">
-                <Breadcrumb>
-                    <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
-                    <Breadcrumb.Item active>{category?.name}</Breadcrumb.Item>
-                </Breadcrumb>
+                <Breadcrumbs separator=">">
+                    <Link to="/">Home</Link>
+                    <Link to="#">{category?.name}</Link>
+                </Breadcrumbs>
                 <p className="mb-2">{category?.description}</p>
             </Container>
 
@@ -122,7 +124,7 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
                         </Dropdown.Toggle>
                         {getSortDD()}
                     </Dropdown>
-                    {category.fields.map((field: Field) => getFilterDD(field) )}
+                    {category.fields.map((field: Field) => getFilterDD(field))}
                     {find(category.fields, { fieldType: 'price' }) && (
                         <Dropdown className="d-inline mx-2">
                             <Dropdown.Toggle variant="outline-dark rounded btn-fullround" id="dropdown-autoclose-true">
