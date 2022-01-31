@@ -51,10 +51,20 @@
             <div class="control-group">
               <label class="control-label">Icon:</label>
               <div class="controls">
-                <input type="file" name="icon" style="width: 40%" class="span11" value="" />
-                @error('icon')
+                  <div id="imageDisplay">
+                      @if( $value->iconId !== null)
+                        <image style="width:50px" src="{{ $value->icon->absolute_path }}">
+                      @else
+                        No Icon
+                      @endif
+                  </div>
+                  <div id="uploadField">
+                    <input type="file" name="icon" style="width: 40%" class="span11" value="" />
+                  </div>
+                  <button type="button" id="imageButton">Change Icon</button>
+                  @error('icon')
                     <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
-                @enderror
+                  @enderror
               </div>
             </div>
             @csrf
@@ -69,3 +79,4 @@
 </div>
 @endsection
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript"  src="{{ asset('assets/js/admin/update_category.js')}}"></script>
