@@ -101,7 +101,7 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
     };
 
     return category ? (
-        <>{console.log('abhi1', filter)}
+        <>
             <MoreFiltersModal
                 showMoreFilters={showMoreFilters}
                 onCloseMoreFilters={() => setShowMoreFilters(false)}

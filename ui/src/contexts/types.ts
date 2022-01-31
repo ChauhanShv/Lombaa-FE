@@ -13,6 +13,7 @@ export enum ActionTypes {
     UPDATE_PROFILE = 'UPDATE_PROFILE',
     CATEGORIES = 'CATEGORIES',
     SINGLECATEGORY = 'SINGLECATEGORY',
+    SETLATLNG = 'SETLATLNG',
 };
 export type AppContextProviderProps = {
     children: React.ReactNode
@@ -24,6 +25,8 @@ export interface App {
 export interface Session {
     isLoggedIn?: boolean;
     token?: string;
+    lat: string;
+    lng: string;
 };
 export interface User {
     metaData?: KeyValuePair;
