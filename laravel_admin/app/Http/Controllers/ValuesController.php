@@ -141,4 +141,15 @@ class ValuesController extends Controller
             return view('value.update', ['fields' => $fields, 'value' => $value]);
         }
     }
+
+    public function delete_value_icon($value_id, $icon_id)
+    {
+        $deleted = Files::where('id', $icon_id)->delete();
+
+        $data = ['iconId' => null];
+
+        Values::where('id', $value_id)->update($data);
+
+        return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Icon deleted successfully']);
+    }
 }
