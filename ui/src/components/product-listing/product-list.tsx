@@ -4,7 +4,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { ProductCard } from '../product-card';
 import { Loader } from '..';
 import { useAxios } from '../../services';
-import { useQuery } from '../../utils';
+import { useAppContext } from '../../contexts';
 import { Product, ProductMedia } from './types';
 import { ProductFilters } from '.';
 
@@ -12,18 +12,30 @@ const getPrimaryMedia = (media: ProductMedia[]): string =>
     media.filter((m: ProductMedia) => m.isPrimary)[0]?.file.url || '';
 
 export const ProductList: React.FC = (): React.ReactElement => {
-    const query = useQuery();
+    const { state } = useAppContext();
+    const { session: { lat, lng } } = state;
     const { categoryId } = useParams<{ categoryId: string }>();
     const [products, setProducts] = useState<Product[]>([]);
-    const [currentLocation, setCurrentLocation] = useState<any>({
-        lat: query.get('lat'),
-        lng: query.get('lng'),
-    });
+    
+    const getApiUrl = (): string => {
+        if (lat && lng) {
+            return `/category/${categoryId}/products?lat=${lat}&lng=${lng}`; 
+        }
+        return `/category/${categoryId}/products`;
+    };
 
     const [{ data, loading }, refetch] = useAxios({
-        url: `/category/${categoryId}/products`,
+        url: getApiUrl(),
         method: 'GET',
-    }, { manual: false });
+    });
+
+    useEffect(() => {
+        if (state.session.lat && state.session.lng) {
+            refetch({
+                url: getApiUrl(),
+            });
+        }
+    }, [state.session.lat, state.session.lng]);
 
     useEffect(() => {
         if (data?.success) {
@@ -31,38 +43,10 @@ export const ProductList: React.FC = (): React.ReactElement => {
         }
     }, [data]);
 
-    useEffect(() => {
-        navigator.geolocation.getCurrentPosition((position) => {
-            setCurrentLocation({
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-            });
-            navigator.permissions.query({
-                name: 'geolocation',
-            }).then((result) => {
-                if (result.state == 'granted') {
-                    refetch({
-                        url: `/category/${categoryId}/products?lat=${currentLocation.lat}&lng=${currentLocation.lng}`
-                    })
-                }
-                result.onchange = () => {
-                    refetch({
-                        url: `/category/${categoryId}/products?lat=${currentLocation.lat}&lng=${currentLocation.lng}`
-                    })
-                }
-            });
-        }, () => {
-            setCurrentLocation({
-                lat: query.get('lat'),
-                lng: query.get('lng'),
-            })
-        });
-    }, []);
-
     const onFilterChange = (filter: string) => {
         if (filter) {
             refetch({
-                url: `/category/${categoryId}/products?lat=${currentLocation.lat}&lng=${currentLocation.lng}&${filter}`
+                url: `${getApiUrl()}&${filter}`
             });
         }
     };

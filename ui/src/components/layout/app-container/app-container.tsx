@@ -16,7 +16,33 @@ export const AppContainer = ({ children }: AppContainerProps) => {
     const token = localStorage.getItem('token');
     const location = useLocation();
 
+    const getLocation = (): void => {
+        navigator.geolocation.getCurrentPosition((position) => {
+            dispatch({
+                type: ActionTypes.SETLATLNG,
+                payload: {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                }
+            });
+            navigator.permissions.query({
+                name: 'geolocation',
+            }).then((result) => {
+                if (result.state == 'granted') {
+                    dispatch({
+                        type: ActionTypes.SETLATLNG,
+                        payload: {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude,
+                        }
+                    });
+                }
+            });
+        });
+    };
+
     useEffect(() => {
+        getLocation();
         if (token) {
             refetch();
         } else {
