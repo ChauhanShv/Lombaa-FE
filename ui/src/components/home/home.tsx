@@ -105,7 +105,7 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
                             <Slider className="cat-slider" {...CatCarSettings}>
                                 {
                                     category.map((cat: Category) => (
-                                        <div>
+                                        <div key={cat.id}>
                                             <Link to={`/product-listing/${cat.subCategories[0].id}`} className="cat-item">
                                                 <p className="w-100">
                                                     <img width="64" height="64" src={cat.icon?.url} />

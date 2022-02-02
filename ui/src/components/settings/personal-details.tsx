@@ -44,7 +44,7 @@ const standardSchema = yup.object().shape({
 
 const businessSchema = yup.object().shape({
     businessName: yup.string().required('Please enter name of your business'),
-    yearOfEstablishment: yup.string().nullable().required('Please Enter Year of Establishment'),
+    yearOfEstablishment: yup.string().nullable().required('Year of Establishment is required'),
     tinNumber: yup.string().required('TIN number is required'),
     aboutBusiness: yup.string().required('This Field is Required')
         .min(20, 'Please Enter at least 20 characters')
@@ -306,7 +306,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                                         className={getErrorClassName('tinNumber')}
                                         {...registerBusiness('tinNumber')}
                                     />
-                                    {getErrorText('yearOfEstablishment')}
+                                    {getErrorText('tinNumber')}
                                 </FloatingLabel>
                                 <FormControl sx={{ width: '100%', marginBottom: '1rem' }}>
                                     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -320,6 +320,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                                             renderInput={(params) => <TextField {...params} helperText={null} />}
                                         />
                                     </LocalizationProvider>
+                                    {getErrorText('yearOfEstablishment')}
                                 </FormControl>
                                 <FloatingLabel label="About Business" className="mb-3">
                                     <Form.Control
