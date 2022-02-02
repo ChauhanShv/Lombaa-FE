@@ -16,17 +16,19 @@ export const ProductList: React.FC = (): React.ReactElement => {
     const { session: { lat, lng } } = state;
     const { categoryId } = useParams<{ categoryId: string }>();
     const [products, setProducts] = useState<Product[]>([]);
-    
+
     const getApiUrl = (): string => {
         if (lat && lng) {
-            return `/category/${categoryId}/products?lat=${lat}&lng=${lng}`; 
+            return `/category/${categoryId}/products?lat=${lat}&lng=${lng}`;
         }
-        return `/category/${categoryId}/products`;
+        return `/category/${categoryId}/products?`;
     };
 
     const [{ data, loading }, refetch] = useAxios({
         url: getApiUrl(),
         method: 'GET',
+    }, {
+        manual: false,
     });
 
     useEffect(() => {

@@ -18,10 +18,14 @@ import {
     FormControl,
     Dropdown
 } from 'react-bootstrap';
+import { debounce } from 'lodash';
+import { Autocomplete } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { Login, Register } from '../../modals';
 import { useAppContext, ActionTypes } from '../../../contexts';
 import { CategoryPopover, MobileNav, HeaderDropdown } from '.';
+import { useAxios } from '../../../services';
+import { SearchFieldValue } from './types';
 import './header.css';
 
 const HeaderComponent: React.FC = (): React.ReactElement => {
@@ -30,6 +34,13 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
     const { session, user } = state;
     const [loginModal, setLoginModal] = useState<boolean>(false);
     const [registerModal, setRegisterModal] = useState<boolean>(false);
+    const [searchFields, setSearchFields] = useState<SearchFieldValue[]>([]);
+    const [searchValue, setSearchValue] = useState<string | null>();
+
+    const [{ data: searchResponse, loading: searchLoading }, searchExecute] = useAxios({
+        url: `/product/category?search=${searchValue}`,
+        method: 'GET',
+    });
 
     useEffect(() => {
         const showLogin = location.pathname === '/login';
@@ -38,11 +49,25 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
         }
     }, [location, state.session.isLoggedIn]);
 
-    const handleSignOutClick = () => {
-        dispatch({
-            type: ActionTypes.LOGOUT,
-        })
+    useEffect(() => {
+        if (searchResponse?.success) {
+            setSearchFields(searchResponse?.products);
+        }
+    }, [searchResponse]);
+
+    const handleSearchInputChange = (event: any) => {
+        setSearchValue(event.target.value);
+        const executeSearchApi = debounce(() => {
+            searchExecute({
+                url: `/product/category?search=${event.target.value}`,
+            });
+        }, 1000);
+        executeSearchApi();
     }
+    const handleSearchClick = () => {
+        searchExecute({});
+    }
+
     return (
         <>
             <MobileNav />
@@ -112,13 +137,25 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                                         />
                                     </InputGroup>
                                 </Col>
-                                <Col lg={8} sm={12} className="form-group  p-1">
+                                <Col lg={8} sm={12} className="form-group p-1">
                                     <InputGroup placeholder="Type your search">
                                         <FormControl
                                             placeholder="Type your search"
                                             aria-label="Type your search"
+                                            onChange={handleSearchInputChange}
                                         />
-                                        <button className="btn btn-success">
+                                        {!!searchValue && !!searchFields.length && (
+                                            <div className="search-list-box">
+                                                <ul className="search-list">
+                                                    {searchFields.map((field: any) =>
+                                                        <Link to={`/product-listing/${field.id}`} onClick={() => setSearchValue(null)} key={field.id}>
+                                                            <li className="search-list-item">{field.name}</li>
+                                                        </Link>
+                                                    )}
+                                                </ul>
+                                            </div>
+                                        )}
+                                        <button type="button" onClick={handleSearchClick} className="btn btn-success">
                                             <FaSearch />
                                         </button>
                                     </InputGroup>
@@ -139,7 +176,23 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                     <FormControl
                         placeholder="Type your search"
                         aria-label="Type your search"
+                        onChange={handleSearchInputChange}
                     />
+                    {!!searchValue && !!searchFields.length && (
+                        <div className="search-list-box">
+                            <ul className="search-list">
+                                {searchFields.map((field: any) =>
+                                    <Link
+                                        to={`/product-listing/${field.id}`}
+                                        onClick={() => setSearchValue(null)}
+                                        key={field.id}
+                                    >
+                                        <li className="search-list-item">{field.name}</li>
+                                    </Link>
+                                )}
+                            </ul>
+                        </div>
+                    )}
                     <button className="btn btn-success margin-right-14">
                         <FaSearch />
                     </button>

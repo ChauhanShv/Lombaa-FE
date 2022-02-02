@@ -31,6 +31,12 @@
 .cat-slider .slick-prev:before, .cat-slider .slick-next:before{color:#333;}
 .cat-slider .slick-prev{left:-35px;}
 
+.search-list-box { position: absolute; margin-top: 37px; border: 1px solid lightgrey; width: 100%; background-color: white; }
+.search-list { list-style-type: none; margin-top: 1rem; padding: 0px; }
+.search-list-item { padding: 5px }
+.search-list-item:hover { background-color: lightgray; color: #000; font-weight: 600; }
+
+
 @media all and (max-width:767px) {
 .homespot-slider .slick-prev{left:15px;}
 .slick-prev:before, .slick-next:before{font-size:20px;}
