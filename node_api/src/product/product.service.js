@@ -1,3 +1,4 @@
+
 const Product = require("./product.model");
 const { Op } = require("sequelize");
 const moment = require("moment");
@@ -199,6 +200,7 @@ class ProductService {
       products = products.filter(product => {
         return !!product.productFields.find(productField => productField?.field?.fieldType === 'dropdown' && (filterObj[productField?.field?.label] ?? []).includes(productField?.value));
       });
+      let productField = await ProductField.findAll({ where: { value: filterObj[productField?.field?.label], fieldType: 'dropdown' } })
     }
 
     if (search) {
@@ -209,11 +211,7 @@ class ProductService {
     if (userId) {
       products = this.mapUserFavorite(products, userId)
     }
-    products = products.map(product => {
-      return product.id
-    })
     return products
-
   }
 
   fieldsMapping(products) {
@@ -236,7 +234,6 @@ class ProductService {
   async tickSoldProduct(givenId) {
     const data = await Product.update({ soldAt: moment() }, { where: { id: givenId } })
     return data
-
   }
 
   async randomProducts() {
