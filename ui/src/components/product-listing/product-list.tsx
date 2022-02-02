@@ -46,9 +46,13 @@ export const ProductList: React.FC = (): React.ReactElement => {
     }, [data]);
 
     const onFilterChange = (filter: string) => {
-        if (filter) {
+        if (filter && state.session.lat && state.session.lng) {
             refetch({
                 url: `${getApiUrl()}&${filter}`
+            });
+        } else {
+            refetch({
+                url: `/category/${categoryId}/products?${filter}`
             });
         }
     };

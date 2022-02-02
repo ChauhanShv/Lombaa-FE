@@ -179,20 +179,19 @@ class LocationController extends BaseController {
     try {
       const { countryCode } = req.params;
 
-      const regions = await Region.findAll({
+      let country = await Country.findOne({
+        where: { code: countryCode },
         include: [
-          { model: Country, as: "country", where: { code: countryCode } },
-          { model: City, as: "cities" }
-        ],
+          { model: Region, as: "regions", include: [{ model: City, as: "cities" }] },
+        ]
       });
-
       return super.jsonRes({
         res,
         code: 200,
         data: {
           success: true,
           message: "Retrieved all regions and cities",
-          response: regions,
+          response: country,
         },
       });
     } catch (error) {

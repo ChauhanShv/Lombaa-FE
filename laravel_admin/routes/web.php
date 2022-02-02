@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FieldsController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\LoginController;
@@ -20,6 +21,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
     Route::get('/user', [UserController::class, 'user'])->name('user');
     Route::get('/user/{id}', [UserController::class, 'info'])->name('info');
     Route::get('/user/suspend/{id}', [UserController::class, 'suspend'])->name('suspend');

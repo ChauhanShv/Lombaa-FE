@@ -19,11 +19,12 @@ import {
     Dropdown
 } from 'react-bootstrap';
 import { debounce } from 'lodash';
-import { Autocomplete } from '@mui/material';
+import { Autocomplete, TextField } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { Login, Register } from '../../modals';
 import { useAppContext, ActionTypes } from '../../../contexts';
 import { CategoryPopover, MobileNav, HeaderDropdown } from '.';
+import { LocationSelector } from '../..';
 import { useAxios } from '../../../services';
 import { SearchFieldValue } from './types';
 import './header.css';
@@ -126,16 +127,10 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                             </svg>
                         </Link>
 
-                        <form className="form-noborder">
+                        <form>
                             <Row className="justify-content-center">
                                 <Col lg={4} sm={12} className="form-group has-icon m-0 p-1">
-                                    <InputGroup className="">
-                                        <InputGroup.Text id="basic-addon1" className="bg-white"><FaMapMarkerAlt className="text-success" /></InputGroup.Text>
-                                        <FormControl className=""
-                                            placeholder="Location"
-                                            aria-label="Location"
-                                        />
-                                    </InputGroup>
+                                    <LocationSelector onCitySelected={() => { }} />
                                 </Col>
                                 <Col lg={8} sm={12} className="form-group p-1">
                                     <InputGroup placeholder="Type your search">
@@ -148,7 +143,11 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                                             <div className="search-list-box">
                                                 <ul className="search-list">
                                                     {searchFields.map((field: any) =>
-                                                        <Link to={`/product-listing/${field.id}`} onClick={() => setSearchValue(null)} key={field.id}>
+                                                        <Link
+                                                            to={`/product-listing/${field.id}`}
+                                                            onClick={() => setSearchValue(null)}
+                                                            key={field.id}
+                                                        >
                                                             <li className="search-list-item">{field.name}</li>
                                                         </Link>
                                                     )}
@@ -181,7 +180,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                     {!!searchValue && !!searchFields.length && (
                         <div className="search-list-box">
                             <ul className="search-list">
-                                {searchFields.map((field: any) =>
+                                {searchFields.map((field: SearchFieldValue) =>
                                     <Link
                                         to={`/product-listing/${field.id}`}
                                         onClick={() => setSearchValue(null)}
@@ -203,11 +202,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                 )}
             </Navbar>
             <Navbar sticky="top" className="d-lg-none navbar navbar-expand-lg shadow bg-white px-2">
-                <InputGroup className="w-100 d-lg-none ">
-                    <InputGroup.Text id="basic-addon1" className="bg-white"><FaMapMarkerAlt className="text-success" /></InputGroup.Text>
-                    <FormControl className="" placeholder="Location" aria-label="Location" />
-                    <InputGroup.Text className="bg-white">Edit</InputGroup.Text>
-                </InputGroup>
+                <LocationSelector onCitySelected={() => { }} />
             </Navbar>
 
             {loginModal && (
