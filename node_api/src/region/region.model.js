@@ -35,6 +35,7 @@ Region.init(
   }
 );
 Region.belongsTo(Country, { as: "country" });
+Country.hasMany(Region, { as: 'regions' })
 Region.hasMany(City, { as: 'cities' });
 
 module.exports = Region;
