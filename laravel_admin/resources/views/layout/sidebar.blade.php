@@ -1,8 +1,16 @@
 <div id="sidebar"><a href="#" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
     <ul>
-        <li class="{{\Request::route()->getName() === 'home_get'? 'active': ''}}"><a href="#"><i style="color: white"
-                    class="icon icon-home"></i> <span style="color: white">Home</span></a></li>
-       {{--  <li class="submenu {{\Request::route()->getPrefix() === 'admin/user' ? 'open active': ''}}">
+        <li class="submenu {{\Request::is('dashboard') ? 'active open' : '' }}">
+            <a href="{{ route('dashboard') }}">
+                <i style="color: white" class="icon icon-home"></i> <span style="color: white">Home</span>
+            </a>
+            <ul>
+                <li class="{{\Request::is('dashboard') ? 'active' : '' }}">
+                    <a href="{{ route('dashboard') }}">Dashboard</a>
+                </li>
+            </ul>
+        </li>
+  {{--  <li class="submenu {{\Request::route()->getPrefix() === 'admin/user' ? 'open active': ''}}">
             <a href="#">
                 <i class="icon icon-group"></i><span>Users</span>
             </a>
@@ -63,16 +71,16 @@
         </li>
         <li class="submenu">
              <a href=""><i class="icon icon-film"></i> <span>News</span></a>
-            {{-- <ul>
+             <ul>
                 <li class="">
                     <a href="#">Add</a>
                 </li>
                 <li class="">
                     <a href="#">List</a>
                 </li>
-            </ul> --}}
-        </li>
-        </li>
+            </ul>
+        </li> --}}
+
         <li class="submenu {{\Request::is('user') ? 'open active' : '' }}">
             <a href="">
                 <i style="color: white" class="icon icon-user"></i> <span style="color: white" >User</span>
