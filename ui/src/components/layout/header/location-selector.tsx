@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
-import { Autocomplete, TextField } from '@mui/material';
-import { useAxios } from '../../services';
-import { LocationSelectorProps, Country, Region, City } from './types';
-import { Loader } from '..';
+import { Autocomplete, InputAdornment, TextField } from '@mui/material';
+import { FaLocationArrow } from 'react-icons/fa';
+import { useFormContext } from 'react-hook-form';
+import { useAxios } from '../../../services';
+import { LocationSelectorProps, LocationData } from './types';
+import { Loader } from '../..';
 
 export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelected }: LocationSelectorProps): React.ReactElement => {
-    const [cityData, setCityData] = React.useState<any[]>([]);
+    const [cityData, setCityData] = React.useState<LocationData[]>([]);
 
     const [{ data: locationResponse, loading }, locationExecute] = useAxios({
         url: '/locations/country/code/IN/regions',
@@ -13,7 +15,7 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
     }, { manual: false });
 
     useEffect(() => {
-        const cities: any[] = [];
+        const cities: LocationData[] = [];
         if (locationResponse?.success) {
             for (const region of locationResponse?.response?.regions) {
                 for (const city of region.cities) {
@@ -33,7 +35,7 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
 
     const handleLocationSelect = (e: any) => {
         if (cityData.length && e.target.textContent) {
-            const cityObj = cityData.find((city) => city.label === e.target.textContent);
+            const cityObj: any = cityData.find((city) => city.label === e.target.textContent);
             onCitySelected({
                 city: cityObj.cityId,
                 region: cityObj.regionId,
@@ -45,13 +47,21 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
 
     return (
         <>
-            {loading ? <Loader show={loading} /> : (<Autocomplete
-                sx={{ width: '100%' }}
-                id="location-selector"
-                options={cityData.map(city => city.label)}
-                renderInput={(params) => (<TextField {...params} label="Location" />)}
-                onChange={handleLocationSelect}
-            />)}
+            {loading ? <Loader show={loading} /> : (
+                <Autocomplete
+                    sx={{ width: '100%' }}
+                    autoComplete={true}
+                    id="location-selector"
+                    options={cityData.map(city => city.label)}
+                    renderInput={(params) => (
+                        <TextField 
+                            {...params} 
+                            label="Location"
+                        />)
+                    }
+                    onChange={handleLocationSelect}
+                />
+            )}
         </>
     );
 }

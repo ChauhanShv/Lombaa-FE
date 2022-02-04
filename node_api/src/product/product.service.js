@@ -200,7 +200,6 @@ class ProductService {
       products = products.filter(product => {
         return !!product.productFields.find(productField => productField?.field?.fieldType === 'dropdown' && (filterObj[productField?.field?.label] ?? []).includes(productField?.value));
       });
-      let productField = await ProductField.findAll({ where: { value: filterObj[productField?.field?.label], fieldType: 'dropdown' } })
     }
 
     if (search) {

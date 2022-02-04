@@ -14,12 +14,9 @@ import {
     Container,
     Navbar,
     Button,
-    InputGroup,
-    FormControl,
-    Dropdown
 } from 'react-bootstrap';
+import { MenuItem, TextField } from '@mui/material';
 import { debounce } from 'lodash';
-import { Autocomplete, TextField } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { Login, Register } from '../../modals';
 import { useAppContext, ActionTypes } from '../../../contexts';
@@ -64,9 +61,6 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
             });
         }, 1000);
         executeSearchApi();
-    }
-    const handleSearchClick = () => {
-        searchExecute({});
     }
 
     return (
@@ -127,37 +121,34 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                             </svg>
                         </Link>
 
-                        <form>
+                        <form className="header-form-width">
                             <Row className="justify-content-center">
                                 <Col lg={4} sm={12} className="form-group has-icon m-0 p-1">
                                     <LocationSelector onCitySelected={() => { }} />
                                 </Col>
                                 <Col lg={8} sm={12} className="form-group p-1">
-                                    <InputGroup placeholder="Type your search">
-                                        <FormControl
-                                            placeholder="Type your search"
-                                            aria-label="Type your search"
-                                            onChange={handleSearchInputChange}
-                                        />
-                                        {!!searchValue && !!searchFields.length && (
-                                            <div className="search-list-box">
-                                                <ul className="search-list">
-                                                    {searchFields.map((field: any) =>
-                                                        <Link
-                                                            to={`/product-listing/${field.id}`}
-                                                            onClick={() => setSearchValue(null)}
-                                                            key={field.id}
-                                                        >
-                                                            <li className="search-list-item">{field.name}</li>
-                                                        </Link>
-                                                    )}
-                                                </ul>
-                                            </div>
-                                        )}
-                                        <button type="button" onClick={handleSearchClick} className="btn btn-success">
-                                            <FaSearch />
-                                        </button>
-                                    </InputGroup>
+                                    <TextField 
+                                        label="Type your search" 
+                                        onChange={handleSearchInputChange} 
+                                        InputProps={{
+                                            endAdornment: <FaSearch />
+                                        }}
+                                    />
+                                    {!!searchValue && !!searchFields.length && (
+                                        <div className="search-list-box">
+                                            <ul className="search-list">
+                                                {searchFields.map((field: any) =>
+                                                    <Link
+                                                        to={`/product-listing/${field.id}`}
+                                                        onClick={() => setSearchValue(null)}
+                                                        key={field.id}
+                                                    >
+                                                        <MenuItem className="search-list-item">{field.name}</MenuItem>
+                                                    </Link>
+                                                )}
+                                            </ul>
+                                        </div>
+                                    )}
                                 </Col>
                             </Row>
                         </form>
@@ -171,31 +162,29 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
             </Navbar>
 
             <Navbar className="z1 d-lg-none navbar navbar-expand-lg shadow bg-white px-2">
-                <InputGroup placeholder="Type your search">
-                    <FormControl
-                        placeholder="Type your search"
-                        aria-label="Type your search"
-                        onChange={handleSearchInputChange}
-                    />
-                    {!!searchValue && !!searchFields.length && (
-                        <div className="search-list-box">
-                            <ul className="search-list">
-                                {searchFields.map((field: SearchFieldValue) =>
-                                    <Link
-                                        to={`/product-listing/${field.id}`}
-                                        onClick={() => setSearchValue(null)}
-                                        key={field.id}
-                                    >
-                                        <li className="search-list-item">{field.name}</li>
-                                    </Link>
-                                )}
-                            </ul>
-                        </div>
-                    )}
-                    <button className="btn btn-success margin-right-14">
-                        <FaSearch />
-                    </button>
-                </InputGroup>
+                <TextField
+                    sx={{ width: '100%' }}
+                    label="Type your search" 
+                    onChange={handleSearchInputChange} 
+                    InputProps={{
+                        endAdornment: <FaSearch />
+                    }}
+                />
+                {!!searchValue && !!searchFields.length && (
+                    <div className="search-list-box">
+                        <ul className="search-list">
+                            {searchFields.map((field: SearchFieldValue) =>
+                                <Link
+                                    to={`/product-listing/${field.id}`}
+                                    onClick={() => setSearchValue(null)}
+                                    key={field.id}
+                                >
+                                    <li className="search-list-item">{field.name}</li>
+                                </Link>
+                            )}
+                        </ul>
+                    </div>
+                )}
 
                 {session.isLoggedIn && (
                     <HeaderDropdown />
