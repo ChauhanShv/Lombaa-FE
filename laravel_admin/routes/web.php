@@ -7,7 +7,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\RegionController;
-use App\Http\Controllers\RejectreasonController;
+use App\Http\Controllers\RejectReasonController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ValuesController;
