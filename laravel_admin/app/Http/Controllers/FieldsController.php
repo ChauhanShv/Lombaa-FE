@@ -106,7 +106,7 @@ class FieldsController extends Controller
 
             $values = Values::where('fieldId', '=', null)->get();
 
-            return view('fields.add', ['fieldtypes' => $field_types, 'data_types' => $data_types, 'values' => $values]);
+            return view('fields.add', ['field_types' => $field_types, 'data_types' => $data_types, 'values' => $values]);
         }
     }
 
