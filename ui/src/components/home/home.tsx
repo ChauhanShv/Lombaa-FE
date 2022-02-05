@@ -17,6 +17,10 @@ const Spotsettings = {
     dots: true,
 }
 const CatCarSettings = {
+    dots: false,
+    infinite: true,
+    speed: 500,
+    slidesToScroll: 1,
     responsive: [
         {
             breakpoint: 1024,
@@ -102,9 +106,9 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
                     <h2 className="text-secondary mb-3">Explore Lombaa</h2>
                     <Row>
                         <Col className="col-10 col-md-11 mx-auto">
-                            <Slider className="cat-slider" {...CatCarSettings}>
+                            <Slider className="cat-slider" {...CatCarSettings} slidesToShow={category?.length <= 7 ? category?.length : 7}>
                                 {
-                                    category.map((cat: Category) => (
+                                    category?.map((cat: Category) => (
                                         <div key={cat.id}>
                                             <Link to={`/product-listing/${cat.subCategories[0].id}`} className="cat-item">
                                                 <p className="w-100">

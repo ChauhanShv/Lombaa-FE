@@ -1,16 +1,19 @@
 import React, { useEffect } from 'react';
 import { Autocomplete, InputAdornment, TextField } from '@mui/material';
+import { useHistory } from 'react-router-dom';
 import { FaLocationArrow } from 'react-icons/fa';
 import { useFormContext } from 'react-hook-form';
 import { useAxios } from '../../../services';
 import { LocationSelectorProps, LocationData } from './types';
 import { Loader } from '../..';
+import { CURRENT_COUNTRY } from '../../../config';
 
 export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelected }: LocationSelectorProps): React.ReactElement => {
     const [cityData, setCityData] = React.useState<LocationData[]>([]);
+    const navigate = useHistory();
 
     const [{ data: locationResponse, loading }, locationExecute] = useAxios({
-        url: '/locations/country/code/IN/regions',
+        url: `/locations/country/code/${CURRENT_COUNTRY}/regions`,
         method: 'GET',
     }, { manual: false });
 
@@ -25,7 +28,7 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
                         cityName: city.name,
                         regionName: region.name,
                         coordinate: city.coordinate.coordinates,
-                        label: `${city.name} in ${region.name}`,
+                        label: `${city.name}, ${region.name}`,
                     });
                 }
             }
@@ -42,6 +45,7 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
                 country: locationResponse?.response?.id,
                 coordinate: cityObj.coordinate,
             });
+            navigate.push('/product-listing/6c574ff2-03ef-4501-84ee-cabea11cb6e2');
         }
     }
 
