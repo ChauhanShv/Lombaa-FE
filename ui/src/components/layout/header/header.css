@@ -1,4 +1,4 @@
-html body .navbar.sticky-top{box-shadow: 0 2px 10px rgba(0,0,0,10%) !important; z-index: 10;}
+html body .navbar.sticky-top { box-shadow: 0 2px 10px rgba(0,0,0,10%) !important; z-index: 10; }
 
 .brand-nav{padding:3px 0;}
 .navbar-brand svg .white{fill:#fff;}
@@ -58,3 +58,5 @@ body{padding-bottom: 80px;}
 .btn-outline-success:hover{color:#fff !important; fill:#fff !important;}
 
 .profile-icon{ width: 1.5rem; height: 1rem; }
+
+.header-form-width { width: 600px; }

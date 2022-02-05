@@ -12,7 +12,8 @@
 .btns-over button{width:auto; padding:0 15px; font-size:14px; margin:0 5px; transform: all ease-in-out 300ms;}
 .btns-over button:hover{transform: scale(1.03);}
 .btns-over button svg {margin:0 10px 0 0;}
-.btns-over.bottom{position:absolute; top:auto;bottom:25px; right:25px; display: flex; align-items: center; }
+.btns-over.bottom { position:absolute; top:auto;bottom:25px; right:25px; display: flex; align-items: center; }
+.product-slide-image { height: calc(100vw * 0.4); object-fit: fill; }
 
 .icon-btn {
     background: #fff;

@@ -21,6 +21,7 @@ export interface Country {
   phoneCode: string;
   currencySymbol: string;
   currencyCode: string;
+  regions: Region[];
 }
 
 export interface Region {

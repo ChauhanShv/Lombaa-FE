@@ -32,7 +32,11 @@ export const ProductDetailImageSlider: React.FC<ProductDetailImageSliderProps> =
                                             <source src={media?.file?.url} type="video/mp4" />
                                         </video>
                                     ) : (
-                                        <img className="d-block w-100" src={media?.file?.url} alt="First slide" />
+                                        <img
+                                            className="d-block w-100 product-slide-image"
+                                            src={media?.file?.url}
+                                            alt="First slide"
+                                        />
                                     )}
                                 </div>
                             )}
@@ -42,7 +46,10 @@ export const ProductDetailImageSlider: React.FC<ProductDetailImageSliderProps> =
                             <button className="icon-btn btn-like" id="fav"><FaHeart /> Like</button>
                         </div>
                         <div className="btns-over bottom">
-                            <button className="icon-btn" ><FaImages />{' '}{productMedia?.length}{' Images'}</button>
+                            <button className="icon-btn" >
+                                <FaImages />
+                                {' '}{productMedia?.length}{' Images'}
+                            </button>
                         </div>
                     </Col>
                 </Row>
