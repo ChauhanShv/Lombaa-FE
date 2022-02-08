@@ -115,7 +115,7 @@ class ProductService {
     return products
   }
 
-  async getproductByCategoryId(categoryId, sortby, sortorder, userId, filter, search, lat, lng, radius, offset, limit) {
+  async getproductByCategoryId(categoryId, sortby, sortorder, userId, filter, search, lat, lng, radius, offset, limit, price) {
     if (!categoryId) return [];
     let whereCondition = { categoryId: categoryId, approvedAt: { [Op.not]: null }, expiry: { [Op.gt]: moment() } }
     if (userId) {
@@ -205,6 +205,19 @@ class ProductService {
     if (search) {
       products = products.filter(product => {
         return product?.title?.includes(search) || product?.description?.includes(search)
+      })
+    }
+    if (price) {
+      const priceText = price
+      const minMax = priceText.split(',')
+      const min = parseFloat(minMax[0])
+      const max = parseFloat(minMax[1])
+      console.log(typeof (min, max), 'ydfiwuehflaihfeedvbvds')
+
+
+      products = products.filter(product => {
+        return product?.price >= min && product?.price <= max
+
       })
     }
     if (userId) {

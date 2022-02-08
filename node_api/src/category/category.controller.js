@@ -65,10 +65,10 @@ class CategoryController extends BaseController {
 
     try {
       const catId = req.params?.id
-      const { sortby, sortorder, filter, search, lat, lng, radius = 20000, offset = 0, limit = 10 } = req.query
+      const { sortby, sortorder, filter, search, lat, lng, radius = 20000, offset = 0, limit = 10, price } = req.query
 
       const userId = req.user?.id
-      const allProducts = await this.productService?.getproductByCategoryId(catId, sortby, sortorder, userId, filter, search, lat, lng, radius, offset, limit);
+      const allProducts = await this.productService?.getproductByCategoryId(catId, sortby, sortorder, userId, filter, search, lat, lng, radius, offset, limit, price);
       const catdetail = await this.service?.getCatDetails(catId);
       return super.jsonRes({
         res,
