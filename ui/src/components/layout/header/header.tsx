@@ -127,9 +127,9 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                                     <LocationSelector onCitySelected={() => { }} />
                                 </Col>
                                 <Col lg={8} sm={12} className="form-group p-1">
-                                    <TextField 
-                                        label="Type your search" 
-                                        onChange={handleSearchInputChange} 
+                                    <TextField
+                                        label="Type your search"
+                                        onChange={handleSearchInputChange}
                                         InputProps={{
                                             endAdornment: <FaSearch />
                                         }}
@@ -137,13 +137,13 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                                     {!!searchValue && !!searchFields.length && (
                                         <div className="search-list-box">
                                             <ul className="search-list">
-                                                {searchFields.map((field: any) =>
+                                                {searchFields.map((field: SearchFieldValue, index: number) =>
                                                     <Link
-                                                        to={`/product-listing/${field.id}`}
+                                                        to={`/product-listing/${field?.id}`}
                                                         onClick={() => setSearchValue(null)}
-                                                        key={field.id}
+                                                        key={field?.id + index.toString()}
                                                     >
-                                                        <MenuItem className="search-list-item">{field.name}</MenuItem>
+                                                        <MenuItem className="search-list-item">{field?.name}</MenuItem>
                                                     </Link>
                                                 )}
                                             </ul>
@@ -164,8 +164,8 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
             <Navbar className="z1 d-lg-none navbar navbar-expand-lg shadow bg-white px-2">
                 <TextField
                     sx={{ width: '100%' }}
-                    label="Type your search" 
-                    onChange={handleSearchInputChange} 
+                    label="Type your search"
+                    onChange={handleSearchInputChange}
                     InputProps={{
                         endAdornment: <FaSearch />
                     }}
@@ -173,13 +173,13 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                 {!!searchValue && !!searchFields.length && (
                     <div className="search-list-box">
                         <ul className="search-list">
-                            {searchFields.map((field: SearchFieldValue) =>
+                            {searchFields.map((field: SearchFieldValue, index: number) =>
                                 <Link
-                                    to={`/product-listing/${field.id}`}
+                                    to={`/product-listing/${field?.id}`}
                                     onClick={() => setSearchValue(null)}
-                                    key={field.id}
+                                    key={field?.id + index.toString()}
                                 >
-                                    <li className="search-list-item">{field.name}</li>
+                                    <li className="search-list-item">{field?.name}</li>
                                 </Link>
                             )}
                         </ul>

@@ -31,6 +31,7 @@ export const ProductTabList: React.FC<ProductTabListProps> = ({
                 <ProfileProductTile
                     key={product.id}
                     productId={product.id}
+                    slug={product.slug}
                     title={product.title}
                     summary={product.rejectReason ? product.rejectReason : ""}
                     description={product.description}

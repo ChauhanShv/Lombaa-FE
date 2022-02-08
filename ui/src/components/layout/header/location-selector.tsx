@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Autocomplete, InputAdornment, TextField } from '@mui/material';
 import { FaLocationArrow } from 'react-icons/fa';
 import { useFormContext } from 'react-hook-form';
@@ -8,6 +9,7 @@ import { Loader } from '../..';
 
 export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelected }: LocationSelectorProps): React.ReactElement => {
     const [cityData, setCityData] = React.useState<LocationData[]>([]);
+    const location = useHistory();
 
     const [{ data: locationResponse, loading }, locationExecute] = useAxios({
         url: '/locations/country/code/IN/regions',
@@ -43,6 +45,7 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
                 coordinate: cityObj.coordinate,
             });
         }
+        location.push('/product-list/');
     }
 
     return (
@@ -54,8 +57,8 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
                     id="location-selector"
                     options={cityData.map(city => city.label)}
                     renderInput={(params) => (
-                        <TextField 
-                            {...params} 
+                        <TextField
+                            {...params}
                             label="Location"
                         />)
                     }

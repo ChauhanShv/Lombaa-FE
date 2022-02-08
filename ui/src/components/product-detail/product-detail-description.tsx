@@ -6,28 +6,43 @@ import { FaAsterisk, FaHandshake, FaMapMarkerAlt, FaEdit, FaCheckCircle, FaTrash
 import { SellerDetailCard } from '.';
 import { ProductFields, ProductDetailDescriptionProps, FieldValue } from './types';
 import { useAxios } from '../../services';
+import { AlertBox } from '../alert-box';
 import './product-detail.css';
 
 export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> = ({
     productDetail
 }: ProductDetailDescriptionProps): React.ReactElement => {
     const [isMarkSolded, setIsMarkSolded] = useState<boolean>(false);
+    const [showAlertBox, setShowAlertBox] = useState<boolean>(false);
     const [{ data, loading }, executeSoldProduct] = useAxios({
         url: `/product/${productDetail.id}`,
         method: 'POST',
     });
 
     const handleMarkSolded = () => {
-        const confirmMarkSold = confirm('Are you sure you want to mark the product as sold !');
-        if (confirmMarkSold) {
-            executeSoldProduct({});
-            data?.success ? setIsMarkSolded(true) : null;
-        }
+        setShowAlertBox(true);
     };
+
+    const onOkayPressedForMarkSolded = () => {
+        executeSoldProduct({});
+        data?.success ? setIsMarkSolded(true) : null;
+        setShowAlertBox(false);
+    }
+    const onClosePressed = () => {
+        setShowAlertBox(false);
+    }
 
     return (
         <Container>
             <Row>
+                {showAlertBox && (
+                    <AlertBox
+                        title={'Mark Product Solded?'}
+                        description={"You won't be able to chat with your client and sell this product anymore"}
+                        onOk={onOkayPressedForMarkSolded}
+                        onClose={onClosePressed}
+                    />
+                )}
                 <Col className="col-lg-8 col-md-11 mx-auto">
                     <h1 className="h2 text-dark mb-3">{productDetail.title}</h1>
                     <h2 className="text-success">

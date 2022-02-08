@@ -17,6 +17,9 @@ const Spotsettings = {
     dots: true,
 }
 const CatCarSettings = {
+    dots: false,
+    speed: 500,
+    slidesToScroll: 1,
     responsive: [
         {
             breakpoint: 1024,

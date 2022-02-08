@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { ProductCard } from '../product-card';
-import { Loader } from '..';
+import { ProductSkeletonLoader } from '..';
 import { useAxios } from '../../services';
 import { useAppContext } from '../../contexts';
 import { Product, ProductMedia } from './types';
@@ -65,7 +65,7 @@ export const ProductList: React.FC = (): React.ReactElement => {
                     <Col sm={12}>
                         <Row className="post-list">
                             {loading ? (
-                                <Loader show={loading} />
+                                <ProductSkeletonLoader />
                             ) : !products.length ? (
                                 <div className='text-center'>
                                     <img className="w-50" src='/images/placeholder-image.jpg' />
