@@ -25,6 +25,8 @@ const Field = require("../field/field.model")
 const ProductMedia = require("../product/product_media.model");
 const fileModel = require("../file/file.model")
 const Location = require("../location/location.model")
+const SaveSearch = require("../save_search/save.search.model")
+const SaveSearchFilter = require("../save_search_filter/save.search.filter.model")
 
 class UserController extends BaseController {
   constructor() {
@@ -590,6 +592,18 @@ class UserController extends BaseController {
     }
     catch (error) {
       return super.jsonRes({ res, code: 200, data: { success: false, message: "Failed to load products", message_detail: error?.message } })
+    }
+  }
+
+  saveSearch = async (req, res, next) => {
+    try {
+      const data = req.body
+      const userId = req.user?.id
+      const savedSearch = await this.service.savedSearch(data, userId)
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Search has been saved" } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to save search", message_detail: error?.message } })
     }
   }
 
