@@ -14,14 +14,16 @@ import {
     Container,
     Navbar,
     Button,
-    InputGroup,
-    FormControl,
-    Dropdown
 } from 'react-bootstrap';
+import { MenuItem, TextField } from '@mui/material';
+import { debounce } from 'lodash';
 import { useLocation } from 'react-router-dom';
 import { Login, Register } from '../../modals';
 import { useAppContext, ActionTypes } from '../../../contexts';
 import { CategoryPopover, MobileNav, HeaderDropdown } from '.';
+import { LocationSelector } from '../..';
+import { useAxios } from '../../../services';
+import { SearchFieldValue } from './types';
 import './header.css';
 
 const HeaderComponent: React.FC = (): React.ReactElement => {
@@ -30,6 +32,13 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
     const { session, user } = state;
     const [loginModal, setLoginModal] = useState<boolean>(false);
     const [registerModal, setRegisterModal] = useState<boolean>(false);
+    const [searchFields, setSearchFields] = useState<SearchFieldValue[]>([]);
+    const [searchValue, setSearchValue] = useState<string | null>();
+
+    const [{ data: searchResponse, loading: searchLoading }, searchExecute] = useAxios({
+        url: `/product/category?search=${searchValue}`,
+        method: 'GET',
+    });
 
     useEffect(() => {
         const showLogin = location.pathname === '/login';
@@ -38,11 +47,22 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
         }
     }, [location, state.session.isLoggedIn]);
 
-    const handleSignOutClick = () => {
-        dispatch({
-            type: ActionTypes.LOGOUT,
-        })
+    useEffect(() => {
+        if (searchResponse?.success) {
+            setSearchFields(searchResponse?.products);
+        }
+    }, [searchResponse]);
+
+    const handleSearchInputChange = (event: any) => {
+        setSearchValue(event.target.value);
+        const executeSearchApi = debounce(() => {
+            searchExecute({
+                url: `/product/category?search=${event.target.value}`,
+            });
+        }, 1000);
+        executeSearchApi();
     }
+
     return (
         <>
             <MobileNav />
@@ -101,27 +121,34 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                             </svg>
                         </Link>
 
-                        <form className="form-noborder">
+                        <form className="header-form-width">
                             <Row className="justify-content-center">
                                 <Col lg={4} sm={12} className="form-group has-icon m-0 p-1">
-                                    <InputGroup className="">
-                                        <InputGroup.Text id="basic-addon1" className="bg-white"><FaMapMarkerAlt className="text-success" /></InputGroup.Text>
-                                        <FormControl className=""
-                                            placeholder="Location"
-                                            aria-label="Location"
-                                        />
-                                    </InputGroup>
+                                    <LocationSelector onCitySelected={() => { }} />
                                 </Col>
-                                <Col lg={8} sm={12} className="form-group  p-1">
-                                    <InputGroup placeholder="Type your search">
-                                        <FormControl
-                                            placeholder="Type your search"
-                                            aria-label="Type your search"
-                                        />
-                                        <button className="btn btn-success">
-                                            <FaSearch />
-                                        </button>
-                                    </InputGroup>
+                                <Col lg={8} sm={12} className="form-group p-1">
+                                    <TextField 
+                                        label="Type your search" 
+                                        onChange={handleSearchInputChange} 
+                                        InputProps={{
+                                            endAdornment: <FaSearch />
+                                        }}
+                                    />
+                                    {!!searchValue && !!searchFields.length && (
+                                        <div className="search-list-box">
+                                            <ul className="search-list">
+                                                {searchFields.map((field: any) =>
+                                                    <Link
+                                                        to={`/product-listing/${field.id}`}
+                                                        onClick={() => setSearchValue(null)}
+                                                        key={field.id}
+                                                    >
+                                                        <MenuItem className="search-list-item">{field.name}</MenuItem>
+                                                    </Link>
+                                                )}
+                                            </ul>
+                                        </div>
+                                    )}
                                 </Col>
                             </Row>
                         </form>
@@ -135,26 +162,36 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
             </Navbar>
 
             <Navbar className="z1 d-lg-none navbar navbar-expand-lg shadow bg-white px-2">
-                <InputGroup placeholder="Type your search">
-                    <FormControl
-                        placeholder="Type your search"
-                        aria-label="Type your search"
-                    />
-                    <button className="btn btn-success margin-right-14">
-                        <FaSearch />
-                    </button>
-                </InputGroup>
+                <TextField
+                    sx={{ width: '100%' }}
+                    label="Type your search" 
+                    onChange={handleSearchInputChange} 
+                    InputProps={{
+                        endAdornment: <FaSearch />
+                    }}
+                />
+                {!!searchValue && !!searchFields.length && (
+                    <div className="search-list-box">
+                        <ul className="search-list">
+                            {searchFields.map((field: SearchFieldValue) =>
+                                <Link
+                                    to={`/product-listing/${field.id}`}
+                                    onClick={() => setSearchValue(null)}
+                                    key={field.id}
+                                >
+                                    <li className="search-list-item">{field.name}</li>
+                                </Link>
+                            )}
+                        </ul>
+                    </div>
+                )}
 
                 {session.isLoggedIn && (
                     <HeaderDropdown />
                 )}
             </Navbar>
             <Navbar sticky="top" className="d-lg-none navbar navbar-expand-lg shadow bg-white px-2">
-                <InputGroup className="w-100 d-lg-none ">
-                    <InputGroup.Text id="basic-addon1" className="bg-white"><FaMapMarkerAlt className="text-success" /></InputGroup.Text>
-                    <FormControl className="" placeholder="Location" aria-label="Location" />
-                    <InputGroup.Text className="bg-white">Edit</InputGroup.Text>
-                </InputGroup>
+                <LocationSelector onCitySelected={() => { }} />
             </Navbar>
 
             {loginModal && (

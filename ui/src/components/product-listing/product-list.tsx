@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
+import { Skeleton } from '@mui/material';
 import { ProductCard } from '../product-card';
 import { Loader } from '..';
 import { useAxios } from '../../services';
@@ -16,17 +17,19 @@ export const ProductList: React.FC = (): React.ReactElement => {
     const { session: { lat, lng } } = state;
     const { categoryId } = useParams<{ categoryId: string }>();
     const [products, setProducts] = useState<Product[]>([]);
-    
+
     const getApiUrl = (): string => {
         if (lat && lng) {
-            return `/category/${categoryId}/products?lat=${lat}&lng=${lng}`; 
+            return `/category/${categoryId}/products?lat=${lat}&lng=${lng}`;
         }
-        return `/category/${categoryId}/products`;
+        return `/category/${categoryId}/products?`;
     };
 
     const [{ data, loading }, refetch] = useAxios({
         url: getApiUrl(),
         method: 'GET',
+    }, {
+        manual: false,
     });
 
     useEffect(() => {
@@ -44,9 +47,13 @@ export const ProductList: React.FC = (): React.ReactElement => {
     }, [data]);
 
     const onFilterChange = (filter: string) => {
-        if (filter) {
+        if (filter && state.session.lat && state.session.lng) {
             refetch({
                 url: `${getApiUrl()}&${filter}`
+            });
+        } else {
+            refetch({
+                url: `/category/${categoryId}/products?${filter}`
             });
         }
     };
@@ -59,7 +66,7 @@ export const ProductList: React.FC = (): React.ReactElement => {
                     <Col sm={12}>
                         <Row className="post-list">
                             {loading ? (
-                                <Loader show={loading} />
+                                <Skeleton variant='rectangular' animation='wave' />
                             ) : !products.length ? (
                                 <div className='text-center'>
                                     <img className="w-50" src='/images/placeholder-image.jpg' />

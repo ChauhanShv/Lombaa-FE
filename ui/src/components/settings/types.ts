@@ -53,6 +53,15 @@ export interface Coordinate {
   coordinate: Array<number>;
 }
 
+export interface LocationData {
+  regionId: string;
+  cityId: string;
+  cityName: string;
+  regionName: string;
+  coordinate: string;
+  label: string;
+}
+
 export interface Country {
   id: string;
   name: string;
