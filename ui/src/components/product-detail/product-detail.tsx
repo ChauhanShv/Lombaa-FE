@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Row, Col, Container, Button } from 'react-bootstrap';
 import { Breadcrumbs } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { ProductDetailImageSlider, ProductDetailDescription } from '.';
+import { ProductDetailImageSlider, ProductDetailDescription, LookalikeProducts } from '.';
 import { ProductCard } from '../product-card';
 import { ProductDetailProps } from './types';
 
@@ -71,6 +71,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                                         isFavourite={false}
                                         onFavUnfav={(fav: boolean) => { }}
                                     />
+                                    <LookalikeProducts />
                                 </Col>
                             </Row>
                         </Col>
