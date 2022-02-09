@@ -1,7 +1,10 @@
 import { State } from ".";
 
 export const initialState: State = {
-    session: {},
+    session: {
+        lat: '',
+        lng: '',
+    },
     user: {},
     app: {
         appReady: false,

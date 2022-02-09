@@ -34,21 +34,23 @@ export const HeaderDropdown: React.FC = (): React.ReactElement => {
 
     return (
         <>
-            <img
-                id="demo-positioned-button"
-                className="rounded-circle"
-                width="36"
-                height="36"
-                src={user?.metaData?.profilePicture?.url || "/images/user-circle.svg"}
-                alt={user?.metaData?.profilePicture?.url}
-                onClick={handleDropdownClick}
-                onMouseEnter={handleDropdownClick}
-            //onMouseLeave={handleCloseDropdown}
-            /> {'  '}
-            {anchorEl ?
-                <FaChevronDown className='profile-icon' /> :
-                <FaChevronUp className='profile-icon' />
-            }
+            <div role="button" onMouseEnter={handleDropdownClick}>
+                <img
+                    id="demo-positioned-button"
+                    className="rounded-circle "
+                    width="36"
+                    height="36"
+                    src={user?.metaData?.profilePicture?.url || "/images/user-circle.svg"}
+                    alt={user?.metaData?.profilePicture?.url}
+                    onClick={handleDropdownClick}
+                    onMouseEnter={handleDropdownClick}
+                //onMouseLeave={handleCloseDropdown}
+                /> {'  '}
+                {anchorEl ?
+                    <FaChevronDown className='profile-icon' /> :
+                    <FaChevronUp className='profile-icon' />
+                }
+            </div>
             <Menu
                 anchorEl={anchorEl}
                 open={open}

@@ -136,8 +136,20 @@ class ValuesController extends Controller
 
         } else {
             $fields = Fields::get();
-            $value = Values::with('field')->where('id', $id)->first();
+            $value = Values::with('field', 'icon')->where('id', $id)->first();
+
             return view('value.update', ['fields' => $fields, 'value' => $value]);
         }
+    }
+
+    public function delete_value_icon($value_id, $icon_id)
+    {
+        $deleted = Files::where('id', $icon_id)->delete();
+
+        $data = ['iconId' => null];
+
+        Values::where('id', $value_id)->update($data);
+
+        return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Icon deleted successfully']);
     }
 }

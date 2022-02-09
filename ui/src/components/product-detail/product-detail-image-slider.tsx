@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import { Breadcrumbs, Link } from '@mui/material';
 import { FaShare, FaHeart, FaImages } from 'react-icons/fa';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -18,26 +17,11 @@ const AdSpotsettings = {
 
 export const ProductDetailImageSlider: React.FC<ProductDetailImageSliderProps> = ({
     productMedia,
-    productCategory,
-    productName,
 }: ProductDetailImageSliderProps): React.ReactElement => {
 
     return (
         <>
             <Container>
-                <Row className="mb-3">
-                    <Breadcrumbs separator=">" aria-label="breadcrumb">
-                        <Link underline="hover" key="1" color="inherit" href="/">
-                            Home
-                        </Link>
-                        <Link underline="hover" key="2" color="inherit" href={`/product-listing/${productCategory.id}`}>
-                            {productCategory.name}
-                        </Link>
-                        <Link underline="hover" key="3" color="inherit" href="#">
-                            {productName}
-                        </Link>
-                    </Breadcrumbs>
-                </Row>
                 <Row className="mt-auto">
                     <Col lg={12} sm={12} className="position-relative">
                         <Slider className="ad-slider" {...AdSpotsettings}>
@@ -48,7 +32,11 @@ export const ProductDetailImageSlider: React.FC<ProductDetailImageSliderProps> =
                                             <source src={media?.file?.url} type="video/mp4" />
                                         </video>
                                     ) : (
-                                        <img className="d-block w-100" src={media?.file?.url} alt="First slide" />
+                                        <img
+                                            className="d-block w-100 product-slide-image"
+                                            src={media?.file?.url}
+                                            alt="First slide"
+                                        />
                                     )}
                                 </div>
                             )}
@@ -58,7 +46,10 @@ export const ProductDetailImageSlider: React.FC<ProductDetailImageSliderProps> =
                             <button className="icon-btn btn-like" id="fav"><FaHeart /> Like</button>
                         </div>
                         <div className="btns-over bottom">
-                            <button className="icon-btn" ><FaImages />{' '}{productMedia?.length}{' Images'}</button>
+                            <button className="icon-btn" >
+                                <FaImages />
+                                {' '}{productMedia?.length}{' Images'}
+                            </button>
                         </div>
                     </Col>
                 </Row>

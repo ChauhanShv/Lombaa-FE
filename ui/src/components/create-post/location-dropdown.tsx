@@ -9,7 +9,7 @@ import { SelectChangeEvent, FormHelperText } from '@mui/material';
 import { useFormContext } from 'react-hook-form';
 import { useAxios } from '../../services';
 import { CURRENT_COUNTRY } from '../../config';
-import { Region, City, LocationSelectorProps } from './types';
+import { Country, Region, City, LocationSelectorProps } from './types';
 import { useAppContext } from '../../contexts';
 import './styles.scss';
 
@@ -17,12 +17,24 @@ export const LocationDropdown: React.FC<LocationSelectorProps> = ({ onCitySelect
 
     const { state } = useAppContext();
     const userData = state.user.metaData;
-    const [regionData, setRegionData] = useState<Region[]>([]);
+    const [countryData, setCountryData] = useState<Country>({
+        id: '',
+        name: '',
+        code: '',
+        coordinate: {
+            type: '',
+            coordinates: [],
+        },
+        phoneCode: '',
+        currencySymbol: '',
+        currencyCode: '',
+        regions: [],
+    });
     const [location, setLocation] = useState<any>(isSettingsPage ? userData?.location?.city?.id : '');
     const { register, formState: { errors } } = useFormContext();
 
-    const [{ data: regionResponse, loading: regionLoading }, regionExecute] = useAxios({
-        url: `/locations/country/${CURRENT_COUNTRY}/regions`,
+    const [{ data: locationResponse, loading: regionLoading }, regionExecute] = useAxios({
+        url: `/locations/country/code/${CURRENT_COUNTRY}/regions`,
         method: 'GET'
     });
 
@@ -30,10 +42,10 @@ export const LocationDropdown: React.FC<LocationSelectorProps> = ({ onCitySelect
         regionExecute({});
     }, []);
     useEffect(() => {
-        if (regionResponse?.success) {
-            setRegionData(regionResponse.response);
+        if (locationResponse?.success) {
+            setCountryData(locationResponse.response);
         }
-    }, [regionResponse]);
+    }, [locationResponse]);
 
     const getRegions = (region: Region) => {
         return (
@@ -51,7 +63,7 @@ export const LocationDropdown: React.FC<LocationSelectorProps> = ({ onCitySelect
     }
 
     const getRegionIdFromCityId = (cityId: string | HTMLSelectElement): string | undefined => {
-        const regionObject = regionData.find((region, index) =>
+        const regionObject = countryData.regions.find((region, index) =>
             region.cities.find((city: any) => city.id === cityId)
         );
         return regionObject?.id;
@@ -61,7 +73,7 @@ export const LocationDropdown: React.FC<LocationSelectorProps> = ({ onCitySelect
         setLocation(event.target.value);
         onCitySelected({
             city: event.target.value,
-            country: CURRENT_COUNTRY,
+            country: countryData.id,
             region: getRegionIdFromCityId(event.target.value),
         })
     };
@@ -71,7 +83,7 @@ export const LocationDropdown: React.FC<LocationSelectorProps> = ({ onCitySelect
             <FormControl
                 sx={{ width: '100%', marginBottom: '1rem' }}
                 error={!!errors.location}>
-                {regionLoading || !regionData ? <Spinner animation={'grow'} /> : (
+                {regionLoading || !countryData.regions ? <Spinner animation={'grow'} /> : (
                     <>
                         <InputLabel id="location-select">Select Location</InputLabel>
                         <Select
@@ -84,9 +96,9 @@ export const LocationDropdown: React.FC<LocationSelectorProps> = ({ onCitySelect
                             <MenuItem value="">
                                 <em>None</em>
                             </MenuItem>
-                            {regionData?.map((region, index) => [
-                                !!regionData[index]?.cities?.length && getRegions(region),
-                                !!regionData[index]?.cities?.length && getCities(regionData[index]?.cities)
+                            {countryData.regions?.map((region: Region, index) => [
+                                !!countryData.regions[index]?.cities?.length && getRegions(region),
+                                !!countryData.regions[index]?.cities?.length && getCities(countryData.regions[index]?.cities)
                             ])}
                         </Select>
                         <FormHelperText className='formHelperText'>
