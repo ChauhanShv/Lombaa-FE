@@ -301,6 +301,7 @@ class ProductService {
       ]
     })
     productsFromCategory = productsFromCategory.slice(offset, limit)
+    productsFromCategory = this.fieldsMapping(productsFromCategory)
     return productsFromCategory
   }
 }
