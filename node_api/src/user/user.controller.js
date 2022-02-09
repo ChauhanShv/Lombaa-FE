@@ -607,7 +607,26 @@ class UserController extends BaseController {
     }
   }
 
-
+  getSaveSearch = async (req, res, next) => {
+    try {
+      const userId = req.user?.id
+      let data = await SaveSearch.findAll({
+        where: { userId: userId },
+        include: { model: SaveSearchFilter, as: "savesearchfilter" }
+      })
+      data = data.map(item => {
+        return {
+          search: item.text, filters: item.savesearchfilter.map(search => {
+            return { key: search.key, values: [search.values] }
+          })
+        }
+      })
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Saved search retreived", data: data } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to get saved search", message_detail: error?.message } })
+    }
+  }
 }
 
 module.exports = UserController;
