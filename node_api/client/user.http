@@ -341,3 +341,11 @@ x-app-version : 1.0.0
     "filters" : [{"key": "hhhh", "values" : ["dgdg","ggdgdg"]},{"key" : "dgdhhhg","values" : ["dggdgdg","gdgdg"]}]
 }
 
+###
+
+GET {{baseUrl}}/user/savedsearch HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+

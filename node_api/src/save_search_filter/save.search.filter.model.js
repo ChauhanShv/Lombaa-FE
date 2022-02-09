@@ -30,7 +30,7 @@ SaveSearchFilter.init(
     }
 );
 
-SaveSearchFilter.belongsTo(SaveSearch, { as: 'saveSearch' })
+SaveSearch.hasMany(SaveSearchFilter, { as: "savesearchfilter" })
 
 
 
