@@ -3,7 +3,6 @@ import {
     FaCommentDots,
     FaBell,
     FaList,
-    FaSearch,
     FaHeart,
     FaMapMarkerAlt,
 } from 'react-icons/fa';
@@ -15,14 +14,11 @@ import {
     Navbar,
     Button,
 } from 'react-bootstrap';
-import { MenuItem, TextField } from '@mui/material';
-import { debounce } from 'lodash';
 import { useLocation } from 'react-router-dom';
 import { Login, Register } from '../../modals';
 import { useAppContext, ActionTypes } from '../../../contexts';
 import { CategoryPopover, MobileNav, HeaderDropdown } from '.';
-import { LocationSelector } from '../..';
-import { useAxios } from '../../../services';
+import { LocationSelector, ProductSearchBox } from '../..';
 import { SearchFieldValue } from './types';
 import './header.css';
 
@@ -35,33 +31,12 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
     const [searchFields, setSearchFields] = useState<SearchFieldValue[]>([]);
     const [searchValue, setSearchValue] = useState<string | null>();
 
-    const [{ data: searchResponse, loading: searchLoading }, searchExecute] = useAxios({
-        url: `/product/category?search=${searchValue}`,
-        method: 'GET',
-    });
-
     useEffect(() => {
         const showLogin = location.pathname === '/login';
         if (showLogin && !state.session.isLoggedIn) {
             setLoginModal(true);
         }
     }, [location, state.session.isLoggedIn]);
-
-    useEffect(() => {
-        if (searchResponse?.success) {
-            setSearchFields(searchResponse?.products);
-        }
-    }, [searchResponse]);
-
-    const handleSearchInputChange = (event: any) => {
-        setSearchValue(event.target.value);
-        const executeSearchApi = debounce(() => {
-            searchExecute({
-                url: `/product/category?search=${event.target.value}`,
-            });
-        }, 1000);
-        executeSearchApi();
-    }
 
     return (
         <>
@@ -93,8 +68,8 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
 
                             {!session.isLoggedIn && (
                                 <>
-                                    <button className="btn text-white mx-2 px-0 d-none d-lg-block" onClick={() => setLoginModal(true)}>Login</button>
-                                    <button className="btn text-white mx-2 px-0 d-none d-lg-block" onClick={() => setRegisterModal(true)}>Register</button>
+                                    <button className="btn text-white mx-2 px-0 d-lg-block" onClick={() => setLoginModal(true)}>Login</button>
+                                    <button className="btn text-white mx-2 px-0 d-lg-block" onClick={() => setRegisterModal(true)}>Register</button>
                                 </>
                             )}
                             {session.isLoggedIn && (
@@ -127,28 +102,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                                     <LocationSelector onCitySelected={() => { }} />
                                 </Col>
                                 <Col lg={8} sm={12} className="form-group p-1">
-                                    <TextField 
-                                        label="Type your search" 
-                                        onChange={handleSearchInputChange} 
-                                        InputProps={{
-                                            endAdornment: <FaSearch />
-                                        }}
-                                    />
-                                    {!!searchValue && !!searchFields.length && (
-                                        <div className="search-list-box">
-                                            <ul className="search-list">
-                                                {searchFields.map((field: any) =>
-                                                    <Link
-                                                        to={`/product-listing/${field.id}`}
-                                                        onClick={() => setSearchValue(null)}
-                                                        key={field.id}
-                                                    >
-                                                        <MenuItem className="search-list-item">{field.name}</MenuItem>
-                                                    </Link>
-                                                )}
-                                            </ul>
-                                        </div>
-                                    )}
+                                    <ProductSearchBox />
                                 </Col>
                             </Row>
                         </form>
@@ -162,29 +116,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
             </Navbar>
 
             <Navbar className="z1 d-lg-none navbar navbar-expand-lg shadow bg-white px-2">
-                <TextField
-                    sx={{ width: '100%' }}
-                    label="Type your search" 
-                    onChange={handleSearchInputChange} 
-                    InputProps={{
-                        endAdornment: <FaSearch />
-                    }}
-                />
-                {!!searchValue && !!searchFields.length && (
-                    <div className="search-list-box">
-                        <ul className="search-list">
-                            {searchFields.map((field: SearchFieldValue) =>
-                                <Link
-                                    to={`/product-listing/${field.id}`}
-                                    onClick={() => setSearchValue(null)}
-                                    key={field.id}
-                                >
-                                    <li className="search-list-item">{field.name}</li>
-                                </Link>
-                            )}
-                        </ul>
-                    </div>
-                )}
+                <ProductSearchBox />
 
                 {session.isLoggedIn && (
                     <HeaderDropdown />
@@ -194,20 +126,24 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                 <LocationSelector onCitySelected={() => { }} />
             </Navbar>
 
-            {loginModal && (
-                <Login
-                    show={loginModal}
-                    openRegister={setRegisterModal}
-                    onClose={() => setLoginModal(false)}
-                />
-            )}
-            {registerModal && (
-                <Register
-                    show={registerModal}
-                    openLogin={setLoginModal}
-                    onClose={() => setRegisterModal(false)}
-                />
-            )}
+            {
+                loginModal && (
+                    <Login
+                        show={loginModal}
+                        openRegister={setRegisterModal}
+                        onClose={() => setLoginModal(false)}
+                    />
+                )
+            }
+            {
+                registerModal && (
+                    <Register
+                        show={registerModal}
+                        openLogin={setLoginModal}
+                        onClose={() => setRegisterModal(false)}
+                    />
+                )
+            }
         </>
     );
 };

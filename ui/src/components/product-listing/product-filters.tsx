@@ -4,7 +4,8 @@ import { Container, Dropdown, Form, FormControl, Button } from 'react-bootstrap'
 import { Breadcrumbs } from '@mui/material';
 import { find } from 'lodash';
 import { MoreFiltersModal } from '.';
-import { useAppContext } from '../../contexts';
+import { ActionTypes, useAppContext } from '../../contexts';
+import { useAxios } from '../../services';
 import { ProductFilterProps } from './types';
 import { Category, SubCategory, Field, KeyValuePair } from '../../types';
 
@@ -16,11 +17,17 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
     const [showMoreFilters, setShowMoreFilters] = useState<boolean>(false);
     const [sortBy, setSortBy] = useState<string>(sort || '');
     const [filter, setFilter] = useState<any>({});
-    const { state } = useAppContext();
+    const [searchFilter, setSearchFilter] = useState<any>([]);
+    const { state, dispatch } = useAppContext();
     const categories: Category[] = state?.category;
     const category: SubCategory = categories.map((cat: Category) =>
         cat.subCategories.filter((subCat: SubCategory) => subCat.id === categoryId)[0]
     ).filter((i: any) => i)[0];
+
+    const [{ data: saveSearchResponse, loading: saveSearchLoading }, saveSearchExecute] = useAxios({
+        url: '/user/savesearch',
+        method: 'POST',
+    });
 
     const formFilterUrl = () => {
         let filterArr: string[] = [];
@@ -33,7 +40,21 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
     };
 
     useEffect(() => {
-        formFilterUrl()
+        formFilterUrl();
+        const newSearchFilter: any[] = [];
+        Object.keys(filter).map((item: string, index: number) => {
+            newSearchFilter.push({
+                key: item,
+                values: filter[item],
+            });
+        });
+        setSearchFilter([...newSearchFilter]);
+        dispatch({
+            type: ActionTypes.PRODUCT_FILTERS,
+            payload: {
+                filters: [...newSearchFilter],
+            },
+        });
     }, [sortBy, filter]);
 
     const sortDD: KeyValuePair = {
