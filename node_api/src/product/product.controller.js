@@ -20,7 +20,7 @@ const { Op } = require("sequelize");
 const RejectReason = require("../reject_reason/reject_reason.model")
 
 
-class productController extends BaseController {
+class ProductController extends BaseController {
   constructor(...args) {
     super(...args);
     this.service = new ProductService();
@@ -132,6 +132,11 @@ class productController extends BaseController {
 
   findById = async (req, res, next) => {
     try {
+      validationResult(req).formatWith(validationErrorFormatter).throw();
+    } catch (error) {
+      return res.status(422).json(error.array({ onlyFirstError: true }));
+    }
+    try {
       const givenId = req.params.id;
       const userId = req.user?.id;
       const singleProduct = await Product.findOne({
@@ -144,6 +149,9 @@ class productController extends BaseController {
           { model: User, as: 'user', attributes: ["name", "profilePictureId", "email", "accountType", "locationId"], include: [{ model: fileModel, as: "profilePicture" }, { model: Location, as: "location" }] }
         ]
       });
+      if (!singleProduct) {
+        return super.jsonRes({ res, code: 200, data: { success: false, message: "Failed to get product", message_detail: "Product is unavailable" } })
+      }
       const viewed = viewedProduct.create({ userId: userId, productId: singleProduct.id })
       const title = await this.service.fieldsMapping([singleProduct])
 
@@ -157,6 +165,7 @@ class productController extends BaseController {
         },
       });
     } catch (error) {
+      console.log(error, 'hgygfahyfyutfuy\grj')
       return super.jsonRes({
         res,
         code: 401,
@@ -215,10 +224,14 @@ class productController extends BaseController {
 
   lookALike = async (req, res, next) => {
     try {
+      validationResult(req).formatWith(validationErrorFormatter).throw();
+    } catch (error) {
+      return res.status(422).json(error.array({ onlyFirstError: true }));
+    }
+    try {
       const productId = req.params?.id
       const { offset = 0, limit = 15 } = req.query
       const product = await this.service.lookALikeProducts(productId, offset, limit)
-      console.log(product)
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Products retreived", products: product } })
 
     }
@@ -228,10 +241,7 @@ class productController extends BaseController {
 
     }
   }
-
-
-
 }
 
 
-module.exports = new productController();
+module.exports = ProductController;
