@@ -617,7 +617,7 @@ class UserController extends BaseController {
       data = data.map(item => {
         return {
           search: item.text, filters: item.savesearchfilter.map(search => {
-            return { key: search.key, values: [search.values] }
+            return { key: search.key, values: search.values.split(',') }
           })
         }
       })
