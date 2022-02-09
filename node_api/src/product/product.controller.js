@@ -213,6 +213,22 @@ class productController extends BaseController {
     }
   }
 
+  lookALike = async (req, res, next) => {
+    try {
+      const productId = req.params?.id
+      const { offset = 0, limit = 15 } = req.query
+      const product = await this.service.lookALikeProducts(productId, offset, limit)
+      console.log(product)
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Products retreived", products: product } })
+
+    }
+    catch (error) {
+      console.log(error)
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to load ", message_detail: error?.messaage } })
+
+    }
+  }
+
 
 
 }

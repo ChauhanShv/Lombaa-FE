@@ -29,6 +29,7 @@ module.exports = () => {
   router.get("/", optionalAuthMiddleware, productController.getRandom)
   router.get("/category", optionalAuthMiddleware, productController.searchCat)
   router.get("/:id", authMiddleware, productController.findById);
+  router.get("/:id/similar", authMiddleware, productController.lookALike)
 
 
 
