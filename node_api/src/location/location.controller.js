@@ -186,6 +186,7 @@ class LocationController extends BaseController {
         ]
       });
       return super.jsonRes({
+
         res,
         code: 200,
         data: {
@@ -206,6 +207,22 @@ class LocationController extends BaseController {
       });
     }
   };
+
+  getRegionsAndCities = async (req, res, next) => {
+    try {
+      let regionsAndCities = await Region.findAll({ include: [{ model: City, as: "cities" }] })
+      regionsAndCities = regionsAndCities.map(region => {
+        return region.cities.map(city => {
+          return { regionId: region.id, regionName: region.name, cityId: city.id, cityName: city.name, cityCoordinate: city.coordinate, title: `${city.name} in ${region.name}` }
+        })
+      })
+
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Retrieved all regions and cities", response: regionsAndCities } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, success: false, message: "Failed to retrieve regions and cities", messageDetail: error?.message })
+    }
+  }
 
 }
 
