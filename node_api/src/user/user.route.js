@@ -47,6 +47,7 @@ module.exports = () => {
   router.get("/last30days", authMiddleware, controller.last30Days)
   router.get("/expired", authMiddleware, controller.expiredProducts)
   router.get("/sold", authMiddleware, controller.soldProducts)
-
+  router.get("/savedsearch", authMiddleware, controller.getSaveSearch)
+  router.post("/savesearch", authMiddleware, controller.saveSearch)
   return router;
 };

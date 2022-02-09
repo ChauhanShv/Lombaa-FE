@@ -25,6 +25,8 @@ const Field = require("../field/field.model")
 const ProductMedia = require("../product/product_media.model");
 const fileModel = require("../file/file.model")
 const Location = require("../location/location.model")
+const SaveSearch = require("../save_search/save.search.model")
+const SaveSearchFilter = require("../save_search_filter/save.search.filter.model")
 
 class UserController extends BaseController {
   constructor() {
@@ -593,7 +595,38 @@ class UserController extends BaseController {
     }
   }
 
+  saveSearch = async (req, res, next) => {
+    try {
+      const data = req.body
+      const userId = req.user?.id
+      const savedSearch = await this.service.savedSearch(data, userId)
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Search has been saved" } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to save search", message_detail: error?.message } })
+    }
+  }
 
+  getSaveSearch = async (req, res, next) => {
+    try {
+      const userId = req.user?.id
+      let data = await SaveSearch.findAll({
+        where: { userId: userId },
+        include: { model: SaveSearchFilter, as: "savesearchfilter" }
+      })
+      data = data.map(item => {
+        return {
+          search: item.text, filters: item.savesearchfilter.map(search => {
+            return { key: search.key, values: search.values.split(',') }
+          })
+        }
+      })
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Saved search retreived", data: data } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to get saved search", message_detail: error?.message } })
+    }
+  }
 }
 
 module.exports = UserController;

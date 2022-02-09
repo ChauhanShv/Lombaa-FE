@@ -12,6 +12,30 @@ export interface ProductDetailDescriptionProps {
 export interface SellerDetailsCardProps {
   user: User;
 }
+export interface LookalikeProductsProps {
+  productId: string;
+}
+export interface Product {
+  approvedAt: string;
+  category: ProductDetailCategory;
+  categoryId: string;
+  title: string;
+  description: string;
+  expiry: string;
+  id: string;
+  location: Location;
+  locationId: string;
+  postedAt: string;
+  productFields: ProductFields[];
+  productMedia: ProductMedia[];
+  rejectReason: string | null;
+  rejectedAt: string | null;
+  slug: string;
+  soldAt: string | null;
+  user: User;
+  userId: string;
+  isFavorite: boolean;
+}
 export interface ProductDetail {
   approvedAt: string;
   category: ProductDetailCategory;
@@ -114,7 +138,7 @@ export interface User {
   name: string;
   profilePicture: ProductMediaFile;
   profilePictureId: string;
-  businessName?: string
+  businessName?: string;
   profileVerificationScore?: number;
   memberSince?: string;
 }
