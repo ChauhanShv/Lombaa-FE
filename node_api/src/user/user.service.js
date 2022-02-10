@@ -20,6 +20,8 @@ const ProductField = require("../product/product_field.model")
 const ProductMedia = require("../product/product_media.model")
 const Field = require("../field/field.model")
 const Category = require("../category/category.model")
+const SaveSearch = require("../save_search/save.search.model");
+const SaveSearchFilter = require("../save_search_filter/save.search.filter.model");
 
 class UserService {
   constructor() {
@@ -380,6 +382,19 @@ class UserService {
 
   async deleteFavoriteProduct(userId, productId) {
     return await FavoriteProduct.destroy({ where: { userId: userId, productId: productId } })
+  }
+
+  async savedSearch(data, userId) {
+    const search = data.search
+    const searchSaved = await SaveSearch.create({ text: search, userId: userId })
+    let filters = data.filters
+    filters = filters.map(filter => {
+      return { key: filter.key, values: filter.values.join(), SaveSearchId: searchSaved.id }
+    })
+
+
+    const SaveFilter = await SaveSearchFilter.bulkCreate(filters)
+    return searchSaved
   }
 }
 
