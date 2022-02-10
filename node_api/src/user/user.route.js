@@ -2,7 +2,7 @@ const router = require("../modules/express").instance.Router();
 const { checkSchema } = require("express-validator");
 const UserController = require("./user.controller");
 const schema = require("./user.data-schema");
-const { setPassword: setPasswordSchema, activeSchema, phoneSchema, emailSchema, forgetPasswordSchema, connectGoogleSchema, connectFacebookSchema, updateSchema, pictureUploadSchema, coverUploadSchema, favoriteProductSchema, phoneConsentSchema } = require("./schema");
+const { setPassword: setPasswordSchema, activeSchema, phoneSchema, emailSchema, forgetPasswordSchema, connectGoogleSchema, connectFacebookSchema, updateSchema, pictureUploadSchema, coverUploadSchema, favoriteProductSchema, phoneConsentSchema, searchSchema } = require("./schema");
 const authMiddleware = require("../auth/auth.middleware");
 
 const multer = require("multer");
@@ -48,6 +48,6 @@ module.exports = () => {
   router.get("/expired", authMiddleware, controller.expiredProducts)
   router.get("/sold", authMiddleware, controller.soldProducts)
   router.get("/savedsearch", authMiddleware, controller.getSaveSearch)
-  router.post("/savesearch", authMiddleware, controller.saveSearch)
+  router.post("/savesearch", authMiddleware, checkSchema(searchSchema), controller.saveSearch)
   return router;
 };

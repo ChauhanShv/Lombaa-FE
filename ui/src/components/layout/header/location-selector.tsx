@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
 import { Autocomplete, InputAdornment, TextField } from '@mui/material';
 import { useHistory } from 'react-router-dom';
-import { FaLocationArrow } from 'react-icons/fa';
-import { useFormContext } from 'react-hook-form';
 import { useAxios } from '../../../services';
+import { ActionTypes, useAppContext } from '../../../contexts';
 import { LocationSelectorProps, LocationData } from './types';
 import { Loader } from '../..';
 import { CURRENT_COUNTRY } from '../../../config';
 
 export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelected }: LocationSelectorProps): React.ReactElement => {
     const [cityData, setCityData] = React.useState<LocationData[]>([]);
+    const { state, dispatch } = useAppContext();
+    const { session: { lat, lng } } = state;
     const navigate = useHistory();
 
     const [{ data: locationResponse, loading }, locationExecute] = useAxios({
@@ -45,7 +46,13 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
                 country: locationResponse?.response?.id,
                 coordinate: cityObj.coordinate,
             });
-            navigate.push('/product-listing/6c574ff2-03ef-4501-84ee-cabea11cb6e2');
+            dispatch({
+                type: ActionTypes.SETLATLNG,
+                payload: {
+                    lat: cityObj.coordinate[1],
+                    lng: cityObj.coordinate[0],
+                }
+            })
         }
     }
 
@@ -58,8 +65,8 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
                     id="location-selector"
                     options={cityData.map(city => city.label)}
                     renderInput={(params) => (
-                        <TextField 
-                            {...params} 
+                        <TextField
+                            {...params}
                             label="Location"
                         />)
                     }

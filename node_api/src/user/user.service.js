@@ -387,12 +387,10 @@ class UserService {
   async savedSearch(data, userId) {
     const search = data.search
     const searchSaved = await SaveSearch.create({ text: search, userId: userId })
-    console.log(searchSaved, 'dbhdhddvdv')
     let filters = data.filters
     filters = filters.map(filter => {
       return { key: filter.key, values: filter.values.join(), SaveSearchId: searchSaved.id }
     })
-    console.log(filters, 'dghdgh')
 
 
     const SaveFilter = await SaveSearchFilter.bulkCreate(filters)

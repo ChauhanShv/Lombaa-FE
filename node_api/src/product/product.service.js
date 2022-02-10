@@ -15,6 +15,7 @@ const City = require("../city/city.model");
 const Country = require("../country/country.model");
 const Region = require("../region/region.model");
 const sequelize = require("../modules/sequelize/sequelize.service");
+const { categoryId } = require("./schema/schema.product_categoryId");
 
 class ProductService {
   constructor() {
@@ -284,6 +285,24 @@ class ProductService {
     return products
 
 
+  }
+
+  async lookALikeProducts(productId, offset, limit) {
+    let products = await Product.findOne({
+      where: { id: productId }
+    })
+    let productsFromCategory = await Product.findAll({
+      where: { categoryId: products.categoryId }, include: [
+        { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
+        { model: Location, as: "location" },
+        { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
+        { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+        { model: Category, as: 'category', attributes: ["id", "name"] }
+      ]
+    })
+    productsFromCategory = productsFromCategory.slice(offset, limit)
+    productsFromCategory = this.fieldsMapping(productsFromCategory)
+    return productsFromCategory
   }
 }
 

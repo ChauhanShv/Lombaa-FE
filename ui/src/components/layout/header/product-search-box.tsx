@@ -13,6 +13,7 @@ export const ProductSearchBox: React.FC = (): React.ReactElement => {
     const { state } = useAppContext();
     const [searchFields, setSearchFields] = useState<SearchFieldValue[]>([]);
     const [searchValue, setSearchValue] = useState<string | null>();
+    const [showFieldsBox, setShowFieldsBox] = useState<boolean>(true);
     const [savedSearches, setSavedSearches] = useState<any[]>();
     const location = useLocation();
 
@@ -34,7 +35,12 @@ export const ProductSearchBox: React.FC = (): React.ReactElement => {
             });
         }, 1000);
         executeSearchApi();
-    }
+    };
+
+    const handleOptionClick = (field: SearchFieldValue) => {
+        setSearchValue(field.name);
+        setShowFieldsBox(false);
+    };
 
     useEffect(() => {
         if (searchResponse?.success) {
@@ -52,9 +58,10 @@ export const ProductSearchBox: React.FC = (): React.ReactElement => {
         saveSearchExecute({
             data: {
                 search: searchValue,
-                data: state?.filters,
+                filters: state?.filters,
             }
         });
+        setShowFieldsBox(false);
     };
 
     return (
@@ -65,10 +72,12 @@ export const ProductSearchBox: React.FC = (): React.ReactElement => {
                     id="type-your-search-input"
                     type='text'
                     value={searchValue}
+                    autoComplete='off'
+                    onFocus={() => setShowFieldsBox(true)}
                     onChange={handleSearchInputChange}
                     endAdornment={
                         <InputAdornment position="end">
-                            {location.pathname.includes('product-list') && (
+                            {location.pathname.includes('product-list') && state.session.isLoggedIn && (
                                 <IconButton
                                     aria-label="toggle password visibility"
                                     onClick={handleSaveSearch}
@@ -80,7 +89,7 @@ export const ProductSearchBox: React.FC = (): React.ReactElement => {
                             )}
                             <IconButton
                                 aria-label="toggle password visibility"
-                                onClick={() => { }}
+                                onClick={() => { setShowFieldsBox(false) }}
                                 onMouseDown={(e) => { e.preventDefault() }}
                                 edge="end"
                             >
@@ -90,14 +99,14 @@ export const ProductSearchBox: React.FC = (): React.ReactElement => {
                     }
                     label="Type your search"
                 />
-                {!!searchValue && !!searchFields.length && (
+                {showFieldsBox && !!searchValue && !!searchFields.length && (
                     <div className="search-list-box">
                         <ul className="search-list">
-                            {searchFields.map((field: SearchFieldValue) =>
+                            {searchFields.map((field: SearchFieldValue, index: number) =>
                                 <Link
                                     to={`/product-listing/${field.id}`}
-                                    onClick={() => setSearchValue(field.name)}
-                                    key={field.id}
+                                    onClick={() => handleOptionClick(field)}
+                                    key={field.id + index.toString()}
                                 >
                                     <li className="search-list-item">{field.name}</li>
                                 </Link>

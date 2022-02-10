@@ -597,6 +597,12 @@ class UserController extends BaseController {
 
   saveSearch = async (req, res, next) => {
     try {
+      validationResult(req).formatWith(validationErrorFormatter).throw();
+    } catch (error) {
+      return res.status(422).json(error.array({ onlyFirstError: true }));
+    }
+    try {
+
       const data = req.body
       const userId = req.user?.id
       const savedSearch = await this.service.savedSearch(data, userId)
@@ -617,7 +623,7 @@ class UserController extends BaseController {
       data = data.map(item => {
         return {
           search: item.text, filters: item.savesearchfilter.map(search => {
-            return { key: search.key, values: [search.values] }
+            return { key: search.key, values: search.values.split(',') }
           })
         }
       })
