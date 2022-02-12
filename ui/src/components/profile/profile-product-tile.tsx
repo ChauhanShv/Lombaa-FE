@@ -5,6 +5,7 @@ import { ProfileProductTileProps } from './types';
 
 export const ProfileProductTile: React.FC<ProfileProductTileProps> = ({
     productId,
+    slug,
     title,
     summary,
     description,
@@ -27,7 +28,9 @@ export const ProfileProductTile: React.FC<ProfileProductTileProps> = ({
                         <p className="card-text m-0"><strong>{summary}</strong></p>
                         <p className="text-muted">{description}</p>
                         <p className="text-muted "><strong>Category:</strong> {categoryName}</p>
-                        <Button variant="success">View</Button>{' '}
+                        <Link to={`/product-detail/${productId}/${slug}`}>
+                            <Button variant="success">View</Button>
+                        </Link>{' '}
                         <Button variant="outline-secondary">Edit</Button>{' '}
                         <Button variant="outline-danger">Delete</Button>{' '}
                     </Card.Body>

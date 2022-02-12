@@ -1,5 +1,6 @@
 export interface ProfileProductTileProps {
   productId: string;
+  slug: string;
   title: string;
   summary: string;
   description: string;
