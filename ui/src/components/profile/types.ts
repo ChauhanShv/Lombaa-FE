@@ -10,6 +10,7 @@ export interface ProfileProductTileProps {
 }
 export interface ProductTabListProps {
   productList: Product[];
+  loading: boolean;
   listingTabName: string;
 }
 export interface ProductTab {

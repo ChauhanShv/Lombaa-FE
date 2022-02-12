@@ -35,6 +35,7 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
     const userData = state.user?.metaData;
     const [alert, setAlert] = useState<AlertType>({});
     const { register, handleSubmit, formState: { errors }, getValues } = useForm<ChangeEmailFormFeilds>({
+        mode: 'onChange',
         resolver: yupResolver(schema),
         defaultValues: {
             email: userData?.email,

@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
-import { FaChevronRight } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
+import { FaChevronRight } from 'react-icons/fa';
 import { ProfileVerificationStepper } from './profile-verification-stepper';
+import { useAppContext } from '../../contexts';
 
 export const ProfileVerificationCard: React.FC = (): React.ReactElement => {
     const navigate = useHistory();
     const [nonVerifiedStep, setNonVerifiedStep] = useState<string>('');
+    const { state } = useAppContext();
 
     const getNonVerifiedStepLabel = (nonVerifiedStepLabel: string) => {
         setNonVerifiedStep(nonVerifiedStepLabel);
@@ -41,9 +43,13 @@ export const ProfileVerificationCard: React.FC = (): React.ReactElement => {
                         Verify your identity to make those sales!
                     </Col>
                 </Col>
-                <Col md={12} className="justify-content-end border-top align-items-center d-flex">
-                    <Button onClick={handleVerifyNowClick} className="m-0 p-3 text-dark bg-white border-white">Verify Now <FaChevronRight /></Button>
-                </Col>
+                {state.user.metaData?.profileVerificationScore !== 100 && (
+                    <Col md={12} className="justify-content-end border-top align-items-center d-flex">
+                        <Button onClick={handleVerifyNowClick} className="m-0 p-3 text-dark bg-white border-white">
+                            Verify Now <FaChevronRight />
+                        </Button>
+                    </Col>
+                )}
             </Row>
         </Container>
     );

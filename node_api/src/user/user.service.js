@@ -357,7 +357,7 @@ class UserService {
   }
 
   async getFavoriteProducts(userId) {
-    let userWithFavProducts = await User.findOne({
+    let userWithFavProducts = await FavoriteProduct.findOne({
       where: { id: userId }, include: [{
         model: Product, through: { attributes: [] }, include: [{ model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
         { model: Location, as: "location" },

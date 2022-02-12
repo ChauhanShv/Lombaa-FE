@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { Button, Row } from 'react-bootstrap';
+import { Loader } from '..';
 import { TabContentProps, ProductTabListProps, Product } from './types';
 import { ProfileProductTile } from '.';
 
@@ -23,11 +24,12 @@ export const EmptyTabContent: React.FC<TabContentProps> = ({
 
 export const ProductTabList: React.FC<ProductTabListProps> = ({
     productList,
+    loading,
     listingTabName,
 }: ProductTabListProps): React.ReactElement => {
     return (
         <Row className="row">
-            {(productList && !!productList.length) ? productList.map((product: Product) =>
+            {loading ? <Loader show={loading} /> : (productList && !!productList.length) ? productList.map((product: Product) =>
                 <ProfileProductTile
                     key={product.id}
                     productId={product.id}

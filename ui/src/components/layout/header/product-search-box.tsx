@@ -14,7 +14,7 @@ export const ProductSearchBox: React.FC = (): React.ReactElement => {
     const [searchFields, setSearchFields] = useState<SearchFieldValue[]>([]);
     const [searchValue, setSearchValue] = useState<string | null>();
     const [showFieldsBox, setShowFieldsBox] = useState<boolean>(true);
-    const [savedSearches, setSavedSearches] = useState<any[]>();
+    const [savedSearch, setSavedSearch] = useState<boolean>(false);
     const location = useLocation();
 
     const [{ data: searchResponse, loading: searchLoading }, searchExecute] = useAxios({
@@ -29,6 +29,9 @@ export const ProductSearchBox: React.FC = (): React.ReactElement => {
 
     const handleSearchInputChange = (event: any) => {
         setSearchValue(event.target.value);
+        if (!event.target.value) {
+            setSavedSearch(false);
+        }
         const executeSearchApi = debounce(() => {
             searchExecute({
                 url: `/product/category?search=${event.target.value}`,
@@ -48,12 +51,6 @@ export const ProductSearchBox: React.FC = (): React.ReactElement => {
         }
     }, [searchResponse]);
 
-    useEffect(() => {
-        if (saveSearchResponse?.success) {
-            setSavedSearches(saveSearchResponse?.data);
-        }
-    }, [saveSearchResponse]);
-
     const handleSaveSearch = () => {
         saveSearchExecute({
             data: {
@@ -61,6 +58,7 @@ export const ProductSearchBox: React.FC = (): React.ReactElement => {
                 filters: state?.filters,
             }
         });
+        setSavedSearch(true);
         setShowFieldsBox(false);
     };
 
@@ -77,14 +75,18 @@ export const ProductSearchBox: React.FC = (): React.ReactElement => {
                     onChange={handleSearchInputChange}
                     endAdornment={
                         <InputAdornment position="end">
-                            {location.pathname.includes('product-list') && state.session.isLoggedIn && (
+                            {searchValue && location.pathname.includes('product-list') && state.session.isLoggedIn && (
                                 <IconButton
                                     aria-label="toggle password visibility"
                                     onClick={handleSaveSearch}
                                     onMouseDown={(e) => { e.preventDefault() }}
                                     edge="end"
                                 >
-                                    <MdBookmark />
+                                    {savedSearch ? (
+                                        <MdBookmark />
+                                    ) : (
+                                        <MdBookmarkBorder />
+                                    )}
                                 </IconButton>
                             )}
                             <IconButton
