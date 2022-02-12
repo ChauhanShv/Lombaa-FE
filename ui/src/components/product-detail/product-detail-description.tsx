@@ -5,6 +5,7 @@ import { Container, Row, Col, Button, ListGroup, Spinner } from 'react-bootstrap
 import { FaAsterisk, FaHandshake, FaMapMarkerAlt, FaEdit, FaCheckCircle, FaTrashAlt } from 'react-icons/fa';
 import { SellerDetailCard } from '.';
 import { ProductFields, ProductDetailDescriptionProps, FieldValue } from './types';
+import { useAppContext } from '../../contexts';
 import { useAxios } from '../../services';
 import { AlertBox } from '../alert-box';
 import './product-detail.css';
@@ -14,6 +15,7 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
 }: ProductDetailDescriptionProps): React.ReactElement => {
     const [isMarkSolded, setIsMarkSolded] = useState<boolean>(false);
     const [showAlertBox, setShowAlertBox] = useState<boolean>(false);
+    const { state } = useAppContext();
     const [{ data, loading }, executeSoldProduct] = useAxios({
         url: `/product/${productDetail.id}`,
         method: 'POST',
@@ -119,28 +121,31 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                                 </h4>
                             </div>
                         ) : (
+
                             <>
                                 <Button variant="btn btn-success" className="p-2 me-lg-2 mb-3 w-100">
                                     No Chats yet - Promote
                                 </Button>
-                                <ListGroup className="product-auth">
-                                    <ListGroup.Item className="text-gray" action>
-                                        <FaEdit className="me-2" />
-                                        Edit Listing
-                                    </ListGroup.Item>
-                                    <ListGroup.Item className="text-gray" action>
-                                        <FaCheckCircle className="me-2" />
-                                        Mark as Reserved
-                                    </ListGroup.Item>
-                                    <ListGroup.Item className="text-gray" onClick={handleMarkSolded} action>
-                                        <FaHandshake className="me-2" />
-                                        Mark as Sold
-                                    </ListGroup.Item>
-                                    <ListGroup.Item className="text-danger" action>
-                                        <FaTrashAlt className="me-2" />
-                                        Delete
-                                    </ListGroup.Item>
-                                </ListGroup>
+                                {state?.user?.metaData?.id === productDetail?.userId && (
+                                    <ListGroup className="product-auth">
+                                        <ListGroup.Item className="text-gray" action>
+                                            <FaEdit className="me-2" />
+                                            Edit Listing
+                                        </ListGroup.Item>
+                                        <ListGroup.Item className="text-gray" action>
+                                            <FaCheckCircle className="me-2" />
+                                            Mark as Reserved
+                                        </ListGroup.Item>
+                                        <ListGroup.Item className="text-gray" onClick={handleMarkSolded} action>
+                                            <FaHandshake className="me-2" />
+                                            Mark as Sold
+                                        </ListGroup.Item>
+                                        <ListGroup.Item className="text-danger" action>
+                                            <FaTrashAlt className="me-2" />
+                                            Delete
+                                        </ListGroup.Item>
+                                    </ListGroup>
+                                )}
                             </>
                         )}
                     </div>
