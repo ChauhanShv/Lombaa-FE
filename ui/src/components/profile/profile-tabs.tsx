@@ -16,13 +16,13 @@ export const ProfileTabs: React.FC = (): React.ReactElement => {
     });
     const [favProducts, setFavProducts] = useState<Product[]>([]);
 
-    const [{ data }] = useAxios({
+    const [{ data, loading }] = useAxios({
         url: '/user/products',
         method: 'GET',
     }, {
         manual: false,
     });
-    const [{ data: favResponse }] = useAxios({
+    const [{ data: favResponse, loading: favLoading }] = useAxios({
         url: '/user/favorite/products',
         method: 'GET',
     }, {
@@ -46,19 +46,39 @@ export const ProfileTabs: React.FC = (): React.ReactElement => {
                         <Tab eventKey="MyListing" title="My Listing" mountOnEnter unmountOnExit={false} className="py-4 px-3 border">
                             <Tabs defaultActiveKey="InReview" id="uncontrolled-tab-example">
                                 <Tab eventKey="InReview" title="InReview" mountOnEnter unmountOnExit={false} className="py-4 my-listing">
-                                    <ProductTabList productList={products.inReview} listingTabName='In Review' />
+                                    <ProductTabList
+                                        productList={products.inReview}
+                                        loading={loading}
+                                        listingTabName='In Review'
+                                    />
                                 </Tab>
                                 <Tab eventKey="Active" title="Active" mountOnEnter unmountOnExit={false} className="py-4 my-listing">
-                                    <ProductTabList productList={products.active} listingTabName='Active' />
+                                    <ProductTabList
+                                        productList={products.active}
+                                        loading={loading}
+                                        listingTabName='Active'
+                                    />
                                 </Tab>
                                 <Tab eventKey="Declined" title="Declined" mountOnEnter unmountOnExit={false} className="py-4 my-listing">
-                                    <ProductTabList productList={products.declined} listingTabName='Declined' />
+                                    <ProductTabList
+                                        productList={products.declined}
+                                        loading={loading}
+                                        listingTabName='Declined'
+                                    />
                                 </Tab>
                                 <Tab eventKey="Expired" title="Expired" mountOnEnter unmountOnExit={false} className="py-4 my-listing">
-                                    <ProductTabList productList={products.expired} listingTabName='Expired' />
+                                    <ProductTabList
+                                        productList={products.expired}
+                                        loading={loading}
+                                        listingTabName='Expired'
+                                    />
                                 </Tab>
                                 <Tab eventKey="Sold" title="Sold" mountOnEnter unmountOnExit={false} className='py-4 my-listing'>
-                                    <ProductTabList productList={products.sold} listingTabName='Sold' />
+                                    <ProductTabList
+                                        productList={products.sold}
+                                        loading={loading}
+                                        listingTabName='Sold'
+                                    />
                                 </Tab>
                             </Tabs>
                         </Tab>
@@ -66,7 +86,11 @@ export const ProfileTabs: React.FC = (): React.ReactElement => {
                             <EmptyTabContent tabTitle="Reviews" />
                         </Tab>
                         <Tab eventKey="Favourite Ads" title="Favourite Ads" mountOnEnter unmountOnExit={false} className="py-4 px-3 border">
-                            <ProductTabList productList={favProducts} listingTabName='Favourites' />
+                            <ProductTabList
+                                productList={favProducts}
+                                loading={favLoading}
+                                listingTabName='Favourites'
+                            />
                         </Tab>
                     </Tabs>
                 </Col>
