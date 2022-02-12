@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
     FaCommentDots,
     FaBell,
     FaList,
     FaHeart,
-    FaMapMarkerAlt,
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import {
@@ -15,26 +14,31 @@ import {
     Button,
 } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
-import { Login, Register } from '../../modals';
+import { ModalComponent } from '../../modals';
 import { useAppContext, ActionTypes } from '../../../contexts';
+import { ModalType } from '../../../types';
 import { CategoryPopover, MobileNav, HeaderDropdown } from '.';
 import { LocationSelector, ProductSearchBox } from '../..';
-import { SearchFieldValue } from './types';
 import './header.css';
 
 const HeaderComponent: React.FC = (): React.ReactElement => {
     const location = useLocation();
     const { state, dispatch } = useAppContext();
-    const { session, user } = state;
-    const [loginModal, setLoginModal] = useState<boolean>(false);
-    const [registerModal, setRegisterModal] = useState<boolean>(false);
-    const [searchFields, setSearchFields] = useState<SearchFieldValue[]>([]);
-    const [searchValue, setSearchValue] = useState<string | null>();
+    const { session } = state;
+
+    const openLogin = () => {
+        dispatch({
+            type: ActionTypes.OPEN_MODAL,
+            payload: {
+                modal: ModalType.LOGIN,
+            }
+        });
+    };
 
     useEffect(() => {
         const showLogin = location.pathname === '/login';
         if (showLogin && !state.session.isLoggedIn) {
-            setLoginModal(true);
+            openLogin();
         }
     }, [location, state.session.isLoggedIn]);
 
@@ -68,8 +72,25 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
 
                             {!session.isLoggedIn && (
                                 <>
-                                    <button className="btn text-white mx-2 px-0 d-lg-block" onClick={() => setLoginModal(true)}>Login</button>
-                                    <button className="btn text-white mx-2 px-0 d-lg-block" onClick={() => setRegisterModal(true)}>Register</button>
+                                    <button
+                                        className="btn text-white mx-2 px-0 d-lg-block"
+                                        onClick={() => openLogin()}
+                                    >
+                                        Login
+                                    </button>
+                                    <button
+                                        className="btn text-white mx-2 px-0 d-lg-block"
+                                        onClick={() => {
+                                            dispatch({
+                                                type: ActionTypes.OPEN_MODAL,
+                                                payload: {
+                                                    modal: ModalType.REGISTER,
+                                                }
+                                            });
+                                        }}
+                                    >
+                                        Register
+                                    </button>
                                 </>
                             )}
                             {session.isLoggedIn && (
@@ -125,25 +146,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
             <Navbar sticky="top" className="d-lg-none navbar navbar-expand-lg shadow bg-white px-2">
                 <LocationSelector />
             </Navbar>
-
-            {
-                loginModal && (
-                    <Login
-                        show={loginModal}
-                        openRegister={setRegisterModal}
-                        onClose={() => setLoginModal(false)}
-                    />
-                )
-            }
-            {
-                registerModal && (
-                    <Register
-                        show={registerModal}
-                        openLogin={setLoginModal}
-                        onClose={() => setRegisterModal(false)}
-                    />
-                )
-            }
+            <ModalComponent />
         </>
     );
 };

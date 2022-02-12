@@ -1,6 +1,6 @@
 export interface LoginProps {
     show: boolean;
-    openRegister: Function;
+    onRegisterClick: Function;
     onClose: Function;
 };
 export interface FormFields {

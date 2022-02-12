@@ -22,12 +22,13 @@ const schema = yup.object().shape({
 export const Login: React.FC<LoginProps> = ({
     show,
     onClose,
-    openRegister,
+    onRegisterClick,
 }: LoginProps): React.ReactElement => {
     const { register, handleSubmit, formState: { errors } } = useForm<FormFields>({
         resolver: yupResolver(schema),
     });
     const { dispatch } = useAppContext();
+    const [showModal, setShowModal] = useState<boolean>(show ?? false);
     const [{ data: loginResponse, loading, error: apiError }, execute] = useAxios({
         url: '/auth',
         method: 'POST',
@@ -56,8 +57,7 @@ export const Login: React.FC<LoginProps> = ({
     }, [loginResponse, googleRes, fbRes]);
 
     const handleRegisterClick = () => {
-        onClose();
-        openRegister(true);
+        onRegisterClick();
     };
     const onSubmit = (values: any) => {
         if (isEmpty(errors)) {
@@ -117,7 +117,7 @@ export const Login: React.FC<LoginProps> = ({
     }
 
     return (
-        <Modal show={show} onHide={onClose}>
+        <Modal show={showModal} onHide={onClose}>
             <div className="log-reg-pop">
                 <div className="pt-3 modal-login">
                     <div className="modal-body px-0">
@@ -199,7 +199,6 @@ export const Login: React.FC<LoginProps> = ({
                                 autoLoad={false}
                                 fields="name,email,picture"
                                 callback={facebookSuccess}
-                                onFailure={facebookSuccess}
                             />
                         </div>
                     </div>
