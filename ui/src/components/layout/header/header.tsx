@@ -99,7 +99,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                         <form className="header-form-width">
                             <Row className="justify-content-center">
                                 <Col lg={4} sm={12} className="form-group has-icon m-0 p-1">
-                                    <LocationSelector onCitySelected={() => { }} />
+                                    <LocationSelector />
                                 </Col>
                                 <Col lg={8} sm={12} className="form-group p-1">
                                     <ProductSearchBox />
@@ -123,7 +123,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                 )}
             </Navbar>
             <Navbar sticky="top" className="d-lg-none navbar navbar-expand-lg shadow bg-white px-2">
-                <LocationSelector onCitySelected={() => { }} />
+                <LocationSelector />
             </Navbar>
 
             {

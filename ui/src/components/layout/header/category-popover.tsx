@@ -55,9 +55,13 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
                         transition={true}
                         rootClose
                         show={selectedCategory === category.id}
-                        onToggle={(nextShow) => console.log('abhi', nextShow)}
+                        onToggle={(nextShow) => {
+                            if (!nextShow) {
+                                setSelectedCategory('');
+                            }
+                        }}
                         overlay={
-                            <Popover className="head-cat" id={`popover-positioned-bottom`}>
+                            <Popover className="head-cat" id={`popover-positioned-bottom`} onMouseLeave={() => setSelectedCategory('')}>
                                 <Popover.Body className="px-5 shadow d-flex flex-wrap">
                                     <div className='p-3 text-center'>
                                         <ul>
@@ -81,7 +85,13 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
                             </Popover>
                         }
                     >
-                        <Button className="bg-dark border-dark" onClick={() => setSelectedCategory(category.id)}>{category?.name}</Button>
+                        <Button
+                            className="bg-dark border-dark"
+                            onClick={() => setSelectedCategory(category.id)}
+                            onMouseEnter={() => setSelectedCategory(category.id)}
+                        >
+                            {category?.name}
+                        </Button>
                     </OverlayTrigger>
                 )
             })}
@@ -89,7 +99,13 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
                 <OverlayTrigger
                     key='bottom'
                     placement='bottom-end'
-                    trigger="click"
+                    trigger={['click']}
+                    show={selectedCategory === 'other'}
+                    onToggle={(nextShow) => {
+                        if (!nextShow) {
+                            setSelectedCategory('');
+                        }
+                    }}
                     overlay={
                         <Popover className="head-cat" id={`popover-positioned-bottom`}>
                             <Popover.Body className="px-5 shadow d-flex flex-wrap">
@@ -116,7 +132,13 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
                         </Popover>
                     }
                 >
-                    <Button className="bg-dark border-dark">Others</Button>
+                    <Button
+                        className="bg-dark border-dark"
+                        onClick={() => setSelectedCategory('other')}
+                        onMouseEnter={() => setSelectedCategory('other')}
+                    >
+                        Others
+                    </Button>
                 </OverlayTrigger>
             )}
         </>

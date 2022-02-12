@@ -11,5 +11,5 @@ export interface LocationData {
   label: string;
 }
 export interface LocationSelectorProps {
-  onCitySelected: (data: object) => void;
+  onCitySelected?: (data: object) => void;
 }
