@@ -6,6 +6,8 @@ import { FaHeart } from 'react-icons/fa';
 import { FiHeart } from 'react-icons/fi';
 import { useAxios } from '../../services';
 import { ProductCardProps } from './types';
+import { useAppContext, ActionTypes } from '../../contexts';
+import { ModalType } from '../../types';
 import './product-card.css';
 
 export const ProductCard: React.FC<ProductCardProps> = ({
@@ -21,7 +23,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     isFavourite,
     onFavUnfav,
 }: ProductCardProps): React.ReactElement => {
-
+    const { state, dispatch } = useAppContext();
     const [favourite, setFavourite] = useState<boolean>(isFavourite);
     const [{ data }, favExecute] = useAxios({
         url: '/user/favorite/product',
@@ -33,6 +35,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     });
 
     const handleFavUnfav = () => {
+        if (!state.session.isLoggedIn) {
+            dispatch({
+                type: ActionTypes.OPEN_MODAL,
+                payload: {
+                    modal: ModalType.LOGIN,
+                }
+            });
+            return;
+        }
         setFavourite(!favourite);
         onFavUnfav(!favourite);
         if (!favourite) {

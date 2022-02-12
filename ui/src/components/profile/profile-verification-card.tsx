@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import { FaChevronRight } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
 import { ProfileVerificationStepper } from './profile-verification-stepper';
 import { useAppContext } from '../../contexts';
 
