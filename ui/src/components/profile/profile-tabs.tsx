@@ -16,13 +16,13 @@ export const ProfileTabs: React.FC = (): React.ReactElement => {
     });
     const [favProducts, setFavProducts] = useState<Product[]>([]);
 
-    const [{ data, loading, error }, execute] = useAxios({
+    const [{ data }] = useAxios({
         url: '/user/products',
         method: 'GET',
     }, {
         manual: false,
     });
-    const [{ data: favResponse, loading: favLoading }, favExecute] = useAxios({
+    const [{ data: favResponse }] = useAxios({
         url: '/user/favorite/products',
         method: 'GET',
     }, {

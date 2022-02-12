@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { Autocomplete, InputAdornment, TextField } from '@mui/material';
-import { useHistory } from 'react-router-dom';
+import { Autocomplete, TextField } from '@mui/material';
 import { useAxios } from '../../../services';
 import { ActionTypes, useAppContext } from '../../../contexts';
 import { LocationSelectorProps, LocationData } from './types';
@@ -9,9 +8,7 @@ import { CURRENT_COUNTRY } from '../../../config';
 
 export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelected }: LocationSelectorProps): React.ReactElement => {
     const [cityData, setCityData] = React.useState<LocationData[]>([]);
-    const { state, dispatch } = useAppContext();
-    const { session: { lat, lng } } = state;
-    const navigate = useHistory();
+    const { dispatch } = useAppContext();
 
     const [{ data: locationResponse, loading }] = useAxios({
         url: `/locations/country/code/${CURRENT_COUNTRY}/regions`,

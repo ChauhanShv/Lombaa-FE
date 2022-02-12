@@ -37,19 +37,6 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
      * 
      */
 
-    const doLogout = () => {
-        dispatch({
-            type: ActionTypes.LOGOUT,
-        });
-    };
-
-    const [{ data, loading, error }] = useAxios({
-        url: '/someurl',
-        method: 'POST',
-        data: {
-            key: 'value',
-        }
-    });
     return (
         <Container fluid>
             <ProfileHeaderCard />
