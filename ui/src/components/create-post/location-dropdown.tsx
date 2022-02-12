@@ -14,7 +14,6 @@ import { useAppContext } from '../../contexts';
 import './styles.scss';
 
 export const LocationDropdown: React.FC<LocationSelectorProps> = ({ onCitySelected, isSettingsPage }: LocationSelectorProps): React.ReactElement => {
-
     const { state } = useAppContext();
     const userData = state.user.metaData;
     const [countryData, setCountryData] = useState<Country>({
