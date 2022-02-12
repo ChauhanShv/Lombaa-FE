@@ -1,13 +1,14 @@
-import { State } from ".";
+import { State } from '.';
 
 export const initialState: State = {
-    session: {
-        lat: '',
-        lng: '',
-    },
-    user: {},
-    app: {
-        appReady: false,
-    },
-    category: []
+  session: {
+    lat: '',
+    lng: '',
+  },
+  user: {},
+  app: {
+    appReady: false,
+  },
+  category: [],
+  filters: [],
 };

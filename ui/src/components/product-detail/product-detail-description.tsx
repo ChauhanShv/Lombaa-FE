@@ -60,49 +60,43 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                         </Col>
                     </Row>
                     <Row>
-                        <Col className="col-12 mb-2">
+                        <Col className="col-12 mb-3">
                             <h4>Description</h4>
                         </Col>
-                        <Col className="col-12 mb-2">
-                            <p className="text-muted m-0">Posted</p>
-                            <p>{moment(productDetail?.postedAt).format('LL')}</p>
-                        </Col>
-                        <Col className="col-12 mb-2">
-                            <p className="text-muted m-0">Qty: </p>
-                            <p>1 pc</p>
-                        </Col>
-                        <Col className="col-12 mb-2">
-                            <p className="text-muted m-0"> Model No : </p>
-                            <p>700</p>
-                        </Col>
+                        <Row>
+                            <Col xs={5}>
+                                <p className="text-muted m-0">Posted</p>
+                            </Col>
+                            <Col xs={7}>
+                                <p>{moment(productDetail?.postedAt).format('LL')}</p>
+                            </Col>
+                        </Row>
                         {productDetail.productFields?.map((productField: ProductFields) =>
-                            <Col className='col-12 mb-2' key={productField.id}>
+                            <Row key={productField.id}>
                                 {!['title', 'description', 'price'].includes(productField.field.fieldType) && (
                                     <>
-                                        <p className="text-muted m-0">{productField.field.label}</p>
-                                        {productField.field.values.map((value: FieldValue) =>
-                                            <p key={value.id}>{value.value}</p>
-                                        )}
+                                        <Col xs={5}>
+                                            <p className="text-muted m-0">{productField.field.label}</p>
+                                        </Col>
+                                        <Col xs={7}>
+                                            <p>{productField.value}</p>
+                                        </Col>
                                     </>
                                 )}
-                            </Col>
+                            </Row>
                         )}
 
-                        <Col className="col-12 mb-2">
+                        <Col className="col-12 mb-3">
                             <p>{productDetail.description}</p>
                         </Col>
 
-                        <Col className="col-12 mb-2">
-                            <h4>Meet-up</h4>
+                        <Col className="col-12 mb-3">
+                            <h4 className="mb-4">Meet-up</h4>
                             <p><FaMapMarkerAlt /> {`${productDetail.location.city.name}, ${productDetail.location.region.name}`}</p>
                         </Col>
 
-                        <Col className="col-12 mb-5">
-                            <h4>Payment</h4>
-
-                        </Col>
-                        <Col className="col-12 mb-2">
-                            <h4 className="mb-0">Meet the seller</h4>
+                        <Col className="col-12 mb-3">
+                            <h4 className="mt-1">Meet the seller</h4>
                             <SellerDetailCard user={productDetail?.user} />
                         </Col>
                     </Row>

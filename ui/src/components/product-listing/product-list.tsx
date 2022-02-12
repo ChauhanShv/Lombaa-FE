@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
-import { Skeleton } from '@mui/material';
 import { ProductCard } from '../product-card';
 import { ProductSkeletonLoader } from '..';
 import { useAxios } from '../../services';
