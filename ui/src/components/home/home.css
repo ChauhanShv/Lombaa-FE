@@ -25,7 +25,7 @@
 .homespot-slider .slick-dots li.slick-active button:before{color:#00AF3C;}
 
 .cat-slider .cat-item{width:94%;margin:0 auto 10px auto;text-align:center;padding:10px; display:flex; flex-wrap: wrap; align-items:center; justify-content: center; background:#fff; color:#333; text-decoration: none; border-radius: 10px;}
-.cat-slider .cat-item:hover{ border:1px solid #ccc; box-shadow: 0 0 10px rgba(0,0,0,15%); }
+.cat-slider .cat-item:hover{border:1px solid #ccc; box-shadow: 0 0 10px rgba(0,0,0,15%);}
 .cat-slider .cat-item p{margin:0; font-size:12px;}
 .cat-slider .cat-item img{margin:0 auto 10px auto;}
 

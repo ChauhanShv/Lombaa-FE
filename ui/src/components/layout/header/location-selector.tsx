@@ -13,14 +13,14 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
     const { session: { lat, lng } } = state;
     const navigate = useHistory();
 
-    const [{ data: locationResponse, loading }, locationExecute] = useAxios({
+    const [{ data: locationResponse, loading }] = useAxios({
         url: `/locations/country/code/${CURRENT_COUNTRY}/regions`,
         method: 'GET',
     }, { manual: false });
 
     useEffect(() => {
         const cities: LocationData[] = [];
-        if (locationResponse?.success) {
+        if (locationResponse?.success && locationResponse?.response?.regions) {
             for (const region of locationResponse?.response?.regions) {
                 for (const city of region.cities) {
                     cities.push({
@@ -40,12 +40,14 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
     const handleLocationSelect = (e: any) => {
         if (cityData.length && e.target.textContent) {
             const cityObj: any = cityData.find((city) => city.label === e.target.textContent);
-            onCitySelected({
-                city: cityObj.cityId,
-                region: cityObj.regionId,
-                country: locationResponse?.response?.id,
-                coordinate: cityObj.coordinate,
-            });
+            if (onCitySelected) {
+                onCitySelected({
+                    city: cityObj.cityId,
+                    region: cityObj.regionId,
+                    country: locationResponse?.response?.id,
+                    coordinate: cityObj.coordinate,
+                });
+            }
             dispatch({
                 type: ActionTypes.SETLATLNG,
                 payload: {
