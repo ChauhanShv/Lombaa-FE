@@ -266,7 +266,7 @@ class ProductService {
   }
 
   async search(search) {
-    if (search.length === 1 || search.length === 2) { return [] }
+    if ((search?.length ?? 0) < 3) { return [] }
 
     let products = await Product.findAll({
       include: [

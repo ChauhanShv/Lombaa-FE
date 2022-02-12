@@ -35,8 +35,5 @@ module.exports = () => {
   router.get("/:id", optionalAuthMiddleware, checkSchema(getProductSchema), controller.findById);
   router.get("/:id/similar", optionalAuthMiddleware, checkSchema(similarProductSchema), controller.lookALike)
 
-
-
-
   return router;
 };
