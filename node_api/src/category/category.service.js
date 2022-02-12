@@ -1,9 +1,18 @@
+const Field = require("../field/field.model");
 const Category = require("./category.model");
 
 class CategoryService {
 
     async getById(id) {
-        const data = await Category.findByPk(id);
+        const data = await Category.findByPk(id, {
+            include: [
+                {
+                    model: Field,
+                    as: 'fields',
+                    through: { attributes: [] },
+                }
+            ]
+        });
         return data;
     }
 

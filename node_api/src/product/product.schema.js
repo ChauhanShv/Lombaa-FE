@@ -97,6 +97,8 @@ exports.generate = async (req) => {
     const dataType = field?.dataTypes?.toLowerCase();
     const fieldLabel = field?.label;
 
+    field.value = req.body.fields?.find(f => f?.id === field?.id)?.value
+
     if (field?.isRequired) {
       fieldValidation["notEmpty"] = {
         errorMessage: `${fieldLabel} is required`,

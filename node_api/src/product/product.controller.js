@@ -37,7 +37,7 @@ class ProductController extends BaseController {
 
     try {
       const data = {
-        slug: await this.slugify(req?.body?.categoryFields?.find((field) => field.fieldType === "title")?.value ?? req?.body?.categoryId ?? uuidv4()),
+        slug: await this.slugify(req?.body?.categoryFields?.find((field) => field.fieldType === "title")?.value?.value ?? uuidv4()),
         userId: req?.user?.id ?? null,
         categoryId: req.body.categoryId
       };
