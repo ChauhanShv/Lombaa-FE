@@ -34,6 +34,7 @@ const successMessage: string = 'Your password has changed';
 
 export const ChangePassword: React.FC = (): React.ReactElement => {
     const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm<ChangePasswordFormFeilds>({
+        mode: 'onChange',
         resolver: yupResolver(schema),
     });
     const [alert, setAlert] = useState<AlertType>({});
