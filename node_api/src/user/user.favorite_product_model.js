@@ -3,7 +3,7 @@ const sequelize = require("../modules/sequelize").service;
 const User = require("./user.model");
 const Product = require("../product/product.model");
 
-class FavoriteProduct extends Model {}
+class FavoriteProduct extends Model { }
 
 FavoriteProduct.init(
   {
@@ -21,7 +21,7 @@ FavoriteProduct.init(
   }
 );
 
-User.belongsToMany(Product, { through: FavoriteProduct, foreignKey: "userId" });
+User.belongsToMany(Product, { through: FavoriteProduct, foreignKey: "userId", as: 'favoriteProducts' });
 Product.belongsToMany(User, { through: FavoriteProduct, foreignKey: "productId" });
 // Product.belongsTo(User, { as: "user" });
 

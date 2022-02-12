@@ -488,8 +488,8 @@ class UserController extends BaseController {
     try {
       const userId = req.user?.id;
 
-      let userWithFavProducts = await this.service.getFavoriteProducts(userId)
-      const products = this.productService.fieldsMapping(userWithFavProducts?.Products ?? [])
+      let userWithFavProducts = await this.service.getFavoriteProducts(userId);
+      const products = this.productService.fieldsMapping(userWithFavProducts?.favoriteProducts ?? [])
 
       const data = { success: true, message: "Fetched user favorite products", response: { products: products } };
       return super.jsonRes({ res, code: 200, data });

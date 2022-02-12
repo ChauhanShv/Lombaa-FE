@@ -357,13 +357,17 @@ class UserService {
   }
 
   async getFavoriteProducts(userId) {
-    let userWithFavProducts = await FavoriteProduct.findOne({
+    let userWithFavProducts = await User.findOne({
       where: { id: userId }, include: [{
-        model: Product, through: { attributes: [] }, include: [{ model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
-        { model: Location, as: "location" },
-        { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
-        { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
-        { model: Category, as: 'category' }]
+        model: Product,
+        as: 'favoriteProducts',
+        through: { attributes: [] },
+        include: [
+          { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
+          { model: Location, as: "location" },
+          { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
+          { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+          { model: Category, as: 'category' }]
       }]
     });
 
