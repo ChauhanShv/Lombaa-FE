@@ -10,10 +10,11 @@ import { ActionTypes, useAppContext } from '../../../contexts';
 import { Category } from '../../../types';
 
 export const CategoryPopover: React.FC = (): React.ReactElement => {
-    const [popularCategories, setPopularCategories] = useState<Category[]>([]);
     const { dispatch } = useAppContext();
+    const [popularCategories, setPopularCategories] = useState<Category[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState<string>('');
     const [otherCategories, setOtherCategories] = useState<Category[]>([]);
-    const [{ data }, execute] = useAxios({
+    const [{ data }] = useAxios({
         url: '/category',
         method: 'GET',
     }, { manual: false });
@@ -53,6 +54,8 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
                         placement='bottom-start'
                         transition={true}
                         rootClose
+                        show={selectedCategory === category.id}
+                        onToggle={(nextShow) => console.log('abhi', nextShow)}
                         overlay={
                             <Popover className="head-cat" id={`popover-positioned-bottom`}>
                                 <Popover.Body className="px-5 shadow d-flex flex-wrap">
@@ -78,7 +81,7 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
                             </Popover>
                         }
                     >
-                        <Button className="bg-dark border-dark">{category?.name}</Button>
+                        <Button className="bg-dark border-dark" onClick={() => setSelectedCategory(category.id)}>{category?.name}</Button>
                     </OverlayTrigger>
                 )
             })}
