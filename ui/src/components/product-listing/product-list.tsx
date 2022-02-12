@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Skeleton } from '@mui/material';
 import { ProductCard } from '../product-card';
-import { Loader } from '..';
 import { useAxios } from '../../services';
 import { useAppContext } from '../../contexts';
 import { Product, ProductMedia } from './types';
