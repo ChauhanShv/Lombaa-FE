@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { FaChevronRight } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import { ProfileVerificationStepper } from './profile-verification-stepper';
 import { useHistory } from 'react-router-dom';
+import { ProfileVerificationStepper } from './profile-verification-stepper';
 
 export const ProfileVerificationCard: React.FC = (): React.ReactElement => {
     const navigate = useHistory();

@@ -25,8 +25,8 @@ const schema = yup.object().shape({
 
 export const Register: React.FC<RegisterProps> = ({
     show,
-    openLogin,
     onClose,
+    onLoginClick,
 }: RegisterProps): React.ReactElement => {
     const { register, handleSubmit, getValues, formState: { errors, isDirty }, setValue } = useForm<FormFields>({
         resolver: yupResolver(schema),
@@ -299,8 +299,7 @@ export const Register: React.FC<RegisterProps> = ({
         handleSubmit(onSubmit)();
     };
     const handleLoginClick = () => {
-        onClose();
-        openLogin(true);
+        onLoginClick();
     };
 
     const showAPIErrorMessage = () => {
