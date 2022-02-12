@@ -30,7 +30,7 @@ module.exports = () => {
   router.get("/listing", controller.listing);
   router.post("/media", authMiddleware, multer({ storage: storage }).any(), checkSchema(productMediaSchema), controller.uploadMedia);
   router.post("/:id", controller.soldProduct)
-  router.get("/", authMiddleware, controller.getRandom)
+  router.get("/", optionalAuthMiddleware, controller.getRandom)
   router.get("/category", optionalAuthMiddleware, controller.searchCat)
   router.get("/:id", optionalAuthMiddleware, checkSchema(getProductSchema), controller.findById);
   router.get("/:id/similar", optionalAuthMiddleware, checkSchema(similarProductSchema), controller.lookALike)
