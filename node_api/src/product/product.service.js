@@ -266,6 +266,8 @@ class ProductService {
   }
 
   async search(search) {
+    if ((search?.length ?? 0) < 3) { return [] }
+
     let products = await Product.findAll({
       include: [
         { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
@@ -282,6 +284,10 @@ class ProductService {
     products = products.map(product => {
       return product.category
     })
+    function getArray(arr, key) {
+      return [...new Map(arr.map(item => [item[key], item])).values()]
+    }
+    products = getArray(products, 'id')
     return products
 
 

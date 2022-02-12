@@ -214,7 +214,7 @@ class ProductController extends BaseController {
   searchCat = async (req, res, next) => {
     try {
       const search = req.query.search
-      let searchCat = await this.service.search(search)
+      let searchCat = await this.service.search(search ?? '')
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Products retreived", products: searchCat } })
     }
     catch (error) {
