@@ -71,7 +71,7 @@ class ProductsController extends Controller
     {
         $data = [
             'rejectedAt' => Carbon::now(),
-            'rejectReason' => $request->optionsRadios,
+            'rejectReason' => $request->reason,
             'approvedAt' => null,
             'expiry' => null,
         ];
