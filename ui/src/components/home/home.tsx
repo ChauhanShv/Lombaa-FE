@@ -20,31 +20,10 @@ const CatCarSettings = {
     dots: false,
     speed: 500,
     slidesToScroll: 1,
-    responsive: [
-        {
-            breakpoint: 1024,
-            settings: {
-                slidesToShow: 5,
-                slidesToScroll: 1
-            }
-        },
-        {
-            breakpoint: 980,
-            settings: {
-                slidesToShow: 5,
-                slidesToScroll: 1
-            }
-        },
-        {
-            breakpoint: 767,
-            settings: {
-                rows: 2,
-                slidesPerRow: 2,
-                slidesToShow: 1,
-                slidesToScroll: 1
-            }
-        }
-    ]
+    slidesToShow: 1,
+    infinite: false,
+    variableWidth: true,
+    arrows: true,
 };
 
 const getPrimaryMedia = (media: ProductMedia[]): string =>
@@ -105,7 +84,7 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
                     <h2 className="text-secondary mb-3">Explore Lombaa</h2>
                     <Row>
                         <Col className="col-10 col-md-11 mx-auto">
-                            <Slider className="cat-slider" {...CatCarSettings} slidesToShow={category?.length <= 7 ? category?.length : 7}>
+                            <Slider className="cat-slider" {...CatCarSettings}>
                                 {
                                     category?.map((cat: Category) => (
                                         <div key={cat.id}>

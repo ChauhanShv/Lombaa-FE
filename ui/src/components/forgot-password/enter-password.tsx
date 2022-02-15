@@ -89,7 +89,7 @@ export const EnterPassword: React.FC = () => {
     };
 
     return (
-        <Container className="p-5">
+        <Container>
             <Row>
                 <Col md={12}>
                     <Card>
@@ -106,7 +106,7 @@ export const EnterPassword: React.FC = () => {
                                 Change Password
                             </span>
                         </Card.Header>
-                        <Form onSubmit={handleFormSubmit} className="card-content text-center p-5 col-lg-6 mx-auto" noValidate>
+                        <Form onSubmit={handleFormSubmit} className="card-content text-center col-lg-6 mx-auto" noValidate>
                             <h4 className="mb-4">Enter your email to get the forgot password link</h4>
                             <FloatingLabel
                                 label="New password"
@@ -142,7 +142,6 @@ export const EnterPassword: React.FC = () => {
                             <button className="link btn ">Cancel</button>
                         </Form>
                     </Card>
-
                 </Col>
             </Row>
         </Container>
