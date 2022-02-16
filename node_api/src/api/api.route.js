@@ -6,6 +6,7 @@ const cityRouter = require("../city").router;
 const authRouter = require("../auth").router;
 const categoryRouter = require("../category").router;
 const locationRouter = require('../location').router;
+const chatRouter = require("../chat").router
 
 const router = require("../modules/express").instance.Router();
 
@@ -16,6 +17,7 @@ module.exports = () => {
   router.use("/product", productRouter());
 
   router.use("/locations", locationRouter());
+  router.use("/chat", chatRouter())
   // router.use("/countries", countryRouter());
   // router.use("/location/country", regionRouter());
   // router.use("/location/country/region", cityRouter());

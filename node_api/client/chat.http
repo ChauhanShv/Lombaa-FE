@@ -1,0 +1,9 @@
+POST  {{baseUrl}}/chat/init HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+{
+    "productId" : "04c33d90-4cd0-4b68-92ad-b603c9395b"
+}
