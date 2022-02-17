@@ -12,7 +12,23 @@ Chat.init(
             primaryKey: true,
             defaultValue: Sequelize.UUIDV4,
         },
+        archived: {
+            type: DataTypes.DATE,
+            allownull: true,
+            defaultValue: null
+        },
+        buyerDeletedAt: {
+            type: DataTypes.DATE,
+            allownull: true,
+            defaultValue: null
+        },
+        sellerDeletedAt: {
+            type: DataTypes.DATE,
+            allownull: true,
+            defaultValue: null
+        }
     },
+
     {
         modelName: "Chat",
         tableName: "chats",

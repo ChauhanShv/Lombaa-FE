@@ -5,6 +5,7 @@ const validationErrorFormatter = require("../modules/formatter").validationError
 const { validationResult } = require("express-validator");
 const ChatMessage = require("./chat.message.model");
 const responseFormatter = require("../modules/formatter").response;
+const moment = require("moment")
 
 
 class ChatController extends BaseController {
@@ -49,6 +50,28 @@ class ChatController extends BaseController {
             console.log(error)
             return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to send message", message_details: error?.message } })
         }
+    }
+
+    delete = async (req, res, next) => {
+        try {
+            const { id } = req?.body;
+            const userId = req.user?.id
+            const data = await Chat.findOne({ where: { id: id } })
+            if (userId === data.buyerId) {
+                const buyerDeletedAt = await Chat.update({ buyerDeletedAt: moment() }, { where: { id: id } })
+                return super.jsonRes({ res, code: 200, data: { success: true, message: "Chat deleted" } })
+            }
+            if (userId === data.sellerId) {
+                const sellerDeletedAt = await Chat.update({ sellerDeletedAt: moment() }, { where: { id: id } })
+                return super.jsonRes({ res, code: 200, data: { success: false, message: "Chat deleted" } })
+            }
+        }
+        catch (error) {
+            console.log(error)
+            return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to delete chat", message_details: error?.message } })
+
+        }
+
     }
 }
 module.exports = ChatController
