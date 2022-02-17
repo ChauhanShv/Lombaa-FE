@@ -18,6 +18,7 @@ const lookalikeSliderSettings = {
     slidesToShow: 4,
     prevArrow: <IoCaretBack fill="green" />,
     nextArrow: <IoCaretForward fill="green" />,
+    infinite: false,
     responsive: [
         {
             breakpoint: 1024,

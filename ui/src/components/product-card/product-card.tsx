@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import { Card } from 'react-bootstrap';
+import { Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { FaHeart } from 'react-icons/fa';
 import { FiHeart } from 'react-icons/fi';
@@ -76,7 +77,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             <Link to={`/product-detail/${productId}/${slug}`}>
                 <div className="card-body">
                     <Card.Header className="card-title text-success product-card-header">
-                        {title}
+                        <Typography noWrap={true}>{title}</Typography>
                     </Card.Header>
                     <p className="card-text">
                         <strong>{summary}</strong>
