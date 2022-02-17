@@ -22,7 +22,8 @@ html body .navbar.sticky-top { box-shadow: 0 2px 10px rgba(0,0,0,10%) !important
 .head-cat.popover{transform: translate(0px, 57px) !important; max-width: 100%; width:100%; position: fixed !important; }
 .head-cat.popover{transform: translate(0px, 61px) !important; max-width: 100%; width:100%; position: fixed !important; z-index: 11; }
 .head-cat.popover ul{margin:0; padding:0; list-style: none;}
-.head-cat.popover h4{font: size 1.2em;}
+.head-cat.popover h4{font: size 20px; font-family: 'Poppins';}
+.head-cat.popover a{font-family: 'Poppins'; font-size: 16px;}
 
 .navbar .form-noborder{margin:0 auto 0 75px;}
 .mobile-fnav{font-size:12px; box-shadow: 0 -4px 10px rgba(0,0,0,15%);}
