@@ -11,8 +11,6 @@ module.exports = {
         custom: {
             options: async (id, { req, location, path }) => {
                 if (id && ! await chatService.exists(id)) return Promise.reject(`Product does not exists`);
-
-                console.log(await chatService.exists(id), 'hfhdsgyhsgafuyarghfwgfvcyuafyvwjhegvbhjfv')
                 return Promise.resolve();
             },
 

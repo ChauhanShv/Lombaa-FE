@@ -22,6 +22,7 @@ Chat.init(
     }
 );
 Chat.belongsTo(Product, { as: 'product' })
-Chat.belongsTo(User, { as: 'user' })
+Chat.belongsTo(User, { as: 'buyer' })
+Chat.belongsTo(User, { as: "seller" })
 
 module.exports = Chat;

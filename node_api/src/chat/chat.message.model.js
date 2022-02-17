@@ -1,6 +1,7 @@
 const { text } = require("express");
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const Product = require("../product/product.model");
+const User = require("../user/user.model");
 const Chat = require("./chat.model");
 const sequelize = require("../modules/sequelize").service;
 
@@ -13,7 +14,7 @@ ChatMessage.init(
             primaryKey: true,
             defaultValue: Sequelize.UUIDV4,
         },
-        message: {
+        text: {
             type: DataTypes.TEXT,
             allowNull: false
         },
@@ -27,5 +28,6 @@ ChatMessage.init(
     }
 );
 ChatMessage.belongsTo(Chat, { as: 'chat' })
+ChatMessage.belongsTo(User, { as: "postedBy" })
 
 module.exports = ChatMessage;

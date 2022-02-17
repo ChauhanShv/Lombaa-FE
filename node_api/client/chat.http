@@ -5,5 +5,18 @@ x-client-platform : Android
 x-app-version : 1.0.0
 
 {
-    "productId" : "04c33d90-4cd0-4b68-92ad-b603c9395b"
-}
+    "productId" : "0c77963e-9404-44b1-adcf-ae97e17ca3a1"
+}  
+
+###
+
+POST  {{baseUrl}}/chat/sendMessage HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+{
+    "chatId" : "082cd64c-2b52-4dde-ae22-c47ec67d7440",
+    "text" : "hii its vivek here"
+}   
