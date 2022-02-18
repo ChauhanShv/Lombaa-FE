@@ -89,7 +89,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             </Link>
             <Link to={`/product-detail/${productId}/${slug}`} className="p-0 ms-3 mb-3 usermeta">
                 <img
-                    className="rounded-circle me-2"
+                    className="rounded-circle me-2 d-inline"
                     width="30"
                     height="30"
                     src={authorProfilePicture}

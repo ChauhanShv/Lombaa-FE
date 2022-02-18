@@ -8,6 +8,7 @@ import { ProductFields, ProductDetailDescriptionProps, FieldValue } from './type
 import { useAppContext } from '../../contexts';
 import { useAxios } from '../../services';
 import { AlertBox } from '../alert-box';
+import { ChatWidget } from '../chat-widget';
 import './product-detail.css';
 
 export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> = ({
@@ -45,7 +46,7 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                         onClose={onClosePressed}
                     />
                 )}
-                <Col className="col-lg-8 col-md-11 mx-auto">
+                <Col lg={8} md={11} className="mx-auto">
                     <h1 className="h2 text-dark mb-3">{productDetail.title}</h1>
                     <h2 className="text-success">
                         {productDetail.location.country.currencySymbol}{' '}{productDetail.price}
@@ -104,6 +105,7 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                     </Row>
                 </Col>
                 <Col lg={4} sm={12} className="d-flex flex-wrap flex-column">
+                    <ChatWidget />
                     <div className="p-4 w-100">
                         <Link to='/' className="p-0 mb-3 usermeta d-block">
                             <img
