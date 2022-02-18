@@ -11,5 +11,6 @@ module.exports = () => {
     router.post('/init', authMiddleware, checkSchema(chatSchema), controller.chatInstance);
     router.post("/sendMessage", authMiddleware, controller.sendMessage)
     router.delete("/delete", authMiddleware, controller.delete)
+    router.get("/messages", authMiddleware, controller.getMessages)
     return router;
 };

@@ -73,5 +73,20 @@ class ChatController extends BaseController {
         }
 
     }
+    getMessages = async (req, res, next) => {
+        try {
+            const { chatId } = req?.body
+            const { limit, offset = 0 } = req.query
+            const cLimit = parseInt(limit)
+            const cOffset = parseInt(offset)
+            const messages = await ChatMessage.findAll({ where: { chatId: chatId }, offset: cOffset, limit: cLimit, order: [['createdAt', 'DESC']] })
+            return super.jsonRes({ res, code: 200, data: { success: false, message: "Chat retreived", data: messages } })
+
+        }
+        catch (error) {
+            console.log(error)
+            return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to retreived Chat", message_details: error?.message } })
+        }
+    }
 }
 module.exports = ChatController
