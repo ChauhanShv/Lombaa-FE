@@ -15,7 +15,7 @@ class ChatController extends BaseController {
         this.settingService = new SettingService()
     }
 
-    chatInstance = async (req, res, next) => {
+    initChat = async (req, res, next) => {
         try {
             validationResult(req).formatWith(validationErrorFormatter).throw();
         } catch (error) {
@@ -23,12 +23,13 @@ class ChatController extends BaseController {
         }
         try {
             const { productId } = req?.body
-
             const userId = req.user?.id
-            let alreadyExists = await Chat.findOne({ where: { buyerId: userId, productId: productId } })
+
+            let alreadyExists = await Chat.findOne({ where: { buyerId: userId, productId: productId } });
             if (alreadyExists) {
                 return super.jsonRes({ res, code: 200, data: { success: true, message: "Chat already exits", data: alreadyExists } })
             }
+
             if (!alreadyExists) {
                 const product = await Product.findOne({ where: { id: productId } })
                 const chatData = await Chat.create({ productId: productId, buyerId: userId, sellerId: product.userId })
@@ -36,16 +37,16 @@ class ChatController extends BaseController {
         }
         catch (error) {
             return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to chat", message_details: error?.message } })
-
         }
-
     }
 
     sendMessage = async (req, res, next) => {
         try {
             const { text, chatId } = req?.body
             const userId = req.user?.id
+
             const message = await ChatMessage.create({ postedById: userId, text: text, chatId: chatId, })
+
             return super.jsonRes({ res, code: 200, data: { success: true, message: "Message sent successfully", data: message } })
         }
         catch (error) {
@@ -58,13 +59,16 @@ class ChatController extends BaseController {
         try {
             const { id } = req?.body;
             const userId = req.user?.id
+
             const data = await Chat.findOne({ where: { id: id } })
             if (userId === data.buyerId) {
                 const buyerDeletedAt = await Chat.update({ buyerDeletedAt: moment() }, { where: { id: id } })
+
                 return super.jsonRes({ res, code: 200, data: { success: true, message: "Chat deleted" } })
             }
             if (userId === data.sellerId) {
                 const sellerDeletedAt = await Chat.update({ sellerDeletedAt: moment() }, { where: { id: id } })
+
                 return super.jsonRes({ res, code: 200, data: { success: false, message: "Chat deleted" } })
             }
         }

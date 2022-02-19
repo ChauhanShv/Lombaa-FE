@@ -18,8 +18,6 @@ module.exports = () => {
 
   router.use("/locations", locationRouter());
   router.use("/chat", chatRouter())
-  // router.use("/countries", countryRouter());
-  // router.use("/location/country", regionRouter());
-  // router.use("/location/country/region", cityRouter());
+
   return router;
 };

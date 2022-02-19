@@ -13,7 +13,6 @@ module.exports = {
                 if (id && ! await chatService.exists(id)) return Promise.reject(`Product does not exists`);
                 return Promise.resolve();
             },
-
         }
     }
 }

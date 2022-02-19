@@ -9,7 +9,7 @@ const { checkSchema } = require("express-validator");
 const controller = new chatController();
 
 module.exports = () => {
-    router.post('/init', authMiddleware, checkSchema(chatSchema), controller.chatInstance);
+    router.post('/init', authMiddleware, checkSchema(chatSchema), controller.initChat);
     router.post("/sendMessage", authMiddleware, controller.sendMessage)
     router.delete("/delete", authMiddleware, controller.delete)
     router.get("/messages", authMiddleware, checkSchema(getChatSchema), controller.getMessages)

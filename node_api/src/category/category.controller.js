@@ -69,7 +69,7 @@ class CategoryController extends BaseController {
       const catId = req.params?.id
       const { sortby, sortorder, filter, search, lat, lng, radius = 20000, offset = 0, limit = 10, price } = req.query;
 
-      const radiusValue = await this.settingService.getInt(add_product_radius)
+      const radiusValue = await this.settingService?.getInt(add_product_radius)
       if (radiusValue) {
         radius = radiusValue * 1000;
       }

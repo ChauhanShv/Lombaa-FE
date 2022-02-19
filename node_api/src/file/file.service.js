@@ -34,12 +34,12 @@ module.exports = class FileService {
     }
   }
 
-  async isVideo(mime) {
+  isVideo(mime) {
     const videoMimeTypes = ["video/mp4"]
     return videoMimeTypes.includes(mime)
   }
 
-  async isImage(mime) {
+  isImage(mime) {
     const imageMimeTypes = ["image/jpeg", "image/png", "image/jpg"]
     return imageMimeTypes.includes(mime)
   }
