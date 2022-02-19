@@ -310,7 +310,6 @@ class ProductService {
     productsFromCategory = this.fieldsMapping(productsFromCategory)
     return productsFromCategory
   }
+
 }
-
-
 module.exports = ProductService;

@@ -5,12 +5,14 @@ const validationErrorFormatter = require("../modules/formatter").validationError
 const { validationResult } = require("express-validator");
 const ChatMessage = require("./chat.message.model");
 const responseFormatter = require("../modules/formatter").response;
-const moment = require("moment")
+const moment = require("moment");
+const SettingService = require("../settings/settings.service");
 
 
 class ChatController extends BaseController {
     constructor() {
-        super()
+        super();
+        this.settingService = new SettingService()
     }
 
     chatInstance = async (req, res, next) => {
@@ -75,16 +77,23 @@ class ChatController extends BaseController {
     }
     getMessages = async (req, res, next) => {
         try {
+            try {
+                validationResult(req).formatWith(validationErrorFormatter).throw();
+            } catch (error) {
+                return res.status(422).json(error.array({ onlyFirstError: true }));
+            }
+            const userId = req.user?.id
             const { chatId } = req?.body
-            const { limit, offset = 0 } = req.query
-            const cLimit = parseInt(limit)
-            const cOffset = parseInt(offset)
-            const messages = await ChatMessage.findAll({ where: { chatId: chatId }, offset: cOffset, limit: cLimit, order: [['createdAt', 'DESC']] })
-            return super.jsonRes({ res, code: 200, data: { success: false, message: "Chat retreived", data: messages } })
+            const data = await Chat.findOne({ where: { id: chatId } })
+            if (userId === data.buyerId || userId === data.sellerId) {
+                const { limit, offset } = req.query
+                const messages = await ChatMessage.findAll({ where: { chatId: chatId }, offset: offset, limit: limit, order: [['createdAt', 'DESC']] })
+                return super.jsonRes({ res, code: 200, data: { success: false, message: "Chat retreived", data: messages } })
+            }
+            return super.jsonRes({ res, code: 200, data: { success: true, message: "Invalid Participant" } })
 
         }
         catch (error) {
-            console.log(error)
             return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to retreived Chat", message_details: error?.message } })
         }
     }

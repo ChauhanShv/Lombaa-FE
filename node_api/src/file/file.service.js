@@ -33,4 +33,14 @@ module.exports = class FileService {
       throw new Error(error);
     }
   }
+
+  async isVideo(mime) {
+    const videoMimeTypes = ["video/mp4"]
+    return videoMimeTypes.includes(mime)
+  }
+
+  async isImage(mime) {
+    const imageMimeTypes = ["image/jpeg", "image/png", "image/jpg"]
+    return imageMimeTypes.includes(mime)
+  }
 };
