@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Container, Row, Col, Button, ListGroup, Spinner } from 'react-bootstrap';
 import { FaAsterisk, FaHandshake, FaMapMarkerAlt, FaEdit, FaCheckCircle, FaTrashAlt } from 'react-icons/fa';
 import { SellerDetailCard } from '.';
@@ -8,7 +8,6 @@ import { ProductFields, ProductDetailDescriptionProps, FieldValue } from './type
 import { useAppContext } from '../../contexts';
 import { useAxios } from '../../services';
 import { AlertBox } from '../alert-box';
-import { ChatWidget } from '../chat-widget';
 import './product-detail.css';
 
 export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> = ({
@@ -17,10 +16,29 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
     const [isMarkSolded, setIsMarkSolded] = useState<boolean>(false);
     const [showAlertBox, setShowAlertBox] = useState<boolean>(false);
     const { state } = useAppContext();
+    const navigate = useHistory();
     const [{ data, loading }, executeSoldProduct] = useAxios({
         url: `/product/${productDetail.id}`,
         method: 'POST',
     });
+    const [{ data: chatInitResponse, loading: chatInitLoading }, executeChatInit] = useAxios({
+        url: `/chat/init`,
+        method: 'POST',
+    });
+
+    useEffect(() => {
+        executeChatInit({
+            data: {
+                productId: productDetail.id,
+            },
+        });
+    }, []);
+
+    const handleChatInit = () => {
+        if (chatInitResponse?.success) {
+            navigate.push(`/chat/${chatInitResponse?.data?.id}`);
+        }
+    };
 
     const handleMarkSolded = () => {
         setShowAlertBox(true);
@@ -105,7 +123,6 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                     </Row>
                 </Col>
                 <Col lg={4} sm={12} className="d-flex flex-wrap flex-column">
-                    <ChatWidget />
                     <div className="p-4 w-100">
                         <Link to='/' className="p-0 mb-3 usermeta d-block">
                             <img
@@ -125,8 +142,8 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                         ) : (
 
                             <>
-                                <Button variant="btn btn-success" className="p-2 me-lg-2 mb-3 w-100">
-                                    No Chats yet - Promote
+                                <Button onClick={handleChatInit} variant="btn btn-success" className="p-2 me-lg-2 mb-3 w-100">
+                                    {chatInitLoading ? <Spinner animation='border' /> : 'No Chats yet - Promote'}
                                 </Button>
                                 {state?.user?.metaData?.id === productDetail?.userId && (
                                     <ListGroup className="product-auth">
