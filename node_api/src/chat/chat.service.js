@@ -1,8 +1,18 @@
 const Chat = require("./chat.model")
 const Product = require("../product/product.model")
 const ChatMessage = require("./chat.message.model")
+const ProductMedia = require("../product/product_media.model")
+const fileModel = require("../file/file.model");
+const User = require("../user/user.model")
+const ProductField = require("../product/product_field.model");
+const Field = require("../field/field.model");
+const ProductService = require("../product/product.service")
+
 
 class ChatService {
+    constructor() {
+        this.productService = new ProductService()
+    }
 
     async exists(id) {
         if (!id) return false;
@@ -38,10 +48,37 @@ class ChatService {
         return message
     }
     async buyerMessage(userId, offset, limit) {
-        return await Chat.findAll({ where: { buyerId: userId }, offset: offset, limit: limit })
+        let data = await Chat.findAll({
+            where: { buyerId: userId }, offset: offset, limit: limit, include: [
+                { model: Product, as: 'product', include: [{ model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] }, { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] }] },
+                { model: User, as: 'buyer', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+                { model: User, as: 'seller', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+                { model: ChatMessage, as: 'messages' }
+            ]
+        })
+        data = data.map(data => {
+            this.productService.fieldsMapping([data.product]);
+            const p = { id: data?.product?.id, media: data?.product?.productMedia, fields: { title: data?.product?.title, price: data?.product?.price, description: data?.product?.description } }
+            const result = { id: data?.id, buyer: data?.buyer, seller: data?.seller, product: p }
+            return result
+        })
+        return data
     }
     async sellerMessage(userId, offset, limit) {
-        return await Chat.findAll({ where: { sellerId: userId }, offset: offset, limit: limit })
+        let data = await Chat.findAll({
+            where: { sellerId: userId }, offset: offset, limit: limit, include: [
+                { model: Product, as: 'product', include: [{ model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] }, { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] }] },
+                { model: User, as: 'buyer', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+                { model: User, as: 'seller', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] }
+            ]
+        })
+        data = data.map(data => {
+            this.productService.fieldsMapping([data.product]);
+            const p = { id: data?.product?.id, media: data?.product?.productMedia, fields: { title: data?.product?.title, price: data?.product?.price, description: data?.product?.description } }
+            const result = { id: data?.id, buyer: data?.buyer, seller: data?.seller, product: p }
+            return result
+        })
+        return data
     }
 }
 module.exports = ChatService
