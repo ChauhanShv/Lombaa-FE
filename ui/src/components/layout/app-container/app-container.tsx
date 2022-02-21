@@ -80,6 +80,7 @@ export const AppContainer = ({ children }: AppContainerProps) => {
     const showFooter = () => {
         const footerHiddenRoutes: string[] = [
             '/create-post',
+            '/chat',
         ];
         return !footerHiddenRoutes.includes(location.pathname);
     };
