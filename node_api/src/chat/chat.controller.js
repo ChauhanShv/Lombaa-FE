@@ -7,12 +7,14 @@ const ChatMessage = require("./chat.message.model");
 const responseFormatter = require("../modules/formatter").response;
 const moment = require("moment");
 const SettingService = require("../settings/settings.service");
+const ChatService = require("./chat.service")
 
 
 class ChatController extends BaseController {
     constructor() {
         super();
         this.settingService = new SettingService()
+        this.chatService = new ChatService()
     }
 
     initChat = async (req, res, next) => {
@@ -25,14 +27,14 @@ class ChatController extends BaseController {
             const { productId } = req?.body
             const userId = req.user?.id
 
-            let alreadyExists = await Chat.findOne({ where: { buyerId: userId, productId: productId } });
+            let alreadyExists = await this.chatService.alreadyExists(userId, productId)
             if (alreadyExists) {
                 return super.jsonRes({ res, code: 200, data: { success: true, message: "Chat already exits", data: alreadyExists } })
             }
 
             if (!alreadyExists) {
-                const product = await Product.findOne({ where: { id: productId } })
-                const chatData = await Chat.create({ productId: productId, buyerId: userId, sellerId: product.userId })
+                const ChatStarted = await this.chatService.createChat(userId, productId)
+                return super.jsonRes({ res, code: 200, data: { success: true, message: "New chart has been started" } })
             }
         }
         catch (error) {
@@ -45,8 +47,7 @@ class ChatController extends BaseController {
             const { text, chatId } = req?.body
             const userId = req.user?.id
 
-            const message = await ChatMessage.create({ postedById: userId, text: text, chatId: chatId, })
-
+            const message = await this.chatService.sendMessage(userId, text, chatId)
             return super.jsonRes({ res, code: 200, data: { success: true, message: "Message sent successfully", data: message } })
         }
         catch (error) {
@@ -60,24 +61,20 @@ class ChatController extends BaseController {
             const { id } = req?.body;
             const userId = req.user?.id
 
-            const data = await Chat.findOne({ where: { id: id } })
+            const data = this.chatService.findChat(id)
             if (userId === data.buyerId) {
-                const buyerDeletedAt = await Chat.update({ buyerDeletedAt: moment() }, { where: { id: id } })
-
+                const buyerDeletedAt = await this.chatService.buyerDelete(id)
                 return super.jsonRes({ res, code: 200, data: { success: true, message: "Chat deleted" } })
             }
             if (userId === data.sellerId) {
-                const sellerDeletedAt = await Chat.update({ sellerDeletedAt: moment() }, { where: { id: id } })
-
+                const sellerDeletedAt = await this.chatService.sellerDelete(id)
                 return super.jsonRes({ res, code: 200, data: { success: false, message: "Chat deleted" } })
             }
         }
         catch (error) {
             console.log(error)
             return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to delete chat", message_details: error?.message } })
-
         }
-
     }
     getMessages = async (req, res, next) => {
         try {
@@ -87,19 +84,42 @@ class ChatController extends BaseController {
                 return res.status(422).json(error.array({ onlyFirstError: true }));
             }
             const userId = req.user?.id
-            const { chatId } = req?.body
-            const data = await Chat.findOne({ where: { id: chatId } })
+            const chatId = req?.params?.id
+            const data = await this.chatService.findChat(chatId)
             if (userId === data.buyerId || userId === data.sellerId) {
                 const { limit, offset } = req.query
-                const messages = await ChatMessage.findAll({ where: { chatId: chatId }, offset: offset, limit: limit, order: [['createdAt', 'DESC']] })
+                const messages = await this.chatService.findMessage(chatId, offset, limit)
                 return super.jsonRes({ res, code: 200, data: { success: false, message: "Chat retreived", data: messages } })
             }
             return super.jsonRes({ res, code: 200, data: { success: true, message: "Invalid Participant" } })
-
         }
         catch (error) {
+            console.log(error)
             return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to retreived Chat", message_details: error?.message } })
         }
     }
+    buyerChat = async (req, res, next) => {
+        try {
+            const userId = req.user?.id
+            const { offset, limit } = req.query
+            const data = await this.chatService.buyerMessage(userId, offset, limit)
+            return super.jsonRes({ res, code: 200, data: { success: true, message: "Chat retreived", data: data } })
+        }
+        catch (error) {
+            return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to retreived chat", message_details: error?.message } })
+        }
+    }
+    sellerChat = async (req, res, next) => {
+        try {
+            const userId = req.user?.id
+            const { offset, limit } = req.query
+            const data = await this.chatService.sellerMessage(userId, offset, limit)
+            return super.jsonRes({ res, code: 200, data: { success: true, message: 'Chat retreived', data: data } })
+        }
+        catch (error) {
+            return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to retreived chat", message_details: error?.message } })
+        }
+    }
+
 }
 module.exports = ChatController
