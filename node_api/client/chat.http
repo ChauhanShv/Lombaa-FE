@@ -5,8 +5,8 @@ x-client-platform : Android
 x-app-version : 1.0.0
 
 {
-    "productId" : "16410714-4e31-4612-a041-2001b5d8465b"
-}  
+    "productId" : "251a6380-8c10-4e2e-b176-cf992a6a4963"
+}
 
 ###
 
@@ -35,12 +35,25 @@ x-app-version : 1.0.0
 
 ###
 
-GET {{baseUrl}}/chat/messages?offset=-1&limit=1 HTTP/1.1 HTTP/1.1
+GET {{baseUrl}}/chat/7f3300ef-9699-4bd8-ba20-3ac0ecb37fb0/messages?offset=-1&limit=1 HTTP/1.1 HTTP/1.1
 content-type: application/json
 x-access-token: {{token}}
 x-client-platform : Android
 x-app-version : 1.0.0
 
-{
-    "chatId" : "7f3300ef-9699-4bd8-ba20-3ac0ecb37fb0"
-}
+
+###
+
+GET {{baseUrl}}/chat/buyer?offset=-1&limit=3 HTTP/1.1 HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+###
+
+GET {{baseUrl}}/chat/seller?offset=-1&limit=3 HTTP/1.1 HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
