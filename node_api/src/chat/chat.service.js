@@ -44,7 +44,7 @@ class ChatService {
         return await Chat.update({ sellerDeletedAt: moment() }, { where: { id: id } })
     }
     async findMessage(chatId, offset, limit) {
-        const message = await ChatMessage.findAll({ where: { chatId: chatId }, offset: offset, limit: limit, order: [['createdAt', 'DESC']] })
+        const message = await ChatMessage.findAll({ where: { chatId: chatId }, offset: offset, limit: limit, order: [['createdAt', 'ASC']] })
         return message
     }
     async buyerMessage(userId, offset, limit) {
