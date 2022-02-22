@@ -28,7 +28,7 @@ ChatMessage.init(
     }
 );
 ChatMessage.belongsTo(Chat, { as: 'chat' })
-Chat.hasMany(ChatMessage, { as: 'messages' })
+Chat.hasMany(ChatMessage)
 ChatMessage.belongsTo(User, { as: "postedBy" })
 
 module.exports = ChatMessage;

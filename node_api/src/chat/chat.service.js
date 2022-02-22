@@ -24,7 +24,7 @@ class ChatService {
     }
     async alreadyExists(userId, productId) {
         if (!productId) return false
-        return !! await Chat.findOne({ where: { buyerId: userId, productId: productId } });
+        return await Chat.findOne({ where: { buyerId: userId, productId: productId } });
     }
     async createChat(userId, productId) {
         const product = await Product.findOne({ where: { id: productId } })
@@ -53,7 +53,7 @@ class ChatService {
                 { model: Product, as: 'product', include: [{ model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] }, { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] }] },
                 { model: User, as: 'buyer', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
                 { model: User, as: 'seller', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
-                { model: ChatMessage, as: 'messages' }
+                { model: ChatMessage, as: 'chat' }
             ]
         })
         data = data.map(data => {
@@ -69,7 +69,8 @@ class ChatService {
             where: { sellerId: userId }, offset: offset, limit: limit, include: [
                 { model: Product, as: 'product', include: [{ model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] }, { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] }] },
                 { model: User, as: 'buyer', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
-                { model: User, as: 'seller', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] }
+                { model: User, as: 'seller', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+                { model: ChatMessage, as: 'chat' }
             ]
         })
         data = data.map(data => {
