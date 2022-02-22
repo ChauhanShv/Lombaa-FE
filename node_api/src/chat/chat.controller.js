@@ -89,7 +89,7 @@ class ChatController extends BaseController {
             if (userId === data.buyerId || userId === data.sellerId) {
                 const { limit, offset } = req.query
                 const messages = await this.chatService.findMessage(chatId, offset, limit)
-                return super.jsonRes({ res, code: 200, data: { success: false, message: "Chat retreived", data: messages } })
+                return super.jsonRes({ res, code: 200, data: { success: false, message: "Chat retreived", meta: { limit: limit, offset: offset }, data: messages } })
             }
             return super.jsonRes({ res, code: 200, data: { success: true, message: "Invalid Participant" } })
         }
@@ -103,7 +103,7 @@ class ChatController extends BaseController {
             const userId = req.user?.id
             const { offset, limit } = req.query
             const data = await this.chatService.buyerMessage(userId, offset, limit)
-            return super.jsonRes({ res, code: 200, data: { success: true, message: "Chat retreived", data: data } })
+            return super.jsonRes({ res, code: 200, data: { success: true, message: "Chat retreived", meta: { limit: limit, offset: offset }, data: data } })
         }
         catch (error) {
             return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to retreived chat", message_details: error?.message } })
@@ -114,7 +114,7 @@ class ChatController extends BaseController {
             const userId = req.user?.id
             const { offset, limit } = req.query
             const data = await this.chatService.sellerMessage(userId, offset, limit)
-            return super.jsonRes({ res, code: 200, data: { success: true, message: 'Chat retreived', data: data } })
+            return super.jsonRes({ res, code: 200, data: { success: true, message: 'Chat retreived', meta: { limit: limit, offset: offset }, data: data } })
         }
         catch (error) {
             return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to retreived chat", message_details: error?.message } })
