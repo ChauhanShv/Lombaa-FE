@@ -64,20 +64,6 @@ export const ChatContent: React.FC<ChatContentProps> = ({
                 </div>
             </div>
             <div className="chat-panel">
-                <div className="w-100">
-                    <div className="col-md-3">
-                        <div className="chat-bubble chat-bubble--left">
-                            Hello dude!
-                        </div>
-                    </div>
-                </div>
-                <div className="w-100">
-                    <div className="col-md-3 offset-md-9">
-                        <div className="chat-bubble chat-bubble--right">
-                            Hello dude!
-                        </div>
-                    </div>
-                </div>
                 {messageList.map((message: ChatMessage, index: number) =>
                     <>
                         {message.postedById === userData?.id ? (

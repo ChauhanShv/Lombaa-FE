@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Col } from 'react-bootstrap';
 import { ToggleButtonGroup, ToggleButton } from '@mui/material';
@@ -20,20 +20,34 @@ export const ChatSidebar: React.FC = (): React.ReactElement => {
         method: 'GET',
     }, { manual: false });
     const [userType, setUserType] = useState<string>('seller');
-    const [userData, setUserData] = useState(sellerResponse ? sellerResponse?.data : {});
+    const [userData, setUserData] = useState([]);
 
     const handleUserTypeToggleChange = (event: any, type: string) => {
         setUserType(type);
-        if (type === 'seller') {
-            setUserData(sellerResponse?.data);
-        } else {
-            setUserData(buyerResponse?.data);
+        if (type !== null) {
+            if (type === 'seller') {
+                setUserData(sellerResponse?.data);
+            } else {
+                setUserData(buyerResponse?.data);
+            }
         }
     };
 
     const handleProfileThumbnailClick = (e: any, chatId: string) => {
         navigator.push(`/chat/${chatId}`);
     };
+
+    useEffect(() => {
+        setUserData(sellerResponse?.data);
+    }, [sellerResponse]);
+
+    useEffect(() => {
+        if (userType === 'buyer') {
+            setUserData(buyerResponse?.data);
+        } else {
+            setUserData(sellerResponse?.data);
+        }
+    }, [userType]);
 
     return (
         <Col lg={4} className="p-0 border">
@@ -57,22 +71,26 @@ export const ChatSidebar: React.FC = (): React.ReactElement => {
                     </div>
                 </div>
             </div>
-            <div className='scrollable-wrap'>
-                {userData && !!userData.length && userData.map((user: any) =>
-                    <div
-                        key={user?.id}
-                        className='friend-drawer friend-drawer--onhover'
-                        onClick={(e) => handleProfileThumbnailClick(e, user?.id)}
-                    >
-                        <img className='profile-image' src={user?.seller?.profilePicture?.url} alt="" />
-                        <div className='text'>
-                            <h6>{user?.seller?.name}</h6>
-                            <p>{user?.product?.fields?.title}</p>
+            {sellerLoading || buyerLoading ? (
+                <>{'loading...'}</>
+            ) : (
+                <div className='scrollable-wrap'>
+                    {userData && !!userData.length && userData.map((user: any) =>
+                        <div
+                            key={user?.id}
+                            className='friend-drawer friend-drawer--onhover'
+                            onClick={(e) => handleProfileThumbnailClick(e, user?.id)}
+                        >
+                            <img className='profile-image' src={user?.[userType]?.profilePicture?.url} alt="" />
+                            <div className='text'>
+                                <h6>{user?.[userType]?.name}</h6>
+                                <p>{user?.product?.fields?.title}</p>
+                            </div>
+                            <span className='time text-muted small'>{ }</span>
                         </div>
-                        <span className='time text-muted small'>{ }</span>
-                    </div>
-                )}
-            </div>
+                    )}
+                </div>
+            )}
         </Col>
     );
 };
