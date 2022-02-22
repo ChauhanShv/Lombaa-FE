@@ -27,8 +27,8 @@ ChatMessage.init(
         sequelize,
     }
 );
-ChatMessage.belongsTo(Chat, { as: 'chat' })
-Chat.hasMany(ChatMessage, { as: 'messages' })
+ChatMessage.belongsTo(Chat)
+Chat.hasMany(ChatMessage)
 ChatMessage.belongsTo(User, { as: "postedBy" })
 
 module.exports = ChatMessage;
