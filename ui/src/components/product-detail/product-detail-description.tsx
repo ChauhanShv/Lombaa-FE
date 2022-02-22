@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Container, Row, Col, Button, ListGroup, Spinner } from 'react-bootstrap';
 import { FaAsterisk, FaHandshake, FaMapMarkerAlt, FaEdit, FaCheckCircle, FaTrashAlt } from 'react-icons/fa';
 import { SellerDetailCard } from '.';
@@ -16,10 +16,29 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
     const [isMarkSolded, setIsMarkSolded] = useState<boolean>(false);
     const [showAlertBox, setShowAlertBox] = useState<boolean>(false);
     const { state } = useAppContext();
+    const navigate = useHistory();
     const [{ data, loading }, executeSoldProduct] = useAxios({
         url: `/product/${productDetail.id}`,
         method: 'POST',
     });
+    const [{ data: chatInitResponse, loading: chatInitLoading }, executeChatInit] = useAxios({
+        url: `/chat/init`,
+        method: 'POST',
+    });
+
+    useEffect(() => {
+        executeChatInit({
+            data: {
+                productId: productDetail.id,
+            },
+        });
+    }, []);
+
+    const handleChatInit = () => {
+        if (chatInitResponse?.success) {
+            navigate.push(`/chat/${chatInitResponse?.data?.id}`);
+        }
+    };
 
     const handleMarkSolded = () => {
         setShowAlertBox(true);
@@ -45,7 +64,7 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                         onClose={onClosePressed}
                     />
                 )}
-                <Col className="col-lg-8 col-md-11 mx-auto">
+                <Col lg={8} md={11} className="mx-auto">
                     <h1 className="h2 text-dark mb-3">{productDetail.title}</h1>
                     <h2 className="text-success">
                         {productDetail.location.country.currencySymbol}{' '}{productDetail.price}
@@ -123,8 +142,8 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                         ) : (
 
                             <>
-                                <Button variant="btn btn-success" className="p-2 me-lg-2 mb-3 w-100">
-                                    No Chats yet - Promote
+                                <Button onClick={handleChatInit} variant="btn btn-success" className="p-2 me-lg-2 mb-3 w-100">
+                                    {chatInitLoading ? <Spinner animation='border' /> : 'No Chats yet - Promote'}
                                 </Button>
                                 {state?.user?.metaData?.id === productDetail?.userId && (
                                     <ListGroup className="product-auth">

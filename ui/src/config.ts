@@ -1,8 +1,8 @@
-// export const BACKEND_HOST = 'http://localhost';
+export const BACKEND_HOST = 'http://localhost';
 // Shiv
 // export const BACKEND_HOST = 'http://54.232.14.250';
 // DT
-export const BACKEND_HOST = 'http://15.206.172.192';
+// export const BACKEND_HOST = 'http://15.206.172.192';
 export const BACKEND_PORT = '3001';
 export const REFRESH_TOKEN_RETRY = 1;
 export const FB_APPID = '643487683728427';
