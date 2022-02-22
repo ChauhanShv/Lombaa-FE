@@ -49,34 +49,35 @@ class ChatService {
     }
     async buyerMessage(userId, offset, limit) {
         let data = await Chat.findAll({
-            where: { buyerId: userId }, offset: offset, limit: limit, include: [
+
+            where: { sellerId: userId }, offset: offset, limit: limit, include: [
                 { model: Product, as: 'product', include: [{ model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] }, { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] }] },
                 { model: User, as: 'buyer', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
                 { model: User, as: 'seller', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
-                { model: ChatMessage, as: 'chat' }
+                { model: ChatMessage }
             ]
         })
         data = data.map(data => {
             this.productService.fieldsMapping([data.product]);
             const p = { id: data?.product?.id, media: data?.product?.productMedia, fields: { title: data?.product?.title, price: data?.product?.price, description: data?.product?.description } }
-            const result = { id: data?.id, buyer: data?.buyer, seller: data?.seller, product: p }
+            const result = { id: data?.id, buyer: data?.buyer, product: p }
             return result
         })
         return data
     }
     async sellerMessage(userId, offset, limit) {
         let data = await Chat.findAll({
-            where: { sellerId: userId }, offset: offset, limit: limit, include: [
+            where: { buyerId: userId }, offset: offset, limit: limit, include: [
                 { model: Product, as: 'product', include: [{ model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] }, { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] }] },
                 { model: User, as: 'buyer', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
                 { model: User, as: 'seller', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
-                { model: ChatMessage, as: 'chat' }
+                { model: ChatMessage }
             ]
         })
         data = data.map(data => {
             this.productService.fieldsMapping([data.product]);
             const p = { id: data?.product?.id, media: data?.product?.productMedia, fields: { title: data?.product?.title, price: data?.product?.price, description: data?.product?.description } }
-            const result = { id: data?.id, buyer: data?.buyer, seller: data?.seller, product: p }
+            const result = { id: data?.id, seller: data?.seller, product: p }
             return result
         })
         return data
