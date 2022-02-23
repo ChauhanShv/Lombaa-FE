@@ -5,6 +5,7 @@ import { ToggleButtonGroup, ToggleButton } from '@mui/material';
 import { useAxios } from '../../services';
 import { FaBars, FaSearch } from 'react-icons/fa';
 import { useAppContext } from '../../contexts';
+import { BuyerSellerData } from './types';
 import './chat-page.css';
 
 export const ChatSidebar: React.FC = (): React.ReactElement => {
@@ -20,7 +21,7 @@ export const ChatSidebar: React.FC = (): React.ReactElement => {
         method: 'GET',
     }, { manual: false });
     const [userType, setUserType] = useState<string>('seller');
-    const [userData, setUserData] = useState([]);
+    const [userData, setUserData] = useState<BuyerSellerData[]>([]);
 
     const handleUserTypeToggleChange = (event: any, type: string) => {
         setUserType(type);
@@ -51,9 +52,10 @@ export const ChatSidebar: React.FC = (): React.ReactElement => {
 
     return (
         <Col lg={4} className="p-0 border">
-            <div className="at-top bg-light">
+            <div className="at-top bg-light p-2">
                 <div className="settings-tray">
-                    <img className="profile-image" src={currentUserData?.profilePicture?.url} alt="Profile img" />
+                    <img className="profile-image-avatar" src={currentUserData?.profilePicture?.url} alt="Profile img" />
+                    <span>Chats</span>
                     <span className="settings-tray--right">
                         <FaBars />
                     </span>
@@ -64,12 +66,12 @@ export const ChatSidebar: React.FC = (): React.ReactElement => {
                         <ToggleButton value="buyer">Buyers</ToggleButton>
                     </ToggleButtonGroup>
                 </div>
-                <div className="search-box">
+                {/* <div className="search-box">
                     <div className="input-wrapper border">
                         <FaSearch />
                         <input placeholder="Search or start new chat" type="text" />
                     </div>
-                </div>
+                </div> */}
             </div>
             {sellerLoading || buyerLoading ? (
                 <>{'loading...'}</>
@@ -78,10 +80,10 @@ export const ChatSidebar: React.FC = (): React.ReactElement => {
                     {userData && !!userData.length && userData.map((user: any) =>
                         <div
                             key={user?.id}
-                            className='friend-drawer friend-drawer--onhover'
+                            className='p-3 friend-drawer friend-drawer--onhover'
                             onClick={(e) => handleProfileThumbnailClick(e, user?.id)}
                         >
-                            <img className='profile-image' src={user?.[userType]?.profilePicture?.url} alt="" />
+                            <img className='profile-image-avatar' src={user?.[userType]?.profilePicture?.url} alt="" />
                             <div className='text'>
                                 <h6>{user?.[userType]?.name}</h6>
                                 <p>{user?.product?.fields?.title}</p>

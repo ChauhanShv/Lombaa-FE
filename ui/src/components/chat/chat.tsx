@@ -18,7 +18,12 @@ export const Chat: React.FC = (): React.ReactElement => {
     return (
         <>
             <ChatSidebar />
-            {loading ? 'Loading...' : <ChatContent chatMessages={data?.data} />}
+            {loading ? 'Loading...' : 
+                <ChatContent 
+                    chatMessages={data?.data} 
+                    onReloadChat={() => execute({})} 
+                />
+            }
         </>
     );
 }
