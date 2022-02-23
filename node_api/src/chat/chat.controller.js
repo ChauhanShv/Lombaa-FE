@@ -8,6 +8,7 @@ const responseFormatter = require("../modules/formatter").response;
 const moment = require("moment");
 const SettingService = require("../settings/settings.service");
 const ChatService = require("./chat.service")
+const NotificationService = require("../notification/notification.service")
 
 
 class ChatController extends BaseController {
@@ -15,6 +16,7 @@ class ChatController extends BaseController {
         super();
         this.settingService = new SettingService()
         this.chatService = new ChatService()
+        this.notificationService = new NotificationService()
     }
 
     initChat = async (req, res, next) => {
@@ -48,6 +50,7 @@ class ChatController extends BaseController {
             const userId = req.user?.id
 
             const message = await this.chatService.sendMessage(userId, text, chatId)
+            const notification = this.notificationService.sendNotification(message)
             return super.jsonRes({ res, code: 200, data: { success: true, message: "Message sent successfully", data: message } })
         }
         catch (error) {
