@@ -91,9 +91,9 @@ export const ChatContent: React.FC<ChatContentProps> = ({
             </div>
             <div className="chat-panel">
                 {messageList && !!messageList.length && messageList.map((message: ChatMessage, index: number) =>
-                    <>
+                    <div key={index}>
                         {message.postedById === userData?.id || message.postedById === undefined ? (
-                            <div className="w-100" key={index}>
+                            <div className="w-100">
                                 <div className="col text-end">
                                     <div className="chat-bubble chat-bubble--right">
                                         {message.text}
@@ -109,7 +109,7 @@ export const ChatContent: React.FC<ChatContentProps> = ({
                                 </div>
                             </div>
                         )}
-                    </>
+                    </div>
                 )}
                 <div ref={messageEndRef} />
             </div>

@@ -63,7 +63,7 @@ export const LookalikeProducts: React.FC<LookalikeProductsProps> = ({
     return (
         <Slider {...lookalikeSliderSettings}>
             {loading ? <Spinner animation="grow" /> : lookalikeProducts?.map((product: Product) =>
-                <Col className="px-2">
+                <Col className="px-2" key={product?.id}>
                     <ProductCard
                         productId={product?.id}
                         slug={product?.slug}
