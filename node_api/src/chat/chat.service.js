@@ -32,7 +32,7 @@ class ChatService {
         return chatData
     }
     async sendMessage(userId, text, chatId) {
-        return await ChatMessage.create({ postedById: userId, text: text, chatId: chatId, })
+        return await ChatMessage.create({ postedById: userId, text: text, ChatId: chatId, })
     }
     async findChat(id) {
         return await Chat.findOne({ where: { id: id } })
@@ -44,7 +44,12 @@ class ChatService {
         return await Chat.update({ sellerDeletedAt: moment() }, { where: { id: id } })
     }
     async findMessage(chatId, offset, limit) {
-        const message = await ChatMessage.findAll({ where: { chatId: chatId }, offset: offset, limit: limit, order: [['createdAt', 'ASC']], include: [{ model: User, as: 'postedBy', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] }] })
+        const message = await ChatMessage.findAll({
+            where: { ChatId: chatId }, offset: offset, limit: limit, order: [['createdAt', 'ASC']], include: [
+                { model: User, as: 'postedBy', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+                { model: Chat, include: [{ model: User, as: 'seller', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] }] }
+            ]
+        })
         return message
     }
     async buyerMessage(userId, offset, limit) {
