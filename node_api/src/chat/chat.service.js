@@ -61,12 +61,7 @@ class ChatService {
                 { model: ChatMessage }
             ]
         })
-        data = data.map(data => {
-            this.productService.fieldsMapping([data.product]);
-            const p = { id: data?.product?.id, media: data?.product?.productMedia, fields: { title: data?.product?.title, price: data?.product?.price, description: data?.product?.description } }
-            const result = { id: data?.id, buyer: data?.buyer, product: p }
-            return result
-        })
+        data = await this.common(data)
         return data
     }
     async sellerMessage(userId, offset, limit) {
@@ -78,6 +73,10 @@ class ChatService {
                 { model: ChatMessage }
             ]
         })
+        data = await this.common(data)
+        return data
+    }
+    async common(data) {
         data = data.map(data => {
             this.productService.fieldsMapping([data.product]);
             const p = { id: data?.product?.id, media: data?.product?.productMedia, fields: { title: data?.product?.title, price: data?.product?.price, description: data?.product?.description } }
