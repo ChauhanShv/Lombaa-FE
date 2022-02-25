@@ -12,7 +12,6 @@ class NotificationController extends BaseController {
 
         try {
             const id = req.user?.id
-            console.log(id, 'efyugeufyk')
             const data = await Notification.findAll({
                 where: { userId: id }, order: [
                     ['seenAt', 'ASC']
