@@ -67,10 +67,9 @@ export const ChatContent: React.FC<ChatContentProps> = ({
         <Col lg={8} className="border">
             <div className="settings-tray bg-light">
                 <div className="friend-drawer no-gutters">
-                    <img className="profile-image-avatar" src="https://www.clarity-enhanced.net/wp-content/uploads/2020/06/robocop.jpg" alt="" />
+                    <img className="profile-image-avatar" src={messageList[0]?.Chat?.seller?.profilePicture?.url} alt="" />
                     <div className="text">
-                        <h6>Robo Cop</h6>
-                        <p className="text-muted">Layin' down the law since like before Christ...</p>
+                        <h6>{messageList[0]?.Chat?.seller?.name}</h6>
                     </div>
                     <span className="settings-tray--right">
                         <div style={{ padding: '0.375rem 0.75rem', }}>

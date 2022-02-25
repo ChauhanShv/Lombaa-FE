@@ -16,9 +16,9 @@
  
  .friend-drawer { padding: 5px 10px; display: flex; vertical-align: baseline; transition: 0.3s ease; } 
  .friend-drawer--grey { background: #343A40; } 
- .friend-drawer .text {margin-left: 12px; width: 70%;  color:#000;} 
+ .friend-drawer .text { margin-left: 12px; width: 70%;  color:#000; } 
  .col-lg-8 .friend-drawer .text, .col-lg-8 .friend-drawer .text-muted {color:grey !important;}
- .friend-drawer .text h6 { margin-top: 6px; margin-bottom: 0; font-size:14px; } 
+ .friend-drawer .text h6 { margin-top: 10px; margin-bottom: 0; font-size:16px; } 
  .friend-drawer .text p { margin: 0; font-size:11px; } 
  .friend-drawer .time { color: #fff; } 
  .friend-drawer--onhover:hover { background: #f1f1f1; cursor: pointer; } 

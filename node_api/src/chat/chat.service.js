@@ -46,32 +46,24 @@ class ChatService {
     async findMessage(chatId, offset, limit) {
         const message = await ChatMessage.findAll({
             where: { ChatId: chatId }, offset: offset, limit: limit, order: [['createdAt', 'ASC']], include: [
-                { model: User, as: 'postedBy', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+                { model: User, as: 'postedBy', attributes: ["id", "name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
                 { model: Chat, include: [{ model: User, as: 'seller', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] }] }
             ]
         })
         return message
     }
     async buyerMessage(userId, offset, limit) {
-        let data = await Chat.findAll({
-            where: { sellerId: userId }, offset: offset, limit: limit, include: [
-                { model: Product, as: 'product', include: [{ model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] }, { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] }] },
-                { model: User, as: 'buyer', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
-                { model: User, as: 'seller', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
-                { model: ChatMessage }
-            ]
-        })
-        data = data.map(data => {
-            this.productService.fieldsMapping([data.product]);
-            const p = { id: data?.product?.id, media: data?.product?.productMedia, fields: { title: data?.product?.title, price: data?.product?.price, description: data?.product?.description } }
-            const result = { id: data?.id, buyer: data?.buyer, product: p }
-            return result
-        })
+        let data = await this.common('sellerId', userId, offset, limit)
         return data
     }
     async sellerMessage(userId, offset, limit) {
+        let data = await this.common('buyerId', userId, offset, limit)
+        return data
+    }
+    async common(key, userId, offset, limit) {
+        const where = { [key]: userId }
         let data = await Chat.findAll({
-            where: { buyerId: userId }, offset: offset, limit: limit, include: [
+            where, offset: offset, limit: limit, include: [
                 { model: Product, as: 'product', include: [{ model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] }, { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] }] },
                 { model: User, as: 'buyer', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
                 { model: User, as: 'seller', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
