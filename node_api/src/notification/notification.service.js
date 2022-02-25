@@ -20,20 +20,17 @@ class NotificationService {
                 { model: User, as: 'buyer', attributes: ["name"] },
             ]
         })
-        console.log(chat.sellerId, 'gudhvhxvhcv')
         const lastActive = chat.seller.lastActiveAt
         const Date = moment(lastActive)
         const current = moment()
         const diffDate = current.diff(Date, 'minutes')
         const userId = chat.sellerId
-        console.log(diffDate, 'cvghsvhgvsahcvhv')
         if (diffDate > 10) {
             const name = `New message from ${chat.buyer.name}`
             const description = data.text
             const path = `chat/${data.ChatId}`
             const type = "chat"
             const notification = await Notification.create({ text: name, description: description, path: path, type: type, userId: userId })
-            console.log(notification, 'uubdvubdvub')
         }
         return data
     }

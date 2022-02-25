@@ -35,7 +35,7 @@ x-app-version : 1.0.0
 
 ###
 
-GET {{baseUrl}}/chat/7f3300ef-9699-4bd8-ba20-3ac0ecb37fb0/messages?offset=-1&limit=1 HTTP/1.1 HTTP/1.1
+GET {{baseUrl}}/chat/50242ced-bf2f-4ba7-8b35-24995fb96e2e/messages?offset=-1&limit=1 HTTP/1.1 HTTP/1.1
 content-type: application/json
 x-access-token: {{token}}
 x-client-platform : Android
