@@ -27,17 +27,17 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
     });
 
     useEffect(() => {
+        if (chatInitResponse?.success) {
+            navigate.push(`/chat/${chatInitResponse?.data?.id}`);
+        }
+    }, [chatInitResponse]);
+
+    const handleChatInit = () => {
         executeChatInit({
             data: {
                 productId: productDetail.id,
             },
         });
-    }, []);
-
-    const handleChatInit = () => {
-        if (chatInitResponse?.success) {
-            navigate.push(`/chat/${chatInitResponse?.data?.id}`);
-        }
     };
 
     const handleMarkSolded = () => {

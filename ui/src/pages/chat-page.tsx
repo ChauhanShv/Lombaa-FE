@@ -17,10 +17,10 @@ export const ChatPage: React.FC = (): React.ReactElement => {
     };
 
     return (
-        <Container className="p-lg-0 mt-1">
-            <Row>
+        // <Container className="p-lg-0 mt-1">
+            <div className="d-flex">
                 <Chat />
-            </Row>
-        </Container>
+            </div>
+        // </Container>
     );
 };
