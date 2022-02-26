@@ -1,21 +1,25 @@
 import React, { useState, useEffect, ReactNode } from 'react';
-import InputLabel from '@mui/material/InputLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import ListSubheader from '@mui/material/ListSubheader';
-import FormControl from '@mui/material/FormControl';
+import { 
+    InputLabel,
+    Select,
+    MenuItem,
+    ListSubheader,
+    FormControl,
+    SelectChangeEvent,
+    FormHelperText
+} from '@mui/material';
 import { Spinner } from 'react-bootstrap';
-import { SelectChangeEvent, FormHelperText } from '@mui/material';
 import { useFormContext } from 'react-hook-form';
 import { useAxios } from '../../services';
-import { CURRENT_COUNTRY } from '../../config';
 import { Country, Region, City, LocationSelectorProps } from './types';
+import { Country as CurrentCountry } from '../../types';
 import { useAppContext } from '../../contexts';
 import './styles.scss';
 
 export const LocationDropdown: React.FC<LocationSelectorProps> = ({ onCitySelected, isSettingsPage }: LocationSelectorProps): React.ReactElement => {
     const { state } = useAppContext();
     const userData = state.user.metaData;
+    const currentCountry: CurrentCountry = state.session?.country || {};
     const [countryData, setCountryData] = useState<Country>({
         id: '',
         name: '',
@@ -33,13 +37,14 @@ export const LocationDropdown: React.FC<LocationSelectorProps> = ({ onCitySelect
     const { register, formState: { errors } } = useFormContext();
 
     const [{ data: locationResponse, loading: regionLoading }, regionExecute] = useAxios({
-        url: `/locations/country/code/${CURRENT_COUNTRY}/regions`,
+        url: `/locations/country/code/${currentCountry.code}/regions`,
         method: 'GET'
     });
 
     useEffect(() => {
         regionExecute({});
     }, []);
+
     useEffect(() => {
         if (locationResponse?.success) {
             setCountryData(locationResponse.response);

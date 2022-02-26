@@ -2,16 +2,17 @@ import React, { useEffect } from 'react';
 import { Autocomplete, TextField } from '@mui/material';
 import { useAxios } from '../../../services';
 import { ActionTypes, useAppContext } from '../../../contexts';
+import { Country } from '../../../types';
 import { LocationSelectorProps, LocationData } from './types';
 import { Loader } from '../..';
-import { CURRENT_COUNTRY } from '../../../config';
 
 export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelected }: LocationSelectorProps): React.ReactElement => {
     const [cityData, setCityData] = React.useState<LocationData[]>([]);
-    const { dispatch } = useAppContext();
+    const { dispatch, state } = useAppContext();
+    const currentCountry: Country = state.session?.country || {};
 
     const [{ data: locationResponse, loading }] = useAxios({
-        url: `/locations/country/code/${CURRENT_COUNTRY}/regions`,
+        url: `/locations/country/code/${currentCountry.code}/regions`,
         method: 'GET',
     }, { manual: false });
 
@@ -61,7 +62,6 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
                 <Autocomplete
                     sx={{ width: '100%' }}
                     autoComplete={true}
-                    id="location-selector"
                     options={cityData.map(city => city.label)}
                     renderInput={(params) => (
                         <TextField

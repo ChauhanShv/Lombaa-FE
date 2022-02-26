@@ -81,7 +81,6 @@ export const ProductSearchBox: React.FC = (): React.ReactElement => {
             <FormControl sx={{ width: '100%' }} variant="outlined">
                 <InputLabel htmlFor="type-your-search-input">Type your search</InputLabel>
                 <OutlinedInput
-                    id="type-your-search-input"
                     type='text'
                     value={searchValue}
                     autoComplete='off'
