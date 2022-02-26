@@ -42,7 +42,11 @@ export const DeactivateAccount: React.FC = (): React.ReactElement => {
     return (
         <Card>
             <Card.Header className="d-flex align-items-center justify-content-between bg-white">
-                <span className="d-flex align-items-center "><button className="btn btn-white d-md-block d-lg-none"><FaChevronLeft /></button>Deactivate Account</span>
+                <span className="d-flex align-items-center my-lg-1 settings-font-header">
+                    <button className="btn btn-white d-md-block d-lg-none">
+                        <FaChevronLeft />
+                    </button>Deactivate Account
+                </span>
             </Card.Header>
             <Container className="card-content mx-auto col-11">
                 <Form className="details-form py-5">
@@ -52,10 +56,10 @@ export const DeactivateAccount: React.FC = (): React.ReactElement => {
                         </Alert>
                     )}
                     <Row>
-                        <Col sm={12}>
+                        <Col lg={9}>
                             <p>You can deactivate your account here. Be careful, all your profile data will be lost after that.</p>
                         </Col>
-                        <Col sm={3}>
+                        <Col lg={3}>
                             <Button onClick={handleFormSubmit} className="btn btn-danger w-100">Deactivate</Button>
                         </Col>
                     </Row>

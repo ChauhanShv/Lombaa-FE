@@ -22,13 +22,13 @@ import { PASSWORD_REGEX } from '../../constants';
 import { ChangePasswordFormFeilds, AlertType } from './types';
 
 const schema = yup.object().shape({
-    oldPassword: yup.string().required('Current Password is required'),
+    oldPassword: yup.string().required('Current password is required'),
     password: yup.string().matches(
         PASSWORD_REGEX,
         'Password should contain minimum 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character'
-    ).required('Confirm Password is required'),
+    ).notOneOf([yup.ref('oldPassword'), 'null'], 'New and old password cannot be same').required('New password is required'),
     confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match')
-        .required('Password Confirmation is required'),
+        .required('Password confirmation is required'),
 }).required();
 const successMessage: string = 'Your password has changed';
 
@@ -92,7 +92,7 @@ export const ChangePassword: React.FC = (): React.ReactElement => {
     return (
         <Card>
             <Card.Header className="d-flex align-items-center justify-content-between bg-white">
-                <span className="d-flex align-items-center ">
+                <span className="d-flex align-items-center my-lg-1 settings-font-header">
                     <Link to="/settings" className="btn btn-white d-md-block d-lg-none">
                         <FaChevronLeft />
                     </Link>Change Password

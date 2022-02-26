@@ -32,6 +32,12 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
         }
     }, [chatInitResponse]);
 
+    useEffect(() => {
+        if (data?.success) {
+            setIsMarkSolded(true);
+        }
+    }, [data]);
+
     const handleChatInit = () => {
         executeChatInit({
             data: {
@@ -46,7 +52,6 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
 
     const onOkayPressedForMarkSolded = () => {
         executeSoldProduct({});
-        data?.success ? setIsMarkSolded(true) : null;
         setShowAlertBox(false);
     }
     const onClosePressed = () => {
@@ -135,7 +140,7 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                         </Link>
                         {loading ? <Spinner animation="border" variant='danger' /> : (isMarkSolded || productDetail.soldAt) ? (
                             <div className="bg-danger p-4 rounded">
-                                <h4 className="text-white">
+                                <h4 className="text-white text-center">
                                     This product is out of stock
                                 </h4>
                             </div>
