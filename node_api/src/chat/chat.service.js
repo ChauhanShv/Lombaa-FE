@@ -91,7 +91,7 @@ class ChatService {
 
         data = data.map((data, index) => {
             this.productService.fieldsMapping([data.product]);
-            const p = { id: data?.product?.id, media: data?.product?.productMedia, fields: { title: data?.product?.title, price: data?.product?.price, description: data?.product?.description } }
+            const p = { id: data?.product?.id, media: data?.product?.productMedia, title: data?.product?.title, description: data?.product?.description }
             const result = { id: data?.id, to: data?.seller ?? data?.buyer, product: p, lastMessage: data?.ChatMessages?.[0] }
             return result;
         })
