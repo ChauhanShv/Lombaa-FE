@@ -45,7 +45,7 @@ class ChatService {
     }
     async findMessage(chatId, offset, limit) {
         const message = await ChatMessage.findAll({
-            where: { ChatId: chatId }, offset: offset, limit: limit, order: [['createdAt', 'ASC']], include: [
+            where: { ChatId: chatId }, offset: offset, limit: limit, order: [['createdAt', 'DESC']], include: [
                 { model: User, as: 'postedBy', attributes: ["id", "name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
                 { model: Chat, include: [{ model: User, as: 'seller', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] }] }
             ]
