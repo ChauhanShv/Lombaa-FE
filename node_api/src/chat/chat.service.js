@@ -59,7 +59,6 @@ class ChatService {
             ]
         })
         const messages = message.map(data => {
-            console.log(data, 'hshgvghvg')
             message = { id: data.id, text: data.text, createdAt: data.createdAt, postedBy: data.postedBy }
             return message;
 
