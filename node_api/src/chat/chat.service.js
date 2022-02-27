@@ -76,19 +76,24 @@ class ChatService {
     }
     async common(key, userId, offset, limit) {
         const where = { [key]: userId }
+        const toInclude = key === 'sellerId' ?
+            [{ model: User, as: 'buyer', attributes: ["id", "name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] }]
+            :
+            [{ model: User, as: 'seller', attributes: ["id", "name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] }];
+
         let data = await Chat.findAll({
             where, offset: offset, limit: limit, include: [
                 { model: Product, as: 'product', include: [{ model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] }, { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] }] },
-                { model: User, as: 'buyer', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
-                { model: User, as: 'seller', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
-                { model: ChatMessage }
+                ...toInclude,
+                { model: ChatMessage, attributes: ['id', 'text', 'createdAt'], limit: 1, order: [["createdAt", "DESC"]] }
             ]
-        })
-        data = data.map(data => {
+        });
+
+        data = data.map((data, index) => {
             this.productService.fieldsMapping([data.product]);
             const p = { id: data?.product?.id, media: data?.product?.productMedia, fields: { title: data?.product?.title, price: data?.product?.price, description: data?.product?.description } }
-            const result = { id: data?.id, seller: data?.seller, product: p }
-            return result
+            const result = { id: data?.id, to: data?.seller ?? data?.buyer, product: p, lastMessage: data?.ChatMessages?.[0] }
+            return result;
         })
         return data
     }
