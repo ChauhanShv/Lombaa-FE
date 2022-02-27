@@ -10,6 +10,7 @@ import './chat-page.css';
 
 export const ChatContent: React.FC<ChatContentProps> = ({
     chatMessages,
+    messageReceiver,
     onReloadChat,
 }: ChatContentProps): React.ReactElement => {
 
@@ -30,7 +31,7 @@ export const ChatContent: React.FC<ChatContentProps> = ({
 
     useEffect(() => {
         if (data?.success) {
-            setMessageList([...messageList, { text: message, postedById: userData?.id }]);
+            setMessageList([...messageList, { text: message, postedBy: { id: userData?.id }} ]);
             setMessage('');
         }
         scrollToBottom();
@@ -67,9 +68,9 @@ export const ChatContent: React.FC<ChatContentProps> = ({
         <Col lg={8} className="border">
             <div className="settings-tray bg-light">
                 <div className="friend-drawer no-gutters">
-                    <img className="profile-image-avatar" src={messageList[0]?.Chat?.seller?.profilePicture?.url} alt="" />
+                    <img className="profile-image-avatar" src={messageReceiver?.profilePicture?.url} alt="" />
                     <div className="text">
-                        <h6>{messageList[0]?.Chat?.seller?.name}</h6>
+                        <h6>{messageReceiver?.name}</h6>
                     </div>
                     <span className="settings-tray--right">
                         <div style={{ padding: '0.375rem 0.75rem', }}>
@@ -91,7 +92,7 @@ export const ChatContent: React.FC<ChatContentProps> = ({
             <div className="chat-panel">
                 {messageList && !!messageList.length && messageList.map((message: ChatMessage, index: number) =>
                     <div key={index}>
-                        {message.postedById === userData?.id || message.postedById === undefined ? (
+                        {message.postedBy?.id === userData?.id || message.postedBy?.id === undefined ? (
                             <div className="w-100">
                                 <div className="col text-end">
                                     <div className="chat-bubble chat-bubble--right">
