@@ -4,18 +4,19 @@ import { Link, useHistory } from 'react-router-dom';
 import { Container, Row, Col, Button, ListGroup, Spinner } from 'react-bootstrap';
 import { FaAsterisk, FaHandshake, FaMapMarkerAlt, FaEdit, FaCheckCircle, FaTrashAlt } from 'react-icons/fa';
 import { SellerDetailCard } from '.';
-import { ProductFields, ProductDetailDescriptionProps, FieldValue } from './types';
-import { useAppContext } from '../../contexts';
+import { ProductFields, ProductDetailDescriptionProps } from './types';
+import { ActionTypes, useAppContext } from '../../contexts';
 import { useAxios } from '../../services';
 import { AlertBox } from '../alert-box';
 import './product-detail.css';
+import { ModalType } from '../../types';
 
 export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> = ({
     productDetail
 }: ProductDetailDescriptionProps): React.ReactElement => {
     const [isMarkSolded, setIsMarkSolded] = useState<boolean>(false);
     const [showAlertBox, setShowAlertBox] = useState<boolean>(false);
-    const { state } = useAppContext();
+    const { state, dispatch } = useAppContext();
     const navigate = useHistory();
     const [{ data, loading }, executeSoldProduct] = useAxios({
         url: `/product/${productDetail.id}`,
@@ -39,6 +40,15 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
     }, [data]);
 
     const handleChatInit = () => {
+        if (!state.session.isLoggedIn) {
+            dispatch({
+                type: ActionTypes.OPEN_MODAL,
+                payload: {
+                    modal: ModalType.LOGIN,
+                }
+            });
+            return;
+        }
         executeChatInit({
             data: {
                 productId: productDetail.id,

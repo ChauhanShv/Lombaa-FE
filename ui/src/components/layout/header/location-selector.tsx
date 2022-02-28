@@ -26,7 +26,7 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
                         cityId: city.id,
                         cityName: city.name,
                         regionName: region.name,
-                        coordinate: city.coordinate.coordinates,
+                        coordinate: city?.coordinate?.coordinates,
                         label: `${city.name}, ${region.name}`,
                     });
                 }
