@@ -6,7 +6,7 @@ const fileModel = require("../file/file.model");
 const User = require("../user/user.model")
 const ProductField = require("../product/product_field.model");
 const Field = require("../field/field.model");
-const ProductService = require("../product/product.service")
+const ProductService = require("../product/product.service");
 
 
 class ChatService {
@@ -35,7 +35,11 @@ class ChatService {
         return chatData
     }
     async sendMessage(userId, text, chatId) {
-        return await ChatMessage.create({ postedById: userId, text: text, ChatId: chatId, })
+        const data = await ChatMessage.create({
+            postedById: userId, text: text, ChatId: chatId
+        })
+        const message = await this.findMessageById(data?.id)
+        return { id: message?.id, text: message?.text, createdAt: message?.createdAt, postedBy: message?.postedBy }
     }
     async findChat(id) {
         return await Chat.findOne({
@@ -95,6 +99,13 @@ class ChatService {
             return result;
         })
         return data
+    }
+    async findMessageById(id) {
+        return await ChatMessage.findByPk(id, {
+            include: [
+                { model: User, as: 'postedBy', attributes: ["id", "name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] }
+            ]
+        })
     }
 }
 module.exports = ChatService
