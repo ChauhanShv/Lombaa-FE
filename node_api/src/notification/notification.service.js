@@ -25,13 +25,14 @@ class NotificationService {
         const current = moment()
         const diffDate = current.diff(Date, 'minutes')
         const userId = chat.sellerId
-        if (diffDate > 10) {
-            const name = `New message from ${chat.buyer.name}`
-            const description = data.text
-            const path = `chat/${data.ChatId}`
-            const type = "chat"
-            const notification = await Notification.create({ text: name, description: description, path: path, type: type, userId: userId })
-        }
+        if (diffDate <= 10)
+            return data;
+
+        const name = `New message from ${chat.buyer.name}`
+        const description = data.text
+        const path = `chat/${data.ChatId}`
+        const type = "chat"
+        const notification = Notification.create({ text: name, description: description, path: path, type: type, userId: userId })
         return data
     }
 }
