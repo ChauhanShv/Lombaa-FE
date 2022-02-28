@@ -6,9 +6,9 @@ import {
 } from "react-bootstrap";
 
 interface LoaderProps {
-    show: boolean;
+    show?: boolean;
 };
-export const Loader: React.FC<LoaderProps> = ({ show }: LoaderProps): React.ReactElement | null => {
+export const Loader: React.FC<LoaderProps> = ({ show = true }: LoaderProps): React.ReactElement | null => {
     return show ? (
         <Container fluid="md" className="text-center">
             <Row>

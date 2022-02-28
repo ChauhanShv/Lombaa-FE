@@ -1,4 +1,4 @@
-import { KeyValuePair, ModalType } from '../types';
+import { KeyValuePair, ModalType, Country } from '../types';
 
 export type Action = {
   type: string;
@@ -27,11 +27,13 @@ export interface App {
   appReady?: boolean;
   activeModal?: ModalType;
 }
+
 export interface Session {
   isLoggedIn?: boolean;
   token?: string;
   lat: string;
   lng: string;
+  country: Country;
 }
 export interface User {
   metaData?: KeyValuePair;
@@ -42,4 +44,4 @@ export type State = {
   app: App;
   category: [];
   filters: [];
-};
+}

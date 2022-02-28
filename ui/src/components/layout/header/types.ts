@@ -13,3 +13,15 @@ export interface LocationData {
 export interface LocationSelectorProps {
   onCitySelected?: (data: object) => void;
 }
+export interface Notification {
+  createdAt: string,
+  deletedAt: string,
+  description: string,
+  id: string,
+  path: string,
+  seenAt: string,
+  text: string,
+  type: string,
+  updatedAt: string,
+  
+}

@@ -18,7 +18,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                         <Link key="1" color="inherit" to="/">
                             Home
                         </Link>
-                        <Link key="2" color="inherit" to={`/product-listing/${productDetail?.id}`}>
+                        <Link key="2" color="inherit" to={`/product-listing/${productDetail?.categoryId}`}>
                             {productDetail?.category?.name}
                         </Link>
                         <Link key="3" color="inherit" to="#">

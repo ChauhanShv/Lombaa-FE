@@ -4,10 +4,13 @@ import {
     OverlayTrigger,
     Popover,
     Button,
+    Row,
+    Col,
 } from 'react-bootstrap';
 import { useAxios } from '../../../services';
 import { ActionTypes, useAppContext } from '../../../contexts';
 import { Category } from '../../../types';
+import './header.css';
 
 export const CategoryPopover: React.FC = (): React.ReactElement => {
     const { dispatch } = useAppContext();
@@ -62,25 +65,27 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
                         }}
                         overlay={
                             <Popover className="head-cat" id={`popover-positioned-bottom`} onMouseLeave={() => setSelectedCategory('')}>
-                                <Popover.Body className="px-5 shadow d-flex flex-wrap">
-                                    <div className='p-3 text-center'>
-                                        <ul>
-                                            <div className='row'>
-                                                <div className="col pe-0">
+                                <Popover.Body className="px-3 container d-flex flex-wrap">
+                                    <Row className='w-100'>
+                                        <Col md={3} className="py-3 text-center">
+                                            <Row className="w-100">
+                                                <Col md={2} className="pe-0">
                                                     <img width="24" height="24" src={category?.icon?.url || "https://dummyimage.com/100/007bff/efefef"} />
-                                                </div>
-                                                <div className="col">
-                                                    {category.subCategories.map((subCategory: any) =>
-                                                        <li key={subCategory?.id}>
-                                                            <Link to={`/product-listing/${subCategory?.id}`}>
-                                                                {subCategory?.name}
-                                                            </Link>
-                                                        </li>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        </ul>
-                                    </div>
+                                                </Col>
+                                                <Col md={10} className="text-start">
+                                                    <ul>
+                                                        {category.subCategories.map((subCategory: any) =>
+                                                            <li key={subCategory?.id}>
+                                                                <Link to={`/product-listing/${subCategory?.id}`} onClick={() => setSelectedCategory('')}>
+                                                                    {subCategory?.name}
+                                                                </Link>
+                                                            </li>
+                                                        )}
+                                                    </ul>
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                    </Row>
                                 </Popover.Body>
                             </Popover>
                         }
@@ -107,27 +112,29 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
                         }
                     }}
                     overlay={
-                        <Popover className="head-cat" id={`popover-positioned-bottom`}>
-                            <Popover.Body className="px-5 shadow d-flex flex-wrap">
-                                {otherCategories.map((category: Category) =>
-                                    <div className='p-3 text-center' key={category?.id}>
-                                        <ul>
-                                            <div className='row'>
-                                                <div className="col col-md-2 pe-0">
-                                                    <img width="24" height="24" src={category?.icon?.url || "https://dummyimage.com/100/007bff/efefef"} />
-                                                </div>
-                                                <div className="col col-md-10">
-                                                    <h3 className="text-center">{category?.name}</h3>
-                                                    {category.subCategories.map((subCategory: any) =>
-                                                        <li key={subCategory?.id}>
-                                                            <Link to="">{subCategory?.name}</Link>
-                                                        </li>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        </ul>
-                                    </div>
-                                )}
+                        <Popover className="head-cat" id={`popover-positioned-bottom`} onMouseLeave={() => setSelectedCategory('')}>
+                            <Popover.Body className="px-3 container d-flex flex-wrap">
+                                <Col className="w-100">
+                                    <Row md={3} className="py-3">
+                                        {otherCategories.map((category: Category) =>
+                                            <ul>
+                                                <Row>
+                                                    <Col md={2} className="pe-0">
+                                                        <img width="24" height="24" src={category?.icon?.url || "https://dummyimage.com/100/007bff/efefef"} />
+                                                    </Col>
+                                                    <Col md={10}>
+                                                        <h4 className="">{category?.name}</h4>
+                                                        {category.subCategories.map((subCategory: any) =>
+                                                            <li key={subCategory?.id}>
+                                                                <Link to={`/product-listing/${subCategory?.id}`} onClick={() => setSelectedCategory('')}>{subCategory?.name}</Link>
+                                                            </li>
+                                                        )}
+                                                    </Col>
+                                                </Row>
+                                            </ul>
+                                        )}
+                                    </Row>
+                                </Col>
                             </Popover.Body>
                         </Popover>
                     }

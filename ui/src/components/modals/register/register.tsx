@@ -8,6 +8,7 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 import GoogleLogin from 'react-google-login';
 import { getAPIErrorMessage } from '../../../utils';
 import { RegisterProps, FormFields, AccountType } from './types';
+import { Country } from '../../../types';
 import { PASSWORD_REGEX, NAME_MIN_LENGTH, TIN_MIN_LENGTH, MOBILE_REGEX, TIN_REGEX } from '../../../constants';
 import { GOOGLE_CLIENTID, FB_APPID } from '../../../config';
 import { useAxios } from '../../../services/base-service';
@@ -16,6 +17,7 @@ import './register.css';
 
 const schema = yup.object().shape({
     email: yup.string().email('Email is invalid').required('Email is required'),
+    name: yup.string().required('Name is required'),
     password: yup.string().matches(
         PASSWORD_REGEX,
         'Password should contain minimum 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character'
@@ -28,13 +30,17 @@ export const Register: React.FC<RegisterProps> = ({
     onClose,
     onLoginClick,
 }: RegisterProps): React.ReactElement => {
-    const { register, handleSubmit, getValues, formState: { errors, isDirty }, setValue } = useForm<FormFields>({
+    const { dispatch, state } = useAppContext();
+    const currentCountry: Country = state.session?.country || {};
+    const { register, handleSubmit, getValues, formState: { errors, isDirty, touchedFields }, setValue } = useForm<FormFields>({
         resolver: yupResolver(schema),
+        defaultValues: {
+            phoneCode: currentCountry.code
+        }
     });
     const [selectedAccountType, setSelectedAccountType] = useState<AccountType>(AccountType.INDIVIDUAL);
     const [phoneCodeData, setPhoneCodeData] = useState<any[]>([]);
     const [submitClicked, setSubmitClicked] = useState<boolean>(false);
-    const { dispatch } = useAppContext();
     const [{ data: registerRes, loading, error: apiError }, execute] = useAxios({
         url: '/user',
         method: 'POST',
@@ -48,18 +54,20 @@ export const Register: React.FC<RegisterProps> = ({
         method: 'POST',
     });
     const [{ data: phoneCodeResponse }, phoneCodeExecute] = useAxios({
-        url: 'locations/countries',
+        url: '/locations/countries',
         method: 'GET',
     });
 
     useEffect(() => {
         phoneCodeExecute({});
     }, []);
+
     useEffect(() => {
         if (phoneCodeResponse?.success) {
             setPhoneCodeData(phoneCodeResponse.response);
         }
     }, [phoneCodeResponse]);
+
     useEffect(() => {
         const { success, response, metadata } = registerRes || fbRes || googleRes || {};
         if (success) {
@@ -81,45 +89,44 @@ export const Register: React.FC<RegisterProps> = ({
         const errorMessages: any = {
             ...errors
         };
-        const formValues = getValues();
 
-        if (formValues.accountType === AccountType.INDIVIDUAL) {
+        const touchedFieldsArr: string[] = Object.keys(touchedFields);
+        const formValues = getValues();
+        if (touchedFieldsArr.includes('name') || submitClicked) {
+            const nameField: string = formValues.accountType === AccountType.INDIVIDUAL ? 'Name' : 'Business name';
             if (!formValues.name) {
                 errorMessages.name = {
-                    message: 'Name is required',
+                    message: `${nameField} is required`,
                 };
             } else if (formValues.name?.length < NAME_MIN_LENGTH) {
                 errorMessages.name = {
-                    message: 'Name is invalid. Enter atleast 3 characters for Name',
+                    message: `${nameField} is invalid. Enter atleast 3 characters for name`,
                 };
             }
         }
+
         if (formValues.accountType === AccountType.BUSINESS) {
-            if (!formValues.businessName) {
-                errorMessages.businessName = {
-                    message: 'Busines name is required',
-                };
-            } else if (formValues.businessName?.length < NAME_MIN_LENGTH) {
-                errorMessages.businessName = {
-                    message: 'Busines name is invalid',
-                };
-            }
-            if (!formValues.tinNumber) {
-                errorMessages.tinNumber = {
-                    message: 'TIN number is required'
-                }
-            } else if (formValues.tinNumber?.length < TIN_MIN_LENGTH && !formValues.tinNumber.match(TIN_REGEX)) {
-                errorMessages.tinNumber = {
-                    message: 'Enter valid TIN number with atleast 6 characters',
+            if (touchedFieldsArr.includes('tinNumber') || submitClicked) {
+                if (!formValues.tinNumber) {
+                    errorMessages.tinNumber = {
+                        message: 'TIN number is required'
+                    }
+                } else if (formValues.tinNumber?.length < TIN_MIN_LENGTH && !formValues.tinNumber.match(TIN_REGEX)) {
+                    errorMessages.tinNumber = {
+                        message: 'Enter valid TIN number with atleast 6 characters',
+                    }
                 }
             }
-            if (!formValues.phoneNumber) {
-                errorMessages.phoneNumber = {
-                    message: 'Phone Number is Required',
-                }
-            } else if (!formValues.phoneNumber.match(MOBILE_REGEX)) {
-                errorMessages.phoneNumber = {
-                    message: 'Phone Number is Invalid',
+
+            if (touchedFieldsArr.includes('phoneNumber') || submitClicked) {
+                if (!formValues.phoneNumber) {
+                    errorMessages.phoneNumber = {
+                        message: 'Phone number is required',
+                    }
+                } else if (!formValues.phoneNumber.match(MOBILE_REGEX)) {
+                    errorMessages.phoneNumber = {
+                        message: 'Phone number is invalid',
+                    }
                 }
             }
         }
@@ -150,12 +157,14 @@ export const Register: React.FC<RegisterProps> = ({
                 >
                     <Form.Select
                         {...register('phoneCode')}
+                        size="sm"
                         placeholder="Code"
                         className={getErrorClassName('phoneCode')}
+                        defaultValue={currentCountry.code}
                     >
                         {!!phoneCodeData.length && phoneCodeData.map((phone: any) =>
-                            <option value={phone.phoneCode} key={phone.id}>
-                                {`+${phone.phoneCode} ${phone.name}`}
+                            <option value={phone.code} key={phone.id}>
+                                {`+${phone.phoneCode} - ${phone.name}`}
                             </option>
                         )}
                     </Form.Select>
@@ -180,10 +189,10 @@ export const Register: React.FC<RegisterProps> = ({
                     </FloatingLabel>
                 </Form.Group>
                 <Row>
-                    <Col md={6}>
+                    <Col md={4}>
                         <PhoneCode />
                     </Col>
-                    <Col md={6}>
+                    <Col md={8}>
                         <Form.Group className="mb-3">
                             <FloatingLabel label="Your phone number" className="mb-3">
                                 <Form.Control
@@ -219,12 +228,12 @@ export const Register: React.FC<RegisterProps> = ({
                 <Form.Group className="mb-3">
                     <FloatingLabel label="Legal business name" className="mb-3">
                         <Form.Control
-                            {...register("businessName")}
+                            {...register("name")}
                             placeholder="Legal business name"
-                            isValid={!!errors.businessName}
-                            className={getErrorClassName('businessName')}
+                            isValid={!!errors.name}
+                            className={getErrorClassName('name')}
                         />
-                        {getErrorText('businessName')}
+                        {getErrorText('name')}
                     </FloatingLabel>
                 </Form.Group>
                 <Row>
@@ -282,17 +291,16 @@ export const Register: React.FC<RegisterProps> = ({
         }
     };
     const handleAccountTypeChange = (accountType: string) => {
+        setValue('name', '');
+        setValue('phoneNumber', '');
         if (accountType === 'business') {
             setSelectedAccountType(AccountType.BUSINESS);
             setValue('tinNumber', '');
-            setValue('businessName', '');
-            setValue('phoneNumber', '');
         } else {
             setSelectedAccountType(AccountType.INDIVIDUAL);
-            setValue('name', '');
             setValue('phoneNumber', '');
         }
-    }
+    };
     const handleFormSubmit = (event: React.FormEvent) => {
         setSubmitClicked(true);
         event.preventDefault();

@@ -17,7 +17,7 @@ import { useLocation } from 'react-router-dom';
 import { ModalComponent } from '../../modals';
 import { useAppContext, ActionTypes } from '../../../contexts';
 import { ModalType } from '../../../types';
-import { CategoryPopover, MobileNav, HeaderDropdown } from '.';
+import { CategoryPopover, MobileNav, HeaderDropdown, Notifications } from '.';
 import { LocationSelector, ProductSearchBox } from '../..';
 import './header.css';
 
@@ -58,14 +58,17 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                                         </Link>
                                     </li>
                                     <li className="nav-item icon-item me-3">
-                                        <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Messages"><FaCommentDots /></Link>
+                                        <Link className="nav-link" to="/chat/buy" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Messages">
+                                            <FaCommentDots />
+                                        </Link>
                                     </li>
                                     <li className="nav-item icon-item me-3">
-                                        <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications"><FaBell /></Link>
+                                        <Notifications />
                                     </li>
                                     <li className="nav-item icon-item me-3">
-                                        <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Ads">
-                                            <FaList /></Link>
+                                        <Link className="nav-link" to="/profile" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Ads">
+                                            <FaList />
+                                        </Link>
                                     </li>
                                 </ul>
                             )}
