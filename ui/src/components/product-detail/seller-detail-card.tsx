@@ -36,9 +36,9 @@ export const SellerDetailCard: React.FC<SellerDetailsCardProps> = ({
                                     <strong>{getAccountType()}</strong>
                                 </p>
                                 <p className="px-3">
-                                    <Link to="/settings/personal-details" className="p-0">Edit Profile</Link>
+                                    <Link to="/settings/personal-details" className="p-0">View Profile</Link>
                                     {' | '}
-                                    <Link to="/settings" className="p-0">Settings</Link>
+                                    <Link to="/chat" className="p-0">Chat</Link>
                                 </p>
                             </div>
                         </Col>

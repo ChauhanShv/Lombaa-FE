@@ -1,47 +1,24 @@
-export interface ChatContentProps {
-  chatMessages: any[];
-  onReloadChat: () => void;
-}
-export interface ChatMessage {
+export interface User {
+  name: string;
   id?: string;
-  chatId?: string;
-  createdAt?: string;
-  deletedAt?: string;
-  postedById?: string;
-  text?: string;
-  updatedAt?: string;
-  Chat?: Chat;
-}
-export interface BuyerSellerData {
-  name: string;
-  profilePicture?: {
-    id: string;
-    extension: string;
-    mime: string;
-    url: string;
-  };
   profilePictureId?: string;
-}
-export interface Chat {
-  archived?: string;
-  buyerDeletedAt?: string;
-  buyerId?: string;
-  createdAt?: string;
-  deletedAt?: string;
-  id: string;
-  productId: string;
-  seller: Seller;
-  sellerDeletedAt: string;
-  sellerId: string;
-  updatedAt: string;
-}
-export interface Seller {
-  name: string;
   profilePicture: {
     extension: string;
     id: string;
     mime: string;
     url: string;
   };
-  profilePictureId: string;
+}
+interface Product {
+  title: string;
+};
+export interface Contacts {
+  id: string;
+  product: Product;
+  to: User;
+}
+export interface Chat {
+  id?: string;
+  postedBy: User;
+  text: string;
 }

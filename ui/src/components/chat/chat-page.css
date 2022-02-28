@@ -1,3 +1,5 @@
+.cl-container { border-right: 1px solid rgba(0, 0, 0, 0.125); }
+.cl-header { border-bottom: 1px solid rgba(0, 0, 0, 0.125); }
 .profile-image-avatar { width: 40px; height: 40px; border-radius: 100px; } 
  
  .settings-tray { color:#fff; padding: 10px 15px;  } 
@@ -6,7 +8,7 @@
  .settings-tray--right svg { margin-top: 10px; font-size: 25px; color: grey; margin-left: 14px; transition: 0.3s; } 
  .settings-tray--right svg:hover {color:#000; cursor: pointer; } 
  
- .search-box { padding: 10px 13px; } 
+ .search-box { padding-top: 16px; } 
  .search-box .input-wrapper { background: #fff; border-radius: 40px; } 
  .search-box .input-wrapper svg { color: #fff; margin-left: 7px; vertical-align: middle; } 
  
@@ -21,7 +23,7 @@
  .friend-drawer .text h6 { margin-top: 10px; margin-bottom: 0; font-size:16px; } 
  .friend-drawer .text p { margin: 0; font-size:11px; } 
  .friend-drawer .time { color: #fff; } 
- .friend-drawer--onhover:hover { background: #f1f1f1; cursor: pointer; } 
+ .friend-drawer--onhover:hover, .friend-drawer--onhover.active { background: #f1f1f1; cursor: pointer; } 
  .friend-drawer--onhover:hover p,
  .friend-drawer--onhover:hover h6,
  .friend-drawer--onhover:hover .time { color: #212529 !important; } 
@@ -30,7 +32,7 @@
  
  hr { margin: 2px auto; width: 100%; } 
  
- .chat-bubble { padding: 10px 14px; background: #fff; color:#000; margin: 10px 30px; border-radius: 9px; position: relative; animation: fadeIn 1s ease-in; font-size:14px; display:inline-block; max-width:85%; box-shadow: 0 1px 2px rgba(0,0,0,.2);} 
+ .chat-bubble { padding: 10px 14px; background: #fff; color:#000; margin: 10px 30px; border-radius: 9px; position: relative; animation: fadeIn 1s ease-in; font-size:14px; display:inline-block; max-width:85%; box-shadow: 0 1px 2px rgba(0,0,0,.2); direction: ltr;}
  .chat-bubble:after { content: ""; position: absolute; top: 0; width: 0; height: 0; border: 20px solid transparent; border-bottom: 0; margin-top:0px; } 
  .chat-bubble--left:after { left: 0; border-right-color: #fff; border-left: 0; margin-left: -10px;transform: rotate(-90deg);  } 
  .chat-bubble--right:after { right: 0; border-left-color: #d1f4cc; border-right: 0; margin-right: -10px; transform: rotate(90deg); } 
@@ -48,8 +50,10 @@
  .chat-box-tray svg:hover{color:#fff;}
 
 
- .scrollable-wrap{ overflow:auto; height: 600px; }
- .chat-panel{ overflow:auto; background: #efeae2; height: 600px;}
+ .scrollable-wrap{ overflow:auto; height: 475px; }
+ .chat-panel{overflow:auto; height: 475px; background: #efeae2; transform:rotate(180deg); direction:rtl;}
+ .chat-panel .w-100{transform:rotate(180deg);}
+ .chat-panel .chatItemContainer{position: absolute; bottom: 0;}
 
  .wheight{height:calc(100vh - 130px); overflow: hidden;}
 

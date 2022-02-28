@@ -1,3 +1,3 @@
 export * from './chat';
-export * from './chat-sidebar';
+export * from './contact-list';
 export * from './chat-content';

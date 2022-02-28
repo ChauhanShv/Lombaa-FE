@@ -1,50 +1,73 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { Col, DropdownButton, Dropdown } from 'react-bootstrap';
-import { FaInfoCircle, FaSmile, FaMicrophone, FaTelegramPlane } from 'react-icons/fa';
+import { FaInfoCircle, FaSmile, FaTelegramPlane } from 'react-icons/fa';
 import { IoReload } from 'react-icons/io5'; 
 import { useAxios } from '../../services';
 import { useAppContext } from '../../contexts';
-import { ChatContentProps, ChatMessage } from './types';
+import { Chat, User } from './types';
 import './chat-page.css';
+import { debounce } from 'lodash';
 
-export const ChatContent: React.FC<ChatContentProps> = ({
-    chatMessages,
-    onReloadChat,
-}: ChatContentProps): React.ReactElement => {
-
+const LIMIT: number = 50;
+export const ChatContent: React.FC = (): React.ReactElement => {
     const { chatId } = useParams<{ chatId: string }>();
     const { state } = useAppContext();
     const userData = state?.user?.metaData;
+    const [offset, setOffset] = useState<number>(0);
     const [message, setMessage] = useState<string>('');
-    const messageEndRef = useRef<HTMLDivElement>(null);
-    const [messageList, setMessageList] = useState<ChatMessage[]>(chatMessages);
-    const [{ data, loading, error }, execute] = useAxios({
+    const [messageList, setMessageList] = useState<Chat[]>([]);
+    const [toUser, setToUser] = useState<User | null>();
+    const [{ data: sendMessageData }, execute] = useAxios({
         url: '/chat/sendMessage',
         method: 'POST',
     });
-    const [{ data: deleteChatRes, loading: deleteChatLoading }, deleteChatExecute] = useAxios({
+    const [{}, deleteChatExecute] = useAxios({
         url: '/chat/delete',
         method: 'DELETE',
     });
+    const [{ data: chatResponse, loading: chatLoading }, getChatExecute] = useAxios({
+        url: '',
+        method: 'GET',
+    });
 
+    const getChat = (start: number = 0): void => {
+        if (offset >= 0 && chatId) {
+            getChatExecute({
+                url: `/chat/${chatId}/messages`,
+                params: {
+                    offset: start,
+                    limit: LIMIT,
+                }
+            });
+        }
+    }
     useEffect(() => {
-        if (data?.success) {
-            setMessageList([...messageList, { text: message, postedById: userData?.id }]);
+        setMessageList([]);
+        getChat(0);
+    }, [chatId]);
+    useEffect(() => {
+        if (chatResponse?.success) {
+            setToUser(chatResponse.data.to);
+            if (offset === 0) {
+                setMessageList([...chatResponse.data.messages]);
+            } else {
+                setMessageList([...messageList, ...chatResponse.data.messages]);
+            }
+            setMessage('');
+            setOffset(offset + LIMIT);
+        }
+    }, [chatResponse]);
+    useEffect(() => {
+        if (sendMessageData?.data) {
+            const newMessageList: Chat[] = messageList;
+            newMessageList.push(sendMessageData.data);
+            setMessageList([...messageList, ...sendMessageData.data.messages]);
             setMessage('');
         }
-        scrollToBottom();
-    }, [data]);
+    }, [sendMessageData]);
 
-    useEffect(() => {
-        scrollToBottom();
-    }, []);
-
-    const scrollToBottom = () => {
-        messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }; 
-
-    const handleSendMessageClick = () => {
+    const sendMessage = () => {
         if (message) {
             execute({
                 data: {
@@ -63,17 +86,30 @@ export const ChatContent: React.FC<ChatContentProps> = ({
         });
     };
 
+    const handleKeyDown = (e: any) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    }
+
+    const onMessageScroll = debounce((e) => {
+        const bottom = Math.ceil(e.target.scrollTop + e.target.clientHeight) === e.target.scrollHeight;
+        if (bottom) {
+            getChat(offset + LIMIT);
+        }
+    }, 500);
+
     return (
-        <Col lg={8} className="border">
+        <>
             <div className="settings-tray bg-light">
                 <div className="friend-drawer no-gutters">
-                    <img className="profile-image-avatar" src={messageList[0]?.Chat?.seller?.profilePicture?.url} alt="" />
+                    <img className="profile-image-avatar" src={toUser?.profilePicture.url} alt={toUser?.name} />
                     <div className="text">
-                        <h6>{messageList[0]?.Chat?.seller?.name}</h6>
+                        <h6>{toUser?.name}</h6>
                     </div>
                     <span className="settings-tray--right">
                         <div style={{ padding: '0.375rem 0.75rem', }}>
-                            <IoReload onClick={onReloadChat} className="m-0" />
+                            <IoReload onClick={() => {}} className="m-0" />
                         </div>
                         <DropdownButton
                             variant="transparent"
@@ -88,10 +124,10 @@ export const ChatContent: React.FC<ChatContentProps> = ({
                     </span>
                 </div>
             </div>
-            <div className="chat-panel">
-                {messageList && !!messageList.length && messageList.map((message: ChatMessage, index: number) =>
-                    <div key={index}>
-                        {message.postedById === userData?.id || message.postedById === undefined ? (
+            <div className="chat-panel" onScroll={onMessageScroll}>
+                {!!messageList.length && messageList.map((message: Chat) =>
+                    <div key={message.id}>
+                        {message.postedBy.id === userData?.id ? (
                             <div className="w-100">
                                 <div className="col text-end">
                                     <div className="chat-bubble chat-bubble--right">
@@ -100,8 +136,8 @@ export const ChatContent: React.FC<ChatContentProps> = ({
                                 </div>
                             </div>
                         ) : (
-                            <div ref={index === messageList.length ? messageEndRef : null} className="w-100">
-                                <div className="col">
+                            <div className="w-100">
+                                <div className="col text-start">
                                     <div className="chat-bubble chat-bubble--left">
                                         {message.text}
                                     </div>
@@ -110,23 +146,19 @@ export const ChatContent: React.FC<ChatContentProps> = ({
                         )}
                     </div>
                 )}
-                <div ref={messageEndRef} />
             </div>
-            <div className="row">
-                <div className="col-12">
-                    <div className="chat-box-tray">
-                        <FaSmile />
-                        <input
-                            type="text"
-                            value={message}
-                            placeholder="Type your message here..."
-                            onChange={(e) => setMessage(e.target.value)}
-                        />
-                        <FaMicrophone />
-                        <FaTelegramPlane onClick={handleSendMessageClick} />
-                    </div>
-                </div>
+            <div className="chat-box-tray">
+                <FaSmile />
+                <input
+                    type="text"
+                    value={message}
+                    placeholder="Type your message here..."
+                    onChange={(e) => setMessage(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                />
+                {/* <FaMicrophone /> */}
+                <FaTelegramPlane onClick={sendMessage} />
             </div>
-        </Col>
+        </>
     );
 };
