@@ -2,12 +2,7 @@ export interface User {
   name: string;
   id?: string;
   profilePictureId?: string;
-  profilePicture: {
-    extension: string;
-    id: string;
-    mime: string;
-    url: string;
-  };
+  profilePicture: ProfilePicture;
 }
 interface Product {
   title: string;

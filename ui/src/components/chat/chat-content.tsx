@@ -61,8 +61,8 @@ export const ChatContent: React.FC = (): React.ReactElement => {
     useEffect(() => {
         if (sendMessageData?.data) {
             const newMessageList: Chat[] = messageList;
-            newMessageList.push(sendMessageData.data);
-            setMessageList([...messageList, ...sendMessageData.data.messages]);
+            newMessageList.unshift(sendMessageData.data);
+            setMessageList([ ...newMessageList ]);
             setMessage('');
         }
     }, [sendMessageData]);
@@ -109,7 +109,7 @@ export const ChatContent: React.FC = (): React.ReactElement => {
                     </div>
                     <span className="settings-tray--right">
                         <div style={{ padding: '0.375rem 0.75rem', }}>
-                            <IoReload onClick={() => {}} className="m-0" />
+                            <IoReload onClick={() => getChat(0)} className="m-0" />
                         </div>
                         <DropdownButton
                             variant="transparent"

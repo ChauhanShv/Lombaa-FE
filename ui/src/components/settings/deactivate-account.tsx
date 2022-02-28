@@ -11,6 +11,7 @@ import {
 import {
     FaChevronLeft,
 } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import { getAPIErrorMessage } from '../../utils';
 import { useAxios } from '../../services';
 import { AlertType } from './types';
@@ -43,9 +44,9 @@ export const DeactivateAccount: React.FC = (): React.ReactElement => {
         <Card>
             <Card.Header className="d-flex align-items-center justify-content-between bg-white">
                 <span className="d-flex align-items-center my-lg-1 settings-font-header">
-                    <button className="btn btn-white d-md-block d-lg-none">
+                    <Link to="/settings" className="btn btn-white d-md-block d-lg-none">
                         <FaChevronLeft />
-                    </button>Deactivate Account
+                    </Link>Deactivate Account
                 </span>
             </Card.Header>
             <Container className="card-content mx-auto col-11">
@@ -56,10 +57,10 @@ export const DeactivateAccount: React.FC = (): React.ReactElement => {
                         </Alert>
                     )}
                     <Row>
-                        <Col lg={9}>
+                        <Col lg={8}>
                             <p>You can deactivate your account here. Be careful, all your profile data will be lost after that.</p>
                         </Col>
-                        <Col lg={3}>
+                        <Col lg={4}>
                             <Button onClick={handleFormSubmit} className="btn btn-danger w-100">Deactivate</Button>
                         </Col>
                     </Row>

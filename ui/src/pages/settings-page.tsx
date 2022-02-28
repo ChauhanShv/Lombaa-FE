@@ -14,10 +14,11 @@ import {
     ChangePhone,
     DeactivateAccount
 } from '../components';
+import { MdOutlineElectricalServices } from 'react-icons/md';
 
 export const SettingsPage: React.FC = () => {
     const { page } = useParams<{ page: string }>();
-    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 991px)' })
     const getPage = (): React.ReactElement => {
         switch (page) {
             case 'personal-details':
@@ -51,15 +52,16 @@ export const SettingsPage: React.FC = () => {
 
         if (!page) {
             return (
-                <Col lg={4}>
-                    <SideBar />
-                </Col>
-            );
-        }
+                <Container>
+                    <Col lg={6}>
+                        <SideBar />
+                    </Col>
+                </Container>
 
-        if (page) {
+            );
+        } else {
             return (
-                <Col lg={8}>
+                <Col lg={12}>
                     {getPage()}
                 </Col>
             );

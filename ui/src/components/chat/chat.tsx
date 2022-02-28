@@ -8,15 +8,15 @@ import './chat-page.css';
 export const Chat: React.FC = (): React.ReactElement => {
     const { chatId } = useParams<{ chatId: string }>();
 
-    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 991px)' })
     const getContent = () => {
         if (!isTabletOrMobile) {
             return (
                 <>
-                    <Col lg={3} style={{padding: 0}}>
+                    <Col lg={3} style={{ padding: 0 }}>
                         <ContactList />
                     </Col>
-                    <Col lg={9} style={{padding: 0}}>
+                    <Col lg={9} style={{ padding: 0 }}>
                         <ChatContent />
                     </Col>
                 </>

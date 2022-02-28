@@ -64,7 +64,7 @@ export const Notifications: React.FC = (): React.ReactElement => {
     useEffect(() => {
         if(seenResponse?.success) {
             setNotificationUnseen(notificationsUnseen - 1);
-            navigator.push(notificationLink || '');
+            navigator.push("/" + notificationLink || '');
             execute({});
         }
     }, [seenResponse]);
@@ -113,7 +113,8 @@ export const Notifications: React.FC = (): React.ReactElement => {
             >
                 {!!notifications?.length ? notifications?.map((notification: Notification) =>
                     <MenuItem 
-                        onClick={(event) => handleMenuItemClicked(event, notification)} 
+                        onClick={(event) => handleMenuItemClicked(event, notification)}
+                        key={notification.id} 
                         sx={{
                             display: 'block', 
                             padding: '0.75rem', 

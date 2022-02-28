@@ -50,8 +50,8 @@
  .chat-box-tray svg:hover{color:#fff;}
 
 
- .scrollable-wrap{ overflow:auto; height: 475px; }
- .chat-panel{overflow:auto; height: 475px; background: #efeae2; transform:rotate(180deg); direction:rtl;}
+ .scrollable-wrap{ overflow:auto; height: calc(100vh - 302px); max-height: calc(100vh - 302px); }
+ .chat-panel{overflow:auto; height: calc(100vh - 292px); max-height: calc(100vh - 292px); background: #efeae2; transform:rotate(180deg); direction:rtl;}
  .chat-panel .w-100{transform:rotate(180deg);}
  .chat-panel .chatItemContainer{position: absolute; bottom: 0;}
 

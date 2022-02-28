@@ -88,7 +88,7 @@ export const ContactList: React.FC = (): React.ReactElement => {
                         className={`p-3 friend-drawer friend-drawer--onhover ${chatId === user.id && 'active'}`}
                         onClick={(e) => handleProfileThumbnailClick(e, user.id)}
                     >
-                        <img className='profile-image-avatar' src={user.to?.profilePicture.url} alt={user.to?.name} />
+                        <img className='profile-image-avatar' src={user.to?.profilePicture?.url} alt={user.to?.name} />
                         <div className='text'>
                             <h6>{user.to?.name}</h6>
                             <p>{user.product.title}</p>

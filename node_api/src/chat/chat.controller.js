@@ -50,7 +50,7 @@ class ChatController extends BaseController {
             const userId = req.user?.id
 
             const message = await this.chatService.sendMessage(userId, text, chatId)
-            const notification = this.notificationService.sendNotification(message)
+            const notification = this.notificationService.sendNotification({ ...message, ChatId: chatId })
             return super.jsonRes({ res, code: 200, data: { success: true, message: "Message sent successfully", data: message } })
         }
         catch (error) {

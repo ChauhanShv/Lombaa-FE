@@ -13,7 +13,7 @@ export const SideBar: React.FC = (): React.ReactElement => {
 
     return (
         <Card className="sidenav bg-light position-sticky">
-            <Card.Header className="d-flex align-items-center py-3">
+            <Card.Header className="d-flex align-items-center py-3 font-weight-bold">
                 <NavLink to="/" activeClassName="">
                     <button className="btn">
                         <FaChevronLeft />

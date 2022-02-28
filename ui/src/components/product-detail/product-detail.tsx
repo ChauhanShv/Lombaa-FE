@@ -3,7 +3,6 @@ import { Row, Col, Container, Button } from 'react-bootstrap';
 import { Breadcrumbs } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { ProductDetailImageSlider, ProductDetailDescription, LookalikeProducts } from '.';
-import { ProductCard } from '../product-card';
 import { ProductDetailProps } from './types';
 
 export const ProductDetail: React.FC<ProductDetailProps> = ({
@@ -44,11 +43,9 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
             <section className="pb-5">
                 <Container>
                     <h2 className="text-secondary mb-3">Shop for Similar Products</h2>
-                    <Row>
-                        <Col sm={12}>
-                            <Row className="post-list">
-                                <LookalikeProducts productId={productDetail?.id} />
-                            </Row>
+                    <Row className="post-list">
+                        <Col xs={11} className="mx-auto">
+                            <LookalikeProducts productId={productDetail?.id} />
                         </Col>
                     </Row>
                 </Container>

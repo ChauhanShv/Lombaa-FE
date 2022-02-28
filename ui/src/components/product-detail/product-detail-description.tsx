@@ -157,9 +157,11 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                         ) : (
 
                             <>
-                                <Button onClick={handleChatInit} variant="btn btn-success" className="p-2 me-lg-2 mb-3 w-100">
-                                    {chatInitLoading ? <Spinner animation='border' /> : 'No Chats yet - Promote'}
-                                </Button>
+                                {state?.user?.metaData?.id !== productDetail?.userId && (
+                                    <Button onClick={handleChatInit} variant="btn btn-success" className="p-2 me-lg-2 mb-3 w-100">
+                                        {chatInitLoading ? <Spinner animation='border' /> : 'No Chats yet - Promote'}
+                                    </Button>
+                                )}
                                 {state?.user?.metaData?.id === productDetail?.userId && (
                                     <ListGroup className="product-auth">
                                         <ListGroup.Item className="text-gray" action>
