@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { debounce } from 'lodash';
 import { useHistory, useParams } from 'react-router-dom';
-import { FaSearch } from 'react-icons/fa';
-import { ToggleButtonGroup, ToggleButton } from '@mui/material';
+import { ToggleButtonGroup, ToggleButton, Typography } from '@mui/material';
 import { useAxios } from '../../services';
 import { Loader } from '..';
 import { Contacts } from './types';
@@ -69,16 +68,16 @@ export const ContactList: React.FC = (): React.ReactElement => {
         <div className="cl-container">
             <div className="at-top p-3 cl-header">
                 <div className="w-100 text-center">
-                    <ToggleButtonGroup color="standard" value={chatType} onChange={handleUserTypeToggleChange} exclusive aria-label="Basic example">
-                        <ToggleButton value="buy">Buying</ToggleButton>
-                        <ToggleButton value="sell">Selling</ToggleButton>
+                    <ToggleButtonGroup
+                        color="standard"
+                        value={chatType}
+                        onChange={handleUserTypeToggleChange}
+                        exclusive
+                        aria-label="Basic example"
+                    >
+                        <ToggleButton value="buy">Buyer</ToggleButton>
+                        <ToggleButton value="sell">Seller</ToggleButton>
                     </ToggleButtonGroup>
-                </div>
-                <div className="search-box">
-                    <div className="input-wrapper border">
-                        <FaSearch />
-                        <input placeholder="Search chat" type="text" />
-                    </div>
                 </div>
             </div>
             <div className='scrollable-wrap' onScroll={onListScroll}>
@@ -88,15 +87,28 @@ export const ContactList: React.FC = (): React.ReactElement => {
                         className={`p-3 friend-drawer friend-drawer--onhover ${chatId === user.id && 'active'}`}
                         onClick={(e) => handleProfileThumbnailClick(e, user.id)}
                     >
-                        <img className='profile-image-avatar' src={user.to?.profilePicture?.url} alt={user.to?.name} />
+                        <img
+                            className='profile-image-avatar'
+                            src={user.to?.profilePicture?.url || '/images/user-circle.svg'}
+                            alt={user.to?.name}
+                        />
                         <div className='text'>
-                            <h6>{user.to?.name}</h6>
-                            <p>{user.product.title}</p>
+                            {/* <h6>{user.to?.name}</h6>
+                            <p className="noWrap">{user?.product?.title}</p>
+                            <p className="noWrap">{user.lastMessage?.text}</p> */}
+                            <Typography variant="h6" noWrap>
+                                {user.to?.name}
+                            </Typography>
+                            <Typography variant="overline" noWrap>
+                                {user.product?.title}
+                            </Typography>
+                            <Typography variant="body2" noWrap>
+                                {user.lastMessage?.text}
+                            </Typography>
                         </div>
-                        <span className='time text-muted small'>{ }</span>
                     </div>
                 )}
-                <div className='p-3 friend-drawer friend-drawer--onhover'>
+                <div className='p-3 friend-drawer'>
                     {!!contactLoading && <Loader />}
                 </div>
             </div>

@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Col, DropdownButton, Dropdown } from 'react-bootstrap';
-import { FaInfoCircle, FaSmile, FaTelegramPlane } from 'react-icons/fa';
-import { IoReload } from 'react-icons/io5'; 
+import { Typography } from '@mui/material';
+import { FaInfoCircle, FaTelegramPlane, FaChevronLeft } from 'react-icons/fa';
+import { BsChatSquareText } from 'react-icons/bs';
+import { IoReload } from 'react-icons/io5';
 import { useAxios } from '../../services';
 import { useAppContext } from '../../contexts';
 import { Chat, User } from './types';
@@ -22,7 +24,7 @@ export const ChatContent: React.FC = (): React.ReactElement => {
         url: '/chat/sendMessage',
         method: 'POST',
     });
-    const [{}, deleteChatExecute] = useAxios({
+    const [{ }, deleteChatExecute] = useAxios({
         url: '/chat/delete',
         method: 'DELETE',
     });
@@ -62,7 +64,7 @@ export const ChatContent: React.FC = (): React.ReactElement => {
         if (sendMessageData?.data) {
             const newMessageList: Chat[] = messageList;
             newMessageList.unshift(sendMessageData.data);
-            setMessageList([ ...newMessageList ]);
+            setMessageList([...newMessageList]);
             setMessage('');
         }
     }, [sendMessageData]);
@@ -101,64 +103,80 @@ export const ChatContent: React.FC = (): React.ReactElement => {
 
     return (
         <>
-            <div className="settings-tray bg-light">
-                <div className="friend-drawer no-gutters">
-                    <img className="profile-image-avatar" src={toUser?.profilePicture.url} alt={toUser?.name} />
-                    <div className="text">
-                        <h6>{toUser?.name}</h6>
-                    </div>
-                    <span className="settings-tray--right">
-                        <div style={{ padding: '0.375rem 0.75rem', }}>
-                            <IoReload onClick={() => getChat(0)} className="m-0" />
-                        </div>
-                        <DropdownButton
-                            variant="transparent"
-                            align={{ lg: 'end' }}
-                            title={<FaInfoCircle className="m-0" />}
-                            id="dropdown-menu-align-responsive-1"
-                        >
-                            <Dropdown.Item onClick={handleChatDelete} eventKey="1">Delete Chat</Dropdown.Item>
-                            <Dropdown.Item eventKey="2">About</Dropdown.Item>
-                        </DropdownButton>
-
-                    </span>
-                </div>
-            </div>
-            <div className="chat-panel" onScroll={onMessageScroll}>
-                {!!messageList.length && messageList.map((message: Chat) =>
-                    <div key={message.id}>
-                        {message.postedBy.id === userData?.id ? (
-                            <div className="w-100">
-                                <div className="col text-end">
-                                    <div className="chat-bubble chat-bubble--right">
-                                        {message.text}
-                                    </div>
-                                </div>
+            {(chatId && toUser) ? (
+                <>
+                    <div className="settings-tray bg-light">
+                        <div className="friend-drawer no-gutters">
+                            <Link to={`/chat/buy`} className="btn btn-white d-md-block d-lg-none">
+                                <FaChevronLeft />
+                            </Link>
+                            <img
+                                className="profile-image-avatar"
+                                src={toUser.profilePicture?.url || '/images/user-circle.svg'}
+                                alt={toUser?.name}
+                            />
+                            <div className="text">
+                                <Typography variant="h6">
+                                    {toUser?.name}
+                                </Typography>
                             </div>
-                        ) : (
-                            <div className="w-100">
-                                <div className="col text-start">
-                                    <div className="chat-bubble chat-bubble--left">
-                                        {message.text}
-                                    </div>
+                            <span className="settings-tray--right">
+                                <div style={{ padding: '0.375rem 0.75rem', }}>
+                                    <IoReload onClick={() => { setMessageList([]); getChat(0); }} className="m-0" />
                                 </div>
+                                <DropdownButton
+                                    variant="transparent"
+                                    align={{ lg: 'end' }}
+                                    title={<FaInfoCircle className="m-0" />}
+                                    id="dropdown-menu-align-responsive-1"
+                                >
+                                    <Dropdown.Item onClick={handleChatDelete} eventKey="1">Delete Chat</Dropdown.Item>
+                                    <Dropdown.Item eventKey="2">About</Dropdown.Item>
+                                </DropdownButton>
+
+                            </span>
+                        </div>
+                    </div>
+                    <div className="chat-panel" onScroll={onMessageScroll}>
+                        {!!messageList.length && messageList.map((message: Chat) =>
+                            <div key={message.id}>
+                                {message.postedBy.id === userData?.id ? (
+                                    <div className="w-100">
+                                        <div className="col text-end">
+                                            <div className="chat-bubble chat-bubble--right">
+                                                {message.text}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className="w-100">
+                                        <div className="col text-start">
+                                            <div className="chat-bubble chat-bubble--left">
+                                                {message.text}
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>
-                )}
-            </div>
-            <div className="chat-box-tray">
-                <FaSmile />
-                <input
-                    type="text"
-                    value={message}
-                    placeholder="Type your message here..."
-                    onChange={(e) => setMessage(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                />
-                {/* <FaMicrophone /> */}
-                <FaTelegramPlane onClick={sendMessage} />
-            </div>
+                    <div className="chat-box-tray">
+                        <input
+                            type="text"
+                            value={message}
+                            placeholder="Type your message here..."
+                            onChange={(e) => setMessage(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                        />
+                        <FaTelegramPlane onClick={sendMessage} />
+                    </div>
+                </>
+            ) : (
+                <div className='text-center no-chat-selected' style={{ verticalAlign: 'middle' }}>
+                    <BsChatSquareText />
+                    <Typography variant="h5">No Chat Selected</Typography>
+                </div>
+            )}
         </>
     );
 };

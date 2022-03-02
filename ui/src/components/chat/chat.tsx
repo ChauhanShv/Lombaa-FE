@@ -13,10 +13,10 @@ export const Chat: React.FC = (): React.ReactElement => {
         if (!isTabletOrMobile) {
             return (
                 <>
-                    <Col lg={3} style={{ padding: 0 }}>
+                    <Col lg={4} className="p-0">
                         <ContactList />
                     </Col>
-                    <Col lg={9} style={{ padding: 0 }}>
+                    <Col lg={8} className="p-0">
                         <ChatContent />
                     </Col>
                 </>
@@ -25,7 +25,7 @@ export const Chat: React.FC = (): React.ReactElement => {
 
         if (!chatId) {
             return (
-                <Col lg={4}>
+                <Col lg={4} className="p-0">
                     <ContactList />
                 </Col>
             );
@@ -33,7 +33,7 @@ export const Chat: React.FC = (): React.ReactElement => {
 
         if (chatId) {
             return (
-                <Col lg={8}>
+                <Col lg={8} className="p-0">
                     <ChatContent />
                 </Col>
             );

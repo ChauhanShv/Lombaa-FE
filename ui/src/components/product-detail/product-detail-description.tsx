@@ -29,7 +29,7 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
 
     useEffect(() => {
         if (chatInitResponse?.success) {
-            navigate.push(`/chat/${chatInitResponse?.data?.id}`);
+            navigate.push(`/chat/buy/${chatInitResponse?.data?.id}`);
         }
     }, [chatInitResponse]);
 
@@ -159,7 +159,7 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                             <>
                                 {state?.user?.metaData?.id !== productDetail?.userId && (
                                     <Button onClick={handleChatInit} variant="btn btn-success" className="p-2 me-lg-2 mb-3 w-100">
-                                        {chatInitLoading ? <Spinner animation='border' /> : 'No Chats yet - Promote'}
+                                        {chatInitLoading ? <Spinner animation='border' /> : 'Chat with seller'}
                                     </Button>
                                 )}
                                 {state?.user?.metaData?.id === productDetail?.userId && (
