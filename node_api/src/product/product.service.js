@@ -213,7 +213,6 @@ class ProductService {
       const minMax = priceText.split(',')
       const min = parseFloat(minMax[0])
       const max = parseFloat(minMax[1])
-      console.log(typeof (min, max), 'ydfiwuehflaihfeedvbvds')
 
 
       products = products.filter(product => {

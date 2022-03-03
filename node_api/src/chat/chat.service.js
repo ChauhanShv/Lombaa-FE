@@ -8,11 +8,13 @@ const ProductField = require("../product/product_field.model");
 const Field = require("../field/field.model");
 const ProductService = require("../product/product.service");
 const moment = require('moment')
+const FileService = require("../file/file.service");
 
 
 class ChatService {
     constructor() {
         this.productService = new ProductService()
+        this.fileService = new FileService();
     }
 
     async exists(id) {
@@ -35,20 +37,22 @@ class ChatService {
         }
         return chatData
     }
-    async sendMessage(userId, text, chatId) {
+    async sendMessage(userId, text, chatId, media) {
         const data = await ChatMessage.create({
-            postedById: userId, text: text, ChatId: chatId
+            postedById: userId, text: text, ChatId: chatId, mediaId: media
         })
         const message = await this.findMessageById(data?.id)
         return { id: message?.id, text: message?.text, createdAt: message?.createdAt, postedBy: message?.postedBy }
     }
     async findChat(id) {
-        return await Chat.findOne({
+        const data = await Chat.findOne({
             where: { id: id }, include: [
                 { model: User, as: 'buyer', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
-                { model: User, as: 'seller', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] }
+                { model: User, as: 'seller', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+                { model: Product, as: 'product', include: [{ model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] }] }
             ]
         })
+        return data
     }
     async buyerDelete(id) {
         return await Chat.update({ buyerDeletedAt: moment() }, { where: { id: id } })
@@ -107,6 +111,17 @@ class ChatService {
                 { model: User, as: 'postedBy', attributes: ["id", "name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] }
             ]
         })
+    }
+    async uploadMedia(docs, s3Data) {
+        if (!s3Data || !docs) return false;
+        const location = "S3";
+        const relativePath = "";
+        const uploadedFile = await this.fileService.create(docs, s3Data, location, relativePath);
+        if (!uploadedFile) {
+            return null;
+        }
+        return uploadedFile
+
     }
 }
 module.exports = ChatService

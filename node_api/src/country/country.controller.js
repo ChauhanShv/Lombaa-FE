@@ -21,12 +21,11 @@ class countryController extends BaseController {
         },
       });
     } catch (error) {
-      console.log(error);
       return super.jsonRes({
         res,
         code: 401,
         data: {
-          message: "Fail to ",
+          message: "Failed to get data ",
           message_details: error?.message
         },
       });

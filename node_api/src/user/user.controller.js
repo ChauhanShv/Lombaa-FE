@@ -479,7 +479,6 @@ class UserController extends BaseController {
       const data = { success: true, message: "Fetched user product listing", response: { inReview, active, declined, expired, sold } };
       return super.jsonRes({ res, code: 200, data });
     } catch (error) {
-      console.log({ error });
       next(error);
     }
   };
@@ -494,7 +493,6 @@ class UserController extends BaseController {
       const data = { success: true, message: "Fetched user favorite products", response: { products: products } };
       return super.jsonRes({ res, code: 200, data });
     } catch (error) {
-      console.log({ error });
       next(error);
     }
   };
@@ -534,7 +532,6 @@ class UserController extends BaseController {
     try {
       const Op = require('Sequelize').Op
       const userId = req.user?.id;
-      console.log(userId)
       // const data = await model.findOne({
       //   where: {
       //     userId: userId, createdAt: {
