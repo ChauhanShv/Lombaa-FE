@@ -45,12 +45,14 @@ class ChatService {
         return { id: message?.id, text: message?.text, createdAt: message?.createdAt, postedBy: message?.postedBy }
     }
     async findChat(id) {
-        return await Chat.findOne({
+        const data = await Chat.findOne({
             where: { id: id }, include: [
                 { model: User, as: 'buyer', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
-                { model: User, as: 'seller', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] }
+                { model: User, as: 'seller', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+                { model: Product, as: 'product', include: [{ model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] }] }
             ]
         })
+        return data
     }
     async buyerDelete(id) {
         return await Chat.update({ buyerDeletedAt: moment() }, { where: { id: id } })

@@ -91,6 +91,8 @@ class ChatController extends BaseController {
             const { limit, offset } = req.query;
 
             const data = await this.service.findChat(chatId)
+            const product = data.product
+            console.log(product)
             if (userId !== data?.buyerId && userId !== data?.sellerId)
                 return super.jsonRes({ res, code: 400, data: { success: false, message: "Invalid Participant" } });
 
@@ -99,7 +101,7 @@ class ChatController extends BaseController {
                 receiver = data?.seller;
 
             const messages = await this.service.findMessage(chatId, offset, limit)
-            return super.jsonRes({ res, code: 200, data: { success: true, message: "Chat retreived", meta: { limit: limit, offset: offset }, data: { to: receiver, messages } } })
+            return super.jsonRes({ res, code: 200, data: { success: true, message: "Chat retreived", meta: { limit: limit, offset: offset }, data: { to: receiver, messages, product } } })
         }
         catch (error) {
             return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to retreived Chat", message_details: error?.message } })
