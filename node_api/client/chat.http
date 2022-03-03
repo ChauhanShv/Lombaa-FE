@@ -18,7 +18,8 @@ x-app-version : 1.0.0
 
 {
     "chatId" : "50242ced-bf2f-4ba7-8b35-24995fb96e2e",
-    "text" : "yssps hfii hiih"
+    "text" : "yssps hfii hiih",
+    "media" : "50cd840a-68d8-4799-8574-251e30a24b21"
 }   
 
 ### 
@@ -89,3 +90,21 @@ x-app-version : 1.0.0
 {
     "id" :[ "2cd10546-9498-11ec-8f29-021b0ebe8bee","6fca69c6-949e-11ec-8f29-021b0ebe8bee"]
 }
+
+###
+
+POST  {{baseUrl}}/chat/media HTTP/1.1
+x-access-token : {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+x-client-platform : Android
+x-app-version : 1.0.0
+
+title
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="lomba1.png"
+Content-Type: image/png
+
+< C:\lomba1.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+    
