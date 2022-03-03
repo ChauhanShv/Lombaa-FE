@@ -15,7 +15,7 @@ export const MobileNav: React.FC = (): React.ReactElement => {
                 <FaHome /><br />
                 Home
             </Link>
-            <Link className="w-100 text-center" to="/">
+            <Link className="w-100 text-center" to="/profile">
                 <FaList /><br />
                 My Listing
             </Link>
@@ -23,11 +23,11 @@ export const MobileNav: React.FC = (): React.ReactElement => {
                 <FaCamera /><br />
                 Sell
             </Link>
-            <Link className="w-100 text-center" to="/profile">
+            <Link className="w-100 text-center" to="/chat/buy">
                 <FaCommentDots /><br />
                 Inbox
             </Link>
-            <Link className="w-100 text-center" to="/">
+            <Link className="w-100 text-center" to="/settings">
                 <FaBars /><br />
                 Menu
             </Link>

@@ -29,9 +29,15 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
 
     useEffect(() => {
         if (chatInitResponse?.success) {
-            navigate.push(`/chat/${chatInitResponse?.data?.id}`);
+            navigate.push(`/chat/buy/${chatInitResponse?.data?.id}`);
         }
     }, [chatInitResponse]);
+
+    useEffect(() => {
+        if (data?.success) {
+            setIsMarkSolded(true);
+        }
+    }, [data]);
 
     const handleChatInit = () => {
         if (!state.session.isLoggedIn) {
@@ -56,11 +62,13 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
 
     const onOkayPressedForMarkSolded = () => {
         executeSoldProduct({});
-        data?.success ? setIsMarkSolded(true) : null;
         setShowAlertBox(false);
     }
     const onClosePressed = () => {
         setShowAlertBox(false);
+    }
+    const onChatClicked = () => {
+        handleChatInit();
     }
 
     return (
@@ -128,7 +136,10 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
 
                         <Col className="col-12 mb-3">
                             <h4 className="mt-1">Meet the seller</h4>
-                            <SellerDetailCard user={productDetail?.user} />
+                            <SellerDetailCard 
+                                user={productDetail?.user} 
+                                onChatClicked={onChatClicked} 
+                            />
                         </Col>
                     </Row>
                 </Col>
@@ -145,16 +156,18 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                         </Link>
                         {loading ? <Spinner animation="border" variant='danger' /> : (isMarkSolded || productDetail.soldAt) ? (
                             <div className="bg-danger p-4 rounded">
-                                <h4 className="text-white">
+                                <h4 className="text-white text-center">
                                     This product is out of stock
                                 </h4>
                             </div>
                         ) : (
 
                             <>
-                                <Button onClick={handleChatInit} variant="btn btn-success" className="p-2 me-lg-2 mb-3 w-100">
-                                    {chatInitLoading ? <Spinner animation='border' /> : 'No Chats yet - Promote'}
-                                </Button>
+                                {state?.user?.metaData?.id !== productDetail?.userId && (
+                                    <Button onClick={handleChatInit} variant="btn btn-success" className="p-2 me-lg-2 mb-3 w-100">
+                                        {chatInitLoading ? <Spinner animation='border' /> : 'Chat with seller'}
+                                    </Button>
+                                )}
                                 {state?.user?.metaData?.id === productDetail?.userId && (
                                     <ListGroup className="product-auth">
                                         <ListGroup.Item className="text-gray" action>

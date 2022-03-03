@@ -10,17 +10,13 @@
  
  .search-box { padding-top: 16px; } 
  .search-box .input-wrapper { background: #fff; border-radius: 40px; } 
- .search-box .input-wrapper svg { color: #fff; margin-left: 7px; vertical-align: middle; } 
- 
- input { border: none; border-radius: 30px; width: 80%; } 
- input::placeholder { color: #e3e3e3; font-weight: 300; margin-left: 20px; } 
- input:focus { outline: none; } 
+ .search-box .input-wrapper svg { color: #fff; margin-left: 7px; vertical-align: middle; }  
  
  .friend-drawer { padding: 5px 10px; display: flex; vertical-align: baseline; transition: 0.3s ease; } 
  .friend-drawer--grey { background: #343A40; } 
  .friend-drawer .text { margin-left: 12px; width: 70%;  color:#000; } 
  .col-lg-8 .friend-drawer .text, .col-lg-8 .friend-drawer .text-muted {color:grey !important;}
- .friend-drawer .text h6 { margin-top: 10px; margin-bottom: 0; font-size:16px; } 
+ .friend-drawer .text h6 { margin-bottom: 0; font-size:16px; } 
  .friend-drawer .text p { margin: 0; font-size:11px; } 
  .friend-drawer .time { color: #fff; } 
  .friend-drawer--onhover:hover, .friend-drawer--onhover.active { background: #f1f1f1; cursor: pointer; } 
@@ -45,15 +41,20 @@
  
  .chat-box-tray { background: #343A40; display: flex; align-items: baseline; padding: 10px 15px; align-items: center; margin-top: 0; bottom: 0; } 
  .chat-box-tray input { margin: 0 10px; padding: 6px 15px; } 
- .chat-box-tray svg { color: grey; font-size: 30px; vertical-align: middle; } 
- .chat-box-tray svg:last-of-type { margin-left: 25px; } 
+ .chat-box-tray svg { color: grey; font-size: 30px; vertical-align: middle; }
  .chat-box-tray svg:hover{color:#fff;}
 
+ .chat-box-tray input { border: none; border-radius: 30px; width: 90%; } 
+ .chat-box-tray input::placeholder { color: #e3e3e3; font-weight: 300; margin-left: 20px; } 
+ .chat-box-tray input:focus { outline: none; }
 
- .scrollable-wrap{ overflow:auto; height: 475px; }
- .chat-panel{overflow:auto; height: 475px; background: #efeae2; transform:rotate(180deg); direction:rtl;}
+ .scrollable-wrap{ overflow:auto; height: calc(100vh - 302px); max-height: calc(100vh - 302px); }
+ .chat-panel{overflow:auto; height: calc(100vh - 292px); max-height: calc(100vh - 292px); background: #efeae2; transform:rotate(180deg); direction:rtl;}
  .chat-panel .w-100{transform:rotate(180deg);}
  .chat-panel .chatItemContainer{position: absolute; bottom: 0;}
+ .no-chat-selected{ width: 100%; margin-top: 30%; margin-bottom: 5%; }
+ .no-chat-selected svg { color: grey; width: 200px; height: 200px; }
+ .no-chat-selected h5 { color: grey; }
 
  .wheight{height:calc(100vh - 130px); overflow: hidden;}
 

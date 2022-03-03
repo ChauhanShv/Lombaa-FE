@@ -117,7 +117,7 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
     return (
         <Card>
             <Card.Header className="d-flex align-items-center justify-content-between bg-white">
-                <span className="d-flex align-items-center ">
+                <span className="d-flex align-items-center my-lg-1 settings-font-header">
                     <Link to="/settings" className="btn btn-white d-md-block d-lg-none">
                         <FaChevronLeft />
                     </Link>Change Email

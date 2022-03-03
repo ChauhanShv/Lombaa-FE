@@ -58,11 +58,6 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                                         </Link>
                                     </li>
                                     <li className="nav-item icon-item me-3">
-                                        <Link className="nav-link" to="/chat/buy" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Messages">
-                                            <FaCommentDots />
-                                        </Link>
-                                    </li>
-                                    <li className="nav-item icon-item me-3">
                                         <Notifications />
                                     </li>
                                     <li className="nav-item icon-item me-3">

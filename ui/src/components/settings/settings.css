@@ -33,6 +33,8 @@
 
 .sidenav.card>.list-group{border:0;}
 
+.settings-font-header { font-weight: 600; font-size: 16px; }
+
 .profile-image { width: 150px; height: 150px; }
 
 .verify-email-link { color: green; cursor: pointer; font-weight: 600; text-decoration: underline !important; }

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Spinner, Row, Col } from 'react-bootstrap';
+import { Spinner, Col } from 'react-bootstrap';
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { IoCaretBack, IoCaretForward } from 'react-icons/io5';
+import { HiArrowCircleLeft, HiArrowCircleRight } from 'react-icons/hi';
 import { useAxios } from '../../services';
 import { ProductCard } from '../product-card';
 import { LookalikeProductsProps, ProductMedia, Product } from './types';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const getPrimaryMedia = (media: ProductMedia[]): string =>
     media.filter((m: ProductMedia) => m.isPrimary)[0]?.file.url || '';
@@ -16,9 +16,9 @@ const lookalikeSliderSettings = {
     speed: 500,
     slidesToScroll: 1,
     slidesToShow: 4,
-    prevArrow: <IoCaretBack fill="green" />,
-    nextArrow: <IoCaretForward fill="green" />,
-    infinite: false,
+    infinite: true,
+    nextArrow: <HiArrowCircleRight fill="green" />,
+    prevArrow: <HiArrowCircleLeft fill="green" />,
     responsive: [
         {
             breakpoint: 1024,
