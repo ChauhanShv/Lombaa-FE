@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Col, DropdownButton, Dropdown } from 'react-bootstrap';
+import { DropdownButton, Dropdown } from 'react-bootstrap';
 import { Typography } from '@mui/material';
 import { FaInfoCircle, FaTelegramPlane, FaChevronLeft } from 'react-icons/fa';
 import { BsChatSquareText } from 'react-icons/bs';
@@ -119,21 +119,30 @@ export const ChatContent: React.FC = (): React.ReactElement => {
                                 <Typography variant="h6">
                                     {toUser?.name}
                                 </Typography>
+                                <Typography variant="subtitle2">
+                                    {}
+                                </Typography>
                             </div>
                             <span className="settings-tray--right">
                                 <div style={{ padding: '0.375rem 0.75rem', }}>
-                                    <IoReload onClick={() => { setMessageList([]); getChat(0); }} className="m-0" />
+                                    <IoReload 
+                                        onClick={() => { setMessageList([]); getChat(0); }} 
+                                        className="m-0" 
+                                    />
                                 </div>
                                 <DropdownButton
                                     variant="transparent"
-                                    align={{ lg: 'end' }}
+                                    align='end'
                                     title={<FaInfoCircle className="m-0" />}
                                     id="dropdown-menu-align-responsive-1"
                                 >
-                                    <Dropdown.Item onClick={handleChatDelete} eventKey="1">Delete Chat</Dropdown.Item>
-                                    <Dropdown.Item eventKey="2">About</Dropdown.Item>
+                                    <Dropdown.Item onClick={handleChatDelete} eventKey="1">
+                                        Delete Chat
+                                    </Dropdown.Item>
+                                    <Dropdown.Item eventKey="2">
+                                        About
+                                    </Dropdown.Item>
                                 </DropdownButton>
-
                             </span>
                         </div>
                     </div>

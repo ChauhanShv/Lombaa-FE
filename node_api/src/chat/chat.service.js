@@ -7,6 +7,7 @@ const User = require("../user/user.model")
 const ProductField = require("../product/product_field.model");
 const Field = require("../field/field.model");
 const ProductService = require("../product/product.service");
+const moment = require('moment')
 
 
 class ChatService {

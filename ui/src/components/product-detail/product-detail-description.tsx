@@ -67,6 +67,9 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
     const onClosePressed = () => {
         setShowAlertBox(false);
     }
+    const onChatClicked = () => {
+        handleChatInit();
+    }
 
     return (
         <Container>
@@ -133,7 +136,10 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
 
                         <Col className="col-12 mb-3">
                             <h4 className="mt-1">Meet the seller</h4>
-                            <SellerDetailCard user={productDetail?.user} />
+                            <SellerDetailCard 
+                                user={productDetail?.user} 
+                                onChatClicked={onChatClicked} 
+                            />
                         </Col>
                     </Row>
                 </Col>

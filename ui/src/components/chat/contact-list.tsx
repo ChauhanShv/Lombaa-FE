@@ -58,6 +58,9 @@ export const ContactList: React.FC = (): React.ReactElement => {
     };
 
     const onListScroll = debounce((e) => {
+        if(!contactResponse?.data?.length || LIMIT > contactList.length) {
+            return;
+        }
         const bottom = Math.floor(e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
         if (bottom) {
             getContacts(offset + LIMIT);
@@ -93,9 +96,6 @@ export const ContactList: React.FC = (): React.ReactElement => {
                             alt={user.to?.name}
                         />
                         <div className='text'>
-                            {/* <h6>{user.to?.name}</h6>
-                            <p className="noWrap">{user?.product?.title}</p>
-                            <p className="noWrap">{user.lastMessage?.text}</p> */}
                             <Typography variant="h6" noWrap>
                                 {user.to?.name}
                             </Typography>

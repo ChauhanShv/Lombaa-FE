@@ -69,10 +69,8 @@ class ChatController extends BaseController {
                 const buyerDeletedAt = await this.chatService.buyerDelete(id)
                 return super.jsonRes({ res, code: 200, data: { success: true, message: "Chat deleted" } })
             }
-            if (userId === data.sellerId) {
-                const sellerDeletedAt = await this.chatService.sellerDelete(id)
-                return super.jsonRes({ res, code: 200, data: { success: false, message: "Chat deleted" } })
-            }
+            const sellerDeletedAt = await this.chatService.sellerDelete(id)
+            return super.jsonRes({ res, code: 200, data: { success: false, message: "Chat deleted" } })
         }
         catch (error) {
             console.log(error)

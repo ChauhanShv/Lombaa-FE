@@ -6,7 +6,8 @@ import { FaEnvelope, FaMapMarkerAlt, FaClock, FaCheckCircle } from 'react-icons/
 import { SellerDetailsCardProps } from './types';
 
 export const SellerDetailCard: React.FC<SellerDetailsCardProps> = ({
-    user
+    user,
+    onChatClicked,
 }: SellerDetailsCardProps): React.ReactElement => {
 
     const getAccountType = () => user?.accountType === 'standard' ? 'Standard Account' : 'Business Account';
@@ -38,7 +39,7 @@ export const SellerDetailCard: React.FC<SellerDetailsCardProps> = ({
                                 <p className="px-3">
                                     <Link to="/settings/personal-details" className="p-0">View Profile</Link>
                                     {' | '}
-                                    <Link to="/chat" className="p-0">Chat</Link>
+                                    <Link to="#" className="p-0" onClick={onChatClicked}>Chat</Link>
                                 </p>
                             </div>
                         </Col>
