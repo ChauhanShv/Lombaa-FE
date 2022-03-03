@@ -1,5 +1,6 @@
 const { text } = require("express");
 const { Sequelize, DataTypes, Model } = require("sequelize");
+const File = require("../file/file.model");
 const Product = require("../product/product.model");
 const User = require("../user/user.model");
 const Chat = require("./chat.model");
@@ -30,5 +31,6 @@ ChatMessage.init(
 ChatMessage.belongsTo(Chat)
 Chat.hasMany(ChatMessage)
 ChatMessage.belongsTo(User, { as: "postedBy" })
+ChatMessage.belongsTo(File, { as: "media" })
 
 module.exports = ChatMessage;

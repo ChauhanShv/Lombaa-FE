@@ -4,7 +4,11 @@ const authMiddleware = require("../auth/auth.middleware");
 const chatSchema = require("./chat.schema")
 const getChatSchema = require("./chat.getMessages.schema")
 const chatIdSchema = require("./chatID.schema")
+const mediaSchema = require("./media.schema")
 const { checkSchema } = require("express-validator");
+
+const multer = require("multer");
+const storage = multer.memoryStorage();
 
 
 const controller = new chatController();
@@ -12,6 +16,7 @@ const controller = new chatController();
 module.exports = () => {
     router.post('/init', authMiddleware, checkSchema(chatSchema), controller.initChat);
     router.post("/sendMessage", authMiddleware, controller.sendMessage)
+    router.post("/media", multer({ storage: storage }).any(), authMiddleware, checkSchema(mediaSchema), controller.uploadFile)
     router.delete("/delete", authMiddleware, controller.delete)
     router.get("/:id/messages", authMiddleware, checkSchema(chatIdSchema), controller.getMessages)
     router.get("/buyer", authMiddleware, checkSchema(getChatSchema), controller.buyerChat)

@@ -23,7 +23,6 @@ class LocationController extends BaseController {
         },
       });
     } catch (error) {
-      console.log(error);
       return super.jsonRes({
         res,
         code: 400,
@@ -53,7 +52,6 @@ class LocationController extends BaseController {
         },
       });
     } catch (error) {
-      console.log(error);
       return super.jsonRes({
         res,
         code: 400,
@@ -79,7 +77,6 @@ class LocationController extends BaseController {
         },
       });
     } catch (error) {
-      console.log(error);
       return super.jsonRes({
         res,
         code: 400,
@@ -105,7 +102,6 @@ class LocationController extends BaseController {
         },
       });
     } catch (error) {
-      console.log(error);
       return super.jsonRes({
         res,
         code: 400,
@@ -130,7 +126,6 @@ class LocationController extends BaseController {
         },
       });
     } catch (error) {
-      console.log(error);
       return super.jsonRes({
         res,
         code: 400,
@@ -163,7 +158,6 @@ class LocationController extends BaseController {
         },
       });
     } catch (error) {
-      console.log(error);
       return super.jsonRes({
         res,
         code: 400,
@@ -196,7 +190,6 @@ class LocationController extends BaseController {
         },
       });
     } catch (error) {
-      console.log(error);
       return super.jsonRes({
         res,
         code: 400,

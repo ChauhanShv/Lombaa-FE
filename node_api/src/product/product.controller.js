@@ -165,7 +165,6 @@ class ProductController extends BaseController {
         },
       });
     } catch (error) {
-      console.log(error, 'hgygfahyfyutfuy\grj')
       return super.jsonRes({
         res,
         code: 401,
@@ -206,7 +205,6 @@ class ProductController extends BaseController {
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Products retreived", product: randomProducts } })
     }
     catch (error) {
-      console.log(error)
       return super.jsonRes({ res, code: 400, data: { success: false, message: "failed to get products", message_detail: error?.messaage } })
     }
   }
@@ -236,7 +234,6 @@ class ProductController extends BaseController {
 
     }
     catch (error) {
-      console.log(error)
       return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to load ", message_detail: error?.messaage } })
 
     }

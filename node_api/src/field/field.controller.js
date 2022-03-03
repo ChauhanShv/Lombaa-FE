@@ -25,7 +25,6 @@ class CategoryController extends BaseController {
             return super.jsonRes({ res, code: 200, data: value })
         }
         catch (error) {
-            console.log(error);
             const value = { success: false, message: 'Failed to retrieve categories', messageDetail: error?.message }
             return super.jsonRes({ res, code: 400, data: value });
         }

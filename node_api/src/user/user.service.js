@@ -285,7 +285,6 @@ class UserService {
         ],
       });
     } catch (error) {
-      console.log(error);
       return null;
     }
   }
