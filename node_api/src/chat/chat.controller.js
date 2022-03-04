@@ -12,6 +12,7 @@ const NotificationService = require("../notification/notification.service")
 const FileType = require('file-type')
 const S3Service = require("../modules/s3/s3.service")
 const { v4: uuidv4 } = require("uuid");
+const ProductService = require("../product/product.service");
 
 
 
@@ -22,6 +23,7 @@ class ChatController extends BaseController {
         this.service = new ChatService()
         this.notificationService = new NotificationService()
         this.s3Service = new S3Service()
+        this.productService = new ProductService()
     }
 
     initChat = async (req, res, next) => {
@@ -73,7 +75,7 @@ class ChatController extends BaseController {
                 return super.jsonRes({ res, code: 200, data: { success: true, message: "Chat deleted" } })
             }
             const sellerDeletedAt = await this.service.sellerDelete(id)
-            return super.jsonRes({ res, code: 200, data: { success: false, message: "Chat deleted" } })
+            return super.jsonRes({ res, code: 200, data: { success: true, message: "Chat deleted" } })
         }
         catch (error) {
             return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to delete chat", message_details: error?.message } })
@@ -91,8 +93,12 @@ class ChatController extends BaseController {
             const { limit, offset } = req.query;
 
             const data = await this.service.findChat(chatId)
-            const product = { id: data?.product?.id, media: data?.product?.productMedia, title: data?.product?.title, description: data?.product?.description }
-            console.log(product)
+            let product = data.product
+            product = this.productService.fieldsMapping([product])
+            product = product.map(data => {
+                let result = { id: data?.id, slug: data?.slug, productMedia: data?.productMedia, title: data?.title, description: data?.description }
+                return result
+            })
             if (userId !== data?.buyerId && userId !== data?.sellerId)
                 return super.jsonRes({ res, code: 400, data: { success: false, message: "Invalid Participant" } });
 
