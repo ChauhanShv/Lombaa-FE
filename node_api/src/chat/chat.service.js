@@ -78,10 +78,22 @@ class ChatService {
     }
     async buyerMessage(userId, offset, limit) {
         let data = await this.common('sellerId', userId, offset, limit)
+        data = data.filter(data => {
+            if (data.buyerDelete === null) {
+                return data
+            }
+            return null
+        })
         return data
     }
     async sellerMessage(userId, offset, limit) {
         let data = await this.common('buyerId', userId, offset, limit)
+        data = data.filter(data => {
+            if (data.sellerDelete === null) {
+                return data
+            }
+            return null
+        })
         return data
     }
     async common(key, userId, offset, limit) {
@@ -101,7 +113,7 @@ class ChatService {
         data = data.map((data, index) => {
             this.productService.fieldsMapping([data.product]);
             const p = { id: data?.product?.id, media: data?.product?.productMedia, title: data?.product?.title, description: data?.product?.description }
-            const result = { id: data?.id, to: data?.seller ?? data?.buyer, product: p, lastMessage: data?.ChatMessages?.[0] }
+            const result = { id: data?.id, to: data?.seller ?? data?.buyer, buyerDelete: data?.buyerDeletedAt, sellerDelete: data?.sellerDeletedAt, product: p, lastMessage: data?.ChatMessages?.[0] }
             return result;
         })
         return data
