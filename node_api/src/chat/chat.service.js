@@ -42,14 +42,14 @@ class ChatService {
             postedById: userId, text: text, ChatId: chatId, mediaId: media
         })
         const message = await this.findMessageById(data?.id)
-        return { id: message?.id, text: message?.text, createdAt: message?.createdAt, postedBy: message?.postedBy }
+        return { id: message?.id, text: message?.text, createdAt: message?.createdAt, postedBy: message?.postedBy, media: message?.media }
     }
     async findChat(id) {
         const data = await Chat.findOne({
             where: { id: id }, include: [
                 { model: User, as: 'buyer', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
                 { model: User, as: 'seller', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
-                { model: Product, as: 'product', include: [{ model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] }] }
+                { model: Product, as: 'product', include: [{ model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] }, { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] }] }
             ]
         })
         return data
@@ -96,7 +96,6 @@ class ChatService {
                 { model: ChatMessage, attributes: ['id', 'text', 'createdAt'], limit: 1, order: [["createdAt", "DESC"]] }
             ]
         });
-
         data = data.map((data, index) => {
             this.productService.fieldsMapping([data.product]);
             const p = { id: data?.product?.id, media: data?.product?.productMedia, title: data?.product?.title, description: data?.product?.description }
@@ -108,7 +107,8 @@ class ChatService {
     async findMessageById(id) {
         return await ChatMessage.findByPk(id, {
             include: [
-                { model: User, as: 'postedBy', attributes: ["id", "name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] }
+                { model: User, as: 'postedBy', attributes: ["id", "name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+                { model: fileModel, as: 'media' }
             ]
         })
     }

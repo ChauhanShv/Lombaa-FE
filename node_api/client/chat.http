@@ -18,7 +18,6 @@ x-app-version : 1.0.0
 
 {
     "chatId" : "50242ced-bf2f-4ba7-8b35-24995fb96e2e",
-    "text" : "yssps hfii hiih",
     "media" : "50cd840a-68d8-4799-8574-251e30a24b21"
 }   
 
@@ -31,7 +30,7 @@ x-client-platform : Android
 x-app-version : 1.0.0
 
 {
-    "id" : "7f3300ef-9699-4bd8-ba20-3ac0ecb37fb0"
+    "id" : "2d2bf2cd-5f6e-41c7-bf58-0c82f719787d"
 }
 
 ###
@@ -107,4 +106,3 @@ Content-Type: image/png
 < C:\lomba1.png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
-    
