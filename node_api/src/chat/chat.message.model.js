@@ -17,7 +17,8 @@ ChatMessage.init(
         },
         text: {
             type: DataTypes.TEXT,
-            allowNull: false
+            allowNull: true,
+            defaultValue: null
         },
     },
     {

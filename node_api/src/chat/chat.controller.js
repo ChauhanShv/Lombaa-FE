@@ -91,7 +91,7 @@ class ChatController extends BaseController {
             const { limit, offset } = req.query;
 
             const data = await this.service.findChat(chatId)
-            const product = data.product
+            const product = { id: data?.product?.id, media: data?.product?.productMedia, title: data?.product?.title, description: data?.product?.description }
             console.log(product)
             if (userId !== data?.buyerId && userId !== data?.sellerId)
                 return super.jsonRes({ res, code: 400, data: { success: false, message: "Invalid Participant" } });
