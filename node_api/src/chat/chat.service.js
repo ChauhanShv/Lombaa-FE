@@ -63,12 +63,14 @@ class ChatService {
     async findMessage(chatId, offset, limit) {
         let message = await ChatMessage.findAll({
             where: { ChatId: chatId }, offset: offset, limit: limit, order: [['createdAt', 'DESC']], include: [
+                { model: fileModel, as: 'media' },
                 { model: User, as: 'postedBy', attributes: ["id", "name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
                 // { model: Chat, include: [{ model: User, as: 'seller', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] }] }
             ]
         })
+        console.log(message, 'messagetag')
         const messages = message.map(data => {
-            message = { id: data.id, text: data.text, createdAt: data.createdAt, postedBy: data.postedBy }
+            message = { id: data.id, text: data.text, createdAt: data.createdAt, postedBy: data.postedBy, media: data.media }
             return message;
 
         })
