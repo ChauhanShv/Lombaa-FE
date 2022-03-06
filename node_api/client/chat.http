@@ -15,13 +15,13 @@ content-type: application/json
 x-access-token: {{token}}
 x-client-platform : Android
 x-app-version : 1.0.0
-
+ 
 {
     "chatId" : "50242ced-bf2f-4ba7-8b35-24995fb96e2e",
     "media" : "50cd840a-68d8-4799-8574-251e30a24b21"
 }   
 
-### 
+###
 
 DELETE  {{baseUrl}}/chat/delete HTTP/1.1 HTTP/1.1
 content-type: application/json
@@ -44,7 +44,7 @@ x-app-version : 1.0.0
 
 ###
 
-GET {{baseUrl}}/chat/buyer?offset=-1&limit=1 HTTP/1.1 HTTP/1.1
+GET {{baseUrl}}/chat/buyer?offset=-1&limit=10 HTTP/1.1 HTTP/1.1
 content-type: application/json
 x-access-token: {{token}}
 x-client-platform : Android
@@ -52,7 +52,7 @@ x-app-version : 1.0.0
 
 ###
 
-GET {{baseUrl}}/chat/seller?offset=-1&limit=3 HTTP/1.1 HTTP/1.1
+GET {{baseUrl}}/chat/seller?offset=-1&limit=10 HTTP/1.1 HTTP/1.1
 content-type: application/json
 x-access-token: {{token}}
 x-client-platform : Android
