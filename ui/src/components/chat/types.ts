@@ -1,3 +1,7 @@
+export interface MediaModalProps {
+  mediaSrc: string;
+  onClose: () => void | undefined;
+}
 export interface User {
   name: string;
   id?: string;
