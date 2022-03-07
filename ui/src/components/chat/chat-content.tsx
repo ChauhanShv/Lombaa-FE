@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { DropdownButton, Dropdown } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { useParams, Link, useHistory } from 'react-router-dom';
+import { DropdownButton, Dropdown, Form } from 'react-bootstrap';
 import { Typography } from '@mui/material';
-import { FaInfoCircle, FaTelegramPlane, FaChevronLeft } from 'react-icons/fa';
+import { FaInfoCircle, FaTelegramPlane, FaChevronLeft, FaUpload } from 'react-icons/fa';
 import { BsChatSquareText } from 'react-icons/bs';
 import { IoReload } from 'react-icons/io5';
 import { useAxios } from '../../services';
@@ -20,15 +20,20 @@ export const ChatContent: React.FC = (): React.ReactElement => {
     const [message, setMessage] = useState<string>('');
     const [messageList, setMessageList] = useState<Chat[]>([]);
     const [toUser, setToUser] = useState<User | null>();
+    const navigation = useHistory();
     const [{ data: sendMessageData }, execute] = useAxios({
         url: '/chat/sendMessage',
         method: 'POST',
     });
-    const [{ }, deleteChatExecute] = useAxios({
+    const [{ data: deleteChatResponse }, deleteChatExecute] = useAxios({
         url: '/chat/delete',
         method: 'DELETE',
     });
-    const [{ data: chatResponse, loading: chatLoading }, getChatExecute] = useAxios({
+    const [{ data: sendMediaResponse }, executeSendMedia] = useAxios({
+        url: '/chat/media',
+        method: 'POST',
+    });
+    const [{ data: chatResponse }, getChatExecute] = useAxios({
         url: '',
         method: 'GET',
     });
@@ -68,6 +73,22 @@ export const ChatContent: React.FC = (): React.ReactElement => {
             setMessage('');
         }
     }, [sendMessageData]);
+    useEffect(() => {
+        console.log(sendMediaResponse?.metaData?.file)
+        if (sendMediaResponse?.success) {
+            execute({
+                data: {
+                    chatId: chatId,
+                    media: sendMediaResponse?.metadata?.file,
+                },
+            });
+        }
+    }, [sendMediaResponse]);
+    useEffect(() => {
+        if (deleteChatResponse?.success) {
+            navigation.push('/chat/buy');
+        }
+    }, [deleteChatResponse]);
 
     const sendMessage = () => {
         if (message) {
@@ -77,6 +98,14 @@ export const ChatContent: React.FC = (): React.ReactElement => {
                     text: message,
                 },
             });
+        }
+    };
+
+    const handleMediaUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files[0]) {
+            const formData = new FormData();
+            formData.append('image', event.target.files[0]);
+            executeSendMedia({ data: formData });
         }
     };
 
@@ -116,11 +145,11 @@ export const ChatContent: React.FC = (): React.ReactElement => {
                                 alt={toUser?.name}
                             />
                             <div className="text">
-                                <Typography variant="h6">
+                                <Typography variant="subtitle1">
                                     {toUser?.name}
                                 </Typography>
-                                <Typography variant="subtitle2">
-                                    {}
+                                <Typography variant="body2">
+                                    {chatResponse?.data?.product[0]?.title}
                                 </Typography>
                             </div>
                             <span className="settings-tray--right">
@@ -153,7 +182,9 @@ export const ChatContent: React.FC = (): React.ReactElement => {
                                     <div className="w-100">
                                         <div className="col text-end">
                                             <div className="chat-bubble chat-bubble--right">
-                                                {message.text}
+                                                {message.media ? (
+                                                    <img height="30%" width="100%" src={message?.media?.url} alt={message.media?.url}/>
+                                                ) : message.text}
                                             </div>
                                         </div>
                                     </div>
@@ -161,7 +192,9 @@ export const ChatContent: React.FC = (): React.ReactElement => {
                                     <div className="w-100">
                                         <div className="col text-start">
                                             <div className="chat-bubble chat-bubble--left">
-                                                {message.text}
+                                                {message.media ? (
+                                                    <img height="30%" width="100%" src={message?.media?.url} alt={message.media?.url}/>
+                                                ) : message.text}
                                             </div>
                                         </div>
                                     </div>
@@ -177,6 +210,17 @@ export const ChatContent: React.FC = (): React.ReactElement => {
                             onChange={(e) => setMessage(e.target.value)}
                             onKeyDown={handleKeyDown}
                         />
+                        <Form.Group className="mx-2">
+                            <Form.Label>
+                                <FaUpload />
+                                <Form.Control 
+                                    className="d-none" 
+                                    type="file" 
+                                    accept='image/*' 
+                                    onChange={handleMediaUpload} 
+                                />
+                            </Form.Label>
+                        </Form.Group>
                         <FaTelegramPlane onClick={sendMessage} />
                     </div>
                 </>

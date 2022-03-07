@@ -40,7 +40,7 @@
  .text-end .chat-bubble { background: #d1f4cc; color: #000; } 
  
  .chat-box-tray { background: #343A40; display: flex; align-items: baseline; padding: 10px 15px; align-items: center; margin-top: 0; bottom: 0; } 
- .chat-box-tray input { margin: 0 10px; padding: 6px 15px; } 
+ .chat-box-tray input { margin: 0 10px; padding: 8px 16px; } 
  .chat-box-tray svg { color: grey; font-size: 30px; vertical-align: middle; }
  .chat-box-tray svg:hover{color:#fff;}
 

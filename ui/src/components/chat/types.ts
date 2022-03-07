@@ -14,9 +14,17 @@ export interface Contacts {
   to: User;
 }
 export interface Chat {
+  createdAt: string;
   id?: string;
+  media: Media;
   postedBy: User;
   text: string;
+}
+export interface Media {
+  extension: string;
+  id: string;
+  mime: string;
+  url: string;
 }
 export interface LastMessage {
   createdAt: string;
