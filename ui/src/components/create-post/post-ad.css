@@ -1,107 +1,28 @@
-.post-ad-box {
-  width: '60%';
-  flex-direction: column;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-  border: 1px solid #bbb;
-  border-radius: 5px;
-  background-color: #fff;
-  padding: 3rem;
-}
+.post-ad-box { width: '60%'; flex-direction: column; margin-top: 1rem; margin-bottom: 2rem; border: 1px solid #bbb; border-radius: 5px; background-color: #fff; padding: 3rem; }
 
-.ad-post-text {
-  font-family: 'Poppins';
-  text-align: center;
-}
+.ad-post-text { font-family: 'Poppins'; text-align: center; }
 
-.margin-right-3 {
-  margin-right: 10px;
-}
+.margin-right-3 { margin-right: 10px; }
 
-.drag-n-drop {
-  text-align: center;
-  color: green;
-  font-size: 16px;
-  padding: 24px;
-  border: 1px dashed green;
-  background-color: #e1ffe8;
-  border-radius: 4px;
-  cursor: pointer;
-}
+.drag-n-drop { text-align: center; color: green; font-size: 16px; padding: 24px; border: 1px dashed green; background-color: #e1ffe8; border-radius: 4px; cursor: pointer; }
 
-.thumbs-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-top: 16px;
-}
+.thumbs-container { display: flex; flex-direction: row; flex-wrap: wrap; margin-top: 16px; }
 
-.thumb {
-  display: inline-flex;
-  border-radius: 2px;
-  border: 1px solid #eaeaea;
-  margin-bottom: 5px;
-  margin-right: 5px;
-  width: calc(100% / 3.33);
-  height: 100px;
-  padding: 4px;
-  box-sizing: border-box;
-}
+.thumb { display: inline-flex; border-radius: 2px; border: 1px solid #eaeaea; margin-bottom: 5px; margin-right: 5px; width: 100px; height: 100px; padding: 4px; box-sizing: border-box; }
 
-.thumb-inner {
-  display: flex;
-  min-width: 0;
-  overflow: hidden;
-  position: relative;
-}
+.thumb-inner { display: flex; min-width: 0; overflow: hidden; position: relative; }
 
-.img {
-  display: block;
-  width: auto;
-  height: 100%;
-  cursor: pointer;
-}
+.img { display: block; width: auto; height: 100%; cursor: pointer; }
 
-.video {
-  display: inline;
-  width: auto;
-  height: 100%;
-  cursor: pointer;
-}
+.video { display: inline; width: auto; height: 100%; cursor: pointer; }
 
-.close-button {
-  display: inline-block;
-  position: absolute;
-  width: 20px;
-  height: 20px;
-  top: 1px;
-  right: 1px;
-  background: #fff;
-  border-radius: 100px;
-}
+.close-button { display: inline-block; position: absolute; width: 20px; height: 20px; top: 1px; right: 1px; background: #fff; border-radius: 100px; }
 
-.primary-label {
-  background-color: #000;
-  position: absolute;
-  bottom: 0;
-  color: #fff;
-  font-weight: 500;
-  font-size: 12px;
-  width: 100%;
-  text-align: center;
-}
+.primary-label { background-color: #000; position: absolute; bottom: 0; color: #fff; font-weight: 500; font-size: 12px; width: 100%; text-align: center; }
 
-.upload-limit-text {
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-  color: grey;
-  font-size: 14px;
-}
+.upload-limit-text { margin-top: 1rem; margin-bottom: 0.5rem; color: grey; font-size: 14px; }
 
-.form-check-input:checked {
-  background-color: green;
-  border-color: green;
-}
+.form-check-input:checked { background-color: green; border-color: green; }
 
 h2,
 .h2 {

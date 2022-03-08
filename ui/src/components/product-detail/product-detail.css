@@ -13,7 +13,8 @@
 .btns-over button:hover{transform: scale(1.03);}
 .btns-over button svg {margin:0 10px 0 0;}
 .btns-over.bottom { position:absolute; top:auto;bottom:25px; right:25px; display: flex; align-items: center; }
-.product-slide-image { height: calc(100vw * 0.4); object-fit: fill; }
+.product-slide-image { height: calc(100vw * 0.4); position: absolute; top: 0; object-fit: contain; background-color: transparent; z-index: 2;  }
+.product-slide-bg { position: relative; height: calc((100vw * 0.4) - 7px); z-index: 1; object-fit: cover !important; filter: blur(30px); }
 
 .icon-btn {
     background: #fff;

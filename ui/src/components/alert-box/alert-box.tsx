@@ -12,7 +12,7 @@ export const AlertBox = ({ title, description, onClose, onOk }: AlertBoxProps) =
     return (
         <Modal show={true}>
             <Modal.Dialog className="m-0">
-                <Modal.Header className="p-4" closeButton>
+                <Modal.Header className="p-4" closeButton onHide={() => onClose()}>
                     <Modal.Title>{title}</Modal.Title>
                 </Modal.Header>
 

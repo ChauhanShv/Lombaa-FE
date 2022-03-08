@@ -5,13 +5,13 @@
 .saved{background: #fff; border-radius: 100px; text-align: center; width:32px; height:32px; display: flex; align-items: center; justify-content: center; text-decoration: none !important; box-shadow: 0 0 5px rgba(0,0,0,30%); transition: all ease-in-out 100ms; border:0;} 
 .saved:hover{transform: scale(1.1);}
 
-.ad-card{transition: all ease-in-out 300ms;}
+.ad-card{transition: all ease-in-out 300ms; border: none;}
 .ad-card *{text-decoration: none !important;}
 .ad-card:hover, .ad-post:hover{box-shadow: 0 0 15px rgba(0,0,0,30%);}
 .ad-card .card-title{font-size:18px;}
 .ad-card .card-body{font-size:14px; color:#444;}
 .ad-card .card button svg{width:14px;}
-.card-img-top { width: 100%; height: calc(100vw * 0.17); object-fit: stretch; }
+.card-img-top { width: 100%; height: calc(100vw * 0.2); object-fit: contain; }
 
 .product-card-header { background-color: #fff; padding: 0; border-bottom: 0px; margin-bottom: 0.5rem; }
 

@@ -68,7 +68,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 <Card.Img variant="top" src={mediaSrc || '/images/placeholder-image.jpg'} />
             </Link>
             <div className="d-flex justify-content-between p-3 position-absolute saved-wrap">
-                <small className="text-white">{moment(postedOnDate).format('LL')}</small>
+                {/* <small className="text-white">{moment(postedOnDate).format('LL')}</small> */}
                 {favourite ?
                     <button className="saved" id="fav" onClick={handleFavUnfav}><FaHeart /></button> :
                     <button className="saved" id="fav" onClick={handleFavUnfav}><FiHeart /></button>
