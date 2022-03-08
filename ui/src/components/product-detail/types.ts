@@ -11,7 +11,6 @@ export interface ProductDetailDescriptionProps {
 }
 export interface SellerDetailsCardProps {
   user: User;
-  onChatClicked: () => void;
 }
 export interface LookalikeProductsProps {
   productId: string;

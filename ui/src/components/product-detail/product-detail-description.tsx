@@ -8,14 +8,15 @@ import { ProductFields, ProductDetailDescriptionProps } from './types';
 import { ActionTypes, useAppContext } from '../../contexts';
 import { useAxios } from '../../services';
 import { AlertBox } from '../alert-box';
-import './product-detail.css';
 import { ModalType } from '../../types';
+import './product-detail.css';
 
 export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> = ({
     productDetail
 }: ProductDetailDescriptionProps): React.ReactElement => {
     const [isMarkSolded, setIsMarkSolded] = useState<boolean>(false);
     const [showAlertBox, setShowAlertBox] = useState<boolean>(false);
+    const [showMore, setShowMore] = useState<boolean>(false);
     const { state, dispatch } = useAppContext();
     const navigate = useHistory();
     const [{ data, loading }, executeSoldProduct] = useAxios({
@@ -67,9 +68,11 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
     const onClosePressed = () => {
         setShowAlertBox(false);
     }
-    const onChatClicked = () => {
-        handleChatInit();
-    }
+    const showMoreContent = () => {
+        if (showMore) {
+            return true;
+        } else return false;
+    };
 
     return (
         <Container>
@@ -110,9 +113,9 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                                 <p>{moment(productDetail?.postedAt).format('LL')}</p>
                             </Col>
                         </Row>
-                        {productDetail.productFields?.map((productField: ProductFields) =>
-                            <Row key={productField.id}>
-                                {!['title', 'description', 'price'].includes(productField.field.fieldType) && (
+                        {productDetail.productFields?.map((productField: ProductFields, index: number) =>
+                            <Row key={productField.id} className={(!showMoreContent() && index > 3) ? 'd-none' : ''}>
+                                {!['title', 'price'].includes(productField.field.fieldType) && (
                                     <>
                                         <Col xs={5}>
                                             <p className="text-muted m-0">{productField.field.label}</p>
@@ -124,21 +127,21 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                                 )}
                             </Row>
                         )}
+                        {productDetail.productFields.length > 3 && (
+                            <Link to="#" onClick={() => setShowMore(!showMore)}>
+                                {showMoreContent() ? 'Show Less' : 'Show More ...'}
+                            </Link>
+                        )}
 
-                        <Col className="col-12 mb-3">
-                            <p>{productDetail.description}</p>
-                        </Col>
-
-                        <Col className="col-12 mb-3">
+                        <Col className="col-12 mb-3 mt-5">
                             <h4 className="mb-4">Meet-up</h4>
                             <p><FaMapMarkerAlt /> {`${productDetail.location.city.name}, ${productDetail.location.region.name}`}</p>
                         </Col>
 
                         <Col className="col-12 mb-3">
                             <h4 className="mt-1">Meet the seller</h4>
-                            <SellerDetailCard 
-                                user={productDetail?.user} 
-                                onChatClicked={onChatClicked} 
+                            <SellerDetailCard
+                                user={productDetail?.user}
                             />
                         </Col>
                     </Row>

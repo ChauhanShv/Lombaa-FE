@@ -5,11 +5,12 @@ import { Typography } from '@mui/material';
 import { FaInfoCircle, FaTelegramPlane, FaChevronLeft, FaUpload } from 'react-icons/fa';
 import { BsChatSquareText } from 'react-icons/bs';
 import { IoReload } from 'react-icons/io5';
+import { debounce } from 'lodash';
 import { useAxios } from '../../services';
 import { useAppContext } from '../../contexts';
+import { MediaModal } from '.';
 import { Chat, User } from './types';
 import './chat-page.css';
-import { debounce } from 'lodash';
 
 const LIMIT: number = 50;
 export const ChatContent: React.FC = (): React.ReactElement => {
@@ -20,6 +21,7 @@ export const ChatContent: React.FC = (): React.ReactElement => {
     const [message, setMessage] = useState<string>('');
     const [messageList, setMessageList] = useState<Chat[]>([]);
     const [toUser, setToUser] = useState<User | null>();
+    const [mediaModalUrl, setMediaModalUrl] = useState<string>('');
     const navigation = useHistory();
     const [{ data: sendMessageData }, execute] = useAxios({
         url: '/chat/sendMessage',
@@ -74,7 +76,6 @@ export const ChatContent: React.FC = (): React.ReactElement => {
         }
     }, [sendMessageData]);
     useEffect(() => {
-        console.log(sendMediaResponse?.metaData?.file)
         if (sendMediaResponse?.success) {
             execute({
                 data: {
@@ -134,6 +135,12 @@ export const ChatContent: React.FC = (): React.ReactElement => {
         <>
             {(chatId && toUser) ? (
                 <>
+                    {mediaModalUrl && (
+                        <MediaModal
+                            mediaSrc={mediaModalUrl}
+                            onClose={() => setMediaModalUrl('')}
+                        />
+                    )}
                     <div className="settings-tray bg-light">
                         <div className="friend-drawer no-gutters">
                             <Link to={`/chat/buy`} className="btn btn-white d-md-block d-lg-none">
@@ -154,9 +161,9 @@ export const ChatContent: React.FC = (): React.ReactElement => {
                             </div>
                             <span className="settings-tray--right">
                                 <div style={{ padding: '0.375rem 0.75rem', }}>
-                                    <IoReload 
-                                        onClick={() => { setMessageList([]); getChat(0); }} 
-                                        className="m-0" 
+                                    <IoReload
+                                        onClick={() => { setMessageList([]); getChat(0); }}
+                                        className="m-0"
                                     />
                                 </div>
                                 <DropdownButton
@@ -183,7 +190,14 @@ export const ChatContent: React.FC = (): React.ReactElement => {
                                         <div className="col text-end">
                                             <div className="chat-bubble chat-bubble--right">
                                                 {message.media ? (
-                                                    <img height="30%" width="100%" src={message?.media?.url} alt={message.media?.url}/>
+                                                    <img
+                                                        role="button"
+                                                        height="30%"
+                                                        width="100%"
+                                                        src={message?.media?.url}
+                                                        alt={message.media?.url}
+                                                        onClick={() => setMediaModalUrl(message?.media?.url)}
+                                                    />
                                                 ) : message.text}
                                             </div>
                                         </div>
@@ -193,7 +207,14 @@ export const ChatContent: React.FC = (): React.ReactElement => {
                                         <div className="col text-start">
                                             <div className="chat-bubble chat-bubble--left">
                                                 {message.media ? (
-                                                    <img height="30%" width="100%" src={message?.media?.url} alt={message.media?.url}/>
+                                                    <img
+                                                        role="button"
+                                                        height="30%"
+                                                        width="100%"
+                                                        src={message?.media?.url}
+                                                        alt={message.media?.url}
+                                                        onClick={() => setMediaModalUrl(message?.media?.url)}
+                                                    />
                                                 ) : message.text}
                                             </div>
                                         </div>
@@ -213,11 +234,11 @@ export const ChatContent: React.FC = (): React.ReactElement => {
                         <Form.Group className="mx-2">
                             <Form.Label>
                                 <FaUpload />
-                                <Form.Control 
-                                    className="d-none" 
-                                    type="file" 
-                                    accept='image/*' 
-                                    onChange={handleMediaUpload} 
+                                <Form.Control
+                                    className="d-none"
+                                    type="file"
+                                    accept='image/*'
+                                    onChange={handleMediaUpload}
                                 />
                             </Form.Label>
                         </Form.Group>
