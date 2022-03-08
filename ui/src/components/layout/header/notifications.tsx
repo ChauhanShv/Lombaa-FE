@@ -2,21 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Menu, MenuItem, Badge, Fade, Typography } from '@mui/material';
 import { Row, Col } from 'react-bootstrap';
-import { FaBell, FaTrash } from 'react-icons/fa';
+import { FaBell, FaWindowClose } from 'react-icons/fa';
 import { useAxios } from '../../../services';
 import { Notification } from './types';
 
 export const Notifications: React.FC = (): React.ReactElement => {
-    
-    const [{data, loading, error}, execute] = useAxios({
+
+    const [{ data, loading, error }, execute] = useAxios({
         url: '/notification',
         method: 'GET',
     }, { manual: false });
-    const [{data: seenResponse}, executeSeenNotification] = useAxios({
+    const [{ data: seenResponse }, executeSeenNotification] = useAxios({
         url: '/notification/seen',
         method: 'POST',
     });
-    const [{data: deleteResponse}, executeDeleteNotification] = useAxios({
+    const [{ data: deleteResponse }, executeDeleteNotification] = useAxios({
         url: '/notification',
         method: 'DELETE',
     });
@@ -51,9 +51,9 @@ export const Notifications: React.FC = (): React.ReactElement => {
 
     useEffect(() => {
         let unSeenNotification: number = 0;
-        if(data?.success) {
+        if (data?.success) {
             data?.data?.map((notification: Notification) => {
-                if(!notification.seenAt) {
+                if (!notification.seenAt) {
                     unSeenNotification++;
                 }
             });
@@ -62,14 +62,14 @@ export const Notifications: React.FC = (): React.ReactElement => {
         }
     }, [data]);
     useEffect(() => {
-        if(seenResponse?.success) {
+        if (seenResponse?.success) {
             setNotificationUnseen(notificationsUnseen - 1);
             navigator.push("/" + notificationLink || '');
             execute({});
         }
     }, [seenResponse]);
     useEffect(() => {
-        if(deleteResponse?.success) {
+        if (deleteResponse?.success) {
             execute({});
         }
     }, [deleteResponse]);
@@ -77,17 +77,17 @@ export const Notifications: React.FC = (): React.ReactElement => {
     return (
         <>
             <Link
-                className="nav-link" 
-                to="#" 
-                data-bs-toggle="tooltip" 
-                data-bs-placement="bottom" 
+                className="nav-link"
+                to="#"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
                 title="Notifications"
                 onClick={handleClick}
             >
-                <Badge 
-                    badgeContent={notificationsUnseen} 
+                <Badge
+                    badgeContent={notificationsUnseen}
                     color="secondary"
-                    sx={{ color: '#fff' }}    
+                    sx={{ color: '#fff' }}
                 >
                     <FaBell />
                 </Badge>
@@ -112,29 +112,29 @@ export const Notifications: React.FC = (): React.ReactElement => {
                 }}
             >
                 {!!notifications?.length ? notifications?.map((notification: Notification) =>
-                    <MenuItem 
+                    <MenuItem
                         onClick={(event) => handleMenuItemClicked(event, notification)}
-                        key={notification.id} 
+                        key={notification.id}
                         sx={{
-                            display: 'block', 
-                            padding: '0.75rem', 
+                            display: 'block',
+                            padding: '0.75rem',
                             backgroundColor: `${!notification.seenAt ? '#E0E0E0' : '#fff'}`,
                         }}
                     >
                         <Row>
                             <Col md={10}>
-                                <Typography color="primary" variant="body2">
+                                <Typography noWrap={true} fontWeight={600} color="primary" variant="body1">
                                     {notification?.text}
                                 </Typography>
                             </Col>
                             <Col md={2}>
-                                <FaTrash 
-                                    color="#CC0000" 
-                                    onClick={() => handleDeleteNotifictaion(notification)} 
+                                <FaWindowClose
+                                    color="#CC0000"
+                                    onClick={() => handleDeleteNotifictaion(notification)}
                                 />
                             </Col>
                         </Row>
-                        <Typography variant="subtitle2" noWrap={true}>
+                        <Typography fontWeight={500} variant="subtitle2" noWrap={true}>
                             {notification?.description}
                         </Typography>
                     </MenuItem>

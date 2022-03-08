@@ -11,6 +11,7 @@ import {
   HomePage,
   SettingsPage,
   ForgotPasswordPage,
+  ResetPasswordPage,
   ProfilePage,
   CreatePostPage,
   ProductDetailPage,
@@ -29,7 +30,8 @@ const App: React.FC = () => {
             <Switch>
               <PublicRoute component={HomePage} path="/" exact />
               <PublicRoute restricted component={HomePage} path="/login" exact />
-              <PublicRoute restricted component={ForgotPasswordPage} path="/forgot-password/:token?" exact />
+              <PublicRoute restricted component={ForgotPasswordPage} path="/forgot-password" exact />
+              <PublicRoute restricted component={ResetPasswordPage} path="/password/reset" />
               <PublicRoute component={VerifyEmailPage} path="/email/verify" exact />
               <PrivateRoute component={SettingsPage} path="/settings/:page?" exact />
               <PrivateRoute component={ProfilePage} path="/profile" exact />

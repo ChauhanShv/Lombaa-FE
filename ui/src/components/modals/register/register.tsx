@@ -163,7 +163,7 @@ export const Register: React.FC<RegisterProps> = ({
                         defaultValue={currentCountry.code}
                     >
                         {!!phoneCodeData.length && phoneCodeData.map((phone: any) =>
-                            <option value={phone.code} key={phone.id}>
+                            <option value={phone.phoneCode} key={phone.id}>
                                 {`+${phone.phoneCode} - ${phone.name}`}
                             </option>
                         )}
