@@ -2,21 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Menu, MenuItem, Badge, Fade, Typography } from '@mui/material';
 import { Row, Col } from 'react-bootstrap';
-import { FaBell, FaTrash } from 'react-icons/fa';
+import { FaBell, FaWindowClose, FaTrash } from 'react-icons/fa';
 import { useAxios } from '../../../services';
 import { Notification } from './types';
 
 export const Notifications: React.FC = (): React.ReactElement => {
-    
-    const [{data, loading, error}, execute] = useAxios({
+
+    const [{ data, loading, error }, execute] = useAxios({
         url: '/notification',
         method: 'GET',
     }, { manual: false });
-    const [{data: seenResponse}, executeSeenNotification] = useAxios({
+    const [{ data: seenResponse }, executeSeenNotification] = useAxios({
         url: '/notification/seen',
         method: 'POST',
     });
-    const [{data: deleteResponse}, executeDeleteNotification] = useAxios({
+    const [{ data: deleteResponse }, executeDeleteNotification] = useAxios({
         url: '/notification',
         method: 'DELETE',
     });
@@ -24,6 +24,7 @@ export const Notifications: React.FC = (): React.ReactElement => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [notificationsUnseen, setNotificationUnseen] = useState<number>(0);
     const [notificationLink, setNotificationLink] = useState<string>('');
+    const [notificationId, setNotificationId] = useState<string>('');
     const open = Boolean(anchorEl);
     const navigator = useHistory();
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -51,9 +52,9 @@ export const Notifications: React.FC = (): React.ReactElement => {
 
     useEffect(() => {
         let unSeenNotification: number = 0;
-        if(data?.success) {
+        if (data?.success) {
             data?.data?.map((notification: Notification) => {
-                if(!notification.seenAt) {
+                if (!notification.seenAt) {
                     unSeenNotification++;
                 }
             });
@@ -62,14 +63,14 @@ export const Notifications: React.FC = (): React.ReactElement => {
         }
     }, [data]);
     useEffect(() => {
-        if(seenResponse?.success) {
+        if (seenResponse?.success) {
             setNotificationUnseen(notificationsUnseen - 1);
             navigator.push("/" + notificationLink || '');
             execute({});
         }
     }, [seenResponse]);
     useEffect(() => {
-        if(deleteResponse?.success) {
+        if (deleteResponse?.success) {
             execute({});
         }
     }, [deleteResponse]);
@@ -77,17 +78,17 @@ export const Notifications: React.FC = (): React.ReactElement => {
     return (
         <>
             <Link
-                className="nav-link" 
-                to="#" 
-                data-bs-toggle="tooltip" 
-                data-bs-placement="bottom" 
+                className="nav-link"
+                to="#"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
                 title="Notifications"
                 onClick={handleClick}
             >
-                <Badge 
-                    badgeContent={notificationsUnseen} 
+                <Badge
+                    badgeContent={notificationsUnseen}
                     color="secondary"
-                    sx={{ color: '#fff' }}    
+                    sx={{ color: '#fff' }}
                 >
                     <FaBell />
                 </Badge>
@@ -97,44 +98,55 @@ export const Notifications: React.FC = (): React.ReactElement => {
                 MenuListProps={{
                     'aria-labelledby': 'fade-button',
                 }}
-                sx={{ maxHeight: '300px' }}
+                sx={{
+                    maxHeight: '50%',
+                    padding: 0,
+                    '& .MuiList-root.MuiMenu-list': {
+                        paddingTop: '0px',
+                        paddingBottom: '0px',
+                    }
+                }}
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
                 TransitionComponent={Fade}
                 anchorOrigin={{
                     vertical: 'bottom',
-                    horizontal: 'center',
+                    horizontal: 'right',
                 }}
                 transformOrigin={{
                     vertical: 'top',
-                    horizontal: 'center',
+                    horizontal: 'right',
                 }}
             >
                 {!!notifications?.length ? notifications?.map((notification: Notification) =>
-                    <MenuItem 
+                    <MenuItem
                         onClick={(event) => handleMenuItemClicked(event, notification)}
-                        key={notification.id} 
+                        onMouseEnter={() => { setNotificationId(notification.id) }}
+                        onMouseLeave={() => { setNotificationId("") }}
+                        key={notification.id}
                         sx={{
-                            display: 'block', 
-                            padding: '0.75rem', 
+                            display: 'block',
+                            padding: '0.75rem',
                             backgroundColor: `${!notification.seenAt ? '#E0E0E0' : '#fff'}`,
+                            width: '420px',
                         }}
                     >
                         <Row>
-                            <Col md={10}>
-                                <Typography color="primary" variant="body2">
+                            <Col md={12}>
+                                <Typography mx={1} mt={1} noWrap={true} fontWeight={600} color="primary" variant="body1">
                                     {notification?.text}
                                 </Typography>
                             </Col>
-                            <Col md={2}>
-                                <FaTrash 
-                                    color="#CC0000" 
-                                    onClick={() => handleDeleteNotifictaion(notification)} 
+                            {/* <Col md={1}>
+                                <FaTrash
+                                    className={notificationId === notification.id ? '' : 'd-none'}
+                                    color="#CC0000"
+                                    onClick={() => handleDeleteNotifictaion(notification)}
                                 />
-                            </Col>
+                            </Col> */}
                         </Row>
-                        <Typography variant="subtitle2" noWrap={true}>
+                        <Typography mb={1} mx={1} fontWeight={500} variant="subtitle2" noWrap={true}>
                             {notification?.description}
                         </Typography>
                     </MenuItem>
