@@ -79,7 +79,7 @@ class ChatService {
     async buyerMessage(userId, offset, limit) {
         let data = await this.common('sellerId', userId, offset, limit)
         data = data.filter(data => {
-            if (data.buyerDelete === null) {
+            if (data.sellerDelete === null) {
                 return data
             }
             return null
@@ -89,7 +89,7 @@ class ChatService {
     async sellerMessage(userId, offset, limit) {
         let data = await this.common('buyerId', userId, offset, limit)
         data = data.filter(data => {
-            if (data.sellerDelete === null) {
+            if (data.buyerDelete === null) {
                 return data
             }
             return null
