@@ -349,3 +349,18 @@ x-access-token: {{token}}
 x-client-platform : Android
 x-app-version : 1.0.0
 
+###
+
+POST  {{baseUrl}}/user/location HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+{  
+   "location" : {
+      "city": "0ab96c62-29ba-4178-af1e-ccdab94c1ba7",
+        "region": "cdbec2e6-c338-4819-9239-b1f46e1adb12",
+        "country": "46cc6b39-eb86-4aff-9e21-2bbaf648f09d"
+     }
+}

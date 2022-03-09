@@ -10,5 +10,6 @@ module.exports = () => {
     router.get("/", authMiddleware, controller.getNotification)
     router.post("/seen", authMiddleware, checkSchema(idSchema), controller.markAsRead)
     router.delete("/", authMiddleware, checkSchema(idSchema), controller.delete)
+    router.get("/chat/count", authMiddleware, controller.chatCount)
     return router;
 };
