@@ -26,7 +26,7 @@ const ProductMedia = require("../product/product_media.model");
 const fileModel = require("../file/file.model")
 const Location = require("../location/location.model")
 const SaveSearch = require("../save_search/save.search.model")
-const SaveSearchFilter = require("../save_search_filter/save.search.filter.model")
+const SaveSearchFilter = require("../save_search_filter/save.search.filter.model");
 
 class UserController extends BaseController {
   constructor() {
@@ -628,6 +628,18 @@ class UserController extends BaseController {
     }
     catch (error) {
       return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to get saved search", message_detail: error?.message } })
+    }
+  }
+  lastLocation = async (req, res, next) => {
+    try {
+      const { location } = req?.body
+      const userId = req.user?.id
+      const loc = await this.locationService.upsert(location?.country, location?.region, location?.city);
+      const lastLocation = await User.update({ lastUsedLocationId: loc.id }, { where: { id: userId } })
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "retreived last location", data: loc } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "can't get last location", message_detail: error?.message } })
     }
   }
 }

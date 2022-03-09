@@ -49,5 +49,6 @@ module.exports = () => {
   router.get("/sold", authMiddleware, controller.soldProducts)
   router.get("/savedsearch", authMiddleware, controller.getSaveSearch)
   router.post("/savesearch", authMiddleware, checkSchema(searchSchema), controller.saveSearch)
+  router.post("/location", authMiddleware, controller.lastLocation)
   return router;
 };
