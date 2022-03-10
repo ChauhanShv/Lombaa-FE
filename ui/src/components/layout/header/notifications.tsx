@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Menu, MenuItem, Badge, Fade, Typography } from '@mui/material';
 import { Row, Col } from 'react-bootstrap';
-import { FaBell, FaWindowClose, FaTrash, FaCommentDots } from 'react-icons/fa';
+import { FaBell, FaCommentDots } from 'react-icons/fa';
 import { useAxios } from '../../../services';
 import { Notification } from './types';
 
 export const Notifications: React.FC = (): React.ReactElement => {
 
     const [{ data, loading, error }, execute] = useAxios({
-        url: '/notification',
+        url: '/notification?offset=0&limit=10',
         method: 'GET',
     }, { manual: false });
     const [{ data: seenResponse }, executeSeenNotification] = useAxios({
@@ -20,7 +20,7 @@ export const Notifications: React.FC = (): React.ReactElement => {
         url: '/notification',
         method: 'DELETE',
     });
-    const [{ data: chatCountRes }, executeNotificationCount] = useAxios({
+    const [{ data: chatCountRes }] = useAxios({
         url: '/notification/chat/count',
         method: 'GET',
     }, { manual: false });
@@ -46,6 +46,8 @@ export const Notifications: React.FC = (): React.ReactElement => {
         setNotificationLink(notification?.path);
         setAnchorEl(null);
     };
+    const handleChatMessagesSeen = () => {
+    }
     const handleDeleteNotifictaion = (notification: Notification) => {
         executeDeleteNotification({
             data: {
@@ -57,13 +59,13 @@ export const Notifications: React.FC = (): React.ReactElement => {
     useEffect(() => {
         let unSeenNotification: number = 0;
         if (data?.success) {
-            data?.data?.map((notification: Notification) => {
+            data?.data?.rows?.map((notification: Notification) => {
                 if (!notification.seenAt) {
                     unSeenNotification++;
                 }
             });
             setNotificationUnseen(unSeenNotification);
-            setNotifications(data?.data);
+            setNotifications(data?.data?.rows);
         }
     }, [data]);
     useEffect(() => {
@@ -88,6 +90,7 @@ export const Notifications: React.FC = (): React.ReactElement => {
                     data-bs-toggle="tooltip"
                     data-bs-placement="bottom"
                     title="Chats"
+                    onClick={handleChatMessagesSeen}
                 >
                     <Badge
                         badgeContent={chatCountRes?.success ? chatCountRes?.data?.count : ''}
@@ -108,7 +111,7 @@ export const Notifications: React.FC = (): React.ReactElement => {
                     onClick={handleClick}
                 >
                     <Badge
-                        badgeContent={notificationsUnseen}
+                        badgeContent={data?.data?.count}
                         color="secondary"
                         sx={{ color: '#fff' }}
                     >
