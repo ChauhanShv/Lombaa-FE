@@ -13,10 +13,12 @@ class NotificationController extends BaseController {
         try {
             const id = req.user?.id
             const { offset, limit } = req.query
+            const offset1 = parseInt(offset)
+            const limit1 = parseInt(limit)
             const data = await Notification.findAndCountAll({
-                where: { userId: id, type: { [Op.not]: 'chat' } }, offset: offset, limit: limit, order: [
+                where: { userId: id, type: { [Op.not]: 'chat' } }, order: [
                     ['seenAt', 'ASC']
-                ],
+                ], offset: offset1, limit: limit1
             })
             return super.jsonRes({ res, code: 200, data: { success: true, message: "Notifications retreived", data: data } })
         }
