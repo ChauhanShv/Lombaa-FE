@@ -12,8 +12,9 @@ class NotificationController extends BaseController {
 
         try {
             const id = req.user?.id
-            const data = await Notification.findAll({
-                where: { userId: id }, order: [
+            const { offset, limit } = req.query
+            const data = await Notification.findAndCountAll({
+                where: { userId: id, type: { [Op.not]: 'chat' } }, offset: offset, limit: limit, order: [
                     ['seenAt', 'ASC']
                 ],
             })
