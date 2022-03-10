@@ -54,5 +54,15 @@ class NotificationController extends BaseController {
             return super.jsonRes({ res, code: 400, success: false, message: "Failed to delete notification", message_details: error?.message })
         }
     }
+    chatCount = async (req, res, next) => {
+        try {
+            const userId = req.user?.id
+            const data = await Notification.count({ where: { userId: userId, type: 'chat' } })
+            return super.jsonRes({ res, code: 200, data: { success: true, message: "retreived count", data: { count: data } } })
+        }
+        catch (error) {
+            return super.jsonRes({ res, code: 400, success: false, message: "can't get count", message_details: error?.message })
+        }
+    }
 }
 module.exports = NotificationController

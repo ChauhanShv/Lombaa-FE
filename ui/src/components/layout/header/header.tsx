@@ -57,9 +57,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                                             <FaHeart />
                                         </Link>
                                     </li>
-                                    <li className="nav-item icon-item me-3">
-                                        <Notifications />
-                                    </li>
+                                    <Notifications />
                                     <li className="nav-item icon-item me-3">
                                         <Link className="nav-link" to="/profile" data-bs-toggle="tooltip" data-bs-placement="bottom" title="My Ads">
                                             <FaList />

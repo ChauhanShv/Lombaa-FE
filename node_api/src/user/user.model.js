@@ -232,6 +232,7 @@ User.init(
 
 User.belongsTo(File, { as: "profilePicture" });
 User.belongsTo(File, { as: "coverPicture" });
+User.belongsTo(Location, { as: "lastUsedLocation" })
 User.belongsTo(Location, { as: "location" });
 
 module.exports = User;

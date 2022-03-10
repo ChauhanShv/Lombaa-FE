@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Menu, MenuItem, Badge, Fade, Typography } from '@mui/material';
 import { Row, Col } from 'react-bootstrap';
-import { FaBell, FaWindowClose, FaTrash } from 'react-icons/fa';
+import { FaBell, FaWindowClose, FaTrash, FaCommentDots } from 'react-icons/fa';
 import { useAxios } from '../../../services';
 import { Notification } from './types';
 
@@ -20,6 +20,10 @@ export const Notifications: React.FC = (): React.ReactElement => {
         url: '/notification',
         method: 'DELETE',
     });
+    const [{ data: chatCountRes }, executeNotificationCount] = useAxios({
+        url: '/notification/chat/count',
+        method: 'GET',
+    }, { manual: false });
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [notificationsUnseen, setNotificationUnseen] = useState<number>(0);
@@ -77,83 +81,115 @@ export const Notifications: React.FC = (): React.ReactElement => {
 
     return (
         <>
-            <Link
-                className="nav-link"
-                to="#"
-                data-bs-toggle="tooltip"
-                data-bs-placement="bottom"
-                title="Notifications"
-                onClick={handleClick}
-            >
-                <Badge
-                    badgeContent={notificationsUnseen}
-                    color="secondary"
-                    sx={{ color: '#fff' }}
+            <li className="nav-item icon-item me-3">
+                <Link
+                    className="nav-link"
+                    to="/chat/buy"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Chats"
                 >
-                    <FaBell />
-                </Badge>
-            </Link>
-            <Menu
-                id="fade-menu"
-                MenuListProps={{
-                    'aria-labelledby': 'fade-button',
-                }}
-                sx={{
-                    maxHeight: '50%',
-                    padding: 0,
-                    '& .MuiList-root.MuiMenu-list': {
-                        paddingTop: '0px',
-                        paddingBottom: '0px',
-                    }
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                TransitionComponent={Fade}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right',
-                }}
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
-            >
-                {!!notifications?.length ? notifications?.map((notification: Notification) =>
-                    <MenuItem
-                        onClick={(event) => handleMenuItemClicked(event, notification)}
-                        onMouseEnter={() => { setNotificationId(notification.id) }}
-                        onMouseLeave={() => { setNotificationId("") }}
-                        key={notification.id}
-                        sx={{
-                            display: 'block',
-                            padding: '0.75rem',
-                            backgroundColor: `${!notification.seenAt ? '#E0E0E0' : '#fff'}`,
-                            width: '420px',
-                        }}
+                    <Badge
+                        badgeContent={chatCountRes?.success ? chatCountRes?.data?.count : ''}
+                        color="secondary"
+                        sx={{ color: '#fff' }}
                     >
-                        <Row>
-                            <Col md={12}>
-                                <Typography mx={1} mt={1} noWrap={true} fontWeight={600} color="primary" variant="body1">
-                                    {notification?.text}
-                                </Typography>
-                            </Col>
-                            {/* <Col md={1}>
-                                <FaTrash
-                                    className={notificationId === notification.id ? '' : 'd-none'}
-                                    color="#CC0000"
-                                    onClick={() => handleDeleteNotifictaion(notification)}
-                                />
-                            </Col> */}
-                        </Row>
-                        <Typography mb={1} mx={1} fontWeight={500} variant="subtitle2" noWrap={true}>
-                            {notification?.description}
-                        </Typography>
-                    </MenuItem>
-                ) : (
-                    <MenuItem>No notifications available</MenuItem>
-                )}
-            </Menu>
+                        <FaCommentDots />
+                    </Badge>
+                </Link>
+            </li>
+            <li className="nav-item icon-item me-3">
+                <Link
+                    className="nav-link"
+                    to="#"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Notifications"
+                    onClick={handleClick}
+                >
+                    <Badge
+                        badgeContent={notificationsUnseen}
+                        color="secondary"
+                        sx={{ color: '#fff' }}
+                    >
+                        <FaBell />
+                    </Badge>
+                </Link>
+                <Menu
+                    id="fade-menu"
+                    MenuListProps={{
+                        'aria-labelledby': 'fade-button',
+                    }}
+                    sx={{
+                        maxHeight: '50%',
+                        padding: 0,
+                        '& .MuiList-root.MuiMenu-list': {
+                            paddingTop: '0px',
+                            paddingBottom: '0px',
+                        }
+                    }}
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    TransitionComponent={Fade}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                    }}
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                >
+                    {!!notifications?.length ? notifications?.map((notification: Notification) =>
+                        <MenuItem
+                            onClick={(event) => handleMenuItemClicked(event, notification)}
+                            onMouseEnter={() => { setNotificationId(notification.id) }}
+                            onMouseLeave={() => { setNotificationId("") }}
+                            key={notification.id}
+                            sx={{
+                                display: 'block',
+                                padding: '0.75rem',
+                                backgroundColor: `${!notification.seenAt ? '#E0E0E0' : '#fff'}`,
+                                width: '420px',
+                            }}
+                        >
+                            <Row>
+                                <Col md={12}>
+                                    <Typography
+                                        mx={1}
+                                        mt={1}
+                                        noWrap={true}
+                                        fontWeight={600}
+                                        color="primary"
+                                        variant="body1"
+                                    >
+                                        {notification?.text}
+                                    </Typography>
+                                </Col>
+                                {/* <Col md={1}>
+                                    <FaTrash
+                                        className={notificationId === notification.id ? '' : 'd-none'}
+                                        color="#CC0000"
+                                        onClick={() => handleDeleteNotifictaion(notification)}
+                                    />
+                                </Col> */}
+                            </Row>
+                            <Typography
+                                mb={1}
+                                mx={1}
+                                fontWeight={500}
+                                variant="subtitle2"
+                                noWrap={true}
+                            >
+                                {notification?.description}
+                            </Typography>
+                        </MenuItem>
+                    ) : (
+                        <MenuItem>No notifications available</MenuItem>
+                    )}
+                </Menu>
+            </li>
         </>
     );
 };
