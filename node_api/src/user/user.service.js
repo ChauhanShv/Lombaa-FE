@@ -322,6 +322,7 @@ class UserService {
         { model: fileModel, as: "profilePicture" },
         { model: fileModel, as: "coverPicture" },
         { model: Location, as: "location" },
+        { model: Location, as: "lastUsedLocation" }
       ],
     });
     if (!user) return null;

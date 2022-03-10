@@ -12,8 +12,9 @@ class NotificationController extends BaseController {
 
         try {
             const id = req.user?.id
-            const data = await Notification.findAll({
-                where: { userId: id }, order: [
+            const { offset, limit } = req.query
+            const data = await Notification.findAndCountAll({
+                where: { userId: id, type: { [Op.not]: 'chat' } }, offset: offset, limit: limit, order: [
                     ['seenAt', 'ASC']
                 ],
             })
@@ -57,7 +58,7 @@ class NotificationController extends BaseController {
     chatCount = async (req, res, next) => {
         try {
             const userId = req.user?.id
-            const data = await Notification.count({ where: { userId: userId, type: 'chat' } })
+            const data = await Notification.count({ where: { userId: userId, type: 'chat', seenAt: null } })
             return super.jsonRes({ res, code: 200, data: { success: true, message: "retreived count", data: { count: data } } })
         }
         catch (error) {

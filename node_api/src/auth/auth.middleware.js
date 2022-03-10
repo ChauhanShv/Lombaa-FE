@@ -29,7 +29,6 @@ module.exports = async (req, res, next) => {
     if (!user) throw new Error("User not found");
 
     if (user?.isSuspended) throw new Error("User is suspended");
-
     req.user = user;
     next();
 
