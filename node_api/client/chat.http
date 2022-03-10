@@ -59,8 +59,8 @@ x-client-platform : Android
 x-app-version : 1.0.0
 
 ###
-    
-GET {{baseUrl}}/notification?offset=0&limit=1 HTTP/1.1 HTTP/1.1
+
+GET {{baseUrl}}/notification?offset=0&limit=3 HTTP/1.1 HTTP/1.1
 content-type: application/json
 x-access-token: {{token}}
 x-client-platform : Android

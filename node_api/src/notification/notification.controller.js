@@ -13,14 +13,13 @@ class NotificationController extends BaseController {
         try {
             const id = req.user?.id
             const { offset, limit } = req.query
-            const offset1 = parseInt(offset)
-            const limit1 = parseInt(limit)
-            const data = await Notification.findAndCountAll({
-                where: { userId: id, type: { [Op.not]: 'chat' } }, order: [
+            const data = await Notification.findAll({
+                where: { userId: id, type: { [Op.not]: 'chat' } }, offset: offset, limit: limit, order: [
                     ['seenAt', 'ASC']
-                ], offset: offset1, limit: limit1
+                ],
             })
-            return super.jsonRes({ res, code: 200, data: { success: true, message: "Notifications retreived", data: data } })
+            const count = await Notification.count({ where: { userId: id, seenAt: null } })
+            return super.jsonRes({ res, code: 200, data: { success: true, message: "Notifications retreived", metaData: { offset: offset, limit: limit }, data: { count: count, rows: data } } })
         }
         catch (error) {
             return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to get notification", message_details: error?.message } })
