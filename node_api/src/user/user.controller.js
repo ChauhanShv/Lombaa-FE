@@ -635,7 +635,7 @@ class UserController extends BaseController {
       const { location } = req?.body
       const userId = req.user?.id
       const loc = await this.locationService.upsert(location?.country, location?.region, location?.city);
-      const lastLocation = await User.update({ lastUsedLocationId: loc.id }, { where: { id: userId } })
+      const lastLocation = await User.update({ lastUsedLocationId: loc.id }, { where: { id: userId }, include: [{ model: Location, as: "lastUsedLocation" }] })
       return super.jsonRes({ res, code: 200, data: { success: true, message: "retreived last location", data: loc } })
     }
     catch (error) {
