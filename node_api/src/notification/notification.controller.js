@@ -58,7 +58,7 @@ class NotificationController extends BaseController {
     chatCount = async (req, res, next) => {
         try {
             const userId = req.user?.id
-            const data = await Notification.count({ where: { userId: userId, type: 'chat' } })
+            const data = await Notification.count({ where: { userId: userId, type: 'chat', seenAt: null } })
             return super.jsonRes({ res, code: 200, data: { success: true, message: "retreived count", data: { count: data } } })
         }
         catch (error) {
