@@ -4,6 +4,7 @@ import {
     FaBell,
     FaList,
     FaHeart,
+    FaBookmark,
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import {
@@ -53,8 +54,8 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                             {session.isLoggedIn && (
                                 <ul className="navbar-nav ms-auto me-sm-2 mt-2 mt-lg-0 icon-list d-none d-lg-flex align-items-center">
                                     <li className="nav-item icon-item active me-3">
-                                        <Link className="nav-link" to="/" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Saved">
-                                            <FaHeart />
+                                        <Link className="nav-link" to="/saved-search" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Saved">
+                                            <FaBookmark />
                                         </Link>
                                     </li>
                                     <Notifications />

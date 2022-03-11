@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Menu, MenuItem, Badge, Fade, Typography } from '@mui/material';
 import { Row, Col } from 'react-bootstrap';
+import { debounce } from 'lodash';
 import { FaBell, FaCommentDots } from 'react-icons/fa';
 import { useAxios } from '../../../services';
 import { Notification } from './types';
 
+const LIMIT: number = 20;
 export const Notifications: React.FC = (): React.ReactElement => {
 
     const [{ data, loading, error }, execute] = useAxios({
@@ -26,9 +28,9 @@ export const Notifications: React.FC = (): React.ReactElement => {
     }, { manual: false });
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [notificationsUnseen, setNotificationUnseen] = useState<number>(0);
     const [notificationLink, setNotificationLink] = useState<string>('');
     const [notificationId, setNotificationId] = useState<string>('');
+    const [offset, setOffset] = useState<number>(0);
     const open = Boolean(anchorEl);
     const navigator = useHistory();
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -55,22 +57,41 @@ export const Notifications: React.FC = (): React.ReactElement => {
             },
         });
     };
+    const getNotifications = (start: number = 0) => {
+        if (offset >= 0) {
+            execute({
+                url: '/notification',
+                params: {
+                    offset: start,
+                    limit: LIMIT,
+                },
+                method: 'GET',
+            });
+        }
+    };
+
+    const onListScroll = debounce((e) => {
+        if (!data?.data?.length || LIMIT > notifications.length) {
+            return;
+        }
+        const bottom = Math.floor(e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
+        if (bottom) {
+            getNotifications(offset + LIMIT);
+        }
+    }, 500);
 
     useEffect(() => {
-        let unSeenNotification: number = 0;
-        if (data?.success) {
-            data?.data?.rows?.map((notification: Notification) => {
-                if (!notification.seenAt) {
-                    unSeenNotification++;
-                }
-            });
-            setNotificationUnseen(unSeenNotification);
-            setNotifications(data?.data?.rows);
+        if (data?.success && !!data?.data?.rows?.length) {
+            if (offset === 0) {
+                setNotifications(data?.data?.rows);
+            } else {
+                setNotifications([...notifications, ...data?.data?.rows]);
+            }
+            setOffset(offset + LIMIT);
         }
     }, [data]);
     useEffect(() => {
         if (seenResponse?.success) {
-            setNotificationUnseen(notificationsUnseen - 1);
             navigator.push("/" + notificationLink || '');
             execute({});
         }
@@ -143,6 +164,7 @@ export const Notifications: React.FC = (): React.ReactElement => {
                         vertical: 'top',
                         horizontal: 'right',
                     }}
+                    onScroll={onListScroll}
                 >
                     {!!notifications?.length ? notifications?.map((notification: Notification) =>
                         <MenuItem
