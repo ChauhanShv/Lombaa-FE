@@ -49,6 +49,13 @@ export const Notifications: React.FC = (): React.ReactElement => {
         setAnchorEl(null);
     };
     const handleChatMessagesSeen = () => {
+        const notificationIds: Array<string> =
+            chatCountRes?.data?.count?.rows?.map((notification: Notification) => notification?.id);
+        executeSeenNotification({
+            data: {
+                id: [...notificationIds],
+            },
+        });
     }
     const handleDeleteNotifictaion = (notification: Notification) => {
         executeDeleteNotification({
@@ -114,7 +121,7 @@ export const Notifications: React.FC = (): React.ReactElement => {
                     onClick={handleChatMessagesSeen}
                 >
                     <Badge
-                        badgeContent={chatCountRes?.success ? chatCountRes?.data?.count : ''}
+                        badgeContent={chatCountRes?.success ? chatCountRes?.data?.count?.count : ''}
                         color="secondary"
                         sx={{ color: '#fff' }}
                     >

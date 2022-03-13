@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Badge from 'react-bootstrap/Badge';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import CloseButton from 'react-bootstrap/CloseButton';
+import { SavedSearchLoader } from '../loader';
 import { useAxios } from '../../services';
 import { SavedSearch, Filter } from './types';
 
 export const SavedSearches: React.FC = (): React.ReactElement => {
+    const navigate = useHistory();
     const [savedSearches, setSavedSearches] = useState<SavedSearch[]>([]);
     const [{ data, loading }, execute] = useAxios({
         url: '/user/savedsearch',
@@ -20,6 +22,17 @@ export const SavedSearches: React.FC = (): React.ReactElement => {
             setSavedSearches(data?.data);
         };
     }, [data]);
+
+    const handleSavedSearchItemClicked = (event: React.MouseEvent<HTMLElement, MouseEvent>, search: SavedSearch) => {
+        let filterUrl: string = '';
+        for (const filter of search.filters) {
+            if (!!filter.values.length) {
+                filterUrl = `${filterUrl}${!filterUrl ? '?' : '&'}${filter.key}=${filter.values.toString()}`;
+            }
+        }
+        filterUrl = filterUrl.replace(' ', '+');
+        navigate.push(`/`);
+    };
 
     return (
         <Col className="col-lg-12 my-4">
@@ -40,9 +53,16 @@ export const SavedSearches: React.FC = (): React.ReactElement => {
                         <small>Clear All Searches</small>
                     </Button>
                 </div>
+                {loading && <SavedSearchLoader />}
                 <div className="p-3">
                     {savedSearches && !!savedSearches.length && savedSearches.map((search: SavedSearch, searchIndex: number) =>
-                        <Card body className="mb-3" key={searchIndex.toString()}>
+                        <Card
+                            role="button"
+                            body
+                            className="mb-3"
+                            key={searchIndex.toString()}
+                            onClick={(event) => handleSavedSearchItemClicked(event, search)}
+                        >
                             <CloseButton className="position-absolute top-0 end-0 pt-3" />
                             <Badge bg="white" className="border me-2 mb-3 fw-normal" text="dark">
                                 Search
