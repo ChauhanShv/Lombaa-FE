@@ -32,11 +32,19 @@ export const ProductDetailImageSlider: React.FC<ProductDetailImageSliderProps> =
                                             <source src={media?.file?.url} type="video/mp4" />
                                         </video>
                                     ) : (
-                                        <img
-                                            className="d-block w-100 product-slide-image"
-                                            src={media?.file?.url}
-                                            alt="First slide"
-                                        />
+                                        <div>
+                                            <img
+                                                className="d-block w-100 product-slide-bg"
+                                                src={media?.file?.url}
+                                                alt="background-slide-img"
+                                            />
+                                            <img
+                                                className="d-block w-100 product-slide-image"
+                                                src={media?.file?.url}
+                                                alt="First slide"
+                                            />
+                                        </div>
+
                                     )}
                                 </div>
                             )}
