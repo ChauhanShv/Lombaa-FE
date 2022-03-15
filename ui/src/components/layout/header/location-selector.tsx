@@ -15,6 +15,10 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
         url: `/locations/country/code/${currentCountry.code}/regions`,
         method: 'GET',
     }, { manual: false });
+    const [{ data: lastActiveLoc }, lastActiveLocationExecute] = useAxios({
+        url: `/user/location`,
+        method: 'POST',
+    });
 
     useEffect(() => {
         const cities: LocationData[] = [];
@@ -52,7 +56,16 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
                     lat: cityObj.coordinate[1],
                     lng: cityObj.coordinate[0],
                 }
-            })
+            });
+            lastActiveLocationExecute({
+                data: {
+                    location: {
+                        city: cityObj.cityId,
+                        region: cityObj.regionId,
+                        country: locationResponse?.response?.id,
+                    }
+                }
+            });
         }
     }
 
