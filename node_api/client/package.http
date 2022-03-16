@@ -1,0 +1,12 @@
+GET {{baseUrl}}/package HTTP/1.1 HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+###
+GET {{baseUrl}}/package/6d8756d0-a52a-11ec-a6e1-021b0ebe8bee HTTP/1.1 HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
