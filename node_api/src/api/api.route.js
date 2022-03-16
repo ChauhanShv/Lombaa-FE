@@ -8,6 +8,7 @@ const categoryRouter = require("../category").router;
 const locationRouter = require('../location').router;
 const chatRouter = require("../chat").router
 const notificationRouter = require("../notification").router
+const packageRouter = require("../packages").router
 
 const router = require("../modules/express").instance.Router();
 
@@ -20,6 +21,7 @@ module.exports = () => {
   router.use("/locations", locationRouter());
   router.use("/chat", chatRouter())
   router.use("/notification", notificationRouter())
+  router.use("/package", packageRouter())
 
   return router;
 };
