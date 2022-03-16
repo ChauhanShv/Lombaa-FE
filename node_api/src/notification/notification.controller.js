@@ -4,6 +4,7 @@ const moment = require("moment")
 const { Op } = require("sequelize");
 const validationErrorFormatter = require("../modules/formatter").validationErrorFormatter;
 const { validationResult } = require("express-validator");
+const Package = require("../packages/packages.model")
 
 
 class NotificationController extends BaseController {
