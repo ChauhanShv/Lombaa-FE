@@ -5,4 +5,5 @@ export * from './location-dropdown';
 export * from './drag-and-drop';
 export * from './form-fields';
 export * from './listing-successful-tile';
+export * from './packages';
 export * from './types';
