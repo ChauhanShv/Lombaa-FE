@@ -38,6 +38,16 @@ Package.init(
             allowNull: true,
             defaultValue: null
         },
+        price: {
+            type: DataTypes.DECIMAL,
+            allowNull: true,
+            defaultValue: null
+        },
+        currency: {
+            type: DataTypes.STRING(50),
+            allowNull: true,
+            defaultValue: null
+        },
     },
 
     {
