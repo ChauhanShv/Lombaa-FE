@@ -24,9 +24,15 @@
 
 .form-check-input:checked { background-color: green; border-color: green; }
 
-.package-list .card{cursor: pointer;}
-.package-list .card.active{border-color: #00AF3C;}
+.package-list .card {cursor: pointer;}
+.selected-package { border-color: #00AF3C; }
 .btn-outline-success:hover, .btn-outline-success.active{color:#fff !important; fill:#fff !important;}
+
+@media only screen and (max-width: 768px) {
+  .package-list .card {
+    font-size: 18px;
+  }
+}
 
 h2,
 .h2 {

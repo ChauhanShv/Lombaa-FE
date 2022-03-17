@@ -1,81 +1,60 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
 import Badge from 'react-bootstrap/Badge';
 import Card from 'react-bootstrap/Card';
 import Chip from '@mui/material/Chip';
+import { useAxios } from '../../services';
+import { Package } from './types';
 
 export const Packages: React.FC = (): React.ReactElement => {
-    const [selectedPackage, setSelectedPackage] = useState<any>({});
+    const [packages, setPackages] = useState<Package[]>([]);
+    const [selectedPackage, setSelectedPackage] = useState<Package>();
 
-    const handlePackageOptionClicked = () => {
-
+    const handlePackageOptionClicked = (event: any, packageItem: Package) => {
+        setSelectedPackage(packageItem);
     };
+    const [{ data, loading }, execute] = useAxios({
+        url: '/package',
+        method: 'GET',
+    }, { manual: false });
+
+    useEffect(() => {
+        if (data?.success) {
+            setPackages(data?.data.filter((packageItem: Package) => packageItem.type === 'booster'));
+        }
+    }, [data]);
 
     return (
         <Col className="col-lg-8 mx-auto package-list">
-            <Card
-                role="button"
-                className="mb-4 border-2"
-                onClick={handlePackageOptionClicked}
-            >
-                <Card.Header className="d-flex align-items-center bg-white fs-5 fw-bold p-3">
-                    Standard Ad
-                </Card.Header>
-            </Card>
-
-            <Card
-                role="button"
-                className="mb-4 border-2"
-                onClick={handlePackageOptionClicked}
-            >
-                <Card.Header className="d-flex align-items-center bg-white fs-5 fw-bold p-3">
-                    Top
-                    <Badge className="ms-2 bg-success rounded fw-normal">
-                        <small>Best Offer</small>
-                    </Badge>
-                </Card.Header>
-                <Card body className="border-0">
-                    <Chip
-                        label="7 Days"
-                        variant="filled"
-                        color="primary"
-                        className="me-2"
-                        sx={{ color: '#fff' }}
-                    />
-                    <Chip
-                        label="30 Days"
-                        variant="outlined"
-                        color="primary"
-                    />
-                    <span className="float-end h4 fw-bold">
-                        2,499
-                    </span>
-                </Card>
-            </Card>
-            <Card
-                role="button"
-                className="mb-4 border-2"
-                onClick={handlePackageOptionClicked}
-            >
-                <Card.Header className="d-flex align-items-center bg-white fs-5 fw-bold p-3">
-                    Boost Premium
-                </Card.Header>
+            {!!packages && !!packages.length && packages.map((packageItem: Package) =>
                 <Card
-                    body
-                    className="border-0"
+                    role="button"
+                    className={`${selectedPackage?.id === packageItem.id ? "selected-package mb-4 border-2" : "mb-4 border-2"}`}
+                    onClick={(event: any) => handlePackageOptionClicked(event, packageItem)}
+                    key={packageItem?.id}
                 >
-                    <Chip
-                        className="me-2"
-                        label="1 Month"
-                        variant="outlined"
-                        color="primary"
-                    />
-                    <span className="float-end h4 fw-bold">
-                        12,499
-                    </span>
+                    <Card.Header className="d-flex align-items-center bg-white fs-6 fw-bold p-3">
+                        {packageItem?.text}
+                    </Card.Header>
+                    <Card body className="border-0">
+                        <Chip
+                            label={`${packageItem?.validity} Days`}
+                            variant="filled"
+                            color="primary"
+                            className="me-2"
+                            sx={{ color: '#fff' }}
+                        />
+                        <Chip
+                            label="30 Days"
+                            variant="outlined"
+                            color="primary"
+                        />
+                        <span className="float-end h6 fst-normal">
+                            2,499
+                        </span>
+                    </Card>
                 </Card>
-            </Card>
+            )}
         </Col>
     );
 };

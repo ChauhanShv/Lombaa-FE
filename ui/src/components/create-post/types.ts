@@ -1,15 +1,10 @@
-export interface Media {
-  token: string;
-  url: string;
-  mime: string;
-  isPrimary?: boolean;
+export interface DragAndDropProps {
+  updateMedia: (media: Media[]) => void;
 }
-
 export interface LocationSelectorProps {
   onCitySelected: (data: object) => void;
   isSettingsPage: boolean;
 }
-
 export interface Country {
   id: string;
   name: string;
@@ -23,7 +18,6 @@ export interface Country {
   currencyCode: string;
   regions: Region[];
 }
-
 export interface Region {
   country: Country;
   cities: Array<City>;
@@ -32,13 +26,26 @@ export interface Region {
   id: string;
   name: string;
 }
-
 export interface City {
   code: string;
   coordinate?: object;
   id: string;
   name: string;
 }
-export interface DragAndDropProps {
-  updateMedia: (media: Media[]) => void;
+export interface Media {
+  token: string;
+  url: string;
+  mime: string;
+  isPrimary?: boolean;
+}
+export interface Package {
+  createdAt?: string;
+  deletedAt?: string;
+  description?: string;
+  id: string;
+  name?: string;
+  text?: string;
+  type: string;
+  updatedAt?: string;
+  validity?: string;
 }
