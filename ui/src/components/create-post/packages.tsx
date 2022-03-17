@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Col from 'react-bootstrap/Col';
-import Badge from 'react-bootstrap/Badge';
 import Card from 'react-bootstrap/Card';
 import Chip from '@mui/material/Chip';
+import Typography from '@mui/material/Typography';
 import { useAxios } from '../../services';
 import { Package } from './types';
 
@@ -44,14 +44,12 @@ export const Packages: React.FC = (): React.ReactElement => {
                             className="me-2"
                             sx={{ color: '#fff' }}
                         />
-                        <Chip
-                            label="30 Days"
-                            variant="outlined"
-                            color="primary"
-                        />
                         <span className="float-end h6 fst-normal">
-                            2,499
+                            {`${packageItem?.currency} ${packageItem?.price}`}
                         </span>
+                        <Typography sx={{ marginTop: '1rem' }} variant="subtitle2">
+                            {packageItem?.description}
+                        </Typography>
                     </Card>
                 </Card>
             )}

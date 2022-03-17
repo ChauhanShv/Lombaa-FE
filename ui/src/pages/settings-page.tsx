@@ -14,7 +14,6 @@ import {
     ChangePhone,
     DeactivateAccount
 } from '../components';
-import { MdOutlineElectricalServices } from 'react-icons/md';
 
 export const SettingsPage: React.FC = () => {
     const { page } = useParams<{ page: string }>();
