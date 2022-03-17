@@ -26,7 +26,7 @@ Package.init(
             allownull: true,
             defaultValue: null
         },
-        type: {
+        text: {
             type: DataTypes.ENUM({
                 values: ["booster", "premium"]
             }),
