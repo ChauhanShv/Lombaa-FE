@@ -11,7 +11,9 @@ use App\Http\Controllers\RejectReasonController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ValuesController;
+use App\Http\Controllers\PackageController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', [LoginController::class, 'login'])->name('login');
 
@@ -112,6 +114,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/delete/{id}', [ProductsController::class, 'delete_product'])->name('delete_product');
         Route::get('/approve/{id}', [ProductsController::class, 'approve_product'])->name('approve_product');
         Route::post('/reject/{id}', [ProductsController::class, 'reject_product'])->name('reject_product');
+    });
+    Route::group(['prefix' => 'pacakge'], function () {
+        Route::get('/', [PackageController::class, 'add_packages'])->name('add_packages');   
+        Route::post('/', [PackageController::class, 'add_packages'])->name('add_packages');  
     });
 
     Route::group(['prefix' => 'settings'], function () {
