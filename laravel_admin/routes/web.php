@@ -118,7 +118,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'pacakge'], function () {
         Route::get('/', [PackageController::class, 'add_packages'])->name('add_packages');   
         Route::post('/', [PackageController::class, 'add_packages'])->name('add_packages');  
-        Route::get('/list', [PackageController::class, 'list'])->name('list');
+        Route::get('/list', [PackageController::class, 'package_list'])->name('package_list');
+        Route::get('/delete/{id}', [PackageController::class, 'delete_package'])->name('delete_package');
+        Route::get('/update/{id}', [PackageController::class, 'update_package'])->name('update_package');
+
     });
 
     Route::group(['prefix' => 'settings'], function () {

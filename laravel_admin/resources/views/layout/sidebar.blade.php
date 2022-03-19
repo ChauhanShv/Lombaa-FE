@@ -178,7 +178,7 @@
             </a>
             <ul>
                 <li class="{{\Request::is('packages/list') ? 'active' : '' }}">
-                    <a href="{{ route('list') }}">List</a>
+                    <a href="{{ route('package_list') }}">List</a>
                 </li>
                 <li class="{{\Request::is('packages/add') ? 'active' : '' }}">
                     <a href="{{ route('add_packages') }}">Add</a>

@@ -30,8 +30,10 @@
                         <th>Package Name</th>
                         <th>Title</th>
                         <th>Description </th>
+                        <th>Package Type </th>
                         <th>Validity</th>
                         <th>Price</th>
+                        <th>Actions</th>               
                     </tr>
                 </thead>
                 <tbody>
@@ -39,18 +41,19 @@
                     <tr class="gradeX" style="align-content: center;">
                         <td style="text-align: center;">{{ $i }}</td>
                         <td style="text-align: center;">{{ $data->name }}</td>
-                        <td style="text-align: center;">{{ $data->text}}</td>
+                        <td style="text-align: center;">{{ $data->title}}</td>
                         <td style="text-align: center;">{{ $data->description}}</td>
+                        <td style="text-align: center;">{{ $data->type}}</td>
                         <td style="text-align: center;">{{ $data->validity}}</td>
                         <td style="text-align: center;">{{ $data->price}} &nbsp {{ $data->currency }}</td>
-                       {{-- <td style="text-align: center;">
-                            <a href="{{ route('update_city', $data->id) }}">
-                                <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
-                            </a>
-                            <a href="{{ route('delete_city', $data->id) }}" onclick="return confirm('Do you want to delete city : {{ $data->name }}')">
-                                <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
-                            </a>&nbsp&nbsp
-                        </td> --}}
+                        <td style="text-align: center;">
+                        <a href="{{ route('update_package', $data->id) }}">
+                                    <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                                </a>&nbsp&nbsp
+                                <a href="{{ route('delete_package', $data->id) }}" onclick="return confirm('Do you want to delete user : {{ $data->name }}')">
+                                    <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                                </a>&nbsp&nbsp
+                        </td>       
                     </tr>
                     @endforeach
                     @if ($errors->any())
