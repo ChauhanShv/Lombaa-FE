@@ -177,8 +177,8 @@
                 <i style="color: white" class="icon icon-phone"></i> <span style="color: white">Packages</span>
             </a>
             <ul>
-                <li class="{{\Request::is('') ? 'active' : '' }}">
-                    <a href="{{ route('category_list') }}">List</a>
+                <li class="{{\Request::is('packages/list') ? 'active' : '' }}">
+                    <a href="{{ route('list') }}">List</a>
                 </li>
                 <li class="{{\Request::is('packages/add') ? 'active' : '' }}">
                     <a href="{{ route('add_packages') }}">Add</a>

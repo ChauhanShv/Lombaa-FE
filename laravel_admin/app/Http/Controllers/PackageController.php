@@ -9,8 +9,7 @@ use Str;
 class PackageController extends Controller
 {
    public function add_packages(Request $request) 
-   {
-        
+   {       
             if ($request->isMethod('post')) {
                 $rules = [
                     'name' => 'required|regex:/^[\s\w-]*$/',
@@ -64,5 +63,10 @@ class PackageController extends Controller
         else {
             return view('packages.add');
         }
+    }
+    public function list(Request $request)
+    {
+        $packages = Packages::get();
+        return view('packages.list', ['packages' => $packages]);
     }
 }
