@@ -121,7 +121,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/list', [PackageController::class, 'package_list'])->name('package_list');
         Route::get('/delete/{id}', [PackageController::class, 'delete_package'])->name('delete_package');
         Route::get('/update/{id}', [PackageController::class, 'update_package'])->name('update_package');
-
+        Route::post('/update/{id}', [PackageController::class, 'update_package'])->name('update_package');
     });
 
     Route::group(['prefix' => 'settings'], function () {

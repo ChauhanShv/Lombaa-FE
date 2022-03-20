@@ -109,9 +109,9 @@ class PackageController extends Controller
             $currency = $request->input('currency');
 
             $data = [
-                'name' => $city_name,
-                'description' => $city_code,
-                'title' => $region,
+                'name' => $name,
+                'description' => $description,
+                'title' => $title,
                 'validity' => $validity,
                 'type' => $type,
                 'price' => $price,
