@@ -172,6 +172,19 @@
                 </li>
             </ul>
         </li>
+        <li class="submenu {{\Request::is('category/*') ? 'open active' : '' }}">
+            <a href="">
+                <i style="color: white" class="icon icon-phone"></i> <span style="color: white">Packages</span>
+            </a>
+            <ul>
+                <li class="{{\Request::is('packages/list') ? 'active' : '' }}">
+                    <a href="{{ route('package_list') }}">List</a>
+                </li>
+                <li class="{{\Request::is('packages/add') ? 'active' : '' }}">
+                    <a href="{{ route('add_packages') }}">Add</a>
+                </li>
+            </ul>
+        </li>
         <li class="submenu {{\Request::is('settings') ? 'open active' : '' }}">
             <a href="">
                 <i style="color: white" class="icon icon-wrench"></i> <span style="color: white">Site Settings</span>
