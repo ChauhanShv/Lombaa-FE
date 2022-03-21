@@ -114,7 +114,7 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                             </Col>
                         </Row>
                         {productDetail.productFields?.map((productField: ProductFields, index: number) =>
-                            <Row key={productField.id} className={(!showMoreContent() && index > 3) ? 'd-none' : ''}>
+                            <Row key={productField.id} className={(!showMoreContent() && index > 3) ? 'd-none mb-1' : 'mb-1'}>
                                 {!['title', 'price'].includes(productField.field.fieldType) && (
                                     <>
                                         <Col xs={5}>

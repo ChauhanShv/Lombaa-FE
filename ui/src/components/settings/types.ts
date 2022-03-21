@@ -48,11 +48,23 @@ export interface LocationSelectorProps {
   onCitySelected: (data: object) => void;
 }
 
+export interface Package {
+  createdAt?: string;
+  currency?: string;
+  deletedAt?: string;
+  description?: string;
+  id: string;
+  name?: string;
+  price?: string;
+  title?: string;
+  type: string;
+  updatedAt?: string;
+  validity?: string;
+}
 export interface Coordinate {
   type: string;
   coordinate: Array<number>;
 }
-
 export interface LocationData {
   regionId: string;
   cityId: string;
@@ -61,7 +73,6 @@ export interface LocationData {
   coordinate: string;
   label: string;
 }
-
 export interface Country {
   id: string;
   name: string;
@@ -69,7 +80,6 @@ export interface Country {
   coordinate: Coordinate;
   phoneCode: number;
 }
-
 export interface Region {
   cities: Array<City>;
   code: string;
@@ -77,7 +87,6 @@ export interface Region {
   id: string;
   name: string;
 }
-
 export interface City {
   code: string;
   coordinate?: object;

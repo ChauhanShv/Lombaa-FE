@@ -17,7 +17,6 @@ import {
     ListingSuccessfulTile,
     Media,
     LocationDropdown,
-    Packages,
 } from '.';
 import {
     Category,
@@ -216,10 +215,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
                                 />
                                 {!!selectedSubCategory?.fields?.length && <LocationDropdown onCitySelected={onCitySelected} isSettingsPage={false} />}
                                 {!!selectedSubCategory?.fields?.length &&
-                                    <>
-                                        <FormFields fields={selectedSubCategory?.fields} />
-                                        <Packages />
-                                    </>
+                                    <FormFields fields={selectedSubCategory?.fields} />
                                 }
                                 <Col lg={8} className="mx-auto">
                                     <div className="d-flex justify-content-end">
