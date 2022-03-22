@@ -63,7 +63,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     }
 
     return (
-        <div className="ad-card card">
+        <div className="product-card card">
             <Link to={`/product-detail/${productId}/${slug}`}>
                 <Card.Img variant="top" src={mediaSrc || '/images/placeholder-image.jpg'} />
             </Link>
