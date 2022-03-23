@@ -4,10 +4,10 @@ import { Link, useHistory } from 'react-router-dom';
 import { Container, Row, Col, Button, ListGroup, Spinner } from 'react-bootstrap';
 import { FaAsterisk, FaHandshake, FaMapMarkerAlt, FaEdit, FaCheckCircle, FaTrashAlt } from 'react-icons/fa';
 import { SellerDetailCard } from '.';
-import { ProductFields, ProductDetailDescriptionProps } from './types';
+import { ProductFields, ProductDetailDescriptionProps, AlertPopupState } from './types';
 import { ActionTypes, useAppContext } from '../../contexts';
 import { useAxios } from '../../services';
-import { AlertBox } from '../alert-box';
+import { AlertPopup } from '../alert-popup';
 import { ModalType } from '../../types';
 import './product-detail.css';
 
@@ -15,8 +15,11 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
     productDetail
 }: ProductDetailDescriptionProps): React.ReactElement => {
     const [isMarkSolded, setIsMarkSolded] = useState<boolean>(false);
-    const [showAlertBox, setShowAlertBox] = useState<boolean>(false);
     const [showMore, setShowMore] = useState<boolean>(false);
+    const [showAlertPopup, setShowAlertPopup] = useState<AlertPopupState>({
+        markSold: false,
+        delete: false,
+    });
     const { state, dispatch } = useAppContext();
     const navigate = useHistory();
     const [{ data, loading }, executeSoldProduct] = useAxios({
@@ -57,16 +60,21 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
         });
     };
 
-    const handleMarkSolded = () => {
-        setShowAlertBox(true);
-    };
-
     const onOkayPressedForMarkSolded = () => {
         executeSoldProduct({});
-        setShowAlertBox(false);
+        setShowAlertPopup({
+            markSold: false,
+            delete: false,
+        });
+    }
+    const onOkayPressedForDelete = () => {
+
     }
     const onClosePressed = () => {
-        setShowAlertBox(false);
+        setShowAlertPopup({
+            markSold: false,
+            delete: false,
+        });
     }
     const showMoreContent = () => {
         if (showMore) {
@@ -77,11 +85,19 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
     return (
         <Container>
             <Row>
-                {showAlertBox && (
-                    <AlertBox
+                {showAlertPopup.markSold && (
+                    <AlertPopup
                         title={'Mark Product Solded?'}
                         description={"You won't be able to chat with your client and sell this product anymore"}
                         onOk={onOkayPressedForMarkSolded}
+                        onClose={onClosePressed}
+                    />
+                )}
+                {showAlertPopup.delete && (
+                    <AlertPopup 
+                        title={'Delete Product?'}
+                        description={"Are you sure? Your clients won't be able to see this product and will be removed from your profile list as well."}
+                        onOk={onOkayPressedForDelete}
                         onClose={onClosePressed}
                     />
                 )}
@@ -118,7 +134,9 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                                 {!['title', 'price'].includes(productField.field.fieldType) && (
                                     <>
                                         <Col xs={5}>
-                                            <p className="text-muted m-0">{productField.field.label}</p>
+                                            <p className="text-muted m-0">
+                                                {productField.field.label}
+                                            </p>
                                         </Col>
                                         <Col xs={7}>
                                             <p>{productField.value}</p>
@@ -135,7 +153,10 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
 
                         <Col className="col-12 mb-3 mt-5">
                             <h4 className="mb-4">Meet-up</h4>
-                            <p><FaMapMarkerAlt /> {`${productDetail.location.city.name}, ${productDetail.location.region.name}`}</p>
+                            <p>
+                                <FaMapMarkerAlt /> 
+                                {`${productDetail.location.city.name}, ${productDetail.location.region.name}`}
+                            </p>
                         </Col>
 
                         <Col className="col-12 mb-3">
@@ -181,11 +202,25 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                                             <FaCheckCircle className="me-2" />
                                             Mark as Reserved
                                         </ListGroup.Item>
-                                        <ListGroup.Item className="text-gray" onClick={handleMarkSolded} action>
+                                        <ListGroup.Item 
+                                            className="text-gray" 
+                                            onClick={() => setShowAlertPopup({
+                                                ...showAlertPopup,
+                                                markSold: true,
+                                            })} 
+                                            action
+                                        >
                                             <FaHandshake className="me-2" />
                                             Mark as Sold
                                         </ListGroup.Item>
-                                        <ListGroup.Item className="text-danger" action>
+                                        <ListGroup.Item 
+                                            className="text-danger" 
+                                            onClick={() => setShowAlertPopup({
+                                                ...showAlertPopup,
+                                                delete: true
+                                            })}
+                                            action
+                                        >
                                             <FaTrashAlt className="me-2" />
                                             Delete
                                         </ListGroup.Item>

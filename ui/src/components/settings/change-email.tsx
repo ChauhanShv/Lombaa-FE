@@ -117,66 +117,64 @@ export const ChangeEmail: React.FC = (): React.ReactElement => {
     };
 
     return (
-        <Container className="py-5">
-            <Card>
-                <Card.Header className="d-flex align-items-center justify-content-between bg-white">
-                    <span className="d-flex align-items-center my-lg-1 settings-font-header">
-                        <Link to="/settings" className="btn btn-white d-md-block d-lg-none">
-                            <FaChevronLeft />
-                        </Link>Change Email
-                    </span>
-                </Card.Header>
-                <Col md={8} className="card-content mx-auto col-11">
-                    <Form onSubmit={handleFormSubmit} className="details-form p-5">
-                        {(apiError || alert.message) && (
-                            <Alert variant={alert.message ? 'success' : 'danger'} onClose={() => setAlert({})} dismissible>
-                                {alert.message || getAPIErrorMessage(apiError) || getAPIErrorMessage(resendMailError)}
-                            </Alert>
-                        )}
-                        <FloatingLabel
-                            controlId="floatingInput"
-                            label="Email"
-                            className="mb-3"
-                        >
-                            <Form.Control
-                                {...register('email')}
-                                type="text"
-                                placeholder="Email"
-                                className={getErrorClassName('email')}
-                            />
-                            {getErrorText('email')}
-                        </FloatingLabel>
-                        {!userData?.isEmailVerified && (
-                            <Row className='mb-3'>
-                                <Col md={2}>
-                                    <OverlayTrigger
-                                        placement='bottom'
-                                        overlay={
-                                            <Tooltip id="tooltip">
-                                                Your email is not verified yet. Please verify
-                                            </Tooltip>
-                                        }
-                                    >
-                                        <Button className='border-0 bg-white'>
-                                            <FaInfoCircle style={{ width: 50, height: 30 }} fill='red' />{'     '}
-                                        </Button>
-                                    </OverlayTrigger>
-                                </Col>
-                                <Col md={10} className='mt-2'>
-                                    Please <a onClick={handleResendVerificationMail} className="verify-email-link">Verify</a> Your account here.
-                                </Col>
-                            </Row>
-                        )}
-                        <Button type="submit" className="btn btn-success w-100">
-                            {
-                                loading ? (
-                                    <Spinner animation="border" role="status"></Spinner>
-                                ) : 'Update'
-                            }
-                        </Button>
-                    </Form>
-                </Col>
-            </Card>
-        </Container>
+        <Card>
+            <Card.Header className="d-flex align-items-center justify-content-between bg-white">
+                <span className="d-flex align-items-center my-lg-1 settings-font-header">
+                    <Link to="/settings" className="btn btn-white d-md-block d-lg-none">
+                        <FaChevronLeft />
+                    </Link>Change Email
+                </span>
+            </Card.Header>
+            <Col md={8} className="card-content mx-auto col-11">
+                <Form onSubmit={handleFormSubmit} className="details-form p-5">
+                    {(apiError || alert.message) && (
+                        <Alert variant={alert.message ? 'success' : 'danger'} onClose={() => setAlert({})} dismissible>
+                            {alert.message || getAPIErrorMessage(apiError) || getAPIErrorMessage(resendMailError)}
+                        </Alert>
+                    )}
+                    <FloatingLabel
+                        controlId="floatingInput"
+                        label="Email"
+                        className="mb-3"
+                    >
+                        <Form.Control
+                            {...register('email')}
+                            type="text"
+                            placeholder="Email"
+                            className={getErrorClassName('email')}
+                        />
+                        {getErrorText('email')}
+                    </FloatingLabel>
+                    {!userData?.isEmailVerified && (
+                        <Row className='mb-3'>
+                            <Col md={2}>
+                                <OverlayTrigger
+                                    placement='bottom'
+                                    overlay={
+                                        <Tooltip id="tooltip">
+                                            Your email is not verified yet. Please verify
+                                        </Tooltip>
+                                    }
+                                >
+                                    <Button className='border-0 bg-white'>
+                                        <FaInfoCircle style={{ width: 50, height: 30 }} fill='red' />{'     '}
+                                    </Button>
+                                </OverlayTrigger>
+                            </Col>
+                            <Col md={10} className='mt-2'>
+                                Please <a onClick={handleResendVerificationMail} className="verify-email-link">Verify</a> Your account here.
+                            </Col>
+                        </Row>
+                    )}
+                    <Button type="submit" className="btn btn-success w-100">
+                        {
+                            loading ? (
+                                <Spinner animation="border" role="status"></Spinner>
+                            ) : 'Update'
+                        }
+                    </Button>
+                </Form>
+            </Col>
+        </Card>
     );
 }
