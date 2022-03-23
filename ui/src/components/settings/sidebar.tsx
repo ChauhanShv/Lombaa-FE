@@ -57,6 +57,12 @@ export const SideBar: React.FC = (): React.ReactElement => {
                         <FaChevronRight />
                     </ListGroup.Item>
                 </NavLink>
+                <NavLink className="side-cta" to="/settings/select-package">
+                    <ListGroup.Item className="py-3">
+                        Select Package
+                        <FaChevronRight />
+                    </ListGroup.Item>
+                </NavLink>
                 <NavLink className="side-cta" to="/settings/deactivate-account">
                     <ListGroup.Item className="py-3">
                         Deactivate account
