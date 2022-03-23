@@ -15,6 +15,10 @@ export interface SellerDetailsCardProps {
 export interface LookalikeProductsProps {
   productId: string;
 }
+export interface AlertPopupState {
+  markSold: boolean;
+  delete: boolean;
+}
 export interface Product {
   approvedAt: string;
   category: ProductDetailCategory;

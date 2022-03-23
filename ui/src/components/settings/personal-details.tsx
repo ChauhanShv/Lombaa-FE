@@ -187,7 +187,6 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
     };
 
     const onImageCropComplete = (croppedImageBlob: any) => {
-        console.log(croppedImageBlob, 'cropppedImageBlob');
         const reader = new FileReader();
         reader.readAsDataURL(croppedImageBlob);
         const formData = new FormData();

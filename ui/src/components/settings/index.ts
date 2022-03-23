@@ -7,3 +7,4 @@ export * from './deactivate-account';
 export * from './image-crop-modal';
 export * from './social-media-connect';
 export * from './account-type-selector';
+export * from './packages';

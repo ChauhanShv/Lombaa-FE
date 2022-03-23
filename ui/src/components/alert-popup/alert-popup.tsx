@@ -1,14 +1,19 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
-interface AlertBoxProps {
+interface AlertPopupProps {
     title: string,
     description: string,
     onClose: () => void,
     onOk: () => void,
 }
 
-export const AlertBox = ({ title, description, onClose, onOk }: AlertBoxProps) => {
+export const AlertPopup: React.FC<AlertPopupProps> = ({ 
+    title,
+    description,
+    onClose,
+    onOk 
+}: AlertPopupProps): React.ReactElement => {
     return (
         <Modal show={true}>
             <Modal.Dialog className="m-0">

@@ -12,9 +12,9 @@ import {
     ChangeEmail,
     ChangePassword,
     ChangePhone,
-    DeactivateAccount
+    DeactivateAccount,
+    Packages
 } from '../components';
-import { MdOutlineElectricalServices } from 'react-icons/md';
 
 export const SettingsPage: React.FC = () => {
     const { page } = useParams<{ page: string }>();
@@ -31,6 +31,8 @@ export const SettingsPage: React.FC = () => {
                 return <ChangePhone />;
             case 'deactivate-account':
                 return <DeactivateAccount />;
+            case 'select-package':
+                return <Packages />
             default:
                 return <PersonalDetails />;
         };

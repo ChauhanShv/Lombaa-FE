@@ -269,20 +269,14 @@ export const Register: React.FC<RegisterProps> = ({
         if (!isEmpty(errors)) {
             return false;
         }
-        if (formValues.accountType === AccountType.INDIVIDUAL) {
-            if (!formValues.name || formValues.name.length < NAME_MIN_LENGTH) {
-                return false;
-            }
-        }
-        if (formValues.accountType === AccountType.BUSINESS) {
-            if (!formValues.businessName || formValues.businessName.length < NAME_MIN_LENGTH) {
-                return false;
-            }
-        }
         return true;
     };
     const onSubmit = (values: any) => {
         if (isFormValid(values)) {
+            if (values.accountType === 'business') {
+                values.businessName = values.name;
+                delete values.name;
+            }
             execute({
                 data: {
                     ...values,
