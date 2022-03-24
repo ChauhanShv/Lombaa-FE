@@ -213,29 +213,30 @@ export const CreatePost: React.FC<CreatePostProps> = ({
                                     categories={categories}
                                     onSubCategorySelected={onSubCategorySelected}
                                 />
-                                {!!selectedSubCategory?.fields?.length && <LocationDropdown onCitySelected={onCitySelected} isSettingsPage={false} />}
                                 {!!selectedSubCategory?.fields?.length &&
-                                    <FormFields fields={selectedSubCategory?.fields} />
+                                    <>
+                                        <LocationDropdown onCitySelected={onCitySelected} isSettingsPage={false} />
+                                        <FormFields fields={selectedSubCategory?.fields} />
+                                        <Col lg={8} className="mx-auto">
+                                            <div className="d-flex justify-content-end">
+                                                <Button
+                                                    variant="success"
+                                                    className="btn-lg w-100 fw-bold mb-2 rounded btn-fullround text-success me-2 text-center"
+                                                    type="submit"
+                                                >
+                                                    {createPostLoading ? (
+                                                        <Spinner animation="border" role="status"></Spinner>
+                                                    ) : 'POST AD'}
+                                                </Button>
+                                            </div>
+                                            <p className="text-center text-muted mb-5">
+                                                <small>
+                                                    By clicking on Post Ad, you accept the Terms of Use, confirm that you will abide by the Safety Tips, and declare that this posting does not include any Prohibited Items.
+                                                </small>
+                                            </p>
+                                        </Col>
+                                    </>
                                 }
-                                <Col lg={8} className="mx-auto">
-                                    <div className="d-flex justify-content-end">
-                                        <Button
-                                            //variant="fullround" 
-                                            variant="success"
-                                            className="btn-lg w-100 fw-bold mb-2 rounded btn-fullround text-success me-2 text-center"
-                                            type="submit"
-                                        >
-                                            {createPostLoading ? (
-                                                <Spinner animation="border" role="status"></Spinner>
-                                            ) : 'POST AD'}
-                                        </Button>
-                                    </div>
-                                    <p className="text-center text-muted mb-5">
-                                        <small>
-                                            By clicking on Post Ad, you accept the Terms of Use, confirm that you will abide by the Safety Tips, and declare that this posting does not include any Prohibited Items.
-                                        </small>
-                                    </p>
-                                </Col>
                             </div>
                         </Col>
                     </Row>

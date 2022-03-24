@@ -53,6 +53,8 @@ listing p{font-size:12px;}
 
 .placeholder-image { width: 30%; height: 20%; margin-top: 3%; text-align: center; }
 
+.profile-product-img-background { background-color: #F5F5F5; object-fit: fill !important; }
+
 .tab-placeholder-text { margin-bottom: 50px; color: #888; }
 
 @media all and (max-width:980px){

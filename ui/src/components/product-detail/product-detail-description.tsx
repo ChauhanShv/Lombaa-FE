@@ -94,7 +94,7 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                     />
                 )}
                 {showAlertPopup.delete && (
-                    <AlertPopup 
+                    <AlertPopup
                         title={'Delete Product?'}
                         description={"Are you sure? Your clients won't be able to see this product and will be removed from your profile list as well."}
                         onOk={onOkayPressedForDelete}
@@ -154,7 +154,7 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                         <Col className="col-12 mb-3 mt-5">
                             <h4 className="mb-4">Meet-up</h4>
                             <p>
-                                <FaMapMarkerAlt /> 
+                                <FaMapMarkerAlt />
                                 {`${productDetail.location.city.name}, ${productDetail.location.region.name}`}
                             </p>
                         </Col>
@@ -198,23 +198,23 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                                             <FaEdit className="me-2" />
                                             Edit Listing
                                         </ListGroup.Item>
-                                        <ListGroup.Item className="text-gray" action>
+                                        <ListGroup.Item className="text-gray d-none" action>
                                             <FaCheckCircle className="me-2" />
                                             Mark as Reserved
                                         </ListGroup.Item>
-                                        <ListGroup.Item 
-                                            className="text-gray" 
+                                        <ListGroup.Item
+                                            className="text-gray"
                                             onClick={() => setShowAlertPopup({
                                                 ...showAlertPopup,
                                                 markSold: true,
-                                            })} 
+                                            })}
                                             action
                                         >
                                             <FaHandshake className="me-2" />
                                             Mark as Sold
                                         </ListGroup.Item>
-                                        <ListGroup.Item 
-                                            className="text-danger" 
+                                        <ListGroup.Item
+                                            className="text-danger"
                                             onClick={() => setShowAlertPopup({
                                                 ...showAlertPopup,
                                                 delete: true

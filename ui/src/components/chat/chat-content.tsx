@@ -192,8 +192,9 @@ export const ChatContent: React.FC = (): React.ReactElement => {
                                                 {message.media ? (
                                                     <img
                                                         role="button"
-                                                        height="30%"
-                                                        width="100%"
+                                                        height="120px"
+                                                        width="120px"
+                                                        style={{ margin: '0 auto', }}
                                                         src={message?.media?.url}
                                                         alt={message.media?.url}
                                                         onClick={() => setMediaModalUrl(message?.media?.url)}
@@ -209,8 +210,8 @@ export const ChatContent: React.FC = (): React.ReactElement => {
                                                 {message.media ? (
                                                     <img
                                                         role="button"
-                                                        height="30%"
-                                                        width="100%"
+                                                        height="120px"
+                                                        width="120px"
                                                         src={message?.media?.url}
                                                         alt={message.media?.url}
                                                         onClick={() => setMediaModalUrl(message?.media?.url)}

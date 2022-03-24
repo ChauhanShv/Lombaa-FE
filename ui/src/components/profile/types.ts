@@ -7,6 +7,8 @@ export interface ProfileProductTileProps {
   categoryName: string;
   postedOnDate: string;
   mediaSrc: string;
+  isFavouritesTab: boolean;
+  onFavDelete: (productId: string) => void; 
 }
 export interface ProductTabListProps {
   productList: Product[];
