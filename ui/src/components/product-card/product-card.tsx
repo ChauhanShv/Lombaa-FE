@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import moment from 'moment';
 import { Card } from 'react-bootstrap';
 import { Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -75,17 +74,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 }
             </div>
             <Link to={`/product-detail/${productId}/${slug}`}>
-                <div className="card-body">
+                <Card.Body className="card-body-height">
                     <Card.Header className="card-title text-success product-card-header">
                         <Typography noWrap={true}>{title}</Typography>
                     </Card.Header>
-                    <p className="card-text">
+                    <Card.Subtitle className="card-text">
                         <strong>{summary}</strong>
-                    </p>
-                    <p className="text-muted" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }}>
+                    </Card.Subtitle>
+                    <Card.Text className="text-muted" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }}>
                         {description}
-                    </p>
-                </div>
+                    </Card.Text>
+                </Card.Body>
             </Link>
             <Link to={`/product-detail/${productId}/${slug}`} className="p-0 ms-3 mb-3 usermeta">
                 <img

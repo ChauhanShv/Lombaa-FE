@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { FaEye, FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { Col, Row, Card, Button } from 'react-bootstrap';
 import { ProfileProductTileProps } from './types';
+import { useAxios } from '../../services';
 
 export const ProfileProductTile: React.FC<ProfileProductTileProps> = ({
     productId,
@@ -12,15 +14,44 @@ export const ProfileProductTile: React.FC<ProfileProductTileProps> = ({
     categoryName,
     postedOnDate,
     mediaSrc,
+    isFavouritesTab,
+    onFavDelete,
 }: ProfileProductTileProps): React.ReactElement => {
+
+    const [{ data: deleteFavourite }, unfavExecute] = useAxios({
+        url: '/user/favorite/product',
+        method: 'DELETE',
+    });
+
+    const handleRemoveFromFavourite = () => {
+        unfavExecute({
+            data: {
+                productId: productId,
+            },
+        });
+    };
+
+    useEffect(() => {
+        if (deleteFavourite?.success) {
+            onFavDelete(productId);
+        }
+    }, [deleteFavourite]);
+
     return (
         <Col md={12} className="col-md-6 mb-3">
             <Card>
                 <Row>
                     <Col md={4}>
-                        <Card.Img height="100%" variant="top" src={mediaSrc} />
+                        <Card.Img
+                            className="profile-product-img-background"
+                            height="100%"
+                            variant="top"
+                            src={mediaSrc}
+                        />
                         <div className="d-flex justify-content-between p-3 position-absolute saved-wrap">
-                            <small className="text-white">{postedOnDate}</small>
+                            <small className="text-white">
+                                {postedOnDate}
+                            </small>
                         </div>
                     </Col>
                     <Card.Body className="col-md-8">
@@ -29,10 +60,20 @@ export const ProfileProductTile: React.FC<ProfileProductTileProps> = ({
                         <p className="text-muted">{description}</p>
                         <p className="text-muted "><strong>Category:</strong> {categoryName}</p>
                         <Link to={`/product-detail/${productId}/${slug}`}>
-                            <Button variant="success">View</Button>
+                            <Button variant="success"><FaEye /> View</Button>
                         </Link>{' '}
-                        <Button variant="outline-secondary">Edit</Button>{' '}
-                        <Button variant="outline-danger">Delete</Button>{' '}
+                        {!isFavouritesTab ? (
+                            <>
+                                <Button variant="outline-secondary"><FaEdit /> Edit</Button>{' '}
+                                <Button variant="outline-danger"><FaTrashAlt /> Delete</Button>{' '}
+                            </>
+                        ) : (
+                            <>
+                                <Button onClick={handleRemoveFromFavourite} variant="danger">
+                                    <FaTrashAlt /> Remove from favourites
+                                </Button>
+                            </>
+                        )}
                     </Card.Body>
                 </Row>
             </Card>

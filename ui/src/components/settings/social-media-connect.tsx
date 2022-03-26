@@ -120,6 +120,7 @@ export const SocialMediaConnect: React.FC = () => {
                                     onSuccess={responseGoogle}
                                     onFailure={responseGoogle}
                                     cookiePolicy={'single_host_origin'}
+                                    prompt="select_account"
                                 />
                             ) : (
                                 <Form.Check

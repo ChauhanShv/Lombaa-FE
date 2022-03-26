@@ -419,6 +419,7 @@ export const Register: React.FC<RegisterProps> = ({
                                 buttonText="Login"
                                 onSuccess={googleSuccess}
                                 cookiePolicy={'single_host_origin'}
+                                prompt="select_account"
                             />
                         </div>
                         <div className="col-12 mt-3">

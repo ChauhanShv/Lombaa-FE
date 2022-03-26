@@ -1,7 +1,7 @@
 // export const PASSWORD_REGEX: RegExp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 export const PASSWORD_REGEX: RegExp = /^.{6,}$/;
 export const MOBILE_REGEX: RegExp =
-  /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/;
+  /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
 export const TIN_REGEX: RegExp = /^(?:\d{3}-\d{2}-\d{4}|\d{2}-\d{7})$/;
 export const NAME_MIN_LENGTH = 3;
 export const TIN_MIN_LENGTH = 6;
