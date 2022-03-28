@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Row, Col, Container, Button } from 'react-bootstrap';
+import React from 'react';
+import { Row, Col, Container } from 'react-bootstrap';
 import { Breadcrumbs } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { ProductDetailImageSlider, ProductDetailDescription, LookalikeProducts } from '.';
@@ -11,7 +11,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
 
     return (
         <>
-            <Container className="mt-3 mb-3">
+            <Container className="mt-3 mb-1">
                 <Row>
                     <Breadcrumbs separator=">" aria-label="breadcrumb">
                         <Link key="1" color="inherit" to="/">
@@ -27,16 +27,17 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                 </Row>
             </Container>
             {!!productDetail?.productMedia.length && (
-                <section className="pt-3 pb-3 mt-0 align-items-center">
+                <section className="pt-2 pb-3 mt-0 align-items-center">
                     <ProductDetailImageSlider
                         productMedia={productDetail?.productMedia}
-                        productCategory={productDetail?.category}
+                        isFavourite={productDetail?.favourite}
                         productName={productDetail?.title}
+                        productId={productDetail?.id}
                     />
                 </section>
             )}
             {!!productDetail && (
-                <section className=" pb-5">
+                <section className="pb-5">
                     <ProductDetailDescription productDetail={productDetail} />
                 </section>
             )}

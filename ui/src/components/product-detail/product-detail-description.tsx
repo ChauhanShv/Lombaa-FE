@@ -102,11 +102,11 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                     />
                 )}
                 <Col lg={8} md={11} className="mx-auto">
-                    <h1 className="h2 text-dark mb-3">{productDetail.title}</h1>
-                    <h2 className="text-success">
+                    <h1 className="h2 text-dark mb-2">{productDetail.title}</h1>
+                    <h2 className="text-success m-0">
                         {productDetail.location.country.currencySymbol}{' '}{productDetail.price}
                     </h2>
-                    <Row className="border-bottom py-3 mb-5">
+                    <Row className="border-bottom py-3 mb-4">
                         <Col>
                             <FaAsterisk /> Used
                         </Col>

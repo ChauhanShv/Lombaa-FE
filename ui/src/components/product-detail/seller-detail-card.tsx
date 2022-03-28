@@ -30,22 +30,35 @@ export const SellerDetailCard: React.FC<SellerDetailsCardProps> = ({
                             <div className="px-2">
                                 <h3 className="user-title px-3 text-success m-0">
                                     {getAccountName()} {'  '}
-                                    {(user?.profileVerificationScore && user?.profileVerificationScore >= 60) ? <FaCheckCircle className="fs-5 text-info" /> : ''}
+                                    {(user?.profileVerificationScore && user?.profileVerificationScore >= 60) ?
+                                        <FaCheckCircle className="fs-5 text-info" /> : ''
+                                    }
                                 </h3>
                                 <p className="px-3 text-muted mb-2">
                                     <strong>{getAccountType()}</strong>
                                 </p>
                                 <p className="px-3">
-                                    <Link to="/settings/personal-details" className="p-0">View Profile</Link>
+                                    <Link to="/settings/personal-details" className="p-0">
+                                        View Profile
+                                    </Link>
                                 </p>
                             </div>
                         </Col>
                     </Row>
                 </Col>
                 <Col md={6} className="pt-2 pt-md-0 text-muted px-4">
-                    <p><FaEnvelope className="me-2" />{user?.email}</p>
-                    <p><FaMapMarkerAlt className="me-2" />{getLocation()}</p>
-                    <p><FaClock className="me-2" />Joined on {moment(user?.memberSince).format('LL')}</p>
+                    <p>
+                        <FaEnvelope className="me-2" />
+                        {user?.email}
+                    </p>
+                    <p>
+                        <FaMapMarkerAlt className="me-2" />
+                        {getLocation()}
+                    </p>
+                    <p>
+                        <FaClock className="me-2" />
+                        Joined on {moment(user?.memberSince).format('LL')}
+                    </p>
                 </Col>
             </Row>
         </Container>
