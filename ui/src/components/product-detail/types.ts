@@ -64,6 +64,7 @@ export interface ProductDetail {
   title?: string;
   user: User;
   userId: string;
+  isFavourite?: boolean;
 }
 export interface ProductMedia {
   id: string;

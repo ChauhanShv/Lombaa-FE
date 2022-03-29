@@ -19,7 +19,6 @@ import {
   ProductListingPage,
   VerifyEmailPage,
   ChatPage,
-  PackagesPage,
 } from './pages';
 import { theme } from './theme';
 
