@@ -69,8 +69,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             <div className="d-flex justify-content-between p-3 position-absolute saved-wrap">
                 {/* <small className="text-white">{moment(postedOnDate).format('LL')}</small> */}
                 {favourite ?
-                    <button className="saved" id="fav" onClick={handleFavUnfav}><FaHeart /></button> :
-                    <button className="saved" id="fav" onClick={handleFavUnfav}><FiHeart /></button>
+                    <button className="saved" id="fav" onClick={handleFavUnfav}>
+                        <FaHeart />
+                    </button> :
+                    <button className="saved" id="fav" onClick={handleFavUnfav}>
+                        <FiHeart />
+                    </button>
                 }
             </div>
             <Link to={`/product-detail/${productId}/${slug}`}>
@@ -81,7 +85,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     <Card.Subtitle className="card-text">
                         <strong>{summary}</strong>
                     </Card.Subtitle>
-                    <Card.Text className="text-muted" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }}>
+                    <Card.Text className="text-muted product-card-description">
                         {description}
                     </Card.Text>
                 </Card.Body>

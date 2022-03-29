@@ -13,7 +13,7 @@
 .btns-over button:hover{transform: scale(1.03);}
 .btns-over button svg {margin:0 10px 0 0;}
 .btns-over.bottom { position:absolute; top:auto;bottom:25px; right:25px; display: flex; align-items: center; }
-.product-slide-image { height: 350px; position: absolute; top: 0; object-fit: contain; background-color: transparent; z-index: 2;  }
+.product-slide-image { height: 350px; position: absolute; top: 0; object-fit: contain; background-color: transparent; z-index: 2; }
 .product-slide-bg { position: relative; height: 343px; z-index: 1; object-fit: cover !important; filter: blur(30px); }
 
 .share-product-icon { display: inline-block; vertical-align: middle; text-align: center; margin-right: 15px; }

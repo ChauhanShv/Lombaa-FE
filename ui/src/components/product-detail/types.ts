@@ -3,8 +3,9 @@ export interface ProductDetailProps {
 }
 export interface ProductDetailImageSliderProps {
   productMedia: ProductMedia[];
-  productCategory: ProductDetailCategory;
+  isFavourite?: boolean;
   productName?: string;
+  productId?: string;
 }
 export interface ProductDetailDescriptionProps {
   productDetail: ProductDetail;
