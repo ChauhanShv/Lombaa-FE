@@ -45,7 +45,7 @@ Content-Type: video/mp4
 
 ###
 
-GET  {{baseUrl}}/product/0050e6c2-45f0-40f8-91c9-86ca30f0a688 HTTP/1.1
+GET  {{baseUrl}}/product/0c77963e-9404-44b1-adcf-ae97e17ca3a1 HTTP/1.1
 content-type: application/json
 x-access-token: {{token}}
 x-client-platform : Android
@@ -81,3 +81,15 @@ content-type: application/json
 x-access-token : {{token}}
 x-client-platform : Android
 x-app-version : 1.0.0
+
+###
+
+DELETE {{baseUrl}}/product/delete HTTP/1.1
+content-type: application/json
+x-access-token : {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+{
+	"id":"04c33d90-4cd0-4b68-92ad-b603c9395bba"
+}

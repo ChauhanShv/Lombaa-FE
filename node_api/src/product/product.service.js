@@ -243,6 +243,9 @@ class ProductService {
     }));
   }
 
+  // isFavorite(productId, userId) {
+  //   return this.userService?.alreadyInFavorites(userId, productId) ?? false
+  // }
   async tickSoldProduct(givenId) {
     const data = await Product.update({ soldAt: moment() }, { where: { id: givenId } })
     return data
@@ -308,6 +311,11 @@ class ProductService {
     productsFromCategory = productsFromCategory.slice(offset, limit)
     productsFromCategory = this.fieldsMapping(productsFromCategory)
     return productsFromCategory
+  }
+
+  async delete(productId, userId) {
+    console.log(productId, userId, 'hGHfghfyfyfty')
+    return await Product.destroy({ where: { id: productId, userId: userId } })
   }
 
 }

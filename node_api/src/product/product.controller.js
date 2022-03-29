@@ -16,8 +16,10 @@ const fileModel = require("../file/file.model")
 const Field = require("../field/field.model")
 const Category = require("../category/category.model")
 const viewedProduct = require("../viewed_product/viewed.product.model")
-const { Op } = require("sequelize");
-const RejectReason = require("../reject_reason/reject_reason.model")
+const { Op, where } = require("sequelize");
+const RejectReason = require("../reject_reason/reject_reason.model");
+const { productId } = require("../chat/chat.schema");
+const FavoriteProduct = require("../user/user.favorite_product_model");
 
 
 class ProductController extends BaseController {
@@ -146,12 +148,13 @@ class ProductController extends BaseController {
           { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
           { model: Location, as: "location" },
           { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
-          { model: User, as: 'user', attributes: ["name", "profilePictureId", "email", "accountType", "locationId"], include: [{ model: fileModel, as: "profilePicture" }, { model: Location, as: "location" }] }
+          { model: User, as: 'user', attributes: ["name", "profilePictureId", "email", "accountType", "locationId", "profileVerificationScore", "businessName", "createdAt"], include: [{ model: fileModel, as: "profilePicture" }, { model: Location, as: "location" }] }
         ]
       });
       if (!singleProduct) {
         return super.jsonRes({ res, code: 200, data: { success: false, message: "Failed to get product", message_detail: "Product is unavailable" } })
       }
+      const mProduct = (await this.service.mapUserFavorite([singleProduct], userId))?.[0];
       const viewed = viewedProduct.create({ userId: userId, productId: singleProduct.id })
       const title = await this.service.fieldsMapping([singleProduct])
 
@@ -161,7 +164,7 @@ class ProductController extends BaseController {
         data: {
           success: true,
           message: "Product retrieved.",
-          product: singleProduct,
+          product: mProduct
         },
       });
     } catch (error) {
@@ -236,6 +239,17 @@ class ProductController extends BaseController {
     catch (error) {
       return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to load ", message_detail: error?.messaage } })
 
+    }
+  }
+  delete = async (req, res, next) => {
+    try {
+      const userId = req.user?.id
+      const productId = req.body?.id
+      const data = await this.service.delete(productId, userId)
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Product has been deleted" } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to delete product" } })
     }
   }
 }
