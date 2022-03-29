@@ -55,17 +55,29 @@ export const ProfileProductTile: React.FC<ProfileProductTileProps> = ({
                         </div>
                     </Col>
                     <Card.Body className="col-md-8">
-                        <h4 className="card-title text-success">{title}</h4>
-                        <p className="card-text m-0"><strong>{summary}</strong></p>
-                        <p className="text-muted">{description}</p>
-                        <p className="text-muted "><strong>Category:</strong> {categoryName}</p>
+                        <h4 className="card-title text-success">
+                            {title}
+                        </h4>
+                        <p className="card-text m-0">
+                            <strong>{summary}</strong>
+                        </p>
+                        <p className="text-muted">
+                            {description}
+                        </p>
+                        <p className="text-muted ">
+                            <strong>Category:</strong> {categoryName}
+                        </p>
                         <Link to={`/product-detail/${productId}/${slug}`}>
                             <Button variant="success"><FaEye /> View</Button>
                         </Link>{' '}
                         {!isFavouritesTab ? (
                             <>
-                                <Button variant="outline-secondary"><FaEdit /> Edit</Button>{' '}
-                                <Button variant="outline-danger"><FaTrashAlt /> Delete</Button>{' '}
+                                <Button variant="outline-secondary">
+                                    <FaEdit /> Edit
+                                </Button>{' '}
+                                <Button variant="outline-danger">
+                                    <FaTrashAlt /> Delete
+                                </Button>{' '}
                             </>
                         ) : (
                             <>
