@@ -64,7 +64,7 @@ export interface ProductDetail {
   title?: string;
   user: User;
   userId: string;
-  isFavourite?: boolean;
+  isFavorite?: boolean;
 }
 export interface ProductMedia {
   id: string;
@@ -149,5 +149,5 @@ export interface User {
   profilePictureId: string;
   businessName?: string;
   profileVerificationScore?: number;
-  memberSince?: string;
+  createdAt?: string;
 }

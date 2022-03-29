@@ -14,7 +14,7 @@
 .btns-over button svg {margin:0 10px 0 0;}
 .btns-over.bottom { position:absolute; top:auto;bottom:25px; right:25px; display: flex; align-items: center; }
 .product-slide-image { height: 350px; position: absolute; top: 0; object-fit: contain; background-color: transparent; z-index: 2; }
-.product-slide-bg { position: relative; height: 343px; z-index: 1; object-fit: cover !important; filter: blur(30px); }
+.product-slide-bg { position: relative; height: 343px; z-index: 1; filter: blur(50px); padding: 0; width: 100%; }
 
 .share-product-icon { display: inline-block; vertical-align: middle; text-align: center; margin-right: 15px; }
 .copy-product-link-input { font-size: 12px; }
@@ -38,8 +38,6 @@
 
 @media all and (max-width:767px) {
     .product-slider .slick-prev{left:15px;}
-    .product-slide-image { height: 150px; }
-    .product-slide-bg { height: 143px; }
     .slick-prev:before, .slick-next:before{font-size:20px;}
     }
 }

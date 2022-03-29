@@ -13,7 +13,7 @@
 .product-card .card button svg{width:14px;}
 .card-img-top { width: 100%; height: calc(100vw * 0.2); object-fit: contain; }
 
-.card-img-topp { background-repeat: no-repeat; background-position: center center; background-size: fill; width: 100%; height: calc(100vw * 0.2);  }
+.card-img-topp { background-repeat: no-repeat; background-position: center center; background-size: contain; width: 100%; height: calc(100vw * 0.2);  }
 
 .product-card-header { background-color: #fff; padding: 0; border-bottom: 0px; margin-bottom: 0.5rem; }
 .card-body-height { height: 100px; }
@@ -34,4 +34,5 @@ small.text-white{font-size:12px; text-shadow: 0 0 3px rgba(0,0,0,.5);}
     small.text-white{font-size:11px;}    
     .product-card .card-body p{margin-bottom: 5px;}
     .card-img-top { height: auto; }
+    .card-img-topp { height: 200px; object-fit: cover; }
 }

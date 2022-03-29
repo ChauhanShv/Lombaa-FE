@@ -1,12 +1,12 @@
 
 const { Sequelize, DataTypes, Model } = require("sequelize");
-const Order = require("../order/order.model");
+const Transaction = require("../transaction/transaction.model");
 const User = require("../user/user.model");
 const sequelize = require("../modules/sequelize").service;
 
-class Transaction extends Model { }
+class Order extends Model { }
 
-Transaction.init(
+Order.init(
     {
         id: {
             type: DataTypes.UUID,
@@ -18,14 +18,7 @@ Transaction.init(
             allowNull: true,
             defaultValue: null
         },
-        status: {
-            type: DataTypes.ENUM({
-                values: ["initiated", "inprocess", "failed", "success"]
-            }),
-            allownull: true,
-            defaultValue: null
-        },
-        referenceNumber: {
+        itemName: {
             type: DataTypes.INTEGER,
             allowNull: true,
             defaultValue: null
@@ -43,13 +36,12 @@ Transaction.init(
     },
 
     {
-        modelName: "Transaction",
-        tableName: "payment_transactions",
+        modelName: "Order",
+        tableName: "orders",
         timestamps: true,
         paranoid: true,
         sequelize,
     }
 );
-Transaction.belongsTo(User, { as: 'user' })
-Transaction.belongsTo(Order, { as: 'order' })
-module.exports = Transaction;
+Order.belongsTo(User, { as: 'user' })
+module.exports = Order;

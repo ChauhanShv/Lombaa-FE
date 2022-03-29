@@ -121,7 +121,7 @@ export const Notifications: React.FC = (): React.ReactElement => {
                     onClick={handleChatMessagesSeen}
                 >
                     <Badge
-                        badgeContent={chatCountRes?.success ? chatCountRes?.data?.count?.count : ''}
+                        badgeContent={chatCountRes?.success ? chatCountRes?.data?.count?.count : 0}
                         color="secondary"
                         sx={{ color: '#fff' }}
                     >
@@ -139,7 +139,7 @@ export const Notifications: React.FC = (): React.ReactElement => {
                     onClick={handleClick}
                 >
                     <Badge
-                        badgeContent={data?.data?.count}
+                        badgeContent={data?.data?.count || 0}
                         color="secondary"
                         sx={{ color: '#fff' }}
                     >

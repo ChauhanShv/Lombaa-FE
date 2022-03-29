@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { FaHeart, FaCheckCircle } from 'react-icons/fa';
 import { Media } from './types';
@@ -51,15 +52,23 @@ export const ListingSuccessfulTile: React.FC<ListingTileProps> = ({
                                     <div className="card-body">
                                         <h4 className="card-title text-success">{title}</h4>
                                         {description &&
-                                            <p className="card-text"><strong>{description}</strong></p>
+                                            <p className="card-text text-truncate">
+                                                <strong>{description}</strong>
+                                            </p>
                                         }
                                     </div>
                                 </div>
                             </Col>
                             <Col className="col-md-8">
                                 <h1 className="h2"><FaCheckCircle className="text-success fs-4" /> Successfully listed</h1>
-                                <Button variant="fullround" className="px-4 btn-outline-secondary">View Listing</Button>{' '}
-                                <Button variant="fullround" className="px-4 mx-3 btn-success">Share</Button>
+                                <Link to="/profile">
+                                    <Button variant="fullround" className="px-4 btn-outline-secondary">
+                                        View Listing
+                                    </Button>{' '}
+                                </Link>
+                                <Button variant="fullround" className="px-4 mx-3 btn-success">
+                                    Share
+                                </Button>
                             </Col>
                         </Row>
                     </div>
