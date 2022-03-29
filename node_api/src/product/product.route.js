@@ -34,6 +34,7 @@ module.exports = () => {
   router.get("/category", optionalAuthMiddleware, controller.searchCat)
   router.get("/:id", optionalAuthMiddleware, checkSchema(getProductSchema), controller.findById);
   router.get("/:id/similar", optionalAuthMiddleware, checkSchema(similarProductSchema), controller.lookALike)
+  router.delete("/delete", authMiddleware, controller.delete)
 
   return router;
 };
