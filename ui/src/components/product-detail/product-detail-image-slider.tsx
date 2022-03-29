@@ -28,11 +28,11 @@ export const ProductDetailImageSlider: React.FC<ProductDetailImageSliderProps> =
     const [favourite, setFavourite] = useState<boolean>(isFavourite ? true : false);
     const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
     const [{ }, favExecute] = useAxios({
-        url: '',
+        url: '/user/favorite/product',
         method: 'PUT',
     });
     const [{ }, unfavExecute] = useAxios({
-        url: '',
+        url: '/user/favorite/product',
         method: 'DELETE',
     });
 
@@ -47,7 +47,7 @@ export const ProductDetailImageSlider: React.FC<ProductDetailImageSliderProps> =
             return;
         }
         setFavourite(!favourite);
-        if (!isFavourite) {
+        if (!favourite) {
             favExecute({
                 data: {
                     productId: productId,
