@@ -80,11 +80,9 @@ export const ProfileProductTile: React.FC<ProfileProductTileProps> = ({
                                 </Button>{' '}
                             </>
                         ) : (
-                            <>
-                                <Button onClick={handleRemoveFromFavourite} variant="danger">
-                                    <FaTrashAlt /> Remove from favourites
-                                </Button>
-                            </>
+                            <Button onClick={handleRemoveFromFavourite} variant="danger">
+                                <FaTrashAlt /> Remove from favourites
+                            </Button>
                         )}
                     </Card.Body>
                 </Row>
