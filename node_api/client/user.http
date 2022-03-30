@@ -5,10 +5,10 @@ content-type: application/json
 x-client-platform : Android
 
 {
-    "email": "vivek@datortech.com",
+    "email": "vivek@gmail.com",
     "password": "123456",
     "name": "Danny",
-    "phoneNumber": "7083769223",
+    "phoneNumber": "7083769289",
     "phoneCode": "91",
     "accountType": "business",
     "lattitude": "",
