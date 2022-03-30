@@ -19,7 +19,7 @@ Order.init(
             defaultValue: null
         },
         itemName: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING(50),
             allowNull: true,
             defaultValue: null
         },
