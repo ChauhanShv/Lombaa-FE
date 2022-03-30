@@ -3,8 +3,9 @@ export interface ProductDetailProps {
 }
 export interface ProductDetailImageSliderProps {
   productMedia: ProductMedia[];
-  productCategory: ProductDetailCategory;
+  isFavourite?: boolean;
   productName?: string;
+  productId?: string;
 }
 export interface ProductDetailDescriptionProps {
   productDetail: ProductDetail;
@@ -14,6 +15,9 @@ export interface SellerDetailsCardProps {
 }
 export interface LookalikeProductsProps {
   productId: string;
+}
+export interface ProductShareModalProps {
+  onClose: () => void;
 }
 export interface AlertPopupState {
   markSold: boolean;

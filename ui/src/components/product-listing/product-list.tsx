@@ -68,7 +68,7 @@ export const ProductList: React.FC = (): React.ReactElement => {
                                 <ProductSkeletonLoader />
                             ) : !products.length ? (
                                 <div className='text-center'>
-                                    <img className="w-50" src='/images/placeholder-image.jpg' />
+                                    <img className="w-25" src='/images/no-products-placeholder.png' />
                                     <p className="text-muted mt-4">No products available to show</p>
                                 </div>
                             ) : (products.map((product: Product) =>

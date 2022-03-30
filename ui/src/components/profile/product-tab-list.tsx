@@ -11,7 +11,7 @@ export const EmptyTabContent: React.FC<TabContentProps> = ({
 }: TabContentProps): React.ReactElement => {
     return (
         <div style={{ textAlign: 'center' }} className="pt-15 pb-15">
-            <img width="40%" src="/images/placeholder-image.jpg" className='text-center mt-3' />
+            <img width="30%" src="/images/no-products-placeholder.png" className='text-center mt-3' />
             <p className="tab-placeholder-text">
                 {`We could not fetch anything for ${tabTitle} tab. There is no data available.`}
             </p>
