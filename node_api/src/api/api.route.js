@@ -10,6 +10,7 @@ const chatRouter = require("../chat").router
 const notificationRouter = require("../notification").router
 const packageRouter = require("../packages").router
 const transactionRouter = require("../transaction").router
+const orderRouter = require("../order").router
 
 const router = require("../modules/express").instance.Router();
 
@@ -24,5 +25,6 @@ module.exports = () => {
   router.use("/notification", notificationRouter())
   router.use("/package", packageRouter())
   router.use("/transaction", transactionRouter())
+  router.use("/order", orderRouter())
   return router;
 };
