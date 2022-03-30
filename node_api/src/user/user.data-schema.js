@@ -40,6 +40,9 @@ module.exports = {
     optional: {
       options: { checkFalsy: true },
     },
+    isLength: {
+      options: { min: 8, max: 20 }
+    },
 
     custom: {
       options: async (value) => {

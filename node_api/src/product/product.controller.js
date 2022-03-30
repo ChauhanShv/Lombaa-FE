@@ -141,7 +141,7 @@ class ProductController extends BaseController {
     try {
       const givenId = req.params.id;
       const userId = req.user?.id;
-      const singleProduct = await Product.findOne({
+      let singleProduct = await Product.findOne({
         where: { [Op.or]: [{ id: givenId }, { slug: givenId }] },
         include: [
           { model: Category, as: "category" },
@@ -154,8 +154,10 @@ class ProductController extends BaseController {
       if (!singleProduct) {
         return super.jsonRes({ res, code: 200, data: { success: false, message: "Failed to get product", message_detail: "Product is unavailable" } })
       }
-      const mProduct = (await this.service.mapUserFavorite([singleProduct], userId))?.[0];
-      const viewed = viewedProduct.create({ userId: userId, productId: singleProduct.id })
+      if (userId) {
+        singleProduct = (await this.service.mapUserFavorite([singleProduct], userId))?.[0];
+        const viewed = viewedProduct.create({ userId: userId, productId: singleProduct.id })
+      }
       const title = await this.service.fieldsMapping([singleProduct])
 
       return super.jsonRes({
@@ -164,7 +166,7 @@ class ProductController extends BaseController {
         data: {
           success: true,
           message: "Product retrieved.",
-          product: mProduct
+          product: singleProduct
         },
       });
     } catch (error) {
