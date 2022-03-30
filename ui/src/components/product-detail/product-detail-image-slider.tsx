@@ -27,7 +27,7 @@ export const ProductDetailImageSlider: React.FC<ProductDetailImageSliderProps> =
     const { state, dispatch } = useAppContext();
     const [favourite, setFavourite] = useState<boolean>(isFavourite ? true : false);
     const [isShareModalOpen, setIsShareModalOpen] = useState<boolean>(false);
-    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 991px)' })
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1024px)' })
     const [{ }, favExecute] = useAxios({
         url: '/user/favorite/product',
         method: 'PUT',
@@ -41,11 +41,9 @@ export const ProductDetailImageSlider: React.FC<ProductDetailImageSliderProps> =
         dots: true,
         infinite: true,
         speed: 500,
-        slidesToShow: isTabletOrMobile ? 1 : 2,
+        slidesToShow: 1,
         slidesToScroll: 1,
         arrow: true,
-        centerMode: true,
-        centerPadding: '60px',
     }
 
     const handleFavUnfav = () => {
@@ -84,7 +82,7 @@ export const ProductDetailImageSlider: React.FC<ProductDetailImageSliderProps> =
                     {productMedia.length > 1 ? (
                         <Slider className="center product-slider" {...sliderSettings}>
                             {productMedia?.map((media: ProductMedia) =>
-                                <div key={media?.fileId}>
+                                <div className='pb-4' key={media?.fileId}>
                                     {media?.file?.mime?.includes('video') ? (
                                         <video className='d-block w-100' controls>
                                             <source src={media?.file?.url} type="video/mp4" />

@@ -2,14 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { FaHeart, FaCheckCircle } from 'react-icons/fa';
-import { Media } from './types';
-
-interface ListingTileProps {
-    title: string,
-    description: string,
-    file: any,
-    media: Media[],
-};
+import { Media, ListingTileProps } from './types';
 
 export const ListingSuccessfulTile: React.FC<ListingTileProps> = ({
     title,
