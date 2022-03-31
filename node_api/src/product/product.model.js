@@ -31,7 +31,7 @@ Product.init(
     paranoid: true,
     defaultScope: {
       attributes: {
-        exclude: ["createdAt", "updatedAt", "iconId", "deletedAt"],
+        exclude: ["createdAt", "updatedAt", "iconId",],
       },
     },
   }

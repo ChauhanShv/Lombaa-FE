@@ -11,6 +11,7 @@ const notificationRouter = require("../notification").router
 const packageRouter = require("../packages").router
 const transactionRouter = require("../transaction").router
 const orderRouter = require("../order").router
+const userPackageRouter = require("../user_package").router
 
 const router = require("../modules/express").instance.Router();
 
@@ -26,5 +27,6 @@ module.exports = () => {
   router.use("/package", packageRouter())
   router.use("/transaction", transactionRouter())
   router.use("/order", orderRouter())
+  router.use("/userPackage", userPackageRouter())
   return router;
 };
