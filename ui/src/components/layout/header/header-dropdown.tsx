@@ -34,7 +34,12 @@ export const HeaderDropdown: React.FC = (): React.ReactElement => {
 
     return (
         <>
-            <div role="button" onMouseEnter={handleDropdownClick}>
+            <div
+                className="d-flex align-items-center px-2"
+                role="button"
+                onMouseEnter={handleDropdownClick}
+                onClick={handleDropdownClick}
+            >
                 <img
                     id="demo-positioned-button"
                     className="rounded-circle "

@@ -1,6 +1,7 @@
 const BaseController = require("../modules/controller").base;
 const Order = require("./order.model")
 const moment = require("moment");
+const User = require("../user/user.model");
 class orderController extends BaseController {
     insertOrder = async (req, res, next) => {
         try {
@@ -15,7 +16,7 @@ class orderController extends BaseController {
     }
     getOrder = async (req, res, next) => {
         try {
-            const data = await Order.findAll()
+            const data = await Order.findAll({ include: [{ model: User, as: 'user' }] })
             return super.jsonRes({ res, code: 200, data: { success: true, message: "Orders retreived", data: data } })
         } catch (error) {
             return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to get Orders", message_details: error?.message } })
