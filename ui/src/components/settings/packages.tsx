@@ -20,12 +20,29 @@ export const Packages: React.FC = (): React.ReactElement => {
         url: '/package',
         method: 'GET',
     }, { manual: false });
+    const [{ data: paymentResponse, loading: paymentLoading }, paymentExecute] = useAxios({
+        url: '/package/buy',
+        method: 'POST',
+    });
 
     useEffect(() => {
         if (data?.success) {
             setPackages(data?.data.filter((packageItem: Package) => packageItem.type === 'booster'));
         }
     }, [data]);
+    useEffect(() => {
+        if (paymentResponse) {
+
+        }
+    }, [paymentResponse])
+
+    const handleBuyPackage = (event: any, packageId: string) => {
+        paymentExecute({
+            data: {
+                id: packageId,
+            },
+        });
+    };
 
     return (
         <Card>
@@ -36,7 +53,7 @@ export const Packages: React.FC = (): React.ReactElement => {
                     </Link>Select Package
                 </span>
             </Card.Header>
-            <Col className="col-lg-8 mx-auto package-list mt-4">
+            <Col className="col-lg-8 mx-auto package-list mt-4 p-3">
                 <Typography
                     className="mb-3"
                     variant="h6"
@@ -77,13 +94,19 @@ export const Packages: React.FC = (): React.ReactElement => {
                 {!!packages && !!packages.length && packages.map((packageItem: Package) =>
                     <Card
                         role="button"
-                        className={`${selectedPackage?.id === packageItem.id ? "selected-package mb-4 border-3" : "mb-4 border-2"}`}
+                        className="mb-3"
                         onClick={(event: any) => handlePackageOptionClicked(event, packageItem)}
                         key={packageItem?.id}
                     >
                         <Card.Header className="d-flex align-items-center bg-white fs-6 fw-bold p-3 justify-content-between">
-                            {packageItem?.title}
-                            <Button>Buy</Button>
+                            {packageItem?.title}{'  '}
+                            <Button
+                                onClick={(event: any) => handleBuyPackage(event, packageItem?.id)}
+                                variant='outlined'
+                                size='large'
+                            >
+                                Buy
+                            </Button>
                         </Card.Header>
                         <Card body className="border-0">
                             <Chip
