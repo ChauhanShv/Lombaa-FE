@@ -143,7 +143,7 @@ export const ChatContent: React.FC = (): React.ReactElement => {
                     )}
                     <div className="settings-tray bg-light">
                         <div className="friend-drawer no-gutters">
-                            <Link to={`/chat/buy`} className="btn btn-white d-md-block d-lg-none">
+                            <Link to={`/chat/buy`} className="btn d-md-block d-lg-none">
                                 <FaChevronLeft />
                             </Link>
                             <img

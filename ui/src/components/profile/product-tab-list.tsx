@@ -58,7 +58,7 @@ export const ProductTabList: React.FC<ProductTabListProps> = ({
                             '/images/placeholder-image.jpg'
                         }
                         isFavouritesTab={listingTabName === 'Favourites' ? true : false}
-                        onFavDelete={handleProductItemDelete}
+                        onDelete={handleProductItemDelete}
                     />
                 ) : (
                     <EmptyTabContent tabTitle={listingTabName} />

@@ -39,7 +39,7 @@ export const ProductSearchBox: React.FC = (): React.ReactElement => {
             searchExecute({
                 url: `/product/category?search=${searchValue}`,
             });
-        }, 1000);
+        }, 300);
         if (searchValue && searchValue.length >= 3) {
             executeSearchApi();
         } else {

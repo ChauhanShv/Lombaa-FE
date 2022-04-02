@@ -30,7 +30,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
                 <section className="pt-2 pb-3 mt-0 align-items-center">
                     <ProductDetailImageSlider
                         productMedia={productDetail?.productMedia}
-                        isFavourite={productDetail?.favourite}
+                        isFavourite={productDetail?.isFavorite}
                         productName={productDetail?.title}
                         productId={productDetail?.id}
                     />

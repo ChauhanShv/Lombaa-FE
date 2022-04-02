@@ -64,7 +64,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     return (
         <div className="product-card card">
             <Link to={`/product-detail/${productId}/${slug}`}>
-                <Card.Img variant="top" src={mediaSrc || '/images/placeholder-image.jpg'} />
+                <div
+                    style={{ backgroundImage: `url(${mediaSrc || '/images/placeholder-image.jpg'})` }}
+                    className='card-img-topp'
+                >
+                </div>
             </Link>
             <div className="d-flex justify-content-between p-3 position-absolute saved-wrap">
                 {/* <small className="text-white">{moment(postedOnDate).format('LL')}</small> */}
