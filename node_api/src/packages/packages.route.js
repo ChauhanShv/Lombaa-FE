@@ -7,7 +7,6 @@ const controller = new PackageController();
 module.exports = () => {
     router.get("/", authMiddleware, controller.getPackages)
     router.get("/:id", authMiddleware, controller.getById)
-    router.post("/buy", authMiddleware, controller.buyPackage)
     router.post("/activate", authMiddleware, controller.activatePackage)
     return router;
 };

@@ -23,7 +23,7 @@ Order.init(
             allowNull: true,
             defaultValue: null
         },
-        amount: {
+        unitPrice: {
             type: DataTypes.DECIMAL,
             allowNull: true,
             defaultValue: null
@@ -33,6 +33,11 @@ Order.init(
             allowNull: true,
             defaultValue: null
         },
+        qty: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            defaultValue: null
+        }
     },
 
     {
