@@ -368,7 +368,7 @@ x-app-version : 1.0.0
 ###
 
 
-GET  {{baseUrl}}/user/packages HTTP/1.1
+GET  {{baseUrl}}/user/packages  HTTP/1.1
 content-type: application/json
 x-access-token: {{token}}
 x-client-platform : Android
