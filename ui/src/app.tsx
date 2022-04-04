@@ -21,6 +21,7 @@ import {
   ChatPage,
 } from './pages';
 import { theme } from './theme';
+import { PaymentSuccessfulPage } from './components/payment';
 
 const App: React.FC = () => {
   return (
@@ -41,6 +42,7 @@ const App: React.FC = () => {
               <PublicRoute component={ProductListingPage} path="/product-listing/:categoryId" exact />
               <PublicRoute component={ProductDetailPage} path="/product-detail/:productId/:slug?" exact />
               <PrivateRoute component={ChatPage} path="/chat/:chatType/:chatId?" exact />
+              <PrivateRoute component={PaymentSuccessfulPage} path="/payment/success" exact />
               {/* Html Routes - for nilesh */}
             </Switch>
           </AppContainer>

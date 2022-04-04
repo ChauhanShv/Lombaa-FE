@@ -27,7 +27,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
     const location = useLocation();
     const { state, dispatch } = useAppContext();
     const { session } = state;
-    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 991px)' });
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 992px)' });
 
     const openLogin = () => {
         dispatch({
