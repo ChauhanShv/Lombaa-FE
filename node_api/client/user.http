@@ -364,3 +364,12 @@ x-app-version : 1.0.0
         "country": "46cc6b39-eb86-4aff-9e21-2bbaf648f09d"
      }
 }
+
+###
+
+
+GET  {{baseUrl}}/user/packages HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
