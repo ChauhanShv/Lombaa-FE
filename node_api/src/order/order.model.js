@@ -1,6 +1,5 @@
 
 const { Sequelize, DataTypes, Model } = require("sequelize");
-const Transaction = require("../transaction/transaction.model");
 const User = require("../user/user.model");
 const sequelize = require("../modules/sequelize").service;
 

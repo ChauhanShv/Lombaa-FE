@@ -6,7 +6,7 @@ x-app-version : 1.0.0
 
 ###
 
-POST  {{baseUrl}}/order/insert HTTP/1.1 HTTP/1.1
+POST  {{baseUrl}}/order HTTP/1.1 HTTP/1.1
 content-type: application/json
 x-access-token: {{token}}
 x-client-platform : Android

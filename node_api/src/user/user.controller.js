@@ -27,6 +27,7 @@ const fileModel = require("../file/file.model")
 const Location = require("../location/location.model")
 const SaveSearch = require("../save_search/save.search.model")
 const SaveSearchFilter = require("../save_search_filter/save.search.filter.model");
+const UserPackage = require("../user_package/user.package.model");
 
 class UserController extends BaseController {
   constructor() {
@@ -640,6 +641,16 @@ class UserController extends BaseController {
     }
     catch (error) {
       return super.jsonRes({ res, code: 400, data: { success: false, message: "can't get last location", message_detail: error?.message } })
+    }
+  }
+  userPackages = async (req, res, next) => {
+    try {
+      const userId = req.user?.id
+      const data = await UserPackage.findAll({ where: { userId: userId } })
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Packages retreived", data: data } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "failed to get packages", message_detail: error?.message } })
     }
   }
 }
