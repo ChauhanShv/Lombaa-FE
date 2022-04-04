@@ -6,14 +6,12 @@ x-app-version : 1.0.0
 
 ###
 
-POST  {{baseUrl}}/order HTTP/1.1 HTTP/1.1
+POST  {{baseUrl}}/order/insert HTTP/1.1 HTTP/1.1
 content-type: application/json
 x-access-token: {{token}}
 x-client-platform : Android
 x-app-version : 1.0.0
 
 {
-    "itemName":"Car",
-    "amount":500,
-    "currency":"rs"
+    "package":"5e30b856-27fe-4068-afe2-0d8e66907f54"
 }
