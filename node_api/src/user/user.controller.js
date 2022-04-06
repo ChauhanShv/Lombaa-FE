@@ -28,6 +28,7 @@ const Location = require("../location/location.model")
 const SaveSearch = require("../save_search/save.search.model")
 const SaveSearchFilter = require("../save_search_filter/save.search.filter.model");
 const UserPackage = require("../user_package/user.package.model");
+const Package = require("../packages/packages.model");
 
 class UserController extends BaseController {
   constructor() {
@@ -646,7 +647,7 @@ class UserController extends BaseController {
   userPackages = async (req, res, next) => {
     try {
       const userId = req.user?.id
-      const data = await UserPackage.findAll({ where: { userId: userId } })
+      const data = await UserPackage.findAll({ where: { userId: userId }, include: [{ model: Package, as: "package" }, { model: Category, as: "category" }, { model: User, as: "user", attributes: ['id', 'name', 'email'] }] })
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Packages retreived", data: data } })
     }
     catch (error) {

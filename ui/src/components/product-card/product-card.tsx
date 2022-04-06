@@ -87,7 +87,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                         <Typography className="fw-bold" noWrap={true}>{title}</Typography>
                     </Card.Header>
                     <Card.Subtitle className="card-text fst-normal">
-                        {'USD '}{price}
+                        {price}
                     </Card.Subtitle>
                     <Card.Text className="text-muted fw-normal product-card-description">
                         {location}
