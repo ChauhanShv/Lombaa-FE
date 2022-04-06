@@ -29,6 +29,7 @@ export interface Product {
   categoryId: string;
   title: string;
   description: string;
+  price?: string;
   expiry: string;
   id: string;
   location: Location;

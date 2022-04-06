@@ -14,8 +14,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     productId,
     slug,
     title,
-    summary,
-    description,
+    price,
+    location,
     mediaSrc,
     authorName,
     postedOnDate,
@@ -84,13 +84,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             <Link to={`/product-detail/${productId}/${slug}`}>
                 <Card.Body className="card-body-height">
                     <Card.Header className="card-title text-success product-card-header">
-                        <Typography noWrap={true}>{title}</Typography>
+                        <Typography className="fw-bold" noWrap={true}>{title}</Typography>
                     </Card.Header>
-                    <Card.Subtitle className="card-text">
-                        <strong>{summary}</strong>
+                    <Card.Subtitle className="card-text fst-normal">
+                        {'USD '}{price}
                     </Card.Subtitle>
-                    <Card.Text className="text-muted product-card-description">
-                        {description}
+                    <Card.Text className="text-muted fw-normal product-card-description">
+                        {location}
                     </Card.Text>
                 </Card.Body>
             </Link>

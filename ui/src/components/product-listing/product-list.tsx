@@ -77,8 +77,8 @@ export const ProductList: React.FC = (): React.ReactElement => {
                                         productId={product?.id}
                                         slug={product?.slug}
                                         title={product?.title}
-                                        description={product?.description}
-                                        summary=""
+                                        location={`${product?.location?.city?.name} ${product?.location?.region?.name}`}
+                                        price={product?.price}
                                         mediaSrc={getPrimaryMedia(product.productMedia)}
                                         authorName={product?.user?.name}
                                         authorProfilePicture={product?.user?.profilePicture?.url || '/images/user-circle.svg'}
