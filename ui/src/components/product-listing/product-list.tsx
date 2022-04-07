@@ -72,13 +72,13 @@ export const ProductList: React.FC = (): React.ReactElement => {
                                     <p className="text-muted mt-4">No products available to show</p>
                                 </div>
                             ) : (products.map((product: Product) =>
-                                <Col lg={3} md={6} className="mb-3" key={product?.id}>
+                                <Col xl={3} lg={4} md={6} className="mb-3" key={product?.id}>
                                     <ProductCard
                                         productId={product?.id}
                                         slug={product?.slug}
                                         title={product?.title}
                                         location={`${product?.location?.city?.name} ${product?.location?.region?.name}`}
-                                        price={product?.price}
+                                        price={product?.price ? `${product?.location?.country?.currencySymbol} ${product?.price}` : ''}
                                         mediaSrc={getPrimaryMedia(product.productMedia)}
                                         authorName={product?.user?.name}
                                         authorProfilePicture={product?.user?.profilePicture?.url || '/images/user-circle.svg'}
