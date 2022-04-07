@@ -15,6 +15,7 @@ import {
     Button,
 } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
 import { ModalComponent } from '../../modals';
 import { useAppContext, ActionTypes } from '../../../contexts';
 import { ModalType } from '../../../types';
@@ -26,6 +27,7 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
     const location = useLocation();
     const { state, dispatch } = useAppContext();
     const { session } = state;
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 992px)' });
 
     const openLogin = () => {
         dispatch({
@@ -132,17 +134,21 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                     </div>
                 </Navbar>
             </Navbar>
-
-            <Navbar className="z1 d-lg-none navbar navbar-expand-lg shadow bg-white px-2">
-                <ProductSearchBox />
-
-                {session.isLoggedIn && (
-                    <HeaderDropdown />
-                )}
-            </Navbar>
-            <Navbar sticky="top" className="d-lg-none navbar navbar-expand-lg shadow bg-white px-2">
-                <LocationSelector />
-            </Navbar>
+            {isTabletOrMobile && (
+                <>
+                    <Navbar className="z1 d-lg-none navbar navbar-expand-lg shadow bg-white px-2">
+                        <ProductSearchBox />
+                        {session.isLoggedIn && (
+                            <HeaderDropdown />
+                        )}
+                    </Navbar>
+                    {!location.pathname.includes('/chat/') && (
+                        <Navbar sticky="top" className="d-lg-none navbar navbar-expand-lg shadow bg-white px-2">
+                            <LocationSelector />
+                        </Navbar>
+                    )}
+                </>
+            )}
             <ModalComponent />
         </>
     );

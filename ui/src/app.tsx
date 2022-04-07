@@ -19,9 +19,9 @@ import {
   ProductListingPage,
   VerifyEmailPage,
   ChatPage,
-  PackagesPage,
 } from './pages';
 import { theme } from './theme';
+import { PaymentSuccessfulPage } from './components/payment';
 
 const App: React.FC = () => {
   return (
@@ -40,8 +40,9 @@ const App: React.FC = () => {
               <PrivateRoute component={CreatePostPage} path="/create-post" exact />
               <PrivateRoute component={SavedSearchesPage} path="/saved-search" exact />
               <PublicRoute component={ProductListingPage} path="/product-listing/:categoryId" exact />
-              <PublicRoute component={ProductDetailPage} path="/product-detail/:productId/:slug" exact />
+              <PublicRoute component={ProductDetailPage} path="/product-detail/:productId/:slug?" exact />
               <PrivateRoute component={ChatPage} path="/chat/:chatType/:chatId?" exact />
+              <PrivateRoute component={PaymentSuccessfulPage} path="/payment/success" exact />
               {/* Html Routes - for nilesh */}
             </Switch>
           </AppContainer>

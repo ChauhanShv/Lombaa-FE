@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col, Container } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
@@ -31,11 +31,21 @@ const getPrimaryMedia = (media: ProductMedia[]): string =>
 
 export const HomeComponent: React.FC = (): React.ReactElement => {
     const { state } = useAppContext();
+    const { session: { lat, lng } } = state;
     const category: Category[] = state?.category.filter((cat: Category) => cat.subCategories.length);
-    const [{ data, loading }] = useAxios({
+    const [{ data, loading }, execute] = useAxios({
         url: '/product',
         method: 'GET',
     }, { manual: false });
+
+    useEffect(() => {
+        if (state.session.lat && state.session.lng) {
+            execute({
+                url: `/product/?lat=${lat}&lng=${lng}`,
+                method: 'GET',
+            });
+        }
+    }, [state.session.lat, state.session.lng]);
 
     return (
         <>
@@ -126,8 +136,8 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
                                             productId={product?.id}
                                             slug={product?.slug}
                                             title={product?.title}
-                                            description={product?.description}
-                                            summary=""
+                                            location={`${product?.location?.city?.name}, ${product?.location?.region?.name}`}
+                                            price={product?.price}
                                             mediaSrc={getPrimaryMedia(product.productMedia)}
                                             authorName={product?.user?.name}
                                             authorProfilePicture={product?.user?.profilePicture?.url || '/images/user-circle.svg'}

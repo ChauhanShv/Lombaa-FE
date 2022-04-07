@@ -57,7 +57,7 @@ export const SellerDetailCard: React.FC<SellerDetailsCardProps> = ({
                     </p>
                     <p>
                         <FaClock className="me-2" />
-                        Joined on {moment(user?.memberSince).format('LL')}
+                        Joined on {moment(user?.createdAt).format('LL')}
                     </p>
                 </Col>
             </Row>

@@ -59,7 +59,7 @@ export const SideBar: React.FC = (): React.ReactElement => {
                 </NavLink>
                 <NavLink className="side-cta" to="/settings/select-package">
                     <ListGroup.Item className="py-3">
-                        Select Package
+                        Package
                         <FaChevronRight />
                     </ListGroup.Item>
                 </NavLink>

@@ -96,6 +96,7 @@ export interface Product {
   productFields: ProductFields[];
   user: User;
   title: string;
-  description: string;
+  description?: string;
+  price?: string;
   isFavorite: boolean;
 }

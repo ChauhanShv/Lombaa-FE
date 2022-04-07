@@ -140,7 +140,7 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
                     <Dropdown
                         className="d-inline mx-2"
                     >
-                        <Dropdown.Toggle variant="outline-dark rounded btn-fullround">
+                        <Dropdown.Toggle style={{ fontSize: '12px !important', }} variant="outline-dark rounded btn-fullround">
                             Sort By {sortDD[sortBy] ? `: ${sortDD[sortBy]}` : ''}
                         </Dropdown.Toggle>
                         {getSortDD()}

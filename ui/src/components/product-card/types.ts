@@ -2,8 +2,8 @@ export interface ProductCardProps {
   productId: string;
   slug: string;
   title: string;
-  summary: string;
-  description: string;
+  price?: string;
+  location?: string;
   mediaSrc: string;
   postedOnDate: string;
   authorName: string;

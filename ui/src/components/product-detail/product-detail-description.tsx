@@ -30,6 +30,10 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
         url: `/chat/init`,
         method: 'POST',
     });
+    const [{ data: deleteProductRes, loading: deleteProductLoading }, executeDeleteProduct] = useAxios({
+        url: '/product/delete',
+        method: 'DELETE',
+    });
 
     useEffect(() => {
         if (chatInitResponse?.success) {
@@ -68,7 +72,11 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
         });
     }
     const onOkayPressedForDelete = () => {
-
+        executeDeleteProduct({
+            data: {
+                id: productDetail?.id,
+            }
+        });
     }
     const onClosePressed = () => {
         setShowAlertPopup({

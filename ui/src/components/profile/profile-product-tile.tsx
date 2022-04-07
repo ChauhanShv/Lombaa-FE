@@ -15,15 +15,19 @@ export const ProfileProductTile: React.FC<ProfileProductTileProps> = ({
     postedOnDate,
     mediaSrc,
     isFavouritesTab,
-    onFavDelete,
+    onDelete,
 }: ProfileProductTileProps): React.ReactElement => {
 
     const [{ data: deleteFavourite }, unfavExecute] = useAxios({
         url: '/user/favorite/product',
         method: 'DELETE',
     });
+    const [{ data: deleteProductRes }, deleteExecute] = useAxios({
+        url: '/product/delete',
+        method: 'DELETE',
+    });
 
-    const handleRemoveFromFavourite = () => {
+    const handleUnfavProduct = () => {
         unfavExecute({
             data: {
                 productId: productId,
@@ -31,11 +35,19 @@ export const ProfileProductTile: React.FC<ProfileProductTileProps> = ({
         });
     };
 
+    const handleDeleteProduct = () => {
+        deleteExecute({
+            data: {
+                id: productId,
+            }
+        });
+    };
+
     useEffect(() => {
-        if (deleteFavourite?.success) {
-            onFavDelete(productId);
+        if (deleteFavourite?.success || deleteProductRes?.success) {
+            onDelete(productId);
         }
-    }, [deleteFavourite]);
+    }, [deleteFavourite, deleteProductRes]);
 
     return (
         <Col md={12} className="col-md-6 mb-3">
@@ -80,7 +92,7 @@ export const ProfileProductTile: React.FC<ProfileProductTileProps> = ({
                                 </Button>{' '}
                             </>
                         ) : (
-                            <Button onClick={handleRemoveFromFavourite} variant="danger">
+                            <Button onClick={handleUnfavProduct} variant="danger">
                                 <FaTrashAlt /> Remove from favourites
                             </Button>
                         )}

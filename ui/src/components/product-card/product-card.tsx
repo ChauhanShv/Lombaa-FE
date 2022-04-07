@@ -14,8 +14,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     productId,
     slug,
     title,
-    summary,
-    description,
+    price,
+    location,
     mediaSrc,
     authorName,
     postedOnDate,
@@ -64,7 +64,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     return (
         <div className="product-card card">
             <Link to={`/product-detail/${productId}/${slug}`}>
-                <Card.Img variant="top" src={mediaSrc || '/images/placeholder-image.jpg'} />
+                <div
+                    style={{ backgroundImage: `url(${mediaSrc || '/images/placeholder-image.jpg'})` }}
+                    className='card-img-topp'
+                >
+                </div>
             </Link>
             <div className="d-flex justify-content-between p-3 position-absolute saved-wrap">
                 {/* <small className="text-white">{moment(postedOnDate).format('LL')}</small> */}
@@ -80,13 +84,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             <Link to={`/product-detail/${productId}/${slug}`}>
                 <Card.Body className="card-body-height">
                     <Card.Header className="card-title text-success product-card-header">
-                        <Typography noWrap={true}>{title}</Typography>
+                        <Typography className="fw-bold" noWrap={true}>{title}</Typography>
                     </Card.Header>
-                    <Card.Subtitle className="card-text">
-                        <strong>{summary}</strong>
+                    <Card.Subtitle className="card-text fst-normal">
+                        {price}
                     </Card.Subtitle>
-                    <Card.Text className="text-muted product-card-description">
-                        {description}
+                    <Card.Text className="text-muted fw-normal product-card-description">
+                        {location}
                     </Card.Text>
                 </Card.Body>
             </Link>

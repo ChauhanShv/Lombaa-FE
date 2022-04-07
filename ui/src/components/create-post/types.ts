@@ -5,6 +5,12 @@ export interface LocationSelectorProps {
   onCitySelected: (data: object) => void;
   isSettingsPage: boolean;
 }
+export interface ListingTileProps {
+  title: string,
+  description: string,
+  file: any,
+  media: Media[],
+};
 export interface Country {
   id: string;
   name: string;
