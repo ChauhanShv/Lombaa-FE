@@ -172,7 +172,7 @@ class LocationController extends BaseController {
 
   getRegionsWithCitiesByCountryCode = async (req, res, next) => {
     try {
-      const countryCode = config.contrycode;
+      const countryCode = config.countryCode;
 
       let country = await Country.findOne({
         where: { code: countryCode },
