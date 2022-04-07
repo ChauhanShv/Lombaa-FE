@@ -20,6 +20,10 @@ const { Op, where } = require("sequelize");
 const RejectReason = require("../reject_reason/reject_reason.model");
 const { productId } = require("../chat/chat.schema");
 const FavoriteProduct = require("../user/user.favorite_product_model");
+const SettingService = require("../settings/settings.service");
+const sequelize = require("../modules/sequelize/sequelize.service");
+
+
 
 
 class ProductController extends BaseController {
@@ -28,6 +32,7 @@ class ProductController extends BaseController {
     this.service = new ProductService();
     this.fileService = new FileService();
     this.locationService = new LocationService();
+    this.settingService = new SettingService()
   }
 
   add = async (req, res, next) => {
@@ -41,7 +46,7 @@ class ProductController extends BaseController {
       const data = {
         slug: await this.slugify(req?.body?.categoryFields?.find((field) => field.fieldType === "title")?.value?.value ?? uuidv4()),
         userId: req?.user?.id ?? null,
-        categoryId: req.body.categoryId
+        categoryId: req.body.categoryId,
       };
 
       const { location } = req.body;
@@ -53,7 +58,7 @@ class ProductController extends BaseController {
 
       const p = await Product.create(data);
 
-      const product = await Product.findOne({
+      let product = await Product.findOne({
         where: { id: p?.id },
         include: [{ model: Location, as: "location" }],
       });
@@ -203,9 +208,23 @@ class ProductController extends BaseController {
   getRandom = async (req, res, next) => {
     try {
       const userId = req.user?.id
+      let lat = req.query
+      let lng = req.query
+      let radius = 20000
+      let radiusValue = await this.settingService?.getInt('add_product_radius')
+      if (radiusValue) {
+        radius = radiusValue * 1000;
+      }
       let randomProducts = await this.service.randomProducts()
       if (userId) {
         randomProducts = await this.service.mapUserFavorite(randomProducts, userId)
+      }
+      let area;
+      if (lat && lng) {
+        area = {
+          where:
+            sequelize.where(sequelize.fn('ST_Distance_Sphere', sequelize.literal('coordinate'), sequelize.literal(`ST_GeomFromText('POINT(${lng} ${lat})')`)), { [Op.lte]: radius })
+        }
       }
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Products retreived", product: randomProducts } })
     }

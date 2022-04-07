@@ -1,7 +1,8 @@
 const BaseController = require("../modules/controller").base;
 const City = require("../city/city.model");
 const Region = require("../region/region.model");
-const Country = require("../country/country.model");
+const Country = require("../country/country.model")
+const config = require("./location.config")
 
 const Location = require('./location.model');
 
@@ -171,7 +172,7 @@ class LocationController extends BaseController {
 
   getRegionsWithCitiesByCountryCode = async (req, res, next) => {
     try {
-      const { countryCode } = req.params;
+      const countryCode = config.contrycode;
 
       let country = await Country.findOne({
         where: { code: countryCode },
