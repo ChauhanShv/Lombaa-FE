@@ -8,6 +8,7 @@ const CategoryService = require("./category.service")
 const { validationResult } = require("express-validator");
 const { validationErrorFormatter } = require("../formater");
 const SettingService = require("../settings/settings.service");
+const Banner = require("../banner/banner.model")
 
 class CategoryController extends BaseController {
   constructor() {
