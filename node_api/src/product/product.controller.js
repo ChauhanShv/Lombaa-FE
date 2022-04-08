@@ -208,23 +208,15 @@ class ProductController extends BaseController {
   getRandom = async (req, res, next) => {
     try {
       const userId = req.user?.id
-      let lat = req.query
-      let lng = req.query
-      let radius = 20000
+      let { lat, lng, radius = 2000 } = req.query
       let radiusValue = await this.settingService?.getInt('add_product_radius')
       if (radiusValue) {
         radius = radiusValue * 1000;
       }
-      let randomProducts = await this.service.randomProducts()
+      console.log(lat, lng, radius, 'djndjndjnjndjnn')
+      let randomProducts = await this.service.randomProducts(lat, lng, radius)
       if (userId) {
         randomProducts = await this.service.mapUserFavorite(randomProducts, userId)
-      }
-      let area;
-      if (lat && lng) {
-        area = {
-          where:
-            sequelize.where(sequelize.fn('ST_Distance_Sphere', sequelize.literal('coordinate'), sequelize.literal(`ST_GeomFromText('POINT(${lng} ${lat})')`)), { [Op.lte]: radius })
-        }
       }
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Products retreived", product: randomProducts } })
     }
