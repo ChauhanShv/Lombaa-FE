@@ -122,7 +122,7 @@ export const ProductList: React.FC = (): React.ReactElement => {
                             {loading && (
                                 <ProductSkeletonLoader />
                             )}
-                            {!!products.length && (data?.data?.products?.length > LIMIT) && (
+                            {!!products.length && (
                                 <Col lg={12} className="py-3 text-center">
                                     <button
                                         onClick={handleShowMoreProducts}
