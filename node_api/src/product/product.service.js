@@ -256,17 +256,34 @@ class ProductService {
     return data
   }
 
-  async randomProducts() {
+  async randomProducts(lat, lng, radius) {
+    console.log(lat, lng, radius, 'jsbjsbjskkjnjkfnfjkabfkbkb')
+
+    let precisenessCondition;
+    if (lat && lng) {
+      precisenessCondition = {
+        where:
+          sequelize.where(sequelize.fn('ST_Distance_Sphere', sequelize.literal('coordinate'), sequelize.literal(`ST_GeomFromText('POINT(${lng} ${lat})')`)), { [Op.lte]: radius })
+      }
+    }
     let randomProducts = await Product.findAll({
       where: { approvedAt: { [Op.not]: null }, expiry: { [Op.gt]: moment() } },
       order: Sequelize.literal('rand()'), limit: 20, include: [
         { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
-        { model: Location, as: "location" },
+        {
+          model: Location.unscoped(), as: "location", include: [
+            {
+              model: City, as: 'city', where: precisenessCondition?.where ?? true
+            },
+            { model: Country, as: 'country' },
+            { model: Region, as: 'region' }]
+        },
         { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
         { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
         { model: Category, as: 'category' }
       ]
     });
+    console.log(randomProducts, 'ddhdhhdsdbhdjh')
     randomProducts = this.fieldsMapping(randomProducts);
 
     return randomProducts
