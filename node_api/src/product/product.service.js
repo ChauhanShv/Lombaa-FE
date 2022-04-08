@@ -117,6 +117,7 @@ class ProductService {
   }
 
   async getproductByCategoryId(categoryId, sortby, sortorder, userId, filter, search, lat, lng, radius, offset, limit, price) {
+    console.log(offset, 'shdhsvdhvsdhvshvdhsvhvhv')
     if (!categoryId) return [];
     let whereCondition = { categoryId: categoryId, approvedAt: { [Op.not]: null }, expiry: { [Op.gt]: moment() } }
     if (userId) {
@@ -177,8 +178,12 @@ class ProductService {
         });
       }
     }
+    let offsetValue = offset
+    if (offset === limit) {
+      offsetValue = 0
+    }
 
-    products = products.slice(offset, limit)
+    products = products.slice(offsetValue, limit)
     if (filter) {
 
       const filterText = filter
