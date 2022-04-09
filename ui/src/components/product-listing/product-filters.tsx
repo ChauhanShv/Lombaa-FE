@@ -87,7 +87,7 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
         }
         return (
             <Dropdown className="d-inline mx-2" key={field.id}>
-                <Dropdown.Toggle variant="outline-dark rounded btn-fullround mb-2" id="dropdown-autoclose-true">
+                <Dropdown.Toggle variant="outline-dark rounded btn-fullround" id="dropdown-autoclose-true">
                     {field.label}
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="pre-scrollable">
@@ -140,10 +140,7 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
                     <Dropdown
                         className="d-inline mx-2"
                     >
-                        <Dropdown.Toggle
-                            style={{ fontSize: '12px !important', }}
-                            variant="outline-dark rounded btn-fullround mb-2"
-                        >
+                        <Dropdown.Toggle style={{ fontSize: '12px !important', }} variant="outline-dark rounded btn-fullround">
                             Sort By {sortDD[sortBy] ? `: ${sortDD[sortBy]}` : ''}
                         </Dropdown.Toggle>
                         {getSortDD()}
@@ -151,7 +148,7 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
                     {category.fields.map((field: Field) => getFilterDD(field))}
                     {find(category.fields, { fieldType: 'price' }) && (
                         <Dropdown className="d-inline mx-2">
-                            <Dropdown.Toggle variant="outline-dark rounded btn-fullround mb-2" id="dropdown-autoclose-true">
+                            <Dropdown.Toggle variant="outline-dark rounded btn-fullround" id="dropdown-autoclose-true">
                                 Budget:
                             </Dropdown.Toggle>
                             <Dropdown.Menu className="pre-scrollable">
@@ -163,6 +160,13 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
                             </Dropdown.Menu>
                         </Dropdown>
                     )}
+
+                    {/* <Button
+                        className="outline-dark rounded btn-fullround"
+                        onClick={() => setShowMoreFilters(true)}
+                    >
+                        More Filters
+                    </Button> */}
                 </Container>
             </div>
         </>

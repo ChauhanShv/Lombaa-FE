@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Image } from 'react-bootstrap';
-import { FaEnvelope, FaMapMarkerAlt, FaClock, FaCheckCircle, FaMobile } from 'react-icons/fa';
+import { FaEnvelope, FaMapMarkerAlt, FaClock, FaCheckCircle } from 'react-icons/fa';
 import { SellerDetailsCardProps } from './types';
 
 export const SellerDetailCard: React.FC<SellerDetailsCardProps> = ({
@@ -37,7 +37,7 @@ export const SellerDetailCard: React.FC<SellerDetailsCardProps> = ({
                                 <p className="px-3 text-muted mb-2">
                                     <strong>{getAccountType()}</strong>
                                 </p>
-                                <p className="px-3 d-none">
+                                <p className="px-3">
                                     <Link to="/settings/personal-details" className="p-0">
                                         View Profile
                                     </Link>
@@ -54,10 +54,6 @@ export const SellerDetailCard: React.FC<SellerDetailsCardProps> = ({
                     <p>
                         <FaMapMarkerAlt className="me-2" />
                         {getLocation()}
-                    </p>
-                    <p>
-                        <FaMobile className="me-2" />
-
                     </p>
                     <p>
                         <FaClock className="me-2" />
