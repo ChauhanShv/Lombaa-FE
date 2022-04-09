@@ -9,7 +9,6 @@ class orderController extends BaseController {
             const body = req.body?.package
             const userId = req.user?.id
             const packageData = await Package.findOne({ where: { id: body } })
-            console.log(packageData)
             const data = await Order.create({ date: moment(), itemName: packageData.name, unitPrice: packageData.price, currency: packageData.currency, qty: 1, userId: userId })
             return super.jsonRes({ res, code: 200, data: { success: true, message: "New order record has been created", data: data } })
         }
