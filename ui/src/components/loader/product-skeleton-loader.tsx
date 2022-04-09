@@ -5,7 +5,7 @@ export const ProductSkeletonLoader: React.FC = () => {
     return (
         <Grid container spacing={3}>
             {[...Array(12)].map(() =>
-                <Grid item lg={3} md={3} sm={6} xs={12} mb={2}>
+                <Grid item xl={3} lg={4} md={4} sm={6} xs={12} mb={2}>
                     <Skeleton animation="wave" variant="rectangular" height={170} />
                     <Skeleton animation="wave" variant="text" height={40} />
                     <Skeleton animation="wave" variant="text" height={25} />

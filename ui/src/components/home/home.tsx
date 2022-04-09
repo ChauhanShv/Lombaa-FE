@@ -41,7 +41,7 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
     useEffect(() => {
         if (state.session.lat && state.session.lng) {
             execute({
-                url: `/product/?lat=${lat}&lng=${lng}`,
+                url: `/product?lat=${lat}&lng=${lng}`,
                 method: 'GET',
             });
         }
@@ -118,7 +118,7 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
                     <Row>
                         <Col sm={12}>
                             <Row className="post-list">
-                                <Col lg={3} className="col-12 mb-3">
+                                <Col xl={3} lg={4} md={6} className="col-12 mb-3">
                                     <Link to="/create-post" className="product-post bg-dark  p-4 rounded text-white d-flex align-items-center justify-content-center flex-wrap  text-center">
                                         <p><i className="fas fa-plus-circle"></i></p>
                                         <h6>Want to see your stuff here ?</h6>
@@ -131,13 +131,13 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
                                 {loading ? (
                                     <Loader show={loading} />
                                 ) : data?.product.map((product: Product) =>
-                                    <Col lg={3} md={6} className="mb-3" key={product?.id}>
+                                    <Col xl={3} lg={4} md={6} className="mb-3" key={product?.id}>
                                         <ProductCard
                                             productId={product?.id}
                                             slug={product?.slug}
                                             title={product?.title}
                                             location={`${product?.location?.city?.name}, ${product?.location?.region?.name}`}
-                                            price={product?.price}
+                                            price={product?.price ? `${product?.location?.country?.currencySymbol} ${product?.price}` : ''}
                                             mediaSrc={getPrimaryMedia(product.productMedia)}
                                             authorName={product?.user?.name}
                                             authorProfilePicture={product?.user?.profilePicture?.url || '/images/user-circle.svg'}
