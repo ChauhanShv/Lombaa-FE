@@ -153,18 +153,23 @@ class ProductController extends BaseController {
           { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
           { model: Location, as: "location" },
           { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
-          { model: User, as: 'user', attributes: ["name", "profilePictureId", "email", "accountType", "locationId", "profileVerificationScore", "businessName", "createdAt"], include: [{ model: fileModel, as: "profilePicture" }, { model: Location, as: "location" }] }
+          { model: User, as: 'user', attributes: ["name", "profilePictureId", "email", "accountType", "locationId", "profileVerificationScore", "businessName", "createdAt", "showPhoneNumberConsent", "phoneNumber"], include: [{ model: fileModel, as: "profilePicture" }, { model: Location, as: "location" }] }
         ]
       });
+
       if (!singleProduct) {
         return super.jsonRes({ res, code: 200, data: { success: false, message: "Failed to get product", message_detail: "Product is unavailable" } })
       }
       if (userId) {
         singleProduct = (await this.service.mapUserFavorite([singleProduct], userId))?.[0];
+
         const viewed = viewedProduct.create({ userId: userId, productId: singleProduct.id })
       }
       const title = await this.service.fieldsMapping([singleProduct])
-
+      if (!singleProduct?.user?.showPhoneNumberConsent) {
+        singleProduct = await this.service.userPhone(singleProduct)
+        return super.jsonRes({ res, code: 200, data: { success: true, messaage: "product retreived", product: singleProduct } })
+      }
       return super.jsonRes({
         res,
         code: 200,
@@ -213,7 +218,6 @@ class ProductController extends BaseController {
       if (radiusValue) {
         radius = radiusValue * 1000;
       }
-      console.log(lat, lng, radius, 'djndjndjnjndjnn')
       let randomProducts = await this.service.randomProducts(lat, lng, radius)
       if (userId) {
         randomProducts = await this.service.mapUserFavorite(randomProducts, userId)

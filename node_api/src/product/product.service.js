@@ -117,7 +117,6 @@ class ProductService {
   }
 
   async getproductByCategoryId(categoryId, sortby, sortorder, userId, filter, search, lat, lng, radius, offset, limit, price) {
-    console.log(offset, 'shdhsvdhvsdhvshvdhsvhvhv')
     if (!categoryId) return [];
     let whereCondition = { categoryId: categoryId, approvedAt: { [Op.not]: null }, expiry: { [Op.gt]: moment() } }
     if (userId) {
@@ -248,6 +247,27 @@ class ProductService {
     }));
   }
 
+  async userPhone(singleProduct) {
+    // return singleProduct = singleProduct.map(product => {
+    //   product.user = { name: product.user.name }
+    //   return product
+    // })
+
+    singleProduct.setDataValue('user', {
+      name: singleProduct?.user?.name,
+      profilePictureId: singleProduct?.user?.profilePictureId,
+      email: singleProduct?.user?.email,
+      accountType: singleProduct?.user?.accountType,
+      locationId: singleProduct?.user?.locationId,
+      profileVerificationScore: singleProduct?.user?.profileVerificationScore,
+      businessName: singleProduct?.user?.businessName,
+      createdAt: singleProduct?.user?.createdAt,
+      showPhoneNumberConsent: singleProduct?.user?.showPhoneNumberConsent,
+      profilePicture: singleProduct?.user?.profilePicture,
+      location: singleProduct?.user?.location
+    })
+    return singleProduct;
+  }
   // isFavorite(productId, userId) {
   //   return this.userService?.alreadyInFavorites(userId, productId) ?? false
   // }
@@ -257,7 +277,6 @@ class ProductService {
   }
 
   async randomProducts(lat, lng, radius) {
-    console.log(lat, lng, radius, 'jsbjsbjskkjnjkfnfjkabfkbkb')
 
     let precisenessCondition;
     if (lat && lng) {
@@ -283,7 +302,6 @@ class ProductService {
         { model: Category, as: 'category' }
       ]
     });
-    console.log(randomProducts, 'ddhdhhdsdbhdjh')
     randomProducts = this.fieldsMapping(randomProducts);
 
     return randomProducts
@@ -336,7 +354,6 @@ class ProductService {
   }
 
   async delete(productId, userId) {
-    console.log(productId, userId, 'hGHfghfyfyfty')
     return await Product.destroy({ where: { id: productId, userId: userId } })
   }
 

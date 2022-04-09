@@ -68,7 +68,6 @@ class ChatService {
                 // { model: Chat, include: [{ model: User, as: 'seller', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] }] }
             ]
         })
-        console.log(message, 'messagetag')
         const messages = message.map(data => {
             message = { id: data.id, text: data.text, createdAt: data.createdAt, postedBy: data.postedBy, media: data.media }
             return message;
