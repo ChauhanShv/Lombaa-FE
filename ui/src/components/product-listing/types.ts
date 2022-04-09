@@ -21,8 +21,6 @@ export interface Country {
   code?: string;
   coordinate?: object;
   phoneCode?: string | number;
-  currencyCode?: string;
-  currencySymbol?: string;
 }
 export interface Location {
   id?: string;
