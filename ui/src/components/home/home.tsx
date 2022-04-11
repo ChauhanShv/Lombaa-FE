@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Row, Col, Container } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
@@ -33,8 +33,13 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
     const { state } = useAppContext();
     const { session: { lat, lng } } = state;
     const category: Category[] = state?.category.filter((cat: Category) => cat.subCategories.length);
+    const [bannerData, setBannerData] = useState<any>([]);
     const [{ data, loading }, execute] = useAxios({
         url: '/product',
+        method: 'GET',
+    }, { manual: false });
+    const [{ data: bannerResponse, loading: bannerLoading }] = useAxios({
+        url: '/banner',
         method: 'GET',
     }, { manual: false });
 
@@ -46,32 +51,32 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
             });
         }
     }, [state.session.lat, state.session.lng]);
+    useEffect(() => {
+        if (bannerResponse?.success) {
+            setBannerData(bannerResponse?.data);
+        }
+    }, [bannerResponse]);
+
+    const handleBannerLabelClick = (event: any, banner: any) => {
+
+    };
 
     return (
         <>
-            <section className="pt-4 pb-5 mt-0 align-items-center">
+            <section className="py-4 mt-0 align-items-center">
                 <Container>
                     <Row className="mt-auto">
                         <Col lg={8} sm={12} className="">
                             <Slider className="homespot-slider" {...Spotsettings}>
-                                <div>
-                                    <img className="d-block w-100" src="/images/slide.png" alt="First slide" />
-                                </div>
-                                <div>
-                                    <img className="d-block w-100" src="/images/slide.png" alt="First slide" />
-                                </div>
-                                <div>
-                                    <img className="d-block w-100" src="/images/slide.png" alt="First slide" />
-                                </div>
-                                <div>
-                                    <img className="d-block w-100" src="/images/slide.png" alt="First slide" />
-                                </div>
-                                <div>
-                                    <img className="d-block w-100" src="/images/slide.png" alt="First slide" />
-                                </div>
-                                <div>
-                                    <img className="d-block w-100" src="/images/slide.png" alt="First slide" />
-                                </div>
+                                {!!bannerData.length && bannerData?.map((banner: any) =>
+                                    <div key={banner?.id}>
+                                        <div
+                                            onClick={(e) => handleBannerLabelClick(e, banner)}
+                                            className='homepage-banner-slide-image w-100 d-block'
+                                            style={{ backgroundImage: `url(${banner?.media?.url})` }}
+                                        />
+                                    </div>
+                                )}
                             </Slider>
                         </Col>
                         <Col lg={4} sm={12} className="align-items-center d-flex">
