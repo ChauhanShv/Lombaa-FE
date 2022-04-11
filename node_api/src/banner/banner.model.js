@@ -20,10 +20,19 @@ Banner.init(
             type: DataTypes.TEXT,
             allowNull: false,
         },
-        path: {
-            type: DataTypes.TEXT,
-            allowNull: false,
+        action_label: {
+            type: DataTypes.STRING(30),
+            allowNull: false
         },
+        action: {
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
+        action_type: {
+            type: DataTypes.ENUM({ values: ['in-site-url', 'ext-site-url'] }),
+            allowNull: false
+        }
+
     },
     {
         modelName: "Banner",
