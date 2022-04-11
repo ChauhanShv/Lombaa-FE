@@ -11,11 +11,13 @@ import { ProductFilters } from '.';
 const getPrimaryMedia = (media: ProductMedia[]): string =>
     media.filter((m: ProductMedia) => m.isPrimary)[0]?.file.url || '';
 
+const LIMIT: number = 24;
 export const ProductList: React.FC = (): React.ReactElement => {
     const { state } = useAppContext();
     const { session: { lat, lng } } = state;
     const { categoryId } = useParams<{ categoryId: string }>();
     const [products, setProducts] = useState<Product[]>([]);
+    const [offset, setOffset] = useState<number>(0);
 
     const getApiUrl = (): string => {
         if (lat && lng) {
@@ -27,23 +29,53 @@ export const ProductList: React.FC = (): React.ReactElement => {
     const [{ data, loading }, refetch] = useAxios({
         url: getApiUrl(),
         method: 'GET',
+        params: {
+            offset: 0,
+            limit: LIMIT,
+        },
     }, {
         manual: false,
     });
 
     useEffect(() => {
+        setOffset(0);
         if (state.session.lat && state.session.lng) {
             refetch({
                 url: getApiUrl(),
+                params: {
+                    offset: 0,
+                    limit: LIMIT,
+                }
             });
         }
     }, [state.session.lat, state.session.lng]);
 
     useEffect(() => {
         if (data?.success) {
-            setProducts(data?.data?.products);
+            if (offset === 0) {
+                setProducts(data?.data?.products);
+            } else {
+                setProducts([...products, ...data?.data?.products]);
+            }
         }
     }, [data]);
+
+    const getMoreProducts = (start: number = 0) => {
+        if (offset >= 0) {
+            refetch({
+                url: getApiUrl(),
+                params: {
+                    offset: start,
+                    limit: LIMIT,
+                },
+            });
+        }
+    };
+
+    const handleShowMoreProducts = () => {
+        getMoreProducts(offset + LIMIT);
+        setOffset(offset + LIMIT);
+    }
 
     const onFilterChange = (filter: string) => {
         if (filter && state.session.lat && state.session.lng) {
@@ -64,21 +96,20 @@ export const ProductList: React.FC = (): React.ReactElement => {
                 <Row>
                     <Col sm={12}>
                         <Row className="post-list">
-                            {loading ? (
-                                <ProductSkeletonLoader />
-                            ) : !products.length ? (
+                            {!products.length && !loading && (
                                 <div className='text-center'>
                                     <img className="w-25" src='/images/no-products-placeholder.png' />
                                     <p className="text-muted mt-4">No products available to show</p>
                                 </div>
-                            ) : (products.map((product: Product) =>
-                                <Col lg={3} md={6} className="mb-3" key={product?.id}>
+                            )}
+                            {!!products.length && products.map((product: Product) =>
+                                <Col xl={3} lg={4} md={6} className="mb-3" key={product?.id}>
                                     <ProductCard
                                         productId={product?.id}
                                         slug={product?.slug}
                                         title={product?.title}
-                                        location={`${product?.location?.city?.name} ${product?.location?.region?.name}`}
-                                        price={product?.price}
+                                        location={`${product?.location?.city?.name}, ${product?.location?.region?.name}`}
+                                        price={product?.price ? `${product?.location?.country?.currencySymbol} ${product?.price}` : ''}
                                         mediaSrc={getPrimaryMedia(product.productMedia)}
                                         authorName={product?.user?.name}
                                         authorProfilePicture={product?.user?.profilePicture?.url || '/images/user-circle.svg'}
@@ -87,10 +118,20 @@ export const ProductList: React.FC = (): React.ReactElement => {
                                         onFavUnfav={(fav: boolean) => { }}
                                     />
                                 </Col>
-                            ))}
-                            {/* <Col lg={12} className="py-3 text-center">
-                                <button className="btn btn-outline-success rounded btn-fullround"> Load More</button>
-                            </Col> */}
+                            )}
+                            {loading && (
+                                <ProductSkeletonLoader />
+                            )}
+                            {!!products.length && (
+                                <Col lg={12} className="py-3 text-center">
+                                    <button
+                                        onClick={handleShowMoreProducts}
+                                        className="btn btn-outline-success rounded btn-fullround"
+                                    >
+                                        Load More
+                                    </button>
+                                </Col>
+                            )}
                         </Row>
                     </Col>
                 </Row>

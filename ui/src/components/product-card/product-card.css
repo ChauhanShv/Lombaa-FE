@@ -23,7 +23,7 @@
 .product-post{transition: all ease-in-out 300ms; height:100%; flex-direction: column; text-decoration: none !important;}
 .product-post i{font-size:45px;}
 
-.usermeta{color:#555; font-size:12px;}
+.usermeta { color:#555; font-size:12px; font-weight: 500; }
 small.text-white{font-size:12px; text-shadow: 0 0 3px rgba(0,0,0,.5);}
 
 @media all and (max-width:767px) {

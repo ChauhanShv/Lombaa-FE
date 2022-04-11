@@ -87,7 +87,7 @@ export const ProfileProductTile: React.FC<ProfileProductTileProps> = ({
                                 <Button variant="outline-secondary">
                                     <FaEdit /> Edit
                                 </Button>{' '}
-                                <Button variant="outline-danger">
+                                <Button onClick={handleDeleteProduct} variant="outline-danger">
                                     <FaTrashAlt /> Delete
                                 </Button>{' '}
                             </>

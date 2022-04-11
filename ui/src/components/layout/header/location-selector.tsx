@@ -68,6 +68,17 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
             });
         }
     }
+    const handleLocationInputChange = (event: any, value: string, reason: string) => {
+        if (!(reason === 'reset')) {
+            dispatch({
+                type: ActionTypes.SETLATLNG,
+                payload: {
+                    lat: null,
+                    lng: null,
+                }
+            });
+        }
+    };
 
     return (
         <>
@@ -83,6 +94,7 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
                         />)
                     }
                     onChange={handleLocationSelect}
+                    onInputChange={handleLocationInputChange}
                 />
             )}
         </>
