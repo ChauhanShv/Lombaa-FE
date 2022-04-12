@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Container, Dropdown, Form, FormControl, Button } from 'react-bootstrap';
-import { Breadcrumbs } from '@mui/material';
+import { Breadcrumbs, Typography } from '@mui/material';
 import { find } from 'lodash';
 import { MoreFiltersModal } from '.';
 import { ActionTypes, useAppContext } from '../../contexts';
@@ -19,15 +19,14 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
     const [filter, setFilter] = useState<any>({});
     const [searchFilter, setSearchFilter] = useState<any>([]);
     const { state, dispatch } = useAppContext();
+    const navigate = useHistory();
     const categories: Category[] = state?.category;
     const category: SubCategory = categories.map((cat: Category) =>
         cat.subCategories.filter((subCat: SubCategory) => subCat.id === categoryId)[0]
     ).filter((i: any) => i)[0];
-
-    const [{ data: saveSearchResponse, loading: saveSearchLoading }, saveSearchExecute] = useAxios({
-        url: '/user/savesearch',
-        method: 'POST',
-    });
+    const categoryFilter = categories.find((cat: Category) =>
+        cat.subCategories.find((subCat: SubCategory) => subCat?.id === categoryId)
+    );
 
     const formFilterUrl = () => {
         let filterArr: string[] = [];
@@ -81,6 +80,39 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
         setFilter({ ...newFilter });
     };
 
+    const handleSubCatChange = (e: any, subCatId: string) => {
+        navigate.push(`/product-listing/${subCatId}`);
+    };
+
+    const getSubCategory = () => {
+        return (
+            <Dropdown className="d-inline mx-2">
+                <Dropdown.Toggle variant="outline-dark rounded btn-fullround mb-2">
+                    Category
+                </Dropdown.Toggle>
+                <Dropdown.Menu className='pre-scrollable'>
+                    {categoryFilter?.subCategories?.map((subCat: SubCategory) =>
+                        <Dropdown.Item
+                            onClick={(e) => handleSubCatChange(e, subCat?.id)}
+                            className="px-2 py-2"
+                            key={subCat?.id}
+                        >
+                            <Form.Group>
+                                <Form.Check
+                                    type="radio"
+                                    label={subCat?.name}
+                                    value={subCat?.id}
+                                    checked={subCat?.id === categoryId}
+                                    onChange={(e) => handleSubCatChange(e, subCat?.id)}
+                                />
+                            </Form.Group>
+                        </Dropdown.Item>
+                    )}
+                </Dropdown.Menu>
+            </Dropdown>
+        );
+    }
+
     const getFilterDD = (field: Field) => {
         if (field.fieldType !== 'dropdown') {
             return null;
@@ -132,11 +164,14 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
                     <Link to="/">Home</Link>
                     <Link to="#">{category?.name}</Link>
                 </Breadcrumbs>
-                <p className="mb-2">{category?.description}</p>
+                <Typography variant="subtitle2" className="mt-3 mb-2 fw-normal">
+                    {category?.description}
+                </Typography>
             </Container>
 
             <div className="fixed-filters mb-3">
                 <Container className="">
+                    {getSubCategory()}
                     <Dropdown
                         className="d-inline mx-2"
                     >

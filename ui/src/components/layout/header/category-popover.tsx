@@ -64,9 +64,9 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
                             }
                         }}
                         overlay={
-                            <Popover 
-                                className="head-cat" 
-                                id={`popover-positioned-bottom`} 
+                            <Popover
+                                className="head-cat"
+                                id={`popover-positioned-bottom`}
                                 onMouseLeave={() => setSelectedCategory('')}
                             >
                                 <Popover.Body className="px-3 container d-flex flex-wrap">
@@ -78,15 +78,15 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
                                                         width="24"
                                                         height="24"
                                                         className={!category?.icon?.url ? 'd-none' : ''}
-                                                        src={category?.icon?.url} 
+                                                        src={category?.icon?.url}
                                                     />
                                                 </Col>
                                                 <Col md={10} className="text-start">
                                                     <ul>
                                                         {category.subCategories.map((subCategory: any) =>
-                                                            <li key={subCategory?.id}>
-                                                                <Link 
-                                                                    to={`/product-listing/${subCategory?.id}`} 
+                                                            <li className="m-1" key={subCategory?.id}>
+                                                                <Link
+                                                                    to={`/product-listing/${subCategory?.id}`}
                                                                     onClick={() => setSelectedCategory('')}
                                                                 >
                                                                     {subCategory?.name}
@@ -124,9 +124,9 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
                         }
                     }}
                     overlay={
-                        <Popover 
-                            className="head-cat" 
-                            id={`popover-positioned-bottom`} 
+                        <Popover
+                            className="head-cat"
+                            id={`popover-positioned-bottom`}
                             onMouseLeave={() => setSelectedCategory('')}
                         >
                             <Popover.Body className="px-3 container d-flex flex-wrap">
@@ -136,19 +136,19 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
                                             <ul>
                                                 <Row>
                                                     <Col md={2} className="pe-0">
-                                                        <img 
-                                                            width="24" 
+                                                        <img
+                                                            width="24"
                                                             height="24"
                                                             className={!category?.icon?.url ? 'd-none' : ''}
-                                                            src={category?.icon?.url} 
+                                                            src={category?.icon?.url}
                                                         />
                                                     </Col>
                                                     <Col md={10}>
                                                         <h4 className="">{category?.name}</h4>
                                                         {category.subCategories.map((subCategory: any) =>
-                                                            <li key={subCategory?.id}>
-                                                                <Link 
-                                                                    to={`/product-listing/${subCategory?.id}`} 
+                                                            <li className='m-1' key={subCategory?.id}>
+                                                                <Link
+                                                                    to={`/product-listing/${subCategory?.id}`}
                                                                     onClick={() => setSelectedCategory('')}
                                                                 >
                                                                     {subCategory?.name}
