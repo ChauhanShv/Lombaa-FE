@@ -24,9 +24,9 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
     const category: SubCategory = categories.map((cat: Category) =>
         cat.subCategories.filter((subCat: SubCategory) => subCat.id === categoryId)[0]
     ).filter((i: any) => i)[0];
-    const subCategories = categories.map((cat: Category) =>
-        cat.subCategories.filter((subCat: SubCategory) => subCat.id)
-    ).filter((i: any) => i)[0];
+    const categoryFilter = categories.find((cat: Category) =>
+        cat.subCategories.find((subCat: SubCategory) => subCat?.id === categoryId)
+    );
 
     const formFilterUrl = () => {
         let filterArr: string[] = [];
@@ -91,7 +91,7 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
                     Category
                 </Dropdown.Toggle>
                 <Dropdown.Menu className='pre-scrollable'>
-                    {subCategories.map((subCat: SubCategory) =>
+                    {categoryFilter?.subCategories?.map((subCat: SubCategory) =>
                         <Dropdown.Item
                             onClick={(e) => handleSubCatChange(e, subCat?.id)}
                             className="px-2 py-2"

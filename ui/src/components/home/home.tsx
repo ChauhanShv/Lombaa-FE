@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Row, Col, Container } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Slider from "react-slick";
@@ -11,6 +11,7 @@ import { useAppContext } from '../../contexts';
 import { Category } from '../../types';
 import { Loader } from '..';
 import { Product, ProductMedia } from '../product-listing/types';
+import { Banner } from './types';
 import './home.css';
 
 const Spotsettings = {
@@ -32,8 +33,9 @@ const getPrimaryMedia = (media: ProductMedia[]): string =>
 export const HomeComponent: React.FC = (): React.ReactElement => {
     const { state } = useAppContext();
     const { session: { lat, lng } } = state;
+    const navigate = useHistory();
     const category: Category[] = state?.category.filter((cat: Category) => cat.subCategories.length);
-    const [bannerData, setBannerData] = useState<any>([]);
+    const [bannerData, setBannerData] = useState<Banner[]>([]);
     const [{ data, loading }, execute] = useAxios({
         url: '/product',
         method: 'GET',
@@ -57,8 +59,13 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
         }
     }, [bannerResponse]);
 
-    const handleBannerLabelClick = (event: any, banner: any) => {
-
+    const handleBannerLabelClick = (event: any, banner: Banner) => {
+        if (banner.action_type === 'in-site-url') {
+            navigate.push(`${banner.action}`);
+        } else {
+            const newWindow = window.open(`${banner.action}`, '_blank');
+            newWindow?.focus();
+        }
     };
 
     return (
@@ -68,13 +75,31 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
                     <Row className="mt-auto">
                         <Col lg={8} sm={12} className="">
                             <Slider className="homespot-slider" {...Spotsettings}>
-                                {!!bannerData.length && bannerData?.map((banner: any) =>
+                                {!!bannerData.length && bannerData?.map((banner: Banner) =>
                                     <div key={banner?.id}>
                                         <div
                                             onClick={(e) => handleBannerLabelClick(e, banner)}
-                                            className='homepage-banner-slide-image w-100 d-block'
+                                            className='homepage-banner-slide-image w-100 d-flex flex-column justify-content-center'
                                             style={{ backgroundImage: `url(${banner?.media?.url})` }}
-                                        />
+                                        >
+                                            <div className='d-flex flex-column align-items-center'>
+                                                <div className='h-100'>
+                                                    <p className="p-3 fw-bold rounded text-light bg-dark">
+                                                        {banner?.description}
+                                                    </p>
+                                                    <p className="fw-bold fs-2 text-light">
+                                                        {banner?.title}
+                                                    </p>
+                                                    <Button
+                                                        onClick={(event) => handleBannerLabelClick(event, banner)}
+                                                        className="fst-normal btn-fullround"
+                                                        variant="success"
+                                                    >
+                                                        {banner?.action_label}
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 )}
                             </Slider>
