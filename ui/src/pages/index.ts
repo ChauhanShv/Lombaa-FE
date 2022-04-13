@@ -6,6 +6,7 @@ export * from './signup-page';
 export * from './forgot-password-page';
 export * from './reset-password-page';
 export * from './create-post-page';
+export * from './edit-post-page';
 export * from './saved-searches-page';
 export * from './product-detail-page';
 export * from './product-listing-page';

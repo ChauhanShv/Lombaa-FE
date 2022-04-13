@@ -202,10 +202,12 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                                 )}
                                 {state?.user?.metaData?.id === productDetail?.userId && (
                                     <ListGroup className="product-auth">
-                                        <ListGroup.Item className="text-gray" action>
-                                            <FaEdit className="me-2" />
-                                            Edit Listing
-                                        </ListGroup.Item>
+                                        <Link to={`/edit-post/${productDetail?.id}`}>
+                                            <ListGroup.Item className="text-gray" action>
+                                                <FaEdit className="me-2" />
+                                                Edit Listing
+                                            </ListGroup.Item>
+                                        </Link>
                                         <ListGroup.Item className="text-gray d-none" action>
                                             <FaCheckCircle className="me-2" />
                                             Mark as Reserved

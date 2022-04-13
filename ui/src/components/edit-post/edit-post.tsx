@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col, Button, Form, Spinner } from 'react-bootstrap';
 import { filter, isEmpty, isArray } from 'lodash';
 import {
@@ -9,31 +9,33 @@ import {
     UnpackNestedValue
 } from 'react-hook-form';
 import * as yup from "yup";
+import { useParams } from 'react-router-dom';
 import { useAxios } from '../../services/base-service';
 import {
-    CategoryDropDown,
+    EditCategoryDropDown,
     DragAndDrop,
-    FormFields,
+    EditFormFields,
     ListingSuccessfulTile,
-    Media,
-    LocationDropdown,
 } from '.';
+import { LocationDropdown } from '../create-post';
 import {
     Category,
     SubCategory,
     Field,
     FieldValue as CreatePostFieldValue,
 } from '../../types';
+import { Media } from './types';
 
-interface CreatePostProps {
-    categories: Category[],
-};
+interface EditPostProps {
+    categories: Category[];
+}
 
-export const CreatePost: React.FC<CreatePostProps> = ({
-    categories,
-}: CreatePostProps): React.ReactElement => {
+export const EditPost: React.FC<EditPostProps> = ({
+    categories
+}: EditPostProps): React.ReactElement => {
+    const { productId } = useParams<{ productId: string }>();
     const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategory | null>(null);
-    const [location, setLocation] = useState<object>({});
+    const [location, setLocation] = useState<object | null>(null);
     const [media, setMedia] = useState<Media[]>([]);
     const [successData, setSuccessData] = useState<any>({
         title: '',
@@ -46,8 +48,6 @@ export const CreatePost: React.FC<CreatePostProps> = ({
         values: UnpackNestedValue<FieldValues>
     ): Promise<ResolverResult<FieldValues>> => {
         const yupShape: any = {
-            category: yup.string().required('Category is required'),
-            subCategory: yup.string().required('Sub category is required'),
             location: yup.string().required('Location is required'),
         };
         if (selectedSubCategory) {
@@ -104,10 +104,18 @@ export const CreatePost: React.FC<CreatePostProps> = ({
         resolver: customResolver
     });
     const { handleSubmit, formState: { errors } } = formMethods;
-    const [{ data: createPostRes, loading: createPostLoading }, execute] = useAxios({
-        url: '/product',
+    const [{ data: editPostRes, loading: editPostLoading }, execute] = useAxios({
+        url: `/product/edit/${productId}`,
         method: 'POST',
     });
+    const [{ data: productDetail, loading: productLoading }, productDetailExecute] = useAxios({
+        url: `/product/${productId}`,
+        method: 'GET',
+    });
+
+    useEffect(() => {
+        productDetailExecute({});
+    }, []);
 
     const onSubmit = (values: any) => {
         if (!isEmpty(errors)) {
@@ -117,7 +125,11 @@ export const CreatePost: React.FC<CreatePostProps> = ({
             categoryId: values?.subCategory,
             fields: [],
             media: media.map((i: Media) => ({ token: i.token, isPrimary: i.isPrimary })),
-            location: location,
+            location: location ? location : {
+                city: productDetail?.product?.location?.city?.id,
+                country: productDetail?.product?.location?.country?.id,
+                region: productDetail?.product?.location?.region?.id,
+            },
         };
         selectedSubCategory?.fields.forEach((field: Field) => {
             const value: any = {};
@@ -198,25 +210,39 @@ export const CreatePost: React.FC<CreatePostProps> = ({
         });
     };
 
-    return createPostRes?.success ? <ListingSuccessfulTile {...successData} /> : (
+    return editPostRes?.success ? <ListingSuccessfulTile {...successData} /> : (
         <Container className="p-4 pt-lg-5">
             <FormProvider {...formMethods}>
                 <Form onSubmit={handleFormSubmit} noValidate>
                     <h1 className="mb-3 h2">What are you listing today?</h1>
                     <Row>
                         <Col lg="4">
-                            <DragAndDrop updateMedia={updateMedia} />
+                            {productLoading ? (
+                                <Spinner animation="grow" />
+                            ) : (
+                                <DragAndDrop
+                                    updateMedia={updateMedia}
+                                    productDetail={productDetail?.product}
+                                />
+                            )}
                         </Col>
                         <Col lg={8}>
                             <div className="shadow p-3 p-lg-5 h-100">
-                                <CategoryDropDown
+                                <EditCategoryDropDown
+                                    productDetail={productDetail?.product}
                                     categories={categories}
                                     onSubCategorySelected={onSubCategorySelected}
                                 />
                                 {!!selectedSubCategory?.fields?.length &&
                                     <>
-                                        <LocationDropdown onCitySelected={onCitySelected} />
-                                        <FormFields fields={selectedSubCategory?.fields} />
+                                        <LocationDropdown
+                                            onCitySelected={onCitySelected}
+                                            defaultValue={productDetail?.product?.location?.city?.id}
+                                        />
+                                        <EditFormFields
+                                            fields={selectedSubCategory?.fields}
+                                            fieldValues={productDetail?.product?.productFields}
+                                        />
                                         <Col lg={8} className="mx-auto">
                                             <div className="d-flex justify-content-end">
                                                 <Button
@@ -224,7 +250,7 @@ export const CreatePost: React.FC<CreatePostProps> = ({
                                                     className="btn-lg w-100 fw-bold mb-2 rounded btn-fullround text-success me-2 text-center"
                                                     type="submit"
                                                 >
-                                                    {createPostLoading ? (
+                                                    {editPostLoading ? (
                                                         <Spinner animation="border" role="status"></Spinner>
                                                     ) : 'POST AD'}
                                                 </Button>

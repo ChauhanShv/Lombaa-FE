@@ -3,7 +3,7 @@ export interface DragAndDropProps {
 }
 export interface LocationSelectorProps {
   onCitySelected: (data: object) => void;
-  isSettingsPage: boolean;
+  defaultValue?: string;
 }
 export interface ListingTileProps {
   title: string,
