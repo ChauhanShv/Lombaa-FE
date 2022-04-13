@@ -269,6 +269,59 @@ class ProductController extends BaseController {
       return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to delete product" } })
     }
   }
+  getEdit = async (req, res, next) => {
+    try {
+      const productId = req.params?.id
+      const data = await Product.findOne({
+        where: { id: productId },
+        include: [
+          { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
+          { model: Location, as: "location" },
+          { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
+          { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+          { model: Category, as: 'category' }
+        ]
+      })
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Edit product retreived", data: data } })
+    }
+    catch {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to get product" } })
+    }
+  }
+  edit = async (req, res, next) => {
+    try {
+      validationResult(req).formatWith(validationErrorFormatter).throw();
+    } catch (error) {
+      return res.status(422).json(error.array({ onlyFirstError: true }));
+    }
+    try {
+      const productId = req.params?.id
+      const data = await Product.findOne({
+        where: { id: productId },
+        include: [
+          { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
+          { model: Location, as: "location" },
+          { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
+          { model: User, as: 'user', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] },
+          { model: Category, as: 'category' }
+        ]
+      })
+      const { location } = req.body;
+      let loc = null;
+      if (location) loc = await this.locationService.upsert(location?.country, location?.region, location?.city);
+
+
+      const productFieldData = req?.body?.fields?.map((field) => ({ fieldId: field?.id, value: field?.value?.value, fieldValueId: field?.value?.id, productId: data?.id }));
+      await ProductField.update(productFieldData, { where: { productId: data?.id } });
+      const mediaList = req.body?.media?.map((media) => ({ fileId: media?.fileId, productId: data?.id, isPrimary: media?.isPrimary ?? false }));
+      await ProductMedia.update(mediaList, { where: { productId: data?.id } });
+      return super.jsonRes({ res, code: 200, data: { success: true, messaage: "Product has been edited" } })
+    }
+    catch (error) {
+      console.log(error)
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to edit product" } })
+    }
+  }
 }
 
 

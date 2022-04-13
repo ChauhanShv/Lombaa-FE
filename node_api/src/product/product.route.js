@@ -10,6 +10,7 @@ const productCategorySchema = require("./schema/schema.product_categoryId")
 const optionalAuthMiddleware = require("../auth/optional.auth.middleware")
 const similarProductSchema = require("./schema/similar.product.schema")
 const getProductSchema = require("./schema/get.product.schema")
+const productEditSchema = require("./product.edit.schema")
 
 const storage = multer.memoryStorage();
 
@@ -35,6 +36,13 @@ module.exports = () => {
   router.get("/:id", optionalAuthMiddleware, checkSchema(getProductSchema), controller.findById);
   router.get("/:id/similar", optionalAuthMiddleware, checkSchema(similarProductSchema), controller.lookALike)
   router.delete("/delete", authMiddleware, controller.delete)
+  router.get("/edit/:id", authMiddleware, controller.getEdit)
+  router.post("/edit/:id", authMiddleware, productMiddleware.manipulate,
+    async (req, res, next) => {
+      await Promise.all(checkSchema(await productEditSchema?.generate(req)).map((chain) => chain.run(req)));
+      next();
+    }, controller.edit)
+
 
   return router;
 };
