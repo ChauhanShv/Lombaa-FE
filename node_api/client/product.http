@@ -96,7 +96,7 @@ x-app-version : 1.0.0
 
 ###
 
-POST {{baseUrl}}/product/edit/04c33d90-4cd0-4b68-92ad-b603c9395bba HTTP/1.1
+POST {{baseUrl}}/product/04c33d90-4cd0-4b68-92ad-b603c9395bba/edit HTTP/1.1
 content-type: application/json
 x-client-platform : Android
 x-app-version : 1.0.0
