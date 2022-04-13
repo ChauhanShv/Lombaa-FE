@@ -20,6 +20,7 @@
 .homespot-slider .slick-prev{left:25px;}
 .homespot-slider .slick-next{right:25px;}
 .homespot-slider .slick-dots{bottom:10px;}
+.homepage-banner-slide-image { background-repeat: no-repeat; background-position: center center; background-size: cover; width: 100%; height: 300px; }
 
 .homespot-slider .slick-dots li button:before{color: #fff; opacity: 1; font-size:10px; box-shadow: 0 0 5px rgba(0,0,0,.25%);}
 .homespot-slider .slick-dots li.slick-active button:before{color:#00AF3C;}
@@ -41,4 +42,5 @@
 @media all and (max-width:767px) {
 .homespot-slider .slick-prev{left:15px;}
 .slick-prev:before, .slick-next:before{font-size:20px;}
+.homepage-banner-slide-image { height: 200px; }
 }
