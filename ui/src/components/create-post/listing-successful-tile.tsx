@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { FaHeart, FaCheckCircle } from 'react-icons/fa';
@@ -10,6 +10,11 @@ export const ListingSuccessfulTile: React.FC<ListingTileProps> = ({
     file,
     media,
 }: ListingTileProps): React.ReactElement => {
+
+    useEffect(() => {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    }, []);
 
     const getPrimaryMediaObject = (media: any) => {
         for (const mediaObj of media) {

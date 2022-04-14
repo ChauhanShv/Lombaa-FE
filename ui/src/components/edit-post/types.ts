@@ -1,5 +1,8 @@
+import { ProductDetail } from "../product-detail/types";
+
 export interface DragAndDropProps {
   updateMedia: (media: Media[]) => void;
+  productDetail: ProductDetail;
 }
 export interface LocationSelectorProps {
   onCitySelected: (data: object) => void;
@@ -11,6 +14,38 @@ export interface ListingTileProps {
   file: any,
   media: Media[],
 };
+
+export interface EditFormFieldsProps {
+  fields: any;
+  fieldValues: FieldValues[];
+}
+export interface FieldValues {
+  fieldValue?: FieldValue;
+  field: Field;
+  key?: string;
+  value: string;
+  id: string;
+}
+export interface Field {
+  dataTypes: string;
+  fieldType: string;
+  id: string;
+  isActive: number;
+  isRequired: boolean;
+  label: string;
+  tag?: string;
+  values: FieldValue[];
+}
+export interface FieldValue {
+  icon: {
+      mime: string;
+      extension: string;
+      url: string;
+  },
+  id: string;
+  sort: number;
+  value: string;
+}
 export interface Country {
   id: string;
   name: string;
@@ -44,3 +79,4 @@ export interface Media {
   mime: string;
   isPrimary?: boolean;
 }
+  

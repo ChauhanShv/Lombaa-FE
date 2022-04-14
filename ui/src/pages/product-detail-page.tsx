@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Container, Col } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { ProductDetail } from '../components';
@@ -25,12 +25,19 @@ const DeletedProductPlaceholder: React.FC = (): React.ReactElement => {
 export const ProductDetailPage: React.FC = (): React.ReactElement => {
 
     const { productId, slug } = useParams<{ slug: string, productId: string }>();
-    const [{ data, loading }] = useAxios({
+    const [{ data, loading }, execute] = useAxios({
         url: `product/${productId}`,
         method: 'GET',
-    }, {
-        manual: false,
     });
+
+    useEffect(() => {
+        execute({});
+    }, []);
+    useEffect(() => {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+        execute({});
+    }, [productId]);
 
     return (
         <>
@@ -43,7 +50,8 @@ export const ProductDetailPage: React.FC = (): React.ReactElement => {
                             <ProductDetail productDetail={data?.product} />
                         )}
                     </>
-                )}
+                )
+            }
         </>
     );
 };

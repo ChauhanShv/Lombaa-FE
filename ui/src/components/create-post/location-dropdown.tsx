@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ReactNode } from 'react';
-import { 
+import {
     InputLabel,
     Select,
     MenuItem,
@@ -16,7 +16,11 @@ import { Country as CurrentCountry } from '../../types';
 import { useAppContext } from '../../contexts';
 import './styles.scss';
 
-export const LocationDropdown: React.FC<LocationSelectorProps> = ({ onCitySelected, isSettingsPage }: LocationSelectorProps): React.ReactElement => {
+export const LocationDropdown: React.FC<LocationSelectorProps> = ({
+    onCitySelected,
+    defaultValue,
+}: LocationSelectorProps): React.ReactElement => {
+
     const { state } = useAppContext();
     const userData = state.user.metaData;
     const currentCountry: CurrentCountry = state.session?.country || {};
@@ -33,7 +37,7 @@ export const LocationDropdown: React.FC<LocationSelectorProps> = ({ onCitySelect
         currencyCode: '',
         regions: [],
     });
-    const [location, setLocation] = useState<any>(isSettingsPage ? userData?.location?.city?.id : '');
+    const [location, setLocation] = useState<any>(defaultValue || '');
     const { register, formState: { errors } } = useFormContext();
 
     const [{ data: locationResponse, loading: regionLoading }, regionExecute] = useAxios({

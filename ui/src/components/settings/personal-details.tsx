@@ -253,7 +253,7 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                                 </FloatingLabel>
                                 <LocationDropdown
                                     onCitySelected={(data: object) => setLocationId(data)}
-                                    isSettingsPage={true}
+                                    defaultValue={userData?.location?.city?.id}
                                 />
                                 <FloatingLabel
                                     label="Birthday"

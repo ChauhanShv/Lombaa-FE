@@ -14,6 +14,7 @@ import {
   ResetPasswordPage,
   ProfilePage,
   CreatePostPage,
+  EditPostPage,
   SavedSearchesPage,
   ProductDetailPage,
   ProductListingPage,
@@ -38,6 +39,7 @@ const App: React.FC = () => {
               <PrivateRoute component={SettingsPage} path="/settings/:page?" exact />
               <PrivateRoute component={ProfilePage} path="/profile" exact />
               <PrivateRoute component={CreatePostPage} path="/create-post" exact />
+              <PrivateRoute component={EditPostPage} path="/edit-post/:productId?" exact />
               <PrivateRoute component={SavedSearchesPage} path="/saved-search" exact />
               <PublicRoute component={ProductListingPage} path="/product-listing/:categoryId" exact />
               <PublicRoute component={ProductDetailPage} path="/product-detail/:productId/:slug?" exact />

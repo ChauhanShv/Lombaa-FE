@@ -12,6 +12,7 @@ export const SellerDetailCard: React.FC<SellerDetailsCardProps> = ({
     const getAccountType = () => user?.accountType === 'standard' ? 'Standard Account' : 'Business Account';
     const getAccountName = () => user?.accountType === 'standard' ? user?.name : user?.businessName;
     const getLocation = () => user?.location ? `${user.location.city.name}, ${user.location.region.name}` : 'Location';
+    const getContactNumber = () => user?.showPhoneNumberConsent ? user?.phoneNumber : '';
 
     return (
         <Container className="p-4">
@@ -55,10 +56,12 @@ export const SellerDetailCard: React.FC<SellerDetailsCardProps> = ({
                         <FaMapMarkerAlt className="me-2" />
                         {getLocation()}
                     </p>
-                    <p>
-                        <FaMobile className="me-2" />
-
-                    </p>
+                    {user?.showPhoneNumberConsent && (
+                        <p>
+                            <FaMobile className="me-2" />
+                            {getContactNumber()}
+                        </p>
+                    )}
                     <p>
                         <FaClock className="me-2" />
                         Joined on {moment(user?.createdAt).format('LL')}
