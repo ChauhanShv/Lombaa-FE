@@ -36,8 +36,8 @@ module.exports = () => {
   router.get("/:id", optionalAuthMiddleware, checkSchema(getProductSchema), controller.findById);
   router.get("/:id/similar", optionalAuthMiddleware, checkSchema(similarProductSchema), controller.lookALike)
   router.delete("/delete", authMiddleware, controller.delete)
-  router.get("/edit/:id", authMiddleware, controller.getEdit)
-  router.post("/edit/:id", authMiddleware, productMiddleware.manipulate,
+  router.get("/:id/edit", authMiddleware, controller.getEdit)
+  router.post("/:id/edit", authMiddleware, productMiddleware.manipulate,
     async (req, res, next) => {
       await Promise.all(checkSchema(await productEditSchema?.generate(req)).map((chain) => chain.run(req)));
       next();
