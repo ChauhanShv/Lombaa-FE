@@ -22,6 +22,7 @@ const { productId } = require("../chat/chat.schema");
 const FavoriteProduct = require("../user/user.favorite_product_model");
 const SettingService = require("../settings/settings.service");
 const sequelize = require("../modules/sequelize/sequelize.service");
+const { findOne } = require("../file/file.model");
 
 
 
@@ -160,9 +161,18 @@ class ProductController extends BaseController {
       if (!singleProduct) {
         return super.jsonRes({ res, code: 200, data: { success: false, message: "Failed to get product", message_detail: "Product is unavailable" } })
       }
+      if (userId === singleProduct.userId) {
+
+        const productMedia = singleProduct.productMedia.forEach((media) => {
+          const payload = { userId: userId, fileId: media.fileId };
+          const token = jwt.encode(payload, "30d");
+          media.token = token;
+          media.setDataValue('token', token)
+
+        });
+      }
       if (userId) {
         singleProduct = (await this.service.mapUserFavorite([singleProduct], userId))?.[0];
-
         const viewed = viewedProduct.create({ userId: userId, productId: singleProduct.id })
       }
       const title = await this.service.fieldsMapping([singleProduct])
@@ -310,11 +320,14 @@ class ProductController extends BaseController {
       let loc = null;
       if (location) loc = await this.locationService.upsert(location?.country, location?.region, location?.city);
 
-
+      const deleteField = ProductField.destroy({ where: { productId: productId } })
       const productFieldData = req?.body?.fields?.map((field) => ({ fieldId: field?.id, value: field?.value?.value, fieldValueId: field?.value?.id, productId: data?.id }));
+      console.log(productFieldData)
       await ProductField.update(productFieldData, { where: { productId: data?.id } });
-      const mediaList = req.body?.media?.map((media) => ({ fileId: media?.fileId, productId: data?.id, isPrimary: media?.isPrimary ?? false }));
-      await ProductMedia.update(mediaList, { where: { productId: data?.id } });
+      const deleteMedia = ProductMedia.destroy({ where: { productId: productId } })
+      const mediaList = req.body?.media?.map((media) => ({ fileId: media?.fileId, productId: productId, isPrimary: media?.isPrimary ?? false }));
+      console.log(mediaList, 'shshshshsh')
+      await ProductMedia.bulkCreate(mediaList, { where: { productId: data?.id } });
       return super.jsonRes({ res, code: 200, data: { success: true, messaage: "Product has been edited" } })
     }
     catch (error) {

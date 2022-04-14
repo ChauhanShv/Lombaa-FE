@@ -15,6 +15,7 @@ ProductMedia.init(
       type: DataTypes.BOOLEAN,
       allowNull: true,
     },
+    token: DataTypes.VIRTUAL,
   },
   {
     modelName: "ProductMedia",
