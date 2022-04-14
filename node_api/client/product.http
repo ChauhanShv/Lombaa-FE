@@ -60,7 +60,7 @@ x-app-version : 1.0.0
 
 ###
 
-GET  {{baseUrl}}/product/1e7dc804-5903-44b1-8d18-7d656c33d0e9 HTTP/1.1
+GET  {{baseUrl}}/product/04c33d90-4cd0-4b68-92ad-b603c9395bba HTTP/1.1
 content-type: application/json
 x-access-token : {{token}}
 x-client-platform : Android
