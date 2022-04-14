@@ -23,6 +23,7 @@ const FavoriteProduct = require("../user/user.favorite_product_model");
 const SettingService = require("../settings/settings.service");
 const sequelize = require("../modules/sequelize/sequelize.service");
 const { findOne } = require("../file/file.model");
+const FieldValue = require("../field_value/field_value.model");
 
 
 
@@ -153,7 +154,9 @@ class ProductController extends BaseController {
           { model: Category, as: "category" },
           { model: ProductMedia, as: "productMedia", include: [{ model: fileModel, as: 'file' }] },
           { model: Location, as: "location" },
-          { model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }] },
+          {
+            model: ProductField, as: "productFields", include: [{ model: Field, as: 'field' }, { model: FieldValue, as: 'fieldValue' }]
+          },
           { model: User, as: 'user', attributes: ["name", "profilePictureId", "email", "accountType", "locationId", "profileVerificationScore", "businessName", "createdAt", "showPhoneNumberConsent", "phoneNumber"], include: [{ model: fileModel, as: "profilePicture" }, { model: Location, as: "location" }] }
         ]
       });

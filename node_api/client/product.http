@@ -45,7 +45,7 @@ Content-Type: video/mp4
 
 ###
 
-GET  {{baseUrl}}/product/0c77963e-9404-44b1-adcf-ae97e17ca3a1 HTTP/1.1
+GET  {{baseUrl}}/product/16410714-4e31-4612-a041-2001b5d8465b HTTP/1.1
 content-type: application/json
 x-access-token: {{token}}
 x-client-platform : Android
