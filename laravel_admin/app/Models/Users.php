@@ -20,4 +20,9 @@ class Users extends Model
     protected $keyType = 'string';
     public $incrementing = false;
     public $timestamps = false;
+
+    public function user()
+    {
+        return $this->hasMany(UserPackage::class, 'userId', 'id');
+    }
 }

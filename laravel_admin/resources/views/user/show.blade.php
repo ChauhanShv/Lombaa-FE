@@ -15,6 +15,9 @@
 			         <li>
                      <a href="#3b" data-toggle="tab">Received</a>
 			         </li>
+                  <li>
+                     <a href="#4b" data-toggle="tab">Packages</a>
+			         </li>
 		         </ul>
 			         <div class="tab-content clearfix">
 			            <div class="tab-pane active" style="padding: 0px 35px;" id="1b">
@@ -48,6 +51,12 @@
                            <lable class="span11" style="font-weight: bold"></lable>
                         </div>
                      </div>
+                     <div class="tab-pane" style="padding: 0px 35px;" id="4b">
+                        <div class="control-group">
+                           <label class="control-label" style="font-weight: bold;"> Package Name : {{$info->isPremium}}</label>
+                           <lable class="span11" style="font-weight: bold"></lable>
+                        </div>
+				         </div>
 			      </div>
             </div>
             @if($info)

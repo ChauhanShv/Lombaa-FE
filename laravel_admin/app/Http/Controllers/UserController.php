@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Users;
+use App\Models\UserPackage;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -15,8 +16,16 @@ class UserController extends Controller
     public function info($id)
     {
         $info = Users::where('id', $id)->first();
+        dd($info);
         return view('user.show', ['info' => $info]);
     }
+
+    // public function user_packages_info($id)
+    // {
+    //     $user_packages = UserPackage::where('id', $id)->first();
+    //     dd($user_packages);
+    //     return view('user.show', ['user_package' => $user_packages]);
+    // }
 
     public function suspend(Request $request, $id)
     {
