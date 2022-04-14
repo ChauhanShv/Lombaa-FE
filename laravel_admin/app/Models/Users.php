@@ -21,7 +21,7 @@ class Users extends Model
     public $incrementing = false;
     public $timestamps = false;
 
-    public function user()
+    public function packages()
     {
         return $this->hasMany(UserPackage::class, 'userId', 'id');
     }
