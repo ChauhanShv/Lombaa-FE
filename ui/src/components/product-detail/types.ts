@@ -151,4 +151,6 @@ export interface User {
   businessName?: string;
   profileVerificationScore?: number;
   createdAt?: string;
+  showPhoneNumberConsent?: boolean;
+  phoneNumber?: string;
 }

@@ -84,9 +84,11 @@ export const ProfileProductTile: React.FC<ProfileProductTileProps> = ({
                         </Link>{' '}
                         {!isFavouritesTab ? (
                             <>
-                                <Button variant="outline-secondary">
-                                    <FaEdit /> Edit
-                                </Button>{' '}
+                                <Link to={`/edit-post/${productId}`}>
+                                    <Button variant="outline-secondary">
+                                        <FaEdit /> Edit
+                                    </Button>{' '}
+                                </Link>
                                 <Button onClick={handleDeleteProduct} variant="outline-danger">
                                     <FaTrashAlt /> Delete
                                 </Button>{' '}

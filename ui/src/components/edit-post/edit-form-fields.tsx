@@ -9,18 +9,9 @@ import {
 } from 'react-bootstrap';
 import { useFormContext } from 'react-hook-form';
 import { getErrorClassName } from '../../utils';
-import { Field } from '../../types';
+import { Field, EditFormFieldsProps } from './types';
 
-interface EditFormFieldsProps {
-    fields: Field[];
-    fieldValues: FieldValues[];
-}
-interface FieldValues {
-    field: Field;
-    key?: string;
-    value: string;
-    id: string;
-}
+
 
 export const EditFormFields: React.FC<EditFormFieldsProps> = ({
     fields,
@@ -42,11 +33,11 @@ export const EditFormFields: React.FC<EditFormFieldsProps> = ({
         return null;
     };
 
-    const getValuesForFields = (id: string, fieldType: string) => {
+    const getValuesForFields: any = (id: string, fieldType: string) => {
         for (const fieldValue of fieldValues) {
             if (fieldValue.field?.id === id) {
-                if (fieldType === 'dropdown') {
-                    return fieldValue?.id;
+                if (fieldType === 'dropdown' || fieldType === 'checkbox' || fieldType === '') {
+                    return fieldValue?.fieldValue?.id;
                 }
                 return fieldValue.value;
             }
@@ -111,12 +102,14 @@ export const EditFormFields: React.FC<EditFormFieldsProps> = ({
         fieldType,
         isRequired,
     }: Field): React.ReactElement => {
+        const [selectedValue, setSelectedValue] = useState<string>(getValuesForFields(id, fieldType));
         return (
             <FloatingLabel className="mb-3" label={label + getFieldNecessity(isRequired)}>
                 <Form.Select
                     {...register(id)}
                     className={getErrorClassName(id, errors)}
-                    value={getValuesForFields(id, fieldType)}
+                    value={selectedValue}
+                    onChange={(event: any) => setSelectedValue(event.target?.value)}
                 >
                     <option value="">Select {label}</option>
                     {values.map((val: any) =>
@@ -134,7 +127,9 @@ export const EditFormFields: React.FC<EditFormFieldsProps> = ({
         id,
         label,
         values,
+        fieldType,
     }: Field): React.ReactElement => {
+        const [isCheckedId, setIsCheckedId] = useState<string>(getValuesForFields(id, fieldType));
         return (
             <>
                 <Form.Label className="text-muted">
@@ -150,6 +145,8 @@ export const EditFormFields: React.FC<EditFormFieldsProps> = ({
                                 {...register(id)}
                                 type="checkbox"
                                 value={val.id}
+                                checked={val.id === isCheckedId}
+                                onChange={(event) => setIsCheckedId(val.id)}
                                 className="margin-right-3"
                             />
                             <Form.Check.Label className="margin-right-3">
@@ -166,15 +163,19 @@ export const EditFormFields: React.FC<EditFormFieldsProps> = ({
     const SwitchComponent = ({
         id,
         label,
+        fieldType,
     }: Field): React.ReactElement => {
+        const [isCheckedId, setIsCheckedId] = useState<string>(getValuesForFields(id, fieldType));
         return (
             <InputGroup className="mb-3">
                 <Form.Check
                     {...register(id)}
                     className={getErrorClassName(id, errors)}
+                    checked={id === isCheckedId}
                     type="switch"
                     id={id}
                     label={label}
+                    onChange={(event) => setIsCheckedId(id)}
                 />
                 {getErrorText(id)}
             </InputGroup>
@@ -185,8 +186,9 @@ export const EditFormFields: React.FC<EditFormFieldsProps> = ({
         id,
         label,
         values,
+        fieldType,
     }: Field): React.ReactElement => {
-        const [toggleValue, setToggleValue] = useState<string>(values[0].id);
+        const [toggleValue, setToggleValue] = useState<string>(getValuesForFields(id, fieldType) || values[0].id);
         return (
             <InputGroup className="mb-3">
                 <ToggleButtonGroup
@@ -218,8 +220,11 @@ export const EditFormFields: React.FC<EditFormFieldsProps> = ({
 
     const PriceComponent = ({
         id,
+        fieldType,
     }: Field): React.ReactElement => {
         const [isForSale, setIsForSale] = useState<string>('sale');
+        const defaultPriceValue = parseInt(getValuesForFields(id, fieldType));
+        const [priceValue, setPriceValue] = useState<number>(defaultPriceValue);
         return (
             <>
                 <ToggleButtonGroup
@@ -227,16 +232,27 @@ export const EditFormFields: React.FC<EditFormFieldsProps> = ({
                     name="price-options"
                     defaultValue={isForSale}
                 >
-                    <ToggleButton variant="outline-success fullround" className="rounded m-2 ms-0" value="sale" onClick={() => setIsForSale('sale')}>
+                    <ToggleButton
+                        variant="outline-success fullround"
+                        className="rounded m-2 ms-0"
+                        value="sale"
+                        onClick={() => setIsForSale('sale')}
+                    >
                         For Sale
                     </ToggleButton>
-                    <ToggleButton variant="outline-success fullround" className="rounded m-2" value="free" onClick={() => setIsForSale('free')}>
+                    <ToggleButton
+                        variant="outline-success fullround"
+                        className="rounded m-2" value="free"
+                        onClick={() => setIsForSale('free')}
+                    >
                         For Free
                     </ToggleButton>
                 </ToggleButtonGroup>
                 {isForSale === 'sale' && (
                     <InputGroup className="mt-2 mb-5">
-                        <InputGroup.Text id="basic-addon1 d-block">$</InputGroup.Text>
+                        <InputGroup.Text id="basic-addon1 d-block">
+                            $
+                        </InputGroup.Text>
                         <FormControl
                             type="number"
                             className={getErrorClassName(id, errors)}
@@ -244,7 +260,8 @@ export const EditFormFields: React.FC<EditFormFieldsProps> = ({
                             placeholder="Price of your listing *"
                             aria-label="Price of your listing"
                             aria-describedby="basic-addon1"
-                        // onChange={handlePriceChange}
+                            value={priceValue}
+                            onChange={(event: any) => setPriceValue(event.target.value)}
                         />
                         {getErrorText(id)}
                     </InputGroup>

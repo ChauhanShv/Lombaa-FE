@@ -15,9 +15,8 @@ import {
     EditCategoryDropDown,
     DragAndDrop,
     EditFormFields,
-    ListingSuccessfulTile,
 } from '.';
-import { LocationDropdown } from '../create-post';
+import { LocationDropdown, ListingSuccessfulTile } from '../create-post';
 import {
     Category,
     SubCategory,
@@ -105,7 +104,7 @@ export const EditPost: React.FC<EditPostProps> = ({
     });
     const { handleSubmit, formState: { errors } } = formMethods;
     const [{ data: editPostRes, loading: editPostLoading }, execute] = useAxios({
-        url: `/product/edit/${productId}`,
+        url: `/product/${productId}/edit`,
         method: 'POST',
     });
     const [{ data: productDetail, loading: productLoading }, productDetailExecute] = useAxios({
@@ -124,7 +123,9 @@ export const EditPost: React.FC<EditPostProps> = ({
         const postData: any = {
             categoryId: values?.subCategory,
             fields: [],
-            media: media.map((i: Media) => ({ token: i.token, isPrimary: i.isPrimary })),
+            media: !media?.length ?
+                productDetail?.product?.productMedia?.map((media: any) => ({ token: media.token, isPrimary: media.isPrimary })) :
+                media.map((i: Media) => ({ token: i.token, isPrimary: i.isPrimary })),
             location: location ? location : {
                 city: productDetail?.product?.location?.city?.id,
                 country: productDetail?.product?.location?.country?.id,
@@ -206,7 +207,14 @@ export const EditPost: React.FC<EditPostProps> = ({
         setSuccessData({
             ...successData,
             file: updatedMedia[0]?.url || '',
-            media: updatedMedia,
+            media: !updatedMedia.length ? (
+                productDetail?.product?.productMedia?.map((media: any) => ({
+                    url: media.file?.url,
+                    mime: media.file?.mime,
+                    token: media?.token,
+                    isPrimary: media?.isPrimary,
+                }))
+            ) : updatedMedia,
         });
     };
 
