@@ -2,6 +2,7 @@ const BaseController = require("../modules/controller").base;
 const countryModel = require("./country.model");
 const { validationResult } = require("express-validator");
 const { validationErrorFormatter } = require("../formater");
+const Filter = require("../filter/filter.model")
 
 class countryController extends BaseController {
   constructor(...args) {
@@ -20,12 +21,12 @@ class countryController extends BaseController {
         },
       });
     } catch (error) {
-      console.log(error);
       return super.jsonRes({
         res,
         code: 401,
         data: {
-          message: "no match found",
+          message: "Failed to get data ",
+          message_details: error?.message
         },
       });
     }

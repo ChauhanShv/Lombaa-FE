@@ -1,0 +1,22 @@
+{
+    "prettier.printWidth": 200,
+    "rest-client.environmentVariables": {
+
+        "$shared": {},
+
+        "local": {
+            "baseUrl": "http://localhost:3001/api",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTY1OTBiLTFkMzctNGY0My05NWZhLTBiMDhiNTFlNGFkNSIsImlhdCI6MTY0OTkxODE4NSwiZXhwIjoxNjUwMDA0NTg1fQ.4tCJpMlTmAr-pdGoz4QPGJDlnB_tN85WYiX5cD9jibw"
+        },
+
+        "dev": {
+            "baseUrl": "http://15.206.172.192:3001/api",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5NzE5NWUzLThkODMtNDY5YS1hMTliLTc3NWE3MmE5NjUzMiIsImlhdCI6MTY0MTYyMjM3NCwiZXhwIjoxNjQxNzA4Nzc0fQ.YsbiS5Tuy6Sy_XaAPtmsQ5PY9DejFF22Fvgt9Ks_QJU"
+        },
+
+        "uat": {
+            "baseUrl": "http://54.232.14.250:3001/api",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5NzE5NWUzLThkODMtNDY5YS1hMTliLTc3NWE3MmE5NjUzMiIsImlhdCI6MTY0MTYyMjM3NCwiZXhwIjoxNjQxNzA4Nzc0fQ.YsbiS5Tuy6Sy_XaAPtmsQ5PY9DejFF22Fvgt9Ks_QJU"
+        }
+    }
+}

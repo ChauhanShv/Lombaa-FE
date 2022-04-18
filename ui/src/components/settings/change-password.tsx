@@ -11,30 +11,34 @@ import {
 import {
     FaChevronLeft,
 } from 'react-icons/fa';
+import { Link } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { isEmpty } from 'lodash';
 import { getAPIErrorMessage } from '../../utils';
-import { useAxios } from '../../services/base-service';
+import { useAxios } from '../../services';
 import { PASSWORD_REGEX } from '../../constants';
 import { ChangePasswordFormFeilds, AlertType } from './types';
 
 const schema = yup.object().shape({
-    oldPassword: yup.string().required('Password is required'),
+    oldPassword: yup.string().required('Current password is required'),
     password: yup.string().matches(
         PASSWORD_REGEX,
         'Password should contain minimum 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character'
-    ),
+    ).notOneOf([yup.ref('oldPassword'), 'null'], 'New and old password cannot be same').required('New password is required'),
+    confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match')
+        .required('Password confirmation is required'),
 }).required();
 const successMessage: string = 'Your password has changed';
 
 export const ChangePassword: React.FC = (): React.ReactElement => {
     const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm<ChangePasswordFormFeilds>({
+        mode: 'onChange',
         resolver: yupResolver(schema),
     });
     const [alert, setAlert] = useState<AlertType>({});
-    const [{data: response, loading, error: apiError}, execute] = useAxios({
+    const [{ data: response, loading, error: apiError }, execute] = useAxios({
         url: '/user/password',
         method: 'PUT'
     });
@@ -88,9 +92,13 @@ export const ChangePassword: React.FC = (): React.ReactElement => {
     return (
         <Card>
             <Card.Header className="d-flex align-items-center justify-content-between bg-white">
-                <span className="d-flex align-items-center "><button className="btn btn-white d-md-block d-lg-none"><FaChevronLeft /></button>Change Password</span>
+                <span className="d-flex align-items-center my-lg-1 settings-font-header">
+                    <Link to="/settings" className="btn btn-white d-md-block d-lg-none">
+                        <FaChevronLeft />
+                    </Link>Change Password
+                </span>
             </Card.Header>
-            <Col md={8} className="card-content mx-auto">
+            <Col md={8} className="card-content mx-auto col-11">
                 <Form onSubmit={handleFormSubmit} className="details-form p-5" noValidate>
                     {(apiError || alert.message) && (
                         <Alert variant={alert.message ? 'success' : 'danger'} onClose={() => setAlert({})} dismissible>
@@ -98,30 +106,43 @@ export const ChangePassword: React.FC = (): React.ReactElement => {
                         </Alert>
                     )}
                     <FloatingLabel
-                        controlId="floatingInput"
+                        controlId="currentPassword"
                         label="Current Password"
                         className="mb-3"
                     >
-                        <Form.Control 
-                            {...register('oldPassword')} 
-                            type="password" 
-                            placeholder="Password" 
+                        <Form.Control
+                            {...register('oldPassword')}
+                            type="password"
+                            placeholder="Password"
                             className={getErrorClassName('oldPassword')}
                         />
                         {getErrorText('oldPassword')}
                     </FloatingLabel>
                     <FloatingLabel
-                        controlId="floatingInput"
+                        controlId="newPassword"
                         label="New Password"
                         className="mb-3"
                     >
-                        <Form.Control 
-                            {...register('password')} 
-                            type="password" 
-                            placeholder="Password" 
+                        <Form.Control
+                            {...register('password')}
+                            type="password"
+                            placeholder="New Password"
                             className={getErrorClassName('password')}
                         />
                         {getErrorText('password')}
+                    </FloatingLabel>
+                    <FloatingLabel
+                        controlId="confirmPassword"
+                        label="Confirm Password"
+                        className="mb-3"
+                    >
+                        <Form.Control
+                            {...register('confirmPassword')}
+                            type="password"
+                            placeholder="Confirm Password"
+                            className={getErrorClassName('confirmPassword')}
+                        />
+                        {getErrorText('confirmPassword')}
                     </FloatingLabel>
                     <Button type="submit" className="btn btn-success w-100">
                         {

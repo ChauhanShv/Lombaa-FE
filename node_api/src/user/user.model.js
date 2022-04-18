@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize").service;
-
-const File = require('../file/file.model')
+const Location = require("../location/location.model");
+const File = require("../file/file.model");
 
 class User extends Model { }
 
@@ -30,6 +30,11 @@ User.init(
 
     phoneNumber: {
       type: DataTypes.STRING(20),
+      allowNull: true,
+    },
+
+    phoneCode: {
+      type: DataTypes.STRING(5),
       allowNull: true,
     },
 
@@ -66,6 +71,7 @@ User.init(
     memberSince: {
       type: DataTypes.DATE,
       allowNull: true,
+      defaultValue: Sequelize.NOW,
     },
 
     ipCountry: {
@@ -76,7 +82,7 @@ User.init(
     profileVerificationScore: {
       type: DataTypes.INTEGER(11),
       allowNull: true,
-      defaultValue: 0
+      defaultValue: 0,
     },
 
     isFacebookVerified: {
@@ -173,7 +179,7 @@ User.init(
     },
 
     showPhoneNumberConsent: {
-      type: DataTypes.INTEGER(1),
+      type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: 0,
     },
@@ -183,38 +189,50 @@ User.init(
       allowNull: true,
     },
 
-    location: {
-      type: DataTypes.INTEGER(11),
-      allowNull: true,
-    },
-
     isActive: {
       type: DataTypes.INTEGER(1),
       allowNull: false,
-      defaultValue: 0,
+      defaultValue: 1,
     },
 
     yearOfEstablishment: {
       type: DataTypes.DATEONLY,
       allowNull: true,
-      defaultValue: null
+      defaultValue: null,
     },
 
-    aboutBussiness: {
+    businessName: {
       type: DataTypes.STRING(250),
       allowNull: true,
-      defaultValue: null
-    }
+    },
+
+    aboutBusiness: {
+      type: DataTypes.STRING(250),
+      allowNull: true,
+      defaultValue: null,
+    },
+
+    tinNumber: {
+      type: DataTypes.STRING(12),
+      allowNull: true,
+      defaultValue: null,
+    },
   },
   {
     modelName: "User",
     tableName: "users",
     timestamps: true,
     sequelize,
+    paranoid: true,
+    defaultScope: {
+      attributes: { exclude: ["password"] },
+    },
   }
 );
 
-User.belongsTo(File, { as: "profilePicture" })
-User.belongsTo(File, { as: "coverPicture" })
+User.belongsTo(File, { as: "profilePicture" });
+User.belongsTo(File, { as: "coverPicture" });
+User.belongsTo(Location, { as: "lastUsedLocation" })
+User.belongsTo(Location, { as: "location" });
 
 module.exports = User;

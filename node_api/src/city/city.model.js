@@ -1,8 +1,7 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize").service;
-const region = require("../region").model;
 
-class City extends Model {}
+class City extends Model { }
 
 City.init(
   {
@@ -19,8 +18,19 @@ City.init(
       type: DataTypes.STRING(10),
       allowNull: false,
     },
+    coordinate: {
+      type: DataTypes.GEOMETRY('POINT'),
+      allowNull: true,
+    }
   },
-  { modelName: "city", tableName: "cities", timestamps: true, sequelize }
+  {
+    modelName: "city",
+    tableName: "cities",
+    timestamps: true,
+    paranoid: true,
+    sequelize,
+    defaultScope: { attributes: { exclude: ['createdAt', 'updatedAt', 'regionId', 'deletedAt'] } }
+  }
 );
-City.belongsTo(region, { as: "region" });
+
 module.exports = City;

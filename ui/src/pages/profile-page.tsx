@@ -1,6 +1,8 @@
 import React from 'react';
 import { useAppContext, ActionTypes } from '../contexts';
 import { useAxios } from '../services/base-service';
+import { Container } from 'react-bootstrap';
+import { ProfileHeaderCard, ProfileVerificationCard, ProfileTabs } from '../components';
 
 export const ProfilePage: React.FC = (): React.ReactElement => {
     const { state, dispatch } = useAppContext();
@@ -35,24 +37,11 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
      * 
      */
 
-    const doLogout = () => {
-        dispatch({
-            type: ActionTypes.LOGOUT,
-        });
-    };
-
-    const [{ data, loading, error }] = useAxios({
-        url: '/someurl',
-        method: 'POST',
-        data: {
-            key: 'value',
-        }
-    });
     return (
-        <div>
-            <h1>Profile Page</h1>
-            <p>Welcome !! {state.user}</p>
-            <button onClick={doLogout}>Logout</button>
-        </div>
+        <Container fluid>
+            <ProfileHeaderCard />
+            <ProfileVerificationCard />
+            <ProfileTabs />
+        </Container>
     )
 };

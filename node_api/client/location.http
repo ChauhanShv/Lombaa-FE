@@ -1,0 +1,33 @@
+GET {{baseUrl}}/locations HTTP/1.1
+content-type: application/json
+
+###
+
+GET {{baseUrl}}/locations/7dfd7447-4ab0-11ec-809d-021b0ebe8bee HTTP/1.1
+content-type: application/json
+
+###
+
+GET {{baseUrl}}/locations/countries HTTP/1.1
+content-type: application/json
+
+###
+
+GET {{baseUrl}}/locations/country/46cc6b39-eb86-4aff-9e21-2bbaf648f09d/regions HTTP/1.1
+content-type: application/json
+
+###
+
+GET {{baseUrl}}/locations/region/123/cities HTTP/1.1
+content-type: application/json
+
+###
+
+GET {{baseUrl}}/locations/country/code/IN/regions HTTP/1.1
+content-type: application/json
+
+###
+
+GET {{baseUrl}}/locations/regions/cities HTTP/1.1
+content-type: application/json
+

@@ -1,4 +1,5 @@
 module.exports = {
     forgetPassword: 'forget-password',
-    changeEmail: 'change-email',
+    newEmail: 'email-email',
+    apiAccessed: 'api-accessed',
 }

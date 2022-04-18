@@ -7,20 +7,25 @@ import {
     Alert,
     Spinner,
     Col,
+    Row,
+    ListGroup,
 } from 'react-bootstrap';
 import {
     FaChevronLeft,
 } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { isEmpty } from 'lodash';
-import { useAxios } from '../../services/base-service';
-import { MOBILE_REGEX, COMMON_ERROR_MESSAGE } from '../../constants';
+import { useAxios } from '../../services';
+import { MOBILE_REGEX } from '../../constants';
 import { ChangePhoneFormFeilds, AlertType } from './types';
-import { useAppContext } from '../../contexts';
+import { useAppContext, ActionTypes } from '../../contexts';
+import { getAPIErrorMessage } from '../../utils';
 
 const schema = yup.object().shape({
+    countryCode: yup.string().required('Enter Country Code'),
     phoneNumber: yup.string().matches(
         MOBILE_REGEX,
         'Mobile Number is invalid'
@@ -28,18 +33,39 @@ const schema = yup.object().shape({
 }).required();
 
 export const ChangePhone: React.FC = (): React.ReactElement => {
-    const { state } = useAppContext();
+    const { state, dispatch } = useAppContext();
     const [alert, setAlert] = useState<AlertType>({});
-    const { register, handleSubmit, formState: { errors } } = useForm<ChangePhoneFormFeilds>({
+    const [phoneCodeData, setPhoneCodeData] = useState<any[]>([]);
+    const [phoneConsent, setPhoneConsent] = useState<boolean>(state.user?.metaData?.showPhoneNumberConsent);
+    const [phoneCode, setPhoneCode] = useState<string>(state.user?.metaData?.phoneCode);
+    const { register, handleSubmit, formState: { errors }, getValues } = useForm<ChangePhoneFormFeilds>({
         resolver: yupResolver(schema),
         defaultValues: {
+            countryCode: state.user?.metaData?.phoneCode,
             phoneNumber: state.user?.metaData?.phoneNumber,
         }
     });
-    const [{data: response, loading, error: apiError}, execute] = useAxios({
+    const [{ data: response, loading, error: apiError }, execute] = useAxios({
         url: '/user/phone',
         method: 'PUT'
     });
+    const [{ data: phoneCodeResponse }, phoneCodeExecute] = useAxios({
+        url: 'locations/countries',
+        method: 'GET',
+    });
+    const [{ data: consentResponse, loading: consentLoading, error: consentError }, consentExecute] = useAxios({
+        url: '/user/phone/consent',
+        method: 'PUT',
+    });
+
+    useEffect(() => {
+        phoneCodeExecute({});
+    }, []);
+    useEffect(() => {
+        if (phoneCodeResponse?.success) {
+            setPhoneCodeData(phoneCodeResponse.response);
+        }
+    }, [phoneCodeResponse]);
 
     useEffect(() => {
         if (response?.success) {
@@ -47,9 +73,33 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
                 variant: 'success',
                 message: 'Phone changed successfully',
             });
+            dispatch({
+                type: ActionTypes.UPDATE_PROFILE,
+                payload: {
+                    metaData: {
+                        ...state?.user?.metaData,
+                        phoneNumber: getValues().phoneNumber,
+                    },
+                }
+            });
         }
-    }, [response]);
+        if (consentResponse?.success) {
+            setAlert({
+                variant: 'success',
+                message: 'Consent Updated',
+            });
+            setPhoneConsent(!phoneConsent);
+        }
+    }, [response, consentResponse]);
 
+    const handleConsentSwitch = (event: React.FormEvent) => {
+        event.preventDefault();
+        consentExecute({
+            data: {
+                consent: !phoneConsent,
+            }
+        })
+    }
     const handleFormSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         handleSubmit(onSubmit)();
@@ -58,6 +108,7 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
         if (isEmpty(errors)) {
             execute({
                 data: {
+                    phoneCode: values.countryCode,
                     phone: values.phoneNumber,
                 }
             });
@@ -82,32 +133,83 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
         };
         return errorMessages[field] ? 'is-invalid' : '';
     };
+
     return (
         <Card>
             <Card.Header className="d-flex align-items-center justify-content-between bg-white">
-                <span className="d-flex align-items-center "><button className="btn btn-white d-md-block d-lg-none"><FaChevronLeft /></button>Change Phone</span>
+                <span className="d-flex align-items-center my-lg-1 settings-font-header">
+                    <Link to="/settings" className="btn btn-white d-md-block d-lg-none">
+                        <FaChevronLeft />
+                    </Link>Change Phone
+                </span>
             </Card.Header>
-            <Col md={8} className="card-content col-md-8 mx-auto">
+            <Col md={8} className="card-content col-11 mx-auto">
                 <Form onSubmit={handleFormSubmit} className="details-form p-5">
                     {(apiError || alert.message) && (
                         <Alert variant={alert.message ? 'success' : 'danger'} onClose={() => setAlert({})} dismissible>
-                            {alert.message || COMMON_ERROR_MESSAGE}
+                            {alert.message || getAPIErrorMessage(apiError)}
                         </Alert>
                     )}
-                    <FloatingLabel
-                        controlId="floatingInput"
-                        label="Phone Number"
-                        className="mb-3"
-                    >
-                        <Form.Control 
-                            {...register('phoneNumber')} 
-                            type="phoneNumber" 
-                            placeholder="Phone" 
-                            className={getErrorClassName('email')}
-                        />
-                        {getErrorText('email')}
-                    </FloatingLabel>
-                    {errors.phoneNumber ? 'Phone Number is Invalid' : null }
+                    <Row>
+                        <Col md={4}>
+                            <FloatingLabel
+                                controlId="floatingInput"
+                                label="Code"
+                                className="mb-3"
+                            >
+                                <Form.Select
+                                    {...register('countryCode')}
+                                    placeholder="Phone"
+                                    className={getErrorClassName('countryCode')}
+                                    value={phoneCode}
+                                    onChange={(e: any) => setPhoneCode(e.target.value)}
+                                >
+                                    {!!phoneCodeData.length && phoneCodeData.map((phone: any) =>
+                                        <option value={phone.phoneCode} key={phone.id}>
+                                            {'+'}{phone.phoneCode}
+                                        </option>
+                                    )}
+                                </Form.Select>
+                                {getErrorText('countryCode')}
+                            </FloatingLabel>
+                        </Col>
+                        <Col md={8}>
+                            <FloatingLabel
+                                controlId="floatingInput"
+                                label="Phone Number"
+                                className="mb-3"
+                            >
+                                <Form.Control
+                                    {...register('phoneNumber')}
+                                    type="number"
+                                    placeholder="Phone"
+                                    className={getErrorClassName('phoneNumber')}
+                                />
+                                {getErrorText('phoneNumber')}
+                            </FloatingLabel>
+                        </Col>
+                    </Row>
+                    <ListGroup as="ul" className="connectsocial mb-3">
+                        <ListGroup.Item as="li">
+                            <span>
+                                <p className='text-muted mb-0'>
+                                    Share phone number with Buyer's Consent
+                                </p>
+                            </span>
+                            <span>
+                                {!consentLoading ? (
+                                    <Form.Check
+                                        id="buyer-consent-switch"
+                                        type="switch"
+                                        checked={phoneConsent}
+                                        onChange={handleConsentSwitch}
+                                    />
+                                ) : (
+                                    <Spinner animation='grow' role='status' />
+                                )}
+                            </span>
+                        </ListGroup.Item>
+                    </ListGroup>
                     <Button type="submit" className="btn btn-success w-100">
                         {
                             loading ? (

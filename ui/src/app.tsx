@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Switch } from 'react-router-dom';
-import './app.css';
+import { ThemeProvider } from '@mui/material/styles';
+import './app.scss';
 import { PrivateRoute, PublicRoute } from './components/routes';
 import { AppContextProvider } from './contexts';
 import {
@@ -10,20 +11,44 @@ import {
   HomePage,
   SettingsPage,
   ForgotPasswordPage,
+  ResetPasswordPage,
+  ProfilePage,
+  CreatePostPage,
+  EditPostPage,
+  SavedSearchesPage,
+  ProductDetailPage,
+  ProductListingPage,
+  VerifyEmailPage,
+  ChatPage,
 } from './pages';
+import { theme } from './theme';
+import { PaymentSuccessfulPage } from './components/payment';
 
 const App: React.FC = () => {
   return (
     <AppContextProvider>
       <BrowserRouter>
-        <AppContainer>
+        <ThemeProvider theme={theme}>
+          <AppContainer>
             <Switch>
               <PublicRoute component={HomePage} path="/" exact />
-              <PublicRoute restricted  component={ForgotPasswordPage} path="/forgot-password/:token?" exact />
-              {/* Html Routes - for nilesh */}
+              <PublicRoute restricted component={HomePage} path="/login" exact />
+              <PublicRoute restricted component={ForgotPasswordPage} path="/forgot-password" exact />
+              <PublicRoute restricted component={ResetPasswordPage} path="/password/reset" />
+              <PublicRoute component={VerifyEmailPage} path="/email/verify" exact />
               <PrivateRoute component={SettingsPage} path="/settings/:page?" exact />
+              <PrivateRoute component={ProfilePage} path="/profile" exact />
+              <PrivateRoute component={CreatePostPage} path="/create-post" exact />
+              <PrivateRoute component={EditPostPage} path="/edit-post/:productId?" exact />
+              <PrivateRoute component={SavedSearchesPage} path="/saved-search" exact />
+              <PublicRoute component={ProductListingPage} path="/product-listing/:categoryId" exact />
+              <PublicRoute component={ProductDetailPage} path="/product-detail/:productId/:slug?" exact />
+              <PrivateRoute component={ChatPage} path="/chat/:chatType/:chatId?" exact />
+              <PrivateRoute component={PaymentSuccessfulPage} path="/payment/success" exact />
+              {/* Html Routes - for nilesh */}
             </Switch>
-        </AppContainer>
+          </AppContainer>
+        </ThemeProvider>
       </BrowserRouter>
     </AppContextProvider>
   );

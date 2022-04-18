@@ -1,0 +1,10 @@
+
+GET {{baseUrl}}/category HTTP/1.1
+content-type: application/json
+
+###
+
+GET {{baseUrl}}/category/6c574ff2-03ef-4501-84ee-cabea11cb6e2/products?offset=2&limit=2 HTTP/1.1
+Content-Type: application/json
+x-app-version : 1.0.0
+x-client-platform : Android

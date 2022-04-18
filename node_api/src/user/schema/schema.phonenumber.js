@@ -5,7 +5,9 @@ module.exports = {
     notEmpty: {
       errorMessage: "Phone number is required",
     },
-
+    isLength: {
+      options: { min: 8, max: 20 }
+    },
     custom: {
       options: async (value) => {
         if (!isMobile(value)) return Promise.reject("Invalid phone number");
@@ -16,5 +18,13 @@ module.exports = {
         return Promise.resolve();
       },
     },
+  },
+
+  phoneCode: {
+    optional: {
+      options: { checkFalsy: true },
+    },
+    isInt: true,
+    toInt: true,
   },
 };

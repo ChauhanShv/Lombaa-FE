@@ -1,18 +1,98 @@
+.log-reg-pop .modal-login {
+  max-width: 400px;
+  width:90%;
+  margin: 0 auto;
+  font-size: 14px;
+}
+.log-reg-pop .modal-login .modal-header {
+  border-bottom: none;
+  position: relative;
+  justify-content: center;
+}
+.log-reg-pop .modal-login h4 {
+  text-align: center;
+  font-size: 18px;
+  width: 100%;
+}
+.log-reg-pop .modal-header .close {
+  position: absolute;
+  right: 10px;
+}
+.log-reg-pop .close:focus,
+.log-reg-pop .close:active {
+  outline: none !important;
+  box-shadow: none;
+}
 
-.log-reg-pop .modal-login { width: 400px; margin:0 auto; font-size: 14px; } 
-.log-reg-pop .modal-login .modal-header { border-bottom: none; position: relative; justify-content: center; } 
-.log-reg-pop .modal-login h4 { text-align: center; font-size: 18px; width: 100%; } 
-.log-reg-pop .modal-header .close { position: absolute; right: 10px; } 
-.log-reg-pop .close:focus, .log-reg-pop .close:active { outline: none !important; box-shadow: none; } 
-.log-reg-pop .modal-login a { text-decoration: none !important; } 
+.log-reg-pop .modal-login .form-group {
+  position: relative;
+}
 
-.log-reg-pop .modal-login form { } 
+.modal-header {
+  padding: 0px;
+  padding-top: 10px;
+}
 
-.log-reg-pop .modal-login .form-control ~ svg { position: absolute; top: 12px; left: 15px; color: var(--style-3-color); } 
+.btn-close {
+  margin-bottom: 1.5rem !important;
+  width: 1.7rem !important;
+  height: 1rem !important;
+}
 
-.log-reg-pop .btn-signin { border-radius: 25px; width: 100%; text-transform: uppercase; letter-spacing: 1.5px; background-color: var(--style-3-color); border: 1px solid var(--style-3-color); } 
+.modal-header .btn-close {
+  padding: 0rem !important;
+}
 
-@media only screen and (max-width: 360px){
- .log-reg-pop .modal-login { width: 100%; margin:5px; } 
- .log-reg-pop .modal-login form { width: 100%; } 
- }
+.log-reg-pop .modal-login .form-control ~ svg {
+  position: absolute;
+  top: 12px;
+  left: 15px;
+  color: var(--style-3-color);
+}
+
+.log-reg-pop .btn-signin {
+  border-radius: 25px;
+  width: 100%;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  background-color: var(--style-3-color);
+  border: 1px solid var(--style-3-color);
+}
+
+.glog-btn,
+.fblog-btn {
+  border: 1px solid #ccc;
+  transition: all ease-in-out 300ms;
+}
+.glog-btn:hover {
+  background-color: #f1f1f1;
+}
+
+.fblog-btn svg {
+  fill: rgb(59, 89, 152);
+  transition: all ease-in-out 300ms;
+}
+.fblog-btn:hover {
+  background-color: rgb(59, 89, 152);
+  color: #fff;
+}
+.fblog-btn:hover svg {
+  fill: #ffffff;
+}
+
+@media only screen and (max-width: 360px) {
+  .log-reg-pop .modal-login {
+    width: 100%;
+    margin: 5px;
+  }
+  .log-reg-pop .modal-login form {
+    width: 100%;
+  }
+}
+
+.login-link {
+  text-decoration: underline !important;
+  color: green;
+  display: inline;
+  margin-left: -10px !important;
+}

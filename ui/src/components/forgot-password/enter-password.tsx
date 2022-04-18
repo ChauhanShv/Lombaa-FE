@@ -14,9 +14,9 @@ import { FaChevronLeft } from 'react-icons/fa';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { useParams } from 'react-router-dom';
 import { isEmpty } from 'lodash';
-import { useAxios } from '../../services/base-service';
+import { useQuery } from '../../services';
+import { useAxios } from '../../services';
 import { PASSWORD_REGEX } from '../../constants';
 import { getAPIErrorMessage } from '../../utils';
 
@@ -27,14 +27,15 @@ const schema = yup.object().shape({
     ),
     confirmPassword: yup.string().oneOf([yup.ref('newPassword'), null], 'Passwords must match'),
 }).required();
-export interface AlertType {
+interface AlertType {
     variant?: string;
     message?: string;
 };
 
 export const EnterPassword: React.FC = () => {
     const [alert, setAlert] = useState<AlertType>({});
-    const { token } = useParams<{ token: string }>();
+    const query = useQuery();
+    const token = query.get("token");
     const { register, handleSubmit, reset, formState: { errors } } = useForm({
         resolver: yupResolver(schema),
     });
@@ -89,7 +90,7 @@ export const EnterPassword: React.FC = () => {
     };
 
     return (
-        <Container className="p-5">
+        <Container className="py-5">
             <Row>
                 <Col md={12}>
                     <Card>
@@ -99,16 +100,16 @@ export const EnterPassword: React.FC = () => {
                             </Alert>
                         )}
                         <Card.Header className="d-flex align-items-center justify-content-between bg-white">
-                            <span className="d-flex align-items-center ">
+                            <span className="d-flex align-items-center my-lg-1 settings-font-header">
                                 <button className="btn btn-white d-md-block d-lg-none">
                                     <FaChevronLeft />
                                 </button>
                                 Change Password
                             </span>
                         </Card.Header>
-                        <Form onSubmit={handleFormSubmit} className="card-content text-center p-5 col-md-6 mx-auto" noValidate>
-                           <h4 className="mb-4">Enter your email to get the forgot password link</h4>
-                            <FloatingLabel 
+                        <Form onSubmit={handleFormSubmit} className="card-content text-center col-lg-6 mx-auto p-3" noValidate>
+                            <h6 className="mt-4 mb-4">Enter your email to get the forgot password link</h6>
+                            <FloatingLabel
                                 label="New password"
                                 className="mb-3"
                             >
@@ -132,17 +133,15 @@ export const EnterPassword: React.FC = () => {
                                 />
                                 {getErrorText('confirmPassword')}
                             </FloatingLabel>
-                            <Button type='submit' className="btn btn-lg btn-success w-100 mb-3">
+                            <Button type='submit' className="btn btn-success w-100 mb-3">
                                 {
                                     loading ? (
                                         <Spinner animation="border" role="status"></Spinner>
                                     ) : 'Submit'
                                 }
                             </Button>
-                            <button className="link btn ">Cancel</button>
                         </Form>
                     </Card>
-
                 </Col>
             </Row>
         </Container>

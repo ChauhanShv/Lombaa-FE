@@ -12,9 +12,13 @@ eventEmitter.on(event.forgetPassword, ({ user, resetPasswordLink }) => {
     startForgetPasswordSequence({ user, resetPasswordLink });
 });
 
-eventEmitter.on(event.emailChange, ({ user, verificationLink }) => {
+eventEmitter.on(event.newEmail, ({ user, verificationLink }) => {
     console.log({ verificationLink });
     startEmailVerificationSequence({ user, verificationLink });
+});
+
+eventEmitter.on(event.apiAccessed, (execute, user) => {
+    execute(user);
 });
 
 

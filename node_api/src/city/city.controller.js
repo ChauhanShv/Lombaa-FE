@@ -1,7 +1,8 @@
 const BaseController = require("../modules/controller").base;
 const cityModel = require("./city.model");
 const region = require("../region").model;
-
+const Chat = require("../chat/chat.model")
+const ChatMessage = require("../chat/chat.message.model")
 class cityController extends BaseController {
   constructor(...args) {
     super(...args);
@@ -22,7 +23,6 @@ class cityController extends BaseController {
         },
       });
     } catch (error) {
-      console.log(error);
       return super.jsonRes({
         res,
         code: 401,

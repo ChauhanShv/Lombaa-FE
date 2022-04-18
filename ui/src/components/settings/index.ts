@@ -4,3 +4,7 @@ export * from './change-phone';
 export * from './change-email';
 export * from './change-password';
 export * from './deactivate-account';
+export * from './image-crop-modal';
+export * from './social-media-connect';
+export * from './account-type-selector';
+export * from './packages';

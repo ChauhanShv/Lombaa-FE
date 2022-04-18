@@ -20,6 +20,7 @@ export const userReducer = (state: User, action: Action) => {
         case ActionTypes.UPDATE_PROFILE:
             return {
                 ...state,
+                metaData: payload?.metaData,
             }
         default: {
             return state;

@@ -1,105 +1,46 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
 const sequelize = require("../modules/sequelize").service;
-const user = require("../user").model;
+const Location = require("../location/location.model");
+const Category = require("../category/category.model");
+const ProductField = require("./product_field.model");
+const ProductMedia = require("./product_media.model");
+const User = require("../user/user.model")
 
-class Product extends Model {}
+class Product extends Model { }
 
 Product.init(
   {
-    id: {
-      type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: Sequelize.UUIDV4,
-    },
-    title: {
-      type: DataTypes.STRING(50),
-      allowNull: false,
-      field: "title",
-    },
-    categoryId: {
-      type: DataTypes.STRING(10),
-      allowNull: false,
-      field: "category_Id",
-    },
-    slug: {
-      type: DataTypes.STRING(255),
-      allowNull: false,
-      field: "slug",
-    },
-    price: {
-      type: DataTypes.STRING(10),
-      allowNull: false,
-      field: "price",
-    },
-    isNegotiable: {
-      type: DataTypes.TINYINT(1),
-      allowNull: false,
-      field: "is_Negotiable",
-    },
-    isFree: {
-      type: DataTypes.TINYINT(1),
-      allowNull: false,
-      field: "is_Free",
-    },
-    buyerDoDelivery: {
-      type: DataTypes.TINYINT(1),
-      allowNull: false,
-      field: "buyer_Do_Delivery",
-    },
-    stock: {
-      type: DataTypes.TINYINT(1),
-      allowNull: false,
-      field: "stock",
-    },
-    condition: {
-      type: DataTypes.ENUM({
-        values: ["new", "old"],
-      }),
-      allowNull: true,
-      field: "condition",
-    },
-    description: {
-      type: DataTypes.STRING(255),
-      allowNull: true,
-      field: "description",
-    },
-    location: {
-      type: DataTypes.STRING(50),
-      allowNull: false,
-      field: "location",
-    },
-    promote_type: {
-      type: DataTypes.ENUM({
-        values: ["yes", "no"],
-      }),
-      allowNull: true,
-      field: "promote_Type",
-    },
-    dealMethod: {
-      type: DataTypes.ENUM({
-        values: ["yes", "no"],
-      }),
-      allowNull: false,
-      field: "deal_Method",
-    },
-    isApproved: {
-      type: DataTypes.TINYINT(1),
-      allowNull: false,
-      field: "is_Approved",
-    },
-    postedAt: {
-      type: DataTypes.DATE(),
-      defaultValue: Sequelize.NOW(),
-      allowNull: true,
-    },
-    isSold: {
-      type: DataTypes.TINYINT(1),
-      allowNull: true,
-      defaultValue: 0,
-      field: "is_Sold",
-    },
+    id: { type: DataTypes.UUID, primaryKey: true, defaultValue: Sequelize.UUIDV4 },
+    slug: { type: DataTypes.STRING(255), allowNull: false },
+    approvedAt: { type: DataTypes.DATE, allowNull: true },
+    postedAt: { type: DataTypes.DATE, defaultValue: Sequelize.NOW(), allowNull: true },
+    soldAt: { type: DataTypes.DATE, allowNull: true },
+    rejectedAt: { type: DataTypes.DATE, allowNull: true },
+    rejectReason: { type: DataTypes.TEXT, allowNull: true },
+    expiry: { type: DataTypes.DATE, allowNull: true },
+    title: DataTypes.VIRTUAL,
+    description: DataTypes.VIRTUAL,
+    price: DataTypes.VIRTUAL,
+    isFavorite: DataTypes.VIRTUAL,
   },
-  { modelName: "Product", tableName: "products", timestamps: true, sequelize }
+  {
+    modelName: "Product",
+    tableName: "products",
+    timestamps: true,
+    sequelize,
+    paranoid: true,
+    defaultScope: {
+      attributes: {
+        exclude: ["createdAt", "updatedAt", "iconId",],
+      },
+    },
+  }
 );
 
+Product.belongsTo(Category, { as: "category" });
+// Product.belongsTo(User, { as: "user" });
+Product.belongsTo(Location, { as: "location" });
+Product.hasMany(ProductField, { as: 'productFields', foreignKey: "productId" });
+Product.hasMany(ProductMedia, { as: "productMedia", foreignKey: "productId" });
+Product.belongsTo(User, { as: 'user' })
 module.exports = Product;

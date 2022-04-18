@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Alert, Spinner } from 'react-bootstrap';
-import { FaGoogle, FaFacebook } from 'react-icons/fa';
-import { Form, FloatingLabel, Button } from 'react-bootstrap';
+import { Modal, Alert, Spinner, Form, FloatingLabel, Button, Nav } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { Link } from 'react-router-dom';
 import { isEmpty } from 'lodash';
-import FacebookLogin from 'react-facebook-login';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import GoogleLogin from 'react-google-login';
 import { getAPIErrorMessage } from '../../../utils';
 import { LoginProps, FormFields } from './types';
@@ -24,13 +22,13 @@ const schema = yup.object().shape({
 export const Login: React.FC<LoginProps> = ({
     show,
     onClose,
-    openRegister,
+    onRegisterClick,
 }: LoginProps): React.ReactElement => {
-    const [openFBLogin, setOpenFBLogin] = useState<boolean>(false);
     const { register, handleSubmit, formState: { errors } } = useForm<FormFields>({
         resolver: yupResolver(schema),
     });
     const { dispatch } = useAppContext();
+    const [showModal, setShowModal] = useState<boolean>(show ?? false);
     const [{ data: loginResponse, loading, error: apiError }, execute] = useAxios({
         url: '/auth',
         method: 'POST',
@@ -47,7 +45,6 @@ export const Login: React.FC<LoginProps> = ({
     useEffect(() => {
         const { success, response, metadata } = loginResponse || fbRes || googleRes || {};
         if (success) {
-            localStorage.setItem("token", response?.token);
             dispatch({
                 type: ActionTypes.LOGIN,
                 payload: {
@@ -60,8 +57,7 @@ export const Login: React.FC<LoginProps> = ({
     }, [loginResponse, googleRes, fbRes]);
 
     const handleRegisterClick = () => {
-        onClose();
-        openRegister(true);
+        onRegisterClick();
     };
     const onSubmit = (values: any) => {
         if (isEmpty(errors)) {
@@ -121,11 +117,13 @@ export const Login: React.FC<LoginProps> = ({
     }
 
     return (
-        <Modal show={show} onHide={onClose}>
+        <Modal show={showModal} onHide={onClose}>
             <div className="log-reg-pop">
                 <div className="pt-3 modal-login">
-                    <div className="modal-body">
-                        <p className="ml-3"><strong>Welcome back!</strong></p>
+                    <div className="modal-body px-0">
+                        <Modal.Header closeButton>
+                            <p className="ml-3"><strong>Welcome back!</strong></p>
+                        </Modal.Header>
                         {showAPIErrorMessage()}
                         <Form onSubmit={handleFormSubmit} noValidate>
                             <FloatingLabel label="Your Email address" className="mb-3" >
@@ -147,11 +145,11 @@ export const Login: React.FC<LoginProps> = ({
                                 {getErrorText('password')}
                             </FloatingLabel>
                             <div className="form-group mb-3 d-flex justify-content-between align-items-center">
-                                <Form.Check name="usertype" label="Remember Me" inline type="checkbox" aria-label="radio 1" />
+                                <Form.Check name="usertype" label="Remember Me" id="remember" inline type="checkbox" aria-label="radio 1" />
                                 <Link to="/forgot-password" onClick={() => onClose()}>Forgot Password?</Link>
-                            </div>                         
+                            </div>
                             <div className="form-group text-center mt-3">
-                                <Button type="submit" className="btn btn-primary w-100">
+                                <Button type="submit" className="btn btn-success w-100">
                                     {
                                         loading ? (
                                             <Spinner animation="border" role="status"></Spinner>
@@ -161,45 +159,48 @@ export const Login: React.FC<LoginProps> = ({
                             </div>
                         </Form>
                     </div>
-                    <div className="text-center mb-4">Don't have an account? <Button className="px-0" variant="link" onClick={handleRegisterClick}>Register</Button></div>
+                    <div className="text-center mb-4">Don't have an account?
+                        <Nav.Link className="px-0 register-link" onClick={handleRegisterClick}>
+                            Register
+                        </Nav.Link>
+                    </div>
                     <div className="row justify-content-center mb-5">
-                        <div className="col-5">
+                        <div className="col-12">
                             <GoogleLogin
                                 clientId={GOOGLE_CLIENTID}
                                 render={renderProps => (
                                     <Button
-                                        className="w-100"
-                                        variant="outline-success"
+                                        className="glog-btn w-100"
+                                        variant="outline-link"
                                         onClick={renderProps.onClick}
-                                        disabled={googleLoading || renderProps.disabled}
+                                        disabled={googleLoading}
                                     >
-                                        <FaGoogle /> Via Google
+                                        <img src="images/google.svg" /> Continue with Google
                                     </Button>
                                 )}
                                 buttonText="Login"
                                 onSuccess={googleSuccess}
                                 cookiePolicy={'single_host_origin'}
+                                prompt="select_account"
                             />
                         </div>
-                        <div className="col-5">
-                            <Button
-                                className="w-100"
-                                variant="outline-success"
-                                onClick={() => setOpenFBLogin(true)}
-                                disabled={fbLoading}
-                            >
-                                <FaFacebook /> Via Facebook
-                            </Button>
-                            {openFBLogin && (
-                                <FacebookLogin
-                                    appId={FB_APPID}
-                                    autoLoad
-                                    fields="name,email,picture"
-                                    onClick={() => {}}
-                                    callback={facebookSuccess}
-                                    buttonStyle={{display: 'none'}}
-                                />
-                            )}
+                        <div className="col-12 mt-3">
+                            <FacebookLogin
+                                render={renderProps => (
+                                    <Button
+                                        className="fblog-btn w-100"
+                                        variant="outline-link"
+                                        onClick={renderProps.onClick}
+                                        disabled={fbLoading}
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="26px" height="26px" viewBox="0 0 90 90"><g><path d="M90,15.001C90,7.119,82.884,0,75,0H15C7.116,0,0,7.119,0,15.001v59.998   C0,82.881,7.116,90,15.001,90H45V56H34V41h11v-5.844C45,25.077,52.568,16,61.875,16H74v15H61.875C60.548,31,59,32.611,59,35.024V41   h15v15H59v34h16c7.884,0,15-7.119,15-15.001V15.001z"></path></g></svg> Continue with Facebook
+                                    </Button>
+                                )}
+                                appId={FB_APPID}
+                                autoLoad={false}
+                                fields="name,email,picture"
+                                callback={facebookSuccess}
+                            />
                         </div>
                     </div>
                 </div>

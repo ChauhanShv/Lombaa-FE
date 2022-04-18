@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useAxios } from '../../../services/base-service';
 import { useAppContext, ActionTypes } from '../../../contexts';
 import { Header, Footer } from '..';
@@ -13,8 +14,35 @@ export const AppContainer = ({ children }: AppContainerProps) => {
         method: 'GET',
     });
     const token = localStorage.getItem('token');
+    const location = useLocation();
+
+    const getLocation = (): void => {
+        navigator.geolocation.getCurrentPosition((position) => {
+            dispatch({
+                type: ActionTypes.SETLATLNG,
+                payload: {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                }
+            });
+            navigator.permissions.query({
+                name: 'geolocation',
+            }).then((result) => {
+                if (result.state == 'granted') {
+                    dispatch({
+                        type: ActionTypes.SETLATLNG,
+                        payload: {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude,
+                        }
+                    });
+                }
+            });
+        });
+    };
 
     useEffect(() => {
+        getLocation();
         if (token) {
             refetch();
         } else {
@@ -49,12 +77,20 @@ export const AppContainer = ({ children }: AppContainerProps) => {
         }
     }, [response, error]);
 
+    const showFooter = () => {
+        const footerHiddenRoutes: string[] = [
+            '/create-post',
+            location.pathname.match('/chat')?.input || '/chat',
+        ];
+        return !footerHiddenRoutes.includes(location.pathname);
+    };
+
     const renderChildren = () => {
         return (
             <>
                 <Header />
-                    {children}
-                <Footer />
+                {children}
+                {showFooter() && <Footer />}
             </>
         );
     };

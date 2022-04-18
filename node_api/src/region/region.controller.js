@@ -22,7 +22,6 @@ class regionController extends BaseController {
         },
       });
     } catch (error) {
-      console.log(error);
       return super.jsonRes({
         res,
         code: 401,

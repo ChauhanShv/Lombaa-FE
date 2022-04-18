@@ -5,8 +5,7 @@ module.exports = {
   name: {
     custom: {
       options: (value, { req, location, path }) => {
-        if (req?.body?.accountType === "standard" && (value ?? "") === "")
-          return Promise.reject("Name is required");
+        if (req?.body?.accountType === "standard" && (value ?? "") === "") return Promise.reject("Name is required");
         return Promise.resolve();
       },
     },
@@ -15,8 +14,7 @@ module.exports = {
   businessName: {
     custom: {
       options: (value, { req }) => {
-        if (req?.body?.accountType === "business" && (value ?? "") === "")
-          return Promise.reject("Business name is required");
+        if (req?.body?.accountType === "business" && (value ?? "") === "") return Promise.reject("Business name is required");
         return Promise.resolve();
       },
     },
@@ -42,6 +40,9 @@ module.exports = {
     optional: {
       options: { checkFalsy: true },
     },
+    isLength: {
+      options: { min: 8, max: 20 }
+    },
 
     custom: {
       options: async (value) => {
@@ -52,6 +53,14 @@ module.exports = {
         return Promise.resolve();
       },
     },
+  },
+
+  phoneCode: {
+    optional: {
+      options: { checkFalsy: true },
+    },
+    isInt: true,
+    toInt: true,
   },
 
   password: {
@@ -70,8 +79,7 @@ module.exports = {
   tinNumber: {
     custom: {
       options: (value, { req }) => {
-        if (req?.body?.accountType === "business" && (value ?? "") === "")
-          return Promise.reject("Tin number is required");
+        if (req?.body?.accountType === "business" && (value ?? "") === "") return Promise.reject("Tin number is required");
         return Promise.resolve();
       },
     },

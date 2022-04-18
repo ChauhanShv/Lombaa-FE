@@ -1,69 +1,74 @@
 import React from 'react';
 import { ListGroup, Card } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
 import { FaChevronLeft, FaChevronRight, } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import { useAppContext } from '../../contexts';
 import './settings.css';
 
 export const SideBar: React.FC = (): React.ReactElement => {
+    const { state } = useAppContext();
+    const location = useLocation();
+    const userData = state?.user?.metaData;
+
     return (
         <Card className="sidenav bg-light position-sticky">
-            <Card.Header className="d-flex align-items-center py-3">
-                <button className="btn btn-white">
-                    <FaChevronLeft />
-                </button>
+            <Card.Header className="d-flex align-items-center py-3 font-weight-bold">
+                <NavLink to="/" activeClassName="">
+                    <button className="btn">
+                        <FaChevronLeft />
+                    </button>
+                </NavLink>
                 Settings
             </Card.Header>
-            <ListGroup className="mb-2">
-                <Link className="side-cta" to="/settings/personal-details">
-                    <ListGroup.Item className="active py-3">
-                        Personal details
-                        <FaChevronRight />
-                    </ListGroup.Item>
-                </Link>
-                <Link className="side-cta" to="/settings/business-information">
-                    <ListGroup.Item className="py-3">
-                        Business information
-                        <FaChevronRight />
-                    </ListGroup.Item>
-                </Link>
+            <ListGroup>
+                {userData?.accountType === 'standard' ? (
+                    <NavLink className="side-cta" to="/settings/personal-details" activeClassName="active">
+                        <ListGroup.Item className="py-3" active={location.pathname === '/settings'}>
+                            Personal details
+                            <FaChevronRight />
+                        </ListGroup.Item>
+                    </NavLink>
+                ) : (
+                    <NavLink className="side-cta" to="/settings/business-information">
+                        <ListGroup.Item className="py-3" active={location.pathname === '/settings'}>
+                            Business information
+                            <FaChevronRight />
+                        </ListGroup.Item>
+                    </NavLink>
+                )}
             </ListGroup>
-            <ListGroup className="mb-2">
-                <Link className="side-cta" to="/settings/personal-details">
-                    <ListGroup.Item className="py-3">
-                        Personal details
-                        <FaChevronRight />
-                    </ListGroup.Item>
-                </Link>
-                <Link className="side-cta" to="/settings/business-information">
-                    <ListGroup.Item className="py-3">
-                        Business information
-                        <FaChevronRight />
-                    </ListGroup.Item>
-                </Link>
-                <Link className="side-cta" to="/settings/change-password">
+            <ListGroup>
+                <NavLink className="side-cta" to="/settings/change-password">
                     <ListGroup.Item className="py-3" >
                         Change password
                         <FaChevronRight />
                     </ListGroup.Item>
-                </Link>
-                <Link className="side-cta" to="/settings/change-email">
+                </NavLink>
+                <NavLink className="side-cta" to="/settings/change-email">
                     <ListGroup.Item className="py-3">
                         Change email
                         <FaChevronRight />
                     </ListGroup.Item>
-                </Link>
-                <Link className="side-cta" to="/settings/change-phone">
+                </NavLink>
+                <NavLink className="side-cta" to="/settings/change-phone">
                     <ListGroup.Item className="py-3">
                         Change phone number
                         <FaChevronRight />
                     </ListGroup.Item>
-                </Link>
-                <Link className="side-cta" to="/settings/deactivate-account">
+                </NavLink>
+                <NavLink className="side-cta" to="/settings/select-package">
+                    <ListGroup.Item className="py-3">
+                        Package
+                        <FaChevronRight />
+                    </ListGroup.Item>
+                </NavLink>
+                <NavLink className="side-cta" to="/settings/deactivate-account">
                     <ListGroup.Item className="py-3">
                         Deactivate account
                         <FaChevronRight />
                     </ListGroup.Item>
-                </Link>
+                </NavLink>
             </ListGroup>
         </Card>
     );
