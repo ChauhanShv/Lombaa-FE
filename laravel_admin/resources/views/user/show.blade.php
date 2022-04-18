@@ -51,7 +51,9 @@
                            <lable class="span11" style="font-weight: bold"></lable>
                         </div>
                      </div> --}}
-                     <div class="tab-pane" style="padding: 0px 35px;" id="4b">
+                  <div class="tab-pane" style="padding: 0px 35px;" id="4b">
+                     @if($category && $package)
+                     <div>
                         <div class="control-group">
                            <label class="control-label" style="font-weight: bold;"> User Name : {{$user->email}}</label>
                            <lable class="span11" style="font-weight: bold"></lable>
@@ -80,7 +82,13 @@
                            <label class="control-label" style="font-weight: bold;"> Package Expired date : {{$packages->endDate}}</label>
                            <lable class="span11" style="font-weight: bold"></lable>
                         </div>
-				         </div>
+                        @else
+                     <div class="alert alert-warning ">
+                        <h3>User package not found</h3>
+                      </div>
+                     @endif
+                     </div>
+                  </div>
 			      </div>
             </div>
             @if($user)
