@@ -2,6 +2,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Users;
+use App\Models\UserPackage;
+use App\Models\Packages;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -14,8 +17,20 @@ class UserController extends Controller
 
     public function info($id)
     {
-        $info = Users::where('id', $id)->first();
-        return view('user.show', ['info' => $info]);
+        $user = Users::with('packages')->where('id', $id)->first();
+        
+            $categories = UserPackage::with('categories')->where('userId', $user->id)->first();
+            if($categories){
+            $category = Category::where('id', $categories->categoryId)->first();
+            $packages = UserPackage:: with('packages')->where('userId', $user->id)->first();
+            $package = Packages::where('id', $packages->packageId)->first();
+
+             return view('user.show', ['user' => $user, 'category' => $category,'packages' => $packages, 'package' => $package]);
+            }
+            else {
+                return view('user.show', ['user' => $user, 'category' => null, 'package' => null]);
+            }
+            
     }
 
     public function suspend(Request $request, $id)
