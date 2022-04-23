@@ -1,3 +1,3 @@
 module.exports = (value) => {
-    return new RegExp('^[6-9][0-9]{9}$').test(value);
+    return new RegExp('^[0-9]{8,20}$').test(value);
 }
