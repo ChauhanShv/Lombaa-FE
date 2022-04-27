@@ -29,6 +29,7 @@ const SaveSearch = require("../save_search/save.search.model")
 const SaveSearchFilter = require("../save_search_filter/save.search.filter.model");
 const UserPackage = require("../user_package/user.package.model");
 const Package = require("../packages/packages.model");
+const UserReview = require("../user_review/user.review.model")
 
 class UserController extends BaseController {
   constructor() {
@@ -652,6 +653,25 @@ class UserController extends BaseController {
     }
     catch (error) {
       return super.jsonRes({ res, code: 400, data: { success: false, message: "failed to get packages", message_detail: error?.message } })
+    }
+  }
+  sellerAndProductDetails = async (req, res, next) => {
+    try {
+      const userId = req?.params?.id
+      const userData = await User.findOne({
+        where: { id: userId },
+        attributes: ["name", "profilePictureId", "email", "accountType", "locationId", "profileVerificationScore", "businessName", "createdAt", "showPhoneNumberConsent", "phoneNumber"],
+        include: [{ model: fileModel, as: "profilePicture" }, { model: Location, as: "location" }]
+      })
+      const inReview = await this.productService?.getUserInReviewProducts(userId);
+      const active = await this.productService?.getUserActiveProducts(userId);
+      const declined = await this.productService?.getUserDeclinedProducts(userId);
+      const expired = await this.productService?.getUserExpiredProducts(userId);
+      const sold = await this.productService?.getUserSoldProducts(userId);
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Details retreived", data: { userData, inReview, active, declined, expired, sold } } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to get details", message_detail: error?.message } })
     }
   }
 }
