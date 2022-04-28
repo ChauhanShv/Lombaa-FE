@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { FaEye, FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { Col, Row, Card, Button } from 'react-bootstrap';
 import { ProfileProductTileProps } from './types';
@@ -18,6 +18,7 @@ export const ProfileProductTile: React.FC<ProfileProductTileProps> = ({
     onDelete,
 }: ProfileProductTileProps): React.ReactElement => {
 
+    const { userId } = useParams<{ userId: string }>();
     const [{ data: deleteFavourite }, unfavExecute] = useAxios({
         url: '/user/favorite/product',
         method: 'DELETE',
@@ -82,7 +83,7 @@ export const ProfileProductTile: React.FC<ProfileProductTileProps> = ({
                         <Link to={`/product-detail/${productId}/${slug}`}>
                             <Button variant="success"><FaEye /> View</Button>
                         </Link>{' '}
-                        {!isFavouritesTab ? (
+                        {(!isFavouritesTab && !userId) && (
                             <>
                                 <Link to={`/edit-post/${productId}`}>
                                     <Button variant="outline-secondary">
@@ -93,7 +94,8 @@ export const ProfileProductTile: React.FC<ProfileProductTileProps> = ({
                                     <FaTrashAlt /> Delete
                                 </Button>{' '}
                             </>
-                        ) : (
+                        )}
+                        {isFavouritesTab && (
                             <Button onClick={handleUnfavProduct} variant="danger">
                                 <FaTrashAlt /> Remove from favourites
                             </Button>

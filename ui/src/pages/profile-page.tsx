@@ -1,47 +1,45 @@
-import React from 'react';
-import { useAppContext, ActionTypes } from '../contexts';
-import { useAxios } from '../services/base-service';
+import React, { useEffect } from 'react';
 import { Container } from 'react-bootstrap';
+import { CircularProgress } from '@mui/material';
+import { useParams } from 'react-router-dom';
+import { useAppContext } from '../contexts';
+import { useAxios } from '../services/base-service';
 import { ProfileHeaderCard, ProfileVerificationCard, ProfileTabs } from '../components';
 
 export const ProfilePage: React.FC = (): React.ReactElement => {
     const { state, dispatch } = useAppContext();
-    /**
-     * Sample API call:
-     * 
-     * Get request:
-     * Refetch is a fuction when called will call the same API again
-     * const [{ data, loading, error }, refetch] = useAxios('/someurl');
-     * 
-     * Post request:
-     * const [{ data, loading, error }] = useAxios({
-     *      url: '/someurl',
-     *      method: 'POST',
-     *      data: {
-     *          key: 'value',
-     *      }
-     * });
-     * 
-     * Post request with manual true:
-     * Manual true will not call instantly, it will only call when execute function is called
-     * const [{ data, loading, error }, execute] = useAxios({
-     *      url: '/someurl',
-     *      method: 'POST',
-     * });
-     * 
-     * const onSubmit = () => execute({
-     *      data: {
-     *          key: 'value',
-     *      }
-     * });
-     * 
-     */
+    const { userId } = useParams<{ userId: string }>();
+
+    const [{ data, loading, error }, execute] = useAxios({
+        url: `/user/seller/${userId}`,
+        method: 'GET',
+    });
+
+    useEffect(() => {
+        if (userId)
+            execute({});
+    }, []);
 
     return (
         <Container fluid>
-            <ProfileHeaderCard />
-            <ProfileVerificationCard />
-            <ProfileTabs />
+            {loading ? (
+                <CircularProgress />
+            ) : (
+                <>
+                    <ProfileHeaderCard otherUser={data?.data?.userData} />
+                    {!userId && <ProfileVerificationCard />}
+                    {userId ?
+                        <ProfileTabs
+                            inReviewUserProducts={data?.data?.inReview}
+                            soldUserProducts={data?.data?.sold}
+                            expiredUserProducts={data?.data?.expired}
+                            activeUserProducts={data?.data?.active}
+                            declinedUserProducts={data?.data?.declined}
+                        /> :
+                        <ProfileTabs />
+                    }
+                </>
+            )}
         </Container>
     )
 };

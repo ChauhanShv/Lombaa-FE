@@ -38,6 +38,7 @@ const App: React.FC = () => {
               <PublicRoute component={VerifyEmailPage} path="/email/verify" exact />
               <PrivateRoute component={SettingsPage} path="/settings/:page?" exact />
               <PrivateRoute component={ProfilePage} path="/profile" exact />
+              <PublicRoute component={ProfilePage} path="/profile/:userId?" exact />
               <PrivateRoute component={CreatePostPage} path="/create-post" exact />
               <PrivateRoute component={EditPostPage} path="/edit-post/:productId?" exact />
               <PrivateRoute component={SavedSearchesPage} path="/saved-search" exact />
