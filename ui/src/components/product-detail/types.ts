@@ -12,11 +12,15 @@ export interface ProductDetailDescriptionProps {
 }
 export interface SellerDetailsCardProps {
   user: User;
+  userId: string;
 }
 export interface LookalikeProductsProps {
   productId: string;
 }
 export interface ProductShareModalProps {
+  onClose: () => void;
+}
+export interface ReportAbuseModalProps {
   onClose: () => void;
 }
 export interface AlertPopupState {
