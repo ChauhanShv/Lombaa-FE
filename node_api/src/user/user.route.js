@@ -54,5 +54,6 @@ module.exports = () => {
   router.get("/seller/:id", controller.sellerAndProductDetails)
   router.get("/:id/reviews", controller.userReviews)
   router.get("/:id/review/meta", controller.userReviewsMeta)
+  router.get("/reviewed", authMiddleware, controller.userReviewed)
   return router;
 };
