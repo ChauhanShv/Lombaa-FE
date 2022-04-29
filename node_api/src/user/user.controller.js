@@ -1,4 +1,5 @@
 const BaseController = require("../modules/controller").base;
+const Sequelize = require("sequelize")
 const AuthService = require("../auth").service;
 const User = require("./user.model");
 const util = require("./user.util");
@@ -655,12 +656,13 @@ class UserController extends BaseController {
       return super.jsonRes({ res, code: 400, data: { success: false, message: "failed to get packages", message_detail: error?.message } })
     }
   }
+
   sellerAndProductDetails = async (req, res, next) => {
     try {
       const userId = req?.params?.id
       const userData = await User.findOne({
         where: { id: userId },
-        attributes: ["name", "profilePictureId", "email", "accountType", "locationId", "profileVerificationScore", "businessName", "createdAt", "showPhoneNumberConsent", "phoneNumber"],
+        attributes: ["name", "profilePictureId", "email", "accountType", "locationId", "profileVerificationScore", "businessName", "createdAt", "showPhoneNumberConsent", "phoneNumber", "memberSince"],
         include: [{ model: fileModel, as: "profilePicture" }, { model: Location, as: "location" }]
       })
       const inReview = await this.productService?.getUserInReviewProducts(userId);
@@ -672,6 +674,32 @@ class UserController extends BaseController {
     }
     catch (error) {
       return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to get details", message_detail: error?.message } })
+    }
+  }
+
+  userReviews = async (req, res, next) => {
+    try {
+      const userId = req?.params?.id
+      const data = await UserReview.findAll({ where: { forId: userId } })
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Reviews retreived", data: data } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "No reviews found", message_detail: error?.message } })
+    }
+  }
+
+  userReviewsMeta = async (req, res, next) => {
+    try {
+      const userId = req?.params?.id
+      const data = await UserReview.findAll({
+        where: { forId: userId }, attributes: [Sequelize.fn('AVG', Sequelize.col('score'))]
+      })
+
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Reviews retreived", data: data } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "No reviews found", message_detail: error?.message } })
+
     }
   }
 }

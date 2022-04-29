@@ -123,3 +123,17 @@ x-access-token: {{token}}
 		"region": "7ee70de1-38d0-4399-8fb3-649267de4443"
 	}
 }
+
+###
+
+POST  {{baseUrl}}/product/report HTTP/1.1
+content-type: application/json
+x-access-token : {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+{
+	"comment" : "Not Good",
+	"value": "hmmm",
+	"productId":"0c77963e-9404-44b1-adcf-ae97e17ca3a1"
+}

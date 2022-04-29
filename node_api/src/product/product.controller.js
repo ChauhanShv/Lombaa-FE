@@ -24,6 +24,7 @@ const SettingService = require("../settings/settings.service");
 const sequelize = require("../modules/sequelize/sequelize.service");
 const { findOne } = require("../file/file.model");
 const FieldValue = require("../field_value/field_value.model");
+const ReportAbuse = require("../report_abuse/report.abuse.model")
 
 
 
@@ -337,6 +338,23 @@ class ProductController extends BaseController {
     catch (error) {
       console.log(error)
       return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to edit product" } })
+    }
+  }
+
+  reportAbuse = async (req, res, next) => {
+    try {
+      const userId = req.user?.id
+      const data = req?.body
+      if (!userId) {
+        const insert = await ReportAbuse.create({ comment: data.comment, value: data.value, productId: data.productId })
+        return super.jsonRes({ res, code: 200, data: { success: true, messaage: "Reported Succesfully", data: insert } })
+      }
+      const insert = await ReportAbuse.create({ comment: data.comment, value: data.value, userId: userId, productId: data.productId })
+      return super.jsonRes({ res, code: 200, data: { success: true, messaage: "Reported Succesfully", data: insert } })
+
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to Report", messaage_detail: error?.message } })
     }
   }
 }
