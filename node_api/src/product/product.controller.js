@@ -345,7 +345,6 @@ class ProductController extends BaseController {
     try {
       const userId = req.user?.id
       const data = req?.body
-      console.log(userId, 'shshshvhgvhgvj')
       if (!userId) {
         const insert = await ReportAbuse.create({ comment: data.comment, value: data.value, productId: data.productId })
         return super.jsonRes({ res, code: 200, data: { success: true, messaage: "Reported Succesfully", data: insert } })
