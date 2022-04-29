@@ -52,5 +52,7 @@ module.exports = () => {
   router.post("/location", authMiddleware, controller.lastLocation)
   router.get("/packages", authMiddleware, controller.userPackages)
   router.get("/seller/:id", controller.sellerAndProductDetails)
+  router.get("/:id/reviews", controller.userReviews)
+  router.get("/:id/review/meta", controller.userReviewsMeta)
   return router;
 };
