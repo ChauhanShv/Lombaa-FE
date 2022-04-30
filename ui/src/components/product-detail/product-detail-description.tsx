@@ -113,6 +113,7 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                 {showReportAbuseModal && (
                     <ReportAbuseModal
                         onClose={() => setShowReportAbuseModal(false)}
+                        onReport={() => { }}
                     />
                 )}
                 <Col lg={8} md={11} className="mx-auto">
