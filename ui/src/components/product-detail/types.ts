@@ -22,6 +22,7 @@ export interface ProductShareModalProps {
 }
 export interface ReportAbuseModalProps {
   onClose: () => void;
+  onReport: () => void;
 }
 export interface AlertPopupState {
   markSold: boolean;

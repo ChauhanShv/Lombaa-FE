@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Dialog,
     DialogTitle,
@@ -13,17 +13,21 @@ import {
     RadioGroup,
     Typography,
     OutlinedInput,
+    CircularProgress,
 } from '@mui/material';
 import { Button } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
 import { useAxios } from '../../services';
 import { ReportAbuseModalProps } from './types';
 
 export const ReportAbuseModal: React.FC<ReportAbuseModalProps> = ({
-    onClose
+    onClose,
+    onReport,
 }: ReportAbuseModalProps): React.ReactElement => {
 
     const [reason, setReason] = useState<string>('');
     const [otherReason, setOtherReason] = useState<string>('');
+    const { productId } = useParams<{ productId: string }>();
     const options = [
         "Inappropriate for kids",
         "Promotes Hate",
@@ -33,9 +37,26 @@ export const ReportAbuseModal: React.FC<ReportAbuseModalProps> = ({
         "Other",
     ];
     const [{ data, loading }, execute] = useAxios({
-        url: '/',
+        url: '/product/report',
         method: 'POST',
     });
+
+    useEffect(() => {
+        if (data?.success) {
+            onClose();
+            onReport();
+        }
+    }, [data]);
+
+    const handleReportAbuse = () => {
+        execute({
+            data: {
+                comment: otherReason ? otherReason : reason,
+                value: otherReason ? otherReason : reason,
+                productId: productId,
+            }
+        });
+    }
 
     return (
         <Dialog fullWidth={true} maxWidth="xs" open={true} >
@@ -44,7 +65,12 @@ export const ReportAbuseModal: React.FC<ReportAbuseModalProps> = ({
             </DialogTitle>
             <Divider />
             <DialogContent>
-                <DialogContentText>
+                {loading && (
+                    <Box m={4}>
+                        <CircularProgress color="success" />
+                    </Box>
+                )}
+                <DialogContentText className={`${loading ? 'd-none' : ''}`}>
                     <FormControl>
                         <FormLabel id="demo-radio-buttons-group-label">
                             Choose an Option
@@ -87,7 +113,7 @@ export const ReportAbuseModal: React.FC<ReportAbuseModalProps> = ({
                     <Button onClick={onClose} variant="outline-secondary">
                         Cancel
                     </Button>
-                    <Button variant="success">
+                    <Button onClick={handleReportAbuse} variant="success">
                         Report
                     </Button>
                 </Box>
