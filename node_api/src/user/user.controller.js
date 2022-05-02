@@ -1,4 +1,5 @@
 const BaseController = require("../modules/controller").base;
+const Sequelize = require("sequelize")
 const AuthService = require("../auth").service;
 const User = require("./user.model");
 const util = require("./user.util");
@@ -29,6 +30,7 @@ const SaveSearch = require("../save_search/save.search.model")
 const SaveSearchFilter = require("../save_search_filter/save.search.filter.model");
 const UserPackage = require("../user_package/user.package.model");
 const Package = require("../packages/packages.model");
+const UserReview = require("../user_review/user.review.model")
 
 class UserController extends BaseController {
   constructor() {
@@ -652,6 +654,66 @@ class UserController extends BaseController {
     }
     catch (error) {
       return super.jsonRes({ res, code: 400, data: { success: false, message: "failed to get packages", message_detail: error?.message } })
+    }
+  }
+
+  sellerAndProductDetails = async (req, res, next) => {
+    try {
+      const userId = req?.params?.id
+      const userData = await User.findOne({
+        where: { id: userId },
+        attributes: ["name", "profilePictureId", "email", "accountType", "locationId", "profileVerificationScore", "businessName", "createdAt", "showPhoneNumberConsent", "phoneNumber", "memberSince"],
+        include: [{ model: fileModel, as: "profilePicture" }, { model: Location, as: "location" }]
+      })
+      const inReview = await this.productService?.getUserInReviewProducts(userId);
+      const active = await this.productService?.getUserActiveProducts(userId);
+      const declined = await this.productService?.getUserDeclinedProducts(userId);
+      const expired = await this.productService?.getUserExpiredProducts(userId);
+      const sold = await this.productService?.getUserSoldProducts(userId);
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Details retreived", data: { userData, inReview, active, declined, expired, sold } } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to get details", message_detail: error?.message } })
+    }
+  }
+
+  userReviews = async (req, res, next) => {
+    try {
+      const userId = req?.params?.id
+      const data = await UserReview.findAll({ where: { forId: userId } })
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Reviews retreived", data: data } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "No reviews found", message_detail: error?.message } })
+    }
+  }
+
+  userReviewsMeta = async (req, res, next) => {
+    try {
+      const userId = req?.params?.id
+      const data = await UserReview.findAll({
+        where: { forId: userId }, attributes: [Sequelize.fn('AVG', Sequelize.col('score'))]
+      })
+
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Reviews retreived", data: data } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "No reviews found", message_detail: error?.message } })
+
+    }
+  }
+  userReviewed = async (req, res, next) => {
+    try {
+      const userId = req.user?.id
+      const { offset = 0, limit = 15 } = req.query
+      const data = await UserReview.findAll({
+        where: { byId: userId }, offset: offset, limit: limit,
+      })
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Reviews retreived", data: data } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "No reviews found", message_detail: error?.message } })
+
     }
   }
 }

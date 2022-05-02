@@ -2,13 +2,23 @@ import React from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Image } from 'react-bootstrap';
-import { FaEnvelope, FaMapMarkerAlt, FaClock, FaCheckCircle, FaMobile } from 'react-icons/fa';
+import {
+    FaEnvelope,
+    FaMapMarkerAlt,
+    FaClock,
+    FaCheckCircle,
+    FaMobile
+} from 'react-icons/fa';
+import { useAppContext } from '../../contexts';
 import { SellerDetailsCardProps } from './types';
 
 export const SellerDetailCard: React.FC<SellerDetailsCardProps> = ({
     user,
+    userId,
 }: SellerDetailsCardProps): React.ReactElement => {
 
+    const { state } = useAppContext();
+    const currentUserId = state?.user?.metaData?.id;
     const getAccountType = () => user?.accountType === 'standard' ? 'Standard Account' : 'Business Account';
     const getAccountName = () => user?.accountType === 'standard' ? user?.name : user?.businessName;
     const getLocation = () => user?.location ? `${user.location.city.name}, ${user.location.region.name}` : 'Location';
@@ -28,18 +38,28 @@ export const SellerDetailCard: React.FC<SellerDetailsCardProps> = ({
                                     roundedCircle
                                 />
                             </div>
-                            <div className="px-2">
-                                <h3 className="user-title px-3 text-success m-0">
-                                    {getAccountName()} {'  '}
-                                    {(user?.profileVerificationScore && user?.profileVerificationScore >= 60) ?
-                                        <FaCheckCircle className="fs-5 text-info" /> : ''
-                                    }
-                                </h3>
-                                <p className="px-3 text-muted mb-2">
+                            <div className="px-3">
+                                <Link
+                                    to={userId === currentUserId ? '/profile' : `/profile/${userId}`}
+                                    className="d-inline-flex user-title-seller text-success m-0"
+                                >
+                                    <h4 className='fs-5'>
+                                        {getAccountName()}{'  '}
+                                    </h4>
+                                    <div>
+                                        {(user?.profileVerificationScore && user?.profileVerificationScore >= 60) ?
+                                            <FaCheckCircle className="fs-5 text-info" /> : ''
+                                        }
+                                    </div>
+                                </Link>
+                                <p className="text-muted mb-2">
                                     <strong>{getAccountType()}</strong>
                                 </p>
                                 <p className="px-3 d-none">
-                                    <Link to="/settings/personal-details" className="p-0">
+                                    <Link
+                                        to={userId === currentUserId ? '/profile' : `/profile/${userId}`}
+                                        className="p-0"
+                                    >
                                         View Profile
                                     </Link>
                                 </p>

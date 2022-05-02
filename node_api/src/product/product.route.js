@@ -30,6 +30,7 @@ module.exports = () => {
 
   router.get("/listing", controller.listing);
   router.post("/media", authMiddleware, multer({ storage: storage }).any(), checkSchema(productMediaSchema), controller.uploadMedia);
+  router.post("/report", optionalAuthMiddleware, controller.reportAbuse)
   router.post("/:id", controller.soldProduct)
   router.get("/", optionalAuthMiddleware, controller.getRandom)
   router.get("/category", optionalAuthMiddleware, controller.searchCat)
@@ -42,7 +43,6 @@ module.exports = () => {
       await Promise.all(checkSchema(await productEditSchema?.generate(req)).map((chain) => chain.run(req)));
       next();
     }, controller.edit)
-
 
   return router;
 };
