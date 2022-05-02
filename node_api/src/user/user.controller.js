@@ -702,6 +702,20 @@ class UserController extends BaseController {
 
     }
   }
+  userReviewed = async (req, res, next) => {
+    try {
+      const userId = req.user?.id
+      const { offset = 0, limit = 15 } = req.query
+      const data = await UserReview.findAll({
+        where: { byId: userId }, offset: offset, limit: limit,
+      })
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Reviews retreived", data: data } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "No reviews found", message_detail: error?.message } })
+
+    }
+  }
 }
 
 module.exports = UserController;
