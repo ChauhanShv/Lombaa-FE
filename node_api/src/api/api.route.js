@@ -13,6 +13,7 @@ const transactionRouter = require("../transaction").router
 const orderRouter = require("../order").router
 const userPackageRouter = require("../user_package").router
 const BannerRouter = require("../banner").router
+const StaticPageRouter = require('../static_page/static_page.route');
 
 const router = require("../modules/express").instance.Router();
 
@@ -30,5 +31,6 @@ module.exports = () => {
   router.use("/order", orderRouter())
   router.use("/userPackage", userPackageRouter())
   router.use("/banner", BannerRouter())
+  router.use("/page", StaticPageRouter())
   return router;
 };
