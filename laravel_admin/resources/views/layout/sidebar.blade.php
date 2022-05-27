@@ -195,6 +195,19 @@
                 </li>
             </ul>
         </li>
+        <li class="submenu {{\Request::is('banners*') ? 'open active' : '' }}">
+            <a href="">
+                <i style="color: white" class="icon icon-wrench"></i> <span style="color: white">Banners</span>
+            </a>
+            <ul>
+                <li class="{{\Request::is('banners/add') ? 'active' : '' }}">
+                    <a href="{{ route('add_banners') }}">Add</a>
+                </li>
+                <li class="{{\Request::is('banners/list') ? 'active' : '' }}">
+                    <a href="{{ route('list') }}">List</a>
+                </li>
+            </ul>
+        </li>
         <li class="submenu">
             <a href="">
                 <i style="color: white" class="icon icon-certificate"></i> <span style="color: white">Certificate</span>
