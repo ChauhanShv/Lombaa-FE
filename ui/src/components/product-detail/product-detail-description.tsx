@@ -3,7 +3,7 @@ import moment from 'moment';
 import { Link, useHistory } from 'react-router-dom';
 import { Container, Row, Col, Button, ListGroup, Spinner } from 'react-bootstrap';
 import { FaAsterisk, FaHandshake, FaMapMarkerAlt, FaEdit, FaCheckCircle, FaTrashAlt } from 'react-icons/fa';
-import { SellerDetailCard } from '.';
+import { SellerDetailCard, ReportAbuseModal } from '.';
 import { ProductFields, ProductDetailDescriptionProps, AlertPopupState } from './types';
 import { ActionTypes, useAppContext } from '../../contexts';
 import { useAxios } from '../../services';
@@ -16,6 +16,7 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
 }: ProductDetailDescriptionProps): React.ReactElement => {
     const [isMarkSolded, setIsMarkSolded] = useState<boolean>(false);
     const [showMore, setShowMore] = useState<boolean>(false);
+    const [showReportAbuseModal, setShowReportAbuseModal] = useState<boolean>(false);
     const [showAlertPopup, setShowAlertPopup] = useState<AlertPopupState>({
         markSold: false,
         delete: false,
@@ -109,6 +110,12 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                         onClose={onClosePressed}
                     />
                 )}
+                {showReportAbuseModal && (
+                    <ReportAbuseModal
+                        onClose={() => setShowReportAbuseModal(false)}
+                        onReport={() => { }}
+                    />
+                )}
                 <Col lg={8} md={11} className="mx-auto">
                     <h1 className="h2 text-dark mb-2">{productDetail.title}</h1>
                     <h2 className="text-success m-0">
@@ -130,33 +137,45 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                             <h4>Description</h4>
                         </Col>
                         <Row>
-                            <Col xs={5}>
+                            <Col xs={6} md={4}>
                                 <p className="text-muted m-0">Posted</p>
+                                <Col>
+                                    <p>{moment(productDetail?.postedAt).format('LL')}</p>
+                                </Col>
                             </Col>
-                            <Col xs={7}>
-                                <p>{moment(productDetail?.postedAt).format('LL')}</p>
-                            </Col>
+                            {productDetail.productFields?.map((productField: ProductFields, index: number) =>
+                                <React.Fragment key={index}>
+                                    {!['title', 'price'].includes(productField.field.fieldType) && (
+                                        <Col xs={6} md={4}>
+                                            <p className='text-muted m-0'>{productField.field.label}</p>
+                                            <Col>
+                                                <p>{productField.value}</p>
+                                            </Col>
+                                        </Col>
+                                    )}
+                                </React.Fragment>
+                            )}
                         </Row>
+
                         {productDetail.productFields?.map((productField: ProductFields, index: number) =>
-                            <Row key={productField.id} className={(!showMoreContent() && index > 3) ? 'd-none mb-1' : 'mb-1'}>
-                                {!['title', 'price'].includes(productField.field.fieldType) && (
-                                    <>
-                                        <Col xs={5}>
-                                            <p className="text-muted m-0">
-                                                {productField.field.label}
-                                            </p>
-                                        </Col>
-                                        <Col xs={7}>
-                                            <p>{productField.value}</p>
-                                        </Col>
-                                    </>
+                            <React.Fragment key={index}>
+                                {['description'].includes(productField.field.fieldType) && (
+                                    <Col>
+                                        <p>
+                                            {(productField.value && productField.value.length > 200) ? (
+                                                <>{showMoreContent() ? productField.value : productField.value.substring(0, 150)}</>
+                                            ) : (
+                                                <>{productField?.value}</>
+                                            )}
+                                        </p>
+                                        {productField.value && productField.value.length > 200 && (
+                                            <Link to="#" onClick={() => setShowMore(!showMore)}>
+                                                {showMoreContent() ? 'Show Less' : 'Show More ...'}
+                                            </Link>
+                                        )}
+                                    </Col>
                                 )}
-                            </Row>
-                        )}
-                        {productDetail.productFields.length > 3 && (
-                            <Link to="#" onClick={() => setShowMore(!showMore)}>
-                                {showMoreContent() ? 'Show Less' : 'Show More ...'}
-                            </Link>
+                            </React.Fragment>
                         )}
 
                         <Col className="col-12 mb-3 mt-5">
@@ -170,6 +189,7 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                         <Col className="col-12 mb-3">
                             <h4 className="mt-1">Meet the seller</h4>
                             <SellerDetailCard
+                                userId={productDetail?.userId}
                                 user={productDetail?.user}
                             />
                         </Col>
@@ -196,9 +216,25 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
 
                             <>
                                 {state?.user?.metaData?.id !== productDetail?.userId && (
-                                    <Button onClick={handleChatInit} variant="btn btn-success" className="p-2 me-lg-2 mb-3 w-100">
-                                        {chatInitLoading ? <Spinner animation='border' /> : 'Chat with seller'}
-                                    </Button>
+                                    <>
+                                        <Button
+                                            onClick={handleChatInit}
+                                            variant="btn btn-success"
+                                            className="p-2 me-lg-2 mb-3 w-100"
+                                        >
+                                            {chatInitLoading ?
+                                                <Spinner animation='border' /> :
+                                                'Chat with seller'
+                                            }
+                                        </Button>
+                                        <Button
+                                            variant="btn btn-danger"
+                                            className="w-100"
+                                            onClick={() => setShowReportAbuseModal(true)}
+                                        >
+                                            Report Abuse
+                                        </Button>
+                                    </>
                                 )}
                                 {state?.user?.metaData?.id === productDetail?.userId && (
                                     <ListGroup className="product-auth">

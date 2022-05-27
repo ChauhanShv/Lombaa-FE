@@ -1,11 +1,12 @@
 
 const { Sequelize, DataTypes, Model } = require("sequelize");
+const Product = require("../product/product.model");
 const User = require("../user/user.model");
 const sequelize = require("../modules/sequelize").service;
 
-class UserReview extends Model { }
+class ReportAbuse extends Model { }
 
-UserReview.init(
+ReportAbuse.init(
     {
         id: {
             type: DataTypes.UUID,
@@ -17,21 +18,21 @@ UserReview.init(
             allowNull: true,
             defaultValue: null,
         },
-        score: {
-            type: DataTypes.INTEGER,
+        value: {
+            type: DataTypes.TEXT,
             allowNull: true,
             defaultValue: null,
-        }
+        },
     },
 
     {
-        modelName: "userReview",
-        tableName: "user_review",
+        modelName: "reportAbuse",
+        tableName: "report_abuse",
         timestamps: true,
         paranoid: true,
         sequelize,
     }
 );
-UserReview.belongsTo(User, { as: 'by' })
-UserReview.belongsTo(User, { as: 'for' })
-module.exports = UserReview;
+ReportAbuse.belongsTo(User, { as: 'user' })
+ReportAbuse.belongsTo(Product, { as: 'product' })
+module.exports = ReportAbuse;
