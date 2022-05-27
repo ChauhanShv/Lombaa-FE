@@ -12,6 +12,7 @@ use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ValuesController;
 use App\Http\Controllers\PackageController;
+use App\Http\Controllers\BannerController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -127,6 +128,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'settings'], function () {
         Route::get('/', [SettingsController::class, 'settings'])->name('settings');
         Route::post('/add', [SettingsController::class, 'settings_post'])->name('settings_post');
+    });
+
+    Route::group(['prefix' => 'banners'], function () {
+        Route::get('/', [BannerController::class, 'add_banners'])->name('add_banners');
+        Route::post('/', [BannerController::class, 'add_banners'])->name('add_banners');
+        Route::get('/list', [BannerController::class, 'list'])->name('list');
+        Route::get('/delete/{id}', [BannerController::class, 'delete_banner'])->name('delete_banner');
+        Route::get('/update/{id}', [BannerController::class, 'update_banner'])->name('update_banner');
+        Route::post('/update/{id}', [BannerController::class, 'update_banner'])->name('update_banner');
     });
 
 });
