@@ -48,6 +48,7 @@ module.exports = () => {
   router.get("/expired", authMiddleware, controller.expiredProducts)
   router.get("/sold", authMiddleware, controller.soldProducts)
   router.get("/savedsearch", authMiddleware, controller.getSaveSearch)
+  router.delete("/savedsearch/:id", authMiddleware, controller.deleteSavedSeach)
   router.post("/savesearch", authMiddleware, checkSchema(searchSchema), controller.saveSearch)
   router.post("/location", authMiddleware, controller.lastLocation)
   router.get("/packages", authMiddleware, controller.userPackages)

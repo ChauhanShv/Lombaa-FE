@@ -623,6 +623,7 @@ class UserController extends BaseController {
       })
       data = data.map(item => {
         return {
+          id: item.id,
           search: item.text, filters: item.savesearchfilter.map(search => {
             return { key: search.key, values: search.values.split(',') }
           })
@@ -634,6 +635,23 @@ class UserController extends BaseController {
       return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to get saved search", message_detail: error?.message } })
     }
   }
+
+  deleteSavedSeach = async (req, res) => {
+    try {
+      const savedSearchId = req.params?.id;
+      const userId = req.user?.id
+
+      if (await SaveSearch.destroy({ where: { id: savedSearchId, userId: userId }, force: true })) {
+        await SaveSearchFilter.destroy({ where: { SaveSearchId: null }, force: true });
+      }
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Successfully deleted" } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to delete", message_detail: error?.message } })
+    }
+  }
+
+
   lastLocation = async (req, res, next) => {
     try {
       const { location } = req?.body
