@@ -351,6 +351,14 @@ x-app-version : 1.0.0
 
 ###
 
+DELETE {{baseUrl}}/user/savedsearch/17720447-ce26-45cf-8721-1c44450a21c6 HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+###
+
 POST  {{baseUrl}}/user/location HTTP/1.1
 content-type: application/json
 x-access-token: {{token}}
