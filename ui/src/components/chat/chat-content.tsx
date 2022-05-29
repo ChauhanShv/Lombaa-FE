@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useHistory } from 'react-router-dom';
 import { DropdownButton, Dropdown, Form } from 'react-bootstrap';
 import { Typography } from '@mui/material';
-import { FaInfoCircle, FaTelegramPlane, FaChevronLeft, FaUpload } from 'react-icons/fa';
+import { FaInfoCircle, FaTelegramPlane, FaPaperclip, FaChevronLeft } from 'react-icons/fa';
 import { BsChatSquareText } from 'react-icons/bs';
 import { IoReload } from 'react-icons/io5';
 import { debounce } from 'lodash';
@@ -232,18 +232,21 @@ export const ChatContent: React.FC = (): React.ReactElement => {
                             onChange={(e) => setMessage(e.target.value)}
                             onKeyDown={handleKeyDown}
                         />
-                        <Form.Group className="mx-2">
-                            <Form.Label>
-                                <FaUpload />
-                                <Form.Control
-                                    className="d-none"
-                                    type="file"
-                                    accept='image/*'
-                                    onChange={handleMediaUpload}
-                                />
-                            </Form.Label>
-                        </Form.Group>
-                        <FaTelegramPlane onClick={sendMessage} />
+                        {message ? (
+                            <FaTelegramPlane onClick={sendMessage} />
+                        ) : (
+                            <Form.Group className="mx-2">
+                                <Form.Label>
+                                    <FaPaperclip />
+                                    <Form.Control
+                                        className="d-none"
+                                        type="file"
+                                        accept='image/*'
+                                        onChange={handleMediaUpload}
+                                    />
+                                </Form.Label>
+                            </Form.Group>
+                        )}
                     </div>
                 </>
             ) : (

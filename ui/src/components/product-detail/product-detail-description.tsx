@@ -137,33 +137,45 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                             <h4>Description</h4>
                         </Col>
                         <Row>
-                            <Col xs={5}>
+                            <Col xs={6} md={4}>
                                 <p className="text-muted m-0">Posted</p>
+                                <Col>
+                                    <p>{moment(productDetail?.postedAt).format('LL')}</p>
+                                </Col>
                             </Col>
-                            <Col xs={7}>
-                                <p>{moment(productDetail?.postedAt).format('LL')}</p>
-                            </Col>
+                            {productDetail.productFields?.map((productField: ProductFields, index: number) =>
+                                <React.Fragment key={index}>
+                                    {!['title', 'price'].includes(productField.field.fieldType) && (
+                                        <Col xs={6} md={4}>
+                                            <p className='text-muted m-0'>{productField.field.label}</p>
+                                            <Col>
+                                                <p>{productField.value}</p>
+                                            </Col>
+                                        </Col>
+                                    )}
+                                </React.Fragment>
+                            )}
                         </Row>
+
                         {productDetail.productFields?.map((productField: ProductFields, index: number) =>
-                            <Row key={productField.id} className={(!showMoreContent() && index > 3) ? 'd-none mb-1' : 'mb-1'}>
-                                {!['title', 'price'].includes(productField.field.fieldType) && (
-                                    <>
-                                        <Col xs={5}>
-                                            <p className="text-muted m-0">
-                                                {productField.field.label}
-                                            </p>
-                                        </Col>
-                                        <Col xs={7}>
-                                            <p>{productField.value}</p>
-                                        </Col>
-                                    </>
+                            <React.Fragment key={index}>
+                                {['description'].includes(productField.field.fieldType) && (
+                                    <Col>
+                                        <p>
+                                            {(productField.value && productField.value.length > 200) ? (
+                                                <>{showMoreContent() ? productField.value : productField.value.substring(0, 150)}</>
+                                            ) : (
+                                                <>{productField?.value}</>
+                                            )}
+                                        </p>
+                                        {productField.value && productField.value.length > 200 && (
+                                            <Link to="#" onClick={() => setShowMore(!showMore)}>
+                                                {showMoreContent() ? 'Show Less' : 'Show More ...'}
+                                            </Link>
+                                        )}
+                                    </Col>
                                 )}
-                            </Row>
-                        )}
-                        {productDetail.productFields.length > 3 && (
-                            <Link to="#" onClick={() => setShowMore(!showMore)}>
-                                {showMoreContent() ? 'Show Less' : 'Show More ...'}
-                            </Link>
+                            </React.Fragment>
                         )}
 
                         <Col className="col-12 mb-3 mt-5">
