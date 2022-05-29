@@ -59,7 +59,7 @@ add_button {
                 <label class="control-label">Field Type:</label>
                 <div class="controls">
                     <select id='' name="fieldtype">
-                      @foreach($fieldtypes as $key => $field_type)
+                      @foreach($field_types as $key => $field_type)
                         <option value="{{ $key }}">{{ $field_type }}</option>
                       @endforeach
                   </select>
