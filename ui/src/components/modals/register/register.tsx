@@ -20,7 +20,7 @@ const schema = yup.object().shape({
     name: yup.string().required('Name is required'),
     password: yup.string().matches(
         PASSWORD_REGEX,
-        'Password should contain minimum 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character'
+        'Password should contain minimum 6 characters, 1 uppercase letter, 1 lowercase letter and 1 special character'
     ),
     accountType: yup.string().required('Account type is required'),
 }).required();
