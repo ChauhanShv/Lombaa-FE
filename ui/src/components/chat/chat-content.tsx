@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useHistory } from 'react-router-dom';
-import { DropdownButton, Dropdown, Form } from 'react-bootstrap';
+import { DropdownButton, Dropdown, Form, Button } from 'react-bootstrap';
 import { Typography } from '@mui/material';
 import { FaInfoCircle, FaTelegramPlane, FaPaperclip, FaChevronLeft } from 'react-icons/fa';
 import { BsChatSquareText } from 'react-icons/bs';
@@ -252,7 +252,14 @@ export const ChatContent: React.FC = (): React.ReactElement => {
             ) : (
                 <div className='text-center no-chat-selected' style={{ verticalAlign: 'middle' }}>
                     <BsChatSquareText />
-                    <Typography variant="h5">No Chat Selected</Typography>
+                    <Typography variant="h5">
+                        No Coversations Yet
+                    </Typography>
+                    <Link to="/create-post">
+                        <Button className="mt-3 btn-success rounded fs-5 p-3">
+                            Post Free Ad
+                        </Button>
+                    </Link>
                 </div>
             )}
         </>
