@@ -222,51 +222,27 @@ export const EditFormFields: React.FC<EditFormFieldsProps> = ({
         id,
         fieldType,
     }: Field): React.ReactElement => {
-        const [isForSale, setIsForSale] = useState<string>('sale');
         const defaultPriceValue = parseInt(getValuesForFields(id, fieldType));
         const [priceValue, setPriceValue] = useState<number>(defaultPriceValue);
         return (
-            <>
-                <ToggleButtonGroup
-                    type="radio"
-                    name="price-options"
-                    defaultValue={isForSale}
-                >
-                    <ToggleButton
-                        variant="outline-success fullround"
-                        className="rounded m-2 ms-0"
-                        value="sale"
-                        onClick={() => setIsForSale('sale')}
-                    >
-                        For Sale
-                    </ToggleButton>
-                    <ToggleButton
-                        variant="outline-success fullround"
-                        className="rounded m-2" value="free"
-                        onClick={() => setIsForSale('free')}
-                    >
-                        For Free
-                    </ToggleButton>
-                </ToggleButtonGroup>
-                {isForSale === 'sale' && (
-                    <InputGroup className="mt-2 mb-5">
-                        <InputGroup.Text id="basic-addon1 d-block">
-                            $
-                        </InputGroup.Text>
-                        <FormControl
-                            type="number"
-                            className={getErrorClassName(id, errors)}
-                            {...register(id)}
-                            placeholder="Price of your listing *"
-                            aria-label="Price of your listing"
-                            aria-describedby="basic-addon1"
-                            value={priceValue}
-                            onChange={(event: any) => setPriceValue(event.target.value)}
-                        />
-                        {getErrorText(id)}
-                    </InputGroup>
-                )}
-            </>
+            <div className='mb-4'>
+                <InputGroup className="mt-2">
+                    <InputGroup.Text id="basic-addon1 d-block">
+                        $
+                    </InputGroup.Text>
+                    <FormControl
+                        type="number"
+                        className={`${getErrorClassName(id, errors)} p-3`}
+                        {...register(id)}
+                        placeholder="Price of your listing *"
+                        aria-label="Price of your listing"
+                        aria-describedby="basic-addon1"
+                        value={priceValue}
+                        onChange={(event: any) => setPriceValue(event.target.value)}
+                    />
+                </InputGroup>
+                <span>{getErrorText(id)}</span>
+            </div>
         );
     }
 
