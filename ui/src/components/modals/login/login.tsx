@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Alert, Spinner, Form, FloatingLabel, Button, Nav } from 'react-bootstrap';
+import { Modal, Alert, Spinner, Form, FloatingLabel, Button, Nav, InputGroup } from 'react-bootstrap';
+import { BiHide, BiShow } from 'react-icons/bi';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -29,6 +30,7 @@ export const Login: React.FC<LoginProps> = ({
     });
     const { dispatch } = useAppContext();
     const [showModal, setShowModal] = useState<boolean>(show ?? false);
+    const [showPassword, setShowPassword] = useState<boolean>(false);
     const [{ data: loginResponse, loading, error: apiError }, execute] = useAxios({
         url: '/auth',
         method: 'POST',
@@ -126,25 +128,26 @@ export const Login: React.FC<LoginProps> = ({
                         </Modal.Header>
                         {showAPIErrorMessage()}
                         <Form onSubmit={handleFormSubmit} noValidate>
-                            <FloatingLabel label="Your Email address" className="mb-3" >
-                                <Form.Control
-                                    {...register("email")}
-                                    type="email"
-                                    placeholder="Your Email address"
-                                    className={getErrorClassName('email')}
-                                />
-                                {getErrorText('email')}
-                            </FloatingLabel>
-                            <FloatingLabel label="Password" className="mb-3" >
+                            <Form.Control
+                                {...register("email")}
+                                type="email"
+                                placeholder="Your Email address"
+                                className={`${getErrorClassName('email')} p-3`}
+                            />
+                            {getErrorText('email')}
+                            <InputGroup className="mt-3">
                                 <Form.Control
                                     {...register("password")}
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     placeholder="Password"
-                                    className={getErrorClassName('password')}
+                                    className={`${getErrorClassName('password')} p-3`}
                                 />
-                                {getErrorText('password')}
-                            </FloatingLabel>
-                            <div className="form-group mb-3 d-flex justify-content-between align-items-center">
+                                <InputGroup.Text onClick={() => setShowPassword(!showPassword)}>
+                                    {showPassword ? <BiHide /> : <BiShow />}
+                                </InputGroup.Text>
+                            </InputGroup>
+                            {getErrorText('password')}
+                            <div className="form-group mt-3 mb-3 d-flex justify-content-between align-items-center">
                                 <Form.Check name="usertype" label="Remember Me" id="remember" inline type="checkbox" aria-label="radio 1" />
                                 <Link to="/forgot-password" onClick={() => onClose()}>Forgot Password?</Link>
                             </div>
