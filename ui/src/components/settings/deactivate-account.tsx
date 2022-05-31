@@ -12,11 +12,13 @@ import {
     FaChevronLeft,
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { useAppContext, ActionTypes } from '../../contexts';
 import { getAPIErrorMessage } from '../../utils';
 import { useAxios } from '../../services';
 import { AlertType } from './types';
 
 export const DeactivateAccount: React.FC = (): React.ReactElement => {
+    const { dispatch } = useAppContext();
     const [alert, setAlert] = useState<AlertType>({});
 
     const [{ data: response, loading, error: apiError }, execute] = useAxios({
@@ -29,6 +31,9 @@ export const DeactivateAccount: React.FC = (): React.ReactElement => {
                 variant: 'success',
                 message: 'Account deactivated successfully',
             });
+            dispatch({
+                type: ActionTypes.LOGOUT,
+            })
         }
     }, [response]);
     const handleFormSubmit = (event: React.FormEvent) => {
