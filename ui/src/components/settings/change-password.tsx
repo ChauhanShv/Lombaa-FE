@@ -25,7 +25,7 @@ const schema = yup.object().shape({
     oldPassword: yup.string().required('Current password is required'),
     password: yup.string().matches(
         PASSWORD_REGEX,
-        'Password should contain minimum 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character'
+        'Password should contain minimum 6 characters, 1 uppercase letter, 1 lowercase letter and 1 special character'
     ).notOneOf([yup.ref('oldPassword'), 'null'], 'New and old password cannot be same').required('New password is required'),
     confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match')
         .required('Password confirmation is required'),
