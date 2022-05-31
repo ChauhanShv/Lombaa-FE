@@ -12,3 +12,4 @@ export * from './product-detail-page';
 export * from './product-listing-page';
 export * from './verify-email-page';
 export * from './chat-page';
+export * from './static-pages';
