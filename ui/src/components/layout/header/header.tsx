@@ -66,6 +66,11 @@ const HeaderComponent: React.FC = (): React.ReactElement => {
                                             <FaList />
                                         </Link>
                                     </li>
+                                    <li className="nav-item icon-item me-3">
+                                        <Link className="nav-link" to="/packages" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Packages">
+                                            <img width="25px" height="25px" src="/images/package-diamond-icon.svg" />
+                                        </Link>
+                                    </li>
                                 </ul>
                             )}
 

@@ -73,7 +73,7 @@ export const LookalikeProducts: React.FC<LookalikeProductsProps> = ({
                         mediaSrc={getPrimaryMedia(product.productMedia)}
                         authorName={product?.user?.name}
                         authorProfilePicture={product?.user?.profilePicture?.url || '/images/user-circle.svg'}
-                        postedOnDate={product?.postedAt}
+                        userId={product?.userId}
                         isFavourite={product?.isFavorite || false}
                         onFavUnfav={(fav: boolean) => { }}
                     />

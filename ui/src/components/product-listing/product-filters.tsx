@@ -8,6 +8,7 @@ import { ActionTypes, useAppContext } from '../../contexts';
 import { useAxios } from '../../services';
 import { ProductFilterProps } from './types';
 import { Category, SubCategory, Field, KeyValuePair } from '../../types';
+import { NONAME } from 'dns';
 
 export const ProductFilters: React.FC<ProductFilterProps> = ({
     categoryId,
@@ -17,6 +18,10 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
     const [showMoreFilters, setShowMoreFilters] = useState<boolean>(false);
     const [sortBy, setSortBy] = useState<string>(sort || '');
     const [filter, setFilter] = useState<any>({});
+    const [budget, setBudget] = useState<any>({
+        min: '',
+        max: '',
+    });
     const [searchFilter, setSearchFilter] = useState<any>([]);
     const { state, dispatch } = useAppContext();
     const navigate = useHistory();
@@ -79,6 +84,10 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
         }
         setFilter({ ...newFilter });
     };
+
+    const handleApplyBudgetFilter = () => {
+
+    }
 
     const handleSubCatChange = (e: any, subCatId: string) => {
         navigate.push(`/product-listing/${subCatId}`);
@@ -187,13 +196,37 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
                     {find(category.fields, { fieldType: 'price' }) && (
                         <Dropdown className="d-inline mx-2">
                             <Dropdown.Toggle variant="outline-dark rounded btn-fullround mb-2" id="dropdown-autoclose-true">
-                                Budget:
+                                Budget: {`${budget.min || ''} - ${budget.max || ''}`}
                             </Dropdown.Toggle>
                             <Dropdown.Menu className="pre-scrollable">
                                 <div className="px-3 py-1">
-                                    <FormControl className="mb-3" type="number" placeholder='Min price' width="auto" />
-                                    <FormControl className="mb-3" type="number" placeholder='Max price' width="auto" />
-                                    <Button>Apply</Button>
+                                    <FormControl
+                                        className="mb-3"
+                                        type="number"
+                                        placeholder='Min price'
+                                        width="auto"
+                                        value={budget.min}
+                                        onChange={(e) => setBudget({
+                                            ...budget,
+                                            min: e.target.value,
+                                        })}
+                                    />
+                                    <FormControl
+                                        className="mb-3"
+                                        type="number"
+                                        placeholder='Max price'
+                                        width="auto"
+                                        value={budget.max}
+                                        onChange={(e) => setBudget({
+                                            ...budget,
+                                            max: e.target.value,
+                                        })}
+                                    />
+                                    <Button className="p-0" onClick={handleApplyBudgetFilter}>
+                                        <Dropdown.Item className="p-2 bg-transparent text-white">
+                                            Apply
+                                        </Dropdown.Item>
+                                    </Button>
                                 </div>
                             </Dropdown.Menu>
                         </Dropdown>

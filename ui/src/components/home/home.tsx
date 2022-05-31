@@ -73,7 +73,7 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
             <section className="py-4 mt-0 align-items-center">
                 <Container>
                     <Row className="mt-auto">
-                        <Col lg={8} sm={12} className="">
+                        <Col lg={12} sm={12} className="">
                             <Slider className="homespot-slider" {...Spotsettings}>
                                 {!!bannerData.length && bannerData?.map((banner: Banner) =>
                                     <div key={banner?.id}>
@@ -104,7 +104,7 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
                                 )}
                             </Slider>
                         </Col>
-                        <Col lg={4} sm={12} className="align-items-center d-flex">
+                        {/* <Col lg={4} sm={12} className="align-items-center d-flex">
                             <div className="p-4">
                                 <h3>Buy and sell quickly, safely and locally!</h3>
                                 <p>Find just about anything using the app on your mobile.</p>
@@ -115,7 +115,7 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
                                     <img className="d-block mw-100" width="125" src="/images/googleplay.png" alt="Google Play" />
                                 </Button>
                             </div>
-                        </Col>
+                        </Col> */}
                     </Row>
                 </Container>
             </section>
@@ -171,7 +171,7 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
                                             mediaSrc={getPrimaryMedia(product.productMedia)}
                                             authorName={product?.user?.name}
                                             authorProfilePicture={product?.user?.profilePicture?.url || '/images/user-circle.svg'}
-                                            postedOnDate={product?.postedAt}
+                                            userId={product?.userId}
                                             isFavourite={product?.isFavorite}
                                             onFavUnfav={(fav: boolean) => { }}
                                         />

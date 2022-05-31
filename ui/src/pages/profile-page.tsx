@@ -4,7 +4,7 @@ import { CircularProgress } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useAppContext } from '../contexts';
 import { useAxios } from '../services/base-service';
-import { ProfileHeaderCard, ProfileVerificationCard, ProfileTabs } from '../components';
+import { ProfileHeaderCard, ProfileVerificationCard, ProfileTabs, ProductTabList } from '../components';
 
 export const ProfilePage: React.FC = (): React.ReactElement => {
     const { state, dispatch } = useAppContext();
@@ -28,16 +28,13 @@ export const ProfilePage: React.FC = (): React.ReactElement => {
                 <>
                     <ProfileHeaderCard otherUser={data?.data?.userData} />
                     {!userId && <ProfileVerificationCard />}
-                    {userId ?
-                        <ProfileTabs
-                            inReviewUserProducts={data?.data?.inReview}
-                            soldUserProducts={data?.data?.sold}
-                            expiredUserProducts={data?.data?.expired}
-                            activeUserProducts={data?.data?.active}
-                            declinedUserProducts={data?.data?.declined}
-                        /> :
+                    {userId ? (
+                        <Container className="p-4">
+                            <ProductTabList productList={data?.data?.active} listingTabName="Active" />
+                        </Container>
+                    ) : (
                         <ProfileTabs />
-                    }
+                    )}
                 </>
             )}
         </Container>
