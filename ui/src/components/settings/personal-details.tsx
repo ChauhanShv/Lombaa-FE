@@ -211,16 +211,22 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
             <Col md={8} className="card-content mx-auto">
                 <FormProvider {...formMethods}>
                     <Form onSubmit={handleFormSubmit} className="details-form p-3">
-                        <div className="text-center">
+                        <div className="text-center mb-4">
                             <Image
                                 className="profile-image"
                                 src={profileImageLoading ? '/images/loading-gif.gif' : userData?.profilePicture?.url || "/images/user-circle.svg"}
                                 roundedCircle
                             />
-                            <Form.Group className="mb-3">
+                            <Form.Group className={`${profileImageLoading ? 'd-none' : ''}`}>
                                 <Form.Label className='profile-image-label'>
                                     <AiOutlineEdit className="upload-image" />
-                                    <Form.Control style={{ display: 'none' }} type="file" accept='image/*' onChange={handleImageUpload} />
+                                    <Form.Control
+                                        className="d-none"
+                                        disabled={profileImageLoading}
+                                        type="file"
+                                        accept='image/*'
+                                        onChange={handleImageUpload}
+                                    />
                                 </Form.Label>
                             </Form.Group>
                         </div>
@@ -288,7 +294,8 @@ export const PersonalDetails: React.FC = (): React.ReactElement => {
                                     />
                                     {getErrorText('bio')}
                                 </FloatingLabel>
-                            </>) : (
+                            </>
+                        ) : (
                             <>
                                 <FloatingLabel label="Business Name" className="mb-3">
                                     <Form.Control
