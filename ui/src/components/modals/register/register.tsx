@@ -152,7 +152,7 @@ export const Register: React.FC<RegisterProps> = ({
             <Form.Group>
                 <FloatingLabel
                     controlId="floatingInput"
-                    label="Code"
+                    label="Country Code"
                     className="mb-3"
                 >
                     <Form.Select
@@ -189,10 +189,10 @@ export const Register: React.FC<RegisterProps> = ({
                     </FloatingLabel>
                 </Form.Group>
                 <Row>
-                    <Col md={4}>
+                    <Col md={5}>
                         <PhoneCode />
                     </Col>
-                    <Col md={8}>
+                    <Col md={7}>
                         <Form.Group className="mb-3">
                             <FloatingLabel label="Your phone number" className="mb-3">
                                 <Form.Control
@@ -237,10 +237,10 @@ export const Register: React.FC<RegisterProps> = ({
                     </FloatingLabel>
                 </Form.Group>
                 <Row>
-                    <Col md={4}>
+                    <Col md={5}>
                         <PhoneCode />
                     </Col>
-                    <Col md={8}>
+                    <Col md={7}>
                         <Form.Group className="mb-3">
                             <FloatingLabel label="Business phone number" className="mb-3">
                                 <Form.Control
