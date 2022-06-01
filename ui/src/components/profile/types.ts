@@ -1,13 +1,6 @@
 export interface ProfileHeaderCardProps {
   otherUser?: OtherUser;
 }
-export interface ProfileTabsProps {
-  inReviewUserProducts?: Product[];
-  activeUserProducts?: Product[];
-  declinedUserProducts?: Product[];
-  expiredUserProducts?: Product[];
-  soldUserProducts?: Product[];
-}
 export interface ProfileProductTileProps {
   productId: string;
   slug: string;
@@ -21,8 +14,7 @@ export interface ProfileProductTileProps {
   onDelete: (productId: string) => void; 
 }
 export interface ProductTabListProps {
-  productList?: Product[];
-  loading: boolean;
+  productList: Product[];
   listingTabName: string;
 }
 export interface ProductTab {

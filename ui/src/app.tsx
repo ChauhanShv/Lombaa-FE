@@ -18,6 +18,7 @@ import {
   SavedSearchesPage,
   ProductDetailPage,
   ProductListingPage,
+  PackagesPage,
   VerifyEmailPage,
   ChatPage,
   StaticPages,
@@ -45,6 +46,7 @@ const App: React.FC = () => {
               <PublicRoute component={ProductListingPage} path="/product-listing/:categoryId" exact />
               <PublicRoute component={ProductDetailPage} path="/product-detail/:productId/:slug?" exact />
               <PrivateRoute component={ChatPage} path="/chat/:chatType/:chatId?" exact />
+              <PrivateRoute component={PackagesPage} path="/packages" exact />
               <PrivateRoute component={PaymentSuccessfulPage} path="/payment/success" exact />
               <PrivateRoute component={StaticPages} path="/page/:page?" exact />
               {/* Html Routes - for nilesh */}

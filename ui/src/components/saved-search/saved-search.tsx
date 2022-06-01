@@ -16,6 +16,10 @@ export const SavedSearches: React.FC = (): React.ReactElement => {
         url: '/user/savedsearch',
         method: 'GET',
     }, { manual: false });
+    const [{ data: deleteSavedSearchRes, loading: loadingDeleteSaveSearch }, executeDeleteSearch] = useAxios({
+        url: '/user/savedsearch',
+        method: 'GET',
+    });
 
     useEffect(() => {
         if (data?.success) {
@@ -32,6 +36,10 @@ export const SavedSearches: React.FC = (): React.ReactElement => {
         }
         filterUrl = filterUrl.replace(' ', '+');
         navigate.push(`/`);
+    };
+
+    const handleDeleteSearch = () => {
+
     };
 
     return (

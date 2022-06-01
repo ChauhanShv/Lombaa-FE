@@ -10,3 +10,4 @@ export * from './product-listing';
 export * from './product-detail';
 export * from './loader';
 export * from './chat';
+export * from './packages';

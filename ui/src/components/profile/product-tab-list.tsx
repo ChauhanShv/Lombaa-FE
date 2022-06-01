@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { Button, Row } from 'react-bootstrap';
@@ -24,7 +24,6 @@ export const EmptyTabContent: React.FC<TabContentProps> = ({
 
 export const ProductTabList: React.FC<ProductTabListProps> = ({
     productList,
-    loading,
     listingTabName,
 }: ProductTabListProps): React.ReactElement => {
 
@@ -41,29 +40,27 @@ export const ProductTabList: React.FC<ProductTabListProps> = ({
 
     return (
         <Row className="row">
-            {loading ?
-                <Loader show={loading} /> : (productListing && !!productListing.length) ? productListing.map((product: Product) =>
-                    <ProfileProductTile
-                        key={product.id}
-                        productId={product.id}
-                        slug={product.slug}
-                        title={product.title}
-                        summary={product.rejectReason ? product.rejectReason : ""}
-                        description={product.description}
-                        categoryName={product.category.name}
-                        postedOnDate={moment(product.postedAt).format('LL')}
-                        mediaSrc={
-                            (product.productMedia?.find((media) => !!media.isPrimary)?.file?.url ||
-                                product?.productMedia[0]?.file?.url) ||
-                            '/images/placeholder-image.jpg'
-                        }
-                        isFavouritesTab={listingTabName === 'Favourites' ? true : false}
-                        onDelete={handleProductItemDelete}
-                    />
-                ) : (
-                    <EmptyTabContent tabTitle={listingTabName} />
-                )
-            }
+            {(productListing && !!productListing.length) ? productListing.map((product: Product) =>
+                <ProfileProductTile
+                    key={product.id}
+                    productId={product.id}
+                    slug={product.slug}
+                    title={product.title}
+                    summary={product.rejectReason ? product.rejectReason : ""}
+                    description={product.description}
+                    categoryName={product.category.name}
+                    postedOnDate={moment(product.postedAt).format('LL')}
+                    mediaSrc={
+                        (product.productMedia?.find((media) => !!media.isPrimary)?.file?.url ||
+                            product?.productMedia[0]?.file?.url) ||
+                        '/images/placeholder-image.jpg'
+                    }
+                    isFavouritesTab={listingTabName === 'Favourites' ? true : false}
+                    onDelete={handleProductItemDelete}
+                />
+            ) : (
+                <EmptyTabContent tabTitle={listingTabName} />
+            )}
         </Row>
     );
 }

@@ -5,7 +5,7 @@ export interface ProductCardProps {
   price?: string;
   location?: string;
   mediaSrc: string;
-  postedOnDate: string;
+  userId: string;
   authorName: string;
   authorProfilePicture: string;
   isFavourite: boolean;
