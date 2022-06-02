@@ -7,7 +7,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import Box from '@mui/material/Box';
 import { ProductTab, Product } from './types';
 import { useAxios } from '../../services';
-import { ProductTabList, EmptyTabContent } from '.';
+import { ProductTabList, EmptyTabContent, Reviews } from '.';
 import './profile.css';
 
 export const ProfileTabs: React.FC = (): React.ReactElement => {
@@ -21,7 +21,7 @@ export const ProfileTabs: React.FC = (): React.ReactElement => {
     });
     const [favProducts, setFavProducts] = useState<Product[]>([]);
     const [tabValue, setTabValue] = useState<string>('MyListing');
-    const [listingTabValue, setListingTabValue] = React.useState('InReview');
+    const [listingTabValue, setListingTabValue] = React.useState('');
 
     const [{ data, loading }, execute] = useAxios({
         url: '/user/products',
@@ -111,7 +111,7 @@ export const ProfileTabs: React.FC = (): React.ReactElement => {
                             </Box>
                         </TabPanel>
                         <TabPanel value="Reviews">
-                            <EmptyTabContent tabTitle="Reviews" />
+                            <Reviews />
                         </TabPanel>
                         <TabPanel value="Favourites">
                             <ProductTabList

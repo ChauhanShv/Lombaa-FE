@@ -8,16 +8,16 @@ import {
     FormControl
 } from 'react-bootstrap';
 import { useFormContext } from 'react-hook-form';
+import { useAppContext } from '../../contexts';
 import { getErrorClassName } from '../../utils';
 import { Field, EditFormFieldsProps } from './types';
-
-
 
 export const EditFormFields: React.FC<EditFormFieldsProps> = ({
     fields,
     fieldValues,
 }: EditFormFieldsProps): React.ReactElement => {
     const { register, formState: { errors } } = useFormContext();
+    const { state } = useAppContext();
     const getFieldNecessity = (required: boolean) => required ? '*' : '(Optional)';
     const getErrorText = (field: string): React.ReactElement | null => {
         const errorMessages: any = {
@@ -228,7 +228,7 @@ export const EditFormFields: React.FC<EditFormFieldsProps> = ({
             <div className='mb-4'>
                 <InputGroup className="mt-2">
                     <InputGroup.Text id="basic-addon1 d-block">
-                        $
+                        {state?.user?.metaData?.location?.country?.currencySymbol}
                     </InputGroup.Text>
                     <FormControl
                         type="number"

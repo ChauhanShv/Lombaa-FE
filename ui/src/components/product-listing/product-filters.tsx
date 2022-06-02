@@ -5,20 +5,20 @@ import { Breadcrumbs, Typography } from '@mui/material';
 import { find } from 'lodash';
 import { MoreFiltersModal } from '.';
 import { ActionTypes, useAppContext } from '../../contexts';
-import { useAxios } from '../../services';
 import { ProductFilterProps } from './types';
+import { Budget } from './types';
 import { Category, SubCategory, Field, KeyValuePair } from '../../types';
-import { NONAME } from 'dns';
 
 export const ProductFilters: React.FC<ProductFilterProps> = ({
     categoryId,
     sort,
-    onFilterChange
+    onFilterChange,
+    onBudgetChange,
 }: ProductFilterProps): React.ReactElement => {
     const [showMoreFilters, setShowMoreFilters] = useState<boolean>(false);
     const [sortBy, setSortBy] = useState<string>(sort || '');
     const [filter, setFilter] = useState<any>({});
-    const [budget, setBudget] = useState<any>({
+    const [budget, setBudget] = useState<Budget>({
         min: '',
         max: '',
     });
@@ -86,7 +86,7 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
     };
 
     const handleApplyBudgetFilter = () => {
-
+        onBudgetChange({ ...budget });
     }
 
     const handleSubCatChange = (e: any, subCatId: string) => {

@@ -7,18 +7,29 @@ import { LocationSelectorProps, LocationData } from './types';
 import { Loader } from '../..';
 
 export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelected }: LocationSelectorProps): React.ReactElement => {
-    const [cityData, setCityData] = React.useState<LocationData[]>([]);
     const { dispatch, state } = useAppContext();
+    const currentCityName = state?.user?.metaData?.location?.city?.name;
+    const currentRegionName = state?.user?.metaData?.location?.region?.name;
+    const [cityData, setCityData] = React.useState<LocationData[]>([]);
+    const [currentCity, setCurrentCity] = React.useState<string>(
+        state?.user?.metaData?.location ? `${currentCityName}, ${currentRegionName}` : ''
+    );
     const currentCountry: Country = state.session?.country || {};
 
     const [{ data: locationResponse, loading }] = useAxios({
         url: `/locations/country/code/${currentCountry.code}/regions`,
         method: 'GET',
     }, { manual: false });
-    const [{ data: lastActiveLoc }, lastActiveLocationExecute] = useAxios({
+    const [{ }, lastActiveLocationExecute] = useAxios({
         url: `/user/location`,
         method: 'POST',
     });
+
+    useEffect(() => {
+        currentCityName ?
+            setCurrentCity(`${currentCityName}, ${currentRegionName}`) :
+            setCurrentCity('');
+    }, [currentCityName]);
 
     useEffect(() => {
         const cities: LocationData[] = [];
@@ -41,6 +52,7 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
 
     const handleLocationSelect = (e: any) => {
         if (cityData.length && e.target.textContent) {
+            setCurrentCity(e.target.textContent);
             const cityObj: any = cityData.find((city) => city.label === e.target.textContent);
             if (onCitySelected) {
                 onCitySelected({
@@ -86,6 +98,7 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
                 <Autocomplete
                     sx={{ width: '100%' }}
                     autoComplete={true}
+                    value={currentCity}
                     options={cityData.map(city => city.label)}
                     renderInput={(params) => (
                         <TextField

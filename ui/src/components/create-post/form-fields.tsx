@@ -8,6 +8,7 @@ import {
     FormControl
 } from 'react-bootstrap';
 import { useFormContext } from 'react-hook-form';
+import { useAppContext } from '../../contexts';
 import './post-ad.css';
 import { getErrorClassName } from '../../utils';
 import { Field } from '../../types';
@@ -20,6 +21,7 @@ export const FormFields: React.FC<FormFieldsProps> = ({
     fields
 }: FormFieldsProps): React.ReactElement => {
     const { register, formState: { errors } } = useFormContext();
+    const { state } = useAppContext();
     const getFieldNecessity = (required: boolean) => required ? '*' : '(Optional)';
     const getErrorText = (field: string): React.ReactElement | null => {
         const errorMessages: any = {
@@ -194,7 +196,9 @@ export const FormFields: React.FC<FormFieldsProps> = ({
         return (
             <div className='mb-4'>
                 <InputGroup className="mt-2">
-                    <InputGroup.Text id="basic-addon1 d-block">$</InputGroup.Text>
+                    <InputGroup.Text id="basic-addon1 d-block">
+                        {state?.user?.metaData?.location?.country?.currencySymbol}
+                    </InputGroup.Text>
                     <FormControl
                         type="number"
                         className={`${getErrorClassName(id, errors)} p-3`}
