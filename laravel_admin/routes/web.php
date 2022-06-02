@@ -35,7 +35,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/deactive/{id}', [UserController::class, 'deactive'])->name('deactive');
         Route::get('/edit/{id}', [UserController::class, 'edit'])->name('show_Data');
         Route::post('/edit', [UserController::class, 'update']);
-        Route::get('/elete/{id}', [UserController::class, 'delete'])->name('delete');
+        Route::get('/delete/{id}', [UserController::class, 'delete'])->name('delete');
         Route::get('/filter/{action}', [UserController::class, 'user_filter'])->name('user_filter');
     });
 
