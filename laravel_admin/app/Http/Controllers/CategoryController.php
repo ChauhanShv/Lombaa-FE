@@ -111,7 +111,12 @@ class CategoryController extends Controller
     public function category_list()
     {
         $category_list = Category::with('icon')->paginate(30);
-
+        foreach($category_list as $category => $value) {
+            if(!empty($value['parentId'])) {
+                $parent = Category::where('id',$value['parentId'])->first();
+                $category_list[$category]['parent_name'] = isset($parent['name'])? $parent['name'] : '';
+            }
+        }
         return view('category.list', ['category_list' => $category_list]);
     }
 
@@ -241,6 +246,12 @@ class CategoryController extends Controller
             return view('category.list', ['category_list' => $category_list]);
         } elseif ($action === 'sub_categories') {
             $category_list = Category::whereNotNull('parentId')->paginate(30);
+            foreach($category_list as $category => $value) {
+                if(!empty($value['parentId'])) {
+                    $parent = Category::where('id',$value['parentId'])->first();
+                    $category_list[$category]['parent_name'] = isset($parent['name'])? $parent['name'] : '';
+                }
+            }
             return view('category.list', ['category_list' => $category_list]);
         }
     }

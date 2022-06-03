@@ -81,11 +81,7 @@
                             @if ($data->parentId == null)
                                 <p>Parent category</p>
                             @else
-                                @foreach ($category_list as $category)
-                                    @if ($data->parentId == $category->id )
-                                        <p><strong>Sub category of :&nbsp;</strong>{{ $category->name }}</p>
-                                    @endif
-                                @endforeach
+                                <p><strong>Sub category of :&nbsp;</strong>{{ $data->parent_name }}</p>
                             @endif
                         </td>
                         <td style="text-align: center;">
