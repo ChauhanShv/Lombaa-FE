@@ -94,7 +94,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     </Card.Text>
                 </Card.Body>
             </Link>
-            {console.log(state.user.metaData?.id, userId)}
             <Link
                 to={userId === state.user.metaData?.id ? '/profile' : `/profile/${userId}`}
                 className="p-0 ms-3 mb-3 usermeta"

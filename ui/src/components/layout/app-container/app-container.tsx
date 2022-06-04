@@ -17,14 +17,14 @@ export const AppContainer = ({ children }: AppContainerProps) => {
     const location = useLocation();
 
     const getLocation = (): void => {
+        dispatch({
+            type: ActionTypes.SETLATLNG,
+            payload: {
+                lat: state.user?.metaData?.location?.city?.coordinate?.coordinates[1],
+                lng: state.user?.metaData?.location?.city?.coordinate?.coordinates[0],
+            }
+        });
         navigator.geolocation.getCurrentPosition((position) => {
-            dispatch({
-                type: ActionTypes.SETLATLNG,
-                payload: {
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                }
-            });
             navigator.permissions.query({
                 name: 'geolocation',
             }).then((result) => {
@@ -42,7 +42,6 @@ export const AppContainer = ({ children }: AppContainerProps) => {
     };
 
     useEffect(() => {
-        getLocation();
         if (token) {
             refetch();
         } else {
@@ -54,6 +53,10 @@ export const AppContainer = ({ children }: AppContainerProps) => {
             });
         }
     }, []);
+
+    useEffect(() => {
+        getLocation();
+    }, [state.user?.metaData]);
 
     useEffect(() => {
         if (error) {
