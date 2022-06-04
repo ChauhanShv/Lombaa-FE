@@ -725,7 +725,7 @@ class UserController extends BaseController {
       const userId = req.user?.id
       const { offset = 0, limit = 15 } = req.query
       const data = await UserReview.findAll({
-        where: { byId: userId }, offset: offset, limit: limit,
+        where: { byId: userId }, offset: parseInt(offset), limit: parseInt(limit),
       })
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Reviews retreived", data: data } })
     }
