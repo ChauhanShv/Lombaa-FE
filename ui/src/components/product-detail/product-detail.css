@@ -16,6 +16,9 @@
 .product-slide-image { height: 350px; position: relative; top: 0; object-fit: contain; background-color: transparent; z-index: 2; margin: 0 auto; }
 .product-slide-bg { position: absolute; height: 350px; z-index: 1; filter: blur(50px); padding: 0; width: 100%; }
 
+#arrow-buttons { color: #00AF3C; display: block; width: 35px; height: 35px; border: 2px solid #00AF3C; background-color: #fff; border-radius: 20px; padding: 3px; }
+#lookalike-arrow-buttons { color: #00AF3C; display: block; width: 35px; height: 35px; border: 2px solid #00AF3C; background-color: #fff; border-radius: 20px; padding: 3px; margin: -10px; }
+
 .share-product-icon { display: inline-block; vertical-align: middle; text-align: center; margin-right: 15px; }
 .copy-product-link-input { font-size: 12px; }
 .product-link-copy-button:hover { background-color: #00AF3C; }

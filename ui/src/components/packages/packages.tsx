@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Col, Row, Card } from 'react-bootstrap';
-import { Chip, Typography, Button } from '@mui/material';
+import { Chip, Typography, Button, Box } from '@mui/material';
 import { useAxios } from '../../services';
 import { Package } from './types';
 
 export const Packages: React.FC = (): React.ReactElement => {
 
     const [packages, setPackages] = useState<Package[]>([]);
+    const [selectedPackage, setSelectedPackage] = useState<Package>();
     const navigate = useHistory();
 
-    const handleBuyPackage = (event: any, packageId: string) => {
+    const handleBuyPackage = (event: any) => {
         paymentExecute({
             data: {
-                package: packageId,
+                package: selectedPackage?.id,
             },
         });
     };
@@ -29,9 +30,13 @@ export const Packages: React.FC = (): React.ReactElement => {
 
     useEffect(() => {
         if (data?.success) {
-            setPackages(data?.data.filter((packageItem: Package) => packageItem.type === 'booster'));
+            setPackages(data?.data);
         }
     }, [data]);
+
+    useEffect(() => {
+        setSelectedPackage(packages[0]);
+    }, [packages]);
 
     useEffect(() => {
         if (paymentResponse?.success) {
@@ -62,31 +67,18 @@ export const Packages: React.FC = (): React.ReactElement => {
                     <Col lg={4} sm={6} xs={12}>
                         <Card
                             role="button"
-                            className="mb-3"
+                            className={`${selectedPackage?.id === packageItem.id ? 'border border-3 border-success' : ''} mb-3`}
                             key={packageItem?.id}
+                            onClick={() => setSelectedPackage(packageItem)}
                         >
-                            <Card.Header className="d-flex align-items-center bg-white fs-6 fw-bold p-3 justify-content-between">
-                                {packageItem?.title}{'  '}
-                                <Button
-                                    onClick={(event: any) => handleBuyPackage(event, packageItem?.id)}
-                                    variant='outlined'
-                                    size='large'
-                                >
-                                    Buy
-                                </Button>
+                            <Card.Header className="d-flex align-items-center bg-white fs-6 fw-bold p-3">
+                                {packageItem?.title}
                             </Card.Header>
-                            <Card body className="border-0">
-                                <Chip
-                                    label={`${packageItem?.validity} Days`}
-                                    variant="filled"
-                                    color="primary"
-                                    className="me-2"
-                                    sx={{ color: '#fff' }}
-                                />
+                            <Card body className="border-0 d-flex justify-space-between">
                                 <span className="float-end h6 fst-normal">
                                     {`${packageItem?.currency} ${packageItem?.price}`}
                                 </span>
-                                <Typography sx={{ marginTop: '1rem' }} variant="subtitle2">
+                                <Typography variant="subtitle2">
                                     {packageItem?.description}
                                 </Typography>
                             </Card>
@@ -94,6 +86,27 @@ export const Packages: React.FC = (): React.ReactElement => {
                     </Col>
                 )}
             </Row>
+            <Col lg={5} className='text-center container pb-5'>
+                <Chip
+                    label={`${selectedPackage?.validity} Days`}
+                    variant="filled"
+                    color='primary'
+                    className='mb-3'
+                    sx={{ color: '#fff' }}
+                />
+                <Box
+                    role="button"
+                    onClick={handleBuyPackage}
+                    display="flex"
+                    justifyContent="space-between"
+                    sx={{ p: 1, backgroundColor: '#00af3c', color: '#fff' }}
+                >
+                    <Typography>Buy</Typography>
+                    <Typography>
+                        {`${selectedPackage?.currency} ${selectedPackage?.price}`}
+                    </Typography>
+                </Box>
+            </Col>
         </Row>
     );
 };

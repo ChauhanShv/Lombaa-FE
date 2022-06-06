@@ -28,19 +28,10 @@ export const MyPackages: React.FC = (): React.ReactElement => {
                 <span className="d-flex align-items-center my-lg-1 settings-font-header">
                     <Link to="/settings" className="btn btn-white d-md-block d-lg-none">
                         <FaChevronLeft />
-                    </Link>Package
+                    </Link>My Packages
                 </span>
             </Card.Header>
             <Col className="col-lg-8 mx-auto package-list mt-4 p-3">
-                {buyedPackages && !!buyedPackages.length && (
-                    <Typography
-                        className="mb-3"
-                        variant="h6"
-                        color="primary"
-                    >
-                        My Packages
-                    </Typography>
-                )}
                 {buyedPackages && !!buyedPackages.length && buyedPackages.map((packageItem: Package) =>
                     <Card
                         role="button"

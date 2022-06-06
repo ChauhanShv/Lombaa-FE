@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Spinner, Col } from 'react-bootstrap';
 import Slider from "react-slick";
+import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 import { HiArrowCircleLeft, HiArrowCircleRight } from 'react-icons/hi';
 import { useAxios } from '../../services';
 import { ProductCard } from '../product-card';
@@ -17,8 +18,8 @@ const lookalikeSliderSettings = {
     slidesToScroll: 1,
     slidesToShow: 4,
     infinite: true,
-    nextArrow: <HiArrowCircleRight fill="green" />,
-    prevArrow: <HiArrowCircleLeft fill="green" />,
+    prevArrow: <AiOutlineLeft id='lookalike-arrow-buttons' color="#00af3c" />,
+    nextArrow: <AiOutlineRight id='lookalike-arrow-buttons' color="#00af3c" />,
     responsive: [
         {
             breakpoint: 1024,

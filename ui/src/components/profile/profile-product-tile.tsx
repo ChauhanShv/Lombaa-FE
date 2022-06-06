@@ -71,9 +71,12 @@ export const ProfileProductTile: React.FC<ProfileProductTileProps> = ({
                         <h4 className="card-title text-success">
                             {title}
                         </h4>
-                        <p className="card-text m-0">
-                            <strong>{summary}</strong>
-                        </p>
+                        {summary && (
+                            <p className="card-text m-0">
+                                <strong>Reason for Rejection: </strong>
+                                {summary}
+                            </p>
+                        )}
                         <p className="text-muted">
                             {description}
                         </p>
