@@ -7,7 +7,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import Box from '@mui/material/Box';
 import { ProductTab, Product } from './types';
 import { useAxios } from '../../services';
-import { ProductTabList, EmptyTabContent, Reviews } from '.';
+import { ProductTabList, Reviews } from '.';
 import './profile.css';
 
 export const ProfileTabs: React.FC = (): React.ReactElement => {
@@ -56,7 +56,7 @@ export const ProfileTabs: React.FC = (): React.ReactElement => {
     return (
         <Container className="p-4">
             <Row className="py-4">
-                <Box sx={{ width: '100%', typography: 'body1', border: '1px solid lightgrey', p: 0, borderRadius: '10px' }}>
+                <Box className="shadow border w-100 p-0" sx={{ borderRadius: '10px' }}>
                     <TabContext value={tabValue}>
                         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                             <TabList className="profile-tabs" onChange={handleTabChange} aria-label="lab API tabs example">
