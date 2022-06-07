@@ -1,3 +1,7 @@
+export interface ReportChatModalProps {
+  onReport: () => void;
+  onClose: () => void;
+}
 export interface MediaModalProps {
   mediaSrc: string;
   onClose: () => void | undefined;
@@ -10,6 +14,9 @@ export interface User {
 }
 interface Product {
   title: string;
+  description?: string;
+  id: string;
+  media: ProductMedia[];
 }
 export interface Contacts {
   id: string;
@@ -23,6 +30,16 @@ export interface Chat {
   media: Media;
   postedBy: User;
   text: string;
+}
+export interface ProductMedia {
+  createdAt: string;
+  deletedAt?: string;
+  file: Media;
+  fileId: string;
+  id: string;
+  isPrimary: string;
+  productId: string;
+  updatedAt: string;
 }
 export interface Media {
   extension: string;

@@ -22,7 +22,7 @@
 .homespot-slider .slick-dots{bottom:10px;}
 .homepage-banner-slide-image { background-repeat: no-repeat; background-position: center center; background-size: cover; width: 100%; height: 300px; }
 
-.homespot-slider .slick-dots li button:before{color: #fff; opacity: 1; font-size:10px; box-shadow: 0 0 5px rgba(0,0,0,.25%);}
+.homespot-slider .slick-dots li button:before{color: #999; opacity: 1; font-size:10px; box-shadow: 0 0 5px rgba(0,0,0,.25%);}
 .homespot-slider .slick-dots li.slick-active button:before{color:#00AF3C;}
 
 .cat-slider .cat-item{width:94%;margin:0 auto 10px auto;text-align:center;padding:10px; display:flex; flex-wrap: wrap; align-items:center; justify-content: center; background:#fff; color:#333; text-decoration: none; border-radius: 10px;}

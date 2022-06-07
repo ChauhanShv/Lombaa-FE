@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { FaTwitter, FaFacebook, FaGoogle, FaLinkedin } from 'react-icons/fa';
+import { useAxios } from '../../../services';
 import './footer.css';
 
 export const Footer: React.FC = () => {
+
+    const [{ data, loading, error }, execute] = useAxios({
+        url: '/page',
+        method: 'GET',
+    }, { manual: false });
+
+    useEffect(() => {
+        if (data?.success) {
+            console.log(data);
+        }
+    }, [data]);
+
     return (
         <>
             <footer className="d-none d-lg-block">
@@ -35,62 +49,38 @@ export const Footer: React.FC = () => {
                                     <div className="col-xs-6 col-sm-3">
                                         <h4 className="my-2 text-success">About</h4>
                                         <ul className="list-unstyled list-light">
-                                            <li><a href="#">About Lombaa</a></li>
-                                            <li><a href="#">Terms Conditions</a></li>
-                                            <li><a href="#">Privacy Policy</a></li>
-                                            <li><a href="#">Billing Policy</a></li>
-                                            <li><a href="#">Cookie Policy</a></li>
+                                            <li><Link to="/about-lombaa">About Lombaa</Link></li>
+                                            <li><Link to="/">Terms Conditions</Link></li>
+                                            <li><Link to="/">Privacy Policy</Link></li>
+                                            <li><Link to="/">Billing Policy</Link></li>
+                                            <li><Link to="/">Cookie Policy</Link></li>
                                         </ul>
                                     </div>
                                     <div className="col-xs-6 col-sm-3">
                                         <h4 className="my-2 text-success">Hot Links</h4>
                                         <ul className="list-unstyled list-light text-light">
-                                            <li>
-                                                <a className=" " href="#">Brand</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Sellers</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Regions</a>
-                                            </li>
-
+                                            <li><Link to="/">Brand</Link></li>
+                                            <li><Link to="/">Sellers</Link></li>
+                                            <li><Link to="/">Regions</Link></li>
                                         </ul>
                                     </div>
                                     <br className="hidden-sm-up" />
                                     <div className="col-xs-6 col-sm-3">
                                         <h4 className="my-2 text-success">Resources</h4>
                                         <ul className="list-unstyled list-light">
-
-                                            <li>
-                                                <a href="#">Blog</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Careers</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Press</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Events</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Contact</a>
-                                            </li>
+                                            <li><Link to="/">Blog</Link></li>
+                                            <li><Link to="/">Careers</Link></li>
+                                            <li><Link to="/">Press</Link></li>
+                                            <li><Link to="/">Events</Link></li>
+                                            <li><Link to="/">Contact</Link></li>
                                         </ul>
                                     </div>
                                     <div className="col-xs-6 col-sm-3">
                                         <h4 className="my-2 text-success">Connect</h4>
                                         <ul className="list-unstyled list-light">
-                                            <li>
-                                                <a href="#">Support</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Social</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Community</a>
-                                            </li>
+                                            <li><Link to="/">Support</Link></li>
+                                            <li><Link to="/">Social</Link></li>
+                                            <li><Link to="/">Community</Link></li>
                                         </ul>
                                         <p className="color-light mt-2">Stay up-to-date!</p>
                                         <form>
@@ -140,7 +130,7 @@ export const Footer: React.FC = () => {
                         </div>
                     </div>
                 </section>
-                </footer>
-            </>
-            );
+            </footer>
+        </>
+    );
 };

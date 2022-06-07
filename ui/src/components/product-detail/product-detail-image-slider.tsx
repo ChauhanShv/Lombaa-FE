@@ -47,6 +47,7 @@ export const ProductDetailImageSlider: React.FC<ProductDetailImageSliderProps> =
         slidesToScroll: 1,
         prevArrow: <AiOutlineLeft id='arrow-buttons' color="#00af3c" />,
         nextArrow: <AiOutlineRight id='arrow-buttons' color="#00af3c" />,
+        dotsClass: 'slick-dots',
     }
 
     const handleFavUnfav = () => {
