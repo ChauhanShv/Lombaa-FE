@@ -13,6 +13,7 @@ const FileType = require('file-type')
 const S3Service = require("../modules/s3/s3.service")
 const { v4: uuidv4 } = require("uuid");
 const ProductService = require("../product/product.service");
+const ChatReportAbuse = require("../report_abuse/chat.report.abuse.model")
 
 
 
@@ -163,6 +164,22 @@ class ChatController extends BaseController {
                 error: { code: 400, message: "Failed to send media", message_detail: "something went wrong" },
             };
             super.jsonRes({ res, code: 400 });
+        }
+    }
+    reportAbuse = async (req, res, next) => {
+        try {
+            const userId = req.user?.id
+            const data = req?.body
+            if (!userId) {
+                const insert = await ChatReportAbuse.create({ comment: data.comment, value: data.value, chatId: data.chatId })
+                return super.jsonRes({ res, code: 200, data: { success: true, messaage: "Reported Succesfully", data: insert } })
+            }
+            const insert = await ChatReportAbuse.create({ comment: data.comment, value: data.value, userId: userId, chatId: data.chatId })
+            return super.jsonRes({ res, code: 200, data: { success: true, messaage: "Reported Succesfully", data: insert } })
+
+        }
+        catch (error) {
+            return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to Report", messaage_detail: error?.message } })
         }
     }
 };

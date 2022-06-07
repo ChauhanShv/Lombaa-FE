@@ -5,6 +5,7 @@ const chatSchema = require("./chat.schema")
 const getChatSchema = require("./chat.getMessages.schema")
 const chatIdSchema = require("./chatID.schema")
 const mediaSchema = require("./media.schema")
+const optionalAuthMiddleware = require("../auth/optional.auth.middleware")
 const { checkSchema } = require("express-validator");
 
 const multer = require("multer");
@@ -21,5 +22,6 @@ module.exports = () => {
     router.get("/:id/messages", authMiddleware, checkSchema(chatIdSchema), controller.getMessages)
     router.get("/buyer", authMiddleware, checkSchema(getChatSchema), controller.buyerChat)
     router.get("/seller", authMiddleware, checkSchema(getChatSchema), controller.sellerChat)
+    router.post("/report", optionalAuthMiddleware, controller.reportAbuse)
     return router;
 };
