@@ -113,3 +113,17 @@ content-type: application/json
 x-access-token: {{token}}
 x-client-platform : Android
 x-app-version : 1.0.0
+
+###
+
+POST  {{baseUrl}}/chat/report HTTP/1.1
+content-type: application/json
+# x-access-token : {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+{
+	"comment" : "Not Good",
+	"value": "hmmm",
+	"chatId":"50242ced-bf2f-4ba7-8b35-24995fb96e2e"
+}
