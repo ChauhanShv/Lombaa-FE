@@ -351,6 +351,10 @@ class ProductService {
     })
     productsFromCategory = productsFromCategory.slice(offset, limit)
     productsFromCategory = this.fieldsMapping(productsFromCategory)
+
+    if (productsFromCategory.length < 4) {
+      return []
+    }
     return productsFromCategory
   }
 
