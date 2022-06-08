@@ -216,9 +216,9 @@
                 <li class="{{\Request::is('pages/') ? 'active' : '' }}">
                     <a href="{{ route('add_pages') }}">Add</a>
                 </li>
-               {{-- <li class="{{\Request::is('pages/list') ? 'active' : '' }}">
+               <li class="{{\Request::is('pages/list') ? 'active' : '' }}">
                     <a href="{{ route('list') }}">List</a>
-                </li> --}}
+                </li> 
             </ul>
         </li>
         <li class="submenu">
