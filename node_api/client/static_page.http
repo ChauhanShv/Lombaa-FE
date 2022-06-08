@@ -2,3 +2,10 @@ GET  {{baseUrl}}/page/hello-world HTTP/1.1
 content-type: application/json
 x-client-platform : Android
 x-app-version : 1.0.0
+
+###
+
+GET  {{baseUrl}}/page/category HTTP/1.1
+content-type: application/json
+x-client-platform : Android
+x-app-version : 1.0.0
