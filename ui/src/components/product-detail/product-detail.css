@@ -5,7 +5,7 @@
 .product-slider .slick-next{right:25px;}
 .product-slider .slick-dots{bottom:10px;}
 
-.product-slider .slick-dots li button:before{color: #fff; opacity: 1; font-size:10px; box-shadow: 0 0 5px rgba(0,0,0,.25%);}
+.product-slider .slick-dots li button:before{color: #999; opacity: 1; font-size:10px; box-shadow: 0 0 5px rgba(0,0,0,.25%);}
 .product-slider .slick-dots li.slick-active button:before{color:#00AF3C;}
 
 .btns-over{position:absolute; top:15px; right:25px; display: flex; align-items: center; }

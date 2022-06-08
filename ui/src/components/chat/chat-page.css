@@ -37,7 +37,10 @@
  0% { opacity: 0; } 
  100% { opacity: 1; } 
  }
- .text-end .chat-bubble { background: #d1f4cc; color: #000; } 
+ .text-end .chat-bubble { background: #d1f4cc; color: #000; }
+
+ .chat-product-container { transform: rotate(180deg); }
+ .chat-product-image { width: 150px; height: 150px; border-radius: 50%; }
  
  .chat-box-tray { border: 1px solid #343A40; display: flex; align-items: baseline; align-items: center; margin-top: 0; bottom: 0; } 
  .chat-box-tray input { margin: 0; padding: 18px 32px; } 

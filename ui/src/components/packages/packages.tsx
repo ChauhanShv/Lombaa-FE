@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Col, Row, Card } from 'react-bootstrap';
-import { Chip, Typography, Button, Box } from '@mui/material';
+import { Chip, Typography, Box, LinearProgress } from '@mui/material';
 import { useAxios } from '../../services';
 import { Package } from './types';
 
@@ -62,51 +62,59 @@ export const Packages: React.FC = (): React.ReactElement => {
             >
                 Choose the right category for your ads and start selling faster
             </Typography>
-            <Row className="justify-content-center">
-                {!!packages && !!packages.length && packages.map((packageItem: Package) =>
-                    <Col lg={4} sm={6} xs={12}>
-                        <Card
-                            role="button"
-                            className={`${selectedPackage?.id === packageItem.id ? 'border border-3 border-success' : ''} mb-3`}
-                            key={packageItem?.id}
-                            onClick={() => setSelectedPackage(packageItem)}
-                        >
-                            <Card.Header className="d-flex align-items-center bg-white fs-6 fw-bold p-3">
-                                {packageItem?.title}
-                            </Card.Header>
-                            <Card body className="border-0 d-flex justify-space-between">
-                                <span className="float-end h6 fst-normal">
-                                    {`${packageItem?.currency} ${packageItem?.price}`}
-                                </span>
-                                <Typography variant="subtitle2">
-                                    {packageItem?.description}
-                                </Typography>
-                            </Card>
-                        </Card>
-                    </Col>
-                )}
-            </Row>
-            <Col lg={5} className='text-center container pb-5'>
-                <Chip
-                    label={`${selectedPackage?.validity} Days`}
-                    variant="filled"
-                    color='primary'
-                    className='mb-3'
-                    sx={{ color: '#fff' }}
-                />
-                <Box
-                    role="button"
-                    onClick={handleBuyPackage}
-                    display="flex"
-                    justifyContent="space-between"
-                    sx={{ p: 1, backgroundColor: '#00af3c', color: '#fff' }}
-                >
-                    <Typography>Buy</Typography>
-                    <Typography>
-                        {`${selectedPackage?.currency} ${selectedPackage?.price}`}
-                    </Typography>
+            {loading ? (
+                <Box sx={{ mt: 8, mb: 30 }}>
+                    <LinearProgress color='primary' />
                 </Box>
-            </Col>
+            ) : (
+                <Box>
+                    <Row className="justify-content-center">
+                        {!!packages && !!packages.length && packages.map((packageItem: Package) =>
+                            <Col lg={4} sm={6} xs={12}>
+                                <Card
+                                    role="button"
+                                    className={`${selectedPackage?.id === packageItem.id ? 'border border-3 border-success' : ''} mb-3`}
+                                    key={packageItem?.id}
+                                    onClick={() => setSelectedPackage(packageItem)}
+                                >
+                                    <Card.Header className="d-flex align-items-center bg-white fs-6 fw-bold p-3">
+                                        {packageItem?.title}
+                                    </Card.Header>
+                                    <Card body className="border-0 d-flex justify-space-between">
+                                        <span className="float-end h6 fst-normal">
+                                            {`${packageItem?.currency} ${packageItem?.price}`}
+                                        </span>
+                                        <Typography variant="subtitle2">
+                                            {packageItem?.description}
+                                        </Typography>
+                                    </Card>
+                                </Card>
+                            </Col>
+                        )}
+                    </Row>
+                    <Col lg={5} className='text-center container pb-5'>
+                        <Chip
+                            label={`${selectedPackage?.validity} Days`}
+                            variant="filled"
+                            color='primary'
+                            className='mb-3'
+                            sx={{ color: '#fff' }}
+                        />
+                        <Box
+                            role="button"
+                            onClick={handleBuyPackage}
+                            display="flex"
+                            justifyContent="space-between"
+                            sx={{ p: 1, backgroundColor: '#00af3c', color: '#fff' }}
+                        >
+                            <Typography>Buy</Typography>
+                            <Typography>
+                                {`${selectedPackage?.currency} ${selectedPackage?.price}`}
+                            </Typography>
+                        </Box>
+                    </Col>
+                </Box>
+            )}
         </Row>
     );
 };

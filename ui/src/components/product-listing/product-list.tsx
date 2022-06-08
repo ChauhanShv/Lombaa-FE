@@ -109,7 +109,7 @@ export const ProductList: React.FC = (): React.ReactElement => {
             params: {
                 offset: 0,
                 limit: LIMIT,
-                price: `${price.min},${price.max}`,
+                ...(price.min || price.max) && { price: `${price.min},${price.max}` },
             },
         });
     }

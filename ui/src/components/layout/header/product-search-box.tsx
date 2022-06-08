@@ -125,7 +125,7 @@ export const ProductSearchBox: React.FC = (): React.ReactElement => {
                                     onClick={() => handleOptionClick(field)}
                                     key={field.id + index.toString()}
                                 >
-                                    <li className="search-list-item">{field.name}</li>
+                                    <li className="search-list-item">{field.title}</li>
                                 </Link>
                             )}
                         </ul>

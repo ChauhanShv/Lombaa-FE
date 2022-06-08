@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Container, Dropdown, Form, FormControl, Button } from 'react-bootstrap';
-import { Breadcrumbs, Typography } from '@mui/material';
+import { Breadcrumbs, Typography, Alert } from '@mui/material';
 import { find } from 'lodash';
 import { MoreFiltersModal } from '.';
 import { ActionTypes, useAppContext } from '../../contexts';
@@ -129,7 +129,8 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
         return (
             <Dropdown className="d-inline mx-2" key={field.id}>
                 <Dropdown.Toggle variant="outline-dark rounded btn-fullround mb-2" id="dropdown-autoclose-true">
-                    {field.label}
+                    {field.label}{filter[field.label] ? ': ' : ''}{' '}
+                    <strong>{`${filter[field.label] ?? ''}`}</strong>
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="pre-scrollable">
                     {field.values.map((dropdownValue) =>
@@ -164,6 +165,12 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
 
     return category ? (
         <>
+            {state.session.token && !state.user?.metaData?.location?.city?.name && (
+                <Alert sx={{ mt: 3 }} variant="outlined" severity="warning">
+                    It seems you have not set your location in your profile settings. Please set Location
+                    <Link to="/settings"><strong> here</strong></Link>
+                </Alert>
+            )}
             <MoreFiltersModal
                 showMoreFilters={showMoreFilters}
                 onCloseMoreFilters={() => setShowMoreFilters(false)}
@@ -188,7 +195,8 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
                             style={{ fontSize: '12px !important', }}
                             variant="outline-dark rounded btn-fullround mb-2"
                         >
-                            Sort By {sortDD[sortBy] ? `: ${sortDD[sortBy]}` : ''}
+                            Sort By
+                            <strong>{sortDD[sortBy] ? `: ${sortDD[sortBy]}` : ''}</strong>
                         </Dropdown.Toggle>
                         {getSortDD()}
                     </Dropdown>
@@ -196,7 +204,8 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
                     {find(category.fields, { fieldType: 'price' }) && (
                         <Dropdown className="d-inline mx-2">
                             <Dropdown.Toggle variant="outline-dark rounded btn-fullround mb-2" id="dropdown-autoclose-true">
-                                Budget: {`${budget.min || ''} - ${budget.max || ''}`}
+                                Budget: {' '}
+                                <strong>{`${budget.min || ''} - ${budget.max || ''}`}</strong>
                             </Dropdown.Toggle>
                             <Dropdown.Menu className="pre-scrollable">
                                 <div className="px-3 py-1">

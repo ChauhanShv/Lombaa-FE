@@ -48,7 +48,7 @@ const App: React.FC = () => {
               <PrivateRoute component={ChatPage} path="/chat/:chatType/:chatId?" exact />
               <PrivateRoute component={PackagesPage} path="/packages" exact />
               <PrivateRoute component={PaymentSuccessfulPage} path="/payment/success" exact />
-              <PrivateRoute component={StaticPages} path="/page/:page?" exact />
+              <PrivateRoute component={StaticPages} path="/:page" exact />
               {/* Html Routes - for nilesh */}
             </Switch>
           </AppContainer>

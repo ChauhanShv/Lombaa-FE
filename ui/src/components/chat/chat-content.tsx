@@ -11,6 +11,7 @@ import { useAppContext } from '../../contexts';
 import { MediaModal } from '.';
 import { Chat, User } from './types';
 import './chat-page.css';
+import { ReportChatModal } from './report-chat-modal';
 
 const LIMIT: number = 50;
 export const ChatContent: React.FC = (): React.ReactElement => {
@@ -22,6 +23,8 @@ export const ChatContent: React.FC = (): React.ReactElement => {
     const [messageList, setMessageList] = useState<Chat[]>([]);
     const [toUser, setToUser] = useState<User | null>();
     const [mediaModalUrl, setMediaModalUrl] = useState<string>('');
+    const [reportChatModalOpen, setReportChatModalOpen] = useState<boolean>(false);
+
     const navigation = useHistory();
     const [{ data: sendMessageData }, execute] = useAxios({
         url: '/chat/sendMessage',
@@ -38,6 +41,10 @@ export const ChatContent: React.FC = (): React.ReactElement => {
     const [{ data: chatResponse }, getChatExecute] = useAxios({
         url: '',
         method: 'GET',
+    });
+    const [{ data: reportChatRes }, executeReportChat] = useAxios({
+        url: '',
+        method: 'POST',
     });
 
     const getChat = (start: number = 0): void => {
@@ -141,6 +148,12 @@ export const ChatContent: React.FC = (): React.ReactElement => {
                             onClose={() => setMediaModalUrl('')}
                         />
                     )}
+                    {reportChatModalOpen && (
+                        <ReportChatModal
+                            onClose={() => setReportChatModalOpen(false)}
+                            onReport={() => setReportChatModalOpen(false)}
+                        />
+                    )}
                     <div className="settings-tray bg-light">
                         <div className="friend-drawer no-gutters">
                             <Link to={`/chat/buy`} className="btn d-md-block d-lg-none">
@@ -175,7 +188,10 @@ export const ChatContent: React.FC = (): React.ReactElement => {
                                     <Dropdown.Item onClick={handleChatDelete} eventKey="1">
                                         Delete Chat
                                     </Dropdown.Item>
-                                    <Dropdown.Item eventKey="2">
+                                    <Dropdown.Item onClick={() => setReportChatModalOpen(true)} eventKey="2">
+                                        Report Abuse
+                                    </Dropdown.Item>
+                                    <Dropdown.Item eventKey="3">
                                         About
                                     </Dropdown.Item>
                                 </DropdownButton>
@@ -223,6 +239,21 @@ export const ChatContent: React.FC = (): React.ReactElement => {
                                 )}
                             </div>
                         )}
+                        <div className="p-lg-5 text-start chat-product-container">
+                            <img
+                                className="chat-product-image"
+                                src={chatResponse?.data?.product[0]?.productMedia[0]?.file?.url}
+                                alt="product-img-in-chat"
+                            />
+                            <div className='mt-3 mb-3'>
+                                <Typography variant="h6">
+                                    {chatResponse?.data?.product[0]?.title}
+                                </Typography>
+                            </div>
+                            <Link to={`/product-detail/${chatResponse?.data?.product[0]?.id}/${chatResponse?.data?.product[0]?.slug}`}>
+                                <Button variant="success">See Details</Button>
+                            </Link>
+                        </div>
                     </div>
                     <div className="chat-box-tray">
                         <input

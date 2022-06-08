@@ -15,6 +15,7 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
         state?.user?.metaData?.location ? `${currentCityName}, ${currentRegionName}` : ''
     );
     const currentCountry: Country = state.session?.country || {};
+    const currentCityCoordinates = state.user?.metaData?.location?.city?.coordinate?.coordinates;
 
     const [{ data: locationResponse, loading }] = useAxios({
         url: `/locations/country/code/${currentCountry.code}/regions`,
@@ -30,6 +31,14 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
             setCurrentCity(`${currentCityName}, ${currentRegionName}`) :
             setCurrentCity('');
     }, [currentCityName]);
+
+    useEffect(() => {
+        if ((state.session.lat === currentCityCoordinates?.[1] ||
+            state.session.lng === currentCityCoordinates?.[0]) &&
+            state.session.lat && state.session.lng) {
+            setCurrentCity(`${currentCityName}, ${currentRegionName}`);
+        }
+    }, [state.session.lat, state.session.lng]);
 
     useEffect(() => {
         const cities: LocationData[] = [];
@@ -85,10 +94,13 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
             dispatch({
                 type: ActionTypes.SETLATLNG,
                 payload: {
-                    lat: null,
-                    lng: null,
+                    lat: state?.session?.lat ? currentCityCoordinates?.[1] : "",
+                    lng: state?.session?.lng ? currentCityCoordinates?.[0] : "",
                 }
             });
+            if (!state.session?.token) {
+                setCurrentCity('');
+            }
         }
     };
 
