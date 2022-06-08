@@ -21,6 +21,38 @@
         </div>
         <div class="widget-content nopadding">
           <form method="post" enctype="multipart/form-data" class="form-horizontal">
+          <div class="control-group">
+              <label class="control-label">Select Page Category  :</label>
+              <div class="controls">
+                    <select class="selectpicker" name="selectPageCategory">
+                        <option value="">Select page category </option>
+                        @foreach($page_categories as $page_category)
+                          <option value="{{ $page_category->id }}">{{ $page_category->title }}</option>
+                        @endforeach
+                    </select>
+                    @error('actionType')
+                        <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+          <div class="control-group">
+              <label class="control-label">Title :</label>
+              <div class="controls">
+                <input type="text" name="title" style="width: 40%" class="span11"  />
+                @error('title')
+                  <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                @enderror
+              </div>
+            </div>
+          <div class="control-group">
+              <label class="control-label">Description :</label>
+              <div class="controls">
+                <input type="text" name="description" style="width: 40%" class="span11"  />
+                @error('description')
+                  <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                @enderror
+              </div>
+            </div>
             <div class="control-group">
               <label class="control-label">Slug :</label>
               <div class="controls">
@@ -48,7 +80,6 @@
     </div>
   </div>
 </div>
-
 
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script>
