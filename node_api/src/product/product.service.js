@@ -209,7 +209,7 @@ class ProductService {
 
     if (search) {
       products = products.filter(product => {
-        return product?.title?.toLowerCase().includes(search) || product?.description?.toLowerCase().includes(search)
+        return product?.title?.toLowerCase()?.includes(search) || product?.description?.toLowerCase()?.includes(search)
       })
     }
     if (price) {
@@ -322,7 +322,7 @@ class ProductService {
     })
     products = this.fieldsMapping(products)
     products = products.filter(product => {
-      return product?.title?.toLowerCase().includes(search) || product?.description?.toLowerCase().includes(search)
+      return product?.title?.toLowerCase()?.includes(search) || product?.description?.toLowerCase()?.includes(search)
     })
     products = products.map(product => {
       return product
@@ -352,7 +352,7 @@ class ProductService {
     productsFromCategory = productsFromCategory.slice(offset, limit)
     productsFromCategory = this.fieldsMapping(productsFromCategory)
 
-    if (productsFromCategory.length < 4) {
+    if (productsFromCategory?.length < 4) {
       return []
     }
     return productsFromCategory
