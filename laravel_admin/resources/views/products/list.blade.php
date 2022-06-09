@@ -183,6 +183,15 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            <div class="control-group">
+                                                <label class="control-label">Description:</label> 
+                                                <div class="controls">
+                                                    <input type="text" name="description" style="width: 40%" class="span11" />
+                                                    @error('description')
+                                                    <div class="alert alert-danger " style="width: 34.2%">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
