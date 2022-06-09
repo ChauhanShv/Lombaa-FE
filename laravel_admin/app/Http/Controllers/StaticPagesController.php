@@ -64,4 +64,54 @@ class StaticPagesController extends Controller
         StaticPage::find($id)->delete();
         return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Page deleted successfully']);
     }
+
+    public function update_page(Request $request, $id) {
+        if($request->isMethod('post')) {
+                $rules = [
+                    'pageCategory' => 'required',
+                    'title' => 'required',
+                    'description' => 'required',
+                    'slug' => 'required',
+                    'contents' => 'required',
+                ];
+                $messages = [
+                    'pageCategory.required' => 'Page Category is required',
+                    'title.required' => 'Title is required',
+                    'description.required' => 'Description is required',
+                    'slug.required' => 'Slug is required',
+                    'contents.required' => 'Content is required',
+                ];
+    
+                $validator = Validator::make($request->all(), $rules, $messages);
+                if ($validator->fails()) {
+                    return redirect()->back()->withInput($request->all())->withErrors($validator);
+                }
+                $page_category = $request->input('pageCategory');
+                $title = $request->input('title');
+                $description = $request->input('description');
+                $slug = $request->input('slug');
+                $content = $request->input('contents');
+
+                $data = [
+                    'pageCategoryId' => $page_category,
+                    'title' => $title,
+                    'description' => $description,
+                    'slug' => $slug,
+                    'content' => $content
+                ];  
+                $update_page = StaticPage::where('id', $id)->update($data);
+                try {
+                    return redirect()->route('page_list')->with('response', ['status' => 'success', 'message' => 'Page updated successfully']);
+                } catch (Exception $e) {
+                    return redirect()->back()->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
+                }
+            
+            }else {
+                $page_categories = PageCategory::get();
+                $static_page = StaticPage::with('pageCategory')->where('id', $id)->first();
+                $page_category_name = PageCategory::where('id', $static_page->pageCategoryId)->first();
+                // dd($page_category_name);
+                return view('staticPages.update', ['page_category_name' => $page_category_name, 'page_categories' => $page_categories, 'static_page' => $static_page]);
+        }
+    }
 }

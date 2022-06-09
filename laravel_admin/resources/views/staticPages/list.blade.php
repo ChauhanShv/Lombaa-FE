@@ -44,10 +44,10 @@
                         <td style="text-align: center;">{{ strip_tags(html_entity_decode($data->content));}}</td>
                         <td style="text-align: center;">{{ $data->enabledAt}}</td>
                         <td>
-                        <a href="">
+                        <a href="{{ route('update_page', $data->id)}}">
                                     <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>&nbsp&nbsp
-                                <a href="{{ route('delete_slug', $data->id)}}" onclick="return confirm('Do you want to delete user : {{ $data->slug }}')">
+                                <a href="{{ route('delete_page', $data->id)}}" onclick="return confirm('Do you want to delete user : {{ $data->slug }}')">
                                     <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                                 </a>&nbsp&nbsp
                         </td>       

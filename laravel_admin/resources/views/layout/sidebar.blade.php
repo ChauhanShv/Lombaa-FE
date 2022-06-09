@@ -217,7 +217,7 @@
                     <a href="{{ route('add_pages') }}">Add</a>
                 </li>
                <li class="{{\Request::is('pages/list') ? 'active' : '' }}">
-                    <a href="{{ route('list') }}">List</a>
+                    <a href="{{ route('page_list') }}">List</a>
                 </li> 
             </ul>
         </li>
