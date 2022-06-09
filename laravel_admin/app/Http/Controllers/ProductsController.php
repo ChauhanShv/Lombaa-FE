@@ -72,6 +72,7 @@ class ProductsController extends Controller
         $data = [
             'rejectedAt' => Carbon::now(),
             'rejectReason' => $request->reason,
+            'rejectDescription' => $request->description,
             'approvedAt' => null,
             'expiry' => null,
         ];
