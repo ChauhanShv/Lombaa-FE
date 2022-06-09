@@ -110,7 +110,6 @@ class StaticPagesController extends Controller
                 $page_categories = PageCategory::get();
                 $static_page = StaticPage::with('pageCategory')->where('id', $id)->first();
                 $page_category_name = PageCategory::where('id', $static_page->pageCategoryId)->first();
-                // dd($page_category_name);
                 return view('staticPages.update', ['page_category_name' => $page_category_name, 'page_categories' => $page_categories, 'static_page' => $static_page]);
         }
     }
