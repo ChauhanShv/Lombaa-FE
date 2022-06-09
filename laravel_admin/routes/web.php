@@ -144,8 +144,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'pages'], function () {
         Route::get('/', [StaticPagesController::class, 'add_pages'])->name('add_pages');
         Route::post('/', [StaticPagesController::class, 'add_pages'])->name('add_pages');
-        Route::get('/list', [StaticPagesController::class, 'list'])->name('list');
-        Route::get('/delete/{id}', [StaticPagesController::class, 'delete'])->name('delete_slug');
+        Route::get('/list', [StaticPagesController::class, 'list'])->name('page_list');
+        Route::get('/delete/{id}', [StaticPagesController::class, 'delete'])->name('delete_page');
+        Route::get('/update/{id}', [StaticPagesController::class, 'update_page'])->name('update_page');
+        Route::post('/update/{id}', [StaticPagesController::class, 'update_page'])->name('update_page');
+
     });
 
 });
