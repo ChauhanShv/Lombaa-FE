@@ -89,9 +89,12 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
                                             className='homepage-banner-slide-image w-100 d-flex flex-column justify-content-center'
                                             style={{ backgroundImage: `url(${banner?.media?.url})` }}
                                         >
-                                            <div className='d-flex flex-column align-items-center'>
+                                            <div className='d-flex flex-column mx-5 px-5 align-items-start'>
                                                 <div className='h-100'>
-                                                    <p className="p-3 fw-bold rounded text-light bg-dark">
+                                                    <p
+                                                        className="p-3 fw-bold rounded text-light fs-5"
+                                                        style={{ backgroundColor: '#000' }}
+                                                    >
                                                         {banner?.description}
                                                     </p>
                                                     <p className="fw-bold fs-2 text-light">
@@ -99,7 +102,7 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
                                                     </p>
                                                     <Button
                                                         onClick={(event) => handleBannerLabelClick(event, banner)}
-                                                        className="fst-normal btn-fullround"
+                                                        className="py-2 px-5 fw-bold fst-normal btn-fullround"
                                                         variant="success"
                                                     >
                                                         {banner?.action_label}
@@ -111,18 +114,6 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
                                 )}
                             </Slider>
                         </Col>
-                        {/* <Col lg={4} sm={12} className="align-items-center d-flex">
-                            <div className="p-4">
-                                <h3>Buy and sell quickly, safely and locally!</h3>
-                                <p>Find just about anything using the app on your mobile.</p>
-                                <Button variant="link" className="p-0 me-lg-2">
-                                    <img className="d-block mw-100" width="125" src="/images/appstore.png" alt="App Store" />
-                                </Button>
-                                <Button variant="link" className="p-0">
-                                    <img className="d-block mw-100" width="125" src="/images/googleplay.png" alt="Google Play" />
-                                </Button>
-                            </div>
-                        </Col> */}
                     </Row>
                 </Container>
             </section>

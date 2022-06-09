@@ -16,6 +16,7 @@ export interface ProfileProductTileProps {
 export interface ProductTabListProps {
   productList: Product[];
   listingTabName: string;
+  loading: boolean;
 }
 export interface ProductTab {
   inReview?: Product[];

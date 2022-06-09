@@ -119,20 +119,9 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                 )}
                 <Col lg={8} md={11} className="mx-auto">
                     <h1 className="h2 text-dark mb-2">{productDetail.title}</h1>
-                    <h2 className="text-success m-0">
+                    <h2 className="text-success m-0 border-bottom mb-3 pb-3">
                         {productDetail.location.country.currencySymbol}{' '}{productDetail.price}
                     </h2>
-                    <Row className="border-bottom py-3 mb-4">
-                        <Col>
-                            <FaAsterisk /> Used
-                        </Col>
-                        <Col>
-                            <FaHandshake /> Meetup
-                        </Col>
-                        <Col>
-                            <FaMapMarkerAlt /> {`${productDetail.location.city.name}, ${productDetail.location.region.name}`}
-                        </Col>
-                    </Row>
                     <Row>
                         <Col className="col-12 mb-3">
                             <h4>Description</h4>
