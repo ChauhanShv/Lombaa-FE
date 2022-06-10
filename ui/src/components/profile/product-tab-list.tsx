@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { Button, Row } from 'react-bootstrap';
-import { Loader } from '..';
 import { TabContentProps, ProductTabListProps, Product } from './types';
 import { ProfileProductTile } from '.';
+import { LinearProgress } from '@mui/material';
 
 export const EmptyTabContent: React.FC<TabContentProps> = ({
     tabTitle
@@ -25,6 +25,7 @@ export const EmptyTabContent: React.FC<TabContentProps> = ({
 export const ProductTabList: React.FC<ProductTabListProps> = ({
     productList,
     listingTabName,
+    loading
 }: ProductTabListProps): React.ReactElement => {
 
     const [productListing, setProductListing] = useState<Product[]>(productList);
@@ -38,9 +39,17 @@ export const ProductTabList: React.FC<ProductTabListProps> = ({
         }
     };
 
+    useEffect(() => {
+        setProductListing(productList);
+    }, [productList]);
+
     return (
         <Row className="row">
-            {(productListing && !!productListing.length) ? productListing.map((product: Product) =>
+            {loading ? (
+                <div className="p-2 py-4">
+                    <LinearProgress />
+                </div>
+            ) : (productListing && !!productListing.length) ? productListing.map((product: Product) =>
                 <ProfileProductTile
                     key={product.id}
                     productId={product.id}

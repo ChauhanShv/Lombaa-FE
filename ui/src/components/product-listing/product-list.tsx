@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
+import { LinearProgress } from '@mui/material';
 import { ProductCard } from '../product-card';
-import { ProductSkeletonLoader } from '..';
 import { useAxios } from '../../services';
 import { useAppContext } from '../../contexts';
 import { Budget, Product, ProductMedia } from './types';
@@ -151,7 +151,9 @@ export const ProductList: React.FC = (): React.ReactElement => {
                                 </Col>
                             )}
                             {loading && (
-                                <ProductSkeletonLoader />
+                                <div className="py-4">
+                                    <LinearProgress />
+                                </div>
                             )}
                             {!!products.length && products.length === LIMIT && (
                                 <Col lg={12} className="py-3 text-center">

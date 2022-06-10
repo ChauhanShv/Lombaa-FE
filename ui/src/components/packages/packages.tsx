@@ -11,22 +11,14 @@ export const Packages: React.FC = (): React.ReactElement => {
     const [selectedPackage, setSelectedPackage] = useState<Package>();
     const navigate = useHistory();
 
-    const handleBuyPackage = (event: any) => {
-        paymentExecute({
-            data: {
-                package: selectedPackage?.id,
-            },
-        });
-    };
-
     const [{ data, loading }] = useAxios({
         url: '/package',
         method: 'GET',
     }, { manual: false });
-    const [{ data: paymentResponse, loading: paymentLoading }, paymentExecute] = useAxios({
-        url: '/order',
-        method: 'POST',
-    });
+
+    const handleBuyPackage = (event: any) => {
+        navigate.push(`/package/${selectedPackage?.id}/order`);
+    };
 
     useEffect(() => {
         if (data?.success) {
@@ -37,12 +29,6 @@ export const Packages: React.FC = (): React.ReactElement => {
     useEffect(() => {
         setSelectedPackage(packages[0]);
     }, [packages]);
-
-    useEffect(() => {
-        if (paymentResponse?.success) {
-            navigate.push(`/payment/success`);
-        }
-    }, [paymentResponse]);
 
     return (
         <Row>
