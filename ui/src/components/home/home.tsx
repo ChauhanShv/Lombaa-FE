@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Row, Col, Container } from 'react-bootstrap';
+import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 import Button from 'react-bootstrap/Button';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -16,6 +17,9 @@ import './home.css';
 
 const Spotsettings = {
     dots: true,
+    dotsClass: 'slick-dots',
+    prevArrow: <AiOutlineLeft id='arrow-buttons' color="#00af3c" />,
+    nextArrow: <AiOutlineRight id='arrow-buttons' color="#00af3c" />,
 }
 const CatCarSettings = {
     dots: false,
@@ -25,6 +29,9 @@ const CatCarSettings = {
     infinite: false,
     variableWidth: true,
     arrows: true,
+    dotsClass: 'slick-dots',
+    prevArrow: <AiOutlineLeft id='arrow-buttons' color="#00af3c" />,
+    nextArrow: <AiOutlineRight id='arrow-buttons' color="#00af3c" />,
 };
 
 const getPrimaryMedia = (media: ProductMedia[]): string =>
@@ -73,7 +80,7 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
             <section className="py-4 mt-0 align-items-center">
                 <Container>
                     <Row className="mt-auto">
-                        <Col lg={8} sm={12} className="">
+                        <Col lg={12} sm={12} className="">
                             <Slider className="homespot-slider" {...Spotsettings}>
                                 {!!bannerData.length && bannerData?.map((banner: Banner) =>
                                     <div key={banner?.id}>
@@ -104,7 +111,7 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
                                 )}
                             </Slider>
                         </Col>
-                        <Col lg={4} sm={12} className="align-items-center d-flex">
+                        {/* <Col lg={4} sm={12} className="align-items-center d-flex">
                             <div className="p-4">
                                 <h3>Buy and sell quickly, safely and locally!</h3>
                                 <p>Find just about anything using the app on your mobile.</p>
@@ -115,7 +122,7 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
                                     <img className="d-block mw-100" width="125" src="/images/googleplay.png" alt="Google Play" />
                                 </Button>
                             </div>
-                        </Col>
+                        </Col> */}
                     </Row>
                 </Container>
             </section>
@@ -149,7 +156,7 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
                         <Col sm={12}>
                             <Row className="post-list">
                                 <Col xl={3} lg={4} md={6} className="col-12 mb-3">
-                                    <Link to="/create-post" className="product-post bg-dark  p-4 rounded text-white d-flex align-items-center justify-content-center flex-wrap  text-center">
+                                    <Link to="/create-post" className="product-post bg-dark p-4 rounded text-white d-flex align-items-center justify-content-center flex-wrap text-center">
                                         <p><i className="fas fa-plus-circle"></i></p>
                                         <h6>Want to see your stuff here ?</h6>
                                         <p>Sell things in your community. It's quick safe and local.</p>
@@ -171,7 +178,7 @@ export const HomeComponent: React.FC = (): React.ReactElement => {
                                             mediaSrc={getPrimaryMedia(product.productMedia)}
                                             authorName={product?.user?.name}
                                             authorProfilePicture={product?.user?.profilePicture?.url || '/images/user-circle.svg'}
-                                            postedOnDate={product?.postedAt}
+                                            userId={product?.userId}
                                             isFavourite={product?.isFavorite}
                                             onFavUnfav={(fav: boolean) => { }}
                                         />

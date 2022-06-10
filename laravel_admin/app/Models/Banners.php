@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,8 +18,8 @@ class Banners extends Model
     const UPDATED_AT = 'updatedAt';
     const DELETED_AT = 'deletedAt';
 
+    use Uuids;
     use SoftDeletes;
-    // use SpatialTrait;
 
     protected $fillable = [
         'id',

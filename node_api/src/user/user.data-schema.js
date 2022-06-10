@@ -30,7 +30,7 @@ module.exports = {
     custom: {
       options: async (value, { req, location, path }) => {
         let user = await User.findOne({ where: { email: value } });
-        if (user) return Promise.reject("Email address is not available");
+        if (user) return Promise.reject("This email address is already in use");
         return Promise.resolve();
       },
     },

@@ -22,6 +22,7 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
         delete: false,
     });
     const { state, dispatch } = useAppContext();
+    const currentUserId = state?.user?.metaData?.id;
     const navigate = useHistory();
     const [{ data, loading }, executeSoldProduct] = useAxios({
         url: `/product/${productDetail.id}`,
@@ -197,7 +198,10 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                 </Col>
                 <Col lg={4} sm={12} className="d-flex flex-wrap flex-column">
                     <div className="p-4 w-100">
-                        <Link to='/' className="p-0 mb-3 usermeta d-block">
+                        <Link
+                            to={currentUserId === productDetail?.userId ? '/profile' : `/profile/${productDetail?.userId}`}
+                            className="p-0 mb-3 usermeta d-block"
+                        >
                             <img
                                 className="rounded-circle me-2"
                                 src={productDetail?.user?.profilePicture?.url}
@@ -215,7 +219,7 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                         ) : (
 
                             <>
-                                {state?.user?.metaData?.id !== productDetail?.userId && (
+                                {currentUserId !== productDetail?.userId && (
                                     <>
                                         <Button
                                             onClick={handleChatInit}
@@ -236,7 +240,7 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                                         </Button>
                                     </>
                                 )}
-                                {state?.user?.metaData?.id === productDetail?.userId && (
+                                {currentUserId === productDetail?.userId && (
                                     <ListGroup className="product-auth">
                                         <Link to={`/edit-post/${productDetail?.id}`}>
                                             <ListGroup.Item className="text-gray" action>
@@ -274,16 +278,6 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                                 )}
                             </>
                         )}
-                    </div>
-                    <div className="p-4">
-                        <h3>Buy and sell quickly, safely and locally!</h3>
-                        <p>Find just about anything using the app on your mobile.</p>
-                        <Button variant="link" className="p-0 me-lg-2">
-                            <img className="d-block mw-100" width="125" src="/images/appstore.png" alt="App Store" />
-                        </Button>
-                        <Button variant="link" className="p-0">
-                            <img className="d-block mw-100" width="125" src="/images/googleplay.png" alt="Google Play" />
-                        </Button>
                     </div>
                 </Col>
             </Row>

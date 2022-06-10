@@ -1,5 +1,6 @@
 const { Model, DataTypes, Sequelize } = require("sequelize");
 const sequelize = require("../modules/sequelize").service;
+const PageCategory = require("../page_category/page.category.model")
 
 class StaticPage extends Model { }
 
@@ -11,6 +12,15 @@ StaticPage.init({
         defaultValue: Sequelize.UUIDV4,
     },
 
+    title: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+    },
+
+    description: {
+        type: DataTypes.STRING(255),
+        allowNull: false,
+    },
     slug: {
         type: DataTypes.STRING(255),
         allowNull: false,
@@ -38,5 +48,7 @@ StaticPage.init({
         },
     }
 );
+StaticPage.belongsTo(PageCategory, { as: 'pageCategory' });
+PageCategory.hasMany(StaticPage, { as: "pages" })
 
 module.exports = StaticPage

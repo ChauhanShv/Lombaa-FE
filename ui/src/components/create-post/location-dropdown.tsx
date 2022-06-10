@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactNode } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     InputLabel,
     Select,
@@ -58,7 +58,7 @@ export const LocationDropdown: React.FC<LocationSelectorProps> = ({
     const getRegions = (region: Region) => {
         return (
             <ListSubheader sx={{ color: '#000', fontWeight: '600' }} key={region.id}>
-                {region.name}
+                {`Region: ${region.name}`}
             </ListSubheader>
         );
     };
@@ -77,7 +77,7 @@ export const LocationDropdown: React.FC<LocationSelectorProps> = ({
         return regionObject?.id;
     }
 
-    const handleLocationChange = (event: SelectChangeEvent<HTMLSelectElement>, child: ReactNode) => {
+    const handleLocationChange = (event: SelectChangeEvent<HTMLSelectElement>) => {
         setLocation(event.target.value);
         onCitySelected({
             city: event.target.value,

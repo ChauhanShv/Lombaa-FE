@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Alert, Spinner, Form, FloatingLabel, Button, Nav, Row, Col } from 'react-bootstrap';
+import { Modal, Alert, Spinner, Form, InputGroup, Button, Nav, Row, Col } from 'react-bootstrap';
+import { BiShow, BiHide } from 'react-icons/bi';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
@@ -20,7 +21,7 @@ const schema = yup.object().shape({
     name: yup.string().required('Name is required'),
     password: yup.string().matches(
         PASSWORD_REGEX,
-        'Password should contain minimum 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character'
+        'Password should contain minimum 6 characters, 1 uppercase letter, 1 lowercase letter and 1 special character'
     ),
     accountType: yup.string().required('Account type is required'),
 }).required();
@@ -41,6 +42,7 @@ export const Register: React.FC<RegisterProps> = ({
     const [selectedAccountType, setSelectedAccountType] = useState<AccountType>(AccountType.INDIVIDUAL);
     const [phoneCodeData, setPhoneCodeData] = useState<any[]>([]);
     const [submitClicked, setSubmitClicked] = useState<boolean>(false);
+    const [showPassword, setShowPassword] = useState<boolean>();
     const [{ data: registerRes, loading, error: apiError }, execute] = useAxios({
         url: '/user',
         method: 'POST',
@@ -150,26 +152,23 @@ export const Register: React.FC<RegisterProps> = ({
     const PhoneCode = (): React.ReactElement => {
         return (
             <Form.Group>
-                <FloatingLabel
-                    controlId="floatingInput"
-                    label="Code"
-                    className="mb-3"
-                >
+                <InputGroup>
                     <Form.Select
                         {...register('phoneCode')}
                         size="sm"
                         placeholder="Code"
-                        className={getErrorClassName('phoneCode')}
+                        className={`${getErrorClassName('phoneCode')} p-3`}
                         defaultValue={currentCountry.code}
                     >
+                        <option>Country Code</option>
                         {!!phoneCodeData.length && phoneCodeData.map((phone: any) =>
                             <option value={phone.phoneCode} key={phone.id}>
                                 {`+${phone.phoneCode} - ${phone.name}`}
                             </option>
                         )}
                     </Form.Select>
-                    {getErrorText('phoneCode')}
-                </FloatingLabel>
+                </InputGroup>
+                {getErrorText('phoneCode')}
             </Form.Group>
         );
     }
@@ -178,32 +177,32 @@ export const Register: React.FC<RegisterProps> = ({
         return (
             <>
                 <Form.Group className="mb-3">
-                    <FloatingLabel label="Your Name" className="mb-3">
+                    <InputGroup>
                         <Form.Control
                             {...register("name")}
                             placeholder="Your Name"
                             isValid={!!errors.name}
-                            className={getErrorClassName('name')}
+                            className={`${getErrorClassName('name')} p-3`}
                         />
-                        {getErrorText('name')}
-                    </FloatingLabel>
+                    </InputGroup>
+                    {getErrorText('name')}
                 </Form.Group>
-                <Row>
+                <Row className='mt-3 mb-3'>
                     <Col md={4}>
                         <PhoneCode />
                     </Col>
                     <Col md={8}>
-                        <Form.Group className="mb-3">
-                            <FloatingLabel label="Your phone number" className="mb-3">
+                        <Form.Group>
+                            <InputGroup>
                                 <Form.Control
                                     {...register("phoneNumber")}
                                     type="number"
                                     placeholder="Your phone number"
                                     isValid={!!errors.phoneNumber}
-                                    className={getErrorClassName('phoneNumber')}
+                                    className={`${getErrorClassName('phoneNumber')} p-3`}
                                 />
-                                {getErrorText('phoneNumber')}
-                            </FloatingLabel>
+                            </InputGroup>
+                            {getErrorText('phoneNumber')}
                         </Form.Group>
                     </Col>
                 </Row>
@@ -215,43 +214,43 @@ export const Register: React.FC<RegisterProps> = ({
         return (
             <>
                 <Form.Group className="mb-3">
-                    <FloatingLabel label="TIN number" className="mb-3">
+                    <InputGroup>
                         <Form.Control
                             {...register("tinNumber")}
                             placeholder="TIN number"
                             isValid={!!errors.tinNumber}
-                            className={getErrorClassName('tinNumber')}
+                            className={`${getErrorClassName('tinNumber')} p-3`}
                         />
-                        {getErrorText('tinNumber')}
-                    </FloatingLabel>
+                    </InputGroup>
+                    {getErrorText('tinNumber')}
                 </Form.Group>
-                <Form.Group className="mb-3">
-                    <FloatingLabel label="Legal business name" className="mb-3">
+                <Form.Group className="mt-3">
+                    <InputGroup>
                         <Form.Control
                             {...register("name")}
                             placeholder="Legal business name"
                             isValid={!!errors.name}
-                            className={getErrorClassName('name')}
+                            className={`${getErrorClassName('name')} p-3`}
                         />
-                        {getErrorText('name')}
-                    </FloatingLabel>
+                    </InputGroup>
+                    {getErrorText('name')}
                 </Form.Group>
-                <Row>
+                <Row className="mt-3">
                     <Col md={4}>
                         <PhoneCode />
                     </Col>
                     <Col md={8}>
-                        <Form.Group className="mb-3">
-                            <FloatingLabel label="Business phone number" className="mb-3">
+                        <Form.Group>
+                            <InputGroup>
                                 <Form.Control
                                     {...register("phoneNumber")}
                                     type="number"
                                     placeholder="Business phone number"
                                     isValid={!!errors.phoneNumber}
-                                    className={getErrorClassName('phoneNumber')}
+                                    className={`${getErrorClassName('phoneNumber')} p-3`}
                                 />
-                                {getErrorText('phoneNumber')}
-                            </FloatingLabel>
+                            </InputGroup>
+                            {getErrorText('phoneNumber')}
                         </Form.Group>
                     </Col>
                 </Row>
@@ -339,28 +338,30 @@ export const Register: React.FC<RegisterProps> = ({
                         </Modal.Header>
                         {showAPIErrorMessage()}
                         <Form onSubmit={handleFormSubmit} noValidate>
-                            <FloatingLabel label="Email address" className="mb-3">
+                            <InputGroup>
                                 <Form.Control
                                     {...register("email")}
                                     type="email"
                                     placeholder="Your Email"
                                     isValid={!!errors.email}
-                                    className={getErrorClassName('email')}
+                                    className={`${getErrorClassName('email')} p-3`}
                                 />
-                                {getErrorText('email')}
-                            </FloatingLabel>
-                            <FloatingLabel label="Password" className="mb-3" >
+                            </InputGroup>
+                            {getErrorText('email')}
+                            <InputGroup className="mt-3" >
                                 <Form.Control
                                     {...register("password")}
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     placeholder="Password"
                                     isValid={!!errors.password}
-                                    className={getErrorClassName('password')}
+                                    className={`${getErrorClassName('password')} p-3`}
                                 />
-                                {getErrorText('password')}
-                            </FloatingLabel>
-
-                            <div className="form-group mb-3">
+                                <InputGroup.Text onClick={() => setShowPassword(!showPassword)}>
+                                    {showPassword ? <BiHide /> : <BiShow />}
+                                </InputGroup.Text>
+                            </InputGroup>
+                            {getErrorText('password')}
+                            <div className="form-group mt-3">
                                 <Form.Check
                                     label="Individual"
                                     inline
@@ -371,7 +372,7 @@ export const Register: React.FC<RegisterProps> = ({
                                     {...register("accountType")}
                                     onChange={() => handleAccountTypeChange(AccountType.INDIVIDUAL)}
                                     isValid={!!errors.accountType}
-                                    className={getErrorClassName('accountType')}
+                                    className={`${getErrorClassName('accountType')} p-3`}
                                 />
                                 <Form.Check
                                     label="Business"
@@ -383,7 +384,7 @@ export const Register: React.FC<RegisterProps> = ({
                                     {...register("accountType")}
                                     onChange={() => handleAccountTypeChange(AccountType.BUSINESS)}
                                     isValid={!!errors.accountType}
-                                    className={getErrorClassName('accountType')}
+                                    className={`${getErrorClassName('accountType')} p-3`}
                                 />
                                 {getErrorText('accountType')}
                             </div>

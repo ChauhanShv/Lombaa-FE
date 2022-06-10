@@ -12,10 +12,14 @@ import { SavedSearch, Filter } from './types';
 export const SavedSearches: React.FC = (): React.ReactElement => {
     const navigate = useHistory();
     const [savedSearches, setSavedSearches] = useState<SavedSearch[]>([]);
-    const [{ data, loading }, execute] = useAxios({
+    const [{ data, loading }] = useAxios({
         url: '/user/savedsearch',
         method: 'GET',
     }, { manual: false });
+    const [{ }, executeDeleteSearch] = useAxios({
+        url: '/user/savedsearch',
+        method: 'DELETE',
+    });
 
     useEffect(() => {
         if (data?.success) {
@@ -32,6 +36,14 @@ export const SavedSearches: React.FC = (): React.ReactElement => {
         }
         filterUrl = filterUrl.replace(' ', '+');
         navigate.push(`/`);
+    };
+
+    const handleDeleteSearch = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, search: SavedSearch) => {
+        const newSavedSearchArray = savedSearches.filter(savedSearch => !(savedSearch?.id === search?.id));
+        setSavedSearches([...newSavedSearchArray]);
+        executeDeleteSearch({
+            url: `/user/savedSearch/${search.id}`,
+        });
     };
 
     return (
@@ -61,9 +73,12 @@ export const SavedSearches: React.FC = (): React.ReactElement => {
                             body
                             className="mb-3"
                             key={searchIndex.toString()}
-                            onClick={(event) => handleSavedSearchItemClicked(event, search)}
+                        //onClick={(event) => handleSavedSearchItemClicked(event, search)}
                         >
-                            <CloseButton className="position-absolute top-0 end-0 pt-3" />
+                            <CloseButton
+                                onClick={(event) => handleDeleteSearch(event, search)}
+                                className="position-absolute top-0 end-0 pt-3"
+                            />
                             <Badge bg="white" className="border me-2 mb-3 fw-normal" text="dark">
                                 Search
                             </Badge>

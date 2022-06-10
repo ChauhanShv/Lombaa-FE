@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import { Avatar } from '@mui/material';
 import { FaShare, FaHeart, FaImages, FaRegHeart } from 'react-icons/fa';
+import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 import { useMediaQuery } from 'react-responsive';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -43,7 +45,9 @@ export const ProductDetailImageSlider: React.FC<ProductDetailImageSliderProps> =
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
-        arrow: true,
+        prevArrow: <AiOutlineLeft id='arrow-buttons' color="#00af3c" />,
+        nextArrow: <AiOutlineRight id='arrow-buttons' color="#00af3c" />,
+        dotsClass: 'slick-dots',
     }
 
     const handleFavUnfav = () => {

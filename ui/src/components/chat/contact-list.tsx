@@ -58,7 +58,7 @@ export const ContactList: React.FC = (): React.ReactElement => {
     };
 
     const onListScroll = debounce((e) => {
-        if(!contactResponse?.data?.length || LIMIT > contactList.length) {
+        if (!contactResponse?.data?.length || LIMIT > contactList.length) {
             return;
         }
         const bottom = Math.floor(e.target.scrollHeight - e.target.scrollTop) === e.target.clientHeight;
@@ -78,8 +78,8 @@ export const ContactList: React.FC = (): React.ReactElement => {
                         exclusive
                         aria-label="Basic example"
                     >
-                        <ToggleButton value="buy">Buyer</ToggleButton>
-                        <ToggleButton value="sell">Seller</ToggleButton>
+                        <ToggleButton value="buy">Buying</ToggleButton>
+                        <ToggleButton value="sell">Selling</ToggleButton>
                     </ToggleButtonGroup>
                 </div>
             </div>
@@ -92,15 +92,15 @@ export const ContactList: React.FC = (): React.ReactElement => {
                     >
                         <img
                             className='profile-image-avatar'
-                            src={user.to?.profilePicture?.url || '/images/user-circle.svg'}
+                            src={user?.product?.media[0]?.file?.url || '/images/user-circle.svg'}
                             alt={user.to?.name}
                         />
                         <div className='text'>
                             <Typography variant="h6" noWrap>
-                                {user.to?.name}
+                                {user.product?.title}
                             </Typography>
                             <Typography variant="overline" noWrap>
-                                {user.product?.title}
+                                {user.to?.name}
                             </Typography>
                             <Typography variant="body2" noWrap>
                                 {user.lastMessage?.text}

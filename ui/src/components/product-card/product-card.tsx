@@ -18,7 +18,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     location,
     mediaSrc,
     authorName,
-    postedOnDate,
+    userId,
     authorProfilePicture,
     isFavourite,
     onFavUnfav,
@@ -94,7 +94,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     </Card.Text>
                 </Card.Body>
             </Link>
-            <Link to={`/product-detail/${productId}/${slug}`} className="p-0 ms-3 mb-3 usermeta">
+            <Link
+                to={userId === state.user.metaData?.id ? '/profile' : `/profile/${userId}`}
+                className="p-0 ms-3 mb-3 usermeta"
+            >
                 <img
                     className="rounded-circle me-2 d-inline"
                     width="30"

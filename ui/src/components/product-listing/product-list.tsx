@@ -5,7 +5,7 @@ import { ProductCard } from '../product-card';
 import { ProductSkeletonLoader } from '..';
 import { useAxios } from '../../services';
 import { useAppContext } from '../../contexts';
-import { Product, ProductMedia } from './types';
+import { Budget, Product, ProductMedia } from './types';
 import { ProductFilters } from '.';
 
 const getPrimaryMedia = (media: ProductMedia[]): string =>
@@ -18,6 +18,7 @@ export const ProductList: React.FC = (): React.ReactElement => {
     const { categoryId } = useParams<{ categoryId: string }>();
     const [products, setProducts] = useState<Product[]>([]);
     const [offset, setOffset] = useState<number>(0);
+    const [budget, setBudget] = useState<Budget>({});
 
     const getApiUrl = (): string => {
         if (lat && lng) {
@@ -45,6 +46,7 @@ export const ProductList: React.FC = (): React.ReactElement => {
                 params: {
                     offset: 0,
                     limit: LIMIT,
+                    ...(budget.min || budget.max) && { price: `${budget.min},${budget.max}` },
                 }
             });
         }
@@ -67,6 +69,7 @@ export const ProductList: React.FC = (): React.ReactElement => {
                 params: {
                     offset: start,
                     limit: LIMIT,
+                    ...(budget.min || budget.max) && { price: `${budget.min},${budget.max}` },
                 },
             });
         }
@@ -80,18 +83,46 @@ export const ProductList: React.FC = (): React.ReactElement => {
     const onFilterChange = (filter: string) => {
         if (filter && state.session.lat && state.session.lng) {
             refetch({
-                url: `${getApiUrl()}&${filter}`
+                url: `${getApiUrl()}&${filter}`,
+                params: {
+                    offset: offset,
+                    limit: LIMIT,
+                    ...(budget.min || budget.max) && { price: `${budget.min},${budget.max}` },
+                },
             });
         } else {
             refetch({
-                url: `/category/${categoryId}/products?${filter}`
+                url: `/category/${categoryId}/products?${filter}`,
+                params: {
+                    offset: offset,
+                    limit: LIMIT,
+                    ...(budget.min || budget.max) && { price: `${budget.min},${budget.max}` },
+                },
             });
         }
     };
 
+    const onBudgetChange = (price: Budget) => {
+        setBudget({ ...price });
+        refetch({
+            url: getApiUrl(),
+            params: {
+                offset: 0,
+                limit: LIMIT,
+                ...(price.min || price.max) && { price: `${price.min},${price.max}` },
+            },
+        });
+    }
+
     return (
         <Container className="">
-            {categoryId && <ProductFilters categoryId={categoryId} onFilterChange={onFilterChange} />}
+            {categoryId &&
+                <ProductFilters
+                    categoryId={categoryId}
+                    onFilterChange={onFilterChange}
+                    onBudgetChange={onBudgetChange}
+                />
+            }
             <section className="pb-5">
                 <Row>
                     <Col sm={12}>
@@ -113,7 +144,7 @@ export const ProductList: React.FC = (): React.ReactElement => {
                                         mediaSrc={getPrimaryMedia(product.productMedia)}
                                         authorName={product?.user?.name}
                                         authorProfilePicture={product?.user?.profilePicture?.url || '/images/user-circle.svg'}
-                                        postedOnDate={product?.postedAt}
+                                        userId={product?.userId}
                                         isFavourite={product?.isFavorite}
                                         onFavUnfav={(fav: boolean) => { }}
                                     />
@@ -122,7 +153,7 @@ export const ProductList: React.FC = (): React.ReactElement => {
                             {loading && (
                                 <ProductSkeletonLoader />
                             )}
-                            {!!products.length && (
+                            {!!products.length && products.length === LIMIT && (
                                 <Col lg={12} className="py-3 text-center">
                                     <button
                                         onClick={handleShowMoreProducts}

@@ -143,7 +143,7 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
                     </Link>Change Phone
                 </span>
             </Card.Header>
-            <Col md={8} className="card-content col-11 mx-auto">
+            <Col md={10} className="card-content mx-auto">
                 <Form onSubmit={handleFormSubmit} className="details-form p-5">
                     {(apiError || alert.message) && (
                         <Alert variant={alert.message ? 'success' : 'danger'} onClose={() => setAlert({})} dismissible>
@@ -151,10 +151,10 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
                         </Alert>
                     )}
                     <Row>
-                        <Col md={4}>
+                        <Col md={5}>
                             <FloatingLabel
                                 controlId="floatingInput"
-                                label="Code"
+                                label="Country Code"
                                 className="mb-3"
                             >
                                 <Form.Select
@@ -173,7 +173,7 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
                                 {getErrorText('countryCode')}
                             </FloatingLabel>
                         </Col>
-                        <Col md={8}>
+                        <Col md={7}>
                             <FloatingLabel
                                 controlId="floatingInput"
                                 label="Phone Number"
@@ -193,7 +193,7 @@ export const ChangePhone: React.FC = (): React.ReactElement => {
                         <ListGroup.Item as="li">
                             <span>
                                 <p className='text-muted mb-0'>
-                                    Share phone number with Buyer's Consent
+                                    I agree to share my phone number with buyers and sellers{' '}
                                 </p>
                             </span>
                             <span>

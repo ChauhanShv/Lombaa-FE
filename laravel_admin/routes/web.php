@@ -13,6 +13,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ValuesController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\StaticPagesController;
+
 use Illuminate\Support\Facades\Route;
 
 
@@ -35,7 +37,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/deactive/{id}', [UserController::class, 'deactive'])->name('deactive');
         Route::get('/edit/{id}', [UserController::class, 'edit'])->name('show_Data');
         Route::post('/edit', [UserController::class, 'update']);
-        Route::get('/elete/{id}', [UserController::class, 'delete'])->name('delete');
+        Route::get('/delete/{id}', [UserController::class, 'delete'])->name('delete');
         Route::get('/filter/{action}', [UserController::class, 'user_filter'])->name('user_filter');
     });
 
@@ -137,6 +139,16 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/delete/{id}', [BannerController::class, 'delete_banner'])->name('delete_banner');
         Route::get('/update/{id}', [BannerController::class, 'update_banner'])->name('update_banner');
         Route::post('/update/{id}', [BannerController::class, 'update_banner'])->name('update_banner');
+    });
+
+    Route::group(['prefix' => 'pages'], function () {
+        Route::get('/', [StaticPagesController::class, 'add_pages'])->name('add_pages');
+        Route::post('/', [StaticPagesController::class, 'add_pages'])->name('add_pages');
+        Route::get('/list', [StaticPagesController::class, 'list'])->name('page_list');
+        Route::get('/delete/{id}', [StaticPagesController::class, 'delete'])->name('delete_page');
+        Route::get('/update/{id}', [StaticPagesController::class, 'update_page'])->name('update_page');
+        Route::post('/update/{id}', [StaticPagesController::class, 'update_page'])->name('update_page');
+
     });
 
 });

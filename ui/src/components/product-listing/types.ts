@@ -2,6 +2,11 @@ export interface ProductFilterProps {
   categoryId: string;
   sort?: string;
   onFilterChange: (filter: string) => void;
+  onBudgetChange: (budget: Budget) => void;
+}
+export interface Budget {
+  min?: string;
+  max?: string;
 }
 export interface City {
   id?: string;

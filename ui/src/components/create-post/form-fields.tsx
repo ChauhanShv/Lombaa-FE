@@ -8,6 +8,7 @@ import {
     FormControl
 } from 'react-bootstrap';
 import { useFormContext } from 'react-hook-form';
+import { useAppContext } from '../../contexts';
 import './post-ad.css';
 import { getErrorClassName } from '../../utils';
 import { Field } from '../../types';
@@ -20,6 +21,7 @@ export const FormFields: React.FC<FormFieldsProps> = ({
     fields
 }: FormFieldsProps): React.ReactElement => {
     const { register, formState: { errors } } = useFormContext();
+    const { state } = useAppContext();
     const getFieldNecessity = (required: boolean) => required ? '*' : '(Optional)';
     const getErrorText = (field: string): React.ReactElement | null => {
         const errorMessages: any = {
@@ -191,37 +193,25 @@ export const FormFields: React.FC<FormFieldsProps> = ({
     const PriceComponent = ({
         id,
     }: Field): React.ReactElement => {
-        const [isForSale, setIsForSale] = useState<string>('sale');
         return (
-            <>
-                <ToggleButtonGroup
-                    type="radio"
-                    name="price-options"
-                    defaultValue={isForSale}
-                >
-                    <ToggleButton variant="outline-success fullround" className="rounded m-2 ms-0" value="sale" onClick={() => setIsForSale('sale')}>
-                        For Sale
-                    </ToggleButton>
-                    <ToggleButton variant="outline-success fullround" className="rounded m-2" value="free" onClick={() => setIsForSale('free')}>
-                        For Free
-                    </ToggleButton>
-                </ToggleButtonGroup>
-                {isForSale === 'sale' && (
-                    <InputGroup className="mt-2 mb-5">
-                        <InputGroup.Text id="basic-addon1 d-block">$</InputGroup.Text>
-                        <FormControl
-                            type="number"
-                            className={getErrorClassName(id, errors)}
-                            {...register(id)}
-                            placeholder="Price of your listing *"
-                            aria-label="Price of your listing"
-                            aria-describedby="basic-addon1"
-                        // onChange={handlePriceChange}
-                        />
-                        {getErrorText(id)}
-                    </InputGroup>
-                )}
-            </>
+            <div className='mb-4'>
+                <InputGroup className="mt-2">
+                    <InputGroup.Text id="basic-addon1 d-block">
+                        {state?.user?.metaData?.location?.country?.currencySymbol}
+                    </InputGroup.Text>
+                    <FormControl
+                        type="number"
+                        className={`${getErrorClassName(id, errors)} p-3`}
+                        {...register(id)}
+                        placeholder="Price of your listing *"
+                        aria-label="Price of your listing"
+                        aria-describedby="basic-addon1"
+                    />
+                </InputGroup>
+                <span>
+                    {getErrorText(id)}
+                </span>
+            </div>
         );
     }
 

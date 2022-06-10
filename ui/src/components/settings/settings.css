@@ -10,10 +10,12 @@
     position: relative;
     margin-top: -9px;
 }
+.profile-image-label:hover { background-color: #00af3c; color: #fff; }
 .upload-image{
     width: 25px;
     height: 25px;
 }
+.upload-image:hover { background-color: #00af3c; color: #fff; }
 .sidenav-link {
     text-decoration: none;
 }

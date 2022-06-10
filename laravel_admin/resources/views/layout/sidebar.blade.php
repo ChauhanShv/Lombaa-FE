@@ -208,6 +208,19 @@
                 </li>
             </ul>
         </li>
+        <li class="submenu {{\Request::is('pages*') ? 'open active' : '' }}">
+            <a href="">
+                <i style="color: white" class="icon icon-wrench"></i> <span style="color: white">Static Pages</span>
+            </a>
+            <ul>
+                <li class="{{\Request::is('pages/') ? 'active' : '' }}">
+                    <a href="{{ route('add_pages') }}">Add</a>
+                </li>
+               <li class="{{\Request::is('pages/list') ? 'active' : '' }}">
+                    <a href="{{ route('page_list') }}">List</a>
+                </li> 
+            </ul>
+        </li>
         <li class="submenu">
             <a href="">
                 <i style="color: white" class="icon icon-certificate"></i> <span style="color: white">Certificate</span>

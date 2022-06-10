@@ -209,7 +209,7 @@ class ProductService {
 
     if (search) {
       products = products.filter(product => {
-        return product?.title?.includes(search) || product?.description?.includes(search)
+        return product?.title?.toLowerCase()?.includes(search) || product?.description?.toLowerCase()?.includes(search)
       })
     }
     if (price) {
@@ -228,6 +228,7 @@ class ProductService {
       products = this.mapUserFavorite(products, userId)
     }
     return products
+
   }
 
   fieldsMapping(products) {
@@ -321,10 +322,10 @@ class ProductService {
     })
     products = this.fieldsMapping(products)
     products = products.filter(product => {
-      return product?.title?.includes(search) || product?.description?.includes(search)
+      return product?.title?.toLowerCase()?.includes(search) || product?.description?.toLowerCase()?.includes(search)
     })
     products = products.map(product => {
-      return product.category
+      return product
     })
     function getArray(arr, key) {
       return [...new Map(arr.map(item => [item[key], item])).values()]
@@ -350,6 +351,10 @@ class ProductService {
     })
     productsFromCategory = productsFromCategory.slice(offset, limit)
     productsFromCategory = this.fieldsMapping(productsFromCategory)
+
+    if ((productsFromCategory?.length ?? 0) < 4) {
+      return []
+    }
     return productsFromCategory
   }
 

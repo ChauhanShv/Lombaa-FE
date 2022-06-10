@@ -13,7 +13,7 @@ import {
     ChangePassword,
     ChangePhone,
     DeactivateAccount,
-    Packages
+    MyPackages
 } from '../components';
 
 export const SettingsPage: React.FC = () => {
@@ -32,7 +32,7 @@ export const SettingsPage: React.FC = () => {
             case 'deactivate-account':
                 return <DeactivateAccount />;
             case 'select-package':
-                return <Packages />
+                return <MyPackages />
             default:
                 return <PersonalDetails />;
         };

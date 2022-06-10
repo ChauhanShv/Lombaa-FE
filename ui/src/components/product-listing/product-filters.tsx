@@ -1,22 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Container, Dropdown, Form, FormControl, Button } from 'react-bootstrap';
-import { Breadcrumbs, Typography } from '@mui/material';
+import { Breadcrumbs, Typography, Alert } from '@mui/material';
 import { find } from 'lodash';
 import { MoreFiltersModal } from '.';
 import { ActionTypes, useAppContext } from '../../contexts';
-import { useAxios } from '../../services';
 import { ProductFilterProps } from './types';
+import { Budget } from './types';
 import { Category, SubCategory, Field, KeyValuePair } from '../../types';
 
 export const ProductFilters: React.FC<ProductFilterProps> = ({
     categoryId,
     sort,
-    onFilterChange
+    onFilterChange,
+    onBudgetChange,
 }: ProductFilterProps): React.ReactElement => {
     const [showMoreFilters, setShowMoreFilters] = useState<boolean>(false);
     const [sortBy, setSortBy] = useState<string>(sort || '');
     const [filter, setFilter] = useState<any>({});
+    const [budget, setBudget] = useState<Budget>({
+        min: '',
+        max: '',
+    });
     const [searchFilter, setSearchFilter] = useState<any>([]);
     const { state, dispatch } = useAppContext();
     const navigate = useHistory();
@@ -80,6 +85,10 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
         setFilter({ ...newFilter });
     };
 
+    const handleApplyBudgetFilter = () => {
+        onBudgetChange({ ...budget });
+    }
+
     const handleSubCatChange = (e: any, subCatId: string) => {
         navigate.push(`/product-listing/${subCatId}`);
     };
@@ -120,7 +129,8 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
         return (
             <Dropdown className="d-inline mx-2" key={field.id}>
                 <Dropdown.Toggle variant="outline-dark rounded btn-fullround mb-2" id="dropdown-autoclose-true">
-                    {field.label}
+                    {field.label}{filter[field.label] ? ': ' : ''}{' '}
+                    <strong>{`${filter[field.label] ?? ''}`}</strong>
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="pre-scrollable">
                     {field.values.map((dropdownValue) =>
@@ -155,6 +165,12 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
 
     return category ? (
         <>
+            {state.session.token && !state.user?.metaData?.location?.city?.name && (
+                <Alert sx={{ mt: 3 }} variant="outlined" severity="warning">
+                    It seems you have not set your location in your profile settings. Please set Location
+                    <Link to="/settings"><strong> here</strong></Link>
+                </Alert>
+            )}
             <MoreFiltersModal
                 showMoreFilters={showMoreFilters}
                 onCloseMoreFilters={() => setShowMoreFilters(false)}
@@ -179,7 +195,8 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
                             style={{ fontSize: '12px !important', }}
                             variant="outline-dark rounded btn-fullround mb-2"
                         >
-                            Sort By {sortDD[sortBy] ? `: ${sortDD[sortBy]}` : ''}
+                            Sort By
+                            <strong>{sortDD[sortBy] ? `: ${sortDD[sortBy]}` : ''}</strong>
                         </Dropdown.Toggle>
                         {getSortDD()}
                     </Dropdown>
@@ -187,13 +204,38 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
                     {find(category.fields, { fieldType: 'price' }) && (
                         <Dropdown className="d-inline mx-2">
                             <Dropdown.Toggle variant="outline-dark rounded btn-fullround mb-2" id="dropdown-autoclose-true">
-                                Budget:
+                                Budget: {' '}
+                                <strong>{`${budget.min || ''} - ${budget.max || ''}`}</strong>
                             </Dropdown.Toggle>
                             <Dropdown.Menu className="pre-scrollable">
                                 <div className="px-3 py-1">
-                                    <FormControl className="mb-3" type="number" placeholder='Min price' width="auto" />
-                                    <FormControl className="mb-3" type="number" placeholder='Max price' width="auto" />
-                                    <Button>Apply</Button>
+                                    <FormControl
+                                        className="mb-3"
+                                        type="number"
+                                        placeholder='Min price'
+                                        width="auto"
+                                        value={budget.min}
+                                        onChange={(e) => setBudget({
+                                            ...budget,
+                                            min: e.target.value,
+                                        })}
+                                    />
+                                    <FormControl
+                                        className="mb-3"
+                                        type="number"
+                                        placeholder='Max price'
+                                        width="auto"
+                                        value={budget.max}
+                                        onChange={(e) => setBudget({
+                                            ...budget,
+                                            max: e.target.value,
+                                        })}
+                                    />
+                                    <Button className="p-0" onClick={handleApplyBudgetFilter}>
+                                        <Dropdown.Item className="p-2 bg-transparent text-white">
+                                            Apply
+                                        </Dropdown.Item>
+                                    </Button>
                                 </div>
                             </Dropdown.Menu>
                         </Dropdown>

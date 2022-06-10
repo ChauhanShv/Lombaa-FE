@@ -7,10 +7,12 @@ import {
     Alert,
     Spinner,
     Col,
+    InputGroup,
 } from 'react-bootstrap';
 import {
     FaChevronLeft,
 } from 'react-icons/fa';
+import { BiShow, BiHide } from 'react-icons/bi';
 import { Link } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -25,7 +27,7 @@ const schema = yup.object().shape({
     oldPassword: yup.string().required('Current password is required'),
     password: yup.string().matches(
         PASSWORD_REGEX,
-        'Password should contain minimum 8 characters, 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character'
+        'Password should contain minimum 6 characters, 1 uppercase letter, 1 lowercase letter and 1 special character'
     ).notOneOf([yup.ref('oldPassword'), 'null'], 'New and old password cannot be same').required('New password is required'),
     confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match')
         .required('Password confirmation is required'),
@@ -38,6 +40,11 @@ export const ChangePassword: React.FC = (): React.ReactElement => {
         resolver: yupResolver(schema),
     });
     const [alert, setAlert] = useState<AlertType>({});
+    const [showPassword, setShowPassword] = useState<any>({
+        oldPassword: false,
+        password: false,
+        confirmPassword: false,
+    });
     const [{ data: response, loading, error: apiError }, execute] = useAxios({
         url: '/user/password',
         method: 'PUT'
@@ -105,46 +112,58 @@ export const ChangePassword: React.FC = (): React.ReactElement => {
                             {alert.message || getAPIErrorMessage(apiError)}
                         </Alert>
                     )}
-                    <FloatingLabel
-                        controlId="currentPassword"
-                        label="Current Password"
-                        className="mb-3"
-                    >
+                    <InputGroup size="lg">
                         <Form.Control
                             {...register('oldPassword')}
-                            type="password"
+                            type={showPassword.oldPassword ? "text" : 'password'}
                             placeholder="Password"
                             className={getErrorClassName('oldPassword')}
                         />
-                        {getErrorText('oldPassword')}
-                    </FloatingLabel>
-                    <FloatingLabel
-                        controlId="newPassword"
-                        label="New Password"
-                        className="mb-3"
-                    >
+                        <InputGroup.Text
+                            onClick={() => setShowPassword({
+                                ...showPassword,
+                                oldPassword: !showPassword.oldPassword
+                            })}
+                        >
+                            {showPassword.oldPassword ? <BiHide /> : <BiShow />}
+                        </InputGroup.Text>
+                    </InputGroup>
+                    {getErrorText('oldPassword')}
+                    <InputGroup size="lg" className="mt-3">
                         <Form.Control
                             {...register('password')}
-                            type="password"
+                            type={showPassword.password ? "text" : 'password'}
                             placeholder="New Password"
                             className={getErrorClassName('password')}
                         />
-                        {getErrorText('password')}
-                    </FloatingLabel>
-                    <FloatingLabel
-                        controlId="confirmPassword"
-                        label="Confirm Password"
-                        className="mb-3"
-                    >
+                        <InputGroup.Text
+                            onClick={() => setShowPassword({
+                                ...showPassword,
+                                password: !showPassword.password
+                            })}
+                        >
+                            {showPassword.password ? <BiHide /> : <BiShow />}
+                        </InputGroup.Text>
+                    </InputGroup>
+                    {getErrorText('password')}
+                    <InputGroup size="lg" className="mt-3">
                         <Form.Control
                             {...register('confirmPassword')}
-                            type="password"
+                            type={showPassword.confirmPassword ? "text" : 'password'}
                             placeholder="Confirm Password"
                             className={getErrorClassName('confirmPassword')}
                         />
-                        {getErrorText('confirmPassword')}
-                    </FloatingLabel>
-                    <Button type="submit" className="btn btn-success w-100">
+                        <InputGroup.Text
+                            onClick={() => setShowPassword({
+                                ...showPassword,
+                                confirmPassword: !showPassword.confirmPassword
+                            })}
+                        >
+                            {showPassword.confirmPassword ? <BiHide /> : <BiShow />}
+                        </InputGroup.Text>
+                    </InputGroup>
+                    {getErrorText('confirmPassword')}
+                    <Button type="submit" className="mt-3 btn btn-success w-100">
                         {
                             loading ? (
                                 <Spinner animation="border" role="status"></Spinner>
