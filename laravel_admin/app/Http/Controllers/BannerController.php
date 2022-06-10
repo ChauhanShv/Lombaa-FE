@@ -49,22 +49,20 @@ class BannerController extends Controller
                 $send_file_data = Files::create($file_data);
             }
 
-            $data = [
-                'id' => Str::uuid(),
-                'title' => $request->title,
-                'description' => $request->description,
-                'action_label' => $request->actionLabel,
-                'action' => $request->action,
-                'action_type' =>  $request->actionType,
-                'mediaId' => $request->image ? $file_data['id'] : null,
-            ];
+            $banner = new Banners;
+            $banner->title = $request->title;
+            $banner->description = $request->description;
+            $banner->action_label = $request->actionLabel;
+            $banner->action = $request->action;
+            $banner->action_type = $request->actionType;
+            $banner->mediaId = $request->image ? $file_data['id'] : null;
 
-            $insert_banner = Banners::insert($data);
-            if($insert_banner) {
-                return redirect()->back()->with('response', ['status' => 'success', 'message' => 'banner added successfully']);
+
+            if($banner->save()) {
+                return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Banner added successfully']);
             }
             else {
-                return redirect()->back()->with('response', ['status' => 'error', 'message' => 'something went wrong']);
+                return redirect()->back()->with('response', ['status' => 'error', 'message' => 'Something went wrong']);
             }
         }
         else {
