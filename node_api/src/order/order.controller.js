@@ -13,7 +13,7 @@ class orderController extends BaseController {
             const data = await Order.create({ date: moment(), itemName: packageData.name, unitPrice: packageData.price, currency: packageData.currency, qty: 1, userId: userId })
             const invoiceNumber = await Invoice.findOne({ order: [['createdAt', 'DESC']] })
 
-            const number = Number(invoiceNumber?.invoiceNumber ?? 100000) + 1
+            const number = `${(Number(invoiceNumber?.invoiceNumber ?? 0) + 1)}`.padStart(7, '0');
             const invoice = await Invoice.create({ orderId: data.id, invoiceNumber: number })
             return super.jsonRes({ res, code: 200, data: { success: true, message: "New order record has been created", order: data, invoice: invoice } })
         }
