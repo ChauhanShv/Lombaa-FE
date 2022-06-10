@@ -48,7 +48,6 @@ StaticPage.init({
         },
     }
 );
-StaticPage.belongsTo(PageCategory, { as: 'pageCategory' });
 PageCategory.hasMany(StaticPage, { as: "pages" })
 
 module.exports = StaticPage

@@ -23,11 +23,17 @@ PageCategory.init({
     },
 },
     {
-        modelName: "PageCategory",
+        modelName: "pageCategory",
         tableName: "page_category",
         timestamps: true,
         sequelize,
         paranoid: true,
+        defaultScope: {
+            attributes: {
+                exclude: ["createdAt", "updatedAt", "deletedAt",],
+            },
+        },
     }
 );
+
 module.exports = PageCategory
