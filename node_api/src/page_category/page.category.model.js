@@ -14,6 +14,7 @@ PageCategory.init({
     title: {
         type: DataTypes.STRING(255),
         allowNull: false,
+        unique: true
     },
 
     description: {
