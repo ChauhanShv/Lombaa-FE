@@ -52,6 +52,20 @@ export const DragAndDrop: React.FC<DragAndDropProps> = ({
   }, [mediaData]);
 
   useEffect(() => {
+    const newProductMedia: Media[] = [];
+    const newProductFile: File[] = [];
+    if (!!productDetail?.productMedia?.length) {
+      for (const productMedia of productDetail?.productMedia) {
+        newProductMedia.push({
+          ...productMedia?.file,
+          token: productMedia?.token
+        });
+      }
+    }
+    setMedia([...newProductMedia]);
+  }, []);
+
+  useEffect(() => {
     updateMedia(media);
   }, [media]);
 

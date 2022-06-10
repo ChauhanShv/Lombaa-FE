@@ -78,6 +78,8 @@ export interface ProductMedia {
   fileId: string;
   productId: string;
   file: ProductMediaFile;
+  token: string;
+  updatedAt: string;
 }
 export interface ProductMediaFile {
   id: string;

@@ -24,7 +24,7 @@ import {
   StaticPages,
 } from './pages';
 import { theme } from './theme';
-import { PaymentSuccessfulPage } from './components/payment';
+import { PaymentSuccessfulPage, Invoice } from './components/payment';
 
 const App: React.FC = () => {
   return (
@@ -39,7 +39,7 @@ const App: React.FC = () => {
               <PublicRoute restricted component={ResetPasswordPage} path="/password/reset" />
               <PublicRoute component={VerifyEmailPage} path="/email/verify" exact />
               <PrivateRoute component={SettingsPage} path="/settings/:page?" exact />
-              <PublicRoute component={ProfilePage} path="/profile/:userId?" exact />
+              <PrivateRoute component={ProfilePage} path="/profile/:userId?" exact />
               <PrivateRoute component={CreatePostPage} path="/create-post" exact />
               <PrivateRoute component={EditPostPage} path="/edit-post/:productId?" exact />
               <PrivateRoute component={SavedSearchesPage} path="/saved-search" exact />
@@ -47,7 +47,7 @@ const App: React.FC = () => {
               <PublicRoute component={ProductDetailPage} path="/product-detail/:productId/:slug?" exact />
               <PrivateRoute component={ChatPage} path="/chat/:chatType/:chatId?" exact />
               <PrivateRoute component={PackagesPage} path="/packages" exact />
-              <PrivateRoute component={PaymentSuccessfulPage} path="/payment/success" exact />
+              <PrivateRoute component={Invoice} path="/package/:packageId/order" exact />
               <PrivateRoute component={StaticPages} path="/:page" exact />
               {/* Html Routes - for nilesh */}
             </Switch>
