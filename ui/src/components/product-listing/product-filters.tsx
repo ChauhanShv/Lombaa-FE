@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Container, Dropdown, Form, FormControl, Button } from 'react-bootstrap';
-import { Breadcrumbs, Typography, Alert } from '@mui/material';
+import { Breadcrumbs, Typography, Alert, List, ListItemButton } from '@mui/material';
 import { find } from 'lodash';
 import { MoreFiltersModal } from '.';
 import { ActionTypes, useAppContext } from '../../contexts';
@@ -23,6 +23,7 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
         max: '',
     });
     const [searchFilter, setSearchFilter] = useState<any>([]);
+    const [selectedCategory, setSelectedCategory] = useState<string>('');
     const { state, dispatch } = useAppContext();
     const navigate = useHistory();
     const categories: Category[] = state?.category;
@@ -100,22 +101,29 @@ export const ProductFilters: React.FC<ProductFilterProps> = ({
                     Category
                 </Dropdown.Toggle>
                 <Dropdown.Menu className='pre-scrollable'>
-                    {categoryFilter?.subCategories?.map((subCat: SubCategory) =>
-                        <Dropdown.Item
-                            onClick={(e) => handleSubCatChange(e, subCat?.id)}
-                            className="px-2 py-2"
-                            key={subCat?.id}
-                        >
-                            <Form.Group>
-                                <Form.Check
-                                    type="radio"
-                                    label={subCat?.name}
-                                    value={subCat?.id}
-                                    checked={subCat?.id === categoryId}
-                                    onChange={(e) => handleSubCatChange(e, subCat?.id)}
-                                />
-                            </Form.Group>
-                        </Dropdown.Item>
+                    {state?.category?.map((category: Category) =>
+                        <List key={category?.id} sx={{ marginTop: '-15px' }}>
+                            <ListItemButton onClick={() => setSelectedCategory(category?.id)}>
+                                {category?.name}
+                            </ListItemButton>
+                            {selectedCategory === category?.id && category?.subCategories?.map((subCat: SubCategory) =>
+                                <Dropdown.Item
+                                    onClick={(e) => handleSubCatChange(e, subCat?.id)}
+                                    className="px-2 py-2"
+                                    key={subCat?.id}
+                                >
+                                    <Form.Group>
+                                        <Form.Check
+                                            type="radio"
+                                            label={subCat?.name}
+                                            value={subCat?.id}
+                                            checked={subCat?.id === categoryId}
+                                            onChange={(e) => handleSubCatChange(e, subCat?.id)}
+                                        />
+                                    </Form.Group>
+                                </Dropdown.Item>
+                            )}
+                        </List>
                     )}
                 </Dropdown.Menu>
             </Dropdown>

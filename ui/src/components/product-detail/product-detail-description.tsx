@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { Link, useHistory } from 'react-router-dom';
 import { Container, Row, Col, Button, ListGroup, Spinner } from 'react-bootstrap';
-import { FaAsterisk, FaHandshake, FaMapMarkerAlt, FaEdit, FaCheckCircle, FaTrashAlt } from 'react-icons/fa';
+import { FaHandshake, FaMapMarkerAlt, FaEdit, FaCheckCircle, FaTrashAlt } from 'react-icons/fa';
 import { SellerDetailCard, ReportAbuseModal } from '.';
 import { ProductFields, ProductDetailDescriptionProps, AlertPopupState } from './types';
 import { ActionTypes, useAppContext } from '../../contexts';

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Grid, Typography } from '@mui/material';
 import { Container, Table } from 'react-bootstrap';
+import { jsPDF } from "jspdf";
+import html2canvas from 'html2canvas';
 import moment from 'moment';
 import { useAxios } from '../../services';
 import { InvoiceData } from './types';
@@ -21,13 +23,29 @@ export const Invoice: React.FC = (): React.ReactElement => {
 
     useEffect(() => {
         if (orderRes?.success) {
-            setInvoiceData(orderRes?.data);
+            setInvoiceData(orderRes);
         }
     }, [orderRes]);
 
+    useEffect(() => {
+        if (invoiceData?.invoice)
+            printDocument();
+    }, [invoiceData]);
+
+    const printDocument = () => {
+        const input: HTMLElement = document.getElementById('invoiceTemplate') as HTMLElement;
+        html2canvas(input).then((canvas) => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF();
+            pdf.addImage(imgData, 'PNG', 0, 0, 200, 200);
+            //pdf.output('dataurlnewwindow');
+            pdf.save("download.pdf");
+        });
+    }
+
     return (
-        <Container className="p-lg-5">
-            <Box m={1}>
+        <Container id="invoiceTemplate" className="p-lg-5">
+            <Grid m={1}>
                 <Box
                     display="flex"
                     justifyContent="center"
@@ -44,13 +62,13 @@ export const Invoice: React.FC = (): React.ReactElement => {
                 </Box>
                 <Box m={2}>
                     <Grid display="flex" justifyContent="space-between">
-                        <Typography variant="body1">
+                        <Typography className='invoiceaddress' textAlign="start" variant="body1">
                             <Typography>Jiji.ng Online Marketplace Nigeria Ltd RC 1370574</Typography>
                             <Typography>4th Floor, Epic Tower, 235 Ikorodu Road</Typography>
                             <Typography>Ilupeju, Lagos</Typography>
                         </Typography>
                         <Typography fontWeight={700} variant="h5">
-                            Invoice No: 1345790
+                            Invoice No: {invoiceData?.invoice?.invoiceNumber}
                         </Typography>
                     </Grid>
                     <Box mt={2} p={2} sx={{ backgroundColor: '#F5F5F5' }}>
@@ -58,13 +76,13 @@ export const Invoice: React.FC = (): React.ReactElement => {
                             <Typography fontWeight={600}>
                                 PAYMENT ID:
                                 <Typography className="d-inline" fontWeight={500}>
-                                    {' '}1345790
+                                    {' '}{invoiceData?.invoice?.invoiceNumber}
                                 </Typography>
                             </Typography>
                             <Typography fontWeight={600}>
                                 BILL DATE:
                                 <Typography className="d-inline" fontWeight={500}>
-                                    {' '}{moment(invoiceData?.date).format("DD-MM-YYYY")}
+                                    {' '}{moment(invoiceData?.order?.date).format("DD-MM-YYYY")}
                                 </Typography>
                             </Typography>
                             <Typography fontWeight={600}>
@@ -76,7 +94,7 @@ export const Invoice: React.FC = (): React.ReactElement => {
                             <Typography fontWeight={600}>
                                 DESCRIPTION:
                                 <Typography className="d-inline" fontWeight={500}>
-                                    {' '}{invoiceData?.itemName}
+                                    {' '}{invoiceData?.order?.itemName}
                                 </Typography>
                             </Typography>
                         </Grid>
@@ -93,13 +111,13 @@ export const Invoice: React.FC = (): React.ReactElement => {
                             <tbody>
                                 <tr>
                                     <td className="fw-bold">Payment ID: 1345790</td>
-                                    <td className='text-end'>{`${invoiceData?.unitPrice}`}</td>
-                                    <td className='text-end'>{`${invoiceData?.unitPrice}`}</td>
+                                    <td className='text-end'>{`${invoiceData?.order?.unitPrice}`}</td>
+                                    <td className='text-end'>{`${invoiceData?.order?.unitPrice}`}</td>
                                 </tr>
                                 <tr>
                                     <td></td>
-                                    <td className='text-end invoice-table-head'>TOTAL, {invoiceData?.currency}</td>
-                                    <td className='text-end invoice-table-head'>{invoiceData?.unitPrice}</td>
+                                    <td className='text-end invoice-table-head'>TOTAL, {invoiceData?.order?.currency}</td>
+                                    <td className='text-end invoice-table-head'>{invoiceData?.order?.unitPrice}</td>
                                 </tr>
                             </tbody>
                         </Table>
@@ -148,7 +166,7 @@ export const Invoice: React.FC = (): React.ReactElement => {
                         </Typography>
                     </Box>
                 </Box>
-            </Box>
+            </Grid>
             <Box textAlign="center" color="#fff" sx={{ backgroundColor: 'primary.main', p: 1 }}>
                 LOMBAA ONLINE MARKETPLACE SINGAPORE LTD RC WWW.LOMBAA.SG
             </Box>
