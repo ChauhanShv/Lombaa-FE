@@ -13,7 +13,8 @@
         },
         "uat": {
             "baseUrl": "http://54.232.14.250:3001/api",
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjU5NzE5NWUzLThkODMtNDY5YS1hMTliLTc3NWE3MmE5NjUzMiIsImlhdCI6MTY0MTYyMjM3NCwiZXhwIjoxNjQxNzA4Nzc0fQ.YsbiS5Tuy6Sy_XaAPtmsQ5PY9DejFF22Fvgt9Ks_QJU"
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQzZDNjYjNiLWZkOTctNDgzNi04NDM2LTZjNjQ2YzMzYTU5NiIsImlhdCI6MTY1NTAxOTMzMSwiZXhwIjoxNjU1MTA1NzMxfQ.3AoSuWkAQafSGY9vruyM4--ffVafxeRCVwiekOK-tmM",
+            "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0M2QzY2IzYi1mZDk3LTQ4MzYtODQzNi02YzY0NmMzM2E1OTYiLCJ0eXBlIjoicmVmcmVzaF90b2tlbiIsImlhdCI6MTY1NTAxOTMzMSwiZXhwIjoxNjU3NjExMzMxfQ.WsU7hWVw1Raz6khMOZA4AdOHmn27SoMUN9E4Tuqn8Rk"
         }
     }
 }

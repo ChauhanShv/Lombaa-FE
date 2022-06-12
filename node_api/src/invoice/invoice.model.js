@@ -1,6 +1,5 @@
 
 const { Sequelize, DataTypes, Model } = require("sequelize");
-const { allowHalfOpen } = require("../modules/winston/winston.service");
 const Order = require("../order/order.model")
 const sequelize = require("../modules/sequelize").service;
 
