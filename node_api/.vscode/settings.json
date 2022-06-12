@@ -4,7 +4,7 @@
         "$shared": {},
         "local": {
             "baseUrl": "http://localhost:3001/api",
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTY1OTBiLTFkMzctNGY0My05NWZhLTBiMDhiNTFlNGFkNSIsImlhdCI6MTY1NDg1NjAyNywiZXhwIjoxNjU0OTQyNDI3fQ.ypIwe90SMdNG1dFleGYvUb9tR-ctrkwpkHcAdHHj6HA",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTY1OTBiLTFkMzctNGY0My05NWZhLTBiMDhiNTFlNGFkNSIsImlhdCI6MTY1NTAxMzQyOCwiZXhwIjoxNjU1MDk5ODI4fQ.KAAGPuwWjGbAWME4mhzZ1_h2EspIzbvZmLKVophc5sw",
             "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyN2U2NTkwYi0xZDM3LTRmNDMtOTVmYS0wYjA4YjUxZTRhZDUiLCJ0eXBlIjoicmVmcmVzaF90b2tlbiIsImlhdCI6MTY1NDU4OTUxOSwiZXhwIjoxNjU3MTgxNTE5fQ.oAGdTyFmht4vAgO7SBNG7bvhLW7SNbCXRPVhA2lZMeE"
         },
         "dev": {
