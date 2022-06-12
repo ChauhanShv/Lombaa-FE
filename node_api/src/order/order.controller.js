@@ -12,6 +12,9 @@ class orderController extends BaseController {
             const body = req.body?.package
             const userId = req.user?.id
             const packageData = await Package.findOne({ where: { id: body } })
+            if (!packageData) {
+                return super.jsonRes({ res, code: 400, data: { success: false, message: "Package not found" } })
+            }
             const data = await Order.create({ date: moment(), itemName: packageData.name, unitPrice: packageData.price, currency: packageData.currency, qty: 1, userId: userId })
 
             const invoiceNumber = await Invoice.findOne({ order: [['createdAt', 'DESC']] })
