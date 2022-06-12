@@ -6,12 +6,14 @@ import { jsPDF } from "jspdf";
 import html2canvas from 'html2canvas';
 import moment from 'moment';
 import { useAxios } from '../../services';
+import { useAppContext } from '../../contexts';
 import { InvoiceData } from './types';
 import "./payment.css";
 
 export const Invoice: React.FC = (): React.ReactElement => {
 
     const { packageId } = useParams<{ packageId: string }>();
+    const { state } = useAppContext();
     const [invoiceData, setInvoiceData] = useState<InvoiceData>();
     const [{ data: orderRes, loading: laodingOrder }] = useAxios({
         url: '/order',
@@ -34,12 +36,14 @@ export const Invoice: React.FC = (): React.ReactElement => {
 
     const printDocument = () => {
         const input: HTMLElement = document.getElementById('invoiceTemplate') as HTMLElement;
+        const invoiceDate: string = moment(invoiceData?.order?.date).format("DD-MM-YYYY");
+        const invoiceNumber: string | undefined = invoiceData?.invoice?.invoiceNumber;
         html2canvas(input).then((canvas) => {
             const imgData = canvas.toDataURL('image/png');
             const pdf = new jsPDF();
             pdf.addImage(imgData, 'PNG', 0, 0, 200, 200);
             //pdf.output('dataurlnewwindow');
-            pdf.save("download.pdf");
+            pdf.save(`Invoice_${invoiceDate}_${invoiceNumber}.pdf`);
         });
     }
 
@@ -88,7 +92,7 @@ export const Invoice: React.FC = (): React.ReactElement => {
                             <Typography fontWeight={600}>
                                 CLIENT:
                                 <Typography className="d-inline" fontWeight={500}>
-                                    {' '}1345790
+                                    {' '}{state?.user?.metaData?.name}
                                 </Typography>
                             </Typography>
                             <Typography fontWeight={600}>
@@ -110,7 +114,7 @@ export const Invoice: React.FC = (): React.ReactElement => {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td className="fw-bold">Payment ID: 1345790</td>
+                                    <td className="fw-bold">Payment ID: {invoiceData?.invoice?.invoiceNumber}</td>
                                     <td className='text-end'>{`${invoiceData?.order?.unitPrice}`}</td>
                                     <td className='text-end'>{`${invoiceData?.order?.unitPrice}`}</td>
                                 </tr>
