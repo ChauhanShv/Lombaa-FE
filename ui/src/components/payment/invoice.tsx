@@ -87,7 +87,7 @@ export const Invoice: React.FC = (): React.ReactElement => {
                                     </Typography>
                                 </Grid>
                                 <Box mt={2} p={2} sx={{ backgroundColor: '#F5F5F5' }}>
-                                    <Grid p={1} lg={4} md={6} sm={12} sx={{ backgroundColor: '#ECECEC' }}>
+                                    <Grid item p={1} lg={4} md={6} sm={12} sx={{ backgroundColor: '#ECECEC' }}>
                                         <Typography fontWeight={600}>
                                             PAYMENT ID:
                                             <Typography className="d-inline" fontWeight={500}>
@@ -197,7 +197,7 @@ export const Invoice: React.FC = (): React.ReactElement => {
             </Box> */}
                     </Container>
                     <Container>
-                        <Box mt={4} m={1} textAlign='center'>
+                        <Box my={4} pb={8} textAlign='center'>
                             <Button sx={{ color: '#FFFFFF' }} onClick={downloadInvoicePDF} variant="contained">
                                 Download Invoice PDF
                             </Button>

@@ -46,10 +46,10 @@ export const Footer: React.FC = () => {
                                     {loading ? (<></>) : (
                                         <>
                                             {pageCategories && !!pageCategories?.length && pageCategories?.map((pageCategory: PageCategory) => (
-                                                <div className="col-xs-6 col-sm-3">
+                                                <div className="col-xs-6 col-sm-3" key={pageCategory?.id}>
                                                     <h4 className="my-2 text-success">{pageCategory?.title}</h4>
                                                     {pageCategory?.pages && !!pageCategory?.pages?.length && pageCategory?.pages?.map((page: Page) => (
-                                                        <ul className='list-unstyled list-light'>
+                                                        <ul className='list-unstyled list-light' key={page?.id}>
                                                             <li>
                                                                 <Link to={`/${page?.slug}`}>
                                                                     {page?.title}

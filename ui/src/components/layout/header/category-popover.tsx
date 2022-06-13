@@ -133,7 +133,7 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
                                 <Col className="w-100">
                                     <Row md={3} className="py-3">
                                         {otherCategories.map((category: Category) =>
-                                            <ul>
+                                            <ul key={category?.id}>
                                                 <Row>
                                                     <Col md={2} className="pe-0">
                                                         <img

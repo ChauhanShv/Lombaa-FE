@@ -70,7 +70,7 @@ export const Packages: React.FC = (): React.ReactElement => {
                 <Box>
                     <Row className="justify-content-center">
                         {!!packages && !!packages.length && packages.map((packageItem: Package) =>
-                            <Col lg={4} sm={6} xs={12}>
+                            <Col lg={4} sm={6} xs={12} key={packageItem?.id}>
                                 <Card
                                     role="button"
                                     className={`${selectedPackage?.id === packageItem.id ? 'border border-3 border-success' : ''} mb-3`}
