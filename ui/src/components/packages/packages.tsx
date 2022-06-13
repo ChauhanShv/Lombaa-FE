@@ -15,9 +15,17 @@ export const Packages: React.FC = (): React.ReactElement => {
         url: '/package',
         method: 'GET',
     }, { manual: false });
+    const [{ data: orderRes, loading: laodingOrder }, generateInvoice] = useAxios({
+        url: '/order',
+        method: 'POST',
+    });
 
     const handleBuyPackage = (event: any) => {
-        navigate.push(`/package/${selectedPackage?.id}/order`);
+        generateInvoice({
+            data: {
+                package: selectedPackage?.id,
+            },
+        });
     };
 
     useEffect(() => {
@@ -25,6 +33,12 @@ export const Packages: React.FC = (): React.ReactElement => {
             setPackages(data?.data);
         }
     }, [data]);
+
+    useEffect(() => {
+        if (orderRes?.success) {
+            navigate.push(`/package/${orderRes?.invoice?.id}/order`);
+        }
+    }, [orderRes]);
 
     useEffect(() => {
         setSelectedPackage(packages[0]);

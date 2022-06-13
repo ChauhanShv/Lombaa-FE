@@ -26,9 +26,9 @@ export const Footer: React.FC = () => {
                     className="pt-4 pb-5 mt-0 align-items-end align-items-md-center d-flex greenbg">
                     <div className="container-fluid d-flex h-100">
                         <div
-                            className="m-0 row  justify-content-center w-100 align-items-sm-end align-items-md-center d-flex text-center h-100">
+                            className="m-0 row justify-content-center w-100 align-items-sm-end align-items-md-center d-flex text-center h-100">
                             <div className="col-12 col-md-6 ">
-                                <h2 className="   text-light mb-2 mt-5">
+                                <h2 className="text-light mb-2 mt-5">
                                     <strong>TRY LOMBAA</strong>
                                 </h2>
                                 <p className="lead  text-light mb-5">
