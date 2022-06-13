@@ -30,6 +30,19 @@ class orderController extends BaseController {
             return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to insert new entry", message_details: error?.message } })
         }
     }
+    getInvoice = async (req, res, next) => {
+        try {
+            const id = req?.params?.id
+            const data = await Invoice.findOne({ where: { id: id }, include: { model: Order, as: 'order' } })
+            const merchantBank = await MerchantBank.findOne();
+
+            const merchantAddress = await MerchantAddress.findOne();
+            return super.jsonRes({ res, code: 200, data: { success: true, message: "Invoice retreived", invoice: data, MerchantBank: merchantBank, MerchantAddress: merchantAddress } })
+        }
+        catch (error) {
+            return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to retreived invoice", message_details: error?.message } })
+        }
+    }
     getOrder = async (req, res, next) => {
         try {
             const data = await Order.findAll({ include: [{ model: User, as: 'user' }] })

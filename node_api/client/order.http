@@ -15,3 +15,12 @@ x-app-version : 1.0.0
 {
     "package":"05d44ac5-26e4-4a55-8553-d4e0d1347310"
 }
+
+###
+
+GET   {{baseUrl}}/order/invoice/023a9c34-1811-43ad-aeda-3a5cb3a4773e HTTP/1.1 HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
