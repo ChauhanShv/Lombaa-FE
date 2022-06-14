@@ -698,8 +698,10 @@ class UserController extends BaseController {
   userReviews = async (req, res, next) => {
     try {
       const userId = req?.params?.id
-      const data = await UserReview.findAll({ where: { forId: userId } })
-      return super.jsonRes({ res, code: 200, data: { success: true, message: "Reviews retreived", data: data } })
+      const data = await UserReview.findAll({ where: { forId: userId }, include: { model: User, as: 'by', attributes: ["name", "profilePictureId"], include: [{ model: fileModel, as: "profilePicture" }] } })
+      const meta = { totalReviewCount: data?.length, averageReviewScore: data?.reduce((prev, current) => prev + current?.score, 0) / data?.length };
+
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Reviews retreived", data: data, meta: meta } })
     }
     catch (error) {
       return super.jsonRes({ res, code: 400, data: { success: false, message: "No reviews found", message_detail: error?.message } })
@@ -731,6 +733,18 @@ class UserController extends BaseController {
     }
     catch (error) {
       return super.jsonRes({ res, code: 400, data: { success: false, message: "No reviews found", message_detail: error?.message } })
+
+    }
+  }
+  reportAbuse = async (req, res, next) => {
+    try {
+      const userId = req.user?.id
+      const data = req?.body
+      const review = await UserReview.create({ byId: userId, forId: data.userId, comment: data.comment, score: data.score })
+      return super.jsonRes({ res, code: 200, data: { success: true, message: "Review posted", data: review } })
+    }
+    catch (error) {
+      return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to post review", message_detail: error?.message } })
 
     }
   }
