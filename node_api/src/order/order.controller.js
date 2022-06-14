@@ -6,6 +6,9 @@ const Package = require("../packages/packages.model");
 const Invoice = require("../invoice/invoice.model")
 const MerchantBank = require("../merchant_bank/merchant.bank.model")
 const MerchantAddress = require("../merchant_address/merchant.address.model")
+const puppeteer = require('puppeteer');
+const fs = require('fs');
+const ejs = require('ejs');
 class orderController extends BaseController {
     insertOrder = async (req, res, next) => {
         try {
@@ -48,6 +51,33 @@ class orderController extends BaseController {
             const data = await Order.findAll({ include: [{ model: User, as: 'user' }] })
             return super.jsonRes({ res, code: 200, data: { success: true, message: "Orders retreived", data: data } })
         } catch (error) {
+            return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to get Orders", message_details: error?.message } })
+        }
+
+    }
+    createPdf = async (req, res, next) => {
+        try {
+            const id = req.params?.id
+            const data = await Invoice.findOne({ where: { id: id }, include: { model: Order, as: 'order' } })
+            const merchantBank = await MerchantBank.findOne();
+
+            const merchantAddress = await MerchantAddress.findOne();
+            const browser = await puppeteer.launch({
+                headless: true
+            })
+            const page = await browser.newPage()
+            console.log(__dirname)
+            const html = ejs.render(fs.readFileSync(`${__dirname}/invoice.template.ejs`, 'utf-8'), { data });
+            await page.setContent(html, {
+                waitUntil: 'domcontentloaded'
+            })
+            const pdf = await page.pdf({
+                format: 'A4'
+            })
+            return res.send(pdf)
+        }
+        catch (error) {
+            console.log(error)
             return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to get Orders", message_details: error?.message } })
         }
 
