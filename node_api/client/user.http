@@ -413,3 +413,17 @@ content-type: application/json
 x-access-token: {{token}}
 x-client-platform : Android
 x-app-version : 1.0.0
+
+###
+
+POST  {{baseUrl}}/user/report  HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+{
+    "userId" : "a0d5860a-272d-4ef9-8bb7-a87e7ae78e02",
+    "comment" : "fjenjn jnfjen jsfnj ",
+    "score":"40"
+}
