@@ -9,6 +9,7 @@ const MerchantAddress = require("../merchant_address/merchant.address.model")
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const ejs = require('ejs');
+const { Console } = require("console");
 class orderController extends BaseController {
     insertOrder = async (req, res, next) => {
         try {
@@ -58,24 +59,30 @@ class orderController extends BaseController {
     createPdf = async (req, res, next) => {
         try {
             const id = req.params?.id
+            const userId = req.user?.id
             const data = await Invoice.findOne({ where: { id: id }, include: { model: Order, as: 'order', include: { model: User, as: 'user', attributes: ["name"] } } })
+            if (userId !== data.order.userId) {
+                return super.jsonRes({})
+            }
             const merchantBank = await MerchantBank.findOne();
 
             const merchantAddress = await MerchantAddress.findOne();
             const meta = { data, merchantAddress, merchantBank }
-
-            const browser = await puppeteer.launch({
-                headless: true
-            })
-            const page = await browser.newPage()
+            // return super.jsonRes({ res, code: 200, data: { success: true, message: "Orders retreived", meta } })
+            // const browser = await puppeteer.launch({
+            //     headless: true
+            // })
+            // const page = await browser.newPage()
             const html = ejs.render(fs.readFileSync(`${__dirname}/invoice.template.ejs`, 'utf-8'), { meta });
-            await page.setContent(html, {
-                waitUntil: 'domcontentloaded'
-            })
-            const pdf = await page.pdf({
-                format: 'A4'
-            })
-            return res.send(pdf)
+            console.log(html)
+            // await page.setContent(html, {
+            //     waitUntil: 'domcontentloaded'
+            // })
+            // const pdf = await page.pdf({
+            //     format: 'A4'
+            // })
+            // return res.send(pdf)
+            return super.jsonRes({ res, code: 200, data: { success: true, message: "Orders retreived", meta } })
         }
         catch (error) {
             console.log(error)
