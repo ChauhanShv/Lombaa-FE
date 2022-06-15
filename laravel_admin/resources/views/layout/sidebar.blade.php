@@ -157,6 +157,19 @@
                 </li>
             </ul>
         </li>
+        <li class="submenu {{\Request::is('invoice*') ? 'open active' : '' }}">
+            <a href="">
+                <i style="color: white" class="icon icon-edit"></i> <span style="color: white">Invoice</span>
+            </a>
+            <ul>
+                <li class="{{\Request::is('invoice/list') ? 'active' : '' }}">
+                    <a href="{{ route('invoice_list') }}">List</a>
+                </li>
+                <li class="{{\Request::is('fields') ? 'active' : '' }}">
+                    <a href="{{ route('fields') }}">Add</a>
+                </li>
+            </ul>
+        </li>
         <li class="submenu {{\Request::is('values*') ? 'open active' : '' }}">
             <a href="">
                 <i style="color: white" class="icon icon-list"></i> <span style="color: white">Values</span>
