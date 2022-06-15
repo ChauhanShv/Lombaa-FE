@@ -60,29 +60,26 @@ class orderController extends BaseController {
         try {
             const id = req.params?.id
             const userId = req.user?.id
-            const data = await Invoice.findOne({ where: { id: id }, include: { model: Order, as: 'order', include: { model: User, as: 'user', attributes: ["name"] } } })
-            if (userId !== data.order.userId) {
-                return super.jsonRes({})
-            }
+            const data = await Invoice.findOne({ where: { id: id }, include: [{ model: User, as: 'user', attributes: ['name'] }, { model: Package, as: 'package' }] })
+            console.log(data)
             const merchantBank = await MerchantBank.findOne();
 
             const merchantAddress = await MerchantAddress.findOne();
             const meta = { data, merchantAddress, merchantBank }
-            // return super.jsonRes({ res, code: 200, data: { success: true, message: "Orders retreived", meta } })
-            // const browser = await puppeteer.launch({
-            //     headless: true
-            // })
-            // const page = await browser.newPage()
+            const browser = await puppeteer.launch({
+                headless: true
+            })
+            const page = await browser.newPage()
             const html = ejs.render(fs.readFileSync(`${__dirname}/invoice.template.ejs`, 'utf-8'), { meta });
-            console.log(html)
-            // await page.setContent(html, {
-            //     waitUntil: 'domcontentloaded'
-            // })
-            // const pdf = await page.pdf({
-            //     format: 'A4'
-            // })
-            // return res.send(pdf)
-            return super.jsonRes({ res, code: 200, data: { success: true, message: "Orders retreived", meta } })
+            // console.log(html)
+            await page.setContent(html, {
+                waitUntil: 'domcontentloaded'
+            })
+            const pdf = await page.pdf({
+                format: 'A4'
+            })
+            return res.send(pdf)
+
         }
         catch (error) {
             console.log(error)
