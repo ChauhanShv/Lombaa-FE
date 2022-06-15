@@ -61,7 +61,9 @@ class orderController extends BaseController {
             const id = req.params?.id
             const userId = req.user?.id
             const data = await Invoice.findOne({ where: { id: id }, include: [{ model: User, as: 'user', attributes: ['name'] }, { model: Package, as: 'package' }] })
-            console.log(data)
+            if (userId !== data.userId) {
+                return super.jsonRes({ res, code: 400, data: { success: false, message: "You are not allowed to Download Invoice" } })
+            }
             const merchantBank = await MerchantBank.findOne();
 
             const merchantAddress = await MerchantAddress.findOne();

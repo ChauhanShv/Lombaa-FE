@@ -8,11 +8,15 @@ class invoiceController extends BaseController {
     getInvoice = async (req, res, next) => {
         try {
             const id = req.params?.id
+            const userId = req.user?.id
             const data = await Invoice.findOne({ where: { id: id }, include: [{ model: User, as: 'user', attributes: ['name'] }, { model: Package, as: 'package' }] })
+            if (userId !== data.userId) {
+                return super.jsonRes({ res, code: 400, data: { success: false, message: "You are not allowed to see Invoice" } })
+            }
             return super.jsonRes({ res, code: 200, data: { success: true, message: "Invoice retreived", data: data } })
         }
         catch (error) {
-            return super.jsonRes({ res, code: 200, data: { success: true, message: "failed to retreived invoice", message_details: error?.message } })
+            return super.jsonRes({ res, code: 400, data: { success: true, message: "failed to retreived invoice", message_details: error?.message } })
         }
     }
     insertInvoice = async (req, res, next) => {
@@ -26,7 +30,7 @@ class invoiceController extends BaseController {
             return super.jsonRes({ res, code: 200, data: { success: true, message: "Invoice Inserted", data: invoiceData } })
         }
         catch (error) {
-            return super.jsonRes({ res, code: 200, data: { success: true, message: "failed to insert invoice", message_details: error?.message } })
+            return super.jsonRes({ res, code: 400, data: { success: true, message: "failed to insert invoice", message_details: error?.message } })
         }
 
     }
