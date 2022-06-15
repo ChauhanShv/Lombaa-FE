@@ -1,6 +1,8 @@
 
 const { Sequelize, DataTypes, Model } = require("sequelize");
-const Order = require("../order/order.model")
+const Order = require("../order/order.model");
+const Package = require("../packages/packages.model");
+const User = require("../user/user.model");
 const sequelize = require("../modules/sequelize").service;
 
 class Invoice extends Model { }
@@ -15,7 +17,26 @@ Invoice.init(
         invoiceNumber: {
             type: DataTypes.STRING(10),
             allownull: false
-        }
+        },
+        packageName: {
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
+        packageDescription: {
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
+        price: {
+            type: DataTypes.STRING(10),
+            allowNull: false
+        },
+        status: {
+            type: DataTypes.ENUM({
+                values: ["paid", "unpaid"],
+            }),
+            defaultValue: 'unpaid',
+            allowNull: false,
+        },
     },
 
     {
@@ -26,5 +47,6 @@ Invoice.init(
         sequelize,
     }
 );
-Invoice.belongsTo(Order, { as: 'order' })
+Invoice.belongsTo(User, { as: 'user' })
+Invoice.belongsTo(Package, { as: "package" })
 module.exports = Invoice;

@@ -6,6 +6,10 @@ const Package = require("../packages/packages.model");
 const Invoice = require("../invoice/invoice.model")
 const MerchantBank = require("../merchant_bank/merchant.bank.model")
 const MerchantAddress = require("../merchant_address/merchant.address.model")
+const puppeteer = require('puppeteer');
+const fs = require('fs');
+const ejs = require('ejs');
+const { Console } = require("console");
 class orderController extends BaseController {
     insertOrder = async (req, res, next) => {
         try {
@@ -33,7 +37,7 @@ class orderController extends BaseController {
     getInvoice = async (req, res, next) => {
         try {
             const id = req?.params?.id
-            const data = await Invoice.findOne({ where: { id: id }, include: { model: Order, as: 'order' } })
+            const data = await Invoice.findOne({ where: { id: id }, include: { model: Order, as: 'order', include: { model: User, as: 'user', attributes: ["name"] } } })
             const merchantBank = await MerchantBank.findOne();
 
             const merchantAddress = await MerchantAddress.findOne();
@@ -48,6 +52,40 @@ class orderController extends BaseController {
             const data = await Order.findAll({ include: [{ model: User, as: 'user' }] })
             return super.jsonRes({ res, code: 200, data: { success: true, message: "Orders retreived", data: data } })
         } catch (error) {
+            return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to get Orders", message_details: error?.message } })
+        }
+
+    }
+    createPdf = async (req, res, next) => {
+        try {
+            const id = req.params?.id
+            const userId = req.user?.id
+            const data = await Invoice.findOne({ where: { id: id }, include: { model: Order, as: 'order', include: { model: User, as: 'user', attributes: ["name"] } } })
+            if (userId !== data.order.userId) {
+                return super.jsonRes({})
+            }
+            const merchantBank = await MerchantBank.findOne();
+
+            const merchantAddress = await MerchantAddress.findOne();
+            const meta = { data, merchantAddress, merchantBank }
+            // return super.jsonRes({ res, code: 200, data: { success: true, message: "Orders retreived", meta } })
+            // const browser = await puppeteer.launch({
+            //     headless: true
+            // })
+            // const page = await browser.newPage()
+            const html = ejs.render(fs.readFileSync(`${__dirname}/invoice.template.ejs`, 'utf-8'), { meta });
+            console.log(html)
+            // await page.setContent(html, {
+            //     waitUntil: 'domcontentloaded'
+            // })
+            // const pdf = await page.pdf({
+            //     format: 'A4'
+            // })
+            // return res.send(pdf)
+            return super.jsonRes({ res, code: 200, data: { success: true, message: "Orders retreived", meta } })
+        }
+        catch (error) {
+            console.log(error)
             return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to get Orders", message_details: error?.message } })
         }
 
