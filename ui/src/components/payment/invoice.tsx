@@ -17,21 +17,21 @@ export const Invoice: React.FC = (): React.ReactElement => {
     const [invoiceData, setInvoiceData] = useState<InvoiceData>();
 
     const [{ data: invoiceRes, loading: loadingInvoice }] = useAxios({
-        url: `/order/invoice/${invoiceId}`,
+        url: `/invoice/${invoiceId}`,
         method: 'GET',
     }, { manual: false });
 
     useEffect(() => {
         if (invoiceRes?.success) {
-            setInvoiceData(invoiceRes);
+            setInvoiceData(invoiceRes?.data);
         }
     }, [invoiceRes]);
 
     const downloadInvoicePDF = () => {
-        if (invoiceData?.invoice?.order && invoiceData?.invoice) {
+        if (invoiceData?.data && invoiceData?.data?.package) {
             const input: HTMLElement = document.getElementById('invoiceTemplate') as HTMLElement;
-            const invoiceDate: string = moment(invoiceData?.invoice?.order?.date).format("DD-MM-YYYY");
-            const invoiceNumber: string | undefined = invoiceData?.invoice?.invoiceNumber;
+            const invoiceDate: string = moment(invoiceData?.data?.createdAt).format("DD-MM-YYYY");
+            const invoiceNumber: string | undefined = invoiceData?.data?.invoiceNumber;
             html2canvas(input).then((canvas) => {
                 const imgData = canvas.toDataURL('image/png');
                 const pdf = new jsPDF();
@@ -70,20 +70,20 @@ export const Invoice: React.FC = (): React.ReactElement => {
                                 <Grid display="flex" justifyContent="space-between">
                                     <Typography className='invoiceaddress' textAlign="start" variant="body1">
                                         <Typography>
-                                            {invoiceData?.MerchantAddress?.address_line_1}
+                                            {invoiceData?.merchantAddress?.address_line_1}
                                         </Typography>
                                         <Typography>
-                                            {invoiceData?.MerchantAddress?.address_line_2}
+                                            {invoiceData?.merchantAddress?.address_line_2}
                                         </Typography>
                                         <Typography>
-                                            {`${invoiceData?.MerchantAddress?.city} - ${invoiceData?.MerchantAddress?.postal_code}`}
+                                            {`${invoiceData?.merchantAddress?.city} - ${invoiceData?.merchantAddress?.postal_code}`}
                                         </Typography>
                                         <Typography>
-                                            {`${invoiceData?.MerchantAddress?.state}, ${invoiceData?.MerchantAddress?.country}`}
+                                            {`${invoiceData?.merchantAddress?.state}, ${invoiceData?.merchantAddress?.country}`}
                                         </Typography>
                                     </Typography>
                                     <Typography fontWeight={700} variant="h5">
-                                        Invoice No: {invoiceData?.invoice?.invoiceNumber}
+                                        Invoice No: {invoiceData?.data?.invoiceNumber}
                                     </Typography>
                                 </Grid>
                                 <Box mt={2} p={2} sx={{ backgroundColor: '#F5F5F5' }}>
@@ -91,25 +91,25 @@ export const Invoice: React.FC = (): React.ReactElement => {
                                         <Typography fontWeight={600}>
                                             PAYMENT ID:
                                             <Typography className="d-inline" fontWeight={500}>
-                                                {' '}{invoiceData?.invoice?.invoiceNumber}
+                                                {' '}{invoiceData?.data?.invoiceNumber}
                                             </Typography>
                                         </Typography>
                                         <Typography fontWeight={600}>
                                             BILL DATE:
                                             <Typography className="d-inline" fontWeight={500}>
-                                                {' '}{moment(invoiceData?.invoice?.order?.date).format("DD-MM-YYYY")}
+                                                {' '}{moment(invoiceData?.data?.createdAt).format("DD-MM-YYYY")}
                                             </Typography>
                                         </Typography>
                                         <Typography fontWeight={600}>
                                             CLIENT:
                                             <Typography className="d-inline" fontWeight={500}>
-                                                {' '}{state?.user?.metaData?.name}
+                                                {' '}{invoiceData?.data?.user?.name}
                                             </Typography>
                                         </Typography>
                                         <Typography fontWeight={600}>
                                             DESCRIPTION:
                                             <Typography className="d-inline" fontWeight={500}>
-                                                {' '}{invoiceData?.invoice?.order?.itemName}
+                                                {' '}{invoiceData?.data?.packageDescription}
                                             </Typography>
                                         </Typography>
                                     </Grid>
@@ -126,22 +126,22 @@ export const Invoice: React.FC = (): React.ReactElement => {
                                         <tbody>
                                             <tr>
                                                 <td className="fw-bold">
-                                                    Payment ID: {invoiceData?.invoice?.invoiceNumber}
+                                                    Payment ID: {invoiceData?.data?.invoiceNumber}
                                                 </td>
                                                 <td className='text-end'>
-                                                    {`${invoiceData?.invoice?.order?.unitPrice}`}
+                                                    {`${invoiceData?.data?.package?.price}`}
                                                 </td>
                                                 <td className='text-end'>
-                                                    {`${invoiceData?.invoice?.order?.unitPrice}`}
+                                                    {`${invoiceData?.data?.package?.price}`}
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td></td>
                                                 <td className='text-end invoice-table-head'>
-                                                    TOTAL, {state?.user?.metaData?.location?.country?.currencySymbol}
+                                                    TOTAL, {invoiceData?.data?.package?.currency}
                                                 </td>
                                                 <td className='text-end invoice-table-head'>
-                                                    {invoiceData?.invoice?.order?.unitPrice}
+                                                    {invoiceData?.data?.package?.price}
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -153,25 +153,25 @@ export const Invoice: React.FC = (): React.ReactElement => {
                                         <Typography fontWeight={600}>
                                             BANK:
                                             <Typography className="d-inline" fontWeight={500}>
-                                                {' '}{invoiceData?.MerchantBank?.bank}
+                                                {' '}{invoiceData?.merchantBank?.bank}
                                             </Typography>
                                         </Typography>
                                         <Typography fontWeight={600}>
                                             ACCT NAME:
                                             <Typography className="d-inline" fontWeight={500}>
-                                                {' '}{invoiceData?.MerchantBank?.acct_name}
+                                                {' '}{invoiceData?.merchantBank?.acct_name}
                                             </Typography>
                                         </Typography>
                                         <Typography fontWeight={600}>
                                             ACCT NO:
                                             <Typography className="d-inline" fontWeight={500}>
-                                                {' '}{invoiceData?.MerchantBank?.acct_number}
+                                                {' '}{invoiceData?.merchantBank?.acct_number}
                                             </Typography>
                                         </Typography>
                                         <Typography fontWeight={600}>
                                             ACCT SORT CODE:
                                             <Typography className="d-inline" fontWeight={500}>
-                                                {' '}{invoiceData?.MerchantBank?.acct_sort_code}
+                                                {' '}{invoiceData?.merchantBank?.acct_sort_code}
                                             </Typography>
                                         </Typography>
                                     </Box>

@@ -144,3 +144,18 @@ export interface OtherUser {
   profileVerificationScore?: string;
   showPhoneNumberConsent?: string;
 }
+export interface Review {
+  by: {
+    name: string;
+    profilePicture: string;
+    profilePictureid: string;
+  }
+  byId: string;
+  comment: string;
+  createdAt: string;
+  deletedAt?: string;
+  forId: string;
+  id: string;
+  score: number;
+  updatedAt: string;
+}

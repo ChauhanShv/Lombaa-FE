@@ -15,15 +15,15 @@ export const Packages: React.FC = (): React.ReactElement => {
         url: '/package',
         method: 'GET',
     }, { manual: false });
-    const [{ data: orderRes, loading: laodingOrder }, generateInvoice] = useAxios({
-        url: '/order',
+    const [{ data: insertInvoiceRes, loading: laodingInvoice }, generateInvoice] = useAxios({
+        url: '/invoice/insert',
         method: 'POST',
     });
 
     const handleBuyPackage = (event: any) => {
         generateInvoice({
             data: {
-                package: selectedPackage?.id,
+                packageId: selectedPackage?.id,
             },
         });
     };
@@ -35,10 +35,10 @@ export const Packages: React.FC = (): React.ReactElement => {
     }, [data]);
 
     useEffect(() => {
-        if (orderRes?.success) {
-            navigate.push(`/package/${orderRes?.invoice?.id}/order`);
+        if (insertInvoiceRes?.success) {
+            navigate.push(`/package/${insertInvoiceRes?.data?.id}/order`);
         }
-    }, [orderRes]);
+    }, [insertInvoiceRes]);
 
     useEffect(() => {
         setSelectedPackage(packages[0]);

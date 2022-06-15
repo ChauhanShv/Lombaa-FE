@@ -1,28 +1,37 @@
 export interface InvoiceData {
-    invoice: Invoice;
-    MerchantBank: MerchantBank;
-    MerchantAddress: MerchantAddress;
+    data: Invoice;
+    merchantAddress: MerchantAddress;
+    merchantBank: MerchantBank;
 };
 export interface Invoice {
-    createdAt?: string;
+    createdAt: string;
     deletedAt?: string;
     id: string;
     invoiceNumber: string;
-    order: Order;
-    orderId: string;
+    package: {
+        createdAt: string;
+        currency: string;
+        deletedAt: null
+        description: string;
+        id: string;
+        name: string;
+        price: string;
+        title: string;
+        type: string;
+        updatedAt: string;
+        validity: 7;
+    }
+    packageDescription: string;
+    packageId: string;
+    packageName: string;
+    price: string;
+    status: string;
     updatedAt: string;
-};
-export interface Order {
-    createdAt?: string;
-    currency: string;
-    date: string;
-    id: string;
-    itemName: string;
-    qty: string;
-    unitPrice: string;
-    updatedAt: string;
+    user: {
+        name: "Bob Sauce"
+    }
     userId: string;
-};
+}
 export interface MerchantBank {
     acct_name: string;
     acct_number: string;
