@@ -14,6 +14,8 @@ use App\Http\Controllers\ValuesController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\StaticPagesController;
+use App\Http\Controllers\InvoiceController;
+
 
 use Illuminate\Support\Facades\Route;
 
@@ -148,6 +150,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/delete/{id}', [StaticPagesController::class, 'delete'])->name('delete_page');
         Route::get('/update/{id}', [StaticPagesController::class, 'update_page'])->name('update_page');
         Route::post('/update/{id}', [StaticPagesController::class, 'update_page'])->name('update_page');
+
+    });
+
+    Route::group(['prefix' => 'invoice'], function () {
+        Route::get('/', [InvoiceController::class, 'invoice_list'])->name('invoice_list');
+        Route::get('/{id}', [InvoiceController::class, 'status_upated'])->name('status_upated');
 
     });
 
