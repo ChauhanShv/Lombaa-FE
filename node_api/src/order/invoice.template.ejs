@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1452,9 +1453,9 @@
             <td class="c88" colspan="5" rowspan="1">
                 <p class="c2"><span class="c5">PAYMENT</span><span class="c16">&nbsp;</span><span
                         class="c5">ID</span><span class="c8">&nbsp;: <%= meta.data.invoiceNumber %></span></p>
-                <p class="c2"><span class="c5">BILL DATE </span><span class="c8">: <%= meta.data.order.date %></span></p>
-                <p class="c2"><span class="c5">CLIENT </span><span class="c8">: <%= meta.data.order.user.name %></span></p>
-                <p class="c2"><span class="c5">DESCRIPTION</span><span class="c8">:<%= meta.data.order.itemName %> </span></p>
+                <p class="c2"><span class="c5">BILL DATE </span><span class="c8">: <%= meta.data.createdAt %></span></p>
+                <p class="c2"><span class="c5">CLIENT </span><span class="c8">: <%= meta.data.user.name %></span></p>
+                <p class="c2"><span class="c5">DESCRIPTION</span><span class="c8">:<%= meta.data.packageName %> </span></p>
             </td>
         </tr>
         <tr class="c12">
@@ -1478,10 +1479,10 @@
                 <p class="c2"><span class="c8">Payment ID: <%= meta.data.invoiceNumber %></span></p>
             </td>
             <td class="c19" colspan="3" rowspan="1">
-                <p class="c4"><span class="c1"><%= meta.data.order.unitPrice %></span></p>
+                <p class="c4"><span class="c1"><%= meta.data.price %></span></p>
             </td>
             <td class="c30" colspan="1" rowspan="1">
-                <p class="c4"><span class="c1"><%= meta.data.order.unitPrice %></span></p>
+                <p class="c4"><span class="c1"><%= meta.data.price %></span></p>
             </td>
         </tr>
         <tr class="c12">
@@ -1489,10 +1490,10 @@
                 <p class="c2 c3"><span class="c8"></span></p>
             </td>
             <td class="c45" colspan="3" rowspan="1">
-                <p class="c4"><span class="c15">TOTAL,<%= meta.data.order.currency %></span></p>
+                <p class="c4"><span class="c15">TOTAL,<%= meta.data.package.currency %></span></p>
             </td>
             <td class="c27" colspan="1" rowspan="1">
-                <p class="c4"><span class="c15"><%= meta.data.order.unitPrice %></span></p>
+                <p class="c4"><span class="c15"><%= meta.data.price %></span></p>
             </td>
         </tr>
         <tr class="c12">
