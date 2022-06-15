@@ -1,4 +1,5 @@
 const BaseController = require("../modules/controller").base;
+const User = require("../user/user.model")
 const Package = require("../packages/packages.model");
 const Invoice = require("./invoice.model")
 
@@ -7,7 +8,7 @@ class invoiceController extends BaseController {
     getInvoice = async (req, res, next) => {
         try {
             const id = req.params?.id
-            const data = await Invoice.findOne({ where: { id: id } })
+            const data = await Invoice.findOne({ where: { id: id }, include: [{ model: User, as: 'user', attributes: ['name'] }, { model: Package, as: 'package' }] })
             return super.jsonRes({ res, code: 200, data: { success: true, message: "Invoice retreived", data: data } })
         }
         catch (error) {
