@@ -11,7 +11,7 @@ class invoiceController extends BaseController {
             const userId = req.user?.id
             const data = await Invoice.findOne({ where: { id: id }, include: [{ model: User, as: 'user', attributes: ['name'] }, { model: Package, as: 'package' }] })
             if (userId !== data.userId) {
-                return super.jsonRes({ res, code: 400, data: { success: false, message: "You are not allowed to see Invoice" } })
+                return super.jsonRes({ res, code: 404, data: { success: false, message: "Invoice not found" } })
             }
             return super.jsonRes({ res, code: 200, data: { success: true, message: "Invoice retreived", data: data } })
         }
