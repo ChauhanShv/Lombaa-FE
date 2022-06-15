@@ -36,7 +36,7 @@ class orderController extends BaseController {
     getInvoice = async (req, res, next) => {
         try {
             const id = req?.params?.id
-            const data = await Invoice.findOne({ where: { id: id }, include: { model: Order, as: 'order' } })
+            const data = await Invoice.findOne({ where: { id: id }, include: { model: Order, as: 'order', include: { model: User, as: 'user', attributes: ["name"] } } })
             const merchantBank = await MerchantBank.findOne();
 
             const merchantAddress = await MerchantAddress.findOne();
@@ -58,16 +58,17 @@ class orderController extends BaseController {
     createPdf = async (req, res, next) => {
         try {
             const id = req.params?.id
-            const data = await Invoice.findOne({ where: { id: id }, include: { model: Order, as: 'order' } })
+            const data = await Invoice.findOne({ where: { id: id }, include: { model: Order, as: 'order', include: { model: User, as: 'user', attributes: ["name"] } } })
             const merchantBank = await MerchantBank.findOne();
 
             const merchantAddress = await MerchantAddress.findOne();
+            const meta = { data, merchantAddress, merchantBank }
+
             const browser = await puppeteer.launch({
                 headless: true
             })
             const page = await browser.newPage()
-            console.log(__dirname)
-            const html = ejs.render(fs.readFileSync(`${__dirname}/invoice.template.ejs`, 'utf-8'), { data });
+            const html = ejs.render(fs.readFileSync(`${__dirname}/invoice.template.ejs`, 'utf-8'), { meta });
             await page.setContent(html, {
                 waitUntil: 'domcontentloaded'
             })
