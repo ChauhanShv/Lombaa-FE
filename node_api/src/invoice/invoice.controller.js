@@ -2,6 +2,8 @@ const BaseController = require("../modules/controller").base;
 const User = require("../user/user.model")
 const Package = require("../packages/packages.model");
 const Invoice = require("./invoice.model")
+const MerchantBank = require("../merchant_bank/merchant.bank.model")
+const MerchantAddress = require("../merchant_address/merchant.address.model")
 
 class invoiceController extends BaseController {
 
@@ -10,10 +12,13 @@ class invoiceController extends BaseController {
             const id = req.params?.id
             const userId = req.user?.id
             const data = await Invoice.findOne({ where: { id: id }, include: [{ model: User, as: 'user', attributes: ['name'] }, { model: Package, as: 'package' }] })
+            const merchantBank = await MerchantBank.findOne();
+
+            const merchantAddress = await MerchantAddress.findOne();
             if (userId !== data.userId) {
                 return super.jsonRes({ res, code: 404, data: { success: false, message: "Invoice not found" } })
             }
-            return super.jsonRes({ res, code: 200, data: { success: true, message: "Invoice retreived", data: data } })
+            return super.jsonRes({ res, code: 200, data: { success: true, message: "Invoice retreived", data: { data, merchantAddress, merchantBank } } })
         }
         catch (error) {
             return super.jsonRes({ res, code: 400, data: { success: true, message: "failed to retreived invoice", message_details: error?.message } })
