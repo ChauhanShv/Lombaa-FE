@@ -18,15 +18,14 @@ class InvoiceController extends Controller
 
     public function status_upated(Request $request, $id) {
          $invoice = Invoice::where('id', $id)->first();
-         $package = Packages::where('id', $invoice->packageId)->first();
-         $uptade_invoice = Invoice::where([['id', $id],['status', 'unpaid']])->update(['status' => 'paid']);
-
-         if($uptade_invoice) {
+         $invoice->status = 'paid';
+         
+         if($invoice->save()) {
             $user_package = new UserPackage;
             $user_package->id = Str::uuid();
             $user_package->userId = $invoice->userId;
-            $user_package->packageName = $package->name;
-            $user_package->packageDescription = $package->description;
+            $user_package->packageName = $invoice->package->name;
+            $user_package->packageDescription = $invoice->package->description;
             $user_package->packageId = $invoice->packageId;
             $user_package->save();
 
