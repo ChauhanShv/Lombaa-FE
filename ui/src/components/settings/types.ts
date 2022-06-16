@@ -2,7 +2,6 @@ export interface PersonalDetailsProps {
   show: boolean;
   onClose: Function;
 }
-
 export interface ImageModalProps {
   image: any;
   show: boolean;
@@ -21,7 +20,6 @@ export interface ChangePasswordFormFeilds {
 export interface ChangeEmailFormFeilds {
   email: string;
 }
-
 export interface ProfileDetailsFormFeilds {
   name: string;
   location: string;
@@ -29,37 +27,54 @@ export interface ProfileDetailsFormFeilds {
   sex: string;
   bio: string;
 }
-
 export interface AlertType {
   variant?: string;
   message?: string;
 }
-
 export interface AccountTypeSelectorProps {
   onChangeAccountType: (accountType: string) => void;
 }
-
 export enum AccountType {
   BUSINESS = 'business',
   INDIVIDUAL = 'standard',
 }
-
 export interface LocationSelectorProps {
   onCitySelected: (data: object) => void;
 }
-
+export interface SelectedPackageWithCategory {
+  userPackageId?: string;
+  categoryId: string;
+  categoryName: string;
+  error?: string;
+}
 export interface Package {
-  createdAt?: string;
-  currency?: string;
-  deletedAt?: string;
-  description?: string;
   id: string;
-  name?: string;
-  price?: string;
-  title?: string;
-  type: string;
-  updatedAt?: string;
-  validity?: string;
+  startDate: string;
+  status: string;
+  endDate: string;
+  packageName: string;
+  packageDescription: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string;
+  package: {
+    id: string;
+    name: string;
+    title: string;
+    description: string;
+    type: string;
+    validity: number;
+    price: string;
+    currency: string;
+    createdAt: string;
+    updatedAt?: string;
+    deletedAt?: string;
+  }
+  user: {
+    email: string;
+    id: string;
+    name: string;
+  }
 }
 export interface Coordinate {
   type: string;

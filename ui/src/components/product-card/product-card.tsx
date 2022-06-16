@@ -4,6 +4,7 @@ import { Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { FaHeart } from 'react-icons/fa';
 import { FiHeart } from 'react-icons/fi';
+import { AiOutlineThunderbolt } from 'react-icons/ai';
 import { useAxios } from '../../services';
 import { ProductCardProps } from './types';
 import { useAppContext, ActionTypes } from '../../contexts';
@@ -22,6 +23,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     authorProfilePicture,
     isFavourite,
     onFavUnfav,
+    boosted,
 }: ProductCardProps): React.ReactElement => {
     const { state, dispatch } = useAppContext();
     const [favourite, setFavourite] = useState<boolean>(isFavourite);
@@ -106,6 +108,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     alt="Htmlstream"
                 />
                 {authorName}
+                {boosted && (<AiOutlineThunderbolt className="boosted-icon" />)}
             </Link>
         </div>
     );
