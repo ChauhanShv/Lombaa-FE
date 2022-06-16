@@ -230,9 +230,7 @@ class ProductService {
       products = this.mapUserFavorite(products, userId)
     }
     const userPackages = await UserPackage.findAll({ where: { categoryId: categoryId } })
-    // if (!userPackageData) {
-    //   return products
-    // }
+
     const activeUserPackages = userPackages.map(data => {
       return moment(data?.endDate) > moment()
     });
