@@ -16,14 +16,20 @@ class InvoiceController extends Controller
     }
 
     public function status_upated(Request $request, $id) {
-         $package_id = Invoice::where('id', $id)->select('packageId')->first();
+         $invoice = Invoice::where('id', $id)->first();
          $uptade_invoice = Invoice::where([['id', $id],['status', 'unpaid']])->update(['status' => 'paid']);
 
          if($uptade_invoice) {
+            $user_package = new UserPackage;
+            $user_package->id = Str::uuid();
+            $user_package->userId = $invoice->userId;
+            $user_package->packageId = $invoice->packageId;
+            $user_package->save();
+
             return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Invoice paid successfully ']);
          }
-         if($uptade_invoice) {
-            return redirect()->back()->with('response', ['status' => 'erroe', 'message' => 'Something Went wrong']);
+         else{
+            return redirect()->back()->with('response', ['status' => 'error', 'message' => 'Something Went wrong']);
          }
     }
 }
