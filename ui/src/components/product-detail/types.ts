@@ -49,6 +49,7 @@ export interface Product {
   user: User;
   userId: string;
   isFavorite: boolean;
+  boosted: boolean;
 }
 export interface ProductDetail {
   approvedAt: string;

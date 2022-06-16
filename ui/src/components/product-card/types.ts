@@ -10,4 +10,5 @@ export interface ProductCardProps {
   authorProfilePicture: string;
   isFavourite: boolean;
   onFavUnfav: (isFav: boolean) => void;
+  boosted: boolean;
 }

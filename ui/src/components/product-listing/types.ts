@@ -106,4 +106,5 @@ export interface Product {
   description?: string;
   price?: string;
   isFavorite: boolean;
+  boosted: boolean;
 }
