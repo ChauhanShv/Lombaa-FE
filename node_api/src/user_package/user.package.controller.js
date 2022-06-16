@@ -53,7 +53,7 @@ class userPackageController extends BaseController {
             return data.status = 'expired'
         }
         else {
-            return data.startDate = 'activated'
+            return data.status = 'activated'
         }
     }
 }
