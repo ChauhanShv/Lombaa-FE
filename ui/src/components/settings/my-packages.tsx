@@ -148,42 +148,44 @@ export const MyPackages: React.FC = (): React.ReactElement => {
                             <Typography sx={{ my: '1rem' }} variant="subtitle2">
                                 {packageItem?.packageDescription}
                             </Typography>
-                            <FormControl fullWidth>
-                                <Dropdown className="d-inline mx-2">
-                                    <Dropdown.Toggle variant="outline-dark rounded btn-fullround mb-2">
-                                        Category: <strong>{selectedPackages[packageIndex]?.categoryName ?? ""}</strong>
-                                    </Dropdown.Toggle>
-                                    <Dropdown.Menu className='pre-scrollable'>
-                                        {state?.category?.map((category: Category) =>
-                                            <List key={category?.id} sx={{ marginTop: '-15px' }}>
-                                                <ListItemButton onClick={() => setSelectedCategory(category?.id)}>
-                                                    {category?.name}
-                                                </ListItemButton>
-                                                {selectedCategory === category?.id && category?.subCategories?.map((subCat: SubCategory) =>
-                                                    <Dropdown.Item
-                                                        onClick={(e) => handleSubCategoryChange(e, subCat, packageIndex)}
-                                                        className="px-2 py-2"
-                                                        key={subCat?.id}
-                                                    >
-                                                        <Form.Group>
-                                                            <Form.Check
-                                                                type="radio"
-                                                                label={subCat?.name}
-                                                                value={subCat?.id}
-                                                                checked={subCat?.id === selectedSubCategory}
-                                                                onChange={(e) => handleSubCategoryChange(e, subCat, packageIndex)}
-                                                            />
-                                                        </Form.Group>
-                                                    </Dropdown.Item>
-                                                )}
-                                            </List>
-                                        )}
-                                    </Dropdown.Menu>
-                                    <FormHelperText error>
-                                        {selectedPackages[packageIndex]?.error ?? ''}
-                                    </FormHelperText>
-                                </Dropdown>
-                            </FormControl>
+                            {packageItem.status === 'queued' && (
+                                <FormControl fullWidth>
+                                    <Dropdown className="d-inline mx-2">
+                                        <Dropdown.Toggle variant="outline-dark rounded btn-fullround mb-2">
+                                            Category: <strong>{selectedPackages[packageIndex]?.categoryName ?? ""}</strong>
+                                        </Dropdown.Toggle>
+                                        <Dropdown.Menu className='pre-scrollable'>
+                                            {state?.category?.map((category: Category) =>
+                                                <List key={category?.id} sx={{ marginTop: '-15px' }}>
+                                                    <ListItemButton onClick={() => setSelectedCategory(category?.id)}>
+                                                        {category?.name}
+                                                    </ListItemButton>
+                                                    {selectedCategory === category?.id && category?.subCategories?.map((subCat: SubCategory) =>
+                                                        <Dropdown.Item
+                                                            onClick={(e) => handleSubCategoryChange(e, subCat, packageIndex)}
+                                                            className="px-2 py-2"
+                                                            key={subCat?.id}
+                                                        >
+                                                            <Form.Group>
+                                                                <Form.Check
+                                                                    type="radio"
+                                                                    label={subCat?.name}
+                                                                    value={subCat?.id}
+                                                                    checked={subCat?.id === selectedSubCategory}
+                                                                    onChange={(e) => handleSubCategoryChange(e, subCat, packageIndex)}
+                                                                />
+                                                            </Form.Group>
+                                                        </Dropdown.Item>
+                                                    )}
+                                                </List>
+                                            )}
+                                        </Dropdown.Menu>
+                                        <FormHelperText error>
+                                            {selectedPackages[packageIndex]?.error ?? ''}
+                                        </FormHelperText>
+                                    </Dropdown>
+                                </FormControl>
+                            )}
                         </Card>
                     </Card>
                 )}
