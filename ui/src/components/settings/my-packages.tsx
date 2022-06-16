@@ -11,7 +11,8 @@ import {
     List,
     ListItemButton,
     FormHelperText,
-    LinearProgress
+    LinearProgress,
+    Button,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { FaChevronLeft } from 'react-icons/fa';
@@ -111,25 +112,27 @@ export const MyPackages: React.FC = (): React.ReactElement => {
                             <Card.Header className="bg-white fs-6 fw-bold border-0">
                                 {packageItem?.packageName}
                             </Card.Header>
-                            {packageItem?.status === 'queued' && (
-                                <LoadingButton
-                                    variant="outlined"
-                                    loading={loadingActivatePackage}
-                                    onClick={(e) => handleActivation(e, packageIndex, packageItem)}
-                                >
-                                    Activate
-                                </LoadingButton>
-                            )}
-                            {packageItem?.status === 'activated' && (
-                                <p className="text-primary h6 fw-bold">
-                                    Active
-                                </p>
-                            )}
-                            {packageItem?.status === 'expired' && (
-                                <p className="text-danger h6 fw-bold">
-                                    Expired
-                                </p>
-                            )}
+                            <div>
+                                {packageItem?.status === 'queued' && (
+                                    <LoadingButton
+                                        variant="outlined"
+                                        loading={loadingActivatePackage}
+                                        onClick={(e) => handleActivation(e, packageIndex, packageItem)}
+                                    >
+                                        Activate
+                                    </LoadingButton>
+                                )}
+                                {packageItem?.status === 'activated' && (
+                                    <Button color="warning" disableRipple disableFocusRipple>
+                                        Active
+                                    </Button>
+                                )}
+                                {packageItem?.status === 'expired' && (
+                                    <Button color="error" disableRipple disableFocusRipple>
+                                        Expired
+                                    </Button>
+                                )}
+                            </div>
                         </Card.Header>
                         <Card body className="border-0">
                             <Chip
