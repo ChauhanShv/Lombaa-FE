@@ -6,9 +6,11 @@ use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Grimzy\LaravelMysqlSpatial\Eloquent\SpatialTrait;
 
 class Invoice extends Model
-{
+{   
+    use Uuids;
     use HasFactory;
 
     const CREATED_AT = 'createdAt';
@@ -21,7 +23,6 @@ class Invoice extends Model
 
     protected $table = 'invoices';
 
-    use Uuids;
 
     public function user()
     {
@@ -44,5 +45,6 @@ class Invoice extends Model
         'deletedAt',
         'userId ',
     ];
-
+    
+    protected $keyType = 'string';
 }

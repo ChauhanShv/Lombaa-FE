@@ -22,7 +22,6 @@ class InvoiceController extends Controller
          
          if($invoice->save()) {
             $user_package = new UserPackage;
-            $user_package->id = Str::uuid();
             $user_package->userId = $invoice->userId;
             $user_package->packageName = $invoice->package->name;
             $user_package->packageDescription = $invoice->package->description;
