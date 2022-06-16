@@ -46,6 +46,19 @@ class ProductService {
 
     products = this.fieldsMapping(products);
 
+    products = Promise.all(products.map(async product => {
+      console.log(product)
+      const userPackages = await UserPackage.findAll({ where: { categoryId: product.categoryId } })
+
+      const activeUserPackages = userPackages.map(data => {
+        return moment(data?.endDate) > moment()
+      });
+
+      product.boosted = !!activeUserPackages.find(activeUserPackage => activeUserPackage.user === product.userId)
+
+      return product
+    }))
+
     return products
 
   }
@@ -64,6 +77,19 @@ class ProductService {
     });
     products = this.fieldsMapping(products)
 
+    products = Promise.all(products.map(async product => {
+      console.log(product)
+      const userPackages = await UserPackage.findAll({ where: { categoryId: product.categoryId } })
+
+      const activeUserPackages = userPackages.map(data => {
+        return moment(data?.endDate) > moment()
+      });
+
+      product.boosted = !!activeUserPackages.find(activeUserPackage => activeUserPackage.user === product.userId)
+
+      return product
+    }))
+
     return products
   }
 
@@ -80,6 +106,19 @@ class ProductService {
       ]
     });
     products = this.fieldsMapping(products)
+
+    products = Promise.all(products.map(async product => {
+      console.log(product)
+      const userPackages = await UserPackage.findAll({ where: { categoryId: product.categoryId } })
+
+      const activeUserPackages = userPackages.map(data => {
+        return moment(data?.endDate) > moment()
+      });
+
+      product.boosted = !!activeUserPackages.find(activeUserPackage => activeUserPackage.user === product.userId)
+
+      return product
+    }))
 
     return products
   }
@@ -98,6 +137,18 @@ class ProductService {
     });
     products = this.fieldsMapping(products)
 
+    products = Promise.all(products.map(async product => {
+      console.log(product)
+      const userPackages = await UserPackage.findAll({ where: { categoryId: product.categoryId } })
+
+      const activeUserPackages = userPackages.map(data => {
+        return moment(data?.endDate) > moment()
+      });
+
+      product.boosted = !!activeUserPackages.find(activeUserPackage => activeUserPackage.user === product.userId)
+
+      return product
+    }))
     return products
   }
 
@@ -114,6 +165,19 @@ class ProductService {
       ]
     });
     products = this.fieldsMapping(products)
+
+    products = Promise.all(products.map(async product => {
+      console.log(product)
+      const userPackages = await UserPackage.findAll({ where: { categoryId: product.categoryId } })
+
+      const activeUserPackages = userPackages.map(data => {
+        return moment(data?.endDate) > moment()
+      });
+
+      product.boosted = !!activeUserPackages.find(activeUserPackage => activeUserPackage.user === product.userId)
+
+      return product
+    }))
 
     return products
   }
