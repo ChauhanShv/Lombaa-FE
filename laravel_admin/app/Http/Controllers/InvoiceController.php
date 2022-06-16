@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Invoice;
 use App\Models\UserPackage;
+use App\Models\Packages;
 use Carbon\Carbon;
 use Str;
 
@@ -17,12 +18,15 @@ class InvoiceController extends Controller
 
     public function status_upated(Request $request, $id) {
          $invoice = Invoice::where('id', $id)->first();
+         $package = Packages::where('id', $invoice->packageId)->first();
          $uptade_invoice = Invoice::where([['id', $id],['status', 'unpaid']])->update(['status' => 'paid']);
 
          if($uptade_invoice) {
             $user_package = new UserPackage;
             $user_package->id = Str::uuid();
             $user_package->userId = $invoice->userId;
+            $user_package->packageName = $package->name;
+            $user_package->packageDescription = $package->description;
             $user_package->packageId = $invoice->packageId;
             $user_package->save();
 
