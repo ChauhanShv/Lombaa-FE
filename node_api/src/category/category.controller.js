@@ -74,6 +74,7 @@ class CategoryController extends BaseController {
       }
       const userId = req.user?.id
       const allProducts = await this.productService?.getproductByCategoryId(catId, sortby, sortorder, userId, filter, search, lat, lng, radius, offset, limit, price);
+      console.log({ allProducts })
       const catdetail = await this.service?.getCatDetails(catId);
       return super.jsonRes({
         res,
@@ -86,6 +87,7 @@ class CategoryController extends BaseController {
         }
       })
     } catch (error) {
+      console.log(error)
       return super.jsonRes({
         res,
         code: 400,

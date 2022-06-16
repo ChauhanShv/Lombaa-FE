@@ -22,6 +22,7 @@ Product.init(
     description: DataTypes.VIRTUAL,
     price: DataTypes.VIRTUAL,
     isFavorite: DataTypes.VIRTUAL,
+    boosted: DataTypes.VIRTUAL,
   },
   {
     modelName: "Product",

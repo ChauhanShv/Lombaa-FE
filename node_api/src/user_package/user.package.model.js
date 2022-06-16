@@ -32,7 +32,8 @@ UserPackage.init(
         packageDescription: {
             type: DataTypes.STRING(255),
             allowNull: false
-        }
+        },
+        status: DataTypes.VIRTUAL
     },
 
     {
