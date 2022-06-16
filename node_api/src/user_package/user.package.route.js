@@ -6,5 +6,6 @@ const controller = new userPackageController();
 
 module.exports = () => {
     router.get("/", authMiddleware, controller.getUserPackages)
+    router.put("/update", authMiddleware, controller.updateUserPackage)
     return router;
 };
