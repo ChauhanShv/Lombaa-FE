@@ -16,6 +16,8 @@ const Country = require("../country/country.model");
 const Region = require("../region/region.model");
 const sequelize = require("../modules/sequelize/sequelize.service");
 const { categoryId } = require("./schema/schema.product_categoryId");
+const UserPackage = require("../user_package/user.package.model");
+const { data } = require("../modules/winston/winston.service");
 
 class ProductService {
   constructor() {
@@ -227,6 +229,18 @@ class ProductService {
     if (userId) {
       products = this.mapUserFavorite(products, userId)
     }
+    const userPackages = await UserPackage.findAll({ where: { categoryId: categoryId } })
+    // if (!userPackageData) {
+    //   return products
+    // }
+    const activeUserPackages = userPackages.map(data => {
+      return moment(data?.endDate) > moment()
+    });
+
+    products = products.map(product => {
+      product.boosted = !!activeUserPackages.find(activeUserPackage => activeUserPackage.user === product.userId)
+      return product
+    })
     return products
 
   }
