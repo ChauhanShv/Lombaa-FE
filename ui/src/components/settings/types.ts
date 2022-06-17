@@ -75,6 +75,9 @@ export interface Package {
     id: string;
     name: string;
   }
+  category: {
+    name: string;
+  };
 }
 export interface Coordinate {
   type: string;

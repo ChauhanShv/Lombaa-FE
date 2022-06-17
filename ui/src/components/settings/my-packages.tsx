@@ -45,6 +45,9 @@ export const MyPackages: React.FC = (): React.ReactElement => {
         }
     }, [buyedPackagesRes]);
     useEffect(() => {
+        refetchPackages({});
+    }, [activatePackage]);
+    useEffect(() => {
         if (buyedPackages?.length) {
             const newSelectedPackages: SelectedPackageWithCategory[] = [];
             for (const buyedPackage of buyedPackages) {
@@ -143,7 +146,7 @@ export const MyPackages: React.FC = (): React.ReactElement => {
                             <Typography sx={{ my: '1rem' }} variant="subtitle2">
                                 {packageItem?.packageDescription}
                             </Typography>
-                            {packageItem.status === 'queued' && (
+                            {packageItem.status === 'queued' ? (
                                 <FormControl fullWidth>
                                     <Dropdown className="d-inline mx-2">
                                         <Dropdown.Toggle variant="outline-dark rounded btn-fullround mb-2">
@@ -182,6 +185,10 @@ export const MyPackages: React.FC = (): React.ReactElement => {
                                         </FormHelperText>
                                     </Dropdown>
                                 </FormControl>
+                            ) : (
+                                <p>
+                                    Category: <strong>{packageItem?.category?.name}</strong>
+                                </p>
                             )}
                         </Card>
                     </Card>
