@@ -236,6 +236,10 @@ class ProductController extends BaseController {
       if (userId) {
         randomProducts = await this.service.mapUserFavorite(randomProducts, userId)
       }
+      randomProducts = await Promise.all(randomProducts.map(async product => {
+        product.boosted = await this.isBoosted(product)
+        return product
+      }));
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Products retreived", product: randomProducts } })
     }
     catch (error) {
@@ -356,6 +360,15 @@ class ProductController extends BaseController {
     catch (error) {
       return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to Report", messaage_detail: error?.message } })
     }
+  }
+  async isBoosted(product) {
+    const userPackages = await UserPackage.findAll({ where: { categoryId: product.categoryId } })
+
+    const activeUserPackages = userPackages.map(userPackage => {
+      return moment(userPackage?.endDate) > moment()
+    });
+
+    return !!activeUserPackages.find(activeUserPackage => activeUserPackage.userId === product.userId)
   }
 }
 
