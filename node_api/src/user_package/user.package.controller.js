@@ -40,15 +40,15 @@ class userPackageController extends BaseController {
             })
 
             if (activeUserPackage) {
-                return super.jsonRes({ res, code: 404, data: { success: false, message: "Package for selected category is already active", } })
+                return super.jsonRes({ res, code: 422, data: { success: false, message: "Package for selected category is already active", } })
             }
 
             switch (this.getUserPackageStatus(userPackage)) {
                 case "activated":
-                    return super.jsonRes({ res, code: 404, data: { success: false, message: "Package is already active", } })
+                    return super.jsonRes({ res, code: 422, data: { success: false, message: "Package is already active", } })
 
                 case "expired":
-                    return super.jsonRes({ res, code: 404, data: { success: false, message: "Package has been expired", } })
+                    return super.jsonRes({ res, code: 422, data: { success: false, message: "Package has been expired", } })
             }
             const packageData = await Package.findOne({ where: { id: userPackage.packageId } })
             const startDate = moment()
