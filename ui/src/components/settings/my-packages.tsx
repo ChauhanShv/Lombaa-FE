@@ -13,6 +13,7 @@ import {
     FormHelperText,
     LinearProgress,
     Button,
+    Alert,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { FaChevronLeft } from 'react-icons/fa';
@@ -20,6 +21,7 @@ import { useAxios } from '../../services';
 import { useAppContext } from '../../contexts';
 import { Package, SelectedPackageWithCategory } from './types';
 import { Category, SubCategory } from '../../types';
+import { getAPIErrorMessage } from '../../utils';
 
 export const MyPackages: React.FC = (): React.ReactElement => {
 
@@ -28,13 +30,14 @@ export const MyPackages: React.FC = (): React.ReactElement => {
     const [selectedPackages, setSelectedPackages] = useState<SelectedPackageWithCategory[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string>();
     const [selectedSubCategory, setSelectedSubCategory] = useState<string>();
+    const [showError, setShowError] = useState<boolean>(false);
 
     const [{ data: buyedPackagesRes, loading: buyedPackagesLoading }, refetchPackages] = useAxios({
         url: '/userPackage',
         method: 'GET',
     }, { manual: false });
 
-    const [{ data: avtivatePackageRes, loading: loadingActivatePackage }, activatePackage] = useAxios({
+    const [{ data: activatePackageRes, loading: loadingActivatePackage, error: activationError }, activatePackage] = useAxios({
         url: '/userPackage/update',
         method: 'PUT',
     });
@@ -45,8 +48,14 @@ export const MyPackages: React.FC = (): React.ReactElement => {
         }
     }, [buyedPackagesRes]);
     useEffect(() => {
-        refetchPackages({});
-    }, [activatePackage]);
+        if (activatePackageRes?.success) {
+            setShowError(false);
+            refetchPackages({});
+        }
+        if (activationError) {
+            setShowError(true);
+        }
+    }, [activatePackageRes, activationError]);
     useEffect(() => {
         if (buyedPackages?.length) {
             const newSelectedPackages: SelectedPackageWithCategory[] = [];
@@ -99,6 +108,16 @@ export const MyPackages: React.FC = (): React.ReactElement => {
             <Col lg={8} md={10} sm={10} xs={11} className="mx-auto package-list mt-4">
                 {buyedPackagesLoading && (
                     <LinearProgress />
+                )}
+                {showError && (
+                    <Alert
+                        variant='filled'
+                        severity='error'
+                        sx={{ mb: 3 }}
+                        onClose={() => setShowError(false)}
+                    >
+                        {getAPIErrorMessage(activationError) || 'A package is already activated with the same category'}
+                    </Alert>
                 )}
                 {buyedPackages && !!buyedPackages.length && buyedPackages.map((packageItem: Package, packageIndex: number) =>
                     <Card
