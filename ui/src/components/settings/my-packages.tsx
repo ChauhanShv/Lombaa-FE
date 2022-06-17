@@ -86,7 +86,6 @@ export const MyPackages: React.FC = (): React.ReactElement => {
                 data: {
                     packageId: packageItem?.package?.id,
                     categoryId: selectedPackages[packageIndex]?.categoryId,
-                    userPackageId: packageItem?.id,
                 },
             });
         } else {
