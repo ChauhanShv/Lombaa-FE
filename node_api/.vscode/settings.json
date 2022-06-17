@@ -4,7 +4,7 @@
         "$shared": {},
         "local": {
             "baseUrl": "http://localhost:3001/api",
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTY1OTBiLTFkMzctNGY0My05NWZhLTBiMDhiNTFlNGFkNSIsImlhdCI6MTY1NTM3NTM0NCwiZXhwIjoxNjU1NDYxNzQ0fQ._U62ROO5fgtG5ZzN83PP5vdijxnw-uxGK4r_s7iPP7Y",
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI3ZTY1OTBiLTFkMzctNGY0My05NWZhLTBiMDhiNTFlNGFkNSIsImlhdCI6MTY1NTQ2MjgxNiwiZXhwIjoxNjU1NTQ5MjE2fQ.3IHfq2OLj2iegyQX93KFcPonrOIEAAxtGqCgsDVjQ-k",
             "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyN2U2NTkwYi0xZDM3LTRmNDMtOTVmYS0wYjA4YjUxZTRhZDUiLCJ0eXBlIjoicmVmcmVzaF90b2tlbiIsImlhdCI6MTY1NDU4OTUxOSwiZXhwIjoxNjU3MTgxNTE5fQ.oAGdTyFmht4vAgO7SBNG7bvhLW7SNbCXRPVhA2lZMeE"
         },
         "dev": {

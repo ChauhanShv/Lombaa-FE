@@ -25,6 +25,7 @@ const sequelize = require("../modules/sequelize/sequelize.service");
 const { findOne } = require("../file/file.model");
 const FieldValue = require("../field_value/field_value.model");
 const ReportAbuse = require("../report_abuse/report.abuse.model")
+const UserPackage = require("../user_package/user.package.model")
 
 
 
@@ -236,9 +237,14 @@ class ProductController extends BaseController {
       if (userId) {
         randomProducts = await this.service.mapUserFavorite(randomProducts, userId)
       }
+      randomProducts = await Promise.all(randomProducts.map(async product => {
+        product.boosted = await this.isBoosted(product)
+        return product
+      }));
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Products retreived", product: randomProducts } })
     }
     catch (error) {
+      console.log(error)
       return super.jsonRes({ res, code: 400, data: { success: false, message: "failed to get products", message_detail: error?.messaage } })
     }
   }
@@ -356,6 +362,15 @@ class ProductController extends BaseController {
     catch (error) {
       return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to Report", messaage_detail: error?.message } })
     }
+  }
+  async isBoosted(product) {
+    const userPackages = await UserPackage.findAll({ where: { categoryId: product.categoryId } })
+
+    const activeUserPackages = userPackages.map(userPackage => {
+      return moment(userPackage?.endDate) > moment()
+    });
+
+    return !!activeUserPackages.find(activeUserPackage => activeUserPackage.userId === product.userId)
   }
 }
 
