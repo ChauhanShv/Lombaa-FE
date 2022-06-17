@@ -3,12 +3,13 @@ const Order = require("../order/order.model");
 const Package = require("../packages/packages.model");
 const User = require("../user/user.model");
 const UserPackage = require("./user.package.model")
-const moment = require('moment')
+const moment = require('moment');
+const Category = require("../category/category.model");
 class userPackageController extends BaseController {
 
     getUserPackages = async (req, res, next) => {
         try {
-            let data = await UserPackage.findAll({ include: [{ model: Package, as: 'package' }, { model: User, as: 'user', attributes: ['name'] }] })
+            let data = await UserPackage.findAll({ include: [{ model: Package, as: 'package' }, { model: User, as: 'user', attributes: ['name'] }, { model: Category, as: "category", attributes: ["name"] }] })
             data.map(data => {
                 this.statusUpdate(data)
             })
