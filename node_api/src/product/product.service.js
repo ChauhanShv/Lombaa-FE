@@ -47,14 +47,7 @@ class ProductService {
     products = this.fieldsMapping(products);
 
     products = Promise.all(products.map(async product => {
-      const userPackages = await UserPackage.findAll({ where: { categoryId: product.categoryId } })
-
-      const activeUserPackages = userPackages.map(data => {
-        return moment(data?.endDate) > moment()
-      });
-
-      product.boosted = !!activeUserPackages.find(activeUserPackage => activeUserPackage.user === product.userId)
-
+      product.boosted = await this.isBoosted(product)
       return product
     }))
 
@@ -77,14 +70,7 @@ class ProductService {
     products = this.fieldsMapping(products)
 
     products = Promise.all(products.map(async product => {
-      const userPackages = await UserPackage.findAll({ where: { categoryId: product.categoryId } })
-
-      const activeUserPackages = userPackages.map(data => {
-        return moment(data?.endDate) > moment()
-      });
-
-      product.boosted = !!activeUserPackages.find(activeUserPackage => activeUserPackage.user === product.userId)
-
+      product.boosted = await this.isBoosted(product)
       return product
     }))
 
@@ -106,15 +92,7 @@ class ProductService {
     products = this.fieldsMapping(products)
 
     products = Promise.all(products.map(async product => {
-      console.log(product)
-      const userPackages = await UserPackage.findAll({ where: { categoryId: product.categoryId } })
-
-      const activeUserPackages = userPackages.map(data => {
-        return moment(data?.endDate) > moment()
-      });
-
-      product.boosted = !!activeUserPackages.find(activeUserPackage => activeUserPackage.user === product.userId)
-
+      product.boosted = await this.isBoosted(product)
       return product
     }))
 
@@ -136,14 +114,7 @@ class ProductService {
     products = this.fieldsMapping(products)
 
     products = Promise.all(products.map(async product => {
-      const userPackages = await UserPackage.findAll({ where: { categoryId: product.categoryId } })
-
-      const activeUserPackages = userPackages.map(data => {
-        return moment(data?.endDate) > moment()
-      });
-
-      product.boosted = !!activeUserPackages.find(activeUserPackage => activeUserPackage.user === product.userId)
-
+      product.boosted = await this.isBoosted(product)
       return product
     }))
     return products
@@ -164,14 +135,7 @@ class ProductService {
     products = this.fieldsMapping(products)
 
     products = Promise.all(products.map(async product => {
-      const userPackages = await UserPackage.findAll({ where: { categoryId: product.categoryId } })
-
-      const activeUserPackages = userPackages.map(data => {
-        return moment(data?.endDate) > moment()
-      });
-
-      product.boosted = !!activeUserPackages.find(activeUserPackage => activeUserPackage.user === product.userId)
-
+      product.boosted = await this.isBoosted(product)
       return product
     }))
 
@@ -289,16 +253,11 @@ class ProductService {
     if (userId) {
       products = this.mapUserFavorite(products, userId)
     }
-    const userPackages = await UserPackage.findAll({ where: { categoryId: categoryId } })
 
-    const activeUserPackages = userPackages.filter(data => {
-      return moment(data?.endDate) > moment()
-    });
-
-    products = products.map(product => {
-      product.boosted = !!activeUserPackages.find(activeUserPackage => activeUserPackage.userId === product.userId)
+    products = Promise.all(products.map(async product => {
+      product.boosted = await this.isBoosted(product)
       return product
-    })
+    }))
     return products
 
   }
@@ -432,6 +391,15 @@ class ProductService {
 
   async delete(productId, userId) {
     return await Product.destroy({ where: { id: productId, userId: userId } })
+  }
+  async isBoosted(product) {
+    const userPackages = await UserPackage.findAll({ where: { categoryId: product.categoryId } })
+
+    const activeUserPackages = userPackages.map(userPackage => {
+      return moment(userPackage?.endDate) > moment()
+    });
+
+    return !!activeUserPackages.find(activeUserPackage => activeUserPackage.userId === product.userId)
   }
 
 }
