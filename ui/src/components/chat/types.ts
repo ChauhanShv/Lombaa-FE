@@ -6,6 +6,11 @@ export interface MediaModalProps {
   mediaSrc: string;
   onClose: () => void | undefined;
 }
+export interface ProductDetailsModalProps {
+  productId: string;
+  slug?: string;
+  onClose: () => void;
+}
 export interface User {
   name: string;
   id?: string;

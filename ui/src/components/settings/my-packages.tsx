@@ -59,8 +59,6 @@ export const MyPackages: React.FC = (): React.ReactElement => {
         }
     }, [buyedPackages]);
 
-    console.log(selectedPackages, 'qwer');
-
     const handleSubCategoryChange = (e: any, subCat: SubCategory, packageIndex: number) => {
         setSelectedSubCategory(subCat?.id);
         const newSelectedPackages: SelectedPackageWithCategory[] = [...selectedPackages];
@@ -71,9 +69,7 @@ export const MyPackages: React.FC = (): React.ReactElement => {
     };
 
     const handleActivation = (e: any, packageIndex: number, packageItem: Package) => {
-        console.log('HIII');
         if (selectedPackages[packageIndex]?.categoryId) {
-            console.log('123');
             activatePackage({
                 data: {
                     packageId: packageItem?.package?.id,
@@ -82,7 +78,6 @@ export const MyPackages: React.FC = (): React.ReactElement => {
                 },
             });
         } else {
-            console.log('456');
             const newSelectedPackages: SelectedPackageWithCategory[] = [...selectedPackages];
             newSelectedPackages[packageIndex].error = "Please select category first";
             setSelectedPackages([...newSelectedPackages]);
@@ -98,7 +93,7 @@ export const MyPackages: React.FC = (): React.ReactElement => {
                     </Link>My Packages
                 </span>
             </Card.Header>
-            <Col className="col-8 mx-auto package-list mt-4 p-3">
+            <Col lg={8} md={10} sm={10} xs={11} className="mx-auto package-list mt-4">
                 {buyedPackagesLoading && (
                     <LinearProgress />
                 )}
@@ -152,7 +147,9 @@ export const MyPackages: React.FC = (): React.ReactElement => {
                                 <FormControl fullWidth>
                                     <Dropdown className="d-inline mx-2">
                                         <Dropdown.Toggle variant="outline-dark rounded btn-fullround mb-2">
-                                            Category: <strong>{selectedPackages[packageIndex]?.categoryName ?? ""}</strong>
+                                            <span className="no-wrap text-truncate">
+                                                Category: <strong>{selectedPackages[packageIndex]?.categoryName ?? ""}</strong>
+                                            </span>
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu className='pre-scrollable'>
                                             {state?.category?.map((category: Category) =>

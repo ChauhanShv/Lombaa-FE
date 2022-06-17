@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useHistory } from 'react-router-dom';
 import { DropdownButton, Dropdown, Form, Button } from 'react-bootstrap';
-import { Typography } from '@mui/material';
+import { Typography, Button as MUIButton } from '@mui/material';
 import { FaInfoCircle, FaTelegramPlane, FaPaperclip, FaChevronLeft } from 'react-icons/fa';
 import { BsChatSquareText } from 'react-icons/bs';
 import { IoReload } from 'react-icons/io5';
@@ -11,7 +11,7 @@ import { useAppContext } from '../../contexts';
 import { MediaModal } from '.';
 import { Chat, User } from './types';
 import './chat-page.css';
-import { ReportChatModal } from './report-chat-modal';
+import { ReportChatModal, ProductDetailsModal } from '.';
 
 const LIMIT: number = 50;
 export const ChatContent: React.FC = (): React.ReactElement => {
@@ -24,6 +24,7 @@ export const ChatContent: React.FC = (): React.ReactElement => {
     const [toUser, setToUser] = useState<User | null>();
     const [mediaModalUrl, setMediaModalUrl] = useState<string>('');
     const [reportChatModalOpen, setReportChatModalOpen] = useState<boolean>(false);
+    const [openProductDetails, setOpenProductDetails] = useState<boolean>(false);
 
     const navigation = useHistory();
     const [{ data: sendMessageData }, execute] = useAxios({
@@ -41,10 +42,6 @@ export const ChatContent: React.FC = (): React.ReactElement => {
     const [{ data: chatResponse }, getChatExecute] = useAxios({
         url: '',
         method: 'GET',
-    });
-    const [{ data: reportChatRes }, executeReportChat] = useAxios({
-        url: '',
-        method: 'POST',
     });
 
     const getChat = (start: number = 0): void => {
@@ -154,6 +151,12 @@ export const ChatContent: React.FC = (): React.ReactElement => {
                             onReport={() => setReportChatModalOpen(false)}
                         />
                     )}
+                    {openProductDetails && (
+                        <ProductDetailsModal
+                            productId={chatResponse?.data?.product[0]?.id}
+                            onClose={() => setOpenProductDetails(false)}
+                        />
+                    )}
                     <div className="settings-tray bg-light">
                         <div className="friend-drawer no-gutters">
                             <Link to={`/chat/buy`} className="btn d-md-block d-lg-none">
@@ -245,14 +248,14 @@ export const ChatContent: React.FC = (): React.ReactElement => {
                                 src={chatResponse?.data?.product[0]?.productMedia[0]?.file?.url}
                                 alt="product-img-in-chat"
                             />
-                            <div className='mt-3 mb-3'>
+                            <div className='mt-3 mb-2'>
                                 <Typography variant="h6">
                                     {chatResponse?.data?.product[0]?.title}
                                 </Typography>
                             </div>
-                            <Link to={`/product-detail/${chatResponse?.data?.product[0]?.id}/${chatResponse?.data?.product[0]?.slug}`}>
-                                <Button variant="success">See Details</Button>
-                            </Link>
+                            <MUIButton onClick={() => setOpenProductDetails(true)}>
+                                See Details
+                            </MUIButton>
                         </div>
                     </div>
                     <div className="chat-box-tray">
@@ -287,7 +290,7 @@ export const ChatContent: React.FC = (): React.ReactElement => {
                         No Coversations Yet
                     </Typography>
                     <Link to="/create-post">
-                        <Button className="mt-3 btn-success rounded fs-5 p-3">
+                        <Button className="mt-4 btn-success rounded fs-5 py-2 px-4">
                             Post Free Ad
                         </Button>
                     </Link>
