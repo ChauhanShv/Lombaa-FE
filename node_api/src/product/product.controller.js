@@ -25,6 +25,7 @@ const sequelize = require("../modules/sequelize/sequelize.service");
 const { findOne } = require("../file/file.model");
 const FieldValue = require("../field_value/field_value.model");
 const ReportAbuse = require("../report_abuse/report.abuse.model")
+const UserPackage = require("../user_package/user.package.model")
 
 
 
@@ -243,6 +244,7 @@ class ProductController extends BaseController {
       return super.jsonRes({ res, code: 200, data: { success: true, message: "Products retreived", product: randomProducts } })
     }
     catch (error) {
+      console.log(error)
       return super.jsonRes({ res, code: 400, data: { success: false, message: "failed to get products", message_detail: error?.messaage } })
     }
   }
