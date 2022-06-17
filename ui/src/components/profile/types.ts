@@ -11,7 +11,8 @@ export interface ProfileProductTileProps {
   postedOnDate: string;
   mediaSrc: string;
   isFavouritesTab: boolean;
-  onDelete: (productId: string) => void; 
+  onDelete: (productId: string) => void;
+  boosted: boolean;
 }
 export interface ProductTabListProps {
   productList: Product[];
@@ -46,6 +47,7 @@ export interface Product {
   productMedia: ProductMedia[];
   productFields: ProductFields[];
   user: User;
+  boosted: boolean;
 }
 export interface Category {
   id: string;
@@ -147,7 +149,7 @@ export interface OtherUser {
 export interface Review {
   by: {
     name: string;
-    profilePicture: string;
+    profilePicture: ProfilePicture;
     profilePictureid: string;
   }
   byId: string;

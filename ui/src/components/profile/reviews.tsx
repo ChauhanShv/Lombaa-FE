@@ -33,7 +33,7 @@ export const Reviews: React.FC = (): React.ReactElement => {
                     {reviews && !!reviews?.length && (
                         <Grid item container mb={2}>
                             <h1 className="fw-bold">
-                                {(data?.meta?.averageReviewScore / 10) || 0}{' '}
+                                {(data?.meta?.averageReviewScore / 10).toFixed(1) || 0}{' '}
                                 <h4 className='d-inline'>
                                     <h4 className='text-muted d-inline'>out of 5 </h4>
                                     <h5 className='fw-lighter d-inline'>
@@ -53,7 +53,7 @@ export const Reviews: React.FC = (): React.ReactElement => {
                                                 rounded
                                                 width='35px'
                                                 height='35px'
-                                                src={review?.by?.profilePicture || "/images/user-circle.svg"}
+                                                src={review?.by?.profilePicture?.url || "/images/user-circle.svg"}
                                             />
                                         </Grid>
                                         <Grid item>

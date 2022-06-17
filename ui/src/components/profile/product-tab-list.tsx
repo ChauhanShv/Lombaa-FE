@@ -66,6 +66,7 @@ export const ProductTabList: React.FC<ProductTabListProps> = ({
                     }
                     isFavouritesTab={listingTabName === 'Favourites' ? true : false}
                     onDelete={handleProductItemDelete}
+                    boosted={product.boosted}
                 />
             ) : (
                 <EmptyTabContent tabTitle={listingTabName} />

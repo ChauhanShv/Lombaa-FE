@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Grid, Typography, Button, LinearProgress } from '@mui/material';
 import { Container, Table } from 'react-bootstrap';
-import { jsPDF } from "jspdf";
-import html2canvas from 'html2canvas';
+import { saveAs } from 'file-saver';
 import moment from 'moment';
 import { useAxios } from '../../services';
 import { useAppContext } from '../../contexts';
@@ -20,28 +19,33 @@ export const Invoice: React.FC = (): React.ReactElement => {
         url: `/invoice/${invoiceId}`,
         method: 'GET',
     }, { manual: false });
+    const [{ data: invoicePDFResponse }, getInvoicePDF] = useAxios({
+        url: `/order/invoice/${invoiceId}.pdf`,
+        method: 'GET',
+    });
+
+    const downloadInvoicePDF = () => {
+        getInvoicePDF({});
+    }
+
+    const downloadFile = (blob: Blob, fileName: string) => {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        const invoiceDate: string = moment(invoiceData?.data?.createdAt).format("DD-MM-YYYY");
+        const invoiceNumber: string | undefined = invoiceData?.data?.invoiceNumber;
+        saveAs(blob, `Invoice_${invoiceNumber}_${invoiceDate}.pdf`);
+    };
 
     useEffect(() => {
         if (invoiceRes?.success) {
             setInvoiceData(invoiceRes?.data);
         }
     }, [invoiceRes]);
-
-    const downloadInvoicePDF = () => {
-        if (invoiceData?.data && invoiceData?.data?.package) {
-            const input: HTMLElement = document.getElementById('invoiceTemplate') as HTMLElement;
-            const invoiceDate: string = moment(invoiceData?.data?.createdAt).format("DD-MM-YYYY");
-            const invoiceNumber: string | undefined = invoiceData?.data?.invoiceNumber;
-            html2canvas(input).then((canvas) => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF();
-                pdf.addImage(imgData, 'PNG', 0, 0, 200, 200);
-                console.log(imgData, 'imgData');
-                //pdf.output('dataurlnewwindow');
-                pdf.save(`Invoice_${invoiceNumber}_${invoiceDate}.pdf`);
-            });
+    useEffect(() => {
+        if (invoicePDFResponse) {
+            downloadFile(new Blob([invoicePDFResponse]), "Invoice.pdf");
         }
-    }
+    }, [invoicePDFResponse]);
 
     return (
         <Box>
@@ -193,8 +197,8 @@ export const Invoice: React.FC = (): React.ReactElement => {
                             </Box>
                         </Grid>
                         {/* <Box textAlign="center" color="#fff" sx={{ backgroundColor: 'primary.main', p: 1 }}>
-                LOMBAA ONLINE MARKETPLACE SINGAPORE LTD RC WWW.LOMBAA.SG
-            </Box> */}
+                            LOMBAA ONLINE MARKETPLACE SINGAPORE LTD RC WWW.LOMBAA.SG
+                        </Box> */}
                     </Container>
                     <Container>
                         <Box my={4} pb={8} textAlign='center'>

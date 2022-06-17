@@ -92,7 +92,7 @@ export const ProfileTabs: React.FC = (): React.ReactElement => {
                                     <Tab label="Favourites" value="Favourites" />
                                 </TabList>
                             </Box>
-                            <TabPanel value="MyListing">
+                            <TabPanel sx={{ p: 2 }} value="MyListing">
                                 <Box sx={{ width: '100%', typography: 'body1' }}>
                                     <TabContext value={listingTabValue}>
                                         <Box sx={{ borderBottom: 0, borderColor: 'divider' }}>
@@ -104,35 +104,35 @@ export const ProfileTabs: React.FC = (): React.ReactElement => {
                                                 <Tab label="Sold" value="Sold" />
                                             </TabList>
                                         </Box>
-                                        <TabPanel value="InReview">
+                                        <TabPanel sx={{ p: 1 }} value="InReview">
                                             <ProductTabList
                                                 productList={products.inReview || []}
                                                 listingTabName='In Review'
                                                 loading={loading}
                                             />
                                         </TabPanel>
-                                        <TabPanel value="Active">
+                                        <TabPanel sx={{ p: 1 }} value="Active">
                                             <ProductTabList
                                                 productList={products.active || []}
                                                 listingTabName="Active"
                                                 loading={loading}
                                             />
                                         </TabPanel>
-                                        <TabPanel value="Declined">
+                                        <TabPanel sx={{ p: 1 }} value="Declined">
                                             <ProductTabList
                                                 productList={products.declined || []}
                                                 listingTabName="Declined"
                                                 loading={loading}
                                             />
                                         </TabPanel>
-                                        <TabPanel value="Expired">
+                                        <TabPanel sx={{ p: 1 }} value="Expired">
                                             <ProductTabList
                                                 productList={products.expired || []}
                                                 listingTabName="Expired"
                                                 loading={loading}
                                             />
                                         </TabPanel>
-                                        <TabPanel value="Sold">
+                                        <TabPanel sx={{ p: 1 }} value="Sold">
                                             <ProductTabList
                                                 productList={products.sold || []}
                                                 listingTabName="Sold"
@@ -145,7 +145,7 @@ export const ProfileTabs: React.FC = (): React.ReactElement => {
                             <TabPanel value="Reviews">
                                 <Reviews />
                             </TabPanel>
-                            <TabPanel value="Favourites">
+                            <TabPanel sx={{ p: 1 }} value="Favourites">
                                 <ProductTabList
                                     productList={favProducts}
                                     listingTabName="Favourites"
