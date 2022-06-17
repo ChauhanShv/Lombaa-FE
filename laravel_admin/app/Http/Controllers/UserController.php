@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Users;
@@ -17,20 +18,9 @@ class UserController extends Controller
 
     public function info($id)
     {
-        $user = Users::with('packages')->where('id', $id)->first();
-        
-            $categories = UserPackage::with('categories')->where('userId', $user->id)->first();
-            if($categories){
-            $category = Category::where('id', $categories->categoryId)->first();
-            $packages = UserPackage:: with('packages')->where('userId', $user->id)->first();
-            $package = Packages::where('id', $packages->packageId)->first();
-
-             return view('user.show', ['user' => $user, 'category' => $category,'packages' => $packages, 'package' => $package]);
-            }
-            else {
-                return view('user.show', ['user' => $user, 'category' => null, 'package' => null]);
-            }
-            
+        $user = Users::where('id', $id)->first();
+        $userPackages = UserPackage::where('userId', $id)->get();
+        return view('user.show', ['userPackages' => $userPackages, 'user' => $user]);
     }
 
     public function suspend(Request $request, $id)
@@ -104,6 +94,5 @@ class UserController extends Controller
             $user_list = Users::where('isSuspended', '=', '0')->paginate(30);
             return view('user.list', ['user_list' => $user_list]);
         }
-
     }
 }
