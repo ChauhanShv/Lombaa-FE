@@ -138,7 +138,6 @@ class ProductService {
     products = this.fieldsMapping(products)
 
     products = Promise.all(products.map(async product => {
-      console.log(product)
       const userPackages = await UserPackage.findAll({ where: { categoryId: product.categoryId } })
 
       const activeUserPackages = userPackages.map(data => {
@@ -295,12 +294,12 @@ class ProductService {
     }
     const userPackages = await UserPackage.findAll({ where: { categoryId: categoryId } })
 
-    const activeUserPackages = userPackages.map(data => {
+    const activeUserPackages = userPackages.filter(data => {
       return moment(data?.endDate) > moment()
     });
 
     products = products.map(product => {
-      product.boosted = !!activeUserPackages.find(activeUserPackage => activeUserPackage.user === product.userId)
+      product.boosted = !!activeUserPackages.find(activeUserPackage => activeUserPackage.userId === product.userId)
       return product
     })
     return products
