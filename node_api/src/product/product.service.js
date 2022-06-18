@@ -46,7 +46,7 @@ class ProductService {
 
     products = this.fieldsMapping(products);
 
-    products = Promise.all(products.map(async product => {
+    products = await Promise.all(products.map(async product => {
       product.boosted = await this.isBoosted(product)
       return product
     }))
@@ -69,7 +69,7 @@ class ProductService {
     });
     products = this.fieldsMapping(products)
 
-    products = Promise.all(products.map(async product => {
+    products = await Promise.all(products.map(async product => {
       product.boosted = await this.isBoosted(product)
       return product
     }))
@@ -91,7 +91,7 @@ class ProductService {
     });
     products = this.fieldsMapping(products)
 
-    products = Promise.all(products.map(async product => {
+    products = await Promise.all(products.map(async product => {
       product.boosted = await this.isBoosted(product)
       return product
     }))
@@ -113,7 +113,7 @@ class ProductService {
     });
     products = this.fieldsMapping(products)
 
-    products = Promise.all(products.map(async product => {
+    products = await Promise.all(products.map(async product => {
       product.boosted = await this.isBoosted(product)
       return product
     }))
@@ -134,7 +134,7 @@ class ProductService {
     });
     products = this.fieldsMapping(products)
 
-    products = Promise.all(products.map(async product => {
+    products = await Promise.all(products.map(async product => {
       product.boosted = await this.isBoosted(product)
       return product
     }))
@@ -254,10 +254,16 @@ class ProductService {
       products = this.mapUserFavorite(products, userId)
     }
 
-    products = Promise.all(products.map(async product => {
+    products = await Promise.all(products.map(async product => {
       product.boosted = await this.isBoosted(product)
       return product
     }))
+    products.sort(function (x, y) {
+      let a = x.boosted
+      let b = y.boosted
+      return (a === b) ? 0 : a ? -1 : 1;
+
+    })
     return products
 
   }
