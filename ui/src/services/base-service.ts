@@ -21,6 +21,7 @@ newAxios.interceptors.request.use(
         const token = localStorage.getItem("token");
         if (token) {
             config.headers = {
+                ...config.headers,
                 'x-access-token': token,
                 'x-client-platform': 'Web',
             };
