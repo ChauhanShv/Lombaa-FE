@@ -250,8 +250,9 @@ class ProductService {
 
       })
     }
+
     if (userId) {
-      products = this.mapUserFavorite(products, userId)
+      products = await this.mapUserFavorite(products, userId)
     }
 
     products = await Promise.all(products.map(async product => {
@@ -398,10 +399,11 @@ class ProductService {
   async delete(productId, userId) {
     return await Product.destroy({ where: { id: productId, userId: userId } })
   }
+
   async isBoosted(product) {
     const userPackages = await UserPackage.findAll({ where: { categoryId: product.categoryId } })
 
-    const activeUserPackages = userPackages.map(userPackage => {
+    const activeUserPackages = userPackages.filter(userPackage => {
       return moment(userPackage?.endDate) > moment()
     });
 

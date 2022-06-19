@@ -410,7 +410,7 @@ class UserService {
   async isBoosted(product) {
     const userPackages = await UserPackage.findAll({ where: { categoryId: product.categoryId } })
 
-    const activeUserPackages = userPackages.map(userPackage => {
+    const activeUserPackages = userPackages.filter(userPackage => {
       return moment(userPackage?.endDate) > moment()
     });
 
