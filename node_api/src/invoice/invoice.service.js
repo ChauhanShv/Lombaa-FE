@@ -17,8 +17,8 @@ class InvoiceService {
         const pdf = await page.pdf({
             format: 'A4'
         })
-
-        return pdf
+        await browser.close();
+        return pdf;
 
     }
 }

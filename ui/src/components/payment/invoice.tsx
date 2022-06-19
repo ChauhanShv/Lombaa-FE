@@ -12,7 +12,6 @@ import "./payment.css";
 export const Invoice: React.FC = (): React.ReactElement => {
 
     const { invoiceId } = useParams<{ invoiceId: string }>();
-    const { state } = useAppContext();
     const [invoiceData, setInvoiceData] = useState<InvoiceData>();
 
     const [{ data: invoiceRes, loading: loadingInvoice }] = useAxios({
@@ -20,20 +19,27 @@ export const Invoice: React.FC = (): React.ReactElement => {
         method: 'GET',
     }, { manual: false });
     const [{ data: invoicePDFResponse }, getInvoicePDF] = useAxios({
-        url: `/order/invoice/${invoiceId}.pdf`,
-        method: 'GET',
+      url: `/order/invoice/${invoiceId}/pdf`,
+      method: 'GET',
+      responseType: 'arraybuffer',
+      headers: {
+        Accept: 'application/pdf',
+      },
     });
 
     const downloadInvoicePDF = () => {
         getInvoicePDF({});
     }
 
-    const downloadFile = (blob: Blob, fileName: string) => {
+    const downloadFile = (blob: Blob) => {
+        const invoiceNumber: string | undefined =
+          invoiceData?.data?.invoiceNumber;
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        const invoiceDate: string = moment(invoiceData?.data?.createdAt).format("DD-MM-YYYY");
-        const invoiceNumber: string | undefined = invoiceData?.data?.invoiceNumber;
-        saveAs(blob, `Invoice_${invoiceNumber}_${invoiceDate}.pdf`);
+        link.download = `Invoice_${invoiceNumber}.pdf`;
+        link.href = URL.createObjectURL(blob);
+        link.click();
+        URL.revokeObjectURL(link.href);
     };
 
     useEffect(() => {
@@ -43,7 +49,7 @@ export const Invoice: React.FC = (): React.ReactElement => {
     }, [invoiceRes]);
     useEffect(() => {
         if (invoicePDFResponse) {
-            downloadFile(new Blob([invoicePDFResponse]), "Invoice.pdf");
+            downloadFile(new Blob([invoicePDFResponse]));
         }
     }, [invoicePDFResponse]);
 
