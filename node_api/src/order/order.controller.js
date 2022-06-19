@@ -9,7 +9,6 @@ const MerchantAddress = require("../merchant_address/merchant.address.model")
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const ejs = require('ejs');
-const { Console } = require("console");
 class orderController extends BaseController {
     insertOrder = async (req, res, next) => {
         try {
@@ -80,12 +79,17 @@ class orderController extends BaseController {
             const pdf = await page.pdf({
                 format: 'A4'
             })
-            return res.send(pdf)
+            res.writeHead(200, {
+                'Content-Disposition': `attachment; filename="${data.invoiceNumber}.pdf"`,
+                'Content-Type': 'application/pdf',
+
+            })
+
+            return res.end(pdf)
 
         }
         catch (error) {
-            console.log(error)
-            return super.jsonRes({ res, code: 400, data: { success: false, message: "Failed to get Orders", message_details: error?.message } })
+            return super.jsonRes({ res, code: 400, data: { success: false, message: "Invoice not found", message_details: error?.message } })
         }
 
     }

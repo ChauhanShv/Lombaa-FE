@@ -26,7 +26,7 @@ x-app-version : 1.0.0
 
 ###
 
-GET   {{baseUrl}}/order/invoice/a325b089-157f-423b-9427-3a2852105f54.pdf HTTP/1.1 HTTP/1.1
+GET   {{baseUrl}}/order/invoice/8e05b587-904a-45c5-9455-92758f93f9e0/pdf HTTP/1.1 HTTP/1.1
 content-type: application/json
 x-access-token: {{token}}
 x-client-platform : Android
