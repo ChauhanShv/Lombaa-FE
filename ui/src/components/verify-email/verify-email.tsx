@@ -46,7 +46,7 @@ export const VerifyEmail: React.FC<VerifyEmailProps> = ({ token }: VerifyEmailPr
                             <h4 className="mb-4">
                                 {loading ?
                                     <Spinner animation="border" /> :
-                                    data.success ?
+                                    data?.success ?
                                         'Your Email has been verified successfully' :
                                         'Email verification failed'
                                 }
