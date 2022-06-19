@@ -39,6 +39,7 @@
             color: white;
             background-color: #01AE3C;
             border-radius: 4px;
+            color: #fff !important;
         }
         </style>
 </head>
@@ -52,7 +53,7 @@
                     <p>Dear <%= data.user.name %>,</p>
                     <p>Welcome to Lombaa.</p>
                     <p>To keep exploring our platform, please verify your email:<p>
-                    <button href=`<%= data.verificationLink %>` class="verify-mail-button">Click to verify</button>
+                    <a href='<%= data.verificationLink %>' class="verify-mail-button">Click to verify</a>
                     <p>Best Regards,</p>
                     <p>Lombaa team</p>
                 </div>
