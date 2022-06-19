@@ -21,13 +21,12 @@ class userPackageController extends BaseController {
     }
     updateUserPackage = async (req, res, next) => {
         try {
-            const packageId = req.body?.packageId
             const categoryId = req.body?.categoryId
             const userPackageId = req.body?.userPackageId
             const userId = req.user?.id
             const userPackage = await UserPackage.findOne({ where: { id: userPackageId } })
             if (userId !== userPackage?.userId) {
-                return super.jsonRes({ res, code: 404, data: { success: false, message: "Something went wrong" } })
+                return super.jsonRes({ res, code: 400, data: { success: false, message: "Package does not belongs to user" } })
             }
 
             const userPackages = await UserPackage.findAll({ where: { userId: userId, categoryId: categoryId } })
