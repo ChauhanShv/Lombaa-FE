@@ -84,7 +84,7 @@ export const MyPackages: React.FC = (): React.ReactElement => {
         if (selectedPackages[packageIndex]?.categoryId) {
             activatePackage({
                 data: {
-                    packageId: packageItem?.package?.id,
+                    userPackageId: packageItem?.id,
                     categoryId: selectedPackages[packageIndex]?.categoryId,
                 },
             });
