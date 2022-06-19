@@ -6,10 +6,15 @@ const Package = require("../packages/packages.model");
 const Invoice = require("../invoice/invoice.model")
 const MerchantBank = require("../merchant_bank/merchant.bank.model")
 const MerchantAddress = require("../merchant_address/merchant.address.model")
+const InvoiceService = require("../invoice/invoice.service")
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const ejs = require('ejs');
 class orderController extends BaseController {
+    constructor() {
+        super();
+        this.invoiceService = new InvoiceService();
+    }
     insertOrder = async (req, res, next) => {
         try {
             const body = req.body?.package
@@ -67,26 +72,16 @@ class orderController extends BaseController {
 
             const merchantAddress = await MerchantAddress.findOne();
             const meta = { data, merchantAddress, merchantBank }
-            const browser = await puppeteer.launch({
-                headless: true
-            })
-            const page = await browser.newPage()
-            const html = ejs.render(fs.readFileSync(`${__dirname}/invoice.template.ejs`, 'utf-8'), { meta });
-            // console.log(html)
-            await page.setContent(html, {
-                waitUntil: 'domcontentloaded'
-            })
-            const pdf = await page.pdf({
-                format: 'A4'
-            })
+
+            const pdf = await this.invoiceService.createPdf(meta)
+
             res.writeHead(200, {
-                'Content-Disposition': `attachment; filename="${data.invoiceNumber}.pdf"`,
+                'Content-Disposition': `attachment; filename="${meta.data.invoiceNumber}.pdf"`,
                 'Content-Type': 'application/pdf',
 
             })
 
             return res.end(pdf)
-
         }
         catch (error) {
             return super.jsonRes({ res, code: 400, data: { success: false, message: "Invoice not found", message_details: error?.message } })
