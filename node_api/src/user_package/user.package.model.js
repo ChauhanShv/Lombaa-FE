@@ -24,7 +24,16 @@ UserPackage.init(
             type: DataTypes.DATE,
             allowNull: true,
             defaultValue: null,
-        }
+        },
+        packageName: {
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
+        packageDescription: {
+            type: DataTypes.STRING(255),
+            allowNull: false
+        },
+        status: DataTypes.VIRTUAL
     },
 
     {

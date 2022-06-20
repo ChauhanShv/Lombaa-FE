@@ -5,8 +5,8 @@ import { Skeleton } from '@mui/material';
 export const SavedSearchLoader: React.FC = (): React.ReactElement => {
     return (
         <div className='p-3'>
-            {[...Array(8)].map(() =>
-                <Card body className="mb-3">
+            {[...Array(8)].map((index) =>
+                <Card body className="mb-3" key={index}>
                     <Skeleton animation="wave" sx={{ width: '30%' }} />
                     <Skeleton animation="wave" sx={{ width: '30%' }} />
                     <Skeleton animation="wave" sx={{ width: '30%' }} />

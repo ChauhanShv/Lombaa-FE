@@ -5,10 +5,10 @@ content-type: application/json
 x-client-platform : Android
 
 {
-    "email": "raj@gmail.com",
+    "email": "vivek@datortech.com",
     "password": "123456",
     "name": "Danny",
-    "phoneNumber": "9881270837",
+    "phoneNumber": "9883270788",
     "phoneCode": "91",
     "accountType": "business",
     "lattitude": "",
@@ -25,7 +25,7 @@ POST {{baseUrl}}/auth HTTP/1.1
 content-type: application/json
 
 {
-    "email": "bob@bob.com",
+    "email": "uday@datortech.com",
     "password": "123456"
 }
 
@@ -92,6 +92,7 @@ x-app-version : 1.0.0
 POST {{baseUrl}}/user/email HTTP/1.1
 content-type: application/json
 x-access-token: {{token}}
+
 {
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MzQxMjU4LWFhYjktNDlkZi1iM2JhLTZlZjY0YTg2YmQ0MiIsImVtYWlsIjoibmV3dGVzdDEyMTJAZ21haWwuY29tIiwiaWF0IjoxNjM1MDI5ODg0LCJleHAiOjE2MzUwMzM0ODR9.93TdfoxW5fA_dOWffZHLRWCbuW0lKs14xAbmueO8pDk"
 }
@@ -412,3 +413,17 @@ content-type: application/json
 x-access-token: {{token}}
 x-client-platform : Android
 x-app-version : 1.0.0
+
+###
+
+POST  {{baseUrl}}/user/report  HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+{
+    "userId" : "a0d5860a-272d-4ef9-8bb7-a87e7ae78e02",
+    "comment" : "fjenjn jnfjen jsfnj ",
+    "score":"40"
+}

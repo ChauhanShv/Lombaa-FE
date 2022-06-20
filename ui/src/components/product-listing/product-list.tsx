@@ -147,6 +147,7 @@ export const ProductList: React.FC = (): React.ReactElement => {
                                         userId={product?.userId}
                                         isFavourite={product?.isFavorite}
                                         onFavUnfav={(fav: boolean) => { }}
+                                        boosted={product?.boosted}
                                     />
                                 </Col>
                             )}

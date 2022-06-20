@@ -22,6 +22,7 @@ const Field = require("../field/field.model")
 const Category = require("../category/category.model")
 const SaveSearch = require("../save_search/save.search.model");
 const SaveSearchFilter = require("../save_search_filter/save.search.filter.model");
+const UserPackage = require("../user_package/user.package.model")
 
 class UserService {
   constructor() {
@@ -371,6 +372,11 @@ class UserService {
       }]
     });
 
+    userWithFavProducts.favoriteProducts = await Promise.all(userWithFavProducts.favoriteProducts.map(async product => {
+      product.boosted = await this.isBoosted(product)
+      return product
+    }));
+
     return userWithFavProducts;
   }
 
@@ -399,6 +405,16 @@ class UserService {
 
     const SaveFilter = await SaveSearchFilter.bulkCreate(filters)
     return searchSaved
+  }
+
+  async isBoosted(product) {
+    const userPackages = await UserPackage.findAll({ where: { categoryId: product.categoryId } })
+
+    const activeUserPackages = userPackages.filter(userPackage => {
+      return moment(userPackage?.endDate) > moment()
+    });
+
+    return !!activeUserPackages.find(activeUserPackage => activeUserPackage.userId === product.userId)
   }
 }
 

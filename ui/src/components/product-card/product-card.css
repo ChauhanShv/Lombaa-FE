@@ -26,6 +26,8 @@
 .usermeta { color:#555; font-size:12px; font-weight: 500; }
 small.text-white{font-size:12px; text-shadow: 0 0 3px rgba(0,0,0,.5);}
 
+.boosted-icon { width: 20px; height: 20px; }
+
 @media all and (max-width:767px) {
     .produt-card .card-title{font-size:12px;}
     .product-card .card-body{font-size:11px; padding-bottom: 5px;}

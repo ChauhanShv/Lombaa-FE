@@ -15,9 +15,17 @@ export const Packages: React.FC = (): React.ReactElement => {
         url: '/package',
         method: 'GET',
     }, { manual: false });
+    const [{ data: insertInvoiceRes, loading: laodingInvoice }, generateInvoice] = useAxios({
+        url: '/invoice/insert',
+        method: 'POST',
+    });
 
     const handleBuyPackage = (event: any) => {
-        navigate.push(`/package/${selectedPackage?.id}/order`);
+        generateInvoice({
+            data: {
+                packageId: selectedPackage?.id,
+            },
+        });
     };
 
     useEffect(() => {
@@ -25,6 +33,12 @@ export const Packages: React.FC = (): React.ReactElement => {
             setPackages(data?.data);
         }
     }, [data]);
+
+    useEffect(() => {
+        if (insertInvoiceRes?.success) {
+            navigate.push(`/package/${insertInvoiceRes?.data?.id}/order`);
+        }
+    }, [insertInvoiceRes]);
 
     useEffect(() => {
         setSelectedPackage(packages[0]);
@@ -56,7 +70,7 @@ export const Packages: React.FC = (): React.ReactElement => {
                 <Box>
                     <Row className="justify-content-center">
                         {!!packages && !!packages.length && packages.map((packageItem: Package) =>
-                            <Col lg={4} sm={6} xs={12}>
+                            <Col lg={4} sm={6} xs={12} key={packageItem?.id}>
                                 <Card
                                     role="button"
                                     className={`${selectedPackage?.id === packageItem.id ? 'border border-3 border-success' : ''} mb-3`}

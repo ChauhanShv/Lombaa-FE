@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { FaEye, FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { AiOutlineThunderbolt } from 'react-icons/ai';
 import { Col, Row, Card, Button } from 'react-bootstrap';
 import { ProfileProductTileProps } from './types';
 import { useAxios } from '../../services';
@@ -16,6 +17,7 @@ export const ProfileProductTile: React.FC<ProfileProductTileProps> = ({
     mediaSrc,
     isFavouritesTab,
     onDelete,
+    boosted,
 }: ProfileProductTileProps): React.ReactElement => {
 
     const { userId } = useParams<{ userId: string }>();
@@ -61,11 +63,13 @@ export const ProfileProductTile: React.FC<ProfileProductTileProps> = ({
                             variant="top"
                             src={mediaSrc}
                         />
-                        <div className="d-flex justify-content-between p-3 position-absolute saved-wrap">
-                            <small className="text-white">
-                                {postedOnDate}
-                            </small>
-                        </div>
+                        {boosted && (
+                            <div className="d-flex justify-content-between p-2 position-absolute saved-wrap">
+                                <small className="text-dark bg-white shadow p-2 rounded">
+                                    Boosted <AiOutlineThunderbolt className="boosted-icon" />
+                                </small>
+                            </div>
+                        )}
                     </Col>
                     <Card.Body className="col-md-8">
                         <h4 className="card-title text-success">

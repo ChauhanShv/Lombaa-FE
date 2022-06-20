@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { Link, useHistory } from 'react-router-dom';
-import { Container, Row, Col, Button, ListGroup, Spinner } from 'react-bootstrap';
-import { FaHandshake, FaMapMarkerAlt, FaEdit, FaCheckCircle, FaTrashAlt } from 'react-icons/fa';
+import { Container, Row, Col, Button, ListGroup, Spinner, Form } from 'react-bootstrap';
+import { Rating } from '@mui/material';
+import { FaHandshake, FaMapMarkerAlt, FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { SellerDetailCard, ReportAbuseModal } from '.';
 import { ProductFields, ProductDetailDescriptionProps, AlertPopupState } from './types';
 import { ActionTypes, useAppContext } from '../../contexts';
@@ -17,6 +18,8 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
     const [isMarkSolded, setIsMarkSolded] = useState<boolean>(false);
     const [showMore, setShowMore] = useState<boolean>(false);
     const [showReportAbuseModal, setShowReportAbuseModal] = useState<boolean>(false);
+    const [reviewComment, setReviewComment] = useState<string>("");
+    const [rating, setRating] = useState<number | null>(0);
     const [showAlertPopup, setShowAlertPopup] = useState<AlertPopupState>({
         markSold: false,
         delete: false,
@@ -35,6 +38,10 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
     const [{ data: deleteProductRes, loading: deleteProductLoading }, executeDeleteProduct] = useAxios({
         url: '/product/delete',
         method: 'DELETE',
+    });
+    const [{ data: reviewRes, loading: reviewLoading }, reviewProduct] = useAxios({
+        url: '/user/report',
+        method: 'POST',
     });
 
     useEffect(() => {
@@ -62,6 +69,16 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
         executeChatInit({
             data: {
                 productId: productDetail.id,
+            },
+        });
+    };
+
+    const handleReviewSubmit = () => {
+        reviewProduct({
+            data: {
+                userId: productDetail?.userId,
+                comment: reviewComment,
+                score: ((rating || 0) * 10),
             },
         });
     };
@@ -206,7 +223,6 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                                 </h4>
                             </div>
                         ) : (
-
                             <>
                                 {currentUserId !== productDetail?.userId && (
                                     <>
@@ -220,6 +236,46 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                                                 'Chat with seller'
                                             }
                                         </Button>
+                                        <div className="shadow rounded p-3 w-100 mb-3">
+                                            <Form className="mb-3">
+                                                <Form.Group>
+                                                    <Form.Label className="fs-6 fw-bold">Review this product:</Form.Label>
+                                                    <Form.Control
+                                                        as="textarea"
+                                                        rows={4}
+                                                        placeholder="Your comment here:"
+                                                        disabled={reviewRes?.success}
+                                                        value={reviewComment}
+                                                        onChange={(event) => setReviewComment(event.target.value)}
+                                                    />
+                                                </Form.Group>
+                                            </Form>
+                                            <div className='w-100 mb-3 text-center'>
+                                                <Rating
+                                                    name="product-rating"
+                                                    precision={0.5}
+                                                    size="large"
+                                                    readOnly={reviewRes?.success}
+                                                    value={rating}
+                                                    onChange={(event, newValue) => {
+                                                        setRating(newValue);
+                                                    }}
+                                                />
+                                            </div>
+                                            {!!rating && !reviewRes?.success && (
+                                                <Button
+                                                    onClick={handleReviewSubmit}
+                                                    className="btn-success w-100 mb-2"
+                                                >
+                                                    Submit Review
+                                                </Button>
+                                            )}
+                                            {reviewRes?.success && reviewRes?.message && (
+                                                <p className="text-muted text-center">
+                                                    {reviewRes?.message}
+                                                </p>
+                                            )}
+                                        </div>
                                         <Button
                                             variant="btn btn-danger"
                                             className="w-100"
@@ -237,10 +293,6 @@ export const ProductDetailDescription: React.FC<ProductDetailDescriptionProps> =
                                                 Edit Listing
                                             </ListGroup.Item>
                                         </Link>
-                                        <ListGroup.Item className="text-gray d-none" action>
-                                            <FaCheckCircle className="me-2" />
-                                            Mark as Reserved
-                                        </ListGroup.Item>
                                         <ListGroup.Item
                                             className="text-gray"
                                             onClick={() => setShowAlertPopup({

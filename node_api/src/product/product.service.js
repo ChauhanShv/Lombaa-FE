@@ -16,6 +16,8 @@ const Country = require("../country/country.model");
 const Region = require("../region/region.model");
 const sequelize = require("../modules/sequelize/sequelize.service");
 const { categoryId } = require("./schema/schema.product_categoryId");
+const UserPackage = require("../user_package/user.package.model");
+const { data } = require("../modules/winston/winston.service");
 
 class ProductService {
   constructor() {
@@ -44,6 +46,11 @@ class ProductService {
 
     products = this.fieldsMapping(products);
 
+    products = await Promise.all(products.map(async product => {
+      product.boosted = await this.isBoosted(product)
+      return product
+    }))
+
     return products
 
   }
@@ -62,6 +69,11 @@ class ProductService {
     });
     products = this.fieldsMapping(products)
 
+    products = await Promise.all(products.map(async product => {
+      product.boosted = await this.isBoosted(product)
+      return product
+    }))
+
     return products
   }
 
@@ -78,6 +90,11 @@ class ProductService {
       ]
     });
     products = this.fieldsMapping(products)
+
+    products = await Promise.all(products.map(async product => {
+      product.boosted = await this.isBoosted(product)
+      return product
+    }))
 
     return products
   }
@@ -96,6 +113,10 @@ class ProductService {
     });
     products = this.fieldsMapping(products)
 
+    products = await Promise.all(products.map(async product => {
+      product.boosted = await this.isBoosted(product)
+      return product
+    }))
     return products
   }
 
@@ -112,6 +133,11 @@ class ProductService {
       ]
     });
     products = this.fieldsMapping(products)
+
+    products = await Promise.all(products.map(async product => {
+      product.boosted = await this.isBoosted(product)
+      return product
+    }))
 
     return products
   }
@@ -224,9 +250,21 @@ class ProductService {
 
       })
     }
+
     if (userId) {
-      products = this.mapUserFavorite(products, userId)
+      products = await this.mapUserFavorite(products, userId)
     }
+
+    products = await Promise.all(products.map(async product => {
+      product.boosted = await this.isBoosted(product)
+      return product
+    }))
+    products.sort(function (x, y) {
+      let a = x.boosted
+      let b = y.boosted
+      return (a === b) ? 0 : a ? -1 : 1;
+
+    })
     return products
 
   }
@@ -360,6 +398,16 @@ class ProductService {
 
   async delete(productId, userId) {
     return await Product.destroy({ where: { id: productId, userId: userId } })
+  }
+
+  async isBoosted(product) {
+    const userPackages = await UserPackage.findAll({ where: { categoryId: product.categoryId } })
+
+    const activeUserPackages = userPackages.filter(userPackage => {
+      return moment(userPackage?.endDate) > moment()
+    });
+
+    return !!activeUserPackages.find(activeUserPackage => activeUserPackage.userId === product.userId)
   }
 
 }

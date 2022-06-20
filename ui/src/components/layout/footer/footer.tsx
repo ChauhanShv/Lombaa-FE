@@ -26,9 +26,9 @@ export const Footer: React.FC = () => {
                     className="pt-4 pb-5 mt-0 align-items-end align-items-md-center d-flex greenbg">
                     <div className="container-fluid d-flex h-100">
                         <div
-                            className="m-0 row  justify-content-center w-100 align-items-sm-end align-items-md-center d-flex text-center h-100">
+                            className="m-0 row justify-content-center w-100 align-items-sm-end align-items-md-center d-flex text-center h-100">
                             <div className="col-12 col-md-6 ">
-                                <h2 className="   text-light mb-2 mt-5">
+                                <h2 className="text-light mb-2 mt-5">
                                     <strong>TRY LOMBAA</strong>
                                 </h2>
                                 <p className="lead  text-light mb-5">
@@ -46,10 +46,10 @@ export const Footer: React.FC = () => {
                                     {loading ? (<></>) : (
                                         <>
                                             {pageCategories && !!pageCategories?.length && pageCategories?.map((pageCategory: PageCategory) => (
-                                                <div className="col-xs-6 col-sm-3">
+                                                <div className="col-xs-6 col-sm-3" key={pageCategory?.id}>
                                                     <h4 className="my-2 text-success">{pageCategory?.title}</h4>
                                                     {pageCategory?.pages && !!pageCategory?.pages?.length && pageCategory?.pages?.map((page: Page) => (
-                                                        <ul className='list-unstyled list-light'>
+                                                        <ul className='list-unstyled list-light' key={page?.id}>
                                                             <li>
                                                                 <Link to={`/${page?.slug}`}>
                                                                     {page?.title}

@@ -1,0 +1,17 @@
+POST  {{baseUrl}}/invoice/insert HTTP/1.1 HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+{
+    "packageId":"5e30b856-27fe-4068-afe2-0d8e66907f54"
+}
+
+###
+
+GET  {{baseUrl}}/invoice/a325b089-157f-423b-9427-3a2852105f54 HTTP/1.1 HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0

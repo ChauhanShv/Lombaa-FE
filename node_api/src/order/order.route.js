@@ -6,6 +6,8 @@ const controller = new orderController();
 
 module.exports = () => {
     router.post("/", authMiddleware, controller.insertOrder)
+    router.get("/invoice/:id/pdf", authMiddleware, controller.createPdf)
+    router.get("/invoice/:id", authMiddleware, controller.getInvoice)
     router.get("/", authMiddleware, controller.getOrder)
     return router;
 };

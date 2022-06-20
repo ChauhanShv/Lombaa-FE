@@ -47,7 +47,7 @@ export const ProfileHeaderCard: React.FC<ProfileHeaderCardProps> = ({
                             <div className="ps-2">
                                 <Image
                                     src={userId ?
-                                        otherUser?.profilePicture?.url || "/images/user-circel.svg" :
+                                        otherUser?.profilePicture?.url || "/images/user-circle.svg" :
                                         userData?.profilePicture?.url || "/images/user-circle.svg"
                                     }
                                     width="100"

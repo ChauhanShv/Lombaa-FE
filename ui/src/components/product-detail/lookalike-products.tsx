@@ -77,6 +77,7 @@ export const LookalikeProducts: React.FC<LookalikeProductsProps> = ({
                         userId={product?.userId}
                         isFavourite={product?.isFavorite || false}
                         onFavUnfav={(fav: boolean) => { }}
+                        boosted={product?.boosted}
                     />
                 </Col>
             )}

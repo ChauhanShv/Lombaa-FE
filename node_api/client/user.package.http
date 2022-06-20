@@ -3,3 +3,17 @@ content-type: application/json
 x-access-token: {{token}}
 x-client-platform : Android
 x-app-version : 1.0.0
+
+###
+
+PUT {{baseUrl}}/userPackage/update HTTP/1.1 HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+{
+    "categoryId":"1b0f72bc-2801-48c7-8e94-e81cd265a1fe",
+    "userPackageId":"b4105b58-ed41-11ec-b51f-021b0ebe8bee"
+
+}
