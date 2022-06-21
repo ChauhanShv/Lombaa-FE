@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Menu, MenuItem, Badge, Fade, Typography } from '@mui/material';
 import { Row, Col } from 'react-bootstrap';
 import { debounce } from 'lodash';
@@ -28,11 +28,8 @@ export const Notifications: React.FC = (): React.ReactElement => {
     }, { manual: false });
     const [notifications, setNotifications] = useState<Notification[]>([]);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [notificationLink, setNotificationLink] = useState<string>('');
-    const [notificationId, setNotificationId] = useState<string>('');
     const [offset, setOffset] = useState<number>(0);
     const open = Boolean(anchorEl);
-    const navigator = useHistory();
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -45,7 +42,6 @@ export const Notifications: React.FC = (): React.ReactElement => {
                 id: [notification?.id],
             },
         });
-        setNotificationLink(notification?.path);
         setAnchorEl(null);
     };
     const handleChatMessagesSeen = () => {
@@ -99,7 +95,7 @@ export const Notifications: React.FC = (): React.ReactElement => {
     }, [data]);
     useEffect(() => {
         if (seenResponse?.success) {
-            navigator.push("/" + notificationLink || '');
+            //navigator.push(`/${notificationLink}` || '');
             execute({});
         }
     }, [seenResponse]);
@@ -121,7 +117,7 @@ export const Notifications: React.FC = (): React.ReactElement => {
                     onClick={handleChatMessagesSeen}
                 >
                     <Badge
-                        badgeContent={chatCountRes?.success ? chatCountRes?.data?.count?.count : 0}
+                        badgeContent={(chatCountRes?.success && !seenResponse?.success) ? chatCountRes?.data?.count?.count : 0}
                         color="secondary"
                         sx={{ color: '#fff' }}
                     >
@@ -176,8 +172,6 @@ export const Notifications: React.FC = (): React.ReactElement => {
                     {!!notifications?.length ? notifications?.map((notification: Notification) =>
                         <MenuItem
                             onClick={(event) => handleMenuItemClicked(event, notification)}
-                            onMouseEnter={() => { setNotificationId(notification.id) }}
-                            onMouseLeave={() => { setNotificationId("") }}
                             key={notification.id}
                             sx={{
                                 display: 'block',
