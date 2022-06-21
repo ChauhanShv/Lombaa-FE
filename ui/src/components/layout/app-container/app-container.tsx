@@ -17,13 +17,6 @@ export const AppContainer = ({ children }: AppContainerProps) => {
     const location = useLocation();
 
     const getLocation = (): void => {
-        dispatch({
-            type: ActionTypes.SETLATLNG,
-            payload: {
-                lat: state.user?.metaData?.location?.city?.coordinate?.coordinates[1],
-                lng: state.user?.metaData?.location?.city?.coordinate?.coordinates[0],
-            }
-        });
         navigator.geolocation.getCurrentPosition((position) => {
             navigator.permissions.query({
                 name: 'geolocation',
