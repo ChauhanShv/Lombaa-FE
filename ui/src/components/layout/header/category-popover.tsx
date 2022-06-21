@@ -35,7 +35,7 @@ export const CategoryPopover: React.FC = (): React.ReactElement => {
             const otherCat: Category[] = [];
             response.map((item: Category) => {
                 if (item.subCategories.length) {
-                    if (popularCat.length < 6) {
+                    if (popularCat.length < 6 && item.isPopular === 1) {
                         popularCat.push(item);
                     } else {
                         otherCat.push(item);
