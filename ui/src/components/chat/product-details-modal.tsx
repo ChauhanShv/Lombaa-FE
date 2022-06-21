@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Col, Row } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import {
     Dialog,
     DialogTitle,
@@ -7,6 +8,7 @@ import {
     CircularProgress,
     Box,
     Button,
+    IconButton,
 } from '@mui/material';
 import { useAxios } from '../../services';
 import { ProductDetailsModalProps } from './types';
@@ -31,13 +33,29 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
     }, [data]);
 
     return (
-        <Dialog fullWidth={true} maxWidth="xs" open={true}>
+        <Dialog
+            fullWidth={true}
+            maxWidth="xs"
+            open={true}
+            onClose={onClose}
+        >
             <DialogTitle>
-                Product Details
+                <Box display="flex" alignItems="center">
+                    <Box flexGrow={1}>
+                        {productDetail?.title}
+                    </Box>
+                    <Box>
+                        <IconButton onClick={onClose}>
+                            X
+                        </IconButton>
+                    </Box>
+                </Box>
             </DialogTitle>
             <Divider />
             {loading ? (
-                <CircularProgress color="primary" />
+                <div className='p-3 text-center'>
+                    <CircularProgress color="primary" />
+                </div>
             ) : (
                 <div className="p-4">
                     <Row className="mb-3">
@@ -56,15 +74,18 @@ export const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({
                             </React.Fragment>
                         )}
                     </Row>
-                    <Box textAlign="center">
-                        <Button
-                            variant='contained'
-                            color="secondary"
-                            onClick={onClose}
-                        >
-                            Close
-                        </Button>
-                    </Box>
+                    {productDetail && (
+                        <Box textAlign="end">
+                            <Link
+                                color="secondary"
+                                to={`/product-detail/${productId}/${productDetail?.slug}`}
+                            >
+                                <Button>
+                                    See More Details
+                                </Button>
+                            </Link>
+                        </Box>
+                    )}
                 </div>
             )}
         </Dialog>
