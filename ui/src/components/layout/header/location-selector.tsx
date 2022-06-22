@@ -8,12 +8,10 @@ import { Loader } from '../..';
 
 export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelected }: LocationSelectorProps): React.ReactElement => {
     const { dispatch, state } = useAppContext();
-    const currentCityName = state?.user?.metaData?.location?.city?.name;
-    const currentRegionName = state?.user?.metaData?.location?.region?.name;
     const [cityData, setCityData] = React.useState<LocationData[]>([]);
-    const [currentCity, setCurrentCity] = React.useState<string>(
-        state?.user?.metaData?.location ? `${currentCityName}, ${currentRegionName}` : ''
-    );
+    const [currentCity, setCurrentCity] = React.useState<string>();
+    const lastUsedLocation = state?.user?.metaData?.lastUsedLocation;
+    const currentLocation = state?.user?.metaData?.location;
     const currentCountry: Country = state.session?.country || {};
     const currentCityCoordinates = state.user?.metaData?.location?.city?.coordinate?.coordinates;
 
@@ -27,18 +25,26 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
     });
 
     useEffect(() => {
-        currentCityName ?
-            setCurrentCity(`${currentCityName}, ${currentRegionName}`) :
-            setCurrentCity('');
-    }, [currentCityName]);
-
-    useEffect(() => {
-        if ((state.session.lat === currentCityCoordinates?.[1] ||
-            state.session.lng === currentCityCoordinates?.[0]) &&
-            state.session.lat && state.session.lng) {
-            setCurrentCity(`${currentCityName}, ${currentRegionName}`);
-        }
-    }, [state.session.lat, state.session.lng]);
+        if (lastUsedLocation?.city && lastUsedLocation) {
+            dispatch({
+                type: ActionTypes.SETLATLNG,
+                payload: {
+                    lat: lastUsedLocation?.city?.coordinate?.coordinates[1],
+                    lng: lastUsedLocation?.city?.coordinate?.coordinates[0],
+                }
+            })
+            setCurrentCity(`${lastUsedLocation?.city?.name}, ${lastUsedLocation?.region?.name}`);
+        } else if (currentLocation) {
+            dispatch({
+                type: ActionTypes.SETLATLNG,
+                payload: {
+                    lat: currentLocation?.city?.coordinate?.coordinates[1],
+                    lng: currentLocation?.city?.coordinate?.coordinates[0],
+                }
+            });
+            setCurrentCity(`${currentLocation?.city?.name}, ${currentLocation?.region?.name}`);
+        } else { }
+    }, []);
 
     useEffect(() => {
         const cities: LocationData[] = [];
@@ -98,6 +104,7 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ onCitySelect
                     lng: state?.session?.lng ? currentCityCoordinates?.[0] : "",
                 }
             });
+            setCurrentCity(`${currentLocation?.city?.name}, ${currentLocation?.region?.name}`);
             if (!state.session?.token) {
                 setCurrentCity('');
             }
