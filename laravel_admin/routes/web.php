@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\DashboardController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\PackageController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\StaticPagesController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\MerchantController;
 
 
 use Illuminate\Support\Facades\Route;
@@ -121,8 +123,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/reject/{id}', [ProductsController::class, 'reject_product'])->name('reject_product');
     });
     Route::group(['prefix' => 'pacakge'], function () {
-        Route::get('/', [PackageController::class, 'add_packages'])->name('add_packages');   
-        Route::post('/', [PackageController::class, 'add_packages'])->name('add_packages');  
+        Route::get('/', [PackageController::class, 'add_packages'])->name('add_packages');
+        Route::post('/', [PackageController::class, 'add_packages'])->name('add_packages');
         Route::get('/list', [PackageController::class, 'package_list'])->name('package_list');
         Route::get('/delete/{id}', [PackageController::class, 'delete_package'])->name('delete_package');
         Route::get('/update/{id}', [PackageController::class, 'update_package'])->name('update_package');
@@ -150,13 +152,19 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/delete/{id}', [StaticPagesController::class, 'delete'])->name('delete_page');
         Route::get('/update/{id}', [StaticPagesController::class, 'update_page'])->name('update_page');
         Route::post('/update/{id}', [StaticPagesController::class, 'update_page'])->name('update_page');
-
     });
 
     Route::group(['prefix' => 'invoice'], function () {
         Route::get('/', [InvoiceController::class, 'invoice_list'])->name('invoice_list');
         Route::get('/{id}', [InvoiceController::class, 'status_upated'])->name('status_upated');
-
     });
 
+    Route::group(['prefix' => 'bank'], function () {
+        Route::get('/', [MerchantController::class, 'add_bank'])->name('bank_add');
+        Route::post('/', [MerchantController::class, 'add_bank'])->name('bank_add');
+        Route::get('/list', [MerchantController::class, 'list'])->name('list');
+        Route::get('/delete/{id}', [MerchantController::class, 'delete'])->name('delete_bank');
+        Route::get('/{id}', [MerchantController::class, 'update_bank'])->name('update_bank');
+        Route::post('/{id}', [MerchantController::class, 'update_bank'])->name('update_bank');
+    });
 });
