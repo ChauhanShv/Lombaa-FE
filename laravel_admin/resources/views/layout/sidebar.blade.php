@@ -10,15 +10,15 @@
                 </li>
             </ul>
         </li>
-  {{--  <li class="submenu {{\Request::route()->getPrefix() === 'admin/user' ? 'open active': ''}}">
-            <a href="#">
-                <i class="icon icon-group"></i><span>Users</span>
-            </a>
-            <ul>
-                <li class="{{\Request::route()->getName() === 'get_all_user'? 'active': ''}}">
-                    <a href="{{ route('get_all_user') }}">ALL</a>
-                </li>
-            </ul>
+        {{-- <li class="submenu {{\Request::route()->getPrefix() === 'admin/user' ? 'open active': ''}}">
+        <a href="#">
+            <i class="icon icon-group"></i><span>Users</span>
+        </a>
+        <ul>
+            <li class="{{\Request::route()->getName() === 'get_all_user'? 'active': ''}}">
+                <a href="{{ route('get_all_user') }}">ALL</a>
+            </li>
+        </ul>
         </li>
         <li class="submenu {{\Request::route()->getPrefix() === 'admin/kyc' ? 'open active': ''}}">
             <a href="#">
@@ -70,8 +70,8 @@
             </ul>
         </li>
         <li class="submenu">
-             <a href=""><i class="icon icon-film"></i> <span>News</span></a>
-             <ul>
+            <a href=""><i class="icon icon-film"></i> <span>News</span></a>
+            <ul>
                 <li class="">
                     <a href="#">Add</a>
                 </li>
@@ -83,10 +83,10 @@
 
         <li class="submenu {{\Request::is('user') ? 'open active' : '' }}">
             <a href="">
-                <i style="color: white" class="icon icon-user"></i> <span style="color: white" >User</span>
+                <i style="color: white" class="icon icon-user"></i> <span style="color: white">User</span>
             </a>
             <ul>
-               {{-- <li class="">
+                {{-- <li class="">
                     <a href="#">Add</a>
                 </li> --}}
                 <li class="{{\Request::is('user') ? 'active' : '' }}">
@@ -108,14 +108,14 @@
             </ul>
         </li>
         @if(\Request::is('country'))
-            <li class="submenu open active">
-        @elseif(\Request::is('region'))
-            <li class="submenu open active">
-        @elseif(\Request::is('city'))
-            <li class="submenu open active">
-        @else
-            <li class="submenu">
-        @endif
+        <li class="submenu open active">
+            @elseif(\Request::is('region'))
+        <li class="submenu open active">
+            @elseif(\Request::is('city'))
+        <li class="submenu open active">
+            @else
+        <li class="submenu">
+            @endif
             <a href="#">
                 <i style="color: white" class="icon icon-globe"></i> <span style="color: white">Location</span>
             </a>
@@ -180,7 +180,7 @@
                 </li>
             </ul>
             <ul>
-                <li class="{{\Request::is('values/add') ? 'active' : '' }}" >
+                <li class="{{\Request::is('values/add') ? 'active' : '' }}">
                     <a href="{{ route('values_add') }}">Add</a>
                 </li>
             </ul>
@@ -208,6 +208,18 @@
                 </li>
             </ul>
         </li>
+        <li class="submenu {{\Request::is('bank*') ? 'open active' : '' }}">
+            <a href="">
+                <i class="icon icon-film"></i> <span>Bank</span></a>
+            <ul>
+                <li class="{{\Request::is('bank/add') ? 'active' : '' }}">
+                    <a href="{{ route('bank_add') }}">Add</a>
+                </li>
+                <li class="{{\Request::is('bank/list') ? 'active' : '' }}">
+                    <a href="{{ route('list') }}">List</a>
+                </li>
+            </ul>
+        </li>
         <li class="submenu {{\Request::is('banners*') ? 'open active' : '' }}">
             <a href="">
                 <i style="color: white" class="icon icon-wrench"></i> <span style="color: white">Banners</span>
@@ -229,9 +241,9 @@
                 <li class="{{\Request::is('pages/') ? 'active' : '' }}">
                     <a href="{{ route('add_pages') }}">Add</a>
                 </li>
-               <li class="{{\Request::is('pages/list') ? 'active' : '' }}">
+                <li class="{{\Request::is('pages/list') ? 'active' : '' }}">
                     <a href="{{ route('page_list') }}">List</a>
-                </li> 
+                </li>
             </ul>
         </li>
         <li class="submenu">
