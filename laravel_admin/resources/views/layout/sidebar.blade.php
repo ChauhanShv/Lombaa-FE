@@ -212,9 +212,6 @@
             <a href="">
                 <i class="icon icon-film"></i> <span>Bank</span></a>
             <ul>
-                <li class="{{\Request::is('bank/add') ? 'active' : '' }}">
-                    <a href="{{ route('bank_add') }}">Add</a>
-                </li>
                 <li class="{{\Request::is('bank/list') ? 'active' : '' }}">
                     <a href="{{ route('list') }}">List</a>
                 </li>
