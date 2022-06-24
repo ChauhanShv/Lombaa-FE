@@ -94,9 +94,9 @@ class MerchantController extends Controller
             ];
 
             $update_bank = MerchantBank::where('id', $id)->update($data);
-            try {
+            if ($update_bank) {
                 return redirect()->back()->with('response', ['status' => 'success', 'message' => 'Bank details updated successfully']);
-            } catch (Exception $e) {
+            } else {
                 return redirect()->back()->with('response', ['status' => 'Failed', 'message' => 'Something went wrong']);
             }
         } else {
