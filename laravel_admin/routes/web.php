@@ -160,10 +160,7 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(['prefix' => 'bank'], function () {
-        Route::get('/', [MerchantController::class, 'add_bank'])->name('bank_add');
-        Route::post('/', [MerchantController::class, 'add_bank'])->name('bank_add');
         Route::get('/list', [MerchantController::class, 'list'])->name('list');
-        Route::get('/delete/{id}', [MerchantController::class, 'delete'])->name('delete_bank');
         Route::get('/{id}', [MerchantController::class, 'update_bank'])->name('update_bank');
         Route::post('/{id}', [MerchantController::class, 'update_bank'])->name('update_bank');
     });
