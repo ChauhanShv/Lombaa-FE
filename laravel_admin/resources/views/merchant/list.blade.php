@@ -52,9 +52,9 @@
                             <a href="{{ route('update_bank', $data->id) }}">
                                 <i class="icon-edit" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
                             </a>&nbsp&nbsp
-                            <a href="{{ route('delete_bank', $data->id) }}" onclick="return confirm('Do you want to delete account : {{ $data->acct_number }}')">
-                                <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
-                            </a>&nbsp&nbsp
+                            {{-- <a href="{{ route('delete_bank', $data->id) }}" onclick="return confirm('Do you want to delete account : {{ $data->acct_number }}')">
+                            <i class="icon-trash" style="width: 24px; height: 24px; font-size: 1.5em;"></i>
+                            </a>&nbsp&nbsp--}}
                         </td>
                     </tr>
                     @endforeach
