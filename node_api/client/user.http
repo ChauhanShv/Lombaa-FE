@@ -1,0 +1,429 @@
+###
+
+POST {{baseUrl}}/user HTTP/1.1
+content-type: application/json
+x-client-platform : Android
+
+{
+    "email": "vivek@datortech.com",
+    "password": "123456",
+    "name": "Danny",
+    "phoneNumber": "9883270788",
+    "phoneCode": "91",
+    "accountType": "business",
+    "lattitude": "",
+    "longitude": "",
+    "location_city":"",
+    "location_country":"",
+    "tinNumber":"12313331",
+    "businessName": "Lombaa"
+}
+
+###
+
+POST {{baseUrl}}/auth HTTP/1.1
+content-type: application/json
+
+{
+    "email": "uday@datortech.com",
+    "password": "123456"
+}
+
+###
+
+POST {{baseUrl}}/auth/token/refresh HTTP/1.1
+content-type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwM2I5OTg3Zi03NmZlLTQzOGUtOTQ2MC05ZmU1YjVmNWI0ZGMiLCJ0eXBlIjoicmVmcmVzaF90b2tlbiIsImlhdCI6MTY0MDYyNTM4NSwiZXhwIjoxNjQzMjE3Mzg1fQ.5SIZoD61CzMrrcEC59BZ3sOAlQSNlEOLgseJj8kqtzI"
+}
+###
+
+POST {{baseUrl}}/auth/google HTTP/1.1
+content-type: application/json
+
+{
+    "accessToken": "ya29.a0ARrdaM-Md74xd2KoLUn3hWFbDroKzd0pFAFgNhy_oKmKDyLbA_MLngdrV4aai6cjxECB2wjw4pGMohLZ5B9OPgb36JYjCSdr76gaCnaWbQ5I7NplSiw5EmGcBDcgJ5BxpzlB4aK79h8DU4thlRKu96h9-KUi"
+}
+
+###
+
+POST {{baseUrl}}/auth/facebook HTTP/1.1
+content-type: application/json
+
+{
+    "accessToken": "EAAEHM3oWBboBAP9jUK9B7KuQZBndXr7pDrb83f8cs6pZBjBrexDiDlgeTYKwV0lv2KxMHY74P3P4t1M5VHRdQsuApx0iQqMYUOcnuQ25GZAAy30d9pibfAXlj55zAurI0gvLTjuNgTlMZBUCIGFpg2MGOh9wELcHmxcZBi9RGhynt3Jm6IaARJA7skaKA2ZA5yp19NOK86PdyS0wDMTYkuGYEbRbhYMpuD3SVz8ZA18zP6aEeHAEL46"
+}
+
+###
+
+PUT {{baseUrl}}/user/password HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+
+{
+    "oldPassword": "123456",
+    "password": "123456"
+}
+
+###
+
+GET https://www.googleapis.com/oauth2/v2/userinfo HTTP/1.1
+Authorization: Bearer ya29.a0ARrdaM8ljfSsUDSX3V6Kc3nTmLWVdnPglf_lFFRIeh8QI4TJXXStrzhniuEZ0hasJQocQDThTTZStEUhfCLtJP9FB929jiTusdoW_Cas1V643eHFFQgm-n-AhRCQM9djpsQBKZi6pb4gD06WbfXEvMS-Q9nf
+
+###
+
+GET https://graph.facebook.com/me?access_token=EAAEHM3oWBboBAP9jUK9B7KuQZBndXr7pDrb83f8cs6pZBjBrexDiDlgeTYKwV0lv2KxMHY74P3P4t1M5VHRdQsuApx0iQqMYUOcnuQ25GZAAy30d9pibfAXlj55zAurI0gvLTjuNgTlMZBUCIGFpg2MGOh9wELcHmxcZBi9RGhynt3Jm6IaARJA7skaKA2ZA5yp19NOK86PdyS0wDMTYkuGYEbRbhYMpuD3SVz8ZA18zP6aEeHAEL46 HTTP/1.1
+
+###
+
+PUT {{baseUrl}}/user/email HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+{
+    "email": "uday1@datortech.com"
+}   
+
+###
+
+POST {{baseUrl}}/user/email HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3MzQxMjU4LWFhYjktNDlkZi1iM2JhLTZlZjY0YTg2YmQ0MiIsImVtYWlsIjoibmV3dGVzdDEyMTJAZ21haWwuY29tIiwiaWF0IjoxNjM1MDI5ODg0LCJleHAiOjE2MzUwMzM0ODR9.93TdfoxW5fA_dOWffZHLRWCbuW0lKs14xAbmueO8pDk"
+}
+
+###
+
+PUT {{baseUrl}}/user/phone HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+{
+    "phone": "7083769220",
+    "phoneCode": "91"
+}
+
+###
+
+POST {{baseUrl}}/user/password/forget HTTP/1.1
+content-type: application/json
+
+{
+    "email": "ajay@datortech.com"
+}
+
+###
+
+GET {{baseUrl}}/user/password/reset/verify-token HTTP/1.1
+content-type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBlZTE2ZGU3LTk2NmYtNDc1Yy05YjQyLWQ5ZTU5YjVlYTQzMyIsImlhdCI6MTYzNDk0MDc4MCwiZXhwIjoxNjM0OTQ0MzgwfQ.yxnvs3ksqVpnyKqUBNPLWSVriejYjjuZ6q48pOtdiRA"
+}
+
+###
+
+PUT {{baseUrl}}/user/password/reset HTTP/1.1
+content-type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjBlZTE2ZGU3LTk2NmYtNDc1Yy05YjQyLWQ5ZTU5YjVlYTQzMyIsImlhdCI6MTYzNDk0MDc4MCwiZXhwIjoxNjM0OTQ0MzgwfQ.yxnvs3ksqVpnyKqUBNPLWSVriejYjjuZ6q48pOtdiRA",
+    "newPassword": "123456"
+}
+
+###
+
+PUT {{baseUrl}}/user/facebook HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+{
+    "accessToken": "EAAEHM3oWBboBAC3EK278fKkiPFN7HD9OFAGyB3z6ZAyCioPtLm1vo86ZBTyKOvfZBiRyXlJRvlOUZAMWHPycixYlJtoceaJaedZCQiYGfDN6JZCntmLdBZB33UOU84fZCaeYzQMvZBcGwvZC0ZBoP2PqNreWfgBhLy5fNJIJIdIrWkOZBWJnKB8BuSRW7UVCHePzwYzjdbjZC7c1WZB1b0qeuNZCHgJgdgLrdQIhG0hzrnwk7VLqVuijEvdB2Wi"
+}
+
+###
+
+PUT {{baseUrl}}/user/active HTTP/1.1
+content-type: application/json
+x-access-token : {{token}}
+
+
+{
+    "status": 1
+}
+
+###
+
+DELETE {{baseUrl}}/user/facebook HTTP/1.1
+content-type: application/json
+x-access-token : {{token}}
+
+###
+
+DELETE {{baseUrl}}/user/google HTTP/1.1
+content-type: application/json
+x-access-token : {{token}}
+
+###
+
+PUT {{baseUrl}}/user/google HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+
+{
+    "accessToken": "ya29.a0ARrdaM-Md74xd2KoLUn3hWFbDroKzd0pFAFgNhy_oKmKDyLbA_MLngdrV4aai6cjxECB2wjw4pGMohLZ5B9OPgb36JYjCSdr76gaCnaWbQ5I7NplSiw5EmGcBDcgJ5BxpzlB4aK79h8DU4thlRKu96h9-KUi"
+}
+
+###
+
+POST {{baseUrl}}/user/update HTTP/1.1
+Content-Type: application/json
+x-access-token : {{token}}
+x-app-version : 1.0.0
+x-client-platform : Android
+
+{
+    "businessName": "MS S",
+    "yearOfEstablishment" : 2004,
+    "aboutBusiness" : "Software business",
+    "accountType": "business",
+    "tinNumber": "123232"
+}
+
+# {
+#     "name" : "Glenn",
+#     "location" : {
+#         "city": "87a18afa-76dd-4bd6-ada9-789c54a9eef2",
+#         "region": "af02b759-52d4-11ec-809d-021b0ebe8bee",
+#         "country": "0f346fe1-5d2e-440f-99eb-eb1703293cdc"
+
+#     },
+#     "birthday" : null,
+#     "sex" : "male",
+#     "bio" : "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.",
+#     "accountType": "standard"
+# }
+
+###
+
+PUT  {{baseUrl}}/user/picture HTTP/1.1
+x-access-token : {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+x-client-platform : Android
+x-app-version : 1.0.0
+
+title
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="data.png"
+Content-Type: image/png
+
+< C:\data\data.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+PUT  {{baseUrl}}/user/cover HTTP/1.1
+x-access-token : {{token}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+
+
+title
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="lombatest.png"
+Content-Type: image/png
+
+< C:\lombatest.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+
+GET {{baseUrl}}/user/products HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+###
+
+PUT {{baseUrl}}/user/favorite/product HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+{
+    "productId": "0050e6c2-45f0-40f8-91c9-86ca30f0a688"
+}
+
+###
+
+GET {{baseUrl}}/user/favorite/products HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+###
+
+GET {{baseUrl}}/user/email/verify/resend HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+###
+
+PUT {{baseUrl}}/user/phone/consent HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+{
+    "consent": true
+}
+
+###
+
+DELETE  {{baseUrl}}/user/favorite/product HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+{
+    "productId": "0050e6c2-45f0-40f8-91c9-86ca30f0a688"
+}
+
+###
+
+GET {{baseUrl}}/user/last30days HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+###
+
+GET {{baseUrl}}/user/expired HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+###
+
+GET {{baseUrl}}/user/sold HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+###
+
+POST  {{baseUrl}}/user/savesearch HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+{
+    "search" : "hdhdhhdhd",
+    "filters" : [{"key": "hhhh", "values" : ["dgdg","ggdgdg"]},{"key" : "dgdhhhg","values" : ["dggdgdg","gdgdg"]}]
+}
+
+###
+
+GET {{baseUrl}}/user/savedsearch HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+###
+
+DELETE {{baseUrl}}/user/savedsearch/17720447-ce26-45cf-8721-1c44450a21c6 HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+###
+
+POST  {{baseUrl}}/user/location HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+{  
+   "location" : {
+      "city": "0ab96c62-29ba-4178-af1e-ccdab94c1ba7",
+        "region": "cdbec2e6-c338-4819-9239-b1f46e1adb12",
+        "country": "46cc6b39-eb86-4aff-9e21-2bbaf648f09d"
+     }
+}
+
+###
+
+
+GET  {{baseUrl}}/user/packages  HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+###
+
+GET  {{baseUrl}}/user/seller/15b135a6-acdb-4765-9f73-b1bfc9525c4b  HTTP/1.1
+content-type: application/json
+x-client-platform : Android
+x-app-version : 1.0.0       
+
+###
+
+
+GET  {{baseUrl}}/user/a0d5860a-272d-4ef9-8bb7-a87e7ae78e02/reviews  HTTP/1.1
+content-type: application/json
+x-client-platform : Android
+x-app-version : 1.0.0 
+
+###
+
+
+GET  {{baseUrl}}/user/a0d5860a-272d-4ef9-8bb7-a87e7ae78e02/review/meta HTTP/1.1
+content-type: application/json
+x-client-platform : Android
+x-app-version : 1.0.0 
+
+###
+
+GET  {{baseUrl}}/user/reviewed?offset=0&limit=1  HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+###
+
+POST  {{baseUrl}}/user/report  HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+{
+    "userId" : "a0d5860a-272d-4ef9-8bb7-a87e7ae78e02",
+    "comment" : "fjenjn jnfjen jsfnj ",
+    "score":"40"
+}

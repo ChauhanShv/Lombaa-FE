@@ -1,0 +1,4 @@
+GET {{baseUrl}}/banner HTTP/1.1 HTTP/1.1
+content-type: application/json
+x-client-platform : Android
+x-app-version : 1.0.0

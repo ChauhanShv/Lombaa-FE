@@ -1,0 +1,24 @@
+GET {{baseUrl}}/package HTTP/1.1 HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+###
+GET {{baseUrl}}/package/6d8756d0-a52a-11ec-a6e1-021b0ebe8bee HTTP/1.1 HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+###
+POST  {{baseUrl}}/package/activate HTTP/1.1 HTTP/1.1
+content-type: application/json
+x-access-token: {{token}}
+x-client-platform : Android
+x-app-version : 1.0.0
+
+{
+    "id" :"5e30b856-27fe-4068-afe2-0d8e66907f54",
+    "categoryId":"1b0f72bc-2801-48c7-8e94-e81cd265a1fe"
+}

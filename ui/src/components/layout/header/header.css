@@ -1,0 +1,63 @@
+html body .navbar.sticky-top { box-shadow: 0 2px 10px rgba(0,0,0,10%) !important; z-index: 10; }
+
+.brand-nav{padding:3px 0;}
+.navbar-brand svg .white{fill:#fff;}
+.navbar-brand svg .green{fill:var(--bs-success);}
+.navbar-brand svg .gray{fill:#333;}
+
+.icon-list li > a{box-shadow:0 0 5px rgba(0,0,0,30%);}
+.icon-list li.icon-item a{width:32px;height:32px; display:block; text-align:center;background:#fff; border-radius: 100px; display: inline-block; font-size: 16px; padding: 0; line-height: 32px; padding: 0 !important;}
+.icon-list li.icon-item svg{fill:var(--bs-success);}
+
+#dropdown-basic {box-shadow: 0 0 5px rgb(0 0 0 / 15%); border-radius: 100px;}
+#dropdown-basic::after{display: none; padding:0; }
+
+.navbar-nav .dropdown-item{font-size:13px; color:#fff;}
+.header-cat .dropdown-toggle.nav-link{font-size:13px; color:#fff;}
+
+.header-cat{font-size:13px; font-weight: 400; color:#fff; padding: 6px 0 !important;}
+.header-cat .container > a{color:#fff;}
+.header-cat button{font-size:13px;}
+
+.head-cat.popover{ transform: translate(0px, 57px) !important; max-width: 100%; width:100%; position: fixed !important; }
+.head-cat.popover{ transform: translate(0px, 61px) !important; max-width: 100%; width:100%; position: fixed !important; z-index: 11; margin-top: -16px; }
+.head-cat.popover ul{margin:0; padding:0; list-style: none;}
+.head-cat.popover h4{font: size 20px; font-family: 'Poppins';}
+.head-cat.popover a{font-family: 'Poppins'; font-size: 16px;}
+
+.navbar .form-noborder{margin:0 auto 0 75px;}
+.mobile-fnav{font-size:12px; box-shadow: 0 -4px 10px rgba(0,0,0,15%);}
+
+.filters-pop select option{line-height: 32px;}
+
+.dropdown .arrow{transition: transform .2s ease; fill: #999;}
+.dropdown:hover .arrow{transform: rotate(-180deg); fill: #999;}
+
+
+@media (min-width: 1200px) {
+.filters-pop h3{font-size:20px;}
+}
+
+
+@media all and (max-width:980px){
+body{padding-bottom: 80px;}
+}
+
+.profile-dropdown-link{text-decoration: none; color: #000;}
+
+.rounded{border-radius:1rem !important;}
+.btn-fullround, .fullround{border-radius:100px !important;}
+.shadow{box-shadow: 0 0.3rem .8rem rgba(0,0,0,.09)!important;}
+.margin-right-14{margin-right: 14px;}
+
+.z1{z-index: 11;}
+
+.sign-out-button{background-color: #fff; border: 0px; color: #000;}
+.sign-out-button:hover{border: 0px; color: #000;}
+
+.btn-success{color:#fff !important; fill:#fff !important;}
+.btn-outline-success:hover{color:#fff !important; fill:#fff !important;}
+
+.profile-icon{ width: 1.5rem; height: 1rem; }
+
+.header-form-width { width: 600px; }

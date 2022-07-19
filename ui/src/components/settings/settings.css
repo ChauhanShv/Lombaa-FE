@@ -1,0 +1,47 @@
+:root {
+    --primary: #00af3c;
+}
+.profile-image-label{
+    border: 0px;
+    border-radius: 50%;
+    background-color: #F0F0F0;
+    cursor: pointer;
+    padding: 8px;
+    position: relative;
+    margin-top: -9px;
+}
+.profile-image-label:hover { background-color: #00af3c; color: #fff; }
+.upload-image{
+    width: 25px;
+    height: 25px;
+}
+.upload-image:hover { background-color: #00af3c; color: #fff; }
+.sidenav-link {
+    text-decoration: none;
+}
+.sidenav{width:100%; }
+.sidenav button{display: flex; border:0 !important; border-bottom: 1px solid #ccc !important;  border-radius:0 !important;align-items: center; justify-content: space-between;font-size:18px;}
+.sidenav button:last-child{border-bottom: 0 !important;}
+.sidenav a, .sidenav .list-group-item{color:#555;}
+.sidenav .list-group-item{color:#555;border:0 !important; border-top: 1px solid rgba(0,0,0,.125) !important;}
+.sidenav a:hover, .sidenav .list-group-item:hover{color:#000; }
+
+
+.sidenav .active{background-color: #fff !important; color:var(--primary); border:0; font-weight: 500; border-left:3px solid var(--primary) !important;}
+.connectsocial li{display: flex; justify-content: space-between; align-items: center;}
+
+.sidenav .side-cta{text-decoration: none !important; font-size: 14px;}
+.sidenav .side-cta div{justify-content: space-between; align-items: center; display: flex;}
+
+.sidenav.card>.list-group{border:0;}
+
+.settings-font-header { font-weight: 600; font-size: 16px; }
+
+.profile-image { width: 150px; height: 150px; }
+
+.verify-email-link { color: green; cursor: pointer; font-weight: 600; text-decoration: underline !important; }
+
+@media all and (max-width:767px){
+.sidenav .side-cta{font-size:12px;}
+}
+

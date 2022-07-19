@@ -1,0 +1,40 @@
+.post-ad-box { width: '60%'; flex-direction: column; margin-top: 1rem; margin-bottom: 2rem; border: 1px solid #bbb; border-radius: 5px; background-color: #fff; padding: 3rem; }
+
+.product-post-text { font-family: 'Poppins'; text-align: center; }
+
+.margin-right-3 { margin-right: 10px; }
+
+.drag-n-drop { text-align: center; color: green; font-size: 16px; padding: 24px; border: 1px dashed green; background-color: #e1ffe8; border-radius: 4px; cursor: pointer; }
+
+.thumbs-container { display: flex; flex-direction: row; flex-wrap: wrap; margin-top: 16px; }
+
+.thumb { display: inline-flex; border-radius: 2px; border: 1px solid #eaeaea; margin-bottom: 5px; margin-right: 5px; width: 100px; height: 100px; padding: 4px; box-sizing: border-box; }
+
+.thumb-inner { display: flex; min-width: 0; overflow: hidden; position: relative; }
+
+.img { display: block; width: auto; height: 100%; cursor: pointer; }
+
+.video { display: inline; width: auto; height: 100%; cursor: pointer; }
+
+.close-button { display: inline-block; position: absolute; width: 20px; height: 20px; top: 1px; right: 1px; background: #fff; border-radius: 100px; }
+
+.primary-label { background-color: #000; position: absolute; bottom: 0; color: #fff; font-weight: 500; font-size: 12px; width: 100%; text-align: center; }
+
+.upload-limit-text { margin-top: 1rem; margin-bottom: 0.5rem; color: grey; font-size: 14px; }
+
+.form-check-input:checked { background-color: green; border-color: green; }
+
+.package-list .card {cursor: pointer;}
+.selected-package { border: 2px solid #00AF3C; }
+.btn-outline-success:hover, .btn-outline-success.active{color:#fff !important; fill:#fff !important;}
+
+@media only screen and (max-width: 768px) {
+  .package-list .card {
+    font-size: 18px;
+  }
+}
+
+h2,
+.h2 {
+  font-size: calc(1rem + 0.8vw);
+}
